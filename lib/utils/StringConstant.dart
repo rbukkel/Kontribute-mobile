@@ -9,8 +9,15 @@ class StringConstant {
   static const String createnow = "Create Now";
   static const String emailaddres = "Email Address";
   static const String password = "Password";
+  static const String nickname = "Nick Name";
+  static const String fullname = "Full Name";
+  static const String mobile = "Mobile No.";
   static const String profileoptional = "Profile(optional)";
   static const String needhelp = "Need Help?";
+  static const String selectlanguage = "Select Language";
+  static const String done = "Done";
+  static const String terms = "I have read and agreed to the ";
+  static const String condition = "Terms & Conditions";
   static const String forgotyourpassword = "Forgot your Password";
   static const String or = "Or";
   static const String reset = "Reset";

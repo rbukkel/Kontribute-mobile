@@ -76,6 +76,13 @@ flutter:
     - assets/images/gmail.png
     - assets/images/back.png
     - assets/images/camera.png
+    - assets/images/click_radio.png
+    - assets/images/not_click.png
+    - assets/images/homeicon.png
+    - assets/images/notificationicon.png
+    - assets/images/profileicon.png
+    - assets/images/settingicon.png
+    - assets/images/walleticon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

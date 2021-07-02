@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
@@ -16,17 +17,32 @@ class register extends StatefulWidget{
 
 class registerState extends State<register>{
   final _formKey = GlobalKey<FormState>();
+  final NickNameFocus = FocusNode();
+  final FullNameFocus = FocusNode();
   final EmailFocus = FocusNode();
   final PwdFocus = FocusNode();
+  final MobileFocus = FocusNode();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController nicknameController = new TextEditingController();
+  final TextEditingController fullnameController = new TextEditingController();
+  final TextEditingController mobileController = new TextEditingController();
   bool _showPassword = false;
   String _email;
   String _password;
+  String _nickname;
+  String _fullname;
+  String _mobile;
   File _imageFile;
   bool image_value = false;
-
+  int nationalityid;
+  int currentcountryid;
+  List<dynamic> nationalityTypes = List();
+  List<dynamic> currentcountryTypes = List();
+  var currentSelectedValue;
+  bool showvalue = false;
+  var currentSelectedCountry;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -85,7 +101,7 @@ class registerState extends State<register>{
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',
                           color: AppColors.light_grey,
-                          fontSize: 24),
+                          fontSize: 20),
                     ),
                   ),
                   InkWell(
@@ -117,7 +133,115 @@ class registerState extends State<register>{
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 7,
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 12,
+                      right: SizeConfig.blockSizeHorizontal * 12,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 1,
+                      right: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    alignment: Alignment.topLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child: TextFormField(
+                      autofocus: false,
+                      focusNode: NickNameFocus,
+                      controller: nicknameController,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter nick name";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v)
+                      {
+                        FocusScope.of(context).requestFocus(FullNameFocus);
+                      },
+                      onSaved: (val) => _nickname = val,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.nickname,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 12,
+                      right: SizeConfig.blockSizeHorizontal * 12,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 1,
+                      right: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    alignment: Alignment.topLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child: TextFormField(
+                      autofocus: false,
+                      focusNode: FullNameFocus,
+                      controller: fullnameController,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter full name";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v)
+                      {
+                        FocusScope.of(context).requestFocus(EmailFocus);
+                      },
+                      onSaved: (val) => _fullname = val,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.fullname,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
                       left: SizeConfig.blockSizeHorizontal * 12,
                       right: SizeConfig.blockSizeHorizontal * 12,
                     ),
@@ -228,8 +352,254 @@ class registerState extends State<register>{
                       ),
                     ),
                   ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 12,
+                      right: SizeConfig.blockSizeHorizontal * 12,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 1,
+                      right: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    alignment: Alignment.topLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child: TextFormField(
+                      autofocus: false,
+                      focusNode: MobileFocus,
+                      controller: mobileController,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.phone,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter mobile number";
+                        else if (val.length != 10)
+                          return "Please enter valid mobile number";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v)
+                      {
+                        MobileFocus.unfocus();
+                      },
+                      onSaved: (val) => _mobile = val,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.mobile,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockSizeVertical *7.5,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 12,
+                      right: SizeConfig.blockSizeHorizontal * 12,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 1,
+                      right: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child:
+                    Text("Date of Birth", textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockSizeVertical *7.5,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 12,
+                      right: SizeConfig.blockSizeHorizontal * 12,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 2,
+                      right: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child:
+                    FormField<dynamic>(
+                      builder: (FormFieldState<dynamic> state) {
+                        return InputDecorator(
+                          decoration: InputDecoration.collapsed(hintText: ''),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<dynamic>(
+                              hint: Text("Nationality",textAlign: TextAlign.center,style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
+                              dropdownColor: Colors.white,
+                              value: currentSelectedValue,
+                              isDense: true,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  currentSelectedValue = newValue;
+                                  //  nationalityid = int.parse(newValue["inst_id"]);
+                                });
+                              },
+                              items: nationalityTypes.map((dynamic value) {
+                                return DropdownMenuItem<dynamic>(
+                                  value: value,
+                                  child: Text("",textAlign: TextAlign.center,style:
+                                  TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),                  Container(
+                    height: SizeConfig.blockSizeVertical *7.5,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 12,
+                      right: SizeConfig.blockSizeHorizontal * 12,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 2,
+                      right: SizeConfig.blockSizeVertical * 2,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child:
+                    FormField<dynamic>(
+                      builder: (FormFieldState<dynamic> state) {
+                        return InputDecorator(
+                          decoration: InputDecoration.collapsed(hintText: ''),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<dynamic>(
+                              hint: Text("Current Country",textAlign: TextAlign.center,style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
+                              dropdownColor: Colors.white,
+                              value: currentSelectedCountry,
+                              isDense: true,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  currentSelectedCountry = newValue;
+                                  //  nationalityid = int.parse(newValue["inst_id"]);
+                                });
+                              },
+                              items: currentcountryTypes.map((dynamic value) {
+                                return DropdownMenuItem<dynamic>(
+                                  value: value,
+                                  child: Text("",textAlign: TextAlign.center,style:
+                                  TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 10,
+                      right: SizeConfig.blockSizeHorizontal * 10,
+
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 15,
+                          width: 15,
+                          color: Colors.white,
+                          child: Checkbox(
+                            value: showvalue,
+                            onChanged: (bool value) {
+                              setState(() {
+                                showvalue = value;
+                              });
+                            },
+
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: Text(StringConstant.terms,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontFamily: 'Montserrat')),
+                        ),
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            /*Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) => TermsCondition()));*/
+                          },
+                          child: Container(
+                            child: Text(" " +StringConstant.condition,
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 11,
+                                    fontFamily: 'Montserrat')),
+                          ),
+                        )
+
+                      ],
+                    ),
+                  ),
+
                   GestureDetector(
                     onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => selectlangauge()),
+                              (route) => false);
 /*
                       if (_formKey.currentState.validate()) {
                         setState(() {
@@ -258,6 +628,7 @@ class registerState extends State<register>{
                       height: SizeConfig.blockSizeVertical * 8,
                       margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 5,
+                        bottom: SizeConfig.blockSizeVertical * 2,
                         left: SizeConfig.blockSizeHorizontal * 12,
                         right: SizeConfig.blockSizeHorizontal * 12,
                       ),

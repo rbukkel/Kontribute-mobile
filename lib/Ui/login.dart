@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
+import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -71,7 +72,7 @@ class loginState extends State<login>{
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',
                           color: AppColors.light_grey,
-                          fontSize: 24),
+                          fontSize: 20),
                     ),
                   ),
                   Container(
@@ -189,6 +190,10 @@ class loginState extends State<login>{
                   ),
                   GestureDetector(
                     onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => selectlangauge()),
+                              (route) => false);
 /*
                       if (_formKey.currentState.validate()) {
                         setState(() {

@@ -109,7 +109,54 @@ titlebar(context,text) {
   );
 }
 
-
+titlebarapp(context,text) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Container(
+        width: 25,height: 25,
+        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3),
+        child:
+        InkWell(
+          onTap: () {
+            Navigator.pop(context, true);
+          },
+          child: Container(
+            color: Colors.transparent,
+            width: 25,height: 25
+          ),
+        ),
+      ),
+      Container(
+        width: SizeConfig.blockSizeHorizontal *80,
+        alignment: Alignment.topCenter,
+        // margin: EdgeInsets.only(top: 10, left: 40),
+        child: Text(
+          text, textAlign: TextAlign.center,
+          style: TextStyle(
+              decoration: TextDecoration.none,
+              fontSize: 20,
+              fontWeight: FontWeight.normal,
+              fontFamily: "Montserrat",
+              color: Colors.black),
+        ),
+      ),
+      Container(
+        width: 25,height: 25,
+        margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3),
+        child:
+        InkWell(
+          onTap: () {
+            Navigator.pop(context, true);
+          },
+          child: Container(
+            width: 25,height: 25,
+          ),
+        ),
+      ),
+    ],
+  );
+}
 
 Widget AppBarData(String TextData){
   return AppBar(
