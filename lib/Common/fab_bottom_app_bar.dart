@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FABBottomAppBarItem {
-  FABBottomAppBarItem({this.iconData,this.selected_image});
+  FABBottomAppBarItem({this.iconData,this.selected_image,this.text});
+  String text;
   String iconData;
   bool selected_image;
 
@@ -104,10 +105,15 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-
-                  child: Image.asset(item.iconData,height: widget.iconSize,width: widget.iconSize,),
+                  child: Image.asset(item.iconData,color: color,height: widget.iconSize,width: widget.iconSize,),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 2),
+                  child: Text(
+                    item.text,
+                    style: TextStyle(color: color,fontSize: 10),
+                  ) ,
                 )
-
 
               ],
             ),

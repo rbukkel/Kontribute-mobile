@@ -5,6 +5,7 @@ import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/utils/AppColors.dart';
 
 class dashboard extends StatefulWidget{
   @override
@@ -26,6 +27,7 @@ class dashboardState extends State<dashboard>{
   @override
   Widget build(BuildContext context){
     Widget child;
+    print("Index: "+_index.toString());
     switch (_index){
       case 0:
         child = ProfileScreen();
@@ -39,30 +41,42 @@ class dashboardState extends State<dashboard>{
       case 3:
         child = SettingScreen();
         break;
+       default:
+        child = HomeScreen();
+        break;
     }
     return Scaffold(
       body: SizedBox.expand(child: child),
       bottomNavigationBar: FABBottomAppBar(
+        centerItemText: 'Home',
         notchedShape: CircularNotchedRectangle(),
+        selectedColor: AppColors.selectedcolor,
         onTabSelected: (newIndex) => setState(() => _index = newIndex),
         items: [
-          FABBottomAppBarItem(iconData:"assets/images/profileicon.png"),
-          FABBottomAppBarItem(iconData:"assets/images/walleticon.png"),
-          FABBottomAppBarItem(iconData:"assets/images/notificationicon.png"),
-          FABBottomAppBarItem(iconData:"assets/images/profileicon.png"),
+          FABBottomAppBarItem(iconData:"assets/images/profileicon.png",text: 'Profile'),
+          FABBottomAppBarItem(iconData:"assets/images/walleticon.png",text: 'Wallet'),
+          FABBottomAppBarItem(iconData:"assets/images/notificationicon.png",text: 'Notification'),
+          FABBottomAppBarItem(iconData:"assets/images/settingicon.png",text: 'Setting'),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _buildFab(context),
+      floatingActionButton:  FloatingActionButton(
+        onPressed: () {
+          _index =4;
+          //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        },
+        child: Image.asset("assets/images/homeicon.png"),
+        elevation: 3.0,
+      ),
     );
   }
 
+
+
   Widget _buildFab(BuildContext context) {
-    // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
     return  FloatingActionButton(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-
       },
       child: Image.asset("assets/images/homeicon.png"),
       elevation: 3.0,

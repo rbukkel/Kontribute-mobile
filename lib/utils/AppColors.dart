@@ -7,6 +7,7 @@ class AppColors {
   static Color lightgrey = Color(0xdcdcdcdc);
   static Color light_grey = Color(0xdcF1F1F1);
   static Color green = Color(0xdc51DDD1);
+  static Color selectedcolor = Color(0xdc00D3DA);
   static Color CameraDialog = Color(0xdc51DDD1);
   static Color parentgreen = Color(0xdcC5FF77);
 }
