@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:kontribute/Ui/ContactUs.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
 
@@ -83,7 +85,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                      ),
                      InkWell(
                        onTap: (){
-                      //   drawer_function(1);
+                       drawer_function(1);
 
                          // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                        },
@@ -111,7 +113,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                      ),
                      InkWell(
                        onTap: (){
-                         //   drawer_function(1);
+                         drawer_function(2);
 
                          // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                        },
@@ -139,7 +141,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                      ),
                      InkWell(
                        onTap: (){
-                         //   drawer_function(1);
+                          drawer_function(3);
 
                          // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                        },
@@ -370,18 +372,23 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     );
 
   }
-/*  void drawer_function(var next_screen) async{
+  void drawer_function(var next_screen) async{
     Navigator.pop(context);
     switch(next_screen){
       case 1:
-
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
         break;
 
       case 2:
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => cart(),
+            builder: (context) => ContactUs(),
           ),
         );
         break;
@@ -390,10 +397,10 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => order(),
+            builder: (context) => HomeScreen(),
           ),
         );
         break;
     }
-  }*/
+  }
 }

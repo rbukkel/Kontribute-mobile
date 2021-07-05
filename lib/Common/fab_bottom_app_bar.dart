@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class FABBottomAppBarItem {
-  FABBottomAppBarItem({this.iconData,this.selected_image,this.text});
+  FABBottomAppBarItem({this.iconData,this.selected_image,this.text, this.color});
   String text;
   String iconData;
   bool selected_image;
+  Color color;
 
 }
 
@@ -92,7 +93,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.color;
+    Color color = _selectedIndex == index ? item.color : widget.color;
     return Expanded(
       child: SizedBox(
         height: widget.height,

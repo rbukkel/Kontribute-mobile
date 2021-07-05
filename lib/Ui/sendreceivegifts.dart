@@ -16,6 +16,8 @@ class sendreceivegifts extends StatefulWidget{
 }
 
 class sendreceivegiftsState extends State<sendreceivegifts>{
+  int _index = 0;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -23,7 +25,7 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
 
       body: Container(
         height: double.infinity,
-        color: AppColors.whiteColor,
+        color: AppColors.sendreceivebg,
         child: Column(
           children: [
             Container(
@@ -62,7 +64,7 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                           decoration: TextDecoration.none,
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          fontFamily: "Montserrat",
+                          fontFamily: "Poppins-Regular",
                           color: Colors.white),
                     ),
                   ),
@@ -74,6 +76,312 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                 ],
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.only(
+                      left: SizeConfig
+                          .blockSizeHorizontal *
+                          1,
+                      top: SizeConfig
+                          .blockSizeHorizontal *
+                          2),
+                  child: Text(
+                    "Sort by: ",
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black87,
+                        fontSize: 12,
+                        fontWeight:
+                        FontWeight.normal,
+                        fontFamily:
+                        'Poppins-Regular'),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.only(
+                      right: SizeConfig
+                          .blockSizeHorizontal *
+                          3,
+                      top: SizeConfig
+                          .blockSizeHorizontal *
+                          2),
+                  child: Text(
+                    "Request",
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight:
+                        FontWeight.bold,
+                        fontFamily:
+                        'Poppins-Regular'),
+                  ),
+                )
+
+              ],
+            ),
+            Expanded(
+              child:
+              ListView.builder(
+                  itemCount: 8,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Colors.grey.withOpacity(0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: InkWell(
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                    Container(
+                                      margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
+                                      child: Text(StringConstant.receivegift,style: TextStyle(color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.bold,fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin:EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *2),
+                                      child: Text("01-01-2020",
+                                        style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Regular',
+                                          fontWeight: FontWeight.normal,fontSize: 8),
+                                      ),
+                                    ),
+                                  ],),
+                                  Divider(
+                                    thickness: 1,
+                                    color: Colors.black12,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
+                                        width:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *1,
+                                            bottom: SizeConfig.blockSizeVertical *1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                2),
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image:new AssetImage("assets/images/userProfile.png"),
+                                          fit: BoxFit.fill,)),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal *45,
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                ),
+                                                child: Text(
+                                                  "Sam Miller",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        3,
+                                                ),
+                                                child: Text(
+                                                  "View Details",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.green,
+                                                      fontSize:12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              )
+
+                                            ],
+                                          ),
+                                          Container(
+                                            width: SizeConfig.blockSizeHorizontal *70,
+                                            alignment: Alignment.topLeft,
+                                            padding: EdgeInsets.only(
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    1,
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    3,
+                                                top: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2),
+                                            child: Text(
+                                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black87,
+                                                  fontSize: 8,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                child: Text(
+                                                  "Amount- ",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        3,
+                                                    top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                child: Text(
+                                                  "\$100",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.lightBlueAccent,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              )
+
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                child: Text(
+                                                  "Collection Target- ",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        3,
+                                                    top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                child: Text(
+                                                  "\$1000",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.lightBlueAccent,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              )
+
+                                            ],
+                                          )
+,
+
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+
+                            },
+                          )
+                      ),
+                    );
+                  }),
+            )
 
           ],
         ),
@@ -82,8 +390,27 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
         centerItemText: 'Add Post',
         notchedShape: CircularNotchedRectangle(),
         selectedColor: AppColors.selectedcolor,
-        onTabSelected: _selectedTab,
-        // onTabSelected: (newIndex) => setState(() => _index = newIndex),
+
+     onTabSelected: (newIndex) => setState((){
+       _index = newIndex;
+       print("Index: "+newIndex.toString());
+       if(newIndex==0)
+       {
+         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+       }else if(newIndex==1)
+       {
+
+         Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen()));
+       }else if(newIndex==2)
+       {
+
+         Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+       }else if(newIndex==3)
+       {
+
+         Navigator.push(context, MaterialPageRoute(builder: (context) => SettingScreen()));
+       }
+     }),
         items: [
           FABBottomAppBarItem(iconData:"assets/images/homeicon.png",text: 'Home'),
           FABBottomAppBarItem(iconData:"assets/images/walleticon.png",text: 'Wallet'),
@@ -106,20 +433,24 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
       elevation: 3.0,
     );
   }
-  void _selectedTab(int index) {
+  void _selectedTab(BuildContext context,int index) {
     index =-1;
     setState(() {
       if(index==0)
       {
+        print("Index: "+index.toString());
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }else if(index==1)
       {
+        print("Index: "+index.toString());
         Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen()));
       }else if(index==2)
       {
+        print("Index: "+index.toString());
         Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
       }else if(index==3)
       {
+        print("Index: "+index.toString());
         Navigator.push(context, MaterialPageRoute(builder: (context) => SettingScreen()));
       }
     });

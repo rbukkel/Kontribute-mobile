@@ -98,7 +98,7 @@ class selectlangaugeState extends State<selectlangauge> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        child: Text(sampleData[index].text,style: TextStyle(color: Colors.white, fontFamily: 'Montserrat',fontSize: 18),
+                                        child: Text(sampleData[index].text,style: TextStyle(color: Colors.white, fontFamily: 'Poppins-Regular',fontSize: 18),
                                         ),
                                       ),
                                       Container(

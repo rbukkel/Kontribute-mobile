@@ -84,7 +84,6 @@ class dashboardState extends State<dashboard>{
     return  FloatingActionButton(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => AddScreen()));
-
       },
       child: Image.asset("assets/images/addpost.png"),
       elevation: 3.0,

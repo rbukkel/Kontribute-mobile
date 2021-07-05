@@ -24,6 +24,10 @@ class StringConstant {
   static const String forgetpwd = "Forgot Password";
   static const String welcometokontribute = "Welcome to Kontribute";
   static const String sendandreceivegift = "Send/Receive Gifts";
+  static const String receivegift = "Receive Gift Request for:";
+  static const String wallet = "wallet";
+  static const String notification = "Notification";
+  static const String setting = "Setting";
   static const String projectfunding = "Project Funding";
   static const String donations = "Donations";
   static const String events = "Events";
