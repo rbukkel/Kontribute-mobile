@@ -2,37 +2,78 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
+import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
-import 'package:kontribute/utils/app.dart';
+import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 
-class NotificationScreen extends StatefulWidget{
+class sendreceivegifts extends StatefulWidget{
   @override
-  NotificationScreenState createState() => NotificationScreenState();
+  sendreceivegiftsState createState() => sendreceivegiftsState();
   
 }
 
-class NotificationScreenState extends State<NotificationScreen>{
+class sendreceivegiftsState extends State<sendreceivegifts>{
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
+
       body: Container(
         height: double.infinity,
         color: AppColors.whiteColor,
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *5),
-              child:
-              Row(
+              height: SizeConfig.blockSizeVertical *12,
+              decoration: BoxDecoration(
+                image: new DecorationImage(
+                  image: new AssetImage("assets/images/appbar.png"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  titlebarapp(context, "Notification"),
+                  Container(
+                    width: 20,height: 20,
+                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *2),
+                    child:
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Image.asset("assets/images/back.png",color:AppColors.whiteColor,width: 20,height: 20,),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal *60,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                    // margin: EdgeInsets.only(top: 10, left: 40),
+                    child: Text(
+                      StringConstant.sendandreceivegift, textAlign: TextAlign.center,
+                      style: TextStyle(
+                          decoration: TextDecoration.none,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: "Montserrat",
+                          color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    width: 25,height: 25,
+                    margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
+
+                  ),
                 ],
               ),
             ),
-
 
           ],
         ),

@@ -62,7 +62,6 @@ flutter:
       - asset: assets/fontstyle/Poppins-SemiBold.ttf
 
   assets:
-    - assets/images/logo.png
     - assets/images/welcome1.png
     - assets/images/welcome2.png
     - assets/images/welcome3.png
@@ -83,6 +82,29 @@ flutter:
     - assets/images/profileicon.png
     - assets/images/settingicon.png
     - assets/images/walleticon.png
+    - assets/images/person.png
+    - assets/images/logo.png
+    - assets/images/donation.png
+    - assets/images/events.png
+    - assets/images/invitation.png
+    - assets/images/projectfunding.png
+    - assets/images/sendreceivegift.png
+    - assets/images/tickets.png
+    - assets/images/appbar.png
+    - assets/images/menu.png
+    - assets/images/nav_bg.png
+    - assets/images/userProfile.png
+    - assets/images/nav_contactus.png
+    - assets/images/nav_faq.png
+    - assets/images/nav_home.png
+    - assets/images/nav_invitation.png
+    - assets/images/nav_mytranscaton.png
+    - assets/images/nav_share.png
+    - assets/images/nav_termsconditon.png
+    - assets/images/banner1.png
+    - assets/images/banner2.png
+    - assets/images/addpost.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -158,6 +158,58 @@ titlebarapp(context,text) {
   );
 }
 
+appbar(context,text) {
+  return
+    Container(
+    height: SizeConfig.blockSizeVertical *12,
+    decoration: BoxDecoration(
+      image: new DecorationImage(
+        image: new AssetImage("assets/images/appbar.png"),
+        fit: BoxFit.fill,
+      ),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: 25,height: 25,
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
+          child:
+          InkWell(
+            onTap: () {
+              Navigator.pop(context, true);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Image.asset("assets/images/menu.png",color:AppColors.whiteColor,width: 25,height: 25,),
+            ),
+          ),
+        ),
+        Container(
+          width: SizeConfig.blockSizeHorizontal *80,
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+          // margin: EdgeInsets.only(top: 10, left: 40),
+          child: Text(
+            text, textAlign: TextAlign.center,
+            style: TextStyle(
+                decoration: TextDecoration.none,
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                fontFamily: "Montserrat",
+                color: Colors.white),
+          ),
+        ),
+        Container(
+          width: 25,height: 25,
+          margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
+
+        ),
+      ],
+    ),
+  );
+}
+
 Widget AppBarData(String TextData){
   return AppBar(
     backgroundColor: AppColors.green,

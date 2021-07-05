@@ -23,6 +23,12 @@ class StringConstant {
   static const String reset = "Reset";
   static const String forgetpwd = "Forgot Password";
   static const String welcometokontribute = "Welcome to Kontribute";
+  static const String sendandreceivegift = "Send/Receive Gifts";
+  static const String projectfunding = "Project Funding";
+  static const String donations = "Donations";
+  static const String events = "Events";
+  static const String tickets = "Tickets";
+  static const String invitations = "Invitations";
   static const String letsgetstarted = "Let's get started";
   static const String dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed Lorem ipsum dolor amet, consectetur adipiscing elit, sed";
   static const String receivebirthdaygift = "Receive Birthday Gifts in cash from Friends and also send Gifts them...";
