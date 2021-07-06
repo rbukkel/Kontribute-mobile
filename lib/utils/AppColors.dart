@@ -11,4 +11,5 @@ class AppColors {
   static Color CameraDialog = Color(0xdc51DDD1);
   static Color parentgreen = Color(0xdcC5FF77);
   static Color sendreceivebg = Color(0xdcF3F6FB);
+  static Color yelowbg = Color(0xdcFFB616);
 }

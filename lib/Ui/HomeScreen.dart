@@ -84,12 +84,10 @@ class HomeScreenState extends State<HomeScreen>{
               Container(
                 width: 25,height: 25,
                 margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-
               ),
             ],
           ),
         ),
-
             Container(
               alignment: AlignmentDirectional.topStart,
               width: MediaQuery.of(context).size.width *100,

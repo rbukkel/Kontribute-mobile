@@ -5,13 +5,13 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 
-class ProfileScreen extends StatefulWidget{
+class EditProfileScreen extends StatefulWidget{
   @override
-  ProfileScreenState createState() => ProfileScreenState();
+  EditProfileScreenState createState() => EditProfileScreenState();
 
 }
 
-class ProfileScreenState extends State<ProfileScreen>{
+class EditProfileScreenState extends State<EditProfileScreen>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -134,38 +134,31 @@ class ProfileScreenState extends State<ProfileScreen>{
                         fontFamily: 'Poppins-Bold'),
                   ),
                 ),
-                GestureDetector(
-                  onTap: ()
-                  {
-
-                  },
-                  child:  Container(
-                    width: SizeConfig.blockSizeHorizontal *25,
-                    height: SizeConfig.blockSizeVertical *5,
-                    decoration: BoxDecoration(
+                Container(
+                  width: SizeConfig.blockSizeHorizontal *25,
+                  height: SizeConfig.blockSizeVertical *5,
+                  decoration: BoxDecoration(
                       color: AppColors.yelowbg,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Edit".toUpperCase(),style: TextStyle(color: AppColors.whiteColor,fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),),
-                        Container(
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                          child: Image.asset(
-                            "assets/images/edit.png",
-                            color: AppColors.whiteColor,
-                            width: 15,
-                            height: 15,
-                          ),
-                        )
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Edit".toUpperCase(),style: TextStyle(color: AppColors.whiteColor,fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular'),),
+                      Container(
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
+                        child: Image.asset(
+                          "assets/images/edit.png",
+                          color: AppColors.whiteColor,
+                          width: 15,
+                          height: 15,
+                        ),
+                      )
 
-                      ],
-                    ),
+                    ],
                   ),
                 )
-
               ],
             ),
             Divider(
