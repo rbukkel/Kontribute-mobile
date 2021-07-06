@@ -104,7 +104,8 @@ flutter:
     - assets/images/banner1.png
     - assets/images/banner2.png
     - assets/images/addpost.png
-    - assets/images/contactus.png
+    - assets/images/contct.png
+    - assets/images/sendbutton.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

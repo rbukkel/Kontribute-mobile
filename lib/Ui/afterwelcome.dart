@@ -79,7 +79,7 @@ class afterwelcomeState extends State<afterwelcome>{
                 ),
               ),
               onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => register()));
               },
             ),

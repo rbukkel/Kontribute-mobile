@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
+import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
 
@@ -169,7 +170,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                      ),
                      InkWell(
                        onTap: (){
-                         //   drawer_function(1);
+                         drawer_function(4);
 
                          // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                        },
@@ -398,6 +399,14 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           context,
           MaterialPageRoute(
             builder: (context) => HomeScreen(),
+          ),
+        );
+        break;
+        case 4:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => mytranscation(),
           ),
         );
         break;

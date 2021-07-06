@@ -19,7 +19,7 @@ class selectlangaugeState extends State<selectlangauge> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    sampleData.add(new RadioModel(false, 'English'));
+    sampleData.add(new RadioModel(true, 'English'));
     sampleData.add(new RadioModel(false, 'Arabic'));
   }
 

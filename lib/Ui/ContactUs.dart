@@ -11,15 +11,32 @@ import 'package:kontribute/utils/screen.dart';
 class ContactUs extends StatefulWidget{
   @override
   ContactUsState createState() => ContactUsState();
-
 }
 
 class ContactUsState extends State<ContactUs>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
+
+  final NameFocus = FocusNode();
+  final EmailFocus = FocusNode();
+  final MobileFocus = FocusNode();
+  final SubjectFocus = FocusNode();
+  final DescriptionFocus = FocusNode();
+
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController mobileController = new TextEditingController();
+  final TextEditingController subjectController = new TextEditingController();
+  final TextEditingController descriptionController = new TextEditingController();
+
+  String _email,_name,_mobile,_subject,_description;
+  bool showvalue = false;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -86,20 +103,28 @@ class ContactUsState extends State<ContactUs>{
                   child:  Column(
                     children: [
                   Container(
-                  height: SizeConfig.blockSizeVertical *12,
-                    child: Image.asset("assets/images/contactus.png",color:AppColors.whiteColor,width:SizeConfig.blockSizeHorizontal *12,height: SizeConfig.blockSizeVertical *12,),
+                  height: SizeConfig.blockSizeVertical *30,
+                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *10,right: SizeConfig.blockSizeHorizontal *10,
+                      top: SizeConfig.blockSizeVertical *2,),
+                    decoration: BoxDecoration(
+                      image: new DecorationImage(
+                        image: new AssetImage("assets/images/contct.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+
                     ),
                       Container(
-                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,right: SizeConfig.blockSizeHorizontal*5,top: SizeConfig.blockSizeVertical*2),
-                        height: SizeConfig.blockSizeVertical*170,
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
+                            right: SizeConfig.blockSizeHorizontal*5,
+                            top: SizeConfig.blockSizeVertical*2),
+                        height: SizeConfig.blockSizeVertical*70,
                         child: Card(
                           child: Form(
                             key:_formKey,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
@@ -110,86 +135,12 @@ class ContactUsState extends State<ContactUs>{
                                       right: SizeConfig.blockSizeHorizontal*2),
                                   height: SizeConfig.blockSizeVertical*7 ,
                                   width: SizeConfig.blockSizeHorizontal*80,
-                                  decoration:
-                                  BoxDecoration(
-                                    color: AppColors
-                                        .whiteColor,
-                                    borderRadius:
-                                    BorderRadius.circular(5),
-                                    border:
-                                    Border.all(
-                                      color:
-                                      AppColors.appBar,
-                                      style:
-                                      BorderStyle.solid,
-                                      width:
-                                      2.0,
-                                    ),
-                                  ),
                                   child:
                                   TextFormField(
                                     autofocus: false,
-                                    focusNode: Namefocus,
-                                    controller: nameController,
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.next,
-                                    validator: (val) {
-                                      if (val.length == 0)
-                                        return "Please enter name";
-                                      else if (val.length < 3)
-                                        return "Name must be more than 2 charater";
-                                      else
-                                        return null;
-                                    },
-                                    onSaved: (val) => _fullname= val,
-                                    onFieldSubmitted: (v) {
-                                      FocusScope.of(context).requestFocus(Emailfocus);
-                                    },
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      hintText: "Your Name",
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *1,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  height: SizeConfig.blockSizeVertical*7 ,
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  decoration:
-                                  BoxDecoration(
-                                    color: AppColors
-                                        .whiteColor,
-                                    borderRadius:
-                                    BorderRadius.circular(5),
-                                    border:
-                                    Border.all(
-                                      color:
-                                      AppColors.appBar,
-                                      style:
-                                      BorderStyle.solid,
-                                      width:
-                                      2.0,
-                                    ),
-                                  ),
-                                  child:
-                                  TextFormField(
-                                    autofocus: false,
-                                    readOnly:true,
-                                    focusNode: Emailfocus,
+                                    focusNode: EmailFocus,
                                     controller: emailController,
+
                                     keyboardType: TextInputType.emailAddress,
                                     textInputAction: TextInputAction.next,
                                     validator: (val) {
@@ -202,38 +153,21 @@ class ContactUsState extends State<ContactUs>{
                                     },
                                     onSaved: (val) => _email= val,
                                     onFieldSubmitted: (v) {
-                                      FocusScope.of(context).requestFocus(Mobilefocus);
+                                      FocusScope.of(context).requestFocus(NameFocus);
                                     },
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
+                                    style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
+                                      contentPadding: EdgeInsets.all(5),
+                                      labelText: "Your Email*",
+                                      labelStyle:TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
-                                      hintText: "Your Email",
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *2,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  child: Text(
-                                    "Mobile number",
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -247,26 +181,58 @@ class ContactUsState extends State<ContactUs>{
                                       right: SizeConfig.blockSizeHorizontal*2),
                                   height: SizeConfig.blockSizeVertical*7 ,
                                   width: SizeConfig.blockSizeHorizontal*80,
-                                  decoration:
-                                  BoxDecoration(
-                                    color: AppColors
-                                        .whiteColor,
-                                    borderRadius:
-                                    BorderRadius.circular(5),
-                                    border:
-                                    Border.all(
-                                      color:
-                                      AppColors.appBar,
-                                      style:
-                                      BorderStyle.solid,
-                                      width:
-                                      2.0,
+                                  child:
+                                  TextFormField(
+                                    autofocus: false,
+                                    focusNode: NameFocus,
+                                    controller: nameController,
+                                    keyboardType: TextInputType.text,
+                                    textInputAction: TextInputAction.next,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return "Please enter name";
+                                      else if (val.length < 3)
+                                        return "Name must be more than 2 charater";
+                                      else
+                                        return null;
+                                    },
+                                    onSaved: (val) => _name= val,
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context).requestFocus(MobileFocus);
+                                    },
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(5),
+                                      labelText: "Your Name*",
+                                      labelStyle:TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
+                                        decoration: TextDecoration.none,
+                                      ),
                                     ),
                                   ),
+                                ),
+
+
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+                                      right: SizeConfig.blockSizeHorizontal*2),
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical *1,
+                                      left: SizeConfig.blockSizeHorizontal*2,
+                                      right: SizeConfig.blockSizeHorizontal*2),
+                                  height: SizeConfig.blockSizeVertical*7 ,
+                                  width: SizeConfig.blockSizeHorizontal*80,
+
                                   child:  TextFormField(
                                     autofocus: false,
-                                    focusNode: Mobilefocus,
-                                    controller: MobileController,
+                                    focusNode: MobileFocus,
+                                    controller: mobileController,
                                     keyboardType: TextInputType.phone,
                                     textInputAction: TextInputAction.next,
                                     validator: (val) {
@@ -279,41 +245,26 @@ class ContactUsState extends State<ContactUs>{
                                     },
                                     onSaved: (val) => _mobile= val,
                                     onFieldSubmitted: (v) {
-                                      FocusScope.of(context).requestFocus(StoreNamefocus);
+                                      FocusScope.of(context).requestFocus(SubjectFocus);
                                     },
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
+                                    style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
+                                      contentPadding: EdgeInsets.all(5),
+                                      labelText: "Phone Number*",
+                                      labelStyle:TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
-                                      hintText: "Your Mobile",
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *2,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  child: Text(
-                                    "Store name",
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+
+
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
@@ -322,375 +273,47 @@ class ContactUsState extends State<ContactUs>{
                                       top: SizeConfig.blockSizeVertical *1,
                                       left: SizeConfig.blockSizeHorizontal*2,
                                       right: SizeConfig.blockSizeHorizontal*2),
-                                  height: SizeConfig.blockSizeVertical*7 ,
+                                  height: SizeConfig.blockSizeVertical*10 ,
                                   width: SizeConfig.blockSizeHorizontal*80,
-                                  decoration:
-                                  BoxDecoration(
-                                    color: AppColors
-                                        .whiteColor,
-                                    borderRadius:
-                                    BorderRadius.circular(5),
-                                    border:
-                                    Border.all(
-                                      color:
-                                      AppColors.appBar,
-                                      style:
-                                      BorderStyle.solid,
-                                      width:
-                                      2.0,
-                                    ),
-                                  ),
+
                                   child:
                                   TextFormField(
                                     autofocus: false,
-                                    focusNode: StoreNamefocus,
-                                    controller: StoreNameController,
+                                    maxLines:2,
+                                    focusNode: SubjectFocus,
+                                    controller: subjectController,
                                     keyboardType: TextInputType.text,
                                     textInputAction: TextInputAction.done,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter store name";
+                                        return "Please enter subject";
                                       else if (val.length < 3)
-                                        return "Store name must be more than 2 charater";
+                                        return "subject must be more than 2 charater";
                                       else
                                         return null;
                                     },
-                                    onSaved: (val) => _storename= val,
+                                    onSaved: (val) => _subject= val,
                                     onFieldSubmitted: (v) {
-                                      FocusScope.of(context).requestFocus(ShippigFeesfocus);
+                                      FocusScope.of(context).requestFocus(DescriptionFocus);
                                     },
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
+                                    style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
+                                      contentPadding: EdgeInsets.all(5),
+                                      labelText: "Subject",
+                                      labelStyle:TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
-                                      hintText: "Name of your store",
+
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *2,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  child: Text(
-                                    "Shipping charges",
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *1,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  height: SizeConfig.blockSizeVertical*7 ,
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  decoration:
-                                  BoxDecoration(
-                                    color: AppColors
-                                        .whiteColor,
-                                    borderRadius:
-                                    BorderRadius.circular(5),
-                                    border:
-                                    Border.all(
-                                      color:
-                                      AppColors.appBar,
-                                      style:
-                                      BorderStyle.solid,
-                                      width:
-                                      2.0,
-                                    ),
-                                  ),
-                                  child:  TextFormField(
-                                    autofocus: false,
-                                    focusNode: ShippigFeesfocus,
-                                    controller: ShippigFeesController,
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    validator: (val) {
-                                      if (val.length == 0)
-                                        return "Please enter shipping charges";
-                                      else
-                                        return null;
-                                    },
-                                    onSaved: (val) => _shippigFees= val,
-                                    onFieldSubmitted: (v) {
-                                      ShippigFeesfocus.unfocus();
 
-                                    },
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      hintText: "Shipping Charges",
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *2,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  child: Text(
-                                    "Address",
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                    ),
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
-                                        left: SizeConfig.blockSizeHorizontal*2,
-                                        right: SizeConfig.blockSizeHorizontal*2),
-                                    //  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                    height: SizeConfig.blockSizeVertical*11 ,
-                                    width: SizeConfig.blockSizeHorizontal*80,
-                                    decoration:
-                                    BoxDecoration(
-                                      color: AppColors
-                                          .whiteColor,
-                                      borderRadius:
-                                      BorderRadius.circular(5),
-                                      border:
-                                      Border.all(
-                                        color:
-                                        AppColors.appBar,
-                                        style:
-                                        BorderStyle.solid,
-                                        width:
-                                        2.0,
-                                      ),
-                                    ),
-
-                                    child: Row( crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-
-                                          height: SizeConfig.blockSizeVertical*11 ,
-                                          width: SizeConfig.blockSizeHorizontal*66,
-                                          child:
-                                          TextFormField(
-                                            autofocus: false,
-                                            focusNode: Addressfocus,
-                                            controller: AddressController,
-                                            maxLines: 3,
-                                            keyboardType: TextInputType.streetAddress,
-                                            textInputAction: TextInputAction.done,
-                                            validator: (val) {
-                                              if (val.length == 0)
-                                                return "Please enter address";
-                                              else
-                                                return null;
-                                            },
-                                            onSaved: (val) => _address= val,
-                                            onFieldSubmitted: (v) {
-                                              Addressfocus.unfocus();
-                                            },
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              hintStyle: TextStyle(
-                                                color: Colors.black26,
-                                                decoration: TextDecoration.none,
-                                              ),
-                                              hintText: "Your Address",
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: ()
-                                          {
-                                            // hasPermission();
-                                            _getCurrentLocation();
-                                          },
-                                          child: Container(
-                                            color: AppColors.themecolor,
-                                            height: SizeConfig.blockSizeVertical*11,
-                                            width: SizeConfig.blockSizeHorizontal*10.86,
-                                            child:Icon(Icons.add_location,color: AppColors.whiteColor),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  /*Row(
-                                  children: [
-                                    Icon(Icons.add_location,color: AppColors.appBar),
-                                    _currentAddress!=null?Text(_currentAddress,style:  TextStyle(fontSize: SizeConfig.blockSizeVertical*2)):Text("Address")
-                                  ],
-                                )*/
-                                ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *2,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  child: Text(
-                                    "Timing",
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                    ),
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
-                                        left: SizeConfig.blockSizeHorizontal*2,
-                                        right: SizeConfig.blockSizeHorizontal*2),
-                                    //  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                    height: SizeConfig.blockSizeVertical*7 ,
-                                    width: SizeConfig.blockSizeHorizontal*80,
-                                    decoration:
-                                    BoxDecoration(
-                                      color: AppColors.whiteColor,
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        color: AppColors.appBar,
-                                        style: BorderStyle.solid,
-                                        width: 2.0,
-                                      ),
-                                    ),
-
-                                    child: Row( crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          height: SizeConfig.blockSizeVertical*9 ,
-                                          width: SizeConfig.blockSizeHorizontal*66,
-                                          child:
-                                          TextFormField(
-                                            autofocus: false,
-                                            focusNode: Timerfocus,
-                                            controller: TimerController,
-                                            maxLines: 2,
-                                            keyboardType: TextInputType.text,
-                                            textInputAction: TextInputAction.done,
-                                            validator: (val) {
-                                              if (val.length == 0)
-                                                return "Please enter time";
-                                              else
-                                                return null;
-                                            },
-                                            onSaved: (val) => _timer= val,
-                                            onFieldSubmitted: (v) {
-                                              Timerfocus.unfocus();
-                                            },
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              hintStyle: TextStyle(
-                                                color: Colors.black26,
-                                                decoration: TextDecoration.none,
-                                              ),
-                                              hintText: "Store Timing",
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: ()
-                                          {
-                                            TimeRangePicker.show(
-                                              context: context,
-                                              unSelectedEmpty: false,
-                                              startTime: TimeOfDay(hour: 19, minute: 45),
-                                              endTime: TimeOfDay(hour: 21, minute: 22),
-                                              onSubmitted: (TimeRangeValue value) {
-                                                setState(() {
-                                                  _startTime = value.startTime;
-                                                  _endTime = value.endTime;
-                                                  TimerController.text ="${_timeFormated(_startTime)}"+" to "+"${_timeFormated(_endTime)}";
-                                                });
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                            color:AppColors.themecolor,
-                                            height: SizeConfig.blockSizeVertical*9 ,
-                                            width: SizeConfig.blockSizeHorizontal*10.86,
-                                            child:Icon(Icons.timer,color: AppColors.whiteColor),
-                                          ),
-                                        ),
-                                      ],)
-
-
-
-
-                                  /*Row(
-                                  children: [
-                                    Icon(Icons.add_location,color: AppColors.appBar),
-                                    _currentAddress!=null?Text(_currentAddress,style:  TextStyle(fontSize: SizeConfig.blockSizeVertical*2)):Text("Address")
-                                  ],
-                                )*/
-                                ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal*80,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *2,
-                                      left: SizeConfig.blockSizeHorizontal*2,
-                                      right: SizeConfig.blockSizeHorizontal*2),
-                                  child: Text(
-                                    "Description",
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
@@ -701,55 +324,124 @@ class ContactUsState extends State<ContactUs>{
                                       right: SizeConfig.blockSizeHorizontal*2),
                                   height: SizeConfig.blockSizeVertical*15 ,
                                   width: SizeConfig.blockSizeHorizontal*80,
-                                  decoration:
-                                  BoxDecoration(
-                                    color: AppColors
-                                        .whiteColor,
-                                    borderRadius:
-                                    BorderRadius.circular(5),
-                                    border:
-                                    Border.all(
-                                      color:
-                                      AppColors.appBar,
-                                      style:
-                                      BorderStyle.solid,
-                                      width:
-                                      2.0,
-                                    ),
-                                  ),
+
                                   child:
                                   TextFormField(
                                     autofocus: false,
                                     maxLines: 3,
-                                    focusNode: StoreDescriptionfocus,
-                                    controller: StoreDescriptionController,
+                                    focusNode: DescriptionFocus,
+                                    controller: descriptionController,
                                     keyboardType: TextInputType.text,
                                     textInputAction: TextInputAction.done,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter store description";
+                                        return "Please enter message";
                                       else if (val.length < 3)
-                                        return "Store description must be more than 2 charater";
+                                        return "message must be more than 2 charater";
                                       else
                                         return null;
                                     },
-                                    onSaved: (val) => _storeDescription= val,
+                                    onSaved: (val) => _description= val,
                                     onFieldSubmitted: (v) {
-                                      StoreDescriptionfocus.unfocus();
+                                      DescriptionFocus.unfocus();
                                     },
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(letterSpacing: 1.0, color: Colors.black87,fontSize: 12),
+                                    style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
+                                      contentPadding: EdgeInsets.all(5),
+                                      labelText: "Your Message",
+                                      labelStyle:TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
-                                      hintText: "Store Description",
+
                                     ),
                                   ),
                                 ),
+                                Container(
+                                  padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+                                      right: SizeConfig.blockSizeHorizontal*2),
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical *1,
+                                      left: SizeConfig.blockSizeHorizontal*3,
+                                      right: SizeConfig.blockSizeHorizontal*5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 15,
+                                        width: 15,
+                                        color: Colors.white,
+                                        child: Checkbox(
+                                          value: showvalue,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              showvalue = value;
+                                            });
+                                          },
+
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 5),
+                                        child: Text(StringConstant.sendingmeesageyou,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',)),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                   /* Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => selectlangauge()),
+                                            (route) => false);*/
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    height: SizeConfig.blockSizeVertical * 8,
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 3,
+                                      bottom: SizeConfig.blockSizeVertical * 2,
+                                      left: SizeConfig.blockSizeHorizontal *5,
+                                      right: SizeConfig.blockSizeHorizontal *5
+
+                                    ),
+                                    decoration: BoxDecoration(
+                                      image: new DecorationImage(
+                                        image: new AssetImage("assets/images/sendbutton.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(StringConstant.send,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
+                                            )),
+                                        Container(
+                                          child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
+                                        )
+
+                                      ],
+                                    )
+
+
+                                  ),
+                                )
 
                               ],
                             ),

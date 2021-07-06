@@ -73,7 +73,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                           decoration: TextDecoration.none,
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Poppins-Regular',
                           color: Colors.white),
                     ),
                   ),

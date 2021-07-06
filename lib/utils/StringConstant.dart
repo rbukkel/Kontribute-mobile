@@ -17,9 +17,11 @@ class StringConstant {
   static const String selectlanguage = "Select Language";
   static const String done = "Done";
   static const String terms = "I have read and agreed to the ";
+  static const String sendingmeesageyou = "By sending this message you";
   static const String condition = "Terms & Conditions";
   static const String forgotyourpassword = "Forgot your Password";
   static const String or = "Or";
+  static const String send = "Send";
   static const String reset = "Reset";
   static const String forgetpwd = "Forgot Password";
   static const String welcometokontribute = "Welcome to Kontribute";
@@ -33,6 +35,8 @@ class StringConstant {
   static const String events = "Events";
   static const String tickets = "Tickets";
   static const String invitations = "Invitations";
+  static const String amountpaid = "Amount Paid";
+  static const String amountreceive = "Amount Received";
   static const String letsgetstarted = "Let's get started";
   static const String dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed Lorem ipsum dolor amet, consectetur adipiscing elit, sed";
   static const String receivebirthdaygift = "Receive Birthday Gifts in cash from Friends and also send Gifts them...";
