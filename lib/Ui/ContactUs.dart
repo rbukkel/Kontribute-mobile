@@ -210,14 +210,12 @@ class ContactUsState extends State<ContactUs>{
                                       labelStyle:TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
+                                        fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
                                     ),
                                   ),
                                 ),
-
-
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
@@ -228,7 +226,6 @@ class ContactUsState extends State<ContactUs>{
                                       right: SizeConfig.blockSizeHorizontal*2),
                                   height: SizeConfig.blockSizeVertical*7 ,
                                   width: SizeConfig.blockSizeHorizontal*80,
-
                                   child:  TextFormField(
                                     autofocus: false,
                                     focusNode: MobileFocus,

@@ -108,6 +108,9 @@ flutter:
     - assets/images/sendbutton.png
     - assets/images/edit.png
     - assets/images/editprofile.png
+    - assets/images/wallet_bg.png
+    - assets/images/walletbalace_bg.png
+    - assets/images/walletlisticon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

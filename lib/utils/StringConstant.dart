@@ -23,12 +23,15 @@ class StringConstant {
   static const String or = "Or";
   static const String send = "Send";
   static const String reset = "Reset";
+  static const String dummyname = "Micheal John";
+  static const String dummynickname = "Micheal";
   static const String dummyemail = "resim.sorwoar@flipspaces.com";
   static const String dummymobileno = "+917814652162";
   static const String dummydateofbirth = "25-05-1997";
   static const String dummycompanyname = "Flipspaces Technology Labs Pvt Ltd";
   static const String dummycountry = "India";
   static const String dummynationality = "Indian";
+  static const String currentcountry = "Current Country";
   static const String forgetpwd = "Forgot Password";
   static const String welcometokontribute = "Welcome to Kontribute";
   static const String sendandreceivegift = "Send/Receive Gifts";
@@ -41,6 +44,7 @@ class StringConstant {
   static const String events = "Events";
   static const String tickets = "Tickets";
   static const String emailid = "Email Id: ";
+  static const String name = "Email Id: ";
   static const String mobileno = "Mobile No.: ";
   static const String dateofbirth = "Date of Birth: ";
   static const String companyname = "Company Name: ";

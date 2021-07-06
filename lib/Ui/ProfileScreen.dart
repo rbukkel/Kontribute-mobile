@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Ui/EditProfileScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -137,6 +138,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                 GestureDetector(
                   onTap: ()
                   {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EditProfileScreen()));
 
                   },
                   child:  Container(
@@ -334,7 +336,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                   margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
-                    StringConstant.currentcompany,
+                    StringConstant.currentcountry,
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black,
