@@ -54,11 +54,11 @@ class NotificationScreenState extends State<NotificationScreen>{
                     child:
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context, true);
+
                       },
                       child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset("assets/images/back.png",color:AppColors.whiteColor,width: 20,height: 20,),
+
+
                       ),
                     ),
                   ),
@@ -90,56 +90,130 @@ class NotificationScreenState extends State<NotificationScreen>{
           ],
         ),
       ),
-      bottomNavigationBar: FABBottomAppBar(
-        centerItemText: 'Add Post',
-        notchedShape: CircularNotchedRectangle(),
-        selectedColor: AppColors.selectedcolor,
-        onTabSelected: (newIndex) => setState((){
-          _index = newIndex;
-          print("Index: "+newIndex.toString());
-          if(newIndex==0)
-          {
-            home = true;
-            wallet =false;
-            notification =false;
-            setting =false;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-          }else if(newIndex==1)
-          {
-            home = false;
-            wallet =true;
-            notification =false;
-            setting =false;
-
-            Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen()));
-          }else if(newIndex==2)
-          {
-            home = false;
-            wallet =false;
-            notification =true;
-            setting =false;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-          }else if(newIndex==3)
-          {
-            home = false;
-            wallet =false;
-            notification =false;
-            setting =true;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SettingScreen()));
-          }
-
-        }),
-        items: [
-          FABBottomAppBarItem(iconData:"assets/images/homeicon.png",text: 'Home',color: home ? AppColors.selectedcolor : AppColors.light_grey,),
-          FABBottomAppBarItem(iconData:"assets/images/walleticon.png",text: 'Wallet',color: wallet ? AppColors.selectedcolor : AppColors.light_grey),
-          FABBottomAppBarItem(iconData:"assets/images/notificationicon.png",text: 'Notificaton',color: notification ? AppColors.selectedcolor : AppColors.light_grey),
-          FABBottomAppBarItem(iconData:"assets/images/settingicon.png",text: 'Setting',color: setting ? AppColors.selectedcolor : AppColors.light_grey),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _buildFab(context),
+      bottomNavigationBar: bottombar(context),
     );
   }
+
+  bottombar(context) {
+    return Container(
+      height: SizeConfig.blockSizeVertical * 8,
+      color: AppColors.whiteColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => HomeScreen()));
+            },
+            child: Container(
+                margin:
+                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/homeicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      child: Text(
+                        "Home",
+                        style: TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => WalletScreen()));
+            },
+            child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/walleticon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      child: Text(
+                        "Wallet",
+                        style: TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => NotificationScreen()));
+            },
+            child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/notificationicon.png",
+                      height: 20,
+                      width: 20,
+                      color: AppColors.selectedcolor,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      child: Text(
+                        "Notification",
+                        style: TextStyle(color: AppColors.selectedcolor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => SettingScreen()));
+            },
+            child: Container(
+                margin:
+                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/settingicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      child: Text(
+                        "Setting",
+                        style: TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          )
+        ],
+      ),
+    );
+  }
+
+
   Widget _buildFab(BuildContext context) {
     // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
     return  FloatingActionButton(

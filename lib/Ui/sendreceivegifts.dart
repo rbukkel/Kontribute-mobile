@@ -5,8 +5,10 @@ import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class sendreceivegifts extends StatefulWidget{
@@ -386,42 +388,23 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
           ],
         ),
       ),
-      bottomNavigationBar: FABBottomAppBar(
-        centerItemText: 'Add Post',
-        notchedShape: CircularNotchedRectangle(),
-        selectedColor: AppColors.selectedcolor,
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColors.whiteColor,
+        shape: RoundedRectangleBorder(
 
-     onTabSelected: (newIndex) => setState((){
-       _index = newIndex;
-       print("Index: "+newIndex.toString());
-       if(newIndex==0)
-       {
-         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-       }else if(newIndex==1)
-       {
-
-         Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen()));
-       }else if(newIndex==2)
-       {
-
-         Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-       }else if(newIndex==3)
-       {
-
-         Navigator.push(context, MaterialPageRoute(builder: (context) => SettingScreen()));
-       }
-     }),
-        items: [
-          FABBottomAppBarItem(iconData:"assets/images/homeicon.png",text: 'Home'),
-          FABBottomAppBarItem(iconData:"assets/images/walleticon.png",text: 'Wallet'),
-          FABBottomAppBarItem(iconData:"assets/images/notificationicon.png",text: 'Notificaton'),
-          FABBottomAppBarItem(iconData:"assets/images/settingicon.png",text: 'Setting'),
-        ],
+            borderRadius: BorderRadius.all(Radius.circular(30.0))
+        ),
+        icon: Icon(Icons.edit,color: AppColors.selectedcolor,),
+        label: Text('Create Post',style: TextStyle(color:AppColors.selectedcolor ),),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => createpostgift()));
+        },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _buildFab(context),
+      bottomNavigationBar: bottombar(context),
+
     );
   }
+
   Widget _buildFab(BuildContext context) {
     // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
     return  FloatingActionButton(

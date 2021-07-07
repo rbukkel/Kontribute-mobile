@@ -601,34 +601,12 @@ class registerState extends State<register>{
                                 ],
                               ),
                             ),
-
                             GestureDetector(
                               onTap: () {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(builder: (context) => selectlangauge()),
                                         (route) => false);
-/*
-                      if (_formKey.currentState.validate()) {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        Internet_check().check().then((intenet) {
-                          if (intenet != null && intenet) {
-                            signIn(
-                                emailController.text, passwordController.text,token);
-                          } else {
-                            Fluttertoast.showToast(
-                              msg: "No Internet Connection",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                            );
-                          }
-                          // No-Internet Case
-                        });
-                      }
-*/
                               },
                               child: Container(
                                 alignment: Alignment.center,

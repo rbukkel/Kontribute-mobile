@@ -111,6 +111,9 @@ flutter:
     - assets/images/wallet_bg.png
     - assets/images/walletbalace_bg.png
     - assets/images/walletlisticon.png
+    - assets/images/createpost.png
+    - assets/images/sendindividaul.png
+    - assets/images/cameracreatenewgift.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -12,6 +12,8 @@ class mytranscation extends StatefulWidget {
 class mytranscationState extends State<mytranscation> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String tabvalue ="Paid";
+  bool paid = true;
+  bool receive = false;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +100,8 @@ class mytranscationState extends State<mytranscation> {
                   {
                     setState(() {
                       tabvalue ="Paid";
+                      paid = true;
+                      receive = false;
                     });
 
                     print("Value: "+tabvalue);
@@ -107,6 +111,7 @@ class mytranscationState extends State<mytranscation> {
                         left: SizeConfig.blockSizeHorizontal * 6,
                         top: SizeConfig.blockSizeVertical * 2),
                     child: Card(
+                        color: paid?AppColors.light_grey:AppColors.whiteColor,
                         child: Container(
                           alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 40,
@@ -120,6 +125,9 @@ class mytranscationState extends State<mytranscation> {
                   {
                     setState(() {
                       tabvalue ="Received";
+                      paid = false;
+                      receive = true;
+                      
                     });
 
                     print("Value: "+tabvalue);
@@ -129,6 +137,7 @@ class mytranscationState extends State<mytranscation> {
                           right: SizeConfig.blockSizeHorizontal * 6,
                           top: SizeConfig.blockSizeVertical * 2),
                       child: Card(
+                          color: receive?AppColors.light_grey:AppColors.whiteColor,
                           child: Container(
                             alignment: Alignment.center,
                             width: SizeConfig.blockSizeHorizontal * 40,
