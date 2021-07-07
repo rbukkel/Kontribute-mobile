@@ -6,20 +6,18 @@ import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/createpostgift.dart';
-import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
-class sendreceivegifts extends StatefulWidget{
+class viewdetail_sendreceivegift extends StatefulWidget{
   @override
-  sendreceivegiftsState createState() => sendreceivegiftsState();
-  
+  viewdetail_sendreceivegiftState createState() => viewdetail_sendreceivegiftState();
+
 }
 
-class sendreceivegiftsState extends State<sendreceivegifts>{
-  int _index = 0;
+class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
 
   @override
   Widget build(BuildContext context) {
@@ -79,61 +77,13 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  alignment: Alignment.topRight,
-                  padding: EdgeInsets.only(
-                      left: SizeConfig
-                          .blockSizeHorizontal *
-                          1,
-                      top: SizeConfig
-                          .blockSizeHorizontal *
-                          2),
-                  child: Text(
-                    "Sort by: ",
-                    style: TextStyle(
-                        letterSpacing: 1.0,
-                        color: Colors.black87,
-                        fontSize: 12,
-                        fontWeight:
-                        FontWeight.normal,
-                        fontFamily:
-                        'Poppins-Regular'),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topRight,
-                  padding: EdgeInsets.only(
-                      right: SizeConfig
-                          .blockSizeHorizontal *
-                          3,
-                      top: SizeConfig
-                          .blockSizeHorizontal *
-                          2),
-                  child: Text(
-                    "Request",
-                    style: TextStyle(
-                        letterSpacing: 1.0,
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontWeight:
-                        FontWeight.bold,
-                        fontFamily:
-                        'Poppins-Regular'),
-                  ),
-                )
 
-              ],
-            ),
             Expanded(
               child:
               ListView.builder(
                   itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                       child: Card(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(
@@ -144,45 +94,22 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                           child: InkWell(
                             child: Container(
                               padding: EdgeInsets.all(5.0),
-                              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                               child: Column(
                                 mainAxisAlignment:
                                 MainAxisAlignment.center,
                                 crossAxisAlignment:
                                 CrossAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                    Container(
-                                      margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                                      child: Text(StringConstant.receivegift,style: TextStyle(color: Colors.black,
-                                          fontFamily: 'Poppins-Bold',
-                                          fontWeight: FontWeight.bold,fontSize: 16),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *2),
-                                      child: Text("01-01-2020",
-                                        style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Regular',
-                                          fontWeight: FontWeight.normal,fontSize: 8),
-                                      ),
-                                    ),
-                                  ],),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Colors.black12,
-                                  ),
+
                                   Row(
                                     children: [
                                       Container(
                                         height:
                                         SizeConfig.blockSizeVertical *
-                                            12,
+                                            8,
                                         width:
                                         SizeConfig.blockSizeVertical *
-                                            12,
+                                            8,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *1,
@@ -195,8 +122,8 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                                                 2),
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                                image:new AssetImage("assets/images/userProfile.png"),
-                                          fit: BoxFit.fill,)),
+                                              image:new AssetImage("assets/images/userProfile.png"),
+                                              fit: BoxFit.fill,)),
                                       ),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +133,7 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
-                                                width: SizeConfig.blockSizeHorizontal *45,
+                                                width: SizeConfig.blockSizeHorizontal *55,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig
@@ -214,7 +141,7 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                                                       1,
                                                 ),
                                                 child: Text(
-                                                  "Sam Miller",
+                                                  "Life America",
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
@@ -223,81 +150,55 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
-                                              GestureDetector(
-                                                onTap: ()
-                                                {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_sendreceivegift()));
-                                                },
-                                                child: Container(
-                                                  alignment: Alignment.topLeft,
-                                                  padding: EdgeInsets.only(
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal *20,
+                                                alignment: Alignment.topRight,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      3,
+                                                ),
+                                                child: Text(
+                                                  "Status",
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.black,
+                                                      fontSize:12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              )
+
+                                            ],
+                                          ),
+
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal *55,
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
                                                     left: SizeConfig
                                                         .blockSizeHorizontal *
                                                         1,
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *
                                                         3,
-                                                  ),
-                                                  child: Text(
-                                                    "View Details",
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.green,
-                                                        fontSize:12,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                              )
-
-
-                                            ],
-                                          ),
-                                          Container(
-                                            width: SizeConfig.blockSizeHorizontal *70,
-                                            alignment: Alignment.topLeft,
-                                            padding: EdgeInsets.only(
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    3,
-                                                top: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
-                                            child: Text(
-                                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
-                                              maxLines: 2,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
                                                     top: SizeConfig
                                                         .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
-                                                  "Amount- ",
+                                                  "Contribute-\$120",
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                       fontWeight:
                                                       FontWeight.normal,
                                                       fontFamily:
@@ -305,20 +206,33 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                                                 ),
                                               ),
                                               Container(
-                                                alignment: Alignment.topLeft,
+                                                width: SizeConfig.blockSizeHorizontal *20,
+                                                alignment: Alignment.topRight,
                                                 padding: EdgeInsets.only(
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        3,
+                                                        2,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2,
+                                                    bottom: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
                                                     top: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        2),
+                                                        1),
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.whiteColor,
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    border: Border.all(color: AppColors.orange)
+                                                ),
                                                 child: Text(
-                                                  "\$100",
+                                                  "Pending".toUpperCase(),
+                                                  textAlign: TextAlign.right,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
-                                                      color: Colors.lightBlueAccent,
-                                                      fontSize: 12,
+                                                      color:AppColors.orange,
+                                                      fontSize:10,
                                                       fontWeight:
                                                       FontWeight.normal,
                                                       fontFamily:
@@ -328,54 +242,7 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
 
                                             ],
                                           ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    top: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                child: Text(
-                                                  "Collection Target- ",
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.black87,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3,
-                                                    top: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                child: Text(
-                                                  "\$1000",
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.lightBlueAccent,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              )
 
-                                            ],
-                                          )
-,
 
                                         ],
                                       )
@@ -392,22 +259,10 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                     );
                   }),
             )
-
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.whiteColor,
-        shape: RoundedRectangleBorder(
 
-            borderRadius: BorderRadius.all(Radius.circular(30.0))
-        ),
-        icon: Icon(Icons.edit,color: AppColors.selectedcolor,),
-        label: Text('Create Post',style: TextStyle(color:AppColors.selectedcolor ),),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => createpostgift()));
-        },
-      ),
       bottomNavigationBar: bottombar(context),
 
     );

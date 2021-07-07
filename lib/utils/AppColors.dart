@@ -14,4 +14,5 @@ class AppColors {
   static Color sendreceivebg = Color(0xdcF3F6FB);
   static Color yelowbg = Color(0xdcFFB616);
   static Color redbg = Color(0xdcFF0000);
+  static Color orange = Color(0xdcFFD573);
 }

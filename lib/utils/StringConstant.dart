@@ -13,6 +13,8 @@ class StringConstant {
   static const String nickname = "Nick Name";
   static const String fullname = "Full Name";
   static const String mobile = "Mobile No.";
+  static const String submit = "Submit";
+  static const String collectiontarget = "Collection Target";
   static const String withdrawtitle = "Please enter your paypal account details to withdraw";
   static const String enterupimobileno = "Enter Upi Mobile No.";
   static const String enteramountadd = "Please Enter Amount to Add";
@@ -31,6 +33,7 @@ class StringConstant {
   static const String send = "Send";
   static const String invite = "Invite";
   static const String reset = "Reset";
+  static const String createpoolname = "Create Pool Name";
   static const String dummyname = "Micheal John";
   static const String dummynickname = "Micheal";
   static const String dummyemail = "resim.sorwoar@flipspaces.com";
@@ -50,6 +53,7 @@ class StringConstant {
   static const String setting = "Setting";
   static const String projectfunding = "Project Funding";
   static const String timeframeforcollection = "Timeframe For Collection";
+  static const String showpost = "Show Post";
   static const String donations = "Donations";
   static const String events = "Events";
   static const String tickets = "Tickets";

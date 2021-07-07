@@ -456,7 +456,8 @@ class WalletScreenState extends State<WalletScreen>{
   }
 
   tabDebitList() {
-    return Expanded(
+    return
+      Expanded(
       child:
       ListView.builder(
           itemCount: 8,
