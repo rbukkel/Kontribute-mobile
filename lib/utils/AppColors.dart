@@ -10,9 +10,10 @@ class AppColors {
   static Color selectedcolor = Color(0xdc00D3DA);
   static Color CameraDialog = Color(0xdc51DDD1);
   static Color parentgreen = Color(0xdcC5FF77);
-  static Color darkgreen = Color(0xdc18D32B);
+  static Color darkgreen = Color(0xdc17B66C);
   static Color sendreceivebg = Color(0xdcF3F6FB);
   static Color yelowbg = Color(0xdcFFB616);
   static Color redbg = Color(0xdcFF0000);
   static Color orange = Color(0xdcFFD573);
+  static Color themecolor = Color(0xdc2BACC8);
 }

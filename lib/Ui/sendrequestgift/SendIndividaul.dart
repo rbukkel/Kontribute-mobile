@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -23,6 +27,153 @@ class SendIndividaulState extends State<SendIndividaul>{
   String _requiredamount;
   String _Description;
   bool showvalue = false;
+  File _imageFile;
+  bool image_value = false;
+  showAlert() {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.CameraDialog,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 300.0,
+          /*decoration: new BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: const Color(0xFFFFFF),
+                borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
+              ),*/
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.add_photo_alternate_rounded,
+                  size: 120.0,
+                  color: Colors.white,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  /* setState(() {
+                    image_value = false;
+                  });*/
+                  captureImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  alignment: Alignment.center,
+                  height: 50,
+                  color: AppColors.whiteColor,
+                  child: Text(
+                    'Camera ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  /* setState(() {
+                    image_value = false;
+                  });*/
+                  captureImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'Gallery',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> captureImage(ImageSource imageSource) async {
+    if (imageSource == ImageSource.camera) {
+      try {
+        final imageFile =
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        setState(() async {
+          _imageFile = imageFile;
+          if (_imageFile != null && await _imageFile.exists()) {
+            setState(() {
+              image_value = false;
+            });
+          } else {
+            Fluttertoast.showToast(
+              msg: "Please Select Image ",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        });
+      } catch (e) {
+        print(e);
+      }
+    } else if (imageSource == ImageSource.gallery) {
+      try {
+        final imageFile =
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        setState(() async {
+          _imageFile = imageFile;
+          if (_imageFile != null && await _imageFile.exists()) {
+            setState(() {
+              image_value = false;
+            });
+          } else {
+            Fluttertoast.showToast(
+              msg: "Please Select Image ",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        });
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +200,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                       ),
                       InkWell(
                         onTap: () {
-                          // showAlert();
+                           showAlert();
                         },
                         child: Container(
                           alignment: Alignment.topRight,

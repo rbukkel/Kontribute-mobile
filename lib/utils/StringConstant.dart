@@ -33,6 +33,7 @@ class StringConstant {
   static const String send = "Send";
   static const String invite = "Invite";
   static const String reset = "Reset";
+  static const String exportto = "Export to";
   static const String createpoolname = "Create Pool Name";
   static const String dummyname = "Micheal John";
   static const String dummynickname = "Micheal";
@@ -77,6 +78,8 @@ class StringConstant {
   static const String requestindividaul = "Request Individual";
   static const String sendindividaul = "Send Individual";
   static const String createpool = "Create Pool";
+  static const String ongoingproject = "Ongoing Projects";
+  static const String historyproject = "History Projects";
   static const String dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed Lorem ipsum dolor amet, consectetur adipiscing elit, sed";
   static const String receivebirthdaygift = "Receive Birthday Gifts in cash from Friends and also send Gifts them...";
   static const String collectcashtocollect = "Collect Cash to support entrepreneurs in their projects or ask for support in their own projects...";

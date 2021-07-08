@@ -114,6 +114,14 @@ flutter:
     - assets/images/createpost.png
     - assets/images/sendindividaul.png
     - assets/images/cameracreatenewgift.png
+    - assets/images/csv.png
+    - assets/images/pdf.png
+    - assets/images/viewdetailsbg.png
+    - assets/images/message.png
+    - assets/images/heart.png
+    - assets/images/banner5.png
+    - assets/images/color_comment.png
+    - assets/images/color_heart.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

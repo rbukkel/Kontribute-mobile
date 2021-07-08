@@ -145,7 +145,8 @@ class sendreceivegiftsState extends State<sendreceivegifts>{
                             child: Container(
                               padding: EdgeInsets.all(5.0),
                               margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                              child: Column(
+                              child:
+                              Column(
                                 mainAxisAlignment:
                                 MainAxisAlignment.center,
                                 crossAxisAlignment:

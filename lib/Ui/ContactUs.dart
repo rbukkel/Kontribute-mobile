@@ -404,8 +404,8 @@ class ContactUsState extends State<ContactUs>{
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
-                                    width: SizeConfig.blockSizeHorizontal * 40,
-                                    height: SizeConfig.blockSizeVertical * 8,
+                                    width: SizeConfig.blockSizeHorizontal * 38,
+                                    height: SizeConfig.blockSizeVertical * 7,
                                     margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 3,
                                       bottom: SizeConfig.blockSizeVertical * 2,
