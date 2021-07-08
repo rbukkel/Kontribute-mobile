@@ -14,6 +14,10 @@ class StringConstant {
   static const String fullname = "Full Name";
   static const String mobile = "Mobile No.";
   static const String submit = "Submit";
+  static const String donation = "Donation";
+  static const String campaignhistory = "Campaign History";
+  static const String ongoingcampaign = "Ongoing Campaign";
+  static const String contribution = "Contributions";
   static const String collectiontarget = "Collection Target";
   static const String withdrawtitle = "Please enter your paypal account details to withdraw";
   static const String enterupimobileno = "Enter Upi Mobile No.";

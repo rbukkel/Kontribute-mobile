@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/sendreceivegifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -249,7 +250,7 @@ class HomeScreenState extends State<HomeScreen>{
                           children: [
                             InkWell(
                               onTap: () {
-
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,

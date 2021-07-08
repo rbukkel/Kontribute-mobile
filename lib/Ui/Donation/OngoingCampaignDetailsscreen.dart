@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -11,12 +12,12 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class OngoingProjectDetailsscreen extends StatefulWidget {
+class OngoingCampaignDetailsscreen extends StatefulWidget {
   @override
-  OngoingProjectDetailsscreenState createState() => OngoingProjectDetailsscreenState();
+  OngoingCampaignDetailsscreenState createState() => OngoingCampaignDetailsscreenState();
 }
 
-class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen> {
+class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscreen> {
 
   @override
   void initState() {
@@ -55,7 +56,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                       child:
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -69,7 +70,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.ongoingproject, textAlign: TextAlign.center,
+                        StringConstant.ongoingcampaign, textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
@@ -128,12 +129,12 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                   children: [
                                     Container(
                                       margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                      width: SizeConfig.blockSizeHorizontal *32,
+                                      width: SizeConfig.blockSizeHorizontal *39,
                                       padding: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Phani Kumar G.",
+                                        "Amitofo Care Center International",
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.themecolor,
@@ -142,28 +143,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-                                    GestureDetector(
-                                      onTap: ()
-                                      {
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal*1),
-                                        padding: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical *1,
-                                        ),
-                                        child: Text(
-                                          "Follow",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: AppColors.darkgreen,
-                                              fontSize:8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      ),
-                                    ),
+
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
 
@@ -252,7 +232,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Project Name",
+                                        "Campaign Name",
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
@@ -261,33 +241,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *40,
-                                      alignment: Alignment.topRight,
-                                      padding: EdgeInsets.only(
-                                        left: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1,
-                                        right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1,
-                                      ),
-                                      margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
-                                      ),
-                                      child: Text(
-                                        "Start Date- 21/05/2021",
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: AppColors.black,
-                                            fontSize:8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
-                                    ),
+
 
                                   ],
                                 ),
@@ -326,7 +280,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "End Date- 30/05/2021",
+                                        "Project Timeline- 8 Days",
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -374,7 +328,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                     3,
                               ),
                               child: Text(
-                                "\$100",
+                                "\$1000",
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -439,7 +393,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                         Container(
                           height: SizeConfig.blockSizeVertical*30,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                          child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),
+                          child: Image.asset("assets/images/banner1.png",fit: BoxFit.fitHeight,),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
@@ -759,7 +713,8 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                             width: 1,
                                           ),
                                         ),
-                                        child: InkWell(
+                                        child:
+                                        InkWell(
                                           child: Container(
                                             padding: EdgeInsets.all(5.0),
                                             child: Column(
@@ -801,7 +756,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Container(
-                                                              width: SizeConfig.blockSizeHorizontal *55,
+                                                              width: SizeConfig.blockSizeHorizontal *47,
                                                               alignment: Alignment.topLeft,
                                                               padding: EdgeInsets.only(
                                                                 left: SizeConfig
@@ -809,7 +764,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                                     1,
                                                               ),
                                                               child: Text(
-                                                                "Life America",
+                                                                "Donator Life America",
                                                                 style: TextStyle(
                                                                     letterSpacing: 1.0,
                                                                     color: Colors.black87,
@@ -819,7 +774,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                               ),
                                                             ),
                                                             Container(
-                                                              width: SizeConfig.blockSizeHorizontal *20,
+                                                              width: SizeConfig.blockSizeHorizontal *25,
                                                               alignment: Alignment.topRight,
                                                               padding: EdgeInsets.only(
                                                                 left: SizeConfig
@@ -827,15 +782,15 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                                     1,
                                                                 right: SizeConfig
                                                                     .blockSizeHorizontal *
-                                                                    3,
+                                                                    2,
                                                               ),
                                                               child: Text(
-                                                                "Status",
+                                                                "Donates- \$120",
                                                                 textAlign: TextAlign.right,
                                                                 style: TextStyle(
                                                                     letterSpacing: 1.0,
                                                                     color: AppColors.black,
-                                                                    fontSize:12,
+                                                                    fontSize:10,
                                                                     fontWeight:
                                                                     FontWeight.normal,
                                                                     fontFamily:
@@ -849,7 +804,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                         Row(
                                                           children: [
                                                             Container(
-                                                              width: SizeConfig.blockSizeHorizontal *55,
+                                                              width: SizeConfig.blockSizeHorizontal *52,
                                                               alignment: Alignment.topLeft,
                                                               padding: EdgeInsets.only(
                                                                   left: SizeConfig
@@ -862,7 +817,8 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                                       .blockSizeHorizontal *
                                                                       2),
                                                               child: Text(
-                                                                "Contribute-\$120",
+                                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed..",
+                                                                maxLines: 2,
                                                                 style: TextStyle(
                                                                     letterSpacing: 1.0,
                                                                     color: Colors.black87,
@@ -874,15 +830,15 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                               ),
                                                             ),
                                                             Container(
-                                                              width: SizeConfig.blockSizeHorizontal *20,
-                                                              alignment: Alignment.topRight,
+                                                              width: SizeConfig.blockSizeHorizontal *18,
+                                                              alignment: Alignment.center,
                                                               padding: EdgeInsets.only(
                                                                   right: SizeConfig
                                                                       .blockSizeHorizontal *
-                                                                      2,
+                                                                      1,
                                                                   left: SizeConfig
                                                                       .blockSizeHorizontal *
-                                                                      2,
+                                                                      1,
                                                                   bottom: SizeConfig
                                                                       .blockSizeHorizontal *
                                                                       2,
@@ -892,14 +848,14 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                                               decoration: BoxDecoration(
                                                                   color: AppColors.whiteColor,
                                                                   borderRadius: BorderRadius.circular(20),
-                                                                  border: Border.all(color: AppColors.orange)
+                                                                  border: Border.all(color: AppColors.darkgreen)
                                                               ),
                                                               child: Text(
-                                                                "Pending".toUpperCase(),
+                                                                "Follow",
                                                                 textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     letterSpacing: 1.0,
-                                                                    color:AppColors.orange,
+                                                                    color:AppColors.darkgreen,
                                                                     fontSize:10,
                                                                     fontWeight:
                                                                     FontWeight.normal,

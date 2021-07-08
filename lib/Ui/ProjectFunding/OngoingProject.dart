@@ -66,13 +66,13 @@ class OngoingProjectState extends State<OngoingProject> {
                                         Container(
                                           height:
                                           SizeConfig.blockSizeVertical *
-                                              10,
+                                              9,
                                           width:
                                           SizeConfig.blockSizeVertical *
-                                              10,
+                                              9,
                                           alignment: Alignment.center,
                                           margin: EdgeInsets.only(
-
+                                              top: SizeConfig.blockSizeVertical *2,
                                               bottom: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig
                                                   .blockSizeHorizontal *
@@ -93,7 +93,8 @@ class OngoingProjectState extends State<OngoingProject> {
 
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *40,
+                                                  margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   padding: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
@@ -112,6 +113,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   {
                                                   },
                                                   child: Container(
+                                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal*1),
                                                     padding: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *1,
                                                     ),
@@ -128,13 +130,18 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     ),
                                                   ),
                                                 ),
+
+
                                                 GestureDetector(
                                                   onTap: ()
                                                   {
                                                   },
                                                   child: Container(
-                                                    margin: EdgeInsets.only(left:
-                                                    SizeConfig.blockSizeHorizontal *8,right: SizeConfig.blockSizeHorizontal *2),
+                                                    alignment: Alignment.topRight,
+                                                    margin: EdgeInsets.only(
+                                                        left: SizeConfig.blockSizeHorizontal *12,
+                                                        right: SizeConfig.blockSizeHorizontal *2,
+                                                        top: SizeConfig.blockSizeVertical *2),
                                                     padding: EdgeInsets.only(
                                                         right: SizeConfig
                                                             .blockSizeHorizontal *
@@ -149,8 +156,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             .blockSizeHorizontal *
                                                             1),
                                                     decoration: BoxDecoration(
-                                                        color: AppColors.darkgreen,
-                                                        borderRadius: BorderRadius.circular(20),
+                                                      color: AppColors.darkgreen,
+                                                      borderRadius: BorderRadius.circular(20),
 
                                                     ),
                                                     child: Text(
@@ -174,7 +181,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *33,
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -190,7 +197,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *40,
+                                                  width: SizeConfig.blockSizeHorizontal *38,
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig
@@ -209,7 +216,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize:10,
+                                                        fontSize:8,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
@@ -223,7 +230,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *33,
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -239,33 +246,33 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
-                                                  Container(
-                                                    width: SizeConfig.blockSizeHorizontal *40,
-                                                    alignment: Alignment.topRight,
-                                                    padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                    ),
-                                                    margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical *1,
-                                                    ),
-                                                    child: Text(
-                                                      "End Date- 30/05/2021",
-                                                      textAlign: TextAlign.right,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: AppColors.black,
-                                                          fontSize:10,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal *38,
+                                                  alignment: Alignment.topRight,
+                                                  padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
                                                   ),
+                                                  margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *1,
+                                                  ),
+                                                  child: Text(
+                                                    "End Date- 30/05/2021",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
                                               ],
                                             ),
 
@@ -278,9 +285,9 @@ class OngoingProjectState extends State<OngoingProject> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *25,
+                                          width: SizeConfig.blockSizeHorizontal *23,
                                           alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
                                           child: Text(
                                             "Collection Target- ",
                                             style: TextStyle(
@@ -302,7 +309,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 3,
                                           ),
                                           child: Text(
-                                            "\$1000",
+                                            "\$100",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -316,7 +323,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 100.0,
+                                            width: 90.0,
                                             lineHeight: 14.0,
                                             percent: 0.6,
                                             center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -329,7 +336,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                           width: SizeConfig.blockSizeHorizontal *25,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child: Text(
-                                            "Collected Amount- ",
+                                            "Collected Amount-",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -341,13 +348,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1),
                                           alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                          ),
+
                                           child: Text(
                                             "\$40",
                                             style: TextStyle(

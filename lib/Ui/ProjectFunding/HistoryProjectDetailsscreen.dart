@@ -11,12 +11,12 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class OngoingProjectDetailsscreen extends StatefulWidget {
+class HistoryProjectDetailsscreen extends StatefulWidget {
   @override
-  OngoingProjectDetailsscreenState createState() => OngoingProjectDetailsscreenState();
+  HistoryProjectDetailsscreenState createState() => HistoryProjectDetailsscreenState();
 }
 
-class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen> {
+class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen> {
 
   @override
   void initState() {
@@ -69,7 +69,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.ongoingproject, textAlign: TextAlign.center,
+                        StringConstant.historyproject, textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,

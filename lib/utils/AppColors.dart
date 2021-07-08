@@ -15,5 +15,6 @@ class AppColors {
   static Color yelowbg = Color(0xdcFFB616);
   static Color redbg = Color(0xdcFF0000);
   static Color orange = Color(0xdcFFD573);
+  static Color purple = Color(0xdcD486BA);
   static Color themecolor = Color(0xdc2BACC8);
 }
