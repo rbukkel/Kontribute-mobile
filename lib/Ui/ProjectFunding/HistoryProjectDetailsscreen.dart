@@ -207,7 +207,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *38,
+                                      width: SizeConfig.blockSizeHorizontal *37,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -223,7 +223,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                       ),
                                     ),
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *40,
+                                      width: SizeConfig.blockSizeHorizontal *41,
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
                                         left: SizeConfig
@@ -231,7 +231,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                             1,
                                         right: SizeConfig
                                             .blockSizeHorizontal *
-                                            1,
+                                            2,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -256,7 +256,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *38,
+                                      width: SizeConfig.blockSizeHorizontal *37,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -273,7 +273,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                       ),
                                     ),
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *40,
+                                      width: SizeConfig.blockSizeHorizontal *41,
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
                                         left: SizeConfig
@@ -281,7 +281,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                             1,
                                         right: SizeConfig
                                             .blockSizeHorizontal *
-                                            1,
+                                            2,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -309,6 +309,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               width: SizeConfig.blockSizeHorizontal *23,

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -556,6 +557,18 @@ class OngoingEventsState extends State<OngoingEvents> {
               )
             ],
           )
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColors.whiteColor,
+        shape: RoundedRectangleBorder(
+
+            borderRadius: BorderRadius.all(Radius.circular(30.0))
+        ),
+        icon: Icon(Icons.edit,color: AppColors.selectedcolor,),
+        label: Text('Create Post',style: TextStyle(color:AppColors.selectedcolor ),),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateEventPost()));
+        },
       ),
     );
   }

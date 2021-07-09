@@ -17,4 +17,5 @@ class AppColors {
   static Color orange = Color(0xdcFFD573);
   static Color purple = Color(0xdcD486BA);
   static Color themecolor = Color(0xdc2BACC8);
+  static Color theme1color = Color(0xdc2BACC8);
 }

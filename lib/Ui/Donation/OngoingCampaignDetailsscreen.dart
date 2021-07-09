@@ -249,7 +249,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *38,
+                                      width: SizeConfig.blockSizeHorizontal *37,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -274,7 +274,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                             1,
                                         right: SizeConfig
                                             .blockSizeHorizontal *
-                                            1,
+                                            2,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -302,6 +302,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               width: SizeConfig.blockSizeHorizontal *23,

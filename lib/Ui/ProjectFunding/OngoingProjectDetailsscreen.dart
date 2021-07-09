@@ -246,7 +246,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *38,
+                                      width: SizeConfig.blockSizeHorizontal *37,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -262,7 +262,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                       ),
                                     ),
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *40,
+                                      width: SizeConfig.blockSizeHorizontal *41,
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
                                         left: SizeConfig
@@ -270,7 +270,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                             1,
                                         right: SizeConfig
                                             .blockSizeHorizontal *
-                                            1,
+                                           2,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -320,7 +320,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                                             1,
                                         right: SizeConfig
                                             .blockSizeHorizontal *
-                                            1,
+                                            2,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
@@ -348,6 +348,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               width: SizeConfig.blockSizeHorizontal *23,

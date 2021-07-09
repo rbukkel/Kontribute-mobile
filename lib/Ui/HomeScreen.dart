@@ -22,10 +22,10 @@ class HomeScreenState extends State<HomeScreen>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int currentPageValue = 0;
    final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png", height: 50),
-    Image.asset("assets/images/banner2.png", height: 50),
-    Image.asset("assets/images/banner1.png", height: 50),
-    Image.asset("assets/images/banner2.png", height: 50),
+    Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 30,),
+    Image.asset("assets/images/banner2.png", height: SizeConfig.blockSizeVertical * 30,),
+    Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 30,),
+    Image.asset("assets/images/banner2.png", height: SizeConfig.blockSizeVertical * 30,),
   ];
 
 
@@ -95,7 +95,7 @@ class HomeScreenState extends State<HomeScreen>{
             Container(
               alignment: AlignmentDirectional.topStart,
               width: MediaQuery.of(context).size.width *100,
-              height: SizeConfig.blockSizeVertical * 25,
+              height: SizeConfig.blockSizeVertical * 30,
               child: Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
@@ -117,7 +117,7 @@ class HomeScreenState extends State<HomeScreen>{
                     alignment: AlignmentDirectional.bottomCenter,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *1),
+                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *3),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,

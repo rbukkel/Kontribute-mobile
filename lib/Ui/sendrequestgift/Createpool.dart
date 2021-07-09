@@ -848,7 +848,7 @@ class CreatepoolState extends State<Createpool> {
                   child: Container(
                     alignment: Alignment.center,
                     width: SizeConfig.blockSizeHorizontal * 40,
-                    height: SizeConfig.blockSizeVertical * 6,
+                    height: SizeConfig.blockSizeVertical * 5,
                     margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 3,
                         bottom: SizeConfig.blockSizeVertical * 3,

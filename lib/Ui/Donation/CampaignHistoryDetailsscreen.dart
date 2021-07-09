@@ -236,7 +236,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                             1,
                                         right: SizeConfig
                                             .blockSizeHorizontal *
-                                            1,
+                                            3,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
