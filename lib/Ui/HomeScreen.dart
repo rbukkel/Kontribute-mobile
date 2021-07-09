@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/Ui/sendreceivegifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -297,7 +299,7 @@ class HomeScreenState extends State<HomeScreen>{
                             ),
                             InkWell(
                               onTap: (){
-
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
@@ -352,7 +354,7 @@ class HomeScreenState extends State<HomeScreen>{
                           children: [
                             InkWell(
                               onTap: () {
-
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,

@@ -225,7 +225,8 @@ class CreatepoolState extends State<Createpool> {
             child: Column(
               children: [
                 Container(
-                  child: Stack(
+                  child:
+                  Stack(
                     children: [
                       Container(
                         height: SizeConfig.blockSizeVertical * 45,

@@ -1,29 +1,24 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
+import 'package:kontribute/Ui/Events/EventsHistoryProjectDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class OngoingProject extends StatefulWidget {
+
+class EventsHistoryProject extends StatefulWidget {
   @override
-  OngoingProjectState createState() => OngoingProjectState();
+  EventsHistoryProjectState createState() => EventsHistoryProjectState();
 }
 
-class OngoingProjectState extends State<OngoingProject> {
+class EventsHistoryProjectState extends State<EventsHistoryProject> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +33,8 @@ class OngoingProjectState extends State<OngoingProject> {
                 ListView.builder(
                     itemCount: 8,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
+                      return
+                        Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
                             shape: RoundedRectangleBorder(
@@ -72,7 +68,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                               9,
                                           alignment: Alignment.center,
                                           margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical *2,
                                               bottom: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig
                                                   .blockSizeHorizontal *
@@ -93,13 +88,12 @@ class OngoingProjectState extends State<OngoingProject> {
 
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                  width: SizeConfig.blockSizeHorizontal *32,
+                                                  width: SizeConfig.blockSizeHorizontal *37,
                                                   padding: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Phani Kumar G.",
+                                                    "American Tourism",
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
@@ -113,16 +107,16 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   {
                                                   },
                                                   child: Container(
-                                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,
+                                                    margin: EdgeInsets.only(
                                                         left: SizeConfig.blockSizeHorizontal*1),
                                                     padding: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *1,
                                                     ),
                                                     child: Text(
-                                                      "Follow",
+                                                      "@park plaza",
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
-                                                          color: AppColors.darkgreen,
+                                                          color: AppColors.black,
                                                           fontSize:8,
                                                           fontWeight:
                                                           FontWeight.normal,
@@ -132,7 +126,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
+                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
 
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
@@ -154,7 +148,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                       border: Border.all(color: AppColors.purple)
                                                   ),
                                                   child: Text(
-                                                    "OnGoing".toUpperCase(),
+                                                    "Completed".toUpperCase(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -166,62 +160,19 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
-
-                                                GestureDetector(
-                                                  onTap: ()
-                                                  {
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(left:
-                                                    SizeConfig.blockSizeHorizontal *1,
-                                                        right: SizeConfig.blockSizeHorizontal *1,
-                                                        top: SizeConfig.blockSizeVertical *2),
-                                                    padding: EdgeInsets.only(
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
-                                                        bottom: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.darkgreen,
-                                                      borderRadius: BorderRadius.circular(20),
-
-                                                    ),
-                                                    child: Text(
-                                                      "PAY",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: AppColors.whiteColor,
-                                                          fontSize:12,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  ),
-                                                )
-
-
                                               ],
                                             ),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *35,
+                                                  width: SizeConfig.blockSizeHorizontal *37,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Project Name",
+                                                    "Event Name",
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
@@ -245,7 +196,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Start Date- 21/05/2021",
+                                                    "Event Date- 21/05/2021",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -256,21 +207,20 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
-                                                ),
-
+                                                )
                                               ],
                                             ),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *35,
+                                                  width: SizeConfig.blockSizeHorizontal *37,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Total Contribution-20",
+                                                    "Followers-255",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -295,7 +245,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "End Date- 30/05/2021",
+                                                    "Total Contributions- 20",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -309,21 +259,19 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 ),
                                               ],
                                             ),
-
-
                                           ],
                                         )
                                       ],
                                     ),
-                                    Row(
+                                    /* Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *23,
+                                          width: SizeConfig.blockSizeHorizontal *27,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
                                           child: Text(
-                                            "Collection Target- ",
+                                            "No. of Tickets sold- ",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -343,7 +291,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 3,
                                           ),
                                           child: Text(
-                                            "\$100",
+                                            "85",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -367,10 +315,10 @@ class OngoingProjectState extends State<OngoingProject> {
                                         ),
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *25,
+                                          width: SizeConfig.blockSizeHorizontal *27,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child: Text(
-                                            "Collected Amount-",
+                                            "Available Tickets-",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -388,7 +336,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                           alignment: Alignment.topLeft,
 
                                           child: Text(
-                                            "\$40",
+                                            "150",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -400,11 +348,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                           ),
                                         )
                                       ],
-                                    ),
+                                    ),*/
                                     Container(
                                       height: SizeConfig.blockSizeVertical*30,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                      child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),
+                                      child: Image.asset("assets/images/chrimasevents.png",fit: BoxFit.fitHeight,),
                                     ),
 
                                     Container(
@@ -494,7 +442,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                       width: SizeConfig.blockSizeHorizontal *100,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                      top: SizeConfig.blockSizeVertical *1),
+                                          top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
                                       child: Text(
                                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
                                         maxLines: 2,
@@ -511,7 +459,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                     GestureDetector(
                                       onTap: ()
                                       {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EventsHistoryProjectDetailsscreen()));
                                       },
                                       child: Container(
                                         width: SizeConfig.blockSizeHorizontal *100,
@@ -590,7 +538,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                 ),
                               ),
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EventsHistoryProjectDetailsscreen()));
+
                               },
                             )
                         ),
@@ -599,7 +548,7 @@ class OngoingProjectState extends State<OngoingProject> {
               )
             ],
           )
-         ),
+      ),
     );
   }
 }
