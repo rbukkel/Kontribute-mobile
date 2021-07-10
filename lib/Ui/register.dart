@@ -562,9 +562,8 @@ class registerState extends State<register>{
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    height: 15,
-                                    width: 15,
-                                    color: Colors.white,
+                                    height: 18,
+                                    width: 18,
                                     child: Checkbox(
                                       value: showvalue,
                                       onChanged: (bool value) {
