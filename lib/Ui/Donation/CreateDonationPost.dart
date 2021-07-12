@@ -59,7 +59,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   String _requiredamount;
   String _targetCollectionamount;
   String _Video;
-  final List<String> _dropdownCategoryValues = ["Invite", "Request"];
+  final List<String> _dropdownCategoryValues = ["Anyone", "Connections only","Group members"];
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String currentSelectedValue;
   String currentSelectedValueprivacy;
@@ -736,15 +736,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     )))
                           ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Row(
+
+                     /*   Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
@@ -785,6 +778,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
+                                  hint: Text("please select",style: TextStyle(fontSize: 12),),
                                   items: _dropdownprivecyvalue
                                       .map((String value) => DropdownMenuItem(
                                             child: Text(
@@ -814,7 +808,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               ),
                             )
                           ],
-                        ),
+                        ),*/
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1002,7 +996,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.showpost,
+                                StringConstant.showpostevent,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1034,6 +1028,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
+                                  hint: Text("please select",style: TextStyle(fontSize: 12),),
                                   items: _dropdownCategoryValues
                                       .map((String value) => DropdownMenuItem(
                                             child: Text(

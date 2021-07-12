@@ -53,10 +53,8 @@ class CreateEventPostState extends State<CreateEventPost>{
   String _searchpost;
   String _costofTicket;
   String _maximumNoofquantity;
-  final List<String> _dropdownCategoryValues = [
-    "Invite",
-    "Request"
-  ]; final List<String> _dropdownprivecyvalue = [
+  final List<String> _dropdownCategoryValues = ["Anyone", "Connections only","Group members"];
+  final List<String> _dropdownprivecyvalue = [
     "Private",
     "Public"
   ];
@@ -641,84 +639,6 @@ class CreateEventPostState extends State<CreateEventPost>{
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                StringConstant.privacy,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 42,
-                              height: SizeConfig.blockSizeVertical * 7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.black26,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  items: _dropdownprivecyvalue
-                                      .map((String value) =>
-                                      DropdownMenuItem(
-                                        child: Text(value, style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),),
-                                        value: value,
-                                      ))
-                                      .toList(),
-                                  value: currentSelectedValueprivacy,
-                                  isDense: true,
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      currentSelectedValueprivacy = newValue;
-                                      print(currentSelectedValueprivacy.toString()
-                                          .toLowerCase());
-                                    });
-                                  },
-                                  isExpanded: true,
-                                ),
-                              ),
-
-
-                            )
-                          ],
-                        ), Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 22,
                               child: Text(
                                 StringConstant.video,
@@ -797,7 +717,89 @@ class CreateEventPostState extends State<CreateEventPost>{
                             color: Colors.black12,
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              width: SizeConfig.blockSizeHorizontal * 22,
+                              child: Text(
+                                StringConstant.revelantdocuents,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 70,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child:
+                                GestureDetector(onTap: ()
+                                {
 
+                                },
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 60,
+                                          child: Text("",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 10,
+                                              color: AppColors.black,
+                                            ),
+                                          )),
+
+                                      Container(
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 5,
+                                        child: Icon(
+                                          Icons.attachment,
+                                          color: AppColors.greyColor,
+                                        ),
+                                      )
+                                    ],
+                                  ),)
+
+
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -807,7 +809,7 @@ class CreateEventPostState extends State<CreateEventPost>{
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.showpost,
+                                StringConstant.showpostevent,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -840,6 +842,7 @@ class CreateEventPostState extends State<CreateEventPost>{
                               child:
                               DropdownButtonHideUnderline(
                                 child: DropdownButton(
+                                  hint: Text("please select",style: TextStyle(fontSize: 12),),
                                   items: _dropdownCategoryValues
                                       .map((String value) =>
                                       DropdownMenuItem(

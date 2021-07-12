@@ -23,6 +23,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
   final DescriptionFocus = FocusNode();
+  final TermsFocus = FocusNode();
   final DateFocus = FocusNode();
   final TimeFocus = FocusNode();
   final ContactNoFocus = FocusNode();
@@ -30,6 +31,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   final SearchPostFocus = FocusNode();
   final CostofTicketFocus = FocusNode();
   final MaximumNoofquantityFocus = FocusNode();
+  final VideoFocus = FocusNode();
   final TextEditingController searchpostController = new TextEditingController();
   final TextEditingController EventNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
@@ -41,21 +43,23 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   final TextEditingController CostofTicketController = new TextEditingController();
   final TextEditingController MaximumNoofquantityController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
+  final TextEditingController TermsController = new TextEditingController();
+  final TextEditingController VideoController = new TextEditingController();
   String _eventName;
   String _location;
   String _locationdetails;
   String _description;
+  String _terms;
   String _date;
   String _time;
   String _contactno;
   String _email;
   String _searchpost;
   String _costofTicket;
+  String _Video;
   String _maximumNoofquantity;
-  final List<String> _dropdownCategoryValues = [
-    "Invite",
-    "Request"
-  ]; final List<String> _dropdownprivecyvalue = [
+  final List<String> _dropdownCategoryValues = ["Anyone", "Connections only","Group members"];
+  final List<String> _dropdownprivecyvalue = [
     "Private",
     "Public"
   ];
@@ -1212,7 +1216,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   },
                                   onFieldSubmitted: (v)
                                   {
-                                    MaximumNoofquantityFocus.unfocus();
+                                    FocusScope.of(context).requestFocus(VideoFocus);
                                   },
                                   onSaved: (val) => _maximumNoofquantity = val,
                                   textAlign: TextAlign.left,
@@ -1243,84 +1247,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             color: Colors.black12,
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                StringConstant.privacy,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 42,
-                              height: SizeConfig.blockSizeVertical * 7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.black26,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  items: _dropdownprivecyvalue
-                                      .map((String value) =>
-                                      DropdownMenuItem(
-                                        child: Text(value, style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),),
-                                        value: value,
-                                      ))
-                                      .toList(),
-                                  value: currentSelectedValueprivacy,
-                                  isDense: true,
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      currentSelectedValueprivacy = newValue;
-                                      print(currentSelectedValueprivacy.toString()
-                                          .toLowerCase());
-                                    });
-                                  },
-                                  isExpanded: true,
-                                ),
-                              ),
 
-
-                            )
-                          ],
-                        ), Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1362,21 +1289,21 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                               ),
                               child: TextFormField(
                                 autofocus: false,
-                                focusNode: MaximumNoofquantityFocus,
-                                controller: MaximumNoofquantityController,
+                                focusNode: VideoFocus,
+                                controller: VideoController,
                                 textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.url,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter Muximum qty";
+                                    return "Please enter video url";
                                   else
                                     return null;
                                 },
                                 onFieldSubmitted: (v)
                                 {
-                                  MaximumNoofquantityFocus.unfocus();
+                                  VideoFocus.unfocus();
                                 },
-                                onSaved: (val) => _maximumNoofquantity = val,
+                                onSaved: (val) => _Video = val,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
@@ -1407,6 +1334,91 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                           ),
                         ),
 
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              width: SizeConfig.blockSizeHorizontal * 22,
+                              child: Text(
+                                StringConstant.revelantdocuents,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 70,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child:
+                                GestureDetector(onTap: ()
+                                {
+
+                                },
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 60,
+                                          child: Text("",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 10,
+                                              color: AppColors.black,
+                                            ),
+                                          )),
+
+                                      Container(
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 5,
+                                        child: Icon(
+                                          Icons.attachment,
+                                          color: AppColors.greyColor,
+                                        ),
+                                      )
+                                    ],
+                                  ),)
+
+
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1416,7 +1428,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.showpost,
+                                StringConstant.showpostevent,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1449,6 +1461,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                               child:
                               DropdownButtonHideUnderline(
                                 child: DropdownButton(
+                                  hint: Text("please select",style: TextStyle(fontSize: 12),),
                                   items: _dropdownCategoryValues
                                       .map((String value) =>
                                       DropdownMenuItem(
@@ -1565,6 +1578,83 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   ),
                                 ))
                           ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 5,
+                              right: SizeConfig.blockSizeHorizontal * 5,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          width: SizeConfig.blockSizeHorizontal * 80,
+                          child: Text(
+                            StringConstant.addyourspecialtermcond,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 1,
+                            left: SizeConfig.blockSizeHorizontal * 5,
+                            right: SizeConfig.blockSizeHorizontal * 5,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 1,
+                            right: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          alignment: Alignment.topLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                          ),
+                          child: TextFormField(
+                            autofocus: false,
+                            focusNode: TermsFocus,
+                            controller: TermsController,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please add your special terms & condition";
+                              else
+                                return null;
+                            },
+                            onFieldSubmitted: (v)
+                            {
+                              TermsFocus.unfocus();
+                            },
+                            onSaved: (val) => _terms = val,
+                            textAlign: TextAlign.left,
+                            style:
+                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(

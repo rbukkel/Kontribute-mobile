@@ -72,7 +72,12 @@ flutter:
     - assets/images/signup_bg.png
     - assets/images/btn.png
     - assets/images/facebook.png
+    - assets/images/instagram.png
+    - assets/images/snapchat.png
+    - assets/images/telegram.png
+    - assets/images/twitter.png
     - assets/images/gmail.png
+    - assets/images/homelogo.png
     - assets/images/back.png
     - assets/images/camera.png
     - assets/images/click_radio.png
@@ -128,6 +133,11 @@ flutter:
     - assets/images/chrimasevents.png
     - assets/images/play.png
     - assets/images/dollersign.png
+    - assets/images/appicon.png
+    - assets/images/appicon_circular.png
+    - assets/images/cross.png
+    - assets/images/qrcode.png
+    - assets/images/wallet.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

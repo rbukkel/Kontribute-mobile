@@ -639,15 +639,6 @@ class registerState extends State<register>{
 
                   )
 
-
-
-
-
-
-
-
-
-
                 ],
               ),
             ),

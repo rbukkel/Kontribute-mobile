@@ -167,44 +167,10 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                         ),
                       ),
                     ),
+
                     InkWell(
                       onTap: () {
                         drawer_function(3);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_contactus.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Contact Us",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(4);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -239,7 +205,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(5);
+                        drawer_function(4);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -274,7 +240,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(6);
+                        drawer_function(5);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -309,7 +275,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                         drawer_function(7);
+                         drawer_function(6);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -334,6 +300,41 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                 ),
                                 child: Text(
                                   "Terms & Conditions",
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins-Medium',
+                                      color: AppColors.whiteColor),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        drawer_function(7);
+
+                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 4,
+                            left: SizeConfig.blockSizeVertical * 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Image.asset(
+                                "assets/images/nav_contactus.png",
+                                height: 25,
+                                width: 25,
+                              ),
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(
+                                  left: 20,
+                                ),
+                                child: Text(
+                                  "Contact Us",
                                   style: TextStyle(
                                       fontFamily: 'Poppins-Medium',
                                       color: AppColors.whiteColor),
@@ -412,7 +413,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ContactUs(),
+            builder: (context) => HomeScreen(),
           ),
         );
         break;
@@ -421,7 +422,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => mytranscation(),
           ),
         );
         break;
@@ -429,7 +430,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => mytranscation(),
+            builder: (context) => FAQ(),
           ),
         );
         break;
@@ -437,7 +438,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FAQ(),
+            builder: (context) => TermsandCondition(),
           ),
         );
         break;
@@ -445,17 +446,17 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TermsandCondition(),
+            builder: (context) => ContactUs(),
           ),
         );
         break;
       case 8:
-      /*  Navigator.push(
+        Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TermsandCondition(),
+            builder: (context) => HomeScreen(),
           ),
-        );*/
+        );
         break;
     }
   }

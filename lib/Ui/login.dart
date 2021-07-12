@@ -331,7 +331,7 @@ class loginState extends State<login>{
                         GestureDetector(
                           child: Container(
                             margin: EdgeInsets.only(
-                                right: SizeConfig.blockSizeHorizontal * 3),
+                                left: SizeConfig.blockSizeHorizontal * 3),
                             child: Image.asset(
                               "assets/images/facebook.png",
                               height: 50,
@@ -348,7 +348,7 @@ class loginState extends State<login>{
                             margin: EdgeInsets.only(
                                 left: SizeConfig.blockSizeHorizontal * 3),
                             child: Image.asset(
-                              "assets/images/gmail.png",
+                              "assets/images/instagram.png",
                               height: 50,
                               width: 50,
                             ),
@@ -356,7 +356,53 @@ class loginState extends State<login>{
                           onTap: () {
                            // signInWithGoogle();
                           },
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3),
+                            child: Image.asset(
+                              "assets/images/twitter.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+                          onTap: () {
+                            // signInWithGoogle();
+                          },
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3),
+                            child: Image.asset(
+                              "assets/images/telegram.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+                          onTap: () {
+                            // signInWithGoogle();
+                          },
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              left:SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3),
+                            child: Image.asset(
+                              "assets/images/snapchat.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+                          onTap: () {
+                            // signInWithGoogle();
+                          },
                         )
+
+
+
                       ],
                     ),
                   )

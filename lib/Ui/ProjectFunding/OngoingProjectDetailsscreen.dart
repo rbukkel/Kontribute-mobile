@@ -745,7 +745,6 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                           ],
                         ),
                         Container(
-
                           child:
                             ListView.builder(
                                 itemCount: 5,

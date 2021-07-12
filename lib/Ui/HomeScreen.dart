@@ -22,10 +22,18 @@ class HomeScreenState extends State<HomeScreen>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int currentPageValue = 0;
    final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 30,),
-    Image.asset("assets/images/banner2.png", height: SizeConfig.blockSizeVertical * 30,),
-    Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 30,),
-    Image.asset("assets/images/banner2.png", height: SizeConfig.blockSizeVertical * 30,),
+    Image.asset("assets/images/banner1.png",
+      width: SizeConfig.blockSizeHorizontal *100,
+      height: SizeConfig.blockSizeVertical * 25,),
+    Image.asset("assets/images/banner2.png",
+      width: SizeConfig.blockSizeHorizontal *100,
+      height: SizeConfig.blockSizeVertical * 25,),
+    Image.asset("assets/images/banner1.png",
+      width: SizeConfig.blockSizeHorizontal *100,
+      height: SizeConfig.blockSizeVertical * 25,),
+    Image.asset("assets/images/banner2.png",
+      width: SizeConfig.blockSizeHorizontal *100,
+      height: SizeConfig.blockSizeVertical * 25,),
   ];
 
 
@@ -44,6 +52,8 @@ class HomeScreenState extends State<HomeScreen>{
         height: double.infinity,
         color: AppColors.whiteColor,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
         Container(
         height: SizeConfig.blockSizeVertical *12,
@@ -71,19 +81,10 @@ class HomeScreenState extends State<HomeScreen>{
                 ),
               ),
               Container(
-                width: SizeConfig.blockSizeHorizontal *60,
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                 // margin: EdgeInsets.only(top: 10, left: 40),
-                child: Text(
-                  "", textAlign: TextAlign.center,
-                  style: TextStyle(
-                      decoration: TextDecoration.none,
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: "Montserrat",
-                      color: Colors.white),
-                ),
+                child: Image.asset("assets/images/homelogo.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
               ),
               Container(
                 width: 25,height: 25,
@@ -93,9 +94,9 @@ class HomeScreenState extends State<HomeScreen>{
           ),
         ),
             Container(
-              alignment: AlignmentDirectional.topStart,
-              width: MediaQuery.of(context).size.width *100,
-              height: SizeConfig.blockSizeVertical * 30,
+              alignment: Alignment.topCenter,
+              width: SizeConfig.blockSizeHorizontal *100,
+              height: SizeConfig.blockSizeVertical * 25,
               child: Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
@@ -117,7 +118,7 @@ class HomeScreenState extends State<HomeScreen>{
                     alignment: AlignmentDirectional.bottomCenter,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *3),
+                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *1),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
