@@ -764,8 +764,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 ),
                               ),
                             )
-
-
                           ],
                         ),
                         Container(
@@ -1039,6 +1037,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: [
                                                                       Container(
+                                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                                                         width: SizeConfig.blockSizeHorizontal *25,
                                                                         alignment: Alignment.center,
                                                                         // margin: EdgeInsets.only(top: 10, left: 40),

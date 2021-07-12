@@ -24,6 +24,48 @@ class OngoingProjectState extends State<OngoingProject> {
     // TODO: implement initState
     super.initState();
   }
+  _showPopupMenu() async {
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(80, 70, 40, 400),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post')
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report')
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
+  }
 
 
   @override
@@ -59,7 +101,21 @@ class OngoingProjectState extends State<OngoingProject> {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
-
+                                    GestureDetector(
+                                      onTap: ()
+                                      {
+                                        _showPopupMenu();
+                                      },
+                                      child:  Container(
+                                        alignment: Alignment.topRight,
+                                        margin: EdgeInsets.only(
+                                            right: SizeConfig
+                                                .blockSizeHorizontal * 2),
+                                        child: Image.asset(
+                                            "assets/images/menudot.png",
+                                            height: 15, width: 20),
+                                      ),
+                                    ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,

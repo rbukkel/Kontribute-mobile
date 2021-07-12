@@ -27,6 +27,52 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
   final CommentFocus = FocusNode();
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
+
+  _showPopupMenu() async {
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(80, 70, 40, 400),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post')
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report')
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +139,22 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            _showPopupMenu();
+                          },
+                          child:  Container(
+                            alignment: Alignment.topRight,
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical *1,
+                                right: SizeConfig
+                                    .blockSizeHorizontal * 2),
+                            child: Image.asset(
+                                "assets/images/menudot.png",
+                                height: 15, width: 20),
+                          ),
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
