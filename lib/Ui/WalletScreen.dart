@@ -588,15 +588,9 @@ class WalletScreenState extends State<WalletScreen>{
                                         width: SizeConfig.blockSizeHorizontal *20,
                                         alignment: Alignment.topRight,
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              2,
-                                          top: SizeConfig
-                                              .blockSizeHorizontal *
-                                              2,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3,
+                                          left: SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeHorizontal * 2,
+                                          right: SizeConfig.blockSizeHorizontal * 3,
                                         ),
                                         child: Text(
                                           "USD",
@@ -937,7 +931,7 @@ class WalletScreenState extends State<WalletScreen>{
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  color: Colors.black,
+                  color: Colors.black26,
                   style: BorderStyle.solid,
                   width: 1.0,
                 ),
@@ -983,7 +977,7 @@ class WalletScreenState extends State<WalletScreen>{
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                height: SizeConfig.blockSizeVertical * 8,
+                height: SizeConfig.blockSizeVertical * 7,
                 margin: EdgeInsets.only(
                   top: SizeConfig.blockSizeVertical * 5,
                   bottom: SizeConfig.blockSizeVertical * 6,
@@ -1185,7 +1179,7 @@ class WalletScreenState extends State<WalletScreen>{
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                height: SizeConfig.blockSizeVertical * 8,
+                height: SizeConfig.blockSizeVertical * 7,
                 margin: EdgeInsets.only(
                   top: SizeConfig.blockSizeVertical * 5,
                   bottom: SizeConfig.blockSizeVertical * 6,

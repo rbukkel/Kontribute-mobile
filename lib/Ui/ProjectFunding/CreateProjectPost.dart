@@ -578,10 +578,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ],
                                         ),
                                       )
-
-
-
-
                                     ),
                                   ],
                                 ),
@@ -715,6 +711,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: Row(
                                     children: [
                                       Container(
+                                        height: SizeConfig.blockSizeVertical * 7,
                                         width:
                                             SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
@@ -838,9 +835,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  10,
+                                          height: SizeConfig.blockSizeVertical * 7,
+                                          width: SizeConfig.blockSizeHorizontal * 10,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(8),
@@ -860,25 +856,16 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         ),
                                         Container(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  30,
+                                          width: SizeConfig.blockSizeHorizontal *30,
                                           padding: EdgeInsets.only(
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  1,
-                                              right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  1),
+                                              left: SizeConfig.blockSizeHorizontal *1,
+                                              right: SizeConfig.blockSizeHorizontal * 1),
                                           child:
                                           TextFormField(
                                             autofocus: false,
-                                            focusNode:
-                                                TotalBudgetFocus,
-                                            controller:
-                                                TotalBudgetController,
-                                            textInputAction:
-                                                TextInputAction.done,
+                                            focusNode: TotalBudgetFocus,
+                                            controller: TotalBudgetController,
+                                            textInputAction: TextInputAction.done,
                                             keyboardType: TextInputType.number,
                                             validator: (val) {
                                               if (val.length == 0)

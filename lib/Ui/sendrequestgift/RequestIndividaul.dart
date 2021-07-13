@@ -368,6 +368,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                         child: Row(
                           children: [
                             Container(
+                              height: SizeConfig.blockSizeVertical * 7,
                               width: SizeConfig.blockSizeHorizontal * 10,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(

@@ -540,6 +540,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   child: Row(
                                     children: [
                                       Container(
+                                        height: SizeConfig.blockSizeVertical * 7,
                                         width:
                                             SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
@@ -662,6 +663,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     child: Row(
                                       children: [
                                         Container(
+                                          height: SizeConfig.blockSizeVertical * 7,
                                           width:
                                               SizeConfig.blockSizeHorizontal *
                                                   10,

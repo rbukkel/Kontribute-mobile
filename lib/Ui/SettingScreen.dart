@@ -75,15 +75,22 @@ class SettingScreenState extends State<SettingScreen>{
                 ],
               ),
             ),
-           Container(
-             color: AppColors.whiteColor,
-             alignment: Alignment.center,
-             child: Image.asset(
-               "assets/images/underconstruction.png",
-               height: 500,
-               width:500,
-             ),
+           Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children: [
+               Container(
+                 color: AppColors.whiteColor,
+                 alignment: Alignment.center,
+                 child: Image.asset(
+                   "assets/images/underconstruction.png",
+                   height: 500,
+                   width:500,
+                 ),
+               )
+             ],
            )
+
           ],
         ),
       ),

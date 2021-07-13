@@ -631,7 +631,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               width: SizeConfig.blockSizeHorizontal * 33,
                                               padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
                                               child: Text(
-                                                selectedTime==""?"10:00Am":selectedTime,
+                                                selectedTime==""?"10:00 AM":selectedTime,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -1131,6 +1131,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   child: Row(
                                     children: [
                                       Container(
+                                        height: SizeConfig.blockSizeVertical * 7,
                                         width: SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),

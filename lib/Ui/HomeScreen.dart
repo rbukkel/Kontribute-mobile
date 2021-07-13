@@ -24,16 +24,16 @@ class HomeScreenState extends State<HomeScreen>{
    final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
       width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,),
+      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner2.png",
       width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,),
+      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner1.png",
       width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,),
+      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner2.png",
       width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,),
+      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
   ];
 
 
@@ -95,6 +95,7 @@ class HomeScreenState extends State<HomeScreen>{
           ),
         ),
             Container(
+              color: AppColors.themecolor,
               alignment: Alignment.topCenter,
               width: SizeConfig.blockSizeHorizontal *100,
               height: SizeConfig.blockSizeVertical * 25,
@@ -119,7 +120,7 @@ class HomeScreenState extends State<HomeScreen>{
                     alignment: AlignmentDirectional.bottomCenter,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *1),
+                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
