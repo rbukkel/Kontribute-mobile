@@ -47,6 +47,9 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
+  final TermsFocus = FocusNode();
+  final TextEditingController TermsController = new TextEditingController();
+  String _terms;
   String _CampaignName;
   String _location;
   String _locationdetails;
@@ -346,8 +349,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 5,
-                              right: SizeConfig.blockSizeHorizontal * 5,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
@@ -363,8 +366,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                         Container(
                           margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 5,
-                            right: SizeConfig.blockSizeHorizontal * 5,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
                           ),
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 1,
@@ -374,7 +377,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.black,
+                              color: Colors.black26,
                               style: BorderStyle.solid,
                               width: 1.0,
                             ),
@@ -419,8 +422,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 5,
-                              right: SizeConfig.blockSizeHorizontal * 5,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
@@ -436,8 +439,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                         Container(
                           margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 5,
-                            right: SizeConfig.blockSizeHorizontal * 5,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
                           ),
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 1,
@@ -447,7 +450,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.black,
+                              color: Colors.black26,
                               style: BorderStyle.solid,
                               width: 1.0,
                             ),
@@ -1146,6 +1149,83 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   ),
                                 ))
                           ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          width: SizeConfig.blockSizeHorizontal * 80,
+                          child: Text(
+                            StringConstant.addyourspecialtermcond,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 1,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 1,
+                            right: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          alignment: Alignment.topLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black26,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                          ),
+                          child: TextFormField(
+                            autofocus: false,
+                            focusNode: TermsFocus,
+                            controller: TermsController,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please add your special terms & condition";
+                              else
+                                return null;
+                            },
+                            onFieldSubmitted: (v)
+                            {
+                              TermsFocus.unfocus();
+                            },
+                            onSaved: (val) => _terms = val,
+                            textAlign: TextAlign.left,
+                            style:
+                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(

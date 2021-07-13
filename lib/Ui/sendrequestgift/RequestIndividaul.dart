@@ -29,10 +29,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   String _Description;
   bool showvalue = false;
   String Date;
-  String formattedDate="07-07-2021";
+  String formattedDate = "07-07-2021";
 
   File _imageFile;
   bool image_value = false;
+
   showAlert() {
     showDialog(
       context: context,
@@ -135,7 +136,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -157,7 +158,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -192,14 +193,13 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
 
-
     setState(() {
-      Date =  picked.toString();
+      Date = picked.toString();
       formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: "+formattedDate.toString());
+      print("onDate: " + formattedDate.toString());
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,11 +229,12 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                         },
                         child: Container(
                           alignment: Alignment.topRight,
-                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 21,
-                              right: SizeConfig.blockSizeHorizontal*2),
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 21,
+                              right: SizeConfig.blockSizeHorizontal * 2),
                           child: Image.asset(
                             "assets/images/camera.png",
-                            width:50,
+                            width: 50,
                             height: 50,
                           ),
                         ),
@@ -347,55 +348,91 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 42,
-                      height: SizeConfig.blockSizeVertical * 7,
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeVertical * 1,
-                        right: SizeConfig.blockSizeVertical * 1,
-                      ),
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
+                        width: SizeConfig.blockSizeHorizontal * 42,
+                        height: SizeConfig.blockSizeVertical * 7,
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2,
+                          right: SizeConfig.blockSizeHorizontal * 3,
                         ),
-                        color: Colors.transparent,
-                      ),
-                      child: TextFormField(
-                        autofocus: false,
-                        focusNode: requiredamountFocus,
-                        controller: requiredamountController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        validator: (val) {
-                          if (val.length == 0)
-                            return "Please enter required amount";
-                          else
-                            return null;
-                        },
-                        onFieldSubmitted: (v) {
-                          requiredamountFocus.unfocus();
-                        },
-                        onSaved: (val) => _requiredamount = val,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
+
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black26,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          color: Colors.transparent,
                         ),
-                      ),
-                    )
+                        child: Row(
+                          children: [
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal * 10,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8)),
+                                border: Border.all(
+                                  color: AppColors.theme1color,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: AppColors.theme1color,
+                              ),
+                              padding: EdgeInsets.all(0.7),
+                              child: Image.asset(
+                                "assets/images/dollersign.png",
+                                width: 50,
+                                height: 50,
+                              ),
+                            ),
+                            Container(
+                              width:
+                              SizeConfig.blockSizeHorizontal *
+                                  30,
+                              padding: EdgeInsets.only(
+                                  left: SizeConfig
+                                      .blockSizeHorizontal *
+                                      1,
+                                  right: SizeConfig
+                                      .blockSizeHorizontal *
+                                      1),
+                              child:
+                              TextFormField(
+                                autofocus: false,
+                                focusNode: requiredamountFocus,
+                                controller: requiredamountController,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.number,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter required amount";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  requiredamountFocus.unfocus();
+                                },
+                                onSaved: (val) => _requiredamount = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 12,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                ),
+                              ),
+                            )
+
+
+
+                          ],
+                        ))
                   ],
                 ),
                 Row(
@@ -438,9 +475,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           color: Colors.transparent,
                         ),
                         child: GestureDetector(
-                          onTap: ()
-                          {
-                              DateView();
+                          onTap: () {
+                            DateView();
                           },
                           child: Row(
                             children: [

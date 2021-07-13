@@ -31,6 +31,8 @@ class CreateEventPostState extends State<CreateEventPost>{
   final SearchPostFocus = FocusNode();
   final CostofTicketFocus = FocusNode();
   final MaximumNoofquantityFocus = FocusNode();
+  final TermsFocus = FocusNode();
+  final TextEditingController TermsController = new TextEditingController();
   final TextEditingController searchpostController = new TextEditingController();
   final TextEditingController EventNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
@@ -43,6 +45,7 @@ class CreateEventPostState extends State<CreateEventPost>{
   final TextEditingController MaximumNoofquantityController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   String _eventName;
+  String _terms;
   String _location;
   String _locationdetails;
   String _description;
@@ -60,8 +63,10 @@ class CreateEventPostState extends State<CreateEventPost>{
   ];
   String currentSelectedValue;
   String currentSelectedValueprivacy;
-  String Date;
-  String formattedDate="07-07-2021";
+  String Date,EndDate;
+  String formattedDate = "07-07-2021";
+  String formattedEndDate = "07-07-2021";
+
   DateView() async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -69,9 +74,22 @@ class CreateEventPostState extends State<CreateEventPost>{
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     setState(() {
-      Date =  picked.toString();
+      Date = picked.toString();
       formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: "+formattedDate.toString());
+      print("onDate: " + formattedDate.toString());
+    });
+  }
+
+  EndDateView() async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      EndDate = picked.toString();
+      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
+      print("onDate: " + formattedEndDate.toString());
     });
   }
 
@@ -355,7 +373,7 @@ class CreateEventPostState extends State<CreateEventPost>{
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.black,
+                              color: Colors.black26,
                               style: BorderStyle.solid,
                               width: 1.0,
                             ),
@@ -424,7 +442,7 @@ class CreateEventPostState extends State<CreateEventPost>{
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.black,
+                              color: Colors.black26,
                               style: BorderStyle.solid,
                               width: 1.0,
                             ),
@@ -488,138 +506,144 @@ class CreateEventPostState extends State<CreateEventPost>{
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 5,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 1
-                                      ),
-                                      padding: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeVertical * 1,
-                                        right: SizeConfig.blockSizeVertical * 1,
-                                      ),
-                                      alignment: Alignment.topLeft,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          style: BorderStyle.solid,
-                                          width: 1.0,
+
+                                        height: SizeConfig.blockSizeVertical *8,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal * 5,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
+                                            top: SizeConfig.blockSizeVertical * 1
                                         ),
-                                        color: Colors.transparent,
-                                      ),
-                                      child: TextFormField(
-                                        autofocus: false,
-                                        focusNode: DateFocus,
-                                        controller: DateController,
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.datetime,
-                                        validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter start date";
-                                          else
-                                            return null;
-                                        },
-                                        onFieldSubmitted: (v)
-                                        {
-                                          FocusScope.of(context).requestFocus(TimeFocus);
-                                        },
-                                        onSaved: (val) => _date = val,
-                                        textAlign: TextAlign.left,
-                                        style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          hintStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                            decoration: TextDecoration.none,
+                                        padding: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeVertical * 1,
+                                          right: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: Colors.black26,
+                                            style: BorderStyle.solid,
+                                            width: 1.0,
                                           ),
+                                          color: Colors.transparent,
                                         ),
-                                      ),
+                                        child:
+                                        GestureDetector(
+                                          onTap: () {
+                                            DateView();
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal * 30,
+                                                padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                child: Text(
+                                                  formattedDate,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal * 5,
+                                                child: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: AppColors.greyColor,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+
+
+
+
                                     ),
                                   ],
                                 ),
                               ),
-                          Container(
-                            width:SizeConfig.blockSizeHorizontal * 50,
-                            child:
-                              Column(
-                                children: [
-                                  Container(
-                                    alignment:Alignment.topLeft,
-                                    margin: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal * 2,
-                                        right: SizeConfig.blockSizeHorizontal * 5,
-                                        top: SizeConfig.blockSizeVertical * 2),
+                              Container(
+                                  width:SizeConfig.blockSizeHorizontal * 50,
+                                  child:
+                                  Column(
+                                    children: [
+                                      Container(
+                                        alignment:Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                            top: SizeConfig.blockSizeVertical * 2),
 
-                                    child: Text(
-                                      StringConstant.enddate,
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Bold'),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 1,
-                                      left: SizeConfig.blockSizeHorizontal * 2,
-                                      right: SizeConfig.blockSizeHorizontal * 5,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeVertical * 1,
-                                      right: SizeConfig.blockSizeVertical * 1,
-                                    ),
-                                    alignment: Alignment.topLeft,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        style: BorderStyle.solid,
-                                        width: 1.0,
-                                      ),
-                                      color: Colors.transparent,
-                                    ),
-                                    child: TextFormField(
-                                      autofocus: false,
-                                      focusNode: TimeFocus,
-                                      controller: TimeController,
-                                      textInputAction: TextInputAction.next,
-                                      keyboardType: TextInputType.datetime,
-                                      validator: (val) {
-                                        if (val.length == 0)
-                                          return "Please enter end date";
-                                        else
-                                          return null;
-                                      },
-                                      onFieldSubmitted: (v)
-                                      {
-                                        FocusScope.of(context).requestFocus(LocationFocus);
-                                      },
-                                      onSaved: (val) => _time = val,
-                                      textAlign: TextAlign.left,
-                                      style:
-                                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        hintStyle: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                          decoration: TextDecoration.none,
+                                        child: Text(
+                                          StringConstant.enddate,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ))
+                                      Container(
+                                          height: SizeConfig.blockSizeVertical *8,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                          ),
+                                          padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeVertical * 1,
+                                          ),
+                                          alignment: Alignment.topLeft,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: Colors.black26,
+                                              style: BorderStyle.solid,
+                                              width: 1.0,
+                                            ),
+                                            color: Colors.transparent,
+                                          ),
+                                          child:
+                                          GestureDetector(
+                                            onTap: () {
+                                              EndDateView();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                  child: Text(
+                                                    formattedEndDate,
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular',
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal * 5,
+                                                  child: Icon(
+                                                    Icons.calendar_today_outlined,
+                                                    color: AppColors.greyColor,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                      ),
+                                    ],
+                                  ))
                             ],
                           ),
                         ),
@@ -959,6 +983,83 @@ class CreateEventPostState extends State<CreateEventPost>{
                                   ),
                                 ))
                           ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          width: SizeConfig.blockSizeHorizontal * 80,
+                          child: Text(
+                            StringConstant.addyourspecialtermcond,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 1,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 1,
+                            right: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          alignment: Alignment.topLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black26,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                          ),
+                          child: TextFormField(
+                            autofocus: false,
+                            focusNode: TermsFocus,
+                            controller: TermsController,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please add your special terms & condition";
+                              else
+                                return null;
+                            },
+                            onFieldSubmitted: (v)
+                            {
+                              TermsFocus.unfocus();
+                            },
+                            onSaved: (val) => _terms = val,
+                            textAlign: TextAlign.left,
+                            style:
+                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(

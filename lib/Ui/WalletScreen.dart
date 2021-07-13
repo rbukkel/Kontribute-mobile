@@ -866,7 +866,7 @@ class WalletScreenState extends State<WalletScreen>{
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  color: Colors.black,
+                  color: Colors.black26,
                   style: BorderStyle.solid,
                   width: 1.0,
                 ),
@@ -899,7 +899,7 @@ class WalletScreenState extends State<WalletScreen>{
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   hintStyle: TextStyle(
-                    color: Colors.black,
+                    color: Colors.black26,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'Poppins-Regular',  fontSize: 12,
                     decoration: TextDecoration.none,
@@ -1139,7 +1139,7 @@ class WalletScreenState extends State<WalletScreen>{
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  color: Colors.black,
+                  color: Colors.black26,
                   style: BorderStyle.solid,
                   width: 1.0,
                 ),

@@ -20,11 +20,76 @@ class OngoingEvents extends StatefulWidget {
 
 class OngoingEventsState extends State<OngoingEvents> {
 
+  Offset _tapDownPosition;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+  _showPopupMenu() async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.edit),
+                  ),
+                  Text('Edit',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
+  }
+
 
 
   @override
@@ -60,7 +125,24 @@ class OngoingEventsState extends State<OngoingEvents> {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
-
+                                    GestureDetector(
+                                      onTapDown: (TapDownDetails details){
+                                        _tapDownPosition = details.globalPosition;
+                                      },
+                                      onTap: ()
+                                      {
+                                        _showPopupMenu();
+                                      },
+                                      child:  Container(
+                                        alignment: Alignment.topRight,
+                                        margin: EdgeInsets.only(
+                                            right: SizeConfig
+                                                .blockSizeHorizontal * 2),
+                                        child: Image.asset(
+                                            "assets/images/menudot.png",
+                                            height: 15, width: 20),
+                                      ),
+                                    ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -273,15 +355,15 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         )
                                       ],
                                     ),
-                                   /* Row(
+                                    Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *27,
+                                          width: SizeConfig.blockSizeHorizontal *25,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
                                           child: Text(
-                                            "No. of Tickets sold- ",
+                                            "Collection Target- ",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -301,7 +383,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                 3,
                                           ),
                                           child: Text(
-                                            "85",
+                                            "\$100",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -325,10 +407,10 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         ),
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *27,
+                                          width: SizeConfig.blockSizeHorizontal *26,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child: Text(
-                                            "Available Tickets-",
+                                            "Collected Amount-",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -344,9 +426,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                                               .blockSizeHorizontal *
                                               1),
                                           alignment: Alignment.topLeft,
-
                                           child: Text(
-                                            "150",
+                                            "\$40",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -358,7 +439,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           ),
                                         )
                                       ],
-                                    ),*/
+                                    ),
                                     Container(
                                       height: SizeConfig.blockSizeVertical*30,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),

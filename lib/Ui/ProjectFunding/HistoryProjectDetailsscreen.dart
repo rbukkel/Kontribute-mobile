@@ -20,57 +20,13 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-  }
-
-
-  _showPopupMenu() async {
-    await showMenu(
-      context: context,
-      position: RelativeRect.fromLTRB(80, 70, 40, 400),
-      items: [
-        PopupMenuItem(
-            value: 1,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.content_copy),
-                  ),
-                  Text('Copy this post')
-                ],
-              ),
-            )),
-        PopupMenuItem(
-            value: 2,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text('Report')
-                ],
-              ),
-            )),
-
-      ],
-      elevation: 8.0,
-    );
   }
 
   final CommentFocus = FocusNode();
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,22 +93,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: ()
-                          {
-                            _showPopupMenu();
-                          },
-                          child:  Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical *1,
-                                right: SizeConfig
-                                    .blockSizeHorizontal * 2),
-                            child: Image.asset(
-                                "assets/images/menudot.png",
-                                height: 15, width: 20),
-                          ),
-                        ),
+
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -184,7 +125,6 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                   children: [
                                     Container(
                                       margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
@@ -205,6 +145,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                     GestureDetector(
                                       onTap: ()
                                       {
+
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal*1),
@@ -459,6 +400,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                           ],
                         ),
                         Container(
+                          alignment: Alignment.center,
                           height: SizeConfig.blockSizeVertical*30,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                           child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),

@@ -353,6 +353,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                           ],
                         ),*/
                         Container(
+                          alignment: Alignment.center,
                           height: SizeConfig.blockSizeVertical*30,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                           child: Image.asset("assets/images/banner1.png",fit: BoxFit.fitHeight,),

@@ -18,16 +18,21 @@ class OngoingProject extends StatefulWidget {
 }
 
 class OngoingProjectState extends State<OngoingProject> {
-
+  Offset _tapDownPosition;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
   _showPopupMenu() async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(80, 70, 40, 400),
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
       items: [
         PopupMenuItem(
             value: 1,
@@ -41,7 +46,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post')
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -55,9 +60,25 @@ class OngoingProjectState extends State<OngoingProject> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.edit),
+                  ),
+                  Text('Edit',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report')
+                  Text('Report',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -102,6 +123,9 @@ class OngoingProjectState extends State<OngoingProject> {
                                   CrossAxisAlignment.center,
                                   children: [
                                     GestureDetector(
+                                      onTapDown: (TapDownDetails details){
+                                        _tapDownPosition = details.globalPosition;
+                                      },
                                       onTap: ()
                                       {
                                         _showPopupMenu();

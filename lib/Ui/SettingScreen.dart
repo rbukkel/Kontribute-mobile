@@ -49,7 +49,6 @@ class SettingScreenState extends State<SettingScreen>{
 
                       },
                       child: Container(
-
                       ),
                     ),
                   ),
@@ -76,8 +75,15 @@ class SettingScreenState extends State<SettingScreen>{
                 ],
               ),
             ),
-
-
+           Container(
+             color: AppColors.whiteColor,
+             alignment: Alignment.center,
+             child: Image.asset(
+               "assets/images/underconstruction.png",
+               height: 500,
+               width:500,
+             ),
+           )
           ],
         ),
       ),

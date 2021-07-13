@@ -86,6 +86,216 @@ class NotificationScreenState extends State<NotificationScreen>{
               ),
             ),
 
+            Expanded(
+              child: Container(
+                child:  SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
+                            left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
+
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black26)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+
+                              alignment:Alignment.topLeft,
+                              padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical *2,
+                                bottom: SizeConfig.blockSizeVertical *1,
+                                left: SizeConfig.blockSizeHorizontal *4,
+                                right: SizeConfig.blockSizeHorizontal *4,
+                              ),
+                              child: Text(
+                                "Today",
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: AppColors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1),
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.black12,
+                              ),
+                            ),
+                            Container(
+                              height: SizeConfig.blockSizeVertical *10,
+                              width: SizeConfig.blockSizeHorizontal *95,
+                              alignment:Alignment.topLeft,
+                              padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical *1,
+                                bottom: SizeConfig.blockSizeVertical *1,
+                                left: SizeConfig.blockSizeHorizontal *4,
+                                right: SizeConfig.blockSizeHorizontal *4,
+                              ),
+                              child: Text(
+                                "No new notifications",
+                                maxLines: 4,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black12,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
+                            left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
+                         padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *1),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black26)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              alignment:Alignment.centerLeft,
+                              padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical *2,
+                                left: SizeConfig.blockSizeHorizontal *4,
+                                right: SizeConfig.blockSizeHorizontal *4,
+                              ),
+                              child: Text(
+                                "Earlier",
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: AppColors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
+                              ),
+                            ),
+                            Container(
+                              child:
+                              ListView.builder(
+                                  itemCount:4,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return
+                                      Container(
+
+                                          child:
+                                          Column(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: SizeConfig.blockSizeVertical * 1),
+                                                child: Divider(
+                                                  thickness: 1,
+                                                  color: Colors.black12,
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:  CrossAxisAlignment.center,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        width: SizeConfig.blockSizeHorizontal *55,
+                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2,right: SizeConfig.blockSizeHorizontal *1),
+                                                        alignment: Alignment.center,
+                                                        child: Text(
+                                                          StringConstant.dummynotification, textAlign: TextAlign.left,
+                                                          style: TextStyle(
+                                                              decoration: TextDecoration.none,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: "Poppins-Regular",
+                                                              color: Colors.black54),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                            bottom: SizeConfig.blockSizeVertical *1),
+                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2,right: SizeConfig.blockSizeHorizontal *1),
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Text(
+                                                          "January 25", textAlign: TextAlign.left,
+                                                          style: TextStyle(
+                                                              decoration: TextDecoration.none,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: "Poppins-Regular",
+                                                              color: Colors.black),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                  ,
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    width: SizeConfig.blockSizeHorizontal *25,
+                                                    height: SizeConfig.blockSizeVertical *5,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(color: Colors.black)
+                                                    ),
+                                                    margin: EdgeInsets.only(
+                                                      left: SizeConfig.blockSizeHorizontal*1,
+                                                      right: SizeConfig.blockSizeHorizontal*2,),
+                                                    child: Text(
+                                                      StringConstant.respond, textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          decoration: TextDecoration.none,
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: "Poppins-Regular",
+                                                          color: AppColors.theme1color),
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.transparent,
+                                                      margin: EdgeInsets.only(
+                                                        right: SizeConfig.blockSizeHorizontal*3,),
+                                                      child: Image.asset("assets/images/cross.png",color:AppColors.redbg,width: 15,height: 15,),
+                                                    ),
+                                                  ),
+
+
+                                                ],
+                                              )
+                                            ],
+                                          )
+
+                                      );
+                                  }),
+                            )
+
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+              ,
+            ),
+
+
+
 
           ],
         ),

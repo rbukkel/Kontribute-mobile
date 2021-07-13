@@ -8,33 +8,36 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 
-class Createpool extends StatefulWidget{
+class Createpool extends StatefulWidget {
   @override
   CreatepoolState createState() => CreatepoolState();
-
 }
 
 class CreatepoolState extends State<Createpool> {
-  final List<String> _dropdownCategoryValues = [
-    "Invite",
-    "Request"
-  ];
+  final List<String> _dropdownCategoryValues = ["Anyone", "Connections only","Group members"];
   String currentSelectedValue;
+  final TermsFocus = FocusNode();
+  final TextEditingController TermsController = new TextEditingController();
+  String _terms;
   final CreatepoolFocus = FocusNode();
   final SearchContactFocus = FocusNode();
   final SearchPostFocus = FocusNode();
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
   final CollectionFocus = FocusNode();
-  final TextEditingController searchcontactController = new TextEditingController();
-  final TextEditingController collectionController = new TextEditingController();
-  final TextEditingController searchpostController = new TextEditingController();
-  final TextEditingController createpoolController = new TextEditingController();
+  final TextEditingController searchcontactController =
+      new TextEditingController();
+  final TextEditingController collectionController =
+      new TextEditingController();
+  final TextEditingController searchpostController =
+      new TextEditingController();
+  final TextEditingController createpoolController =
+      new TextEditingController();
   TextEditingController _date = new TextEditingController();
   final TextEditingController requiredamountController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController DescriptionController =
-  new TextEditingController();
+      new TextEditingController();
   String _searchpost;
   String _searchcontact;
   String _requiredamount;
@@ -43,7 +46,7 @@ class CreatepoolState extends State<Createpool> {
   String _Collection;
   bool showvalue = false;
   String Date;
-  String formattedDate="07-07-2021";
+  String formattedDate = "07-07-2021";
   File _imageFile;
   bool image_value = false;
 
@@ -55,18 +58,16 @@ class CreatepoolState extends State<Createpool> {
 
   DateView() async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1901, 1),
-      lastDate: DateTime(2100));
-
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
 
     setState(() {
-      Date =  picked.toString();
+      Date = picked.toString();
       formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: "+formattedDate.toString());
+      print("onDate: " + formattedDate.toString());
     });
-
   }
 
   showAlert() {
@@ -171,7 +172,7 @@ class CreatepoolState extends State<Createpool> {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -193,7 +194,7 @@ class CreatepoolState extends State<Createpool> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -225,8 +226,7 @@ class CreatepoolState extends State<Createpool> {
             child: Column(
               children: [
                 Container(
-                  child:
-                  Stack(
+                  child: Stack(
                     children: [
                       Container(
                         height: SizeConfig.blockSizeVertical * 45,
@@ -241,7 +241,7 @@ class CreatepoolState extends State<Createpool> {
                       ),
                       InkWell(
                         onTap: () {
-                           showAlert();
+                          showAlert();
                         },
                         child: Container(
                           alignment: Alignment.topRight,
@@ -310,8 +310,8 @@ class CreatepoolState extends State<Createpool> {
                             return null;
                         },
                         onFieldSubmitted: (v) {
-                          FocusScope.of(context).requestFocus(
-                              SearchContactFocus);
+                          FocusScope.of(context)
+                              .requestFocus(SearchContactFocus);
                         },
                         onSaved: (val) => _createpool = val,
                         textAlign: TextAlign.left,
@@ -330,8 +330,8 @@ class CreatepoolState extends State<Createpool> {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                   child: Divider(
                     thickness: 1,
                     color: Colors.black12,
@@ -396,8 +396,8 @@ class CreatepoolState extends State<Createpool> {
                                     return null;
                                 },
                                 onFieldSubmitted: (v) {
-                                  FocusScope.of(context).requestFocus(
-                                      requiredamountFocus);
+                                  FocusScope.of(context)
+                                      .requestFocus(requiredamountFocus);
                                 },
                                 onSaved: (val) => _searchcontact = val,
                                 textAlign: TextAlign.left,
@@ -425,8 +425,8 @@ class CreatepoolState extends State<Createpool> {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                   child: Divider(
                     thickness: 1,
                     color: Colors.black12,
@@ -452,66 +452,94 @@ class CreatepoolState extends State<Createpool> {
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 42,
-                      height: SizeConfig.blockSizeVertical * 7,
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeVertical * 1,
-                        right: SizeConfig.blockSizeVertical * 1,
-                      ),
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
+                        width: SizeConfig.blockSizeHorizontal * 42,
+                        height: SizeConfig.blockSizeVertical * 7,
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2,
+                          right: SizeConfig.blockSizeHorizontal * 3,
                         ),
-                        color: Colors.transparent,
-                      ),
-                      child: TextFormField(
-                        autofocus: false,
-                        focusNode: requiredamountFocus,
-                        controller: requiredamountController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        validator: (val) {
-                          if (val.length == 0)
-                            return "Please enter required amount";
-                          else
-                            return null;
-                        },
-                        onFieldSubmitted: (v) {
-                          FocusScope.of(context).requestFocus(CollectionFocus);
-                        },
-                        onSaved: (val) => _requiredamount = val,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black26,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          color: Colors.transparent,
                         ),
-                      ),
-                    )
+                        child: GestureDetector(
+                            onTap: () {},
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        bottomLeft: Radius.circular(8)),
+                                    border: Border.all(
+                                      color: AppColors.theme1color,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: AppColors.theme1color,
+                                  ),
+                                  padding: EdgeInsets.all(0.7),
+                                  child: Image.asset(
+                                    "assets/images/dollersign.png",
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 1,
+                                      right:
+                                          SizeConfig.blockSizeHorizontal * 1),
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: requiredamountFocus,
+                                    controller: requiredamountController,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.number,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return "Please enter required amount";
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context)
+                                          .requestFocus(CollectionFocus);
+                                    },
+                                    onSaved: (val) => _requiredamount = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )))
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                   child: Divider(
                     thickness: 1,
                     color: Colors.black12,
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -532,60 +560,88 @@ class CreatepoolState extends State<Createpool> {
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 42,
-                      height: SizeConfig.blockSizeVertical * 7,
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeVertical * 1,
-                        right: SizeConfig.blockSizeVertical * 1,
-                      ),
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
+                        width: SizeConfig.blockSizeHorizontal * 42,
+                        height: SizeConfig.blockSizeVertical * 7,
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2,
+                          right: SizeConfig.blockSizeHorizontal * 3,
                         ),
-                        color: Colors.transparent,
-                      ),
-                      child: TextFormField(
-                        autofocus: false,
-                        focusNode: CollectionFocus,
-                        controller: collectionController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        validator: (val) {
-                          if (val.length == 0)
-                            return "Please enter collection target";
-                          else
-                            return null;
-                        },
-                        onFieldSubmitted: (v) {
-                          CollectionFocus.unfocus();
-                        },
-                        onSaved: (val) => _Collection = val,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black26,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          color: Colors.transparent,
                         ),
-                      ),
-                    )
+                        child: GestureDetector(
+                            onTap: () {},
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        bottomLeft: Radius.circular(8)),
+                                    border: Border.all(
+                                      color: AppColors.theme1color,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: AppColors.theme1color,
+                                  ),
+                                  padding: EdgeInsets.all(0.7),
+                                  child: Image.asset(
+                                    "assets/images/dollersign.png",
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 1,
+                                      right:
+                                          SizeConfig.blockSizeHorizontal * 1),
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: CollectionFocus,
+                                    controller: collectionController,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.number,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return "Please enter collection target";
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      CollectionFocus.unfocus();
+                                    },
+                                    onSaved: (val) => _Collection = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )))
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                   child: Divider(
                     thickness: 1,
                     color: Colors.black12,
@@ -638,8 +694,7 @@ class CreatepoolState extends State<Createpool> {
                             children: [
                               Container(
                                 width: SizeConfig.blockSizeHorizontal * 30,
-                                child:
-                                Text(
+                                child: Text(
                                   formattedDate,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -663,8 +718,8 @@ class CreatepoolState extends State<Createpool> {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                   child: Divider(
                     thickness: 1,
                     color: Colors.black12,
@@ -709,35 +764,37 @@ class CreatepoolState extends State<Createpool> {
                         ),
                         color: Colors.transparent,
                       ),
-                      child:
-                      DropdownButtonHideUnderline(
+                      child: DropdownButtonHideUnderline(
                         child: DropdownButton(
+                          hint: Text("please select",style: TextStyle(fontSize: 12)),
                           items: _dropdownCategoryValues
-                              .map((String value) =>
-                              DropdownMenuItem(
-                                child: Text(value, style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),),
-                                value: value,
-                              ))
+                              .map((String value) => DropdownMenuItem(
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    value: value,
+                                  )
+                          )
                               .toList(),
                           value: currentSelectedValue,
                           isDense: true,
                           onChanged: (String newValue) {
                             setState(() {
                               currentSelectedValue = newValue;
-                              print(currentSelectedValue.toString()
+                              print(currentSelectedValue
+                                  .toString()
                                   .toLowerCase());
                             });
                           },
                           isExpanded: true,
                         ),
                       ),
-
-
                     )
                   ],
                 ),
@@ -751,7 +808,8 @@ class CreatepoolState extends State<Createpool> {
                       width: SizeConfig.blockSizeHorizontal * 45,
                       child: Text(
                         "",
-                        style: TextStyle(
+                        style:
+                        TextStyle(
                             letterSpacing: 1.0,
                             color: Colors.black,
                             fontSize: 12,
@@ -781,9 +839,7 @@ class CreatepoolState extends State<Createpool> {
                           color: Colors.transparent,
                         ),
                         child: GestureDetector(
-                          onTap: () {
-
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               Container(
@@ -830,6 +886,85 @@ class CreatepoolState extends State<Createpool> {
                   ],
                 ),
                 Container(
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                  child: Divider(
+                    thickness: 1,
+                    color: Colors.black12,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 5,
+                      top: SizeConfig.blockSizeVertical * 2),
+                  width: SizeConfig.blockSizeHorizontal * 90,
+                  child: Text(
+                    StringConstant.addyourspecialtermcond,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Bold'),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 1,
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeVertical * 1,
+                    right: SizeConfig.blockSizeVertical * 1,
+                  ),
+                  alignment: Alignment.topLeft,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black26,
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child: TextFormField(
+                    autofocus: false,
+                    focusNode: TermsFocus,
+                    controller: TermsController,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
+                    validator: (val) {
+                      if (val.length == 0)
+                        return "Please add your special terms & condition";
+                      else
+                        return null;
+                    },
+                    onFieldSubmitted: (v)
+                    {
+                      TermsFocus.unfocus();
+                    },
+                    onSaved: (val) => _terms = val,
+                    textAlign: TextAlign.left,
+                    style:
+                    TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular',  fontSize: 15,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
                   margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 2),
                   child: Divider(
@@ -837,7 +972,6 @@ class CreatepoolState extends State<Createpool> {
                     color: Colors.black12,
                   ),
                 ),
-
                 GestureDetector(
                   onTap: () {
                     /* Navigator.pushAndRemoveUntil(

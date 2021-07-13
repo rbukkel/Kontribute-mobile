@@ -307,6 +307,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                         ),
 
                         Container(
+                          alignment: Alignment.center,
                           height: SizeConfig.blockSizeVertical*30,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                           child: Image.asset("assets/images/chrimasevents.png",fit: BoxFit.fitHeight,),

@@ -33,6 +33,7 @@ class StringConstant {
   static const String enddate = "End Date";
   static const String video = "Video";
   static const String srno = "S.No";
+  static const String respond = "Respond";
   static const String noofticket = "No. of Tickets";
   static const String totalcollectiontarget = "Total Collection Traget";
   static const String totalbudget = "Total Budget";
@@ -73,6 +74,7 @@ class StringConstant {
   static const String reset = "Reset";
   static const String exportto = "Export to";
   static const String createpoolname = "Create Pool Name";
+  static const String dummynotification = "You have received an invitation for the job ' Lookking for Game Developer' for Android... Java Knowledge Must.";
   static const String dummyname = "Micheal John";
   static const String dummynickname = "Micheal";
   static const String dummyemail = "resim.sorwoar@flipspaces.com";
@@ -89,7 +91,7 @@ class StringConstant {
   static const String receivegift = "Receive Gift Request for:";
   static const String wallet = "wallet";
   static const String notification = "Notification";
-  static const String setting = "Setting";
+  static const String setting = "Settings";
   static const String projectfunding = "Project Funding";
   static const String timeframeforcollection = "Timeframe For Collection";
   static const String timeframeforsale = "Timeframe For Sale";

@@ -30,24 +30,22 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final EnterRequiredAmountFocus = FocusNode();
   final TotalBudgetFocus = FocusNode();
   final VideoFocus = FocusNode();
-  final TextEditingController searchpostController =
-      new TextEditingController();
+  final TermsFocus = FocusNode();
+  final TextEditingController TermsController = new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
   final TextEditingController ProjectNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController LocationDetailsController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController EnterRequiredAmountController =
-      new TextEditingController();
-  final TextEditingController TotalBudgetController =
-      new TextEditingController();
+  final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  final TextEditingController TotalBudgetController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
   String _ProjectName;
+  String _terms;
   String _location;
   String _locationdetails;
   String _description;
@@ -63,8 +61,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String currentSelectedValue;
   String currentSelectedValueprivacy;
-  String Date;
+  String Date,EndDate;
   String formattedDate = "07-07-2021";
+  String formattedEndDate = "07-07-2021";
 
   DateView() async {
     final DateTime picked = await showDatePicker(
@@ -76,6 +75,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       Date = picked.toString();
       formattedDate = DateFormat('dd-MM-yyyy').format(picked);
       print("onDate: " + formattedDate.toString());
+    });
+  }
+
+  EndDateView() async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      EndDate = picked.toString();
+      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
+      print("onDate: " + formattedEndDate.toString());
     });
   }
 
@@ -374,7 +386,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.black,
+                              color: Colors.black26,
                               style: BorderStyle.solid,
                               width: 1.0,
                             ),
@@ -447,7 +459,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.black,
+                              color: Colors.black26,
                               style: BorderStyle.solid,
                               width: 1.0,
                             ),
@@ -514,6 +526,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                     ),
                                     Container(
+
+                                      height: SizeConfig.blockSizeVertical *8,
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockSizeHorizontal * 5,
                                           right: SizeConfig.blockSizeHorizontal * 2,
@@ -523,48 +537,51 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         left: SizeConfig.blockSizeVertical * 1,
                                         right: SizeConfig.blockSizeVertical * 1,
                                       ),
-                                      alignment: Alignment.topLeft,
+                                      alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
-                                          color: Colors.black,
+                                          color: Colors.black26,
                                           style: BorderStyle.solid,
                                           width: 1.0,
                                         ),
                                         color: Colors.transparent,
                                       ),
-                                      child: TextFormField(
-                                        autofocus: false,
-                                        focusNode: DateFocus,
-                                        controller: DateController,
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.datetime,
-                                        validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter start date";
-                                          else
-                                            return null;
+                                      child:
+                                      GestureDetector(
+                                        onTap: () {
+                                          DateView();
                                         },
-                                        onFieldSubmitted: (v)
-                                        {
-                                          FocusScope.of(context).requestFocus(TimeFocus);
-                                        },
-                                        onSaved: (val) => _date = val,
-                                        textAlign: TextAlign.left,
-                                        style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          hintStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                            decoration: TextDecoration.none,
-                                          ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: SizeConfig.blockSizeHorizontal * 30,
+                                              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                              child: Text(
+                                                formattedDate,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily: 'Poppins-Regular',
+                                                    fontSize: 12,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: SizeConfig.blockSizeHorizontal * 5,
+                                              child: Icon(
+                                                Icons.calendar_today_outlined,
+                                                color: AppColors.greyColor,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      ),
+                                      )
+
+
+
+
                                     ),
                                   ],
                                 ),
@@ -592,6 +609,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         ),
                                       ),
                                       Container(
+                                          height: SizeConfig.blockSizeVertical *8,
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
                                           left: SizeConfig.blockSizeHorizontal * 2,
@@ -605,44 +623,44 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
-                                            color: Colors.black,
+                                            color: Colors.black26,
                                             style: BorderStyle.solid,
                                             width: 1.0,
                                           ),
                                           color: Colors.transparent,
                                         ),
-                                        child: TextFormField(
-                                          autofocus: false,
-                                          focusNode: TimeFocus,
-                                          controller: TimeController,
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType: TextInputType.datetime,
-                                          validator: (val) {
-                                            if (val.length == 0)
-                                              return "Please enter end date";
-                                            else
-                                              return null;
+                                        child:
+                                        GestureDetector(
+                                          onTap: () {
+                                            EndDateView();
                                           },
-                                          onFieldSubmitted: (v)
-                                          {
-                                            FocusScope.of(context).requestFocus(LocationFocus);
-                                          },
-                                          onSaved: (val) => _time = val,
-                                          textAlign: TextAlign.left,
-                                          style:
-                                          TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            hintStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                              decoration: TextDecoration.none,
-                                            ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: SizeConfig.blockSizeHorizontal * 30,
+                                                padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                child: Text(
+                                                  formattedEndDate,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal * 5,
+                                                child: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: AppColors.greyColor,
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        ),
+                                        )
                                       ),
                                     ],
                                   ))
@@ -814,7 +832,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                   color: Colors.transparent,
                                 ),
-                                child: GestureDetector(
+                                child:
+                                GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -851,7 +870,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               right: SizeConfig
                                                       .blockSizeHorizontal *
                                                   1),
-                                          child: TextFormField(
+                                          child:
+                                          TextFormField(
                                             autofocus: false,
                                             focusNode:
                                                 TotalBudgetFocus,
@@ -893,7 +913,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         )
                                       ],
-                                    )))
+                                    ))
+                            )
                           ],
                         ),
                         Container(
@@ -1136,9 +1157,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      print(currentSelectedValue
-                                          .toString()
-                                          .toLowerCase());
+                                      print(currentSelectedValue.toString().toLowerCase());
                                     });
                                   },
                                   isExpanded: true,
@@ -1151,11 +1170,13 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(
+                              margin:
+                              EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
+                              child:
+                              Text(
                                 "",
                                 style: TextStyle(
                                     letterSpacing: 1.0,
@@ -1235,6 +1256,84 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 ))
                           ],
                         ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          width: SizeConfig.blockSizeHorizontal * 80,
+                          child: Text(
+                            StringConstant.addyourspecialtermcond,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 1,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 1,
+                            right: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          alignment: Alignment.topLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black26,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                          ),
+                          child: TextFormField(
+                            autofocus: false,
+                            focusNode: TermsFocus,
+                            controller: TermsController,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please add your special terms & condition";
+                              else
+                                return null;
+                            },
+                            onFieldSubmitted: (v)
+                            {
+                              TermsFocus.unfocus();
+                            },
+                            onSaved: (val) => _terms = val,
+                            textAlign: TextAlign.left,
+                            style:
+                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ),
+
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),

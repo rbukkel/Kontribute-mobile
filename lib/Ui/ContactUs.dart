@@ -112,7 +112,6 @@ class ContactUsState extends State<ContactUs>{
                         fit: BoxFit.fill,
                       ),
                     ),
-
                     ),
                       Container(
                         margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,

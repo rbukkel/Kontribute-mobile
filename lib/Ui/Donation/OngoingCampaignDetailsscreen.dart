@@ -19,10 +19,74 @@ class OngoingCampaignDetailsscreen extends StatefulWidget {
 
 class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscreen> {
 
+  Offset _tapDownPosition;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+  _showPopupMenu() async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.edit),
+                  ),
+                  Text('Edit',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
   }
 
   final CommentFocus = FocusNode();
@@ -94,6 +158,25 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        GestureDetector(
+                          onTapDown: (TapDownDetails details){
+                            _tapDownPosition = details.globalPosition;
+                          },
+                          onTap: ()
+                          {
+                            _showPopupMenu();
+                          },
+                          child:  Container(
+                            alignment: Alignment.topRight,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical *1,
+                                right: SizeConfig
+                                    .blockSizeHorizontal * 2),
+                            child: Image.asset(
+                                "assets/images/menudot.png",
+                                height: 15, width: 20),
+                          ),
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -392,6 +475,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           ],
                         ),
                         Container(
+                          alignment: Alignment.center,
                           height: SizeConfig.blockSizeVertical*30,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                           child: Image.asset("assets/images/banner1.png",fit: BoxFit.fitHeight,),

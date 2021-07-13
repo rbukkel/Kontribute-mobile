@@ -15,17 +15,29 @@ import 'package:kontribute/utils/screen.dart';
 class sendreceivegifts extends StatefulWidget {
   @override
   sendreceivegiftsState createState() => sendreceivegiftsState();
-
 }
 
 class sendreceivegiftsState extends State<sendreceivegifts> {
   int _index = 0;
+  Offset _tapDownPosition;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   _showPopupMenu() async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
     await showMenu(
       context: context,
-     position: RelativeRect.fromLTRB(80, 70, 40, 400),
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,
+      ),
       items: [
         PopupMenuItem(
             value: 1,
@@ -39,7 +51,10 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post')
+                  Text(
+                    'Copy this post',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -53,22 +68,43 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
+                    child: Icon(Icons.edit),
                   ),
-                  Text('Report')
+                  Text(
+                    'Edit',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
-
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text(
+                    'Report',
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            )),
       ],
       elevation: 8.0,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-
       body: Container(
         height: double.infinity,
         color: AppColors.sendreceivebg,
@@ -86,33 +122,35 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 20, height: 20,
-                    margin: EdgeInsets.only(left: SizeConfig
-                        .blockSizeHorizontal * 6, top: SizeConfig
-                        .blockSizeVertical * 2),
-                    child:
-                    InkWell(
+                    width: 20,
+                    height: 20,
+                    margin: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 6,
+                        top: SizeConfig.blockSizeVertical * 2),
+                    child: InkWell(
                       onTap: () {
                         Navigator.pop(context, true);
                       },
                       child: Container(
                         color: Colors.transparent,
                         child: Image.asset(
-                          "assets/images/back.png", color: AppColors.whiteColor,
+                          "assets/images/back.png",
+                          color: AppColors.whiteColor,
                           width: 20,
-                          height: 20,),
+                          height: 20,
+                        ),
                       ),
                     ),
                   ),
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 60,
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *
-                        2),
+                    margin:
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      StringConstant.sendandreceivegift, textAlign: TextAlign
-                        .center,
+                      StringConstant.sendandreceivegift,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 20,
@@ -122,11 +160,11 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                     ),
                   ),
                   Container(
-                    width: 25, height: 25,
-                    margin: EdgeInsets.only(right: SizeConfig
-                        .blockSizeHorizontal * 3, top: SizeConfig
-                        .blockSizeVertical * 2),
-
+                    width: 25,
+                    height: 25,
+                    margin: EdgeInsets.only(
+                        right: SizeConfig.blockSizeHorizontal * 3,
+                        top: SizeConfig.blockSizeVertical * 2),
                   ),
                 ],
               ),
@@ -137,51 +175,37 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                 Container(
                   alignment: Alignment.topRight,
                   padding: EdgeInsets.only(
-                      left: SizeConfig
-                          .blockSizeHorizontal *
-                          1,
-                      top: SizeConfig
-                          .blockSizeHorizontal *
-                          2),
+                      left: SizeConfig.blockSizeHorizontal * 1,
+                      top: SizeConfig.blockSizeHorizontal * 2),
                   child: Text(
                     "Sort by: ",
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black87,
                         fontSize: 12,
-                        fontWeight:
-                        FontWeight.normal,
-                        fontFamily:
-                        'Poppins-Regular'),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular'),
                   ),
                 ),
                 Container(
                   alignment: Alignment.topRight,
                   padding: EdgeInsets.only(
-                      right: SizeConfig
-                          .blockSizeHorizontal *
-                          3,
-                      top: SizeConfig
-                          .blockSizeHorizontal *
-                          2),
+                      right: SizeConfig.blockSizeHorizontal * 3,
+                      top: SizeConfig.blockSizeHorizontal * 2),
                   child: Text(
                     "Request",
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black,
                         fontSize: 12,
-                        fontWeight:
-                        FontWeight.bold,
-                        fontFamily:
-                        'Poppins-Regular'),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins-Regular'),
                   ),
                 )
-
               ],
             ),
             Expanded(
-              child:
-              ListView.builder(
+              child: ListView.builder(
                   itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -199,24 +223,25 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                               padding: EdgeInsets.all(5.0),
                               margin: EdgeInsets.only(
                                   bottom: SizeConfig.blockSizeVertical * 2),
-                              child:
-                              Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal *
-                                            72,
-                                        margin: EdgeInsets.only(left: SizeConfig
-                                            .blockSizeHorizontal * 2),
-                                        child: Text(StringConstant.receivegift,
-                                          style: TextStyle(color: Colors.black,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 72,
+                                        margin: EdgeInsets.only(
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2),
+                                        child: Text(
+                                          StringConstant.receivegift,
+                                          style: TextStyle(
+                                              color: Colors.black,
                                               fontFamily: 'Poppins-Bold',
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
@@ -224,31 +249,39 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal * 2),
-                                        child: Text("01-01-2020",
-                                          style: TextStyle(color: Colors.black,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2),
+                                        child: Text(
+                                          "01-01-2020",
+                                          style: TextStyle(
+                                              color: Colors.black,
                                               fontFamily: 'Poppins-Regular',
                                               fontWeight: FontWeight.normal,
                                               fontSize: 8),
                                         ),
                                       ),
-                                   GestureDetector(
-                                     onTap: ()
-                                     {
-                                       _showPopupMenu();
-                                     },
-                                     child:  Container(
-                                       margin: EdgeInsets.only(
-                                           right: SizeConfig
-                                               .blockSizeHorizontal * 2),
-                                       child: Image.asset(
-                                           "assets/images/menudot.png",
-                                           height: 15, width: 20),
-                                     ),
-                                   )
-
-                                    ],),
+                                      GestureDetector(
+                                        onTapDown: (TapDownDetails details) {
+                                          _tapDownPosition =
+                                              details.globalPosition;
+                                        },
+                                        onTap: () {
+                                          _showPopupMenu();
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  2),
+                                          child: Image.asset(
+                                              "assets/images/menudot.png",
+                                              height: 15,
+                                              width: 20),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                   Divider(
                                     thickness: 1,
                                     color: Colors.black12,
@@ -257,46 +290,47 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                     children: [
                                       Container(
                                         height:
-                                        SizeConfig.blockSizeVertical *
-                                            12,
+                                            SizeConfig.blockSizeVertical * 12,
                                         width:
-                                        SizeConfig.blockSizeVertical *
-                                            12,
+                                            SizeConfig.blockSizeVertical * 12,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 1,
-                                            bottom: SizeConfig
-                                                .blockSizeVertical * 1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2),
+                                            bottom:
+                                                SizeConfig.blockSizeVertical *
+                                                    1,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    1,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2),
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                              image: new AssetImage(
-                                                  "assets/images/userProfile.png"),
-                                              fit: BoxFit.fill,)),
+                                          image: new AssetImage(
+                                              "assets/images/userProfile.png"),
+                                          fit: BoxFit.fill,
+                                        )),
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal * 45,
+                                                        .blockSizeHorizontal *
+                                                    45,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig
-                                                      .blockSizeHorizontal *
+                                                          .blockSizeHorizontal *
                                                       1,
                                                 ),
                                                 child: Text(
@@ -305,27 +339,29 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight
-                                                          .bold,
-                                                      fontFamily: 'Poppins-Regular'),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          'Poppins-Regular'),
                                                 ),
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context,
+                                                  Navigator.push(
+                                                      context,
                                                       MaterialPageRoute(
-                                                          builder: (
-                                                              BuildContext context) =>
+                                                          builder: (BuildContext
+                                                                  context) =>
                                                               viewdetail_sendreceivegift()));
                                                 },
                                                 child: Container(
                                                   alignment: Alignment.topLeft,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         1,
                                                     right: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         3,
                                                   ),
                                                   child: Text(
@@ -335,29 +371,28 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                         color: AppColors.green,
                                                         fontSize: 12,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                            FontWeight.normal,
                                                         fontFamily:
-                                                        'Poppins-Regular'),
+                                                            'Poppins-Regular'),
                                                   ),
                                                 ),
                                               )
-
-
                                             ],
                                           ),
                                           Container(
-                                            width: SizeConfig
-                                                .blockSizeHorizontal * 70,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    70,
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
                                                 left: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     1,
                                                 right: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     3,
                                                 top: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     2),
                                             child: Text(
                                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
@@ -366,10 +401,9 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
                                                   fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.normal,
+                                                  fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                  'Poppins-Regular'),
+                                                      'Poppins-Regular'),
                                             ),
                                           ),
                                           Row(
@@ -378,10 +412,10 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                     left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         1,
                                                     top: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
                                                   "Amount- ",
@@ -390,19 +424,19 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                       color: Colors.black87,
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular'),
+                                                          'Poppins-Regular'),
                                                 ),
                                               ),
                                               Container(
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                     right: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         3,
                                                     top: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
                                                   "\$100",
@@ -412,12 +446,11 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                           .lightBlueAccent,
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular'),
+                                                          'Poppins-Regular'),
                                                 ),
                                               )
-
                                             ],
                                           ),
                                           Row(
@@ -426,10 +459,10 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                     left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         1,
                                                     top: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
                                                   "Collection Target- ",
@@ -438,19 +471,19 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                       color: Colors.black87,
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular'),
+                                                          'Poppins-Regular'),
                                                 ),
                                               ),
                                               Container(
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                     right: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         3,
                                                     top: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
                                                   "\$1000",
@@ -460,16 +493,13 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                                           .lightBlueAccent,
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular'),
+                                                          'Poppins-Regular'),
                                                 ),
                                               )
-
                                             ],
-                                          )
-                                          ,
-
+                                          ),
                                         ],
                                       )
                                     ],
@@ -477,34 +507,34 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                 ],
                               ),
                             ),
-                            onTap: () {
-
-                            },
-                          )
-                      ),
+                            onTap: () {},
+                          )),
                     );
                   }),
             )
-
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.whiteColor,
         shape: RoundedRectangleBorder(
-
-            borderRadius: BorderRadius.all(Radius.circular(30.0))
+            borderRadius: BorderRadius.all(Radius.circular(30.0))),
+        icon: Icon(
+          Icons.edit,
+          color: AppColors.selectedcolor,
         ),
-        icon: Icon(Icons.edit, color: AppColors.selectedcolor,),
         label: Text(
-          'Create Post', style: TextStyle(color: AppColors.selectedcolor),),
+          'Create Post',
+          style: TextStyle(color: AppColors.selectedcolor),
+        ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => createpostgift()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => createpostgift()));
         },
       ),
       bottomNavigationBar: bottombar(context),
-
     );
   }
 
@@ -542,5 +572,4 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
       }
     });
   }
-
 }

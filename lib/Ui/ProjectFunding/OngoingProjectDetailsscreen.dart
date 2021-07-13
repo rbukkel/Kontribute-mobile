@@ -17,7 +17,7 @@ class OngoingProjectDetailsscreen extends StatefulWidget {
 }
 
 class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen> {
-
+  Offset _tapDownPosition;
   @override
   void initState() {
     // TODO: implement initState
@@ -29,9 +29,14 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
   String _Comment;
 
   _showPopupMenu() async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(80, 70, 40, 400),
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
       items: [
         PopupMenuItem(
             value: 1,
@@ -45,7 +50,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post')
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -59,9 +64,25 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.edit),
+                  ),
+                  Text('Edit',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report')
+                  Text('Report',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -70,7 +91,6 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
       elevation: 8.0,
     );
   }
-
 
 
   @override
@@ -140,6 +160,9 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
+                          onTapDown: (TapDownDetails details){
+                            _tapDownPosition = details.globalPosition;
+                          },
                           onTap: ()
                           {
                             _showPopupMenu();
@@ -500,6 +523,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                           ],
                         ),
                         Container(
+                          alignment: Alignment.center,
                           height: SizeConfig.blockSizeVertical*30,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                           child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),

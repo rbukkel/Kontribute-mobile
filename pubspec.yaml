@@ -138,6 +138,8 @@ flutter:
     - assets/images/cross.png
     - assets/images/qrcode.png
     - assets/images/wallet.png
+    - assets/images/logo3.png
+    - assets/images/underconstruction.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
