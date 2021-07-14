@@ -111,8 +111,9 @@ class SettingScreenState extends State<SettingScreen>{
                   builder: (BuildContext context) => HomeScreen()));
             },
             child: Container(
+                width: SizeConfig.blockSizeHorizontal *15,
                 margin:
-                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
+                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -139,6 +140,7 @@ class SettingScreenState extends State<SettingScreen>{
                   builder: (BuildContext context) => WalletScreen()));
             },
             child: Container(
+                width: SizeConfig.blockSizeHorizontal *15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -165,6 +167,7 @@ class SettingScreenState extends State<SettingScreen>{
                   builder: (BuildContext context) => NotificationScreen()));
             },
             child: Container(
+                width: SizeConfig.blockSizeHorizontal *15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -190,8 +193,9 @@ class SettingScreenState extends State<SettingScreen>{
                   builder: (BuildContext context) => SettingScreen()));
             },
             child: Container(
+                width: SizeConfig.blockSizeHorizontal *15,
                 margin:
-                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 10),
+                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
