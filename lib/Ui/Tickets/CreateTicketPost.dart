@@ -99,9 +99,9 @@ class CreateTicketPostState extends State<CreateTicketPost>{
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     setState(() {
-      Date =  picked.toString();
-      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: "+formattedDate.toString());
+      EventDate =  picked.toString();
+      EventformattedDate = DateFormat('dd-MM-yyyy').format(picked);
+      print("onDate: "+EventformattedDate.toString());
     });
   }
 
@@ -631,7 +631,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               width: SizeConfig.blockSizeHorizontal * 33,
                                               padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
                                               child: Text(
-                                                selectedTime==""?"10:00 AM":selectedTime,
+                                                selectedTime==""?"10:00Am":selectedTime,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -652,9 +652,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         ),
                                       )
                                   ),
-
-
-
 
 
                                 ],
@@ -1131,7 +1128,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: SizeConfig.blockSizeVertical * 7,
                                         width: SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
