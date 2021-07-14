@@ -80,6 +80,34 @@ class CreateEventPostState extends State<CreateEventPost>{
     });
   }
 
+  int currentPageValue = 0;
+  final List<Widget> introWidgetsList = <Widget>[
+    Image.asset("assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
+    Image.asset("assets/images/banner2.png",
+      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
+    Image.asset("assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
+
+  ];
+
+  Widget circleBar(bool isActive) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 150),
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      height: isActive ? 12 : 8,
+      width: isActive ? 12 : 8,
+      decoration: BoxDecoration(
+          color: isActive ? AppColors.whiteColor : AppColors.lightgrey,
+          borderRadius: BorderRadius.all(Radius.circular(12))),
+    );
+  }
+
+  void getChangedPageAndMoveBar(int page) {
+    currentPageValue = page;
+    setState(() {});
+  }
+
   EndDateView() async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -314,14 +342,47 @@ class CreateEventPostState extends State<CreateEventPost>{
                           child: Stack(
                             children: [
                               Container(
-                                height: SizeConfig.blockSizeVertical * 25,
-                                width: SizeConfig.blockSizeHorizontal * 100,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new AssetImage("assets/images/banner1.png"),
-                                    fit: BoxFit.fill,
-                                  ),
+                                color: AppColors.themecolor,
+                                alignment: Alignment.topCenter,
+                                height: SizeConfig.blockSizeVertical*25,
+                                width:SizeConfig.blockSizeHorizontal *100,
+                                child: Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: <Widget>[
+                                    PageView.builder(
+                                      physics: ClampingScrollPhysics(),
+                                      itemCount: introWidgetsList.length,
+                                      onPageChanged: (int page) {
+                                        getChangedPageAndMoveBar(page);
+                                      },
+                                      controller: PageController(
+                                          initialPage: currentPageValue,
+                                          keepPage: true,
+                                          viewportFraction: 1),
+                                      itemBuilder: (context, index) {
+                                        return introWidgetsList[index];
+                                      },
+                                    ),
+                                    Stack(
+                                      alignment: AlignmentDirectional.bottomCenter,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              for (int i = 0; i < introWidgetsList.length; i++)
+                                                if (i == currentPageValue) ...[
+                                                  circleBar(true)
+                                                ] else
+                                                  circleBar(false),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                               InkWell(
@@ -558,10 +619,6 @@ class CreateEventPostState extends State<CreateEventPost>{
                                             ],
                                           ),
                                         )
-
-
-
-
                                     ),
                                   ],
                                 ),

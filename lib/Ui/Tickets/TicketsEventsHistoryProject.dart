@@ -20,6 +20,34 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
     super.initState();
   }
 
+
+  int currentPageValue = 0;
+  final List<Widget> introWidgetsList = <Widget>[
+    Image.asset("assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+    Image.asset("assets/images/banner5.png",
+      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+    Image.asset("assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+
+  ];
+
+  Widget circleBar(bool isActive) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 150),
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      height: isActive ? 12 : 8,
+      width: isActive ? 12 : 8,
+      decoration: BoxDecoration(
+          color: isActive ? AppColors.whiteColor : AppColors.lightgrey,
+          borderRadius: BorderRadius.all(Radius.circular(12))),
+    );
+  }
+
+  void getChangedPageAndMoveBar(int page) {
+    currentPageValue = page;
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,7 +273,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Total Contributions- 20",
+                                                    StringConstant.totalContribution+" 20",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -350,9 +378,48 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                       ],
                                     ),*/
                                     Container(
-                                      height: SizeConfig.blockSizeVertical*30,
+                                      color: AppColors.themecolor,
+                                      alignment: Alignment.topCenter,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                      child: Image.asset("assets/images/chrimasevents.png",fit: BoxFit.fitHeight,),
+                                      height: SizeConfig.blockSizeVertical*30,
+                                      child: Stack(
+                                        alignment: AlignmentDirectional.bottomCenter,
+                                        children: <Widget>[
+                                          PageView.builder(
+                                            physics: ClampingScrollPhysics(),
+                                            itemCount: introWidgetsList.length,
+                                            onPageChanged: (int page) {
+                                              getChangedPageAndMoveBar(page);
+                                            },
+                                            controller: PageController(
+                                                initialPage: currentPageValue,
+                                                keepPage: true,
+                                                viewportFraction: 1),
+                                            itemBuilder: (context, index) {
+                                              return introWidgetsList[index];
+                                            },
+                                          ),
+                                          Stack(
+                                            alignment: AlignmentDirectional.bottomCenter,
+                                            children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    for (int i = 0; i < introWidgetsList.length; i++)
+                                                      if (i == currentPageValue) ...[
+                                                        circleBar(true)
+                                                      ] else
+                                                        circleBar(false),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
 
                                     Container(

@@ -34,6 +34,7 @@ class StringConstant {
   static const String video = "Video";
   static const String srno = "S.No";
   static const String respond = "Respond";
+  static const String pay = "Pay";
   static const String noofticket = "No. of Tickets";
   static const String totalcollectiontarget = "Total Collection Traget";
   static const String totalbudget = "Total Budget";
@@ -52,7 +53,7 @@ class StringConstant {
   static const String costofticket = "Cost of Ticket";
   static const String campaignhistory = "Campaign History";
   static const String ongoingcampaign = "Ongoing Campaign";
-  static const String contribution = "Contributions";
+  static const String contribution = "Contributors";
   static const String collectiontarget = "Collection Target";
   static const String withdrawtitle = "Please enter your paypal account details to withdraw";
   static const String enterupimobileno = "Enter Upi Mobile No.";
@@ -129,5 +130,15 @@ class StringConstant {
   static const String collectcashtosocial = "Collect Cash for Social Events as a Gift...";
   static const String cancelorder = "Cancel Order";
   static const String descriptiondetails = "Lorem ipsum dolor sit amet, consectetuer adipis cing elit, seddiam nonummy nibh euismod tincid unt ut laoreet dolore Lorem ipsum dolor sit amet, consectetuer adipis cing elit, seddiam nonummy nibh euismod tincid unt ut laoreet dolore";
+
+  static const String follow="Follow";
+
+  static const String ongoing="OnGoing";
+
+  static const String totalContribution="Total Contributors";
+
+  static const String collectedamount="Collected Amount";
+
+  static const String createpost="Create Post";
 
 }
