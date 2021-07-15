@@ -80,6 +80,20 @@ class CreateEventPostState extends State<CreateEventPost>{
     });
   }
 
+  EndDateView() async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      EndDate = picked.toString();
+      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
+      print("onDate: " + formattedEndDate.toString());
+    });
+  }
+
+
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -106,19 +120,6 @@ class CreateEventPostState extends State<CreateEventPost>{
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
-  }
-
-  EndDateView() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      EndDate = picked.toString();
-      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: " + formattedEndDate.toString());
-    });
   }
 
   showAlert() {
@@ -543,7 +544,7 @@ class CreateEventPostState extends State<CreateEventPost>{
                           ),
                         ),
                         Container(
-                          child:   Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
@@ -567,7 +568,6 @@ class CreateEventPostState extends State<CreateEventPost>{
                                       ),
                                     ),
                                     Container(
-
                                         height: SizeConfig.blockSizeVertical *8,
                                         margin: EdgeInsets.only(
                                             left: SizeConfig.blockSizeHorizontal * 5,

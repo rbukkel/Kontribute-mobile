@@ -116,7 +116,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
 
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   padding: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
@@ -125,7 +125,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
-                                                        fontSize: 14,
+                                                        fontSize: 13,
                                                         fontWeight: FontWeight.normal,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),

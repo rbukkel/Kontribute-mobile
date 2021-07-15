@@ -243,7 +243,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                   children: [
                                     Container(
                                       margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                      width: SizeConfig.blockSizeHorizontal *37,
+                                      width: SizeConfig.blockSizeHorizontal *35,
                                       padding: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
@@ -252,7 +252,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.themecolor,
-                                            fontSize: 14,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),

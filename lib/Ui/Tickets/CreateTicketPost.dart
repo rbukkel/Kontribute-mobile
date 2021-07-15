@@ -65,9 +65,35 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   ];
   String currentSelectedValue;
   String currentSelectedValueprivacy;
-  String Date,EventDate;
-  String formattedDate="07-07-2021";
-  String EventformattedDate="07-07-2021";
+  String Date,EndDate;
+  String formattedDate = "07-07-2021";
+  String formattedEndDate = "07-07-2021";
+
+  DateView() async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      Date = picked.toString();
+      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+      print("onDate: " + formattedDate.toString());
+    });
+  }
+
+  EndDateView() async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      EndDate = picked.toString();
+      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
+      print("onDate: " + formattedEndDate.toString());
+    });
+  }
 
 
   Future<void> _showTimePicker()async{
@@ -106,31 +132,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
-  }
-
-  DateView() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      Date =  picked.toString();
-      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: "+formattedDate.toString());
-    });
-  }
-  EventDateView() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      EventDate =  picked.toString();
-      EventformattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: "+EventformattedDate.toString());
-    });
   }
 
   showAlert() {
@@ -568,8 +569,9 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             ),
                           ),
                         ),
+
                         Container(
-                          child:   Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
@@ -580,10 +582,10 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       alignment:Alignment.topLeft,
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical * 2),
                                       child: Text(
-                                        StringConstant.eventdate,
+                                        StringConstant.startdate,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
@@ -593,71 +595,151 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       ),
                                     ),
                                     Container(
-                                      height: SizeConfig.blockSizeVertical * 8,
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 1
-                                      ),
-                                      padding: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeVertical * 1,
-                                        right: SizeConfig.blockSizeVertical * 1,
-                                      ),
-                                      alignment: Alignment.topLeft,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Colors.black26,
-                                          style: BorderStyle.solid,
-                                          width: 1.0,
+                                        height: SizeConfig.blockSizeVertical *8,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal * 3,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            top: SizeConfig.blockSizeVertical * 1
                                         ),
-                                        color: Colors.transparent,
-                                      ),
-                                      child:
-                                      GestureDetector(
-                                        onTap: () {
-                                          EventDateView();
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              alignment: Alignment.centerLeft,
-                                              width: SizeConfig.blockSizeHorizontal * 33,
-                                              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
-                                              child: Text(
-                                                EventformattedDate,
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    fontWeight: FontWeight.normal,
-                                                    fontFamily: 'Poppins-Regular',
-                                                    fontSize: 12,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 5,
-                                              child: Icon(
-                                                Icons.calendar_today_outlined,
-                                                color: AppColors.greyColor,
-                                              ),
-                                            )
-                                          ],
+                                        padding: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeVertical * 1,
+                                          right: SizeConfig.blockSizeVertical * 1,
                                         ),
-                                      )
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: Colors.black26,
+                                            style: BorderStyle.solid,
+                                            width: 1.0,
+                                          ),
+                                          color: Colors.transparent,
+                                        ),
+                                        child:
+                                        GestureDetector(
+                                          onTap: () {
+                                            DateView();
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal * 30,
+                                                padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                child: Text(
+                                                  formattedDate,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: SizeConfig.blockSizeHorizontal * 5,
+                                                child: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: AppColors.greyColor,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
                                     ),
                                   ],
                                 ),
                               ),
+                              Container(
+                                  width:SizeConfig.blockSizeHorizontal * 50,
+                                  child:
+                                  Column(
+                                    children: [
+                                      Container(
+                                        alignment:Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                            top: SizeConfig.blockSizeVertical * 2),
+
+                                        child: Text(
+                                          StringConstant.enddate,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ),
+                                      Container(
+                                          height: SizeConfig.blockSizeVertical *8,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                          ),
+                                          padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeVertical * 1,
+                                          ),
+                                          alignment: Alignment.topLeft,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: Colors.black26,
+                                              style: BorderStyle.solid,
+                                              width: 1.0,
+                                            ),
+                                            color: Colors.transparent,
+                                          ),
+                                          child:
+                                          GestureDetector(
+                                            onTap: () {
+                                              EndDateView();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                  child: Text(
+                                                    formattedEndDate,
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular',
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal * 5,
+                                                  child: Icon(
+                                                    Icons.calendar_today_outlined,
+                                                    color: AppColors.greyColor,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                      ),
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        ),
+
                           Container(
-                            width:SizeConfig.blockSizeHorizontal * 50,
                             child:
                               Column(
                                 children: [
                                   Container(
                                     alignment:Alignment.topLeft,
                                     margin: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal * 2,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
                                         right: SizeConfig.blockSizeHorizontal * 3,
                                         top: SizeConfig.blockSizeVertical * 2),
 
@@ -675,9 +757,9 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   Container(
                                       height: SizeConfig.blockSizeVertical * 8,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 1
+                                        top: SizeConfig.blockSizeVertical * 1,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 3,
                                       ),
                                       padding: EdgeInsets.only(
                                         left: SizeConfig.blockSizeVertical * 1,
@@ -703,7 +785,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                           children: [
                                             Container(
                                               alignment: Alignment.centerLeft,
-                                              width: SizeConfig.blockSizeHorizontal * 33,
+                                              width: SizeConfig.blockSizeHorizontal * 80,
                                               padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
                                               child: Text(
                                                 selectedTime==""?"10:00Am":selectedTime,
@@ -730,10 +812,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
 
 
                                 ],
-                              ))
-                            ],
-                          ),
-                        ),
+                              )),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),

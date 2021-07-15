@@ -481,11 +481,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.only(
-                                right: SizeConfig
-                                    .blockSizeHorizontal *
-                                    3,
-                              ),
+
                               child: Text(
                                 "\$100",
                                 style: TextStyle(
@@ -501,7 +497,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               child:  LinearPercentIndicator(
-                                width: 110.0,
+                                width: 100.0,
                                 lineHeight: 14.0,
                                 percent: 0.6,
                                 center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -510,8 +506,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                               ),
                             ),
                             Container(
-                              alignment: Alignment.centerRight,
-                              width: SizeConfig.blockSizeHorizontal *25,
+                              width: SizeConfig.blockSizeHorizontal *24,
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               child: Text(
                                 StringConstant.collectedamount+"- ",
@@ -528,7 +523,7 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                   .blockSizeHorizontal *
-                                  2),
+                                  4),
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.only(
                                 right: SizeConfig

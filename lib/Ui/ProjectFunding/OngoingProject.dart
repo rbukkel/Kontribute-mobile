@@ -207,7 +207,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   children: [
                                                     Container(
                                                       margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                      width: SizeConfig.blockSizeHorizontal *32,
+                                                      width: SizeConfig.blockSizeHorizontal *31,
                                                       padding: EdgeInsets.only(
                                                         top: SizeConfig.blockSizeVertical *1,
                                                       ),
@@ -216,7 +216,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: AppColors.themecolor,
-                                                            fontSize: 14,
+                                                            fontSize: 13,
                                                             fontWeight: FontWeight.normal,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
@@ -254,7 +254,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               2,
                                                           left: SizeConfig
                                                               .blockSizeHorizontal *
-                                                              2,
+                                                              1,
                                                           bottom: SizeConfig
                                                               .blockSizeHorizontal *
                                                               2,
@@ -287,7 +287,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                       child: Container(
                                                         margin: EdgeInsets.only(left:
                                                         SizeConfig.blockSizeHorizontal *1,
-                                                            right: SizeConfig.blockSizeHorizontal *1,
+                                                            right: SizeConfig.blockSizeHorizontal *2,
                                                             top: SizeConfig.blockSizeVertical *2),
                                                         padding: EdgeInsets.only(
                                                             right: SizeConfig

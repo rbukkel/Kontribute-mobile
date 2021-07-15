@@ -526,10 +526,68 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                 'Poppins-Regular'),
                           ),
                         ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
+                              child: Text(
+                                StringConstant.contribution, textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
+                                  top: SizeConfig.blockSizeVertical *2),
+                              child: Text(
+                                StringConstant.exportto, textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*1,
+                                    top: SizeConfig.blockSizeVertical *2),
+                                child: Image.asset("assets/images/csv.png",width: 80,height: 40,),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
+                                  top: SizeConfig.blockSizeVertical *2,right: SizeConfig.blockSizeHorizontal*4,),
+                                child: Image.asset("assets/images/pdf.png",width: 80,height: 40,),
+                              ),
+                            ),
+                          ],
+                        ),
 
                         Container(
-
                           child:
                             ListView.builder(
                                 itemCount: 5,

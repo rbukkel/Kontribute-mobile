@@ -192,7 +192,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,
+                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2,
                                         top: SizeConfig.blockSizeVertical *2,
                                         bottom: SizeConfig.blockSizeVertical *1,),
 
@@ -600,6 +600,67 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                 );
                               }),
                         ),
+
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
+                              child: Text(
+                                StringConstant.contribution, textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
+                                  top: SizeConfig.blockSizeVertical *2),
+                              child: Text(
+                                StringConstant.exportto, textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*1,
+                                    top: SizeConfig.blockSizeVertical *2),
+                                child: Image.asset("assets/images/csv.png",width: 80,height: 40,),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
+                                  top: SizeConfig.blockSizeVertical *2,right: SizeConfig.blockSizeHorizontal*4,),
+                                child: Image.asset("assets/images/pdf.png",width: 80,height: 40,),
+                              ),
+                            ),
+                          ],
+                        ),
                         Container(
 
                           child:
@@ -659,7 +720,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
                                                           Container(
-                                                            width: SizeConfig.blockSizeHorizontal *48,
+                                                            width: SizeConfig.blockSizeHorizontal *45,
                                                             alignment: Alignment.topLeft,
                                                             padding: EdgeInsets.only(
                                                               left: SizeConfig
@@ -678,6 +739,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                                           ),
                                                           Container(
                                                             width: SizeConfig.blockSizeHorizontal *29,
+                                                            margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *2),
                                                             alignment: Alignment.topRight,
 
                                                             child: Text(
@@ -700,7 +762,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                                       Row(
                                                         children: [
                                                           Container(
-                                                            width: SizeConfig.blockSizeHorizontal *58,
+                                                            width: SizeConfig.blockSizeHorizontal *56,
                                                             alignment: Alignment.topLeft,
                                                             padding: EdgeInsets.only(
                                                               right: SizeConfig

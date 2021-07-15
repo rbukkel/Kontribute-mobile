@@ -786,11 +786,8 @@ class WalletScreenState extends State<WalletScreen>{
                                               'Poppins-Regular'),
                                         ),
                                       )
-
                                     ],
                                   ),
-
-
                                 ],
                               )
                             ],

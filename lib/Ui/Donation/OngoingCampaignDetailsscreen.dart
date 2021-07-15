@@ -441,7 +441,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                     3,
                               ),
                               child: Text(
-                                "\$1000",
+                                "\$100",
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -455,7 +455,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               child:  LinearPercentIndicator(
-                                width: 110.0,
+                                width: 100.0,
                                 lineHeight: 14.0,
                                 percent: 0.6,
                                 center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -482,7 +482,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                   .blockSizeHorizontal *
-                                  2),
+                                  3),
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.only(
                                 right: SizeConfig

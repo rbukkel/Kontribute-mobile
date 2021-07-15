@@ -186,6 +186,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           alignment: Alignment.center,
                                           margin: EdgeInsets.only(
                                               bottom: SizeConfig.blockSizeVertical *1,
+                                              top: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig
                                                   .blockSizeHorizontal *
                                                   1,
@@ -205,16 +206,16 @@ class OngoingEventsState extends State<OngoingEvents> {
 
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   padding: EdgeInsets.only(
-                                                    top: SizeConfig.blockSizeVertical *1,
+                                                    top: SizeConfig.blockSizeVertical *2,
                                                   ),
                                                   child: Text(
                                                     "American Tourism",
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
-                                                        fontSize: 14,
+                                                        fontSize: 13,
                                                         fontWeight: FontWeight.normal,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
@@ -227,7 +228,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                     margin: EdgeInsets.only(
                                                         left: SizeConfig.blockSizeHorizontal*1),
                                                     padding: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical *1,
+                                                      top: SizeConfig.blockSizeVertical *2,
                                                     ),
                                                     child: Text(
                                                       "@park plaza",
@@ -243,7 +244,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
+                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3, top: SizeConfig.blockSizeVertical *2,),
 
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(

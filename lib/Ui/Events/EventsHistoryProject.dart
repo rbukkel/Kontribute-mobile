@@ -114,7 +114,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
 
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   padding: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
@@ -123,7 +123,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
-                                                        fontSize: 14,
+                                                        fontSize: 13,
                                                         fontWeight: FontWeight.normal,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
@@ -152,7 +152,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
+                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2,right:  SizeConfig.blockSizeHorizontal *1),
 
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(

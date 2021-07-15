@@ -125,7 +125,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: SizeConfig.blockSizeHorizontal *50,
+                                width: SizeConfig.blockSizeHorizontal *46,
                                 alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *6),
                                 child: Text(
@@ -133,7 +133,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,
-                                      fontSize: 24,
+                                      fontSize: 22,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
@@ -174,7 +174,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             ],
                           ),
                           Container(
-                            width: SizeConfig.blockSizeHorizontal *64,
+                            width: SizeConfig.blockSizeHorizontal *60,
+                            margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *3),
                             alignment: Alignment.topRight,
                             padding: EdgeInsets.only(
                                 left: SizeConfig
@@ -184,7 +185,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                     .blockSizeHorizontal *
                                     1),
                             child: Text(
-                              "Total Contribution-25 ",
+                              StringConstant.totalContribution+"-25 ",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -195,7 +196,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                   'Poppins-Regular'),
                             ),
                           ),
-                          Container(
+                         /* Container(
                             width: SizeConfig.blockSizeHorizontal *64,
                             alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(
@@ -220,9 +221,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                   fontFamily:
                                   'Poppins-Regular'),
                             ),
-                          ),
+                          ),*/
                           Container(
-                            width: SizeConfig.blockSizeHorizontal *64,
+                            width: SizeConfig.blockSizeHorizontal *60,
+                            margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *3),
                             alignment: Alignment.topRight,
                             padding: EdgeInsets.only(
                                 left: SizeConfig
@@ -248,7 +250,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3),
                                 child: Text(
                                   "Collection Target- ",
                                   style: TextStyle(
@@ -262,7 +264,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3),
                                 alignment: Alignment.topLeft,
                                 padding: EdgeInsets.only(
                                     right: SizeConfig
@@ -444,7 +446,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
-                                                width: SizeConfig.blockSizeHorizontal *55,
+                                                width: SizeConfig.blockSizeHorizontal *53,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig
@@ -492,7 +494,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                           Row(
                                             children: [
                                               Container(
-                                                width: SizeConfig.blockSizeHorizontal *55,
+                                                width: SizeConfig.blockSizeHorizontal *53,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                     left: SizeConfig
@@ -519,6 +521,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                               Container(
                                                 width: SizeConfig.blockSizeHorizontal *20,
                                                 alignment: Alignment.topRight,
+                                                margin: EdgeInsets.only( top: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2),
                                                 padding: EdgeInsets.only(
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *

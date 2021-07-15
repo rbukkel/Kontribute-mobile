@@ -431,7 +431,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.invitations.toUpperCase(),
+                                          StringConstant.notification.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
