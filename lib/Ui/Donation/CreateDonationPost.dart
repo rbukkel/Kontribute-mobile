@@ -576,7 +576,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     Container(
                                       alignment:Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 5,
+                                          left: SizeConfig.blockSizeHorizontal * 3,
                                           right: SizeConfig.blockSizeHorizontal * 2,
                                           top: SizeConfig.blockSizeVertical * 2),
                                       child: Text(
@@ -593,7 +593,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
 
                                         height: SizeConfig.blockSizeVertical *8,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 5,
+                                            left: SizeConfig.blockSizeHorizontal * 3,
                                             right: SizeConfig.blockSizeHorizontal * 2,
                                             top: SizeConfig.blockSizeVertical * 1
                                         ),
@@ -655,7 +655,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                         alignment:Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                             left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
                                             top: SizeConfig.blockSizeVertical * 2),
 
                                         child: Text(
@@ -673,7 +673,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical * 1,
                                             left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
                                           ),
                                           padding: EdgeInsets.only(
                                             left: SizeConfig.blockSizeVertical * 1,

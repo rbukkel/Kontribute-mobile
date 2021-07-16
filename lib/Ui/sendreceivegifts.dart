@@ -248,12 +248,14 @@ class sendreceivegiftsState extends State<sendreceivegifts> {
                                         ),
                                       ),
                                       Container(
+                                        alignment: Alignment.center,
                                         margin: EdgeInsets.only(
                                             right:
                                                 SizeConfig.blockSizeHorizontal *
                                                     2),
                                         child: Text(
                                           "01-01-2020",
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Poppins-Regular',

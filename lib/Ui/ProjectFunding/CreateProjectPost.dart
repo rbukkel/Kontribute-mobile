@@ -416,8 +416,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 5,
-                              right: SizeConfig.blockSizeHorizontal * 5,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
@@ -433,8 +433,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         Container(
                           margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 5,
-                            right: SizeConfig.blockSizeHorizontal * 5,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
                           ),
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 1,
@@ -489,8 +489,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 5,
-                              right: SizeConfig.blockSizeHorizontal * 5,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal *3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
@@ -506,8 +506,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         Container(
                           margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 5,
-                            right: SizeConfig.blockSizeHorizontal * 5,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
                           ),
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 1,
@@ -570,7 +570,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     Container(
                                       alignment:Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 5,
+                                          left: SizeConfig.blockSizeHorizontal *3,
                                           right: SizeConfig.blockSizeHorizontal * 2,
                                           top: SizeConfig.blockSizeVertical * 2),
                                       child: Text(
@@ -587,7 +587,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
 
                                       height: SizeConfig.blockSizeVertical *8,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 5,
+                                          left: SizeConfig.blockSizeHorizontal * 3,
                                           right: SizeConfig.blockSizeHorizontal * 2,
                                           top: SizeConfig.blockSizeVertical * 1
                                       ),
@@ -649,7 +649,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         alignment:Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                             left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
                                             top: SizeConfig.blockSizeVertical * 2),
 
                                         child: Text(
@@ -667,7 +667,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
                                           left: SizeConfig.blockSizeHorizontal * 2,
-                                          right: SizeConfig.blockSizeHorizontal * 5,
+                                          right: SizeConfig.blockSizeHorizontal * 3,
                                         ),
                                         padding: EdgeInsets.only(
                                           left: SizeConfig.blockSizeVertical * 1,

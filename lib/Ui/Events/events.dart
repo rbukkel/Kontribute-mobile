@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/Events/EventsHistoryProject.dart';
@@ -26,6 +27,126 @@ class eventsState extends State<events> {
   String tabvalue = "Ongoing";
   bool ongoing = false;
   bool history = false;
+  final List<String> _dropdownEventCategory = [
+    "Valentine's Day",
+    "Mother's Day",
+    "Father's Day",
+    "Christmas",
+    "Easter",
+    "Thanksgiving",
+    "Eid",
+    "Diwali"
+  ];
+  String textHolder = "Please Select";
+
+  changeText(String valu) {
+    setState(() {
+      textHolder = valu;
+      Fluttertoast.showToast(
+        msg: textHolder,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    });
+  }
+  void _modalBottomSheetMenu() {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Container(
+                height: MediaQuery.of(context).size.height * 80,
+                decoration: BoxDecoration(
+                    image: new DecorationImage(
+                      image: new AssetImage("assets/images/bg_img.png"),
+                      fit: BoxFit.fill,
+                    )), //could change this to Color(0xFF737373),
+
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 5,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 45,
+                            child: Text(
+                              "Event Type",
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 3,
+                                  bottom: SizeConfig.blockSizeVertical * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 5),
+                              child: Image.asset(
+                                "assets/images/close.png",
+                                height: 30,
+                                width: 30,
+                              ),
+                            ),
+                          ),
+                        ]),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: _dropdownEventCategory.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  changeText(_dropdownEventCategory.elementAt(index).toString());
+                                },
+                                child: Container(
+                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                  padding: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical * 3,
+                                  ),
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 1,
+                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 5,
+                                  ),
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    _dropdownEventCategory
+                                        .elementAt(index)
+                                        .toString(),
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Lato-Bold',
+                                        color: AppColors.black,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
+                  ],
+                ));
+          });
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +179,18 @@ class eventsState extends State<events> {
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
+          actions: [
+            InkWell(
+              onTap: (){
+                _modalBottomSheetMenu();
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
+                child:Image.asset("assets/images/categorymenu.png",height: 25,width: 25,color: Colors.white,) ,
+              ),
+            ),
+
+          ],
           bottom: TabBar(
             indicatorColor: Colors.white,
             isScrollable: true,

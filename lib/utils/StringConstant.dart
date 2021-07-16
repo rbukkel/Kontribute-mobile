@@ -36,6 +36,7 @@ class StringConstant {
   static const String respond = "Respond";
   static const String pay = "Pay";
   static const String noofticket = "No. of Tickets";
+  static const String eventlist = "Events";
   static const String totalcollectiontarget = "Total Collection Traget";
   static const String totalbudget = "Total Budget";
   static const String revelantdocuents = "Relevant Documents";
@@ -89,7 +90,7 @@ class StringConstant {
   static const String welcometokontribute = "Welcome to Kontribute";
   static const String sendandreceivegift = "Send/Receive Gifts";
   static const String createnewgift = "Create New Gift";
-  static const String receivegift = "Receive Gift Request for:";
+  static const String receivegift = "Gift Request from:";
   static const String wallet = "wallet";
   static const String notification = "Notification";
   static const String setting = "Settings";
@@ -140,5 +141,7 @@ class StringConstant {
   static const String collectedamount="Collected Amount";
 
   static const String createpost="Create Post";
+
+  static const String addhashtag="Add hashtag";
 
 }
