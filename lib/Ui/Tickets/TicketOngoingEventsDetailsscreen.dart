@@ -817,6 +817,74 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                      }),
                         ),
                         Container(
+                          height: SizeConfig.blockSizeVertical *20,
+                          child: ListView.builder(
+                              itemCount: 5,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical *3,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal *1),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      Image.asset("assets/images/files.png",height: SizeConfig.blockSizeVertical * 10,
+                                        width: SizeConfig.blockSizeHorizontal * 25,fit: BoxFit.fitHeight,),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *1,
+                                        ),
+                                        width: SizeConfig.blockSizeHorizontal *20,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Abc.pdf",
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: AppColors.black,
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              'Poppins-Regular'),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical *1,
+                                        ),
+                                        width: SizeConfig.blockSizeHorizontal *20,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Download",
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              decoration: TextDecoration.underline,
+                                              letterSpacing: 1.0,
+                                              color: Colors.blue,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              'Poppins-Regular'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                 /* decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
+                                );
+                              }),
+                        ),
+                        Container(
                           width: SizeConfig.blockSizeHorizontal *100,
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,

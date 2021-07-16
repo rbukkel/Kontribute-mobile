@@ -14,12 +14,14 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingCampaignDetailsscreen extends StatefulWidget {
   @override
-  OngoingCampaignDetailsscreenState createState() => OngoingCampaignDetailsscreenState();
+  OngoingCampaignDetailsscreenState createState() =>
+      OngoingCampaignDetailsscreenState();
 }
 
-class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscreen> {
-
+class OngoingCampaignDetailsscreenState
+    extends State<OngoingCampaignDetailsscreen> {
   Offset _tapDownPosition;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -28,13 +30,21 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
 
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner5.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-
+    Image.asset(
+      "assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 30,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner5.png",
+      height: SizeConfig.blockSizeVertical * 30,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 30,
+      fit: BoxFit.fitHeight,
+    ),
   ];
 
   Widget circleBar(bool isActive) {
@@ -59,10 +69,12 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
 
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
-        overlay.size.height - _tapDownPosition.dy,),
+        overlay.size.height - _tapDownPosition.dy,
+      ),
       items: [
         PopupMenuItem(
             value: 1,
@@ -76,7 +88,10 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text(
+                    'Copy this post',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -92,12 +107,15 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text(
+                    'Edit',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
         PopupMenuItem(
-            value:3,
+            value: 3,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
@@ -108,11 +126,13 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text(
+                    'Report',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
-
       ],
       elevation: 8.0,
     );
@@ -121,49 +141,62 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
   final CommentFocus = FocusNode();
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
-
             children: [
               Container(
-                height: SizeConfig.blockSizeVertical *12,
+                height: SizeConfig.blockSizeVertical * 12,
                 decoration: BoxDecoration(
                   image: new DecorationImage(
                     image: new AssetImage("assets/images/appbar.png"),
                     fit: BoxFit.fill,
                   ),
                 ),
-                child:
-                Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: 20,height: 20,
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *2),
-                      child:
-                      InkWell(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 6,
+                          top: SizeConfig.blockSizeVertical * 2),
+                      child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      donation()));
                         },
                         child: Container(
                           color: Colors.transparent,
-                          child: Image.asset("assets/images/back.png",color:AppColors.whiteColor,width: 20,height: 20,),
+                          child: Image.asset(
+                            "assets/images/back.png",
+                            color: AppColors.whiteColor,
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal *60,
+                      width: SizeConfig.blockSizeHorizontal * 60,
                       alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.ongoingcampaign, textAlign: TextAlign.center,
+                        StringConstant.ongoingcampaign,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
@@ -173,36 +206,35 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                       ),
                     ),
                     Container(
-                      width: 25,height: 25,
-                      margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-
+                      width: 25,
+                      height: 25,
+                      margin: EdgeInsets.only(
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical * 2),
                     ),
                   ],
                 ),
               ),
               Expanded(
                 child: Container(
-                  child:  SingleChildScrollView(
+                  child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          onTapDown: (TapDownDetails details){
+                          onTapDown: (TapDownDetails details) {
                             _tapDownPosition = details.globalPosition;
                           },
-                          onTap: ()
-                          {
+                          onTap: () {
                             _showPopupMenu();
                           },
-                          child:  Container(
+                          child: Container(
                             alignment: Alignment.topRight,
                             margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical *1,
-                                right: SizeConfig
-                                    .blockSizeHorizontal * 2),
-                            child: Image.asset(
-                                "assets/images/menudot.png",
+                                top: SizeConfig.blockSizeVertical * 1,
+                                right: SizeConfig.blockSizeHorizontal * 2),
+                            child: Image.asset("assets/images/menudot.png",
                                 height: 15, width: 20),
                           ),
                         ),
@@ -211,39 +243,36 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              height:
-                              SizeConfig.blockSizeVertical *
-                                  9,
-                              width:
-                              SizeConfig.blockSizeVertical *
-                                  9,
+                              height: SizeConfig.blockSizeVertical * 9,
+                              width: SizeConfig.blockSizeVertical * 9,
                               alignment: Alignment.center,
                               margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical *2,
-                                  bottom: SizeConfig.blockSizeVertical *1,
-                                  right: SizeConfig
-                                      .blockSizeHorizontal *
-                                      1,
-                                  left: SizeConfig
-                                      .blockSizeHorizontal *
-                                      2),
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  bottom: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeHorizontal * 1,
+                                  left: SizeConfig.blockSizeHorizontal * 2),
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image:new AssetImage("assets/images/userProfile.png"),
-                                    fit: BoxFit.fill,)),
+                                image: new AssetImage(
+                                    "assets/images/userProfile.png"),
+                                fit: BoxFit.fill,
+                              )),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                      width: SizeConfig.blockSizeHorizontal *39,
+                                      margin: EdgeInsets.only(
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 39,
                                       padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
+                                        top: SizeConfig.blockSizeVertical * 1,
                                       ),
                                       child: Text(
                                         "Amitofo Care Center International",
@@ -255,93 +284,93 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-
                                     Container(
-                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
-
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 2,
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3),
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          left: SizeConfig.blockSizeHorizontal *
                                               2,
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              2,
-                                          bottom: SizeConfig
-                                              .blockSizeHorizontal *
-                                              2,
-                                          top: SizeConfig
-                                              .blockSizeHorizontal *
+                                          bottom:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top: SizeConfig.blockSizeHorizontal *
                                               2),
                                       decoration: BoxDecoration(
                                           color: AppColors.whiteColor,
-                                          borderRadius: BorderRadius.circular(20),
-                                          border: Border.all(color: AppColors.purple)
-                                      ),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: AppColors.purple)),
                                       child: Text(
                                         "OnGoing".toUpperCase(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
-                                            color:AppColors.purple,
-                                            fontSize:8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
+                                            color: AppColors.purple,
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-
                                     GestureDetector(
-                                      onTap: ()
-                                      {
-                                      },
+                                      onTap: () {},
                                       child: Container(
-                                        margin: EdgeInsets.only(left:
-                                        SizeConfig.blockSizeHorizontal *2,right: SizeConfig.blockSizeHorizontal *2,top: SizeConfig.blockSizeVertical *2),
+                                        margin: EdgeInsets.only(
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
                                         padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                4,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                4,
-                                            bottom: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            top: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4,
+                                            bottom:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    1,
+                                            top:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    1),
                                         decoration: BoxDecoration(
                                           color: AppColors.darkgreen,
-                                          borderRadius: BorderRadius.circular(20),
-
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         child: Text(
                                           "PAY",
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.whiteColor,
-                                              fontSize:12,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
                                         ),
                                       ),
                                     )
-
-
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *38,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 38,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
+                                        top: SizeConfig.blockSizeVertical * 1,
                                       ),
                                       child: Text(
                                         "Campaign Name",
@@ -353,43 +382,43 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-
-
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *37,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 37,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
+                                        top: SizeConfig.blockSizeVertical * 1,
                                       ),
                                       child: Text(
-                                        StringConstant.totalContribution+"-20",
+                                        StringConstant.totalContribution +
+                                            "-20",
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize:8,
+                                            fontSize: 8,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *40,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 40,
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
-                                        left: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1,
-                                        right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            2,
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 1,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 2,
                                       ),
                                       margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
+                                        top: SizeConfig.blockSizeVertical * 1,
                                       ),
                                       child: Text(
                                         "Project Timeline- 8 Days",
@@ -397,17 +426,13 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.black,
-                                            fontSize:8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
                                   ],
                                 ),
-
-
                               ],
                             )
                           ],
@@ -417,28 +442,27 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: SizeConfig.blockSizeHorizontal *23,
+                              width: SizeConfig.blockSizeHorizontal * 23,
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                  left: SizeConfig.blockSizeHorizontal * 2),
                               child: Text(
                                 "Collection Target- ",
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black87,
                                     fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1),
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.only(
-                                right: SizeConfig
-                                    .blockSizeHorizontal *
-                                    3,
+                                right: SizeConfig.blockSizeHorizontal * 3,
                               ),
                               child: Text(
                                 "\$100",
@@ -446,48 +470,48 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
                                     fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                              child:  LinearPercentIndicator(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1),
+                              child: LinearPercentIndicator(
                                 width: 100.0,
                                 lineHeight: 14.0,
                                 percent: 0.6,
-                                center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                center: Text(
+                                  "60%",
+                                  style: TextStyle(
+                                      fontSize: 8, color: AppColors.whiteColor),
+                                ),
                                 backgroundColor: AppColors.lightgrey,
-                                progressColor:AppColors.themecolor,
+                                progressColor: AppColors.themecolor,
                               ),
                             ),
                             Container(
                               alignment: Alignment.centerRight,
-                              width: SizeConfig.blockSizeHorizontal *25,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                              width: SizeConfig.blockSizeHorizontal * 25,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1),
                               child: Text(
                                 "Collected Amount- ",
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black87,
                                     fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                  .blockSizeHorizontal *
-                                  3),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeHorizontal * 3),
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.only(
-                                right: SizeConfig
-                                    .blockSizeHorizontal *
-                                    1,
+                                right: SizeConfig.blockSizeHorizontal * 1,
                               ),
                               child: Text(
                                 "\$40",
@@ -495,10 +519,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
                                     fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
                               ),
                             )
                           ],
@@ -506,8 +528,9 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                         Container(
                           color: AppColors.themecolor,
                           alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                          height: SizeConfig.blockSizeVertical*30,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          height: SizeConfig.blockSizeVertical * 30,
                           child: Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: <Widget>[
@@ -529,12 +552,17 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                    margin: EdgeInsets.only(
+                                        bottom:
+                                            SizeConfig.blockSizeVertical * 2),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
-                                        for (int i = 0; i < introWidgetsList.length; i++)
+                                        for (int i = 0;
+                                            i < introWidgetsList.length;
+                                            i++)
                                           if (i == currentPageValue) ...[
                                             circleBar(true)
                                           ] else
@@ -548,18 +576,24 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
                           child: Row(
                             children: [
                               InkWell(
-                                onTap: (){},
+                                onTap: () {},
                                 child: Container(
-                                  width: SizeConfig.blockSizeHorizontal*7,
-                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
+                                  width: SizeConfig.blockSizeHorizontal * 7,
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2),
                                   child: Column(
                                     children: [
                                       Container(
-                                        child: Image.asset("assets/images/heart.png",height: 20,width: 20,),
+                                        child: Image.asset(
+                                          "assets/images/heart.png",
+                                          height: 20,
+                                          width: 20,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -567,40 +601,51 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 ),
                               ),
                               InkWell(
-                                onTap: (){
-
-                                },
+                                onTap: () {},
                                 child: Container(
-                                  width: SizeConfig.blockSizeHorizontal*7,
-                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
+                                  width: SizeConfig.blockSizeHorizontal * 7,
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2),
                                   // margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
                                   child: Column(
                                     children: [
                                       Container(
-                                        child: Image.asset("assets/images/message.png",height: 20,width: 20),
+                                        child: Image.asset(
+                                            "assets/images/message.png",
+                                            height: 20,
+                                            width: 20),
                                       ),
-
                                     ],
                                   ),
                                   //child: Image.asset("assets/images/like.png"),
                                 ),
                               ),
-
                               Spacer(),
                               InkWell(
-                                onTap: (){
-
-                                },
+                                onTap: () {},
                                 child: Container(
-                                  width: SizeConfig.blockSizeHorizontal*15,
-                                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,left:SizeConfig.blockSizeHorizontal*2),
+                                  width: SizeConfig.blockSizeHorizontal * 15,
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      left: SizeConfig.blockSizeHorizontal * 2),
                                   child: Row(
                                     children: [
                                       Container(
-                                          child: Image.asset("assets/images/color_heart.png",color: Colors.black,height: 15,width: 25,)
-                                      ),
+                                          child: Image.asset(
+                                        "assets/images/color_heart.png",
+                                        color: Colors.black,
+                                        height: 15,
+                                        width: 25,
+                                      )),
                                       Container(
-                                        child: Text("1,555",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
+                                        child: Text(
+                                          "1,555",
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat-Bold',
+                                              fontSize:
+                                                  SizeConfig.blockSizeVertical *
+                                                      1.6),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -608,20 +653,30 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 ),
                               ),
                               InkWell(
-                                onTap: (){
-
-                                },
+                                onTap: () {},
                                 child: Container(
-                                  width: SizeConfig.blockSizeHorizontal*15,
-                                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
+                                  width: SizeConfig.blockSizeHorizontal * 15,
+                                  margin: EdgeInsets.only(
+                                      right:
+                                          SizeConfig.blockSizeHorizontal * 2),
                                   child: Row(
                                     children: [
                                       Container(
-                                          child: Image.asset("assets/images/color_comment.png",color: Colors.black,height: 15,width: 25,)
-
-                                      ),
+                                          child: Image.asset(
+                                        "assets/images/color_comment.png",
+                                        color: Colors.black,
+                                        height: 15,
+                                        width: 25,
+                                      )),
                                       Container(
-                                        child: Text("22",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
+                                        child: Text(
+                                          "22",
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat-Bold',
+                                              fontSize:
+                                                  SizeConfig.blockSizeVertical *
+                                                      1.6),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -632,28 +687,30 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                            maxLines:8,
+                            maxLines: 8,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
                             "View all 29 comments",
                             maxLines: 2,
@@ -661,17 +718,17 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 letterSpacing: 1.0,
                                 color: Colors.black26,
                                 fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
                             "thekratos carry killed it🤑🤑🤣",
                             maxLines: 2,
@@ -679,17 +736,17 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 letterSpacing: 1.0,
                                 color: Colors.black,
                                 fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'NotoEmoji'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'NotoEmoji'),
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
                             "itx_kamie_94🤑🤣🤣",
                             maxLines: 2,
@@ -697,17 +754,17 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 letterSpacing: 1.0,
                                 color: Colors.black,
                                 fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'NotoEmoji'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'NotoEmoji'),
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
                             "3 Hours ago".toUpperCase(),
                             maxLines: 2,
@@ -715,10 +772,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 letterSpacing: 1.0,
                                 color: Colors.black26,
                                 fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
                         Container(
@@ -748,15 +803,17 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                               else
                                 return null;
                             },
-                            onFieldSubmitted: (v)
-                            {
+                            onFieldSubmitted: (v) {
                               CommentFocus.unfocus();
                             },
                             onSaved: (val) => _Comment = val,
                             textAlign: TextAlign.left,
-                            style:
-                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 12,
+                                color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               prefixIcon: Icon(Icons.tag_faces),
@@ -764,7 +821,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                               hintStyle: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 12,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 12,
                                 decoration: TextDecoration.none,
                               ),
                               hintText: "Add a comment...",
@@ -772,10 +830,12 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topRight,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *5,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 5,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
                             "Post",
                             maxLines: 2,
@@ -783,10 +843,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 letterSpacing: 1.0,
                                 color: AppColors.themecolor,
                                 fontSize: 16,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
                         Container(
@@ -797,15 +855,154 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                             color: Colors.black12,
                           ),
                         ),
+                        Container(
+                          height: SizeConfig.blockSizeVertical * 25,
+                          child: ListView.builder(
+                              itemCount: 5,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 2,
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 1),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height:
+                                              SizeConfig.blockSizeVertical * 45,
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  60,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            image: new DecorationImage(
+                                              image: new AssetImage(
+                                                  "assets/images/events1.png"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            // showAlert();
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                                left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    25,
+                                                right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    25),
+                                            child: Image.asset(
+                                              "assets/images/play.png",
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ));
+                              }),
+                        ),
+                        Container(
+                          height: SizeConfig.blockSizeVertical * 20,
+                          child: ListView.builder(
+                              itemCount: 5,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 3,
+                                      left: SizeConfig.blockSizeHorizontal * 3,
+                                      right:
+                                          SizeConfig.blockSizeHorizontal * 1),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/files.png",
+                                        height:
+                                            SizeConfig.blockSizeVertical * 10,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 25,
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 20,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Abc.pdf",
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: AppColors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 20,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Download",
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              letterSpacing: 1.0,
+                                              color: Colors.blue,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
 
+                                  /* decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
+                                );
+                              }),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  left: SizeConfig.blockSizeHorizontal * 3),
                               child: Text(
-                                StringConstant.contribution, textAlign: TextAlign.left,
+                                StringConstant.contribution,
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                     decoration: TextDecoration.none,
                                     fontSize: 14,
@@ -815,10 +1012,12 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
-                                  top: SizeConfig.blockSizeVertical *2),
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 5,
+                                  top: SizeConfig.blockSizeVertical * 2),
                               child: Text(
-                                StringConstant.exportto, textAlign: TextAlign.center,
+                                StringConstant.exportto,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     decoration: TextDecoration.none,
                                     fontSize: 14,
@@ -832,9 +1031,14 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 Navigator.pop(context, true);
                               },
                               child: Container(
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*1,
-                                    top: SizeConfig.blockSizeVertical *2),
-                                child: Image.asset("assets/images/csv.png",width: 80,height: 40,),
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Image.asset(
+                                  "assets/images/csv.png",
+                                  width: 80,
+                                  height: 40,
+                                ),
                               ),
                             ),
                             InkWell(
@@ -842,210 +1046,250 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 Navigator.pop(context, true);
                               },
                               child: Container(
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
-                                  top: SizeConfig.blockSizeVertical *2,right: SizeConfig.blockSizeHorizontal*4,),
-                                child: Image.asset("assets/images/pdf.png",width: 80,height: 40,),
+                                margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 2,
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 4,
+                                ),
+                                child: Image.asset(
+                                  "assets/images/pdf.png",
+                                  width: 80,
+                                  height: 40,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         Container(
-
-                          child:
-                            ListView.builder(
-                                itemCount: 5,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            width: 1,
-                                          ),
+                          child: ListView.builder(
+                              itemCount: 5,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          width: 1,
                                         ),
-                                        child:
-                                        InkWell(
-                                          child: Container(
-                                            padding: EdgeInsets.all(5.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                              children: [
-
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                      SizeConfig.blockSizeVertical *
-                                                          8,
-                                                      width:
-                                                      SizeConfig.blockSizeVertical *
-                                                          8,
-                                                      alignment: Alignment.center,
-                                                      margin: EdgeInsets.only(
-                                                          top: SizeConfig.blockSizeVertical *1,
-                                                          bottom: SizeConfig.blockSizeVertical *1,
-                                                          right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              1,
-                                                          left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                            image:new AssetImage("assets/images/userProfile.png"),
-                                                            fit: BoxFit.fill,)),
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              width: SizeConfig.blockSizeHorizontal *47,
-                                                              alignment: Alignment.topLeft,
-                                                              padding: EdgeInsets.only(
-                                                                left: SizeConfig
+                                      ),
+                                      child: InkWell(
+                                        child: Container(
+                                          padding: EdgeInsets.all(5.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: SizeConfig
+                                                            .blockSizeVertical *
+                                                        8,
+                                                    width: SizeConfig
+                                                            .blockSizeVertical *
+                                                        8,
+                                                    alignment: Alignment.center,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            2),
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                      image: new AssetImage(
+                                                          "assets/images/userProfile.png"),
+                                                      fit: BoxFit.fill,
+                                                    )),
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Container(
+                                                            width: SizeConfig
                                                                     .blockSizeHorizontal *
-                                                                    1,
-                                                              ),
-                                                              child: Text(
-                                                                "Donator Life America",
-                                                                style: TextStyle(
-                                                                    letterSpacing: 1.0,
-                                                                    color: Colors.black87,
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    fontFamily: 'Poppins-Regular'),
-                                                              ),
+                                                                47,
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
                                                             ),
-                                                            Container(
-                                                              width: SizeConfig.blockSizeHorizontal *25,
-                                                              alignment: Alignment.topRight,
-                                                              padding: EdgeInsets.only(
-                                                                left: SizeConfig
+                                                            child: Text(
+                                                              "Donator Life America",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            width: SizeConfig
                                                                     .blockSizeHorizontal *
+                                                                25,
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
+                                                              right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  2,
+                                                            ),
+                                                            child: Text(
+                                                              "Donates- \$120",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color:
+                                                                      AppColors
+                                                                          .black,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                52,
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding: EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
                                                                     1,
                                                                 right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    2,
-                                                              ),
-                                                              child: Text(
-                                                                "Donates- \$120",
-                                                                textAlign: TextAlign.right,
-                                                                style: TextStyle(
-                                                                    letterSpacing: 1.0,
-                                                                    color: AppColors.black,
-                                                                    fontSize:10,
-                                                                    fontWeight:
-                                                                    FontWeight.normal,
-                                                                    fontFamily:
-                                                                    'Poppins-Regular'),
-                                                              ),
-                                                            )
-
-                                                          ],
-                                                        ),
-
-                                                        Row(
-                                                          children: [
-                                                            Container(
-                                                              width: SizeConfig.blockSizeHorizontal *52,
-                                                              alignment: Alignment.topLeft,
-                                                              padding: EdgeInsets.only(
-                                                                  left: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      1,
-                                                                  right: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      3,
-                                                                  top: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      2),
-                                                              child: Text(
-                                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed..",
-                                                                maxLines: 2,
-                                                                style: TextStyle(
-                                                                    letterSpacing: 1.0,
-                                                                    color: Colors.black87,
-                                                                    fontSize: 10,
-                                                                    fontWeight:
-                                                                    FontWeight.normal,
-                                                                    fontFamily:
-                                                                    'Poppins-Regular'),
-                                                              ),
+                                                                        .blockSizeHorizontal *
+                                                                    3,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed..",
+                                                              maxLines: 2,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
                                                             ),
-                                                            Container(
-                                                              width: SizeConfig.blockSizeHorizontal *18,
-                                                              alignment: Alignment.center,
-                                                              padding: EdgeInsets.only(
-                                                                  right: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      1,
-                                                                  left: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      1,
-                                                                  bottom: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      2,
-                                                                  top: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      2),
-                                                              decoration: BoxDecoration(
-                                                                  color: AppColors.whiteColor,
-                                                                  borderRadius: BorderRadius.circular(20),
-                                                                  border: Border.all(color: AppColors.darkgreen)
-                                                              ),
-                                                              child: Text(
-                                                                "Follow",
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    letterSpacing: 1.0,
-                                                                    color:AppColors.darkgreen,
-                                                                    fontSize:10,
-                                                                    fontWeight:
-                                                                    FontWeight.normal,
-                                                                    fontFamily:
-                                                                    'Poppins-Regular'),
-                                                              ),
-                                                            )
-
-                                                          ],
-                                                        ),
-
-
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                          ),
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                18,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding: EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                bottom: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            decoration: BoxDecoration(
+                                                                color: AppColors
+                                                                    .whiteColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                border: Border.all(
+                                                                    color: AppColors
+                                                                        .darkgreen)),
+                                                            child: Text(
+                                                              "Follow",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: AppColors
+                                                                      .darkgreen,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          onTap: () {
-
-                                          },
-                                        )
-                                    ),
-                                  );
-                                }),
-
+                                        ),
+                                        onTap: () {},
+                                      )),
+                                );
+                              }),
                         )
-
                       ],
                     ),
                   ),
-                )
-               ,
+                ),
               )
             ],
-          )
-         ),
+          )),
     );
   }
 }

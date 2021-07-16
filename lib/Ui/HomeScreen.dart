@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/Ui/sendreceivegifts.dart';
@@ -404,7 +405,7 @@ class HomeScreenState extends State<HomeScreen>{
                             ),
                             InkWell(
                               onTap: (){
-
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,

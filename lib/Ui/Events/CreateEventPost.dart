@@ -718,7 +718,9 @@ class CreateEventPostState extends State<CreateEventPost> {
                                 GestureDetector(
                                   onTap: ()
                                   {
-                                    DescriptionController.text="#";
+                                    DescriptionController.text=DescriptionController.text+"#";
+                                    DescriptionController.selection =
+                                        TextSelection.fromPosition(TextPosition(offset: DescriptionController.text.length));
                                   },
                                   child:  Container(
                                     alignment:Alignment.topLeft,

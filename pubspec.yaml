@@ -143,6 +143,7 @@ flutter:
     - assets/images/bg_img.png
     - assets/images/close.png
     - assets/images/categorymenu.png
+    - assets/images/files.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

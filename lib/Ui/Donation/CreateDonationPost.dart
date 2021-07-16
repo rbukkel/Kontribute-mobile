@@ -529,41 +529,73 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             ),
                             color: Colors.transparent,
                           ),
-                          child: TextFormField(
-                            autofocus: false,
-                            focusNode: DescriptionFocus,
-                            controller: DescriptionController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please enter campaign description";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(DateFocus);
-                            },
-                            onSaved: (val) => _description = val,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 15,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 15,
-                                decoration: TextDecoration.none,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                autofocus: false,
+                                maxLines: 4,
+                                focusNode: DescriptionFocus,
+                                controller: DescriptionController,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.text,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter campaign description";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  FocusScope.of(context).requestFocus(DateFocus);
+                                },
+                                onSaved: (val) => _description = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                              GestureDetector(
+                                onTap: ()
+                                {
+                                  DescriptionController.text=DescriptionController.text+"#";
+                                  DescriptionController.selection =
+                                      TextSelection.fromPosition(TextPosition(offset: DescriptionController.text.length));
+                                },
+                                child:  Container(
+                                  alignment:Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 3,
+                                      right: SizeConfig.blockSizeHorizontal *3,
+                                      bottom: SizeConfig.blockSizeVertical * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  child: Text(
+                                    StringConstant.addhashtag,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.lightBlue,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+
+
                         ),
                         Container(
                           child:   Row(
