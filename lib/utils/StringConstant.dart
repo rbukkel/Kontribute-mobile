@@ -149,4 +149,6 @@ class StringConstant {
 
   static const String addhashtag="Add hashtag";
 
+  static const String update="Update";
+
 }

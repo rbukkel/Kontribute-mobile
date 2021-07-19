@@ -176,6 +176,7 @@ class ticketsState extends State<tickets> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
+          toolbarHeight: SizeConfig.blockSizeVertical *15,
           title: Container(
             child: Text(
               StringConstant.tickets,
@@ -219,6 +220,7 @@ class ticketsState extends State<tickets> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(StringConstant.ongoingevents.toUpperCase(),
@@ -233,6 +235,7 @@ class ticketsState extends State<tickets> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(StringConstant.historyevents.toUpperCase(),

@@ -312,7 +312,7 @@ class mytranscationState extends State<mytranscation> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        width: SizeConfig.blockSizeHorizontal *46,
+                                        width: SizeConfig.blockSizeHorizontal *47,
                                         alignment: Alignment.topLeft,
                                         padding: EdgeInsets.only(
                                           left: SizeConfig
@@ -339,7 +339,7 @@ class mytranscationState extends State<mytranscation> {
                                         padding: EdgeInsets.only(
                                             right: SizeConfig
                                                 .blockSizeHorizontal *
-                                                4,
+                                                2,
                                             left: SizeConfig
                                                 .blockSizeHorizontal *
                                                 2,
@@ -543,7 +543,7 @@ class mytranscationState extends State<mytranscation> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        width: SizeConfig.blockSizeHorizontal *46,
+                                        width: SizeConfig.blockSizeHorizontal *47,
                                         alignment: Alignment.topLeft,
                                         padding: EdgeInsets.only(
                                           left: SizeConfig
@@ -570,7 +570,7 @@ class mytranscationState extends State<mytranscation> {
                                         padding: EdgeInsets.only(
                                             right: SizeConfig
                                                 .blockSizeHorizontal *
-                                                4,
+                                                2,
                                             left: SizeConfig
                                                 .blockSizeHorizontal *
                                                 2,

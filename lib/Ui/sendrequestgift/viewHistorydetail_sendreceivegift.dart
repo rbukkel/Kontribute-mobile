@@ -180,6 +180,9 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 left: SizeConfig
                                     .blockSizeHorizontal *
                                     1,
+                                right: SizeConfig
+                                    .blockSizeHorizontal *
+                                    2,
                                 top: SizeConfig
                                     .blockSizeHorizontal *
                                     1),
@@ -229,6 +232,9 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 left: SizeConfig
                                     .blockSizeHorizontal *
                                     1,
+                                right: SizeConfig
+                                    .blockSizeHorizontal *
+                                    2,
                                 bottom: SizeConfig.blockSizeVertical *1,
                                 top: SizeConfig
                                     .blockSizeHorizontal *
@@ -249,7 +255,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
                                 child: Text(
                                   "Collection Target- ",
                                   style: TextStyle(
@@ -263,7 +269,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
                                 alignment: Alignment.topLeft,
                                 padding: EdgeInsets.only(
                                     right: SizeConfig

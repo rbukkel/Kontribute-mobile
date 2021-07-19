@@ -175,6 +175,7 @@ class eventsState extends State<events> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
+          toolbarHeight: SizeConfig.blockSizeVertical *15,
           title: Container(
             child: Text(
               StringConstant.events,
@@ -223,6 +224,7 @@ class eventsState extends State<events> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(StringConstant.ongoingevents.toUpperCase(),
                             textAlign: TextAlign.center,
@@ -236,6 +238,7 @@ class eventsState extends State<events> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(StringConstant.historyevents.toUpperCase(),
                             textAlign: TextAlign.center,

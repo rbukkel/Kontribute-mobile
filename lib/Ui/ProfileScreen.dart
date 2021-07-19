@@ -104,9 +104,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                     width: 120,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *25,
-                      top: SizeConfig.blockSizeVertical * 17),
+               /* Container(
+
                   alignment: Alignment.bottomRight,
                   height: 25,
                   width: 25,
@@ -115,7 +114,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                     height: 25,
                     width: 25,
                   ),
-                ),
+                ),*/
               ],
             ),
             Row(
@@ -178,7 +177,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
                     StringConstant.emailid,
@@ -191,8 +190,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                  width: SizeConfig.blockSizeHorizontal * 60,
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
+                  width: SizeConfig.blockSizeHorizontal *58,
                   child: Text(
                     StringConstant.dummyemail,
                     style: TextStyle(
@@ -209,7 +208,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
                     StringConstant.mobileno,
@@ -222,8 +221,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
-                  width: SizeConfig.blockSizeHorizontal * 60,
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
+                  width: SizeConfig.blockSizeHorizontal * 58,
                   child: Text(
                     StringConstant.dummymobileno,
                     style: TextStyle(
@@ -240,7 +239,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
                     StringConstant.dateofbirth,
@@ -253,8 +252,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
-                  width: SizeConfig.blockSizeHorizontal * 60,
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
+                  width: SizeConfig.blockSizeHorizontal * 58,
                   child: Text(
                     StringConstant.dummydateofbirth,
                     style: TextStyle(
@@ -271,7 +270,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
                     StringConstant.companyname,
@@ -284,8 +283,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
-                  width: SizeConfig.blockSizeHorizontal *60,
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
+                  width: SizeConfig.blockSizeHorizontal *58,
                   child: Text(
                     StringConstant.dummycompanyname,
                     style: TextStyle(
@@ -302,7 +301,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
                     StringConstant.nationality,
@@ -315,8 +314,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
-                  width: SizeConfig.blockSizeHorizontal * 60,
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
+                  width: SizeConfig.blockSizeHorizontal * 58,
                   child: Text(
                     StringConstant.dummynationality,
                     style: TextStyle(
@@ -333,7 +332,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
                   width: SizeConfig.blockSizeHorizontal * 35,
                   child: Text(
                     StringConstant.currentcountry,
@@ -346,8 +345,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *4),
-                  width: SizeConfig.blockSizeHorizontal * 60,
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
+                  width: SizeConfig.blockSizeHorizontal * 58,
                   child: Text(
                     StringConstant.dummycountry,
                     style: TextStyle(
@@ -360,12 +359,6 @@ class ProfileScreenState extends State<ProfileScreen>{
                 ),
               ],
             )
-
-
-
-
-
-
           ],
         ),
       ),

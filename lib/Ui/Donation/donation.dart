@@ -40,6 +40,7 @@ class donationState extends State<donation> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
+          toolbarHeight: SizeConfig.blockSizeVertical *15,
           title: Container(
             child: Text(
               StringConstant.donation,
@@ -70,6 +71,7 @@ class donationState extends State<donation> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(StringConstant.ongoingcampaign.toUpperCase(),
@@ -84,6 +86,7 @@ class donationState extends State<donation> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(

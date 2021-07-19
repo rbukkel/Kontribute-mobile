@@ -234,12 +234,12 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                         top: SizeConfig.blockSizeVertical * 2),
                     child: InkWell(
                       onTap: () {
-                        _scaffoldKey.currentState.openDrawer();
+                        Navigator.pop(context, true);
                       },
                       child: Container(
                         color: Colors.transparent,
                         child: Image.asset(
-                          "assets/images/menu.png",
+                          "assets/images/back.png",
                           color: AppColors.whiteColor,
                           width: 20,
                           height: 20,
@@ -279,37 +279,26 @@ class EditProfileScreenState extends State<EditProfileScreen>{
               child: SingleChildScrollView(
                 child: Form(
                   child: Container(
-                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *1,right: SizeConfig.blockSizeHorizontal *1),
                     child: Column(
                       children: [
                         Stack(
                           children: [
-                            Container(
-                              alignment: Alignment.topCenter,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 4),
-                              height: 120,
-                              width: 120,
-                              child: Image.asset(
-                                "assets/images/userProfile.png",
-                                height: 120,
-                                width: 120,
-                              ),
-                            ),
+
                             GestureDetector(
                               onTap: () {
                                 showAlert();
                               },
                               child:  Container(
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *25,
-                                    top: SizeConfig.blockSizeVertical * 17),
-                                alignment: Alignment.bottomRight,
-                                height: 25,
-                                width: 25,
+                                alignment: Alignment.topCenter,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 4),
+                                height: 120,
+                                width: 120,
                                 child: Image.asset(
-                                  "assets/images/editprofile.png",
-                                  height: 25,
-                                  width: 25,
+                                  "assets/images/userProfile.png",
+                                  height: 120,
+                                  width: 120,
                                 ),
                               ),
                             ),
@@ -336,7 +325,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal *60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               margin: EdgeInsets.only(
                                 right: SizeConfig.blockSizeHorizontal * 2,
                               ),
@@ -398,7 +387,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               child: TextFormField(
                                 autofocus: false,
@@ -456,7 +445,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               child: TextFormField(
                                 autofocus: false,
@@ -516,7 +505,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -585,7 +574,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -653,7 +642,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               child: TextFormField(
                                 autofocus: false,
@@ -712,7 +701,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               child: TextFormField(
                                 autofocus: false,
@@ -771,7 +760,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             ),
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 60,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               child: TextFormField(
                                 autofocus: false,
@@ -811,7 +800,37 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             )
 
                           ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            height: SizeConfig.blockSizeVertical * 7,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                              bottom: SizeConfig.blockSizeVertical * 4,
+                              left: SizeConfig.blockSizeHorizontal * 20,
+                              right: SizeConfig.blockSizeHorizontal * 20,
+                            ),
+                            decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                image: new AssetImage("assets/images/sendbutton.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: Text(StringConstant.update,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 15,
+                                )),
+                          ),
                         )
+
                       ],
                     ),
                   ),

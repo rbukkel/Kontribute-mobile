@@ -38,6 +38,7 @@ class projectfundingState extends State<projectfunding> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
+          toolbarHeight: SizeConfig.blockSizeVertical *15,
           title: Container(
             child: Text(
               StringConstant.projectfunding,
@@ -69,6 +70,7 @@ class projectfundingState extends State<projectfunding> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(StringConstant.ongoingproject.toUpperCase(),
@@ -83,6 +85,7 @@ class projectfundingState extends State<projectfunding> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(StringConstant.historyproject.toUpperCase(),

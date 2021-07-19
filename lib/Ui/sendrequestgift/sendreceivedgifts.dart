@@ -40,6 +40,7 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           centerTitle: true,
+          toolbarHeight: SizeConfig.blockSizeVertical *15,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           title: Container(
@@ -67,15 +68,13 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
             indicatorWeight: 3,
             tabs: <Widget>[
               Tab(
-
                 child: Container(
-
                     alignment: Alignment.center,
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Text(StringConstant.ongoing.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
@@ -88,6 +87,7 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         Text(StringConstant.history.toUpperCase(),
