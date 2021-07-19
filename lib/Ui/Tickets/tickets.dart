@@ -31,14 +31,26 @@ class ticketsState extends State<tickets> {
   bool ongoing = false;
   bool history = false;
   final List<String> _dropdownEventCategory = [
+    "New year",
     "Valentine's Day",
     "Mother's Day",
     "Father's Day",
-    "Christmas",
     "Easter",
     "Thanksgiving",
     "Eid",
-    "Diwali"
+    "Diwali",
+    "Christmas",
+    "Halloween",
+    "Anniversary",
+    "Bridal Shower",
+    "Baby Shower",
+    "Bachelor Party",
+    "Bachelorette Party",
+    "Party",
+    "Lunch",
+    "Dinner",
+    "Graduation",
+    "Other"
   ];
   String textHolder = "Please Select";
 
@@ -138,7 +150,7 @@ class ticketsState extends State<tickets> {
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Lato-Bold',
                                         color: AppColors.black,
-                                        fontSize: 18),
+                                        fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -163,7 +175,7 @@ class ticketsState extends State<tickets> {
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           title: Container(
             child: Text(
               StringConstant.tickets,
@@ -178,7 +190,7 @@ class ticketsState extends State<tickets> {
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
           flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 22,
+            height: SizeConfig.blockSizeVertical * 12,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
@@ -195,7 +207,8 @@ class ticketsState extends State<tickets> {
 
           ],
           bottom: TabBar(
-            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            indicatorColor: AppColors.theme1color,
             isScrollable: true,
             indicatorWeight: 3,
             tabs: <Widget>[
@@ -210,7 +223,7 @@ class ticketsState extends State<tickets> {
 
                         Text(StringConstant.ongoingevents.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12))
+                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),
@@ -224,7 +237,7 @@ class ticketsState extends State<tickets> {
 
                         Text(StringConstant.historyevents.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12))
+                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),

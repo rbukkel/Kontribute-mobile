@@ -20,9 +20,11 @@ class StringConstant {
   static const String eventname = "Event Name";
   static const String eventtime = "Event Time";
   static const String location = "Location";
+  static const String entryfees = "Entry Fees";
   static const String locationdetails = "Location Details";
   static const String contactno = "Contact No.";
   static const String email = "Email";
+  static const String history = "History";
   static const String campaignname = "Campaign Name";
   static const String projectname = "Project Name";
   static const String campaigndescription = "Campaign Description";
@@ -34,6 +36,8 @@ class StringConstant {
   static const String video = "Video";
   static const String srno = "S.No";
   static const String respond = "Respond";
+  static const String starttime = "Start Time";
+  static const String endtime = "End Time";
   static const String pay = "Pay";
   static const String noofticket = "No. of Tickets";
   static const String eventlist = "Events";
@@ -89,8 +93,9 @@ class StringConstant {
   static const String forgetpwd = "Forgot Password";
   static const String welcometokontribute = "Welcome to Kontribute";
   static const String sendandreceivegift = "Send/Receive Gifts";
+  static const String sendandreceivehistorygift = "History Send/Receive Gifts";
   static const String createnewgift = "Create New Gift";
-  static const String receivegift = "Gift Request from:";
+  static const String receivegift = "Request Received from:";
   static const String wallet = "wallet";
   static const String notification = "Notification";
   static const String setting = "Settings";

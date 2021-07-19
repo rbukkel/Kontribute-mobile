@@ -337,6 +337,87 @@ class CreatepoolState extends State<Createpool> {
                     color: Colors.black12,
                   ),
                 ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      top: SizeConfig.blockSizeVertical * 2),
+                  child: Text(
+                    StringConstant.message,
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Bold'),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 2,
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeVertical * 1,
+                    right: SizeConfig.blockSizeVertical * 1,
+                  ),
+                  alignment: Alignment.topLeft,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black26,
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child: TextFormField(
+                    autofocus: false,
+                    focusNode: DescriptionFocus,
+                    maxLines: 4,
+                    controller: DescriptionController,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.text,
+                    validator: (val) {
+                      if (val.length == 0)
+                        return "Please enter message";
+                      else
+                        return null;
+                    },
+                    onFieldSubmitted: (v) {
+                      DescriptionFocus.unfocus();
+                    },
+                    onSaved: (val) => _Description = val,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular',
+                        fontSize: 15,
+                        color: Colors.black),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular',
+                        fontSize: 12,
+                        decoration: TextDecoration.none,
+                      ),
+                      hintText: "Type here message...",
+                    ),
+                  ),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                  child: Divider(
+                    thickness: 1,
+                    color: Colors.black12,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

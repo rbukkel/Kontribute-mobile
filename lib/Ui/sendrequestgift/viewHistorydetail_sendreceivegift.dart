@@ -12,13 +12,13 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class viewdetail_sendreceivegift extends StatefulWidget{
+class viewHistorydetail_sendreceivegift extends StatefulWidget{
   @override
-  viewdetail_sendreceivegiftState createState() => viewdetail_sendreceivegiftState();
+  viewHistorydetail_sendreceivegiftState createState() => viewHistorydetail_sendreceivegiftState();
 
 }
 
-class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
+class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sendreceivegift>{
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +57,12 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                     ),
                   ),
                   Container(
-                    width: SizeConfig.blockSizeHorizontal *60,
+                    width: SizeConfig.blockSizeHorizontal *75,
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      StringConstant.sendandreceivegift, textAlign: TextAlign.center,
+                      StringConstant.sendandreceivehistorygift, textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 20,
@@ -73,7 +73,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                   ),
                   Container(
                     width: 25,height: 25,
-                    margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
+                    margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
 
                   ),
                 ],

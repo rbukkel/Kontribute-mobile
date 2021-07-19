@@ -37,7 +37,7 @@ class projectfundingState extends State<projectfunding> {
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           title: Container(
             child: Text(
               StringConstant.projectfunding,
@@ -52,12 +52,13 @@ class projectfundingState extends State<projectfunding> {
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
           flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 22,
+            height: SizeConfig.blockSizeVertical * 12,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
           bottom: TabBar(
-            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            indicatorColor: AppColors.theme1color,
             isScrollable: true,
             indicatorWeight: 3,
             tabs: <Widget>[
@@ -72,7 +73,7 @@ class projectfundingState extends State<projectfunding> {
 
                         Text(StringConstant.ongoingproject.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12))
+                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),
@@ -86,7 +87,7 @@ class projectfundingState extends State<projectfunding> {
 
                         Text(StringConstant.historyproject.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12))
+                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),

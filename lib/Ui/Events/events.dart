@@ -28,14 +28,26 @@ class eventsState extends State<events> {
   bool ongoing = false;
   bool history = false;
   final List<String> _dropdownEventCategory = [
+    "New year",
     "Valentine's Day",
     "Mother's Day",
     "Father's Day",
-    "Christmas",
     "Easter",
     "Thanksgiving",
     "Eid",
-    "Diwali"
+    "Diwali",
+    "Christmas",
+    "Halloween",
+    "Anniversary",
+    "Bridal Shower",
+    "Baby Shower",
+    "Bachelor Party",
+    "Bachelorette Party",
+    "Party",
+    "Lunch",
+    "Dinner",
+    "Graduation",
+    "Other"
   ];
   String textHolder = "Please Select";
 
@@ -50,6 +62,7 @@ class eventsState extends State<events> {
       );
     });
   }
+
   void _modalBottomSheetMenu() {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -62,9 +75,9 @@ class eventsState extends State<events> {
                 height: MediaQuery.of(context).size.height * 80,
                 decoration: BoxDecoration(
                     image: new DecorationImage(
-                      image: new AssetImage("assets/images/bg_img.png"),
-                      fit: BoxFit.fill,
-                    )), //could change this to Color(0xFF737373),
+                  image: new AssetImage("assets/images/bg_img.png"),
+                  fit: BoxFit.fill,
+                )), //could change this to Color(0xFF737373),
 
                 child: Column(
                   children: [
@@ -113,7 +126,9 @@ class eventsState extends State<events> {
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                  changeText(_dropdownEventCategory.elementAt(index).toString());
+                                  changeText(_dropdownEventCategory
+                                      .elementAt(index)
+                                      .toString());
                                 },
                                 child: Container(
                                   width: SizeConfig.blockSizeHorizontal * 80,
@@ -135,7 +150,7 @@ class eventsState extends State<events> {
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Lato-Bold',
                                         color: AppColors.black,
-                                        fontSize: 18),
+                                        fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -151,8 +166,7 @@ class eventsState extends State<events> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return
-      DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: AppColors.whiteColor,
@@ -160,7 +174,7 @@ class eventsState extends State<events> {
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           title: Container(
             child: Text(
               StringConstant.events,
@@ -175,39 +189,44 @@ class eventsState extends State<events> {
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
           flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 22,
+            height: SizeConfig.blockSizeVertical * 12,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
           actions: [
             InkWell(
-              onTap: (){
+              onTap: () {
                 _modalBottomSheetMenu();
               },
               child: Container(
-                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
-                child:Image.asset("assets/images/categorymenu.png",height: 25,width: 25,color: Colors.white,) ,
+                margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 4,
+                ),
+                child: Image.asset(
+                  "assets/images/categorymenu.png",
+                  height: 25,
+                  width: 25,
+                  color: Colors.white,
+                ),
               ),
             ),
-
           ],
           bottom: TabBar(
-            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            indicatorColor: AppColors.theme1color,
             isScrollable: true,
             indicatorWeight: 3,
             tabs: <Widget>[
               Tab(
-
                 child: Container(
                     alignment: Alignment.center,
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
                         Text(StringConstant.ongoingevents.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12))
+                            style: TextStyle(color: Colors.black, fontSize: 12))
                       ],
                     )),
               ),
@@ -218,38 +237,33 @@ class eventsState extends State<events> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
                         Text(StringConstant.historyevents.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12))
+                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),
-
             ],
           ),
         ),
-
-          body: Container(
-              height: double.infinity,
-             color: AppColors.whiteColor,
-              child:
-              TabBarView(
-                children:[
-                  OngoingEvents(),
-                  EventsHistoryProject(),
-                ],
-              ),
-
-            ) ,
+        body: Container(
+          height: double.infinity,
+          color: AppColors.whiteColor,
+          child: TabBarView(
+            children: [
+              OngoingEvents(),
+              EventsHistoryProject(),
+            ],
+          ),
+        ),
         bottomNavigationBar: bottombar(context),
       ),
     );
   }
+
   Widget backgroundBGContainer() {
     return Container(
       color: AppColors.whiteColor,
     );
   }
-
 }

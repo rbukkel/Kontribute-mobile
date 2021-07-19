@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
-import 'package:kontribute/Ui/Donation/CampaignHistory.dart';
-import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
@@ -10,6 +8,8 @@ import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/sendrequestgift/Createpool.dart';
+import 'package:kontribute/Ui/sendrequestgift/HistorySendReceived.dart';
+import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -17,23 +17,25 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
-class donation extends StatefulWidget {
+class sendreceivedgifts extends StatefulWidget {
   @override
-  donationState createState() => donationState();
+  sendreceivedgiftsState createState() => sendreceivedgiftsState();
 }
 
-class donationState extends State<donation> {
+class sendreceivedgiftsState extends State<sendreceivedgifts> {
   String tabvalue = "Ongoing";
   bool ongoing = false;
   bool history = false;
 
   @override
   Widget build(BuildContext context) {
+
     SizeConfig().init(context);
     return
       DefaultTabController(
       length: 2,
       child: Scaffold(
+
         backgroundColor: AppColors.whiteColor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -42,7 +44,7 @@ class donationState extends State<donation> {
           backgroundColor: Colors.white,
           title: Container(
             child: Text(
-              StringConstant.donation,
+              StringConstant.sendandreceivegift,
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.none,
@@ -65,14 +67,16 @@ class donationState extends State<donation> {
             indicatorWeight: 3,
             tabs: <Widget>[
               Tab(
+
                 child: Container(
+
                     alignment: Alignment.center,
                     width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
-                        Text(StringConstant.ongoingcampaign.toUpperCase(),
+                        Text(StringConstant.ongoing.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
@@ -86,10 +90,9 @@ class donationState extends State<donation> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
-                        Text(
-                            StringConstant.campaignhistory.toUpperCase(),
+                        Text(StringConstant.history.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
+                            style: TextStyle(color: Colors.black , fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),
@@ -104,8 +107,8 @@ class donationState extends State<donation> {
               child:
               TabBarView(
                 children:[
-                  OngoingCampaign(),
-                  CampaignHistory(),
+                  OngoingSendReceived(),
+                  HistorySendReceived(),
                 ],
               ),
 

@@ -28,7 +28,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   final EmailFocus = FocusNode();
   final SearchPostFocus = FocusNode();
   final CostofTicketFocus = FocusNode();
-  final MaximumNoofquantityFocus = FocusNode();
+  final VideoFocus = FocusNode();
   final TermsFocus = FocusNode();
   final TextEditingController TermsController = new TextEditingController();
   final TextEditingController searchpostController =
@@ -58,7 +58,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _email;
   String _searchpost;
   String _costofTicket;
-  String _maximumNoofquantity;
+  String _video;
   String textHolder = "Please Select";
   final List<String> _dropdownCategoryValues = [
     "Anyone",
@@ -66,14 +66,26 @@ class CreateEventPostState extends State<CreateEventPost> {
     "Group members"
   ];
   final List<String> _dropdownEventCategory = [
+    "New year",
     "Valentine's Day",
     "Mother's Day",
     "Father's Day",
-    "Christmas",
     "Easter",
     "Thanksgiving",
     "Eid",
-    "Diwali"
+    "Diwali",
+    "Christmas",
+    "Halloween",
+    "Anniversary",
+    "Bridal Shower",
+    "Baby Shower",
+    "Bachelor Party",
+    "Bachelorette Party",
+    "Party",
+    "Lunch",
+    "Dinner",
+    "Graduation",
+    "Other"
   ];
 
 
@@ -85,6 +97,9 @@ class CreateEventPostState extends State<CreateEventPost> {
   String Date, EndDate;
   String formattedDate = "07-07-2021";
   String formattedEndDate = "07-07-2021";
+  final EnterRequiredAmountFocus = FocusNode();
+  final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  String _requiredamount;
 
   DateView() async {
     final DateTime picked = await showDatePicker(
@@ -209,7 +224,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Lato-Bold',
                                         color: AppColors.black,
-                                        fontSize: 18),
+                                        fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -1170,6 +1185,129 @@ class CreateEventPostState extends State<CreateEventPost> {
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
+                              width: SizeConfig.blockSizeHorizontal * 45,
+                              child: Text(
+                                StringConstant.entryfees,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 42,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: SizeConfig.blockSizeVertical * 7,
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 10,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8),
+                                              bottomLeft: Radius.circular(8)),
+                                          border: Border.all(
+                                            color: AppColors.theme1color,
+                                            style: BorderStyle.solid,
+                                            width: 1.0,
+                                          ),
+                                          color: AppColors.theme1color,
+                                        ),
+                                        padding: EdgeInsets.all(0.7),
+                                        child: Image.asset(
+                                          "assets/images/dollersign.png",
+                                          width: 50,
+                                          height: 50,
+                                        ),
+                                      ),
+                                      Container(
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 30,
+                                        padding: EdgeInsets.only(
+                                            left:
+                                            SizeConfig.blockSizeHorizontal *
+                                                1,
+                                            right:
+                                            SizeConfig.blockSizeHorizontal *
+                                                1),
+                                        child: TextFormField(
+                                          autofocus: false,
+                                          focusNode: EnterRequiredAmountFocus,
+                                          controller:
+                                          EnterRequiredAmountController,
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType: TextInputType.number,
+                                          validator: (val) {
+                                            if (val.length == 0)
+                                              return "Please enter required amount";
+                                            else
+                                              return null;
+                                          },
+                                          onFieldSubmitted: (v) {
+                                            FocusScope.of(context).requestFocus(
+                                                VideoFocus);
+                                          },
+                                          onSaved: (val) => _requiredamount = val,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
+                                              color: Colors.black),
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            hintStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                          ],
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 22,
                               child: Text(
                                 StringConstant.video,
@@ -1204,20 +1342,20 @@ class CreateEventPostState extends State<CreateEventPost> {
                               ),
                               child: TextFormField(
                                 autofocus: false,
-                                focusNode: MaximumNoofquantityFocus,
+                                focusNode: VideoFocus,
                                 controller: MaximumNoofquantityController,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.number,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter Muximum qty";
+                                    return "Please enter video url";
                                   else
                                     return null;
                                 },
                                 onFieldSubmitted: (v) {
-                                  MaximumNoofquantityFocus.unfocus();
+                                  VideoFocus.unfocus();
                                 },
-                                onSaved: (val) => _maximumNoofquantity = val,
+                                onSaved: (val) => _video = val,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   letterSpacing: 1.0,
