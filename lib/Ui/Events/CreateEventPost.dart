@@ -67,14 +67,6 @@ class CreateEventPostState extends State<CreateEventPost> {
   ];
   final List<String> _dropdownEventCategory = [
     "New year",
-    "Valentine's Day",
-    "Mother's Day",
-    "Father's Day",
-    "Easter",
-    "Thanksgiving",
-    "Eid",
-    "Diwali",
-    "Christmas",
     "Halloween",
     "Anniversary",
     "Bridal Shower",

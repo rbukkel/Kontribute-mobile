@@ -88,7 +88,6 @@ class donationState extends State<donation> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Text(
                             StringConstant.campaignhistory.toUpperCase(),
                             textAlign: TextAlign.center,

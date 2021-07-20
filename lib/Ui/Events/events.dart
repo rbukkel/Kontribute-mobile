@@ -29,14 +29,6 @@ class eventsState extends State<events> {
   bool history = false;
   final List<String> _dropdownEventCategory = [
     "New year",
-    "Valentine's Day",
-    "Mother's Day",
-    "Father's Day",
-    "Easter",
-    "Thanksgiving",
-    "Eid",
-    "Diwali",
-    "Christmas",
     "Halloween",
     "Anniversary",
     "Bridal Shower",

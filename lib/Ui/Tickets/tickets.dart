@@ -32,14 +32,6 @@ class ticketsState extends State<tickets> {
   bool history = false;
   final List<String> _dropdownEventCategory = [
     "New year",
-    "Valentine's Day",
-    "Mother's Day",
-    "Father's Day",
-    "Easter",
-    "Thanksgiving",
-    "Eid",
-    "Diwali",
-    "Christmas",
     "Halloween",
     "Anniversary",
     "Bridal Shower",
@@ -195,7 +187,7 @@ class ticketsState extends State<tickets> {
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
-          actions: [
+         /* actions: [
             InkWell(
               onTap: (){
                 _modalBottomSheetMenu();
@@ -206,7 +198,7 @@ class ticketsState extends State<tickets> {
               ),
             ),
 
-          ],
+          ],*/
           bottom: TabBar(
             labelColor: Colors.white,
             indicatorColor: AppColors.theme1color,
