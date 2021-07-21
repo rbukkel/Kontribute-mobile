@@ -139,6 +139,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -193,6 +194,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -247,6 +249,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -303,6 +306,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -337,7 +341,7 @@ class registerState extends State<register>{
                                     return null;
                                 },
                                 onFieldSubmitted: (v) {
-                                  PwdFocus.unfocus();
+                                  FocusScope.of(context).requestFocus(MobileFocus);
                                 },
                                 onSaved: (val) => _password = val,
                                 obscureText: !this._showPassword,
@@ -360,6 +364,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -416,7 +421,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
-                              height: SizeConfig.blockSizeVertical *7.5,
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -444,7 +449,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
-                              height: SizeConfig.blockSizeVertical *7.5,
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -498,7 +503,7 @@ class registerState extends State<register>{
                               ),
                             ),
                             Container(
-                              height: SizeConfig.blockSizeVertical *7.5,
+                              height: SizeConfig.blockSizeVertical *7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
                                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -610,7 +615,7 @@ class registerState extends State<register>{
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width,
-                                height: SizeConfig.blockSizeVertical * 8,
+                                height: SizeConfig.blockSizeVertical * 7,
                                 margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 5,
                                   bottom: SizeConfig.blockSizeVertical * 2,
@@ -632,7 +637,126 @@ class registerState extends State<register>{
                                     )),
                               ),
                             ),
+                            Container(
+                              margin:
+                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
+                              width: 300,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      width:60,
+                                      child:  Divider(
+                                        color: Colors.grey,
+                                        thickness: 1,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      child: Text(StringConstant.or,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',)),
+                                    ),
+                                    Container(
+                                      width:60,
+                                      child:  Divider(
+                                        color: Colors.grey,
+                                        thickness: 1,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
 
+                            Container(
+                              margin:
+                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3,bottom: SizeConfig.blockSizeVertical * 2),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/facebook.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: ()
+                                    {
+
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/instagram.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/twitter.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/telegram.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left:SizeConfig.blockSizeHorizontal * 3,
+                                          right: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/snapchat.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  )
+
+
+
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       )

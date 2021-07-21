@@ -15,6 +15,7 @@ import 'package:kontribute/Ui/Tickets/TicketsEventsHistoryProject.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/sendrequestgift/Createpool.dart';
 import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
+import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -164,7 +165,8 @@ class ticketsState extends State<tickets> {
       child: Scaffold(
         backgroundColor: AppColors.whiteColor,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
+        appBar:
+        AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -182,23 +184,26 @@ class ticketsState extends State<tickets> {
             ),
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+
           flexibleSpace: Image(
             height: SizeConfig.blockSizeVertical * 12,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
-         /* actions: [
+          actions: [
             InkWell(
               onTap: (){
-                _modalBottomSheetMenu();
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+
               },
               child: Container(
                 margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
-                child:Image.asset("assets/images/categorymenu.png",height: 25,width: 25,color: Colors.white,) ,
+                child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
               ),
             ),
 
-          ],*/
+          ],
           bottom: TabBar(
             labelColor: Colors.white,
             indicatorColor: AppColors.theme1color,

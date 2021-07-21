@@ -116,7 +116,7 @@ class StringConstant {
   static const String invitations = "Invitations";
   static const String amountpaid = "Amount Paid";
   static const String amountreceive = "Amount Received";
-  static const String debit = "Debit";
+  static const String debit = "Debit/Credit";
   static const String credit = "Credit";
   static const String withdraw = "Withdraw";
   static const String addmoney = "Add Money";
@@ -150,5 +150,7 @@ class StringConstant {
   static const String addhashtag="Add hashtag";
 
   static const String update="Update";
+
+  static const String moneycash="Money / Cash";
 
 }

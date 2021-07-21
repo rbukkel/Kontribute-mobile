@@ -50,7 +50,7 @@ class afterwelcomeState extends State<afterwelcome>{
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                height: SizeConfig.blockSizeVertical * 8,
+                height: SizeConfig.blockSizeVertical * 7,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
@@ -87,7 +87,7 @@ class afterwelcomeState extends State<afterwelcome>{
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                height: SizeConfig.blockSizeVertical * 8,
+                height: SizeConfig.blockSizeVertical * 7,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(

@@ -130,7 +130,8 @@ class OngoingProjectState extends State<OngoingProject> {
                 ListView.builder(
                     itemCount: 8,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
+                      return
+                        Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
                             shape: RoundedRectangleBorder(

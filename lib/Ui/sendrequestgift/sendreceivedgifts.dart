@@ -11,6 +11,7 @@ import 'package:kontribute/Ui/sendrequestgift/Createpool.dart';
 import 'package:kontribute/Ui/sendrequestgift/HistorySendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
+import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -61,6 +62,19 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
+           actions: [
+            InkWell(
+              onTap: (){
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
+                child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
+              ),
+            ),
+
+          ],
           bottom: TabBar(
             labelColor: Colors.white,
             indicatorColor: AppColors.theme1color,

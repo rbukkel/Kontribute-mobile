@@ -191,12 +191,13 @@ class WalletScreenState extends State<WalletScreen>{
                   child:  Container(
                     margin: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal *2,
+                        right: SizeConfig.blockSizeHorizontal *1
                     ),
                     child: Card(
                       color: debit?AppColors.light_grey:AppColors.whiteColor,
                         child: Container(
                           alignment: Alignment.center,
-                          width: SizeConfig.blockSizeHorizontal *20,
+                          width: SizeConfig.blockSizeHorizontal *35,
                           height: SizeConfig.blockSizeVertical * 5,
                           child: Text(StringConstant.debit,style: TextStyle(letterSpacing: 1.0,
                               color: Colors.black87,
@@ -206,7 +207,7 @@ class WalletScreenState extends State<WalletScreen>{
                         )),
                   ),
                 ),
-                GestureDetector(
+              /*  GestureDetector(
                   onTap: ()
                   {
                     setState(() {
@@ -234,7 +235,7 @@ class WalletScreenState extends State<WalletScreen>{
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular')),
                           ))) ,
-                ),
+                ),*/
                 GestureDetector(
                   onTap: ()
                   {
@@ -254,7 +255,7 @@ class WalletScreenState extends State<WalletScreen>{
                           color: withdraw?AppColors.light_grey:AppColors.whiteColor,
                           child: Container(
                             alignment: Alignment.center,
-                            width: SizeConfig.blockSizeHorizontal * 20,
+                            width: SizeConfig.blockSizeHorizontal * 25,
                             height: SizeConfig.blockSizeVertical * 5,
                             child: Text(StringConstant.withdraw,style: TextStyle(letterSpacing: 1.0,
                                 color: Colors.black87,
@@ -282,7 +283,7 @@ class WalletScreenState extends State<WalletScreen>{
                           color: addmoney?AppColors.light_grey:AppColors.whiteColor,
                           child: Container(
                             alignment: Alignment.center,
-                            width: SizeConfig.blockSizeHorizontal * 20,
+                            width: SizeConfig.blockSizeHorizontal * 25,
                             height: SizeConfig.blockSizeVertical * 5,
                             child: Text(StringConstant.addmoney,style: TextStyle(letterSpacing: 1.0,
                                 color: Colors.black87,
@@ -848,6 +849,7 @@ class WalletScreenState extends State<WalletScreen>{
               ),
             ),
             Container(
+              height: SizeConfig.blockSizeVertical *7,
               margin: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical *2,
                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -919,6 +921,7 @@ class WalletScreenState extends State<WalletScreen>{
               ),
             ),
             Container(
+              height: SizeConfig.blockSizeVertical *7,
               margin: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical *2,
                 left: SizeConfig.blockSizeHorizontal * 12,
@@ -1121,6 +1124,7 @@ class WalletScreenState extends State<WalletScreen>{
               ),
             ),
             Container(
+              height: SizeConfig.blockSizeVertical *7,
               margin: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical *2,
                 left: SizeConfig.blockSizeHorizontal * 12,

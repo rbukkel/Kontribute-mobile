@@ -301,7 +301,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                     return null;
                                 },
                                 onFieldSubmitted: (v) {
-                                  SearchContactFocus.unfocus();
+                                  FocusScope.of(context).requestFocus(requiredamountFocus);
                                 },
                                 onSaved: (val) => _searchcontact = val,
                                 textAlign: TextAlign.left,

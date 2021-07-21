@@ -311,7 +311,7 @@ class CreatepoolState extends State<Createpool> {
                         },
                         onFieldSubmitted: (v) {
                           FocusScope.of(context)
-                              .requestFocus(SearchContactFocus);
+                              .requestFocus(DescriptionFocus);
                         },
                         onSaved: (val) => _createpool = val,
                         textAlign: TextAlign.left,
@@ -386,7 +386,7 @@ class CreatepoolState extends State<Createpool> {
                         return null;
                     },
                     onFieldSubmitted: (v) {
-                      DescriptionFocus.unfocus();
+                      FocusScope.of(context).requestFocus(SearchContactFocus);
                     },
                     onSaved: (val) => _Description = val,
                     textAlign: TextAlign.left,
@@ -941,7 +941,7 @@ class CreatepoolState extends State<Createpool> {
                                       return null;
                                   },
                                   onFieldSubmitted: (v) {
-                                    SearchPostFocus.unfocus();
+                                    FocusScope.of(context).requestFocus(TermsFocus);
                                   },
                                   onSaved: (val) => _searchpost = val,
                                   textAlign: TextAlign.left,

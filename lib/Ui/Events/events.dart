@@ -12,6 +12,7 @@ import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/sendrequestgift/Createpool.dart';
 import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
+import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -29,6 +30,14 @@ class eventsState extends State<events> {
   bool history = false;
   final List<String> _dropdownEventCategory = [
     "New year",
+    "Valentine's Day",
+    "Mother's Day",
+    "Father's Day",
+    "Easter",
+    "Thanksgiving",
+    "Eid",
+    "Diwali",
+    "Christmas",
     "Halloween",
     "Anniversary",
     "Bridal Shower",
@@ -181,6 +190,7 @@ class eventsState extends State<events> {
             ),
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+
           flexibleSpace: Image(
             height: SizeConfig.blockSizeVertical * 12,
             image: AssetImage('assets/images/appbar.png'),
@@ -197,10 +207,21 @@ class eventsState extends State<events> {
                 ),
                 child: Image.asset(
                   "assets/images/categorymenu.png",
-                  height: 25,
-                  width: 25,
+                  height: 20,
+                  width: 20,
                   color: Colors.white,
                 ),
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
+                child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
               ),
             ),
           ],
