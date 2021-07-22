@@ -38,6 +38,7 @@ dependencies:
   percent_indicator: ^2.1.7+2
   gradient_widgets: ^0.5.2
   flappy_search_bar: ^1.7.2
+  flutter_speed_dial: ^1.0.9
 
 dev_dependencies:
   flutter_test:

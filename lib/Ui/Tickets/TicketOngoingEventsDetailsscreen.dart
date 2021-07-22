@@ -129,7 +129,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
@@ -189,24 +190,69 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTapDown: (TapDownDetails details){
-                            _tapDownPosition = details.globalPosition;
-                          },
-                          onTap: ()
-                          {
-                            _showPopupMenu();
-                          },
-                          child:  Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(
-                              top:SizeConfig.blockSizeVertical *1,
-                                right: SizeConfig
-                                    .blockSizeHorizontal * 2),
-                            child: Image.asset(
-                                "assets/images/menudot.png",
-                                height: 15, width: 20),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: ()
+                              {
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    top:SizeConfig.blockSizeVertical *1,
+                                    right: SizeConfig
+                                        .blockSizeHorizontal * 2),
+                                padding: EdgeInsets.only(
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        7,
+                                    left: SizeConfig
+                                        .blockSizeHorizontal *
+                                        7,
+                                    bottom: SizeConfig
+                                        .blockSizeHorizontal *
+                                        3,
+                                    top: SizeConfig
+                                        .blockSizeHorizontal *
+                                        3),
+                                decoration: BoxDecoration(
+                                  color: AppColors.darkgreen,
+                                  borderRadius: BorderRadius.circular(20),
+
+                                ),
+                                child: Text(
+                                  "BUY",
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: AppColors.whiteColor,
+                                      fontSize:12,
+                                      fontWeight:
+                                      FontWeight.normal,
+                                      fontFamily:
+                                      'Poppins-Regular'),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTapDown: (TapDownDetails details){
+                                _tapDownPosition = details.globalPosition;
+                              },
+                              onTap: ()
+                              {
+                                _showPopupMenu();
+                              },
+                              child:  Container(
+                                alignment: Alignment.topRight,
+                                margin: EdgeInsets.only(
+                                    top:SizeConfig.blockSizeVertical *1,
+                                    right: SizeConfig
+                                        .blockSizeHorizontal * 2),
+                                child: Image.asset(
+                                    "assets/images/menudot.png",
+                                    height: 15, width: 20),
+                              ),
+                            )
+                          ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -943,46 +989,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 )
                               ],
                             ),
-                            GestureDetector(
-                              onTap: ()
-                              {
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(bottom:SizeConfig.blockSizeVertical *2 ,left:
-                                SizeConfig.blockSizeHorizontal *1,
-                                    right: SizeConfig.blockSizeHorizontal *3,
-                                    top: SizeConfig.blockSizeVertical *2),
-                                padding: EdgeInsets.only(
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        7,
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        7,
-                                    bottom: SizeConfig
-                                        .blockSizeHorizontal *
-                                        3,
-                                    top: SizeConfig
-                                        .blockSizeHorizontal *
-                                        3),
-                                decoration: BoxDecoration(
-                                  color: AppColors.darkgreen,
-                                  borderRadius: BorderRadius.circular(20),
 
-                                ),
-                                child: Text(
-                                  "BUY",
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: AppColors.whiteColor,
-                                      fontSize:12,
-                                      fontWeight:
-                                      FontWeight.normal,
-                                      fontFamily:
-                                      'Poppins-Regular'),
-                                ),
-                              ),
-                            )
                           ],
                         ),
                         Container(

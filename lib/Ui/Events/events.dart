@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
+import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/EventsHistoryProject.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
@@ -273,6 +274,29 @@ class eventsState extends State<events> {
           ),
         ),
         bottomNavigationBar: bottombar(context),
+
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:
+        FloatingActionButton(
+          //  backgroundColor: AppColors.whiteColor,
+
+          child: new Icon(Icons.add_box),
+          backgroundColor: AppColors.themecolor,
+          /*  icon: Icon(
+            Icons.edit,
+            color: AppColors.selectedcolor,
+          ),
+          label: Text(
+            'Create Post',
+            style: TextStyle(color: AppColors.selectedcolor),
+          ),*/
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => CreateEventPost()));
+          },
+        ),
       ),
     );
   }

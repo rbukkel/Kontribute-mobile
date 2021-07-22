@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/Donation/CampaignHistory.dart';
+import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -128,6 +129,28 @@ class donationState extends State<donation> {
 
             ) ,
         bottomNavigationBar: bottombar(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:
+        FloatingActionButton(
+          //  backgroundColor: AppColors.whiteColor,
+
+          child: new Icon(Icons.add_box),
+          backgroundColor: AppColors.themecolor,
+          /*  icon: Icon(
+            Icons.edit,
+            color: AppColors.selectedcolor,
+          ),
+          label: Text(
+            'Create Post',
+            style: TextStyle(color: AppColors.selectedcolor),
+          ),*/
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => CreateDonationPost()));
+          },
+        ),
       ),
     );
   }

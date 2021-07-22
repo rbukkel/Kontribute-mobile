@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
@@ -12,6 +13,8 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'dart:math' as math;
+
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 
@@ -20,17 +23,11 @@ class OngoingSendReceived extends StatefulWidget {
   OngoingSendReceivedState createState() => OngoingSendReceivedState();
 }
 
-class OngoingSendReceivedState extends State<OngoingSendReceived> {
+class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerProviderStateMixin{
 
   Offset _tapDownPosition;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
-
-
+  bool _dialVisible = true;
   _showPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
@@ -89,7 +86,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> {
                 ],
               ),
             )),
-
       ],
       elevation: 8.0,
     );
@@ -97,49 +93,16 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column(
+          child:
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-          /*    Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    alignment: Alignment.topRight,
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 1,
-                        top: SizeConfig.blockSizeVertical * 22),
-                    child: Text(
-                      "Sort by: ",
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          color: Colors.black87,
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular'),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    padding: EdgeInsets.only(
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                        top: SizeConfig.blockSizeVertical * 22),
-                    child: Text(
-                      "Request",
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins-Regular'),
-                    ),
-                  )
-                ],
-              ),*/
 
               Expanded(
                 child: ListView.builder(
@@ -462,26 +425,49 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> {
             ],
           )
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.whiteColor,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0))),
-        icon: Icon(
-          Icons.edit,
-          color: AppColors.selectedcolor,
-        ),
-        label: Text(
-          'Create Post',
-          style: TextStyle(color: AppColors.selectedcolor),
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => createpostgift()));
-        },
-      ),
 
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        // this is ignored if animatedIcon is non null
+        // child: Icon(Icons.add),
+        visible: _dialVisible,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        tooltip: 'Speed Dial',
+        heroTag: 'speed-dial-hero-tag',
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 8.0,
+        shape: CircleBorder(),
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.request_page),
+              backgroundColor: AppColors.theme1color,
+              label: 'Request',
+
+              onTap: () => print('FIRST CHILD')
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.public),
+            backgroundColor: AppColors.theme1color,
+            label: 'Public',
+
+            onTap: () => print('SECOND CHILD'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.privacy_tip),
+            backgroundColor: AppColors.theme1color,
+            label: 'Private',
+
+            onTap: () => print('THIRD CHILD'),
+          ),
+        ],
+      ),
     );
   }
+
 }

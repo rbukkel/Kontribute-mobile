@@ -7,6 +7,7 @@ import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/Ui/sendrequestgift/Createpool.dart';
 import 'package:kontribute/Ui/sendrequestgift/HistorySendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
@@ -127,7 +128,30 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
               ),
 
             ) ,
+
         bottomNavigationBar: bottombar(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:
+        FloatingActionButton(
+        //  backgroundColor: AppColors.whiteColor,
+
+          child: new Icon(Icons.add_box),
+          backgroundColor: AppColors.themecolor,
+        /*  icon: Icon(
+            Icons.edit,
+            color: AppColors.selectedcolor,
+          ),
+          label: Text(
+            'Create Post',
+            style: TextStyle(color: AppColors.selectedcolor),
+          ),*/
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => createpostgift()));
+          },
+        ),
       ),
     );
   }

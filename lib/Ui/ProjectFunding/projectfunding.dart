@@ -3,6 +3,7 @@ import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
+import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
@@ -127,6 +128,29 @@ class projectfundingState extends State<projectfunding> {
 
             ) ,
         bottomNavigationBar: bottombar(context),
+
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:
+        FloatingActionButton(
+          //  backgroundColor: AppColors.whiteColor,
+
+          child: new Icon(Icons.add_box),
+          backgroundColor: AppColors.themecolor,
+          /*  icon: Icon(
+            Icons.edit,
+            color: AppColors.selectedcolor,
+          ),
+          label: Text(
+            'Create Post',
+            style: TextStyle(color: AppColors.selectedcolor),
+          ),*/
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => CreateProjectPost()));
+          },
+        ),
       ),
     );
   }

@@ -426,48 +426,56 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal *25,
-                              alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                              child: Text(
-                                "Collection Target- ",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black87,
-                                    fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
-                              ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal *15,
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                      left: SizeConfig.blockSizeHorizontal * 3),
+                                  child:
+                                  Text(
+                                    "Sold slots- ",
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black87,
+                                        fontSize: 8,
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontFamily:
+                                        'Poppins-Regular'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.only(
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        3,
+                                  ),
+                                  child: Text(
+                                    "\$100",
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.lightBlueAccent,
+                                        fontSize: 8,
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontFamily:
+                                        'Poppins-Regular'),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.only(
-                                right: SizeConfig
-                                    .blockSizeHorizontal *
-                                    3,
-                              ),
-                              child: Text(
-                                "\$100",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.lightBlueAccent,
-                                    fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
-                              ),
-                            ),
+
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               child:  LinearPercentIndicator(
-                                width: 90.0,
+                                width: 110.0,
                                 lineHeight: 14.0,
                                 percent: 0.6,
                                 center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -475,39 +483,41 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                 progressColor:AppColors.themecolor,
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.centerRight,
-                              width: SizeConfig.blockSizeHorizontal *26,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                              child: Text(
-                                "Collected Amount-",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black87,
-                                    fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
+                            Row(children: [
+                              Container(
+                                alignment: Alignment.centerRight,
+                                width: SizeConfig.blockSizeHorizontal *26,
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                child: Text(
+                                  "Remaining slots-",
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black87,
+                                      fontSize: 8,
+                                      fontWeight:
+                                      FontWeight.normal,
+                                      fontFamily:
+                                      'Poppins-Regular'),
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                  .blockSizeHorizontal *
-                                  1),
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "\$40",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.lightBlueAccent,
-                                    fontSize: 8,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    fontFamily:
-                                    'Poppins-Regular'),
-                              ),
-                            )
+                              Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                    .blockSizeHorizontal *
+                                    7),
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "\$40",
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.lightBlueAccent,
+                                      fontSize: 8,
+                                      fontWeight:
+                                      FontWeight.normal,
+                                      fontFamily:
+                                      'Poppins-Regular'),
+                                ),
+                              )
+                            ],)
                           ],
                         ),
                         Container(

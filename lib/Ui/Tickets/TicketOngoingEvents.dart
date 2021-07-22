@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
@@ -120,6 +121,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     );
   }
 
+  bool _dialVisible = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,23 +156,68 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
-                                    GestureDetector(
-                                      onTapDown: (TapDownDetails details){
-                                        _tapDownPosition = details.globalPosition;
-                                      },
-                                      onTap: ()
-                                      {
-                                        _showPopupMenu();
-                                      },
-                                      child:  Container(
-                                        alignment: Alignment.topRight,
-                                        margin: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal * 2),
-                                        child: Image.asset(
-                                            "assets/images/menudot.png",
-                                            height: 15, width: 20),
-                                      ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: ()
+                                          {
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(left:
+                                            SizeConfig.blockSizeHorizontal *1,
+                                                right: SizeConfig.blockSizeHorizontal *3,
+                                               ),
+                                            padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    7,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    7,
+                                                bottom: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2,
+                                                top: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.darkgreen,
+                                              borderRadius: BorderRadius.circular(20),
+
+                                            ),
+                                            child: Text(
+                                              "BUY",
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: AppColors.whiteColor,
+                                                  fontSize:12,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTapDown: (TapDownDetails details){
+                                            _tapDownPosition = details.globalPosition;
+                                          },
+                                          onTap: ()
+                                          {
+                                            _showPopupMenu();
+                                          },
+                                          child:  Container(
+                                            alignment: Alignment.topRight,
+                                            margin: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal * 2),
+                                            child: Image.asset(
+                                                "assets/images/menudot.png",
+                                                height: 15, width: 20),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,48 +763,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                           )
                                         ],
                                       ),
-                                        GestureDetector(
-                                          onTap: ()
-                                          {
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(left:
-                                            SizeConfig.blockSizeHorizontal *1,
-                                                right: SizeConfig.blockSizeHorizontal *3,
-                                                top: SizeConfig.blockSizeVertical *2),
-                                            padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    7,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    7,
-                                                bottom: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2,
-                                                top: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
-                                            decoration: BoxDecoration(
-                                              color: AppColors.darkgreen,
-                                              borderRadius: BorderRadius.circular(20),
-
-                                            ),
-                                            child: Text(
-                                              "BUY",
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: AppColors.whiteColor,
-                                                  fontSize:12,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          ),
-                                        )
-
-
                                       ],
                                     )
                                   ],
@@ -773,17 +779,46 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
             ],
           )
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.whiteColor,
-        shape: RoundedRectangleBorder(
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        // this is ignored if animatedIcon is non null
+        // child: Icon(Icons.add),
+        visible: _dialVisible,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        tooltip: 'Speed Dial',
+        heroTag: 'speed-dial-hero-tag',
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 8.0,
+        shape: CircleBorder(),
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.request_page),
+              backgroundColor: AppColors.theme1color,
+              label: 'Request',
 
-            borderRadius: BorderRadius.all(Radius.circular(30.0))
-        ),
-        icon: Icon(Icons.edit,color: AppColors.selectedcolor,),
-        label: Text('Create Post',style: TextStyle(color:AppColors.selectedcolor ),),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateTicketPost()));
-        },
+              onTap: () => print('FIRST CHILD')
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.public),
+            backgroundColor: AppColors.theme1color,
+            label: 'Public',
+
+            onTap: () => print('SECOND CHILD'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.privacy_tip),
+            backgroundColor: AppColors.theme1color,
+            label: 'Private',
+
+            onTap: () => print('THIRD CHILD'),
+          ),
+        ],
       ),
     );
   }

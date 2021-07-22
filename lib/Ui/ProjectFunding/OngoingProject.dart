@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
@@ -116,6 +117,7 @@ class OngoingProjectState extends State<OngoingProject> {
     currentPageValue = page;
     setState(() {});
   }
+  bool _dialVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -761,7 +763,7 @@ class OngoingProjectState extends State<OngoingProject> {
             ],
           )
          ),
-      floatingActionButton: FloatingActionButton.extended(
+      /*floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.whiteColor,
         shape: RoundedRectangleBorder(
 
@@ -772,6 +774,47 @@ class OngoingProjectState extends State<OngoingProject> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateProjectPost()));
         },
+      ),*/
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        // this is ignored if animatedIcon is non null
+        // child: Icon(Icons.add),
+        visible: _dialVisible,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        tooltip: 'Speed Dial',
+        heroTag: 'speed-dial-hero-tag',
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 8.0,
+        shape: CircleBorder(),
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.request_page),
+              backgroundColor: AppColors.theme1color,
+              label: 'Request',
+
+              onTap: () => print('FIRST CHILD')
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.public),
+            backgroundColor: AppColors.theme1color,
+            label: 'Public',
+
+            onTap: () => print('SECOND CHILD'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.privacy_tip),
+            backgroundColor: AppColors.theme1color,
+            label: 'Private',
+
+            onTap: () => print('THIRD CHILD'),
+          ),
+        ],
       ),
     );
   }

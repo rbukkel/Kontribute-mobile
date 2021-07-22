@@ -259,6 +259,28 @@ class ticketsState extends State<tickets> {
 
             ) ,
         bottomNavigationBar: bottombar(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:
+        FloatingActionButton(
+          //  backgroundColor: AppColors.whiteColor,
+
+          child: new Icon(Icons.add_box),
+          backgroundColor: AppColors.themecolor,
+          /*  icon: Icon(
+            Icons.edit,
+            color: AppColors.selectedcolor,
+          ),
+          label: Text(
+            'Create Post',
+            style: TextStyle(color: AppColors.selectedcolor),
+          ),*/
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => CreateTicketPost()));
+          },
+        ),
       ),
     );
   }
