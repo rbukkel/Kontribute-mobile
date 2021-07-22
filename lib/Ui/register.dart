@@ -111,6 +111,127 @@ class registerState extends State<register>{
                                     fontSize: 20),
                               ),
                             ),
+
+
+                            Container(
+                              margin:
+                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3,bottom: SizeConfig.blockSizeVertical * 2),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/facebook.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: ()
+                                    {
+
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/instagram.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/twitter.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/telegram.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left:SizeConfig.blockSizeHorizontal * 3,
+                                          right: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Image.asset(
+                                        "assets/images/snapchat.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // signInWithGoogle();
+                                    },
+                                  )
+
+
+
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin:
+                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
+                              width: 300,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      width:60,
+                                      child:  Divider(
+                                        color: Colors.grey,
+                                        thickness: 1,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      child: Text(StringConstant.or,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',)),
+                                    ),
+                                    Container(
+                                      width:60,
+                                      child:  Divider(
+                                        color: Colors.grey,
+                                        thickness: 1,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
                             InkWell(
                               onTap: () {
                                 showAlert();
@@ -637,126 +758,7 @@ class registerState extends State<register>{
                                     )),
                               ),
                             ),
-                            Container(
-                              margin:
-                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-                              width: 300,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      width:60,
-                                      child:  Divider(
-                                        color: Colors.grey,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      child: Text(StringConstant.or,
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',)),
-                                    ),
-                                    Container(
-                                      width:60,
-                                      child:  Divider(
-                                        color: Colors.grey,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                  ]),
-                            ),
 
-                            Container(
-                              margin:
-                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3,bottom: SizeConfig.blockSizeVertical * 2),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/facebook.png",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
-                                    onTap: ()
-                                    {
-
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/instagram.png",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      // signInWithGoogle();
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/twitter.png",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      // signInWithGoogle();
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/telegram.png",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      // signInWithGoogle();
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left:SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/snapchat.png",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      // signInWithGoogle();
-                                    },
-                                  )
-
-
-
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       )

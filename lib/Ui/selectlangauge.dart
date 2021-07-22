@@ -178,7 +178,6 @@ class RadioItem extends StatelessWidget {
                 image: new ExactAssetImage('assets/images/not_click.png'),
                 fit: BoxFit.cover,
               ),
-
               // color: _item.isSelected ? Colors.blueAccent : Colors.transparent,
               border: new Border.all(
                 width: 1.0,

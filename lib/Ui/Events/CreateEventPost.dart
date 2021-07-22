@@ -65,6 +65,10 @@ class CreateEventPostState extends State<CreateEventPost> {
     "Connections only",
     "Group members"
   ];
+
+
+
+
   final List<String> _dropdownEventCategory = [
     "New year",
     "Valentine's Day",

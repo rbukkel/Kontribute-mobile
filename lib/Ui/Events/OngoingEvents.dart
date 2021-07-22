@@ -393,7 +393,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
                                           child: Text(
-                                            "Collection Target- ",
+                                            "Sold slots- ",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -440,7 +440,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           width: SizeConfig.blockSizeHorizontal *26,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child: Text(
-                                            "Collected Amount-",
+                                            "Remaining slots-",
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,

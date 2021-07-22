@@ -70,7 +70,7 @@ class HomeScreenState extends State<HomeScreen>{
             children: [
               Container(
             width: 20,height: 20,
-                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *2),
+                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *4),
                 child:
                 InkWell(
                   onTap: () {
@@ -83,15 +83,19 @@ class HomeScreenState extends State<HomeScreen>{
                 ),
               ),
               Container(
+                width: SizeConfig.blockSizeHorizontal * 45,
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
                 // margin: EdgeInsets.only(top: 10, left: 40),
-               // child: Image.asset("assets/images/homelogo.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
+              // child: Image.asset("assets/images/appicon_circular.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
               ),
               Container(
-                width: 25,height: 25,
-                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
+                // margin: EdgeInsets.only(top: 10, left: 40),
+                child: Image.asset("assets/images/appicon_circular.png",
+                  width:SizeConfig.blockSizeHorizontal *20,
+                  height: SizeConfig.blockSizeVertical *5,),
               ),
             ],
           ),
