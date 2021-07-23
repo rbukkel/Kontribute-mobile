@@ -102,8 +102,11 @@ class CreateEventPostState extends State<CreateEventPost> {
   String formattedDate = "07-07-2021";
   String formattedEndDate = "07-07-2021";
   final EnterRequiredAmountFocus = FocusNode();
+  final MaximumnoparticipantFocus = FocusNode();
   final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  final TextEditingController Maximumnoparticipantcontroller = new TextEditingController();
   String _requiredamount;
+  String _Maximumnoparticipant;
 
   DateView() async {
     final DateTime picked = await showDatePicker(
@@ -1268,7 +1271,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                           },
                                           onFieldSubmitted: (v) {
                                             FocusScope.of(context).requestFocus(
-                                                VideoFocus);
+                                                MaximumnoparticipantFocus);
                                           },
                                           onSaved: (val) => _requiredamount = val,
                                           textAlign: TextAlign.left,
@@ -1296,7 +1299,86 @@ class CreateEventPostState extends State<CreateEventPost> {
                                 ))
                           ],
                         ),
-
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              width: SizeConfig.blockSizeHorizontal * 45,
+                              child: Text(
+                                StringConstant.maximumnofparticipent,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 42,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                              padding: EdgeInsets.only(
+                                  left:
+                                  SizeConfig.blockSizeHorizontal *
+                                      4,
+                                  right:
+                                  SizeConfig.blockSizeHorizontal *
+                                      2),
+                                child: TextFormField(
+                                  autofocus: false,
+                                  focusNode: MaximumnoparticipantFocus,
+                                  controller: Maximumnoparticipantcontroller,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.number,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter maximum no. of participant";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(
+                                        VideoFocus);
+                                  },
+                                  onSaved: (val) => _Maximumnoparticipant = val,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),)
+                          ],
+                        ),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),

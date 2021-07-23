@@ -38,6 +38,7 @@ class StringConstant {
   static const String respond = "Respond";
   static const String starttime = "Start Time";
   static const String endtime = "End Time";
+  static const String maximumnofparticipent = "Maximum Number of Participant";
   static const String pay = "Pay";
   static const String noofticket = "No. of Tickets";
   static const String eventlist = "Events";
