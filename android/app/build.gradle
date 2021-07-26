@@ -79,5 +79,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 }
