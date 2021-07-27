@@ -16,16 +16,6 @@ class SharedUtils {
   }
 
 
-  static writeloginId(String key, String value) async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(key, value);
-  }
-
-  static readloginId(String key) async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString(key);
-  }
-
   static writeDonorId(String key, String value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString(key, value);
@@ -87,16 +77,24 @@ class SharedUtils {
     return image;
   }
 
-  static saveToken(String tokenString) async {
-    SharedPreferences shared_User = await SharedPreferences.getInstance();
-    shared_User.setString('token', tokenString);
+  static saveToken(String key, String value) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(key, value);
   }
 
-  static readToken() async {
-    SharedPreferences shared_User = await SharedPreferences.getInstance();
-  //  Map userMap = jsonDecode(shared_User.getString('token'));
-    String image = shared_User.getString('token');
-    return image;
+  static readToken(String key) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(key);
+  }
+
+  static readloginId(String key, String value) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(key, value);
+  }
+
+  static writeloginId(String key) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(key);
   }
 
  /* static saveProfile(String jsonString) async {

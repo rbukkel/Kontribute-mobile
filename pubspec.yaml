@@ -39,6 +39,10 @@ dependencies:
   gradient_widgets: ^0.5.2
   flappy_search_bar: ^1.7.2
   flutter_speed_dial: ^1.0.9
+  firebase_auth: ^0.18.0+1
+  flutter_facebook_login: ^2.0.1
+  firebase_messaging: ^6.0.12
+  firebase_core: ^0.5.2
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
 <resources>
     <string name="facebook_app_id">228778102320763</string>
+    <string name="fb_login_protocol_scheme">fb228778102320763</string>
+    <string name="app_name">Kontribute</string>
 </resources>

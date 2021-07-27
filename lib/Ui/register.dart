@@ -1,13 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:http/http.dart' as http;
 
 class register extends StatefulWidget{
   @override
@@ -43,6 +48,23 @@ class registerState extends State<register>{
   var currentSelectedValue;
   bool showvalue = false;
   var currentSelectedCountry;
+  String token;
+  var facebookLogin = FacebookLogin();
+  bool isLoggedIn = false;
+  var profileData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SharedUtils.readToken("Token").then((val) {
+      print("Token: " + val);
+      token = val;
+      print("Register token: " + token.toString());
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -131,7 +153,7 @@ class registerState extends State<register>{
                                     ),
                                     onTap: ()
                                     {
-
+                                      loginmethod();
                                     },
                                   ),
                                   GestureDetector(
@@ -919,6 +941,62 @@ class registerState extends State<register>{
       }
     }
   }
+  void loginmethod() {
+    Internet_check().check().then((intenet) async {
+      if (intenet != null && intenet) {
+        initiateFacebookLogin();
+      } else {
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
+    });
+  }
 
+  void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
+    setState(() {
+      this.isLoggedIn = isLoggedIn;
+      this.profileData = profileData;
+    });
+  }
+
+  void initiateFacebookLogin() async {
+    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'public_profile']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        print("Facebook error: ");
+        onLoginStatusChanged(false);
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        print("Facebook cancel");
+        onLoginStatusChanged(false);
+        break;
+
+      case FacebookLoginStatus.loggedIn:
+        var graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}');
+        var profile = json.decode(graphResponse.body);
+        print(profile.toString());
+        print("ProfileEmail" + profile['email'].toString());
+        print("ProfileID: " + profile['id'].toString());
+        print("ProfileName: " + profile['name'].toString());
+        print(profile['picture']['data']['url']);
+        onLoginStatusChanged(true, profileData: profile);
+        SharedUtils.readloginData("login", true);
+        /* fetchData(
+            profile['name'].toString(),
+            profile['email'].toString(),
+            profile['id'].toString(),
+            profile['picture']['data']['url'].toString(),
+            vendorname);*/
+        SharedUtils.readloginId("login_type", "facebook");
+
+        // Navigator.of(context).pop();
+        break;
+    }
+  }
 
 }
