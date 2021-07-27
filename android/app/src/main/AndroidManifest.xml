@@ -26,6 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
+        <meta-data android:name="com.google.android.geo.API_KEY"
+        android:value="370724626650-ok8h6jubv8s3t10h886q2upgkr997thm.apps.googleusercontent.com"/>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
@@ -41,8 +43,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

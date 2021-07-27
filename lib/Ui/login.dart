@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
@@ -31,6 +34,15 @@ class loginState extends State<login>{
   var facebookLogin = FacebookLogin();
   bool isLoggedIn = false;
   var profileData;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth _authtwitter = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  User user;
+  String message;
+  final TwitterLogin twitterLogin = new TwitterLogin(
+    consumerKey: 'VLHZDyBzZN4jCtWivu0gsrF5v',
+    consumerSecret: 'giMJBSteIpjBr6SpD0O4KxLm3OXZX7EEjmNFt4xavaRBxrHXem',
+  );
 
   @override
   void initState() {
@@ -352,11 +364,13 @@ class loginState extends State<login>{
                         GestureDetector(
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3),
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
                             child: Image.asset(
                               "assets/images/facebook.png",
-                              height: 50,
-                              width: 50,
+                              height: 40,
+                              width: 40,
                             ),
                           ),
                           onTap: ()
@@ -367,60 +381,36 @@ class loginState extends State<login>{
                         GestureDetector(
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3),
-                            child: Image.asset(
-                              "assets/images/instagram.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                          onTap: () {
-                           // signInWithGoogle();
-                          },
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3),
-                            child: Image.asset(
-                              "assets/images/twitter.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                          onTap: () {
-                            // signInWithGoogle();
-                          },
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3),
-                            child: Image.asset(
-                              "assets/images/telegram.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                          onTap: () {
-                            // signInWithGoogle();
-                          },
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              left:SizeConfig.blockSizeHorizontal * 3,
+                                left:SizeConfig.blockSizeHorizontal * 3,
                                 right: SizeConfig.blockSizeHorizontal * 3),
                             child: Image.asset(
-                              "assets/images/snapchat.png",
-                              height: 50,
-                              width: 50,
+                              "assets/images/gmail.png",
+                              height: 40,
+                              width: 40,
                             ),
                           ),
                           onTap: () {
-                            // signInWithGoogle();
+                            signInWithGoogle();
                           },
-                        )
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            child: Image.asset(
+                              "assets/images/twitter.png",
+                              height: 40,
+                              width: 40,
+                            ),
+                          ),
+                          onTap: () {
+                            signInWithTwitter();
+                          },
+                        ),
+
+
                       ],
                     ),
                   )
@@ -432,6 +422,39 @@ class loginState extends State<login>{
       ),
     );
   }
+
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+    await googleSignInAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    final UserCredential authResult =
+    await _auth.signInWithCredential(credential);
+    final User user = authResult.user;
+    if (user != null) {
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
+      final User currentUser = _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+      print('signInWithGoogle succeeded: $user');
+      setState(() {
+        SharedUtils.readloginData("login", true);
+       /* fetchData(
+            user.displayName, user.email, user.uid, user.photoURL, vendorname);
+        SharedUtils.readloginId("login_type", "google");*/
+
+
+      });
+      return '$user';
+    } else {
+      print('Already Login: $user');
+    }
+    return null;
+  }
+
 
   void loginmethod() {
     Internet_check().check().then((intenet) async {
@@ -490,5 +513,28 @@ class loginState extends State<login>{
         break;
     }
   }
+
+
+  void signInWithTwitter() async {
+    final TwitterLoginResult result = await twitterLogin.authorize();
+    String newMessage;
+    if (result.status == TwitterLoginStatus.loggedIn) {
+     // _signInWithTwitter(result.session.token, result.session.secret);
+    } else if (result.status == TwitterLoginStatus.cancelledByUser) {
+      newMessage = 'Login cancelled by user.';
+    } else {
+      newMessage = result.errorMessage;
+    }
+
+    setState(() {
+      message = newMessage;
+    });
+  }
+
+ /* void _signInWithTwitter(String token, String secret) async {
+    final AuthCredential credential = TwitterAuthProvider.getCredential(
+        authToken: token, authTokenSecret: secret);
+    await _authtwitter.signInWithCredential(credential);
+  }*/
 
 }

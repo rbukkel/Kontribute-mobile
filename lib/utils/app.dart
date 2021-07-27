@@ -92,8 +92,8 @@ titlebar(context, text) {
             color: Colors.transparent,
             child: Image.asset(
               "assets/images/back.png",
-              width: 25,
-              height: 25,
+              width: 20,
+              height: 20,
             ),
           ),
         ),

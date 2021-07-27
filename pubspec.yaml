@@ -40,10 +40,11 @@ dependencies:
   flappy_search_bar: ^1.7.2
   flutter_speed_dial: ^1.0.9
   firebase_auth: ^0.18.0+1
+  google_sign_in: ^4.5.3
   flutter_facebook_login: ^2.0.1
   firebase_messaging: ^6.0.12
   firebase_core: ^0.5.2
-  twitter_login: ^2.1.4
+  flutter_twitter_login: ^1.0.1
 
 dev_dependencies:
   flutter_test:
