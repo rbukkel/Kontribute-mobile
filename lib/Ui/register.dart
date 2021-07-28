@@ -804,14 +804,7 @@ class registerState extends State<register>{
                                       });
                                       Internet_check().check().then((intenet) {
                                         if (intenet != null && intenet) {
-                                          /*register(
-                                            nicknameController.text,
-                                              fullnameController.text,
-                                              emailController.text,
-                                              passwordController.text,
-                                              mobileController.text,
-                                              confirmpasswordController.text,
-                                              nameController.text,token);*/
+
                                         } else {
                                           Fluttertoast.showToast(
                                             msg: "No Internet Connection",
