@@ -21,6 +21,8 @@ class StringConstant {
   static const String eventtime = "Event Time";
   static const String location = "Location";
   static const String entryfees = "Entry Fees";
+  static const String home = "Home";
+  static const String pastprojects = "Past Projects";
   static const String locationdetails = "Location Details";
   static const String contactno = "Contact No.";
   static const String email = "Email";
@@ -139,6 +141,7 @@ class StringConstant {
   static const String descriptiondetails = "Lorem ipsum dolor sit amet, consectetuer adipis cing elit, seddiam nonummy nibh euismod tincid unt ut laoreet dolore Lorem ipsum dolor sit amet, consectetuer adipis cing elit, seddiam nonummy nibh euismod tincid unt ut laoreet dolore";
 
   static const String follow="Follow";
+  static const String dummyproject="Follow";
 
   static const String ongoing="OnGoing";
 

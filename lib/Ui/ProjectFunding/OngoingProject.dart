@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -143,11 +144,7 @@ class OngoingProjectState extends State<OngoingProject> {
                               ),
                             ),
                             child:
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                    },
-                                  child:  Container(
+                                  Container(
                                     padding: EdgeInsets.all(5.0),
                                     margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
                                     child:
@@ -179,34 +176,38 @@ class OngoingProjectState extends State<OngoingProject> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              height:
-                                              SizeConfig.blockSizeVertical *
-                                                  9,
-                                              width:
-                                              SizeConfig.blockSizeVertical *
-                                                  9,
-                                              alignment: Alignment.center,
-                                              margin: EdgeInsets.only(
-                                                  top: SizeConfig.blockSizeVertical *2,
-                                                  bottom: SizeConfig.blockSizeVertical *1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1),
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image:new AssetImage("assets/images/userProfile.png"),
-                                                    fit: BoxFit.fill,)),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                              },
+                                              child: Container(
+                                                height:
+                                                SizeConfig.blockSizeVertical *
+                                                    9,
+                                                width:
+                                                SizeConfig.blockSizeVertical *
+                                                    9,
+                                                alignment: Alignment.center,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *2,
+                                                    bottom: SizeConfig.blockSizeVertical *1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1),
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image:new AssetImage("assets/images/userProfile.png"),
+                                                      fit: BoxFit.fill,)),
+                                              ),
                                             ),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                                   children: [
                                                     Container(
                                                       margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
@@ -502,7 +503,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   .blockSizeHorizontal *
                                                   1),
                                               alignment: Alignment.topLeft,
-
                                               child: Text(
                                                 "\$40",
                                                 style: TextStyle(
@@ -522,55 +522,55 @@ class OngoingProjectState extends State<OngoingProject> {
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                       child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),
                                     ),*/
-
-
-
-
-                                        Container(
-                                          color: AppColors.themecolor,
-                                          alignment: Alignment.topCenter,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                          height: SizeConfig.blockSizeVertical*30,
-                                          child: Stack(
-                                            alignment: AlignmentDirectional.bottomCenter,
-                                            children: <Widget>[
-                                              PageView.builder(
-                                                physics: ClampingScrollPhysics(),
-                                                itemCount: introWidgetsList.length,
-                                                onPageChanged: (int page) {
-                                                  getChangedPageAndMoveBar(page);
-                                                },
-                                                controller: PageController(
-                                                    initialPage: currentPageValue,
-                                                    keepPage: true,
-                                                    viewportFraction: 1),
-                                                itemBuilder: (context, index) {
-                                                  return introWidgetsList[index];
-                                                },
-                                              ),
-                                              Stack(
-                                                alignment: AlignmentDirectional.bottomCenter,
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: <Widget>[
-                                                        for (int i = 0; i < introWidgetsList.length; i++)
-                                                          if (i == currentPageValue) ...[
-                                                            circleBar(true)
-                                                          ] else
-                                                            circleBar(false),
-                                                      ],
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                          },
+                                          child: Container(
+                                            color: AppColors.themecolor,
+                                            alignment: Alignment.topCenter,
+                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                            height: SizeConfig.blockSizeVertical*30,
+                                            child: Stack(
+                                              alignment: AlignmentDirectional.bottomCenter,
+                                              children: <Widget>[
+                                                PageView.builder(
+                                                  physics: ClampingScrollPhysics(),
+                                                  itemCount: introWidgetsList.length,
+                                                  onPageChanged: (int page) {
+                                                    getChangedPageAndMoveBar(page);
+                                                  },
+                                                  controller: PageController(
+                                                      initialPage: currentPageValue,
+                                                      keepPage: true,
+                                                      viewportFraction: 1),
+                                                  itemBuilder: (context, index) {
+                                                    return introWidgetsList[index];
+                                                  },
+                                                ),
+                                                Stack(
+                                                  alignment: AlignmentDirectional.bottomCenter,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          for (int i = 0; i < introWidgetsList.length; i++)
+                                                            if (i == currentPageValue) ...[
+                                                              circleBar(true)
+                                                            ] else
+                                                              circleBar(false),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                           child: Row(
@@ -591,7 +591,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 ),
                                               ),
                                               InkWell(
-                                                onTap: (){
+                                                onTap: ()
+                                                {
 
                                                 },
                                                 child: Container(
@@ -753,9 +754,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                       ],
                                     ),
                                   ),
-                                ),
-
-
                         ),
                       );
                     }),

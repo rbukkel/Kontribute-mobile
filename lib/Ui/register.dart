@@ -36,6 +36,7 @@ class registerState extends State<register>{
   final TextEditingController fullnameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   bool _showPassword = false;
+  bool isLoading = false;
   String _email;
   String _password;
   String _nickname;
@@ -727,12 +728,50 @@ class registerState extends State<register>{
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.pushAndRemoveUntil(
+
+                              /*  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(builder: (context) => selectlangauge()),
-                                        (route) => false);
-                              },
+                                        (route) => false);*/
+
+                                onTap: () {
+                                  if (_formKey.currentState.validate()) {
+                                    if (showvalue) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      Internet_check().check().then((intenet) {
+                                        if (intenet != null && intenet) {
+                                          register(
+                                            nicknameController.text,
+                                              fullnameController.text,
+                                              emailController.text,
+                                              passwordController.text,
+                                              mobileController.text,
+                                              confirmpasswordController.text,
+                                              nameController.text,token);
+                                        } else {
+                                          Fluttertoast.showToast(
+                                            msg: "No Internet Connection",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                          );
+                                        }
+                                        // No-Internet Case
+                                      });
+                                    }
+                                    else {
+                                      Fluttertoast.showToast(
+                                        msg: "please check Terms & Conditions",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                      );
+                                    }
+                                  }
+                                },
+
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width,
@@ -773,6 +812,102 @@ class registerState extends State<register>{
       ),
     );
   }
+
+
+  /*register(String email, String pass, String confirmPass, String name,String token) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'fullname': name,
+      'email': email,
+      'password': pass,
+      'confirm_password': confirmPass,
+      'mobile_token': token,
+    };
+
+    var jsonResponse = null;
+    var response = await http.post(
+        Network.BaseApi + Network.register, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+
+        LoginResponse login = new LoginResponse.fromJson(jsonResponse);
+        print('Result: ${login.resultPush.uid}');
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+          });
+          sharedPreferences?.setBool("isLoggedIn", true);
+          SharedUtils.saveDate("Token", login.resultPush.mobileToken);
+          sharedPreferences.setInt("id", login.resultPush.uid);
+          sharedPreferences.setString("name", login.resultPush.fullname);
+          sharedPreferences.setString("email", login.resultPush.email);
+          sharedPreferences.setString("mobile", login.resultPush.mobile);
+          sharedPreferences.setString("image", login.resultPush.profilePic);
+          sharedPreferences.setString(
+              "billing_address", login.resultPush.billingAddress);
+          sharedPreferences.setString(
+              "shipping_address", login.resultPush.shippingAddress);
+
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (BuildContext context) => home()), (
+              Route<dynamic> route) => false);
+        }
+        else {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else if (response.statusCode == 422) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    }
+    else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }*/
+
 
   showAlert() {
     showDialog(
