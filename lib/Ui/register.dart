@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -11,6 +11,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -67,6 +68,58 @@ class registerState extends State<register>{
       print("Token: " + val);
       token = val;
       print("Register token: " + token.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getNationalList();
+      getCountryList();
+
+
+      } else {
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+  String selecteddate="Date of Birth";
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900, 1),
+        lastDate:  DateTime.now());
+    if (picked != null)
+      setState(() {
+
+        selecteddate = DateFormat('dd-MM-yyyy').format(picked);
+        print("onDate: "+selecteddate.toString());
+      });
+  }
+
+  void getCountryList() async {
+    var res = await http.get(Uri.encodeFull(Network.BaseApi+Network.countrylist));
+    final data = json.decode(res.body);
+    List<dynamic> data1 = data["result_push"];
+
+    setState(() {
+      currentcountryTypes = data1;
+    });
+  }
+
+  void getNationalList() async {
+    var res = await http.get(Uri.encodeFull(Network.BaseApi+Network.nationality));
+    final data = json.decode(res.body);
+    List<dynamic> data1 = data["result_push"];
+
+    setState(() {
+      nationalityTypes = data1;
     });
   }
 
@@ -262,10 +315,9 @@ class registerState extends State<register>{
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 1,
@@ -317,10 +369,9 @@ class registerState extends State<register>{
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 1,
@@ -372,10 +423,9 @@ class registerState extends State<register>{
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 1,
@@ -429,10 +479,9 @@ class registerState extends State<register>{
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 1,
@@ -487,10 +536,9 @@ class registerState extends State<register>{
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 1,
@@ -542,40 +590,44 @@ class registerState extends State<register>{
                                 ),
                               ),
                             ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
+                            GestureDetector(
+                              onTap: ()
+                              {
+                                _selectDate(context);
+                              },
+                              child:  Container(
+                                height: SizeConfig.blockSizeVertical *7,
+                                width: SizeConfig.blockSizeHorizontal *90,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5,
                                 ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                              Text("Date of Birth", textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child:
+                                Text(selecteddate, textAlign: TextAlign.center,
+                                  style:
+                                  TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                                ),
                               ),
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 2,
@@ -598,24 +650,25 @@ class registerState extends State<register>{
                                     decoration: InputDecoration.collapsed(hintText: ''),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<dynamic>(
-                                        hint: Text("Nationality",textAlign: TextAlign.center,style:
+                                        hint: Text("please select nationality",textAlign: TextAlign.center,style:
                                         TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                        dropdownColor: Colors.white,
+                                            fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.white),),
+                                        dropdownColor: Colors.blueGrey,
                                         value: currentSelectedValue,
                                         isDense: true,
                                         onChanged: (newValue) {
                                           setState(() {
                                             currentSelectedValue = newValue;
-                                            //  nationalityid = int.parse(newValue["inst_id"]);
+                                             nationalityid = int.parse(newValue["num_code"]);
                                           });
                                         },
                                         items: nationalityTypes.map((dynamic value) {
                                           return DropdownMenuItem<dynamic>(
                                             value: value,
-                                            child: Text("",textAlign: TextAlign.center,style:
+                                            child: Text(value["nationality"],
+                                              textAlign: TextAlign.center,style:
                                             TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
+                                                fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.white),),
                                           );
                                         }).toList(),
                                       ),
@@ -626,10 +679,9 @@ class registerState extends State<register>{
                             ),
                             Container(
                               height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 2,
@@ -645,44 +697,54 @@ class registerState extends State<register>{
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child:
-                              FormField<dynamic>(
-                                builder: (FormFieldState<dynamic> state) {
-                                  return InputDecorator(
-                                    decoration: InputDecoration.collapsed(hintText: ''),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<dynamic>(
-                                        hint: Text("Current Country",textAlign: TextAlign.center,style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                        dropdownColor: Colors.white,
-                                        value: currentSelectedCountry,
-                                        isDense: true,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            currentSelectedCountry = newValue;
-                                            //  nationalityid = int.parse(newValue["inst_id"]);
-                                          });
-                                        },
-                                        items: currentcountryTypes.map((dynamic value) {
-                                          return DropdownMenuItem<dynamic>(
-                                            value: value,
-                                            child: Text("",textAlign: TextAlign.center,style:
-                                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                          );
-                                        }).toList(),
+                                child: FormField<dynamic>(
+                                  builder: (FormFieldState<dynamic> state) {
+                                    return InputDecorator(
+                                      decoration:
+                                      InputDecoration.collapsed(hintText: ''),
+                                      child:
+                                      DropdownButtonHideUnderline(
+                                        child: DropdownButton<dynamic>(
+                                          hint: Text("please select country",
+                                            maxLines: 2,
+                                            style:
+                                          TextStyle(letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 12,
+                                              color: Colors.white),),
+                                          dropdownColor: Colors.blueGrey,
+                                          value: currentSelectedCountry,
+                                          isDense: true,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              currentSelectedCountry = newValue;
+                                              currentcountryid = int.parse(newValue["num_code"]);
+                                            });
+                                          },
+                                          items:
+                                          currentcountryTypes.map((dynamic value) {
+                                            return DropdownMenuItem<dynamic>(
+                                              value: value,
+
+                                              child: Text(value["country"],
+                                                maxLines: 2,
+                                                style:
+                                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.white),),
+                                            );
+                                          }).toList(),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
                             Container(
+                              width: SizeConfig.blockSizeHorizontal *90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 10,
-                                right: SizeConfig.blockSizeHorizontal * 10,
+
 
                               ),
                               child: Row(
@@ -742,14 +804,14 @@ class registerState extends State<register>{
                                       });
                                       Internet_check().check().then((intenet) {
                                         if (intenet != null && intenet) {
-                                          register(
+                                          /*register(
                                             nicknameController.text,
                                               fullnameController.text,
                                               emailController.text,
                                               passwordController.text,
                                               mobileController.text,
                                               confirmpasswordController.text,
-                                              nameController.text,token);
+                                              nameController.text,token);*/
                                         } else {
                                           Fluttertoast.showToast(
                                             msg: "No Internet Connection",
