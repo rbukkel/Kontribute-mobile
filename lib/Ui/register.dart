@@ -774,8 +774,7 @@ class registerState extends State<register>{
                                   GestureDetector(
                                     onTap: ()
                                     {
-                                      /*Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => TermsCondition()));*/
+
                                     },
                                     child: Container(
                                       child: Text(" " +StringConstant.condition,
