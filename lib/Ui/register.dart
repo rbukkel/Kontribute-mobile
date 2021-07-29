@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -11,6 +11,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -19,7 +20,7 @@ import 'package:http/http.dart' as http;
 class register extends StatefulWidget{
   @override
   registerState createState() => registerState();
-  
+
 }
 
 class registerState extends State<register>{
@@ -68,6 +69,58 @@ class registerState extends State<register>{
       token = val;
       print("Register token: " + token.toString());
     });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getNationalList();
+        getCountryList();
+
+
+      } else {
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+  String selecteddate="Date of Birth";
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900, 1),
+        lastDate:  DateTime.now());
+    if (picked != null)
+      setState(() {
+
+        selecteddate = DateFormat('dd-MM-yyyy').format(picked);
+        print("onDate: "+selecteddate.toString());
+      });
+  }
+
+  void getCountryList() async {
+    var res = await http.get(Uri.encodeFull(Network.BaseApi+Network.countrylist));
+    final data = json.decode(res.body);
+    List<dynamic> data1 = data["result_push"];
+
+    setState(() {
+      currentcountryTypes = data1;
+    });
+  }
+
+  void getNationalList() async {
+    var res = await http.get(Uri.encodeFull(Network.BaseApi+Network.nationality));
+    final data = json.decode(res.body);
+    List<dynamic> data1 = data["result_push"];
+
+    setState(() {
+      nationalityTypes = data1;
+    });
   }
 
 
@@ -87,727 +140,728 @@ class registerState extends State<register>{
           ),
         ),
 
-          child:
-          Form(
-            key: _formKey,
-            child: Container(
-              margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 5,
-                  bottom: SizeConfig.blockSizeVertical * 1),
-              child: Column(
-                children: [
-                  Container(
-                    child:
-                    Row(
-                      children: [
-                        titlebar(context, ""),
-                      ],
-                    ),
+        child:
+        Form(
+          key: _formKey,
+          child: Container(
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 5,
+                bottom: SizeConfig.blockSizeVertical * 1),
+            child: Column(
+              children: [
+                Container(
+                  child:
+                  Row(
+                    children: [
+                      titlebar(context, ""),
+                    ],
                   ),
+                ),
 
 
-                  Expanded(
-                      child: SingleChildScrollView(
-                        child:  Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                              ),
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                StringConstant.signup,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold',
-                                    color: AppColors.whiteColor,
-                                    fontSize: 26),
-                              ),
+                Expanded(
+                    child: SingleChildScrollView(
+                      child:  Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                              ),
-                              child: Text(
-                                StringConstant.welcometokontribute,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    color: AppColors.light_grey,
-                                    fontSize: 20),
-                              ),
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              StringConstant.signup,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold',
+                                  color: AppColors.whiteColor,
+                                  fontSize: 26),
                             ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            child: Text(
+                              StringConstant.welcometokontribute,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  color: AppColors.light_grey,
+                                  fontSize: 20),
+                            ),
+                          ),
 
 
-                            Container(
-                              margin:
-                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3,bottom: SizeConfig.blockSizeVertical * 2),
-                              child: Row(
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3,bottom: SizeConfig.blockSizeVertical * 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 3
+                                    ),
+                                    child: Image.asset(
+                                      "assets/images/facebook.png",
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                  onTap: ()
+                                  {
+                                    loginmethod();
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left:SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 3),
+                                    child: Image.asset(
+                                      "assets/images/gmail.png",
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    signInWithGoogle();
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 3),
+                                    child: Image.asset(
+                                      "assets/images/twitter.png",
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    // signInWithGoogle();
+                                  },
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
+                            width: 300,
+                            child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 3
-                                      ),
-                                      child: Image.asset(
-                                        "assets/images/facebook.png",
-                                        height: 40,
-                                        width: 40,
-                                      ),
-                                    ),
-                                    onTap: ()
-                                    {
-                                      loginmethod();
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left:SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/gmail.png",
-                                        height: 40,
-                                        width: 40,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      signInWithGoogle();
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 3),
-                                      child: Image.asset(
-                                        "assets/images/twitter.png",
-                                        height: 40,
-                                        width: 40,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      // signInWithGoogle();
-                                    },
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin:
-                              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-                              width: 300,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      width:60,
-                                      child:  Divider(
-                                        color: Colors.grey,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      child: Text(StringConstant.or,
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',)),
-                                    ),
-                                    Container(
-                                      width:60,
-                                      child:  Divider(
-                                        color: Colors.grey,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showAlert();
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-                                child: Image.asset(
-                                  "assets/images/camera.png",
-                                  width:60,
-                                  height: 60,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                              ),
-                              child: Text(
-                                StringConstant.profileoptional,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    color: AppColors.light_grey,
-                                    fontSize: 14),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: NickNameFocus,
-                                controller: nicknameController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter nick name";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(FullNameFocus);
-                                },
-                                onSaved: (val) => _nickname = val,
-                                textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: StringConstant.nickname,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: FullNameFocus,
-                                controller: fullnameController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter full name";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(EmailFocus);
-                                },
-                                onSaved: (val) => _fullname = val,
-                                textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: StringConstant.fullname,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: EmailFocus,
-                                controller: emailController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter email";
-                                  else if (!regex.hasMatch(val))
-                                    return "Please enter valid email";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(PwdFocus);
-                                },
-                                onSaved: (val) => _email = val,
-                                textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: StringConstant.emailaddres,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: PwdFocus,
-                                controller: passwordController,
-                                textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.visiblePassword,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter password";
-                                  else if (val.length <= 4)
-                                    return "Your password should be more then 5 char long";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v) {
-                                  FocusScope.of(context).requestFocus(MobileFocus);
-                                },
-                                onSaved: (val) => _password = val,
-                                obscureText: !this._showPassword,
-                                textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,   fontSize: 15, fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',color: Colors.white),
-                                decoration: InputDecoration(
-
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: StringConstant.password,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: MobileFocus,
-                                controller: mobileController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.phone,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter mobile number";
-                                  else if (val.length != 10)
-                                    return "Please enter valid mobile number";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  MobileFocus.unfocus();
-                                },
-                                onSaved: (val) => _mobile = val,
-                                textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: StringConstant.mobile,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                              Text("Date of Birth", textAlign: TextAlign.center,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeVertical * 2,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                              FormField<dynamic>(
-                                builder: (FormFieldState<dynamic> state) {
-                                  return InputDecorator(
-                                    decoration: InputDecoration.collapsed(hintText: ''),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<dynamic>(
-                                        hint: Text("Nationality",textAlign: TextAlign.center,style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                        dropdownColor: Colors.white,
-                                        value: currentSelectedValue,
-                                        isDense: true,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            currentSelectedValue = newValue;
-                                            //  nationalityid = int.parse(newValue["inst_id"]);
-                                          });
-                                        },
-                                        items: nationalityTypes.map((dynamic value) {
-                                          return DropdownMenuItem<dynamic>(
-                                            value: value,
-                                            child: Text("",textAlign: TextAlign.center,style:
-                                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 12,
-                                right: SizeConfig.blockSizeHorizontal * 12,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeVertical * 2,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                              FormField<dynamic>(
-                                builder: (FormFieldState<dynamic> state) {
-                                  return InputDecorator(
-                                    decoration: InputDecoration.collapsed(hintText: ''),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<dynamic>(
-                                        hint: Text("Current Country",textAlign: TextAlign.center,style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                        dropdownColor: Colors.white,
-                                        value: currentSelectedCountry,
-                                        isDense: true,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            currentSelectedCountry = newValue;
-                                            //  nationalityid = int.parse(newValue["inst_id"]);
-                                          });
-                                        },
-                                        items: currentcountryTypes.map((dynamic value) {
-                                          return DropdownMenuItem<dynamic>(
-                                            value: value,
-                                            child: Text("",textAlign: TextAlign.center,style:
-                                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5,
-                                left: SizeConfig.blockSizeHorizontal * 10,
-                                right: SizeConfig.blockSizeHorizontal * 10,
-
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: <Widget>[
                                   Container(
-                                    height: 18,
-                                    width: 18,
-                                    child: Checkbox(
-                                      value: showvalue,
-                                      onChanged: (bool value) {
+                                    width:60,
+                                    child:  Divider(
+                                      color: Colors.grey,
+                                      thickness: 1,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    child: Text(StringConstant.or,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',)),
+                                  ),
+                                  Container(
+                                    width:60,
+                                    child:  Divider(
+                                      color: Colors.grey,
+                                      thickness: 1,
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showAlert();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
+                              child: Image.asset(
+                                "assets/images/camera.png",
+                                width:60,
+                                height: 60,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            child: Text(
+                              StringConstant.profileoptional,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  color: AppColors.light_grey,
+                                  fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: NickNameFocus,
+                              controller: nicknameController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.name,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter nick name";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v)
+                              {
+                                FocusScope.of(context).requestFocus(FullNameFocus);
+                              },
+                              onSaved: (val) => _nickname = val,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: StringConstant.nickname,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: FullNameFocus,
+                              controller: fullnameController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.name,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter full name";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v)
+                              {
+                                FocusScope.of(context).requestFocus(EmailFocus);
+                              },
+                              onSaved: (val) => _fullname = val,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: StringConstant.fullname,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: EmailFocus,
+                              controller: emailController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter email";
+                                else if (!regex.hasMatch(val))
+                                  return "Please enter valid email";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v)
+                              {
+                                FocusScope.of(context).requestFocus(PwdFocus);
+                              },
+                              onSaved: (val) => _email = val,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: StringConstant.emailaddres,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: PwdFocus,
+                              controller: passwordController,
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.visiblePassword,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter password";
+                                else if (val.length <= 4)
+                                  return "Your password should be more then 5 char long";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context).requestFocus(MobileFocus);
+                              },
+                              onSaved: (val) => _password = val,
+                              obscureText: !this._showPassword,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(letterSpacing: 1.0,   fontSize: 15, fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',color: Colors.white),
+                              decoration: InputDecoration(
+
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: StringConstant.password,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: MobileFocus,
+                              controller: mobileController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.phone,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter mobile number";
+                                else if (val.length != 10)
+                                  return "Please enter valid mobile number";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v)
+                              {
+                                MobileFocus.unfocus();
+                              },
+                              onSaved: (val) => _mobile = val,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: StringConstant.mobile,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: ()
+                            {
+                              _selectDate(context);
+                            },
+                            child:  Container(
+                              height: SizeConfig.blockSizeVertical *7,
+                              width: SizeConfig.blockSizeHorizontal *90,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 5,
+                              ),
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 1,
+                                right: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child:
+                              Text(selecteddate, textAlign: TextAlign.center,
+                                style:
+                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 2,
+                              right: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child:
+                            FormField<dynamic>(
+                              builder: (FormFieldState<dynamic> state) {
+                                return InputDecorator(
+                                  decoration: InputDecoration.collapsed(hintText: ''),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<dynamic>(
+                                      hint: Text("please select nationality",textAlign: TextAlign.center,style:
+                                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.white),),
+                                      dropdownColor: Colors.blueGrey,
+                                      value: currentSelectedValue,
+                                      isDense: true,
+                                      onChanged: (newValue) {
                                         setState(() {
-                                          showvalue = value;
+                                          currentSelectedValue = newValue;
+                                          nationalityid = int.parse(newValue["num_code"]);
                                         });
                                       },
-
+                                      items: nationalityTypes.map((dynamic value) {
+                                        return DropdownMenuItem<dynamic>(
+                                          value: value,
+                                          child: Text(value["nationality"],
+                                            textAlign: TextAlign.center,style:
+                                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.white),),
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 5),
-                                    child: Text(StringConstant.terms,
+                                );
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical *7,
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 2,
+                              right: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: FormField<dynamic>(
+                              builder: (FormFieldState<dynamic> state) {
+                                return InputDecorator(
+                                  decoration:
+                                  InputDecoration.collapsed(hintText: ''),
+                                  child:
+                                  DropdownButtonHideUnderline(
+                                    child: DropdownButton<dynamic>(
+                                      hint: Text("please select country",
+                                        maxLines: 2,
+                                        style:
+                                        TextStyle(letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 12,
+                                            color: Colors.white),),
+                                      dropdownColor: Colors.blueGrey,
+                                      value: currentSelectedCountry,
+                                      isDense: true,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          currentSelectedCountry = newValue;
+                                          currentcountryid = int.parse(newValue["num_code"]);
+                                        });
+                                      },
+                                      items:
+                                      currentcountryTypes.map((dynamic value) {
+                                        return DropdownMenuItem<dynamic>(
+                                          value: value,
+
+                                          child: Text(value["country"],
+                                            maxLines: 2,
+                                            style:
+                                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.white),),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal *90,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 5,
+
+
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 18,
+                                  width: 18,
+                                  child: Checkbox(
+                                    value: showvalue,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        showvalue = value;
+                                      });
+                                    },
+
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 5),
+                                  child: Text(StringConstant.terms,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontFamily: 'Montserrat')),
+                                ),
+                                GestureDetector(
+                                  onTap: ()
+                                  {
+
+                                  },
+                                  child: Container(
+                                    child: Text(" " +StringConstant.condition,
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10,
+                                            color: Colors.blue,
+                                            fontSize: 11,
                                             fontFamily: 'Montserrat')),
                                   ),
-                                  GestureDetector(
-                                    onTap: ()
-                                    {
-                                      /*Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => TermsCondition()));*/
-                                    },
-                                    child: Container(
-                                      child: Text(" " +StringConstant.condition,
-                                          style: TextStyle(
-                                              color: Colors.blue,
-                                              fontSize: 11,
-                                              fontFamily: 'Montserrat')),
-                                    ),
-                                  )
+                                )
 
-                                ],
-                              ),
+                              ],
                             ),
-                            GestureDetector(
+                          ),
+                          GestureDetector(
 
-                              /*  Navigator.pushAndRemoveUntil(
+                            /*  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(builder: (context) => selectlangauge()),
                                         (route) => false);*/
 
-                                onTap: () {
-                                  if (_formKey.currentState.validate()) {
-                                    if (showvalue) {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      Internet_check().check().then((intenet) {
-                                        if (intenet != null && intenet) {
-                                          register(
-                                            nicknameController.text,
-                                              fullnameController.text,
-                                              emailController.text,
-                                              passwordController.text,
-                                              mobileController.text,
-                                              confirmpasswordController.text,
-                                              nameController.text,token);
-                                        } else {
-                                          Fluttertoast.showToast(
-                                            msg: "No Internet Connection",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIosWeb: 1,
-                                          );
-                                        }
-                                        // No-Internet Case
-                                      });
-                                    }
-                                    else {
+                            onTap: () {
+                              if (_formKey.currentState.validate()) {
+                                if (showvalue) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  Internet_check().check().then((intenet) {
+                                    if (intenet != null && intenet) {
+
+                                    } else {
                                       Fluttertoast.showToast(
-                                        msg: "please check Terms & Conditions",
+                                        msg: "No Internet Connection",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,
                                       );
                                     }
-                                  }
-                                },
+                                    // No-Internet Case
+                                  });
+                                }
+                                else {
+                                  Fluttertoast.showToast(
+                                    msg: "please check Terms & Conditions",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                }
+                              }
+                            },
 
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 5,
-                                  bottom: SizeConfig.blockSizeVertical * 2,
-                                  left: SizeConfig.blockSizeHorizontal * 12,
-                                  right: SizeConfig.blockSizeHorizontal * 12,
-                                ),
-                                decoration: BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new AssetImage("assets/images/btn.png"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                child: Text(StringConstant.createnow,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 15,
-                                    )),
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              height: SizeConfig.blockSizeVertical * 7,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 5,
+                                bottom: SizeConfig.blockSizeVertical * 2,
+                                left: SizeConfig.blockSizeHorizontal * 12,
+                                right: SizeConfig.blockSizeHorizontal * 12,
                               ),
+                              decoration: BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new AssetImage("assets/images/btn.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Text(StringConstant.createnow,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                  )),
                             ),
+                          ),
 
-                          ],
-                        ),
-                      )
+                        ],
+                      ),
+                    )
 
-                  )
+                )
 
-                ],
-              ),
+              ],
             ),
           ),
+        ),
 
       ),
     );
