@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:kontribute/Ui/login.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/FAQ%20.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
@@ -24,16 +27,41 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
   bool imageUrl = false;
   bool _loading = false;
   String image;
-  bool image_value = false;
-  String username;
+  String username="";
   String email;
   bool internet = false;
   int userid;
+  LoginResponse loginres;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    SharedUtils.readProfile().then((response) {
+      if (response != null) {
+        loginres = response;
+        userid = loginres.resultPush.userId;
+        if (loginres.resultPush.fullName != null || loginres.resultPush.fullName  != "") {
+          username = loginres.resultPush.fullName ;
+          print("user name: " + username.toString());
+        }
+        else {
+          username = "" ;
+          print("user name: " + username.toString());
+        }
+
+        if(loginres.resultPush.profilePic !=null){
+          setState(() {
+            image = loginres.resultPush.profilePic;
+            print("pic: "+image.toString());
+            if(image.isNotEmpty){
+              imageUrl = true;
+            }
+          });
+        }
+
+      } else {}
+    });
   }
 
   @override
@@ -74,18 +102,24 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                 left: SizeConfig.blockSizeHorizontal * 1),
                             height: 70,
                             width: 70,
-                            child: Image.asset(
-                              "assets/images/userProfile.png",
-                              height: 70,
-                              width: 70,
-                            ),
+                            child: ClipOval(child:  imageUrl?
+                            ClipOval(child:  CachedNetworkImage(
+                              height: 70,width: 70,fit: BoxFit.fill ,
+                              imageUrl:image,
+                              placeholder: (context, url) => Container(
+                                  height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                  child: Center(child: new CircularProgressIndicator())),
+                              errorWidget: (context, url, error) => new Icon(Icons.error),
+                            ),)
+                                :Image.asset("assets/images/userProfile.png", height: 70,
+                              width: 70),),
                           ),
                           Container(
                             margin: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 2),
                             width: SizeConfig.blockSizeHorizontal * 53,
                             child: Text(
-                              "Micheal John",
+                              username,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -381,7 +415,42 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                         ),
                       ),
                     ),
+                    InkWell(
+                      onTap: () {
+                        drawer_function(9);
 
+                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 4,
+                            left: SizeConfig.blockSizeVertical * 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Image.asset(
+                                "assets/images/logout.png",
+                                height: 25,
+                                width: 25,
+                                color: AppColors.whiteColor,
+                              ),
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(
+                                  left: 20,
+                                ),
+                                child: Text(
+                                  "Logout",
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins-Medium',
+                                      color: AppColors.whiteColor),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -460,6 +529,41 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
+      case 9:
+        Widget cancelButton = FlatButton(
+          child: Text("No"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        );
+        Widget continueButton = FlatButton(
+          child: Text("Yes"),
+          onPressed: () async {
+            SharedUtils.instance.removeAll();
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => login()),
+                    (Route<dynamic> route) => false);
+          },
+        );
+        // set up the AlertDialog
+        AlertDialog alert = AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to logout"),
+          actions: [
+            cancelButton,
+            continueButton,
+          ],
+        );
+        // show the dialog
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          },
+        );
+        break;
     }
   }
+
+
+
 }

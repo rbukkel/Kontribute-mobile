@@ -1,19 +1,11 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
-import 'package:kontribute/Ui/createpostgift.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewHistorydetail_sendreceivegift.dart';
-import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
-import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:intl/intl.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 
 class HistorySendReceived extends StatefulWidget {
@@ -22,80 +14,15 @@ class HistorySendReceived extends StatefulWidget {
 }
 
 class HistorySendReceivedState extends State<HistorySendReceived> {
-
+  bool _dialVisible = true;
   Offset _tapDownPosition;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
 
-
-
-  _showPopupMenu() async {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
-
-    await showMenu(
-      context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
-        _tapDownPosition.dy,
-        overlay.size.width - _tapDownPosition.dx,
-        overlay.size.height - _tapDownPosition.dy,),
-      items: [
-        PopupMenuItem(
-            value: 1,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.content_copy),
-                  ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
-        PopupMenuItem(
-            value: 2,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.edit),
-                  ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
-        PopupMenuItem(
-            value:3,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
-
-      ],
-      elevation: 8.0,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +131,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                 fontSize: 8),
                                           ),
                                         ),
-                                        GestureDetector(
+                                       /* GestureDetector(
                                           onTapDown: (TapDownDetails details) {
                                             _tapDownPosition =
                                                 details.globalPosition;
@@ -222,7 +149,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                 height: 15,
                                                 width: 20),
                                           ),
-                                        )
+                                        )*/
                                       ],
                                     ),
                                     Divider(
@@ -458,7 +385,47 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
             ],
           )
       ),
+        floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          // this is ignored if animatedIcon is non null
+          // child: Icon(Icons.add),
+          visible: _dialVisible,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          onOpen: () => print('OPENING DIAL'),
+          onClose: () => print('DIAL CLOSED'),
+          tooltip: 'Speed Dial',
+          heroTag: 'speed-dial-hero-tag',
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.request_page),
+                backgroundColor: AppColors.theme1color,
+                label: 'Request',
 
+                onTap: () => print('FIRST CHILD')
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.people_rounded),
+              backgroundColor: AppColors.theme1color,
+              label: 'Pool',
+
+              onTap: () => print('SECOND CHILD'),
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.send),
+              backgroundColor: AppColors.theme1color,
+              label: 'Send',
+
+              onTap: () => print('SECOND CHILD'),
+            ),
+          ],
+        )
     );
   }
 }

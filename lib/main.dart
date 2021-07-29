@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/Carousel.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'dart:async';
@@ -77,7 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Settings registered: $settings");
     });
     super.initState();
-
     gettoken();
     SharedUtils.readToken("Token").then((val) {
       print("Token: " + val);
@@ -97,63 +97,31 @@ class _MyHomePageState extends State<MyHomePage> {
     //callSharedData();
   }
 
+
+
   void nextScreen() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Carousel()),
-            (route) => false);
-
-    /* SharedUtils.writeloginData("login").then((result) {
-      if (result != null) {
-        if (result) {
+    SharedUtils.writeloginData("login").then((result){
+      if(result!=null){
+        if(result){
           print("trueValue");
-          SharedUtils.readUserType('USERTYPE').then((response) {
-            setState(() {
-              if (response != null) {
-                setState(() {
-                  userType = response;
-                  print("userType: " + userType.toString());
-                });
-              }
-            });
+          Future.delayed(Duration(seconds: 3),(){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
           });
-
-          if (userType == "store") {
-            Future.delayed(Duration(seconds: 3), () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeMotherScreen()),
-                      (route) => false);
-            });
-          } else if (userType == "vendor") {
-            Future.delayed(Duration(seconds: 3), () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (route) => false);
-            });
-          }
-        } else {
+        }else{
           print("falseValue");
-          print("falseValue");
-          Future.delayed(Duration(seconds: 3), () {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-                    (route) => false);
+          Future.delayed(Duration(seconds: 3),(){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Carousel()), (route) => false);
           });
         }
-      } else {
+      }else{
         print("falseValue");
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-                  (route) => false);
+        Future.delayed(Duration(seconds: 3),(){
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Carousel()), (route) => false);
         });
       }
-    });*/
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
