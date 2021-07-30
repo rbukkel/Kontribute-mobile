@@ -4,4 +4,5 @@ class Network{
   static String countrylist = "countrylist";
   static String nationality = "nationality";
   static String login = "login";
+  static String socailLogin = "socailLogin";
 }

@@ -8,6 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Pojo/facebookresponse.dart';
+import 'package:kontribute/Pojo/facebookresponse.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
@@ -499,17 +502,73 @@ class loginState extends State<login>{
         print(profile['picture']['data']['url']);
         onLoginStatusChanged(true, profileData: profile);
         SharedUtils.readloginData("login", true);
-       /* fetchData(
+        fetchData(
             profile['name'].toString(),
             profile['email'].toString(),
             profile['id'].toString(),
             profile['picture']['data']['url'].toString(),
-            vendorname);*/
+            );
         SharedUtils.writeloginId("login_type", "facebook");
 
         // Navigator.of(context).pop();
         break;
     }
+  }
+
+
+  fetchData(String name, String email, String id, String photoURL) async {
+    print("email: " + email.toString());
+    print("name: " + name.toString());
+    print("id: " + id.toString());
+    print("photoURL: " + photoURL.toString());
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'email': email.toString(),
+      'full_name': name.toString(),
+      'mobile_token': token.toString(),
+      'facebook_id': id.toString(),
+      'profile_pic': photoURL.toString(),
+    };
+
+
+    print(data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.socailLogin, body: data);
+    jsonResponse = json.decode(response.body);
+    if (jsonResponse['success'] == false) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      facebookresponse value = facebookresponse.fromJson(jsonDecode(response.body));
+      jsonResponse = json.decode(response.body);
+      String jsonProfile = jsonEncode(value);
+      print(jsonProfile);
+      if (jsonResponse != null) {
+        Fluttertoast.showToast(
+          msg: value.message,
+          backgroundColor: Colors.black,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          textColor: Colors.white,
+          timeInSecForIosWeb: 1,
+        );
+        SharedUtils.writeloginData("login").then((value) {
+          print("LoginValue: " + value.toString());
+        });
+        SharedUtils.saveProfile(jsonProfile);
+        print("loginId Data: " + value.result.id.toString());
+        int userId = value.result.id;
+        SharedUtils.readloginData("login", true);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => selectlangauge()));
+      }    }
   }
 
 
@@ -523,7 +582,6 @@ class loginState extends State<login>{
     } else {
       newMessage = result.errorMessage;
     }
-
     setState(() {
       message = newMessage;
     });
@@ -534,7 +592,6 @@ class loginState extends State<login>{
         authToken: token, authTokenSecret: secret);
     await _authtwitter.signInWithCredential(credential);
   }*/
-
 
   signIn(String emal,String pass,String token) async {
     Dialogs.showLoadingDialog(context, _keyLoader);

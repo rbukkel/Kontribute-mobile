@@ -133,7 +133,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(1);
+                        drawer_function(1,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -168,7 +168,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(2);
+                        drawer_function(2,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -206,7 +206,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
 
                     InkWell(
                       onTap: () {
-                        drawer_function(3);
+                        drawer_function(3,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -241,7 +241,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(4);
+                        drawer_function(4,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -277,7 +277,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(5);
+                        drawer_function(5,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -312,7 +312,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                         drawer_function(6);
+                         drawer_function(6,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -347,7 +347,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(7);
+                        drawer_function(7,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -382,7 +382,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                          drawer_function(8);
+                          drawer_function(8,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -417,7 +417,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ),
                     InkWell(
                       onTap: () {
-                        drawer_function(9);
+                        drawer_function(9,context);
 
                         // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                       },
@@ -461,7 +461,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     );
   }
 
-  void drawer_function(var next_screen) async {
+  void drawer_function(var next_screen, BuildContext context) async {
     Navigator.pop(context);
     switch (next_screen) {
       case 1:
@@ -530,38 +530,44 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
       case 9:
-        Widget cancelButton = FlatButton(
-          child: Text("No"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        );
-        Widget continueButton = FlatButton(
-          child: Text("Yes"),
-          onPressed: () async {
-            SharedUtils.instance.removeAll();
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => login()),
-                    (Route<dynamic> route) => false);
-          },
-        );
-        // set up the AlertDialog
-        AlertDialog alert = AlertDialog(
-          title: Text("Logout"),
-          content: Text("Are you sure you want to logout"),
-          actions: [
-            cancelButton,
-            continueButton,
-          ],
-        );
-        // show the dialog
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return alert;
-          },
-        );
+        logout(context);
+
         break;
     }
+  }
+
+  void logout(BuildContext context1) {
+   Widget cancelButton = FlatButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.of(context1,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        Navigator.of(context1,rootNavigator: true).pop();
+        SharedUtils.instance.removeAll();
+        Navigator.of(context1).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => login()),
+                (Route<dynamic> route) => false);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Logout"),
+      content: Text("Are you sure you want to logout"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context1,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
 
