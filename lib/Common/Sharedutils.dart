@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -87,29 +89,30 @@ class SharedUtils {
     return pref.getString(key);
   }
 
-  static readloginId(String key, String value) async {
+  static writeloginId(String key, String value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString(key, value);
   }
 
-  static writeloginId(String key) async {
+  static readloginId(String key) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.getString(key);
   }
 
- /* static saveProfile(String jsonString) async {
+  static saveProfile(String jsonString) async {
     SharedPreferences shared_User = await SharedPreferences.getInstance();
     Map decode_options = jsonDecode(jsonString);
-    var user = jsonEncode(ProfileDataModel.fromJson(decode_options));
+    var user = jsonEncode(LoginResponse.fromJson(decode_options));
     shared_User.setString('profile', user);
   }
 
   static readProfile() async {
     SharedPreferences shared_User = await SharedPreferences.getInstance();
     Map userMap = jsonDecode(shared_User.getString('profile'));
-    var user = ProfileDataModel.fromJson(userMap);
+    var user = LoginResponse.fromJson(userMap);
     return user;
-  }*/
+  }
+
 
 
   static saveDate(String key, String value) async {

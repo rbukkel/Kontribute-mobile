@@ -45,6 +45,7 @@ dependencies:
   firebase_messaging: ^6.0.12
   firebase_core: ^0.5.2
   flutter_twitter_login: ^1.0.1
+  cached_network_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -153,6 +154,7 @@ flutter:
     - assets/images/categorymenu.png
     - assets/images/files.png
     - assets/images/search.png
+    - assets/images/logout.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

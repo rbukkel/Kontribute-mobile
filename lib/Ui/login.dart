@@ -6,12 +6,19 @@ import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Pojo/facebookresponse.dart';
+import 'package:kontribute/Pojo/facebookresponse.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,6 +40,7 @@ class loginState extends State<login>{
   String token;
   var facebookLogin = FacebookLogin();
   bool isLoggedIn = false;
+  bool isLoading = false;
   var profileData;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseAuth _authtwitter = FirebaseAuth.instance;
@@ -108,15 +116,14 @@ class loginState extends State<login>{
                     ),
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical *7,
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 7,
-                      left: SizeConfig.blockSizeHorizontal * 12,
-                      right: SizeConfig.blockSizeHorizontal * 12,
+                      left: SizeConfig.blockSizeHorizontal * 10,
+                      right: SizeConfig.blockSizeHorizontal * 10,
                     ),
                     padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 1,
-                      right: SizeConfig.blockSizeVertical * 1,
+                      left: SizeConfig.blockSizeVertical * 3,
+                      right: SizeConfig.blockSizeVertical * 3,
                     ),
                     alignment: Alignment.topLeft,
                     decoration: BoxDecoration(
@@ -150,14 +157,14 @@ class loginState extends State<login>{
                       textAlign: TextAlign.center,
                       style:
                       TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.white),
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,color: Colors.white),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 15,
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,
                           decoration: TextDecoration.none,
                         ),
                         hintText: StringConstant.emailaddres,
@@ -165,15 +172,14 @@ class loginState extends State<login>{
                     ),
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical *7,
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 5,
-                      left: SizeConfig.blockSizeHorizontal * 12,
-                      right: SizeConfig.blockSizeHorizontal * 12,
+                      left: SizeConfig.blockSizeHorizontal * 10,
+                      right: SizeConfig.blockSizeHorizontal * 10,
                     ),
                     padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 1,
-                      right: SizeConfig.blockSizeVertical * 1,
+                      left: SizeConfig.blockSizeVertical * 3,
+                      right: SizeConfig.blockSizeVertical * 3,
                     ),
                     alignment: Alignment.topLeft,
                     decoration: BoxDecoration(
@@ -206,16 +212,16 @@ class loginState extends State<login>{
                       obscureText: !this._showPassword,
                       textAlign: TextAlign.center,
                       style:
-                      TextStyle(letterSpacing: 1.0,   fontSize: 15, fontWeight: FontWeight.normal,
+                      TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',color: Colors.white),
                       decoration: InputDecoration(
 
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 15,
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,
                           decoration: TextDecoration.none,
                         ),
                         hintText: StringConstant.password,
@@ -224,11 +230,7 @@ class loginState extends State<login>{
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => selectlangauge()),
-                              (route) => false);
-/*
+
                       if (_formKey.currentState.validate()) {
                         setState(() {
                           isLoading = true;
@@ -248,7 +250,6 @@ class loginState extends State<login>{
                           // No-Internet Case
                         });
                       }
-*/
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -256,8 +257,8 @@ class loginState extends State<login>{
                       height: SizeConfig.blockSizeVertical * 7,
                       margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 5,
-                        left: SizeConfig.blockSizeHorizontal * 12,
-                        right: SizeConfig.blockSizeHorizontal * 12,
+                        left: SizeConfig.blockSizeHorizontal * 10,
+                        right: SizeConfig.blockSizeHorizontal * 10,
                       ),
                       decoration: BoxDecoration(
                         image: new DecorationImage(
@@ -501,17 +502,73 @@ class loginState extends State<login>{
         print(profile['picture']['data']['url']);
         onLoginStatusChanged(true, profileData: profile);
         SharedUtils.readloginData("login", true);
-       /* fetchData(
+        fetchData(
             profile['name'].toString(),
             profile['email'].toString(),
             profile['id'].toString(),
             profile['picture']['data']['url'].toString(),
-            vendorname);*/
-        SharedUtils.readloginId("login_type", "facebook");
+            );
+        SharedUtils.writeloginId("login_type", "facebook");
 
         // Navigator.of(context).pop();
         break;
     }
+  }
+
+
+  fetchData(String name, String email, String id, String photoURL) async {
+    print("email: " + email.toString());
+    print("name: " + name.toString());
+    print("id: " + id.toString());
+    print("photoURL: " + photoURL.toString());
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'email': email.toString(),
+      'full_name': name.toString(),
+      'mobile_token': token.toString(),
+      'facebook_id': id.toString(),
+      'profile_pic': photoURL.toString(),
+    };
+
+
+    print(data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.socailLogin, body: data);
+    jsonResponse = json.decode(response.body);
+    if (jsonResponse['success'] == false) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      facebookresponse value = facebookresponse.fromJson(jsonDecode(response.body));
+      jsonResponse = json.decode(response.body);
+      String jsonProfile = jsonEncode(value);
+      print(jsonProfile);
+      if (jsonResponse != null) {
+        Fluttertoast.showToast(
+          msg: value.message,
+          backgroundColor: Colors.black,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          textColor: Colors.white,
+          timeInSecForIosWeb: 1,
+        );
+        SharedUtils.writeloginData("login").then((value) {
+          print("LoginValue: " + value.toString());
+        });
+        SharedUtils.saveProfile(jsonProfile);
+        print("loginId Data: " + value.result.id.toString());
+        int userId = value.result.id;
+        SharedUtils.readloginData("login", true);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => selectlangauge()));
+      }    }
   }
 
 
@@ -525,7 +582,6 @@ class loginState extends State<login>{
     } else {
       newMessage = result.errorMessage;
     }
-
     setState(() {
       message = newMessage;
     });
@@ -536,5 +592,80 @@ class loginState extends State<login>{
         authToken: token, authTokenSecret: secret);
     await _authtwitter.signInWithCredential(credential);
   }*/
+
+  signIn(String emal,String pass,String token) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      "email":emal,
+      "password":pass,
+      "mobile_token":token,
+      };
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi+Network.login, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        LoginResponse login = new LoginResponse.fromJson(jsonResponse);
+        String jsonProfile = jsonEncode(login);
+        print(jsonProfile);
+        SharedUtils.saveProfile(jsonProfile);
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+          });
+          SharedUtils.readloginData("login",true);
+          SharedUtils.saveDate("Token", login.resultPush.mobileToken);
+          SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
+
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      selectlangauge()),
+                  (route) => false);
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Navigator.of(context).pop();
+            //   isLoading = false;
+          });
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
 }

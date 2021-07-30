@@ -24,13 +24,11 @@ class OngoingSendReceived extends StatefulWidget {
 }
 
 class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerProviderStateMixin{
-
   Offset _tapDownPosition;
-
   bool _dialVisible = true;
+
   _showPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
-
     await showMenu(
       context: context,
       position: RelativeRect.fromLTRB( _tapDownPosition.dx,
@@ -48,44 +46,13 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerPr
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.content_copy),
-                  ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
-        PopupMenuItem(
-            value: 2,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
                   Text('Edit',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
-        PopupMenuItem(
-            value:3,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
+
       ],
       elevation: 8.0,
     );
@@ -454,17 +421,11 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerPr
           SpeedDialChild(
             child: Icon(Icons.public),
             backgroundColor: AppColors.theme1color,
-            label: 'Public',
+            label: 'Pool',
 
             onTap: () => print('SECOND CHILD'),
           ),
-          SpeedDialChild(
-            child: Icon(Icons.privacy_tip),
-            backgroundColor: AppColors.theme1color,
-            label: 'Private',
 
-            onTap: () => print('THIRD CHILD'),
-          ),
         ],
       ),
     );
