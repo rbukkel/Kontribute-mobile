@@ -46,6 +46,7 @@ dependencies:
   firebase_core: ^0.5.2
   flutter_twitter_login: ^1.0.1
   cached_network_image: ^2.0.0
+  autocomplete_textfield: ^1.6.4
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
@@ -18,21 +20,20 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   final SearchContactFocus = FocusNode();
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
-  final TextEditingController searchcontactController =
-      new TextEditingController();
-  final TextEditingController requiredamountController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController searchcontactController = new TextEditingController();
+  final TextEditingController requiredamountController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   String _searchcontact;
   String _requiredamount;
   String _Description;
   bool showvalue = false;
   String Date;
   String formattedDate = "07-07-2021";
-
   File _imageFile;
   bool image_value = false;
+  bool resultvalue = true;
+  var storelist_length;
+  String val;
 
   showAlert() {
     showDialog(
@@ -184,6 +185,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
   }
 
   DateView() async {
@@ -199,6 +201,44 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       print("onDate: " + formattedDate.toString());
     });
   }
+
+  void getData() async {
+
+    http.Response response = await http.get(Network.BaseApi + Network.username_list);
+
+    if (response.statusCode == 200) {
+      val = response.body; //store response as string
+      if (jsonDecode(val)["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        setState(() {
+          resultvalue = true;
+          storelist_length = jsonDecode(val)['data']; //get all the data from json string superheros
+          print(storelist_length.length); // just printed length of data
+        });
+      }
+    }
+    else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {

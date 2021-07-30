@@ -7,10 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
-import 'package:kontribute/Pojo/LoginResponse.dart';
-import 'package:kontribute/Pojo/facebookresponse.dart';
-import 'package:kontribute/Pojo/facebookresponse.dart';
-import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
@@ -535,8 +531,60 @@ class loginState extends State<login>{
     var jsonResponse = null;
     var response =
     await http.post(Network.BaseApi + Network.socailLogin, body: data);
-    jsonResponse = json.decode(response.body);
-    if (jsonResponse['success'] == false) {
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        LoginResponse login = new LoginResponse.fromJson(jsonResponse);
+        String jsonProfile = jsonEncode(login);
+        print(jsonProfile);
+        SharedUtils.saveProfile(jsonProfile);
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+          });
+          SharedUtils.readloginData("login",true);
+          SharedUtils.saveDate("Token", login.resultPush.mobileToken);
+          SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
+
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      selectlangauge()),
+                  (route) => false);
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Navigator.of(context).pop();
+            //   isLoading = false;
+          });
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonResponse["message"],
@@ -544,31 +592,8 @@ class loginState extends State<login>{
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
       );
-    } else {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      facebookresponse value = facebookresponse.fromJson(jsonDecode(response.body));
-      jsonResponse = json.decode(response.body);
-      String jsonProfile = jsonEncode(value);
-      print(jsonProfile);
-      if (jsonResponse != null) {
-        Fluttertoast.showToast(
-          msg: value.message,
-          backgroundColor: Colors.black,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          textColor: Colors.white,
-          timeInSecForIosWeb: 1,
-        );
-        SharedUtils.writeloginData("login").then((value) {
-          print("LoginValue: " + value.toString());
-        });
-        SharedUtils.saveProfile(jsonProfile);
-        print("loginId Data: " + value.result.id.toString());
-        int userId = value.result.id;
-        SharedUtils.readloginData("login", true);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => selectlangauge()));
-      }    }
+    }
+
   }
 
 

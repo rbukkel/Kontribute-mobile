@@ -33,6 +33,7 @@ class ResultPush {
   String mobile;
   String dob;
   String nationality;
+  String facebookId;
   String currentCountry;
   String profilePic;
   String usertype;
@@ -40,17 +41,18 @@ class ResultPush {
 
   ResultPush(
       {this.userId,
-      this.nickName,
-      this.fullName,
-      this.email,
-      this.password,
-      this.mobile,
-      this.dob,
-      this.nationality,
-      this.currentCountry,
-      this.profilePic,
-      this.usertype,
-      this.mobileToken});
+        this.nickName,
+        this.fullName,
+        this.email,
+        this.password,
+        this.mobile,
+        this.dob,
+        this.nationality,
+        this.facebookId,
+        this.currentCountry,
+        this.profilePic,
+        this.usertype,
+        this.mobileToken});
 
   ResultPush.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -61,6 +63,7 @@ class ResultPush {
     mobile = json['mobile'];
     dob = json['dob'];
     nationality = json['nationality'];
+    facebookId = json['facebook_id'];
     currentCountry = json['current_country'];
     profilePic = json['profile_pic'];
     usertype = json['usertype'];
@@ -77,6 +80,7 @@ class ResultPush {
     data['mobile'] = this.mobile;
     data['dob'] = this.dob;
     data['nationality'] = this.nationality;
+    data['facebook_id'] = this.facebookId;
     data['current_country'] = this.currentCountry;
     data['profile_pic'] = this.profilePic;
     data['usertype'] = this.usertype;

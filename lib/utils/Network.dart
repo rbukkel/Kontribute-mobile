@@ -5,4 +5,5 @@ class Network{
   static String nationality = "nationality";
   static String login = "login";
   static String socailLogin = "socailLogin";
+  static String username_list = "username_list";
 }
