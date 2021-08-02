@@ -6,4 +6,8 @@ class Network{
   static String login = "login";
   static String socailLogin = "socailLogin";
   static String username_list = "username_list";
+  static String gift_request = "gift_request";
+  static String requestgiftlist = "requestgiftlist";
+  static String individual_gift = "individual_gift";
+  static String individualgiftlist = "individualgiftlist";
 }

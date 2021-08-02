@@ -67,7 +67,6 @@ class registerState extends State<register> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SharedUtils.readToken("Token").then((val) {
       print("Token: " + val);
@@ -889,99 +888,7 @@ class registerState extends State<register> {
     );
   }
 
- /* register(String email, String pass, String confirmPass, String name,String token) async {
 
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {
-      'fullname': name,
-      'email': email,
-      'password': pass,
-      'confirm_password': confirmPass,
-      'mobile_token': token,
-    };
-
-    var jsonResponse = null;
-    var response = await http.post(
-        Network.BaseApi + Network.register, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      if (jsonResponse["status"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-      else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-
-        LoginResponse login = new LoginResponse.fromJson(jsonResponse);
-        print('Result: ${login.resultPush.uid}');
-        if (jsonResponse != null) {
-          setState(() {
-            isLoading = false;
-          });
-          sharedPreferences?.setBool("isLoggedIn", true);
-          SharedUtils.saveDate("Token", login.resultPush.mobileToken);
-          sharedPreferences.setInt("id", login.resultPush.uid);
-          sharedPreferences.setString("name", login.resultPush.fullname);
-          sharedPreferences.setString("email", login.resultPush.email);
-          sharedPreferences.setString("mobile", login.resultPush.mobile);
-          sharedPreferences.setString("image", login.resultPush.profilePic);
-          sharedPreferences.setString(
-              "billing_address", login.resultPush.billingAddress);
-          sharedPreferences.setString(
-              "shipping_address", login.resultPush.shippingAddress);
-
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (BuildContext context) => home()), (
-              Route<dynamic> route) => false);
-        }
-        else {
-          setState(() {
-            isLoading = false;
-          });
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    }
-    else if (response.statusCode == 422) {
-      jsonResponse = json.decode(response.body);
-      if (jsonResponse["status"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-    }
-    else {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }*/
 
   void register(
       String email,
@@ -992,8 +899,7 @@ class registerState extends State<register> {
       File Imge,
       String selected,
       String country,
-      String nationality,
-      ) async {
+      String nationality,) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.register),);
@@ -1069,6 +975,90 @@ class registerState extends State<register> {
         }
       }
     });
+  }
+
+  fetchData(String name, String email, String id, String photoURL) async {
+    print("email: " + email.toString());
+    print("name: " + name.toString());
+    print("id: " + id.toString());
+    print("photoURL: " + photoURL.toString());
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'email': email.toString(),
+      'full_name': name.toString(),
+      'mobile_token': token.toString(),
+      'facebook_id': id.toString(),
+      'profile_pic': photoURL.toString(),
+    };
+
+
+    print(data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.socailLogin, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        LoginResponse login = new LoginResponse.fromJson(jsonResponse);
+        String jsonProfile = jsonEncode(login);
+        print(jsonProfile);
+        SharedUtils.saveProfile(jsonProfile);
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+          });
+          SharedUtils.readloginData("login",true);
+          SharedUtils.saveDate("Token", login.resultPush.mobileToken);
+          SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
+
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      selectlangauge()),
+                  (route) => false);
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Navigator.of(context).pop();
+            //   isLoading = false;
+          });
+          Fluttertoast.showToast(
+            msg: login.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+
   }
 
 
@@ -1301,12 +1291,12 @@ class registerState extends State<register> {
         print(profile['picture']['data']['url']);
         onLoginStatusChanged(true, profileData: profile);
         SharedUtils.readloginData("login", true);
-        /* fetchData(
-            profile['name'].toString(),
-            profile['email'].toString(),
-            profile['id'].toString(),
-            profile['picture']['data']['url'].toString(),
-            vendorname);*/
+        fetchData(
+          profile['name'].toString(),
+          profile['email'].toString(),
+          profile['id'].toString(),
+          profile['picture']['data']['url'].toString(),
+        );
         SharedUtils.writeloginId("login_type", "facebook");
 
         // Navigator.of(context).pop();

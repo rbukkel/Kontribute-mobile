@@ -1,9 +1,15 @@
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/sendindividualHistory.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewHistorydetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 
@@ -15,11 +21,23 @@ class HistorySendReceived extends StatefulWidget {
 
 class HistorySendReceivedState extends State<HistorySendReceived> {
   bool _dialVisible = true;
+  bool resultvalue = true;
   Offset _tapDownPosition;
+  String userid;
+  bool internet = false;
+  String val;
+  var storelist_length;
+  sendindividualHistory sendindividual;
 
   @override
   void initState() {
     super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("LOgin userid: " + userid.toString());
+    });
+    getdata(userid);
   }
 
 
@@ -428,4 +446,68 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
         )
     );
   }
+
+  void getdata(String user_id) async {
+    Map data = {
+      'user_id': user_id.toString(),
+    };
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.requestgiftlist, body: data);
+
+
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        sendindividual = new sendindividualHistory.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            resultvalue = true;
+            print("SSSS");
+
+            storelist_length = sendindividual.data;
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: sendindividual.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else if (response.statusCode == 422) {
+      val = response.body;
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
 }
