@@ -225,53 +225,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     });
   }
 
-/*  void getData() async {
-
-    http.Response response = await http.get(Network.BaseApi + Network.username_list);
-    var jsonResponse = null;
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      val = response.body; //store response as string
-      if (jsonResponse["status"] == false) {
-        setState(() {
-          resultvalue = false;
-        });
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-      else {
-        searchPojo = new UserListResponse.fromJson(jsonResponse);
-        print("Json User" + jsonResponse.toString());
-        if (jsonResponse != null) {
-          print("response");
-          setState(() {
-            resultvalue = true;
-            userlist_length = searchPojo.data; //get all the data from json string superheros
-            print(userlist_length.length); // just printed length of data
-          });
-        } else {
-          Fluttertoast.showToast(
-            msg: searchPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    }
-    else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }*/
 
   void getCategory() async {
     var res =
@@ -695,15 +648,26 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           });
                           Internet_check().check().then((intenet) {
                             if (intenet != null && intenet) {
+                              if(_imageFile!=null)
+                              {
+                                requestIndivial(
+                                    userName,
+                                    requiredamountController.text,
+                                    DescriptionController.text,
+                                    formattedDate,
+                                    _imageFile,
+                                    userid
+                                );
+                              }
+                              else {
+                                Fluttertoast.showToast(
+                                  msg: "Please select gift image",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                );
+                              }
 
-                              requestIndivial(
-                                  userName,
-                                  requiredamountController.text,
-                                DescriptionController.text,
-                                  formattedDate,
-                                _imageFile,
-                                userid
-                                  );
                             } else {
                               Fluttertoast.showToast(
                                 msg: "No Internet Connection",
@@ -765,6 +729,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     request.fields["message"] = description;
     request.fields["user_id"] = userid.toString();
     request.fields["time"] = date.toString();
+    request.fields["form_filled "] = "individual";
 
     print("Request: "+request.fields.toString());
 

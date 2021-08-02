@@ -295,7 +295,8 @@ class SendIndividaulState extends State<SendIndividaul>{
                           ),
                           color: Colors.transparent,
                         ),
-                        child: FormField<dynamic>(
+                        child:
+                        FormField<dynamic>(
                           builder: (FormFieldState<dynamic> state) {
                             return InputDecorator(
                               decoration:
@@ -574,14 +575,25 @@ class SendIndividaulState extends State<SendIndividaul>{
                           });
                           Internet_check().check().then((intenet) {
                             if (intenet != null && intenet) {
+                             if(_imageFile!=null)
+                               {
+                                 sendIndivial(
+                                     userName,
+                                     MoneyCashController.text,
+                                     DescriptionController.text,
+                                     _imageFile,
+                                     userid
+                                 );
+                               }
+                             else {
+                               Fluttertoast.showToast(
+                                 msg: "Please select gift image",
+                                 toastLength: Toast.LENGTH_SHORT,
+                                 gravity: ToastGravity.BOTTOM,
+                                 timeInSecForIosWeb: 1,
+                               );
+                             }
 
-                              sendIndivial(
-                                  userName,
-                                  MoneyCashController.text,
-                                  DescriptionController.text,
-                                  _imageFile,
-                                  userid
-                              );
                             } else {
                               Fluttertoast.showToast(
                                 msg: "No Internet Connection",

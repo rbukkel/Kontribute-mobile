@@ -11,6 +11,7 @@ import 'package:kontribute/Ui/sendrequestgift/viewHistorydetail_sendreceivegift.
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 
@@ -28,6 +29,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
   String val;
   var storelist_length;
   sendindividualHistory sendindividual;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   @override
   void initState() {
@@ -36,8 +38,9 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
       print("UserId: " + val);
       userid = val;
       print("LOgin userid: " + userid.toString());
+      getdata(userid);
     });
-    getdata(userid);
+
   }
 
 
@@ -52,47 +55,13 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-             /* Container(
-                height: SizeConfig.blockSizeVertical *7,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      alignment: Alignment.topRight,
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 1,
-                          top: SizeConfig.blockSizeVertical * 2),
-                      child: Text(
-                        "Sort by: ",
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black87,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      padding: EdgeInsets.only(
-                          right: SizeConfig.blockSizeHorizontal * 3,
-                          top: SizeConfig.blockSizeVertical * 2),
-                      child: Text(
-                        "Request",
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Regular'),
-                      ),
-                    )
-                  ],
-                ),
-              ),*/
+
+              storelist_length != null ?
               Expanded(
                 child: ListView.builder(
-                    itemCount: 8,
+                    itemCount: storelist_length.length == null
+                        ? 0
+                        : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         margin: EdgeInsets.only(
@@ -140,7 +109,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                               SizeConfig.blockSizeHorizontal *
                                                   2),
                                           child: Text(
-                                            "01-01-2020",
+                                            "",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -222,7 +191,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                         1,
                                                   ),
                                                   child: Text(
-                                                    "Sam Miller",
+                                                    sendindividual.data.elementAt(index).name,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
@@ -283,7 +252,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                       .blockSizeHorizontal *
                                                       2),
                                               child: Text(
-                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+                                                sendindividual.data.elementAt(index).message,
                                                 maxLines: 2,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -327,7 +296,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                           .blockSizeHorizontal *
                                                           2),
                                                   child: Text(
-                                                    "\$100",
+                                                    "\$"+sendindividual.data.elementAt(index).amount.toString(),
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors
@@ -341,7 +310,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                 )
                                               ],
                                             ),
-                                            Row(
+                                          /*  Row(
                                               children: [
                                                 Container(
                                                   alignment: Alignment.topLeft,
@@ -387,7 +356,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                   ),
                                                 )
                                               ],
-                                            ),
+                                            ),*/
                                           ],
                                         )
                                       ],
@@ -399,7 +368,19 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                             )),
                       );
                     }),
-              )
+              ) : Container(
+                margin: EdgeInsets.only(top: 50),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset("assets/images/empty.png",
+                      height: SizeConfig.blockSizeVertical * 50,
+                      width: SizeConfig.blockSizeVertical * 50),
+                ),
+              ),
             ],
           )
       ),
@@ -451,24 +432,15 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
     Map data = {
       'user_id': user_id.toString(),
     };
+    print("usr: "+data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.requestgiftlist, body: data);
-
-
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    http.Response response = await http.post(Network.BaseApi + Network.individualgiftlist, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
-      if (jsonResponse["status"] == false) {
-        setState(() {
-          resultvalue = false;
-        });
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
+      if (jsonResponse["status"] == 200) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         sendindividual = new sendindividualHistory.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
@@ -487,10 +459,12 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
             timeInSecForIosWeb: 1,
           );
         }
-      }
-    } else if (response.statusCode == 422) {
-      val = response.body;
-      if (jsonDecode(val)["status"] == false) {
+
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        setState(() {
+          resultvalue = false;
+        });
         Fluttertoast.showToast(
           msg: jsonDecode(val)["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -498,13 +472,6 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
           timeInSecForIosWeb: 1,
         );
       }
-    } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
     }
   }
 
