@@ -11,6 +11,7 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingCampaign extends StatefulWidget {
@@ -142,7 +143,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                 width: 1,
                               ),
                             ),
-                            child: InkWell(
                               child: Container(
                                 padding: EdgeInsets.all(5.0),
                                 margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
@@ -175,27 +175,33 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          height:
-                                          SizeConfig.blockSizeVertical *
-                                              9,
-                                          width:
-                                          SizeConfig.blockSizeVertical *
-                                              9,
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical *2,
-                                              bottom: SizeConfig.blockSizeVertical *1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  2),
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image:new AssetImage("assets/images/userProfile.png"),
-                                                fit: BoxFit.fill,)),
+                                        GestureDetector(
+                                          onTap: ()
+                                          {
+                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_Eventprofile()));
+                                          },
+                                          child: Container(
+                                            height:
+                                            SizeConfig.blockSizeVertical *
+                                                9,
+                                            width:
+                                            SizeConfig.blockSizeVertical *
+                                                9,
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig.blockSizeVertical *2,
+                                                bottom: SizeConfig.blockSizeVertical *1,
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    1,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2),
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image:new AssetImage("assets/images/userProfile.png"),
+                                                  fit: BoxFit.fill,)),
+                                          ),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -446,48 +452,53 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         )
                                       ],
                                     ),
-                                    Container(
-                                      color: AppColors.themecolor,
-                                      alignment: Alignment.topCenter,
-                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                      height: SizeConfig.blockSizeVertical*30,
-                                      child: Stack(
-                                        alignment: AlignmentDirectional.bottomCenter,
-                                        children: <Widget>[
-                                          PageView.builder(
-                                            physics: ClampingScrollPhysics(),
-                                            itemCount: introWidgetsList.length,
-                                            onPageChanged: (int page) {
-                                              getChangedPageAndMoveBar(page);
-                                            },
-                                            controller: PageController(
-                                                initialPage: currentPageValue,
-                                                keepPage: true,
-                                                viewportFraction: 1),
-                                            itemBuilder: (context, index) {
-                                              return introWidgetsList[index];
-                                            },
-                                          ),
-                                          Stack(
-                                            alignment: AlignmentDirectional.bottomCenter,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    for (int i = 0; i < introWidgetsList.length; i++)
-                                                      if (i == currentPageValue) ...[
-                                                        circleBar(true)
-                                                      ] else
-                                                        circleBar(false),
-                                                  ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaignDetailsscreen()));
+                                      },
+                                      child: Container(
+                                        color: AppColors.themecolor,
+                                        alignment: Alignment.topCenter,
+                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                        height: SizeConfig.blockSizeVertical*30,
+                                        child: Stack(
+                                          alignment: AlignmentDirectional.bottomCenter,
+                                          children: <Widget>[
+                                            PageView.builder(
+                                              physics: ClampingScrollPhysics(),
+                                              itemCount: introWidgetsList.length,
+                                              onPageChanged: (int page) {
+                                                getChangedPageAndMoveBar(page);
+                                              },
+                                              controller: PageController(
+                                                  initialPage: currentPageValue,
+                                                  keepPage: true,
+                                                  viewportFraction: 1),
+                                              itemBuilder: (context, index) {
+                                                return introWidgetsList[index];
+                                              },
+                                            ),
+                                            Stack(
+                                              alignment: AlignmentDirectional.bottomCenter,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      for (int i = 0; i < introWidgetsList.length; i++)
+                                                        if (i == currentPageValue) ...[
+                                                          circleBar(true)
+                                                        ] else
+                                                          circleBar(false),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -886,10 +897,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaignDetailsscreen()));
-                              },
-                            )
                         ),
                       );
                     }),

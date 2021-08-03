@@ -157,4 +157,6 @@ class StringConstant {
 
   static const String moneycash="Money / Cash";
 
+  static const String pastcampaign="Past Campaign";
+
 }

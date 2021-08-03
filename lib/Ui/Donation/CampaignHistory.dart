@@ -9,6 +9,7 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 
@@ -75,7 +76,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                 width: 1,
                               ),
                             ),
-                            child: InkWell(
+
                               child: Container(
                                 padding: EdgeInsets.all(5.0),
                                 margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
@@ -91,34 +92,39 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          height:
-                                          SizeConfig.blockSizeVertical *
-                                              9,
-                                          width:
-                                          SizeConfig.blockSizeVertical *
-                                              9,
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical *2,
-                                              bottom: SizeConfig.blockSizeVertical *1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  2),
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image:new AssetImage("assets/images/userProfile.png"),
-                                                fit: BoxFit.fill,)),
+                                        GestureDetector(
+                                          onTap: ()
+                                          {
+                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_Eventprofile()));
+                                          },
+                                          child:Container(
+                                            height:
+                                            SizeConfig.blockSizeVertical *
+                                                9,
+                                            width:
+                                            SizeConfig.blockSizeVertical *
+                                                9,
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig.blockSizeVertical *2,
+                                                bottom: SizeConfig.blockSizeVertical *1,
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    1,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2),
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image:new AssetImage("assets/images/userProfile.png"),
+                                                  fit: BoxFit.fill,)),
+                                          ) ,
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                               children: [
                                                 Container(
                                                   margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
@@ -126,7 +132,8 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                   padding: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
+                                                  child:
+                                                  Text(
                                                     "Amitofo Care Center International",
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -136,10 +143,8 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
-
                                                 Container(
                                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
-
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
                                                       right: SizeConfig
@@ -339,7 +344,11 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                         )
                                       ],
                                     ),*/
-                                    Container(
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CampaignHistoryDetailsscreen()));
+                                    },
+                                    child: Container(
                                       color: AppColors.themecolor,
                                       alignment: Alignment.topCenter,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
@@ -383,6 +392,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                         ],
                                       ),
                                     ),
+                                  ),
 
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
@@ -698,10 +708,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CampaignHistoryDetailsscreen()));
-                              },
-                            )
+
                         ),
                       );
                     }),

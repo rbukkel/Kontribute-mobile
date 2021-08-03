@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -144,8 +145,9 @@ class OngoingEventsState extends State<OngoingEvents> {
                                 width: 1,
                               ),
                             ),
-                            child: InkWell(
-                              child: Container(
+
+                              child:
+                              Container(
                                 padding: EdgeInsets.all(5.0),
                                 margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
                                 child:
@@ -177,27 +179,32 @@ class OngoingEventsState extends State<OngoingEvents> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          height:
-                                          SizeConfig.blockSizeVertical *
-                                              9,
-                                          width:
-                                          SizeConfig.blockSizeVertical *
-                                              9,
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(
-                                              bottom: SizeConfig.blockSizeVertical *1,
-                                              top: SizeConfig.blockSizeVertical *1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1),
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image:new AssetImage("assets/images/userProfile.png"),
-                                                fit: BoxFit.fill,)),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                          },
+                                          child: Container(
+                                            height:
+                                            SizeConfig.blockSizeVertical *
+                                                9,
+                                            width:
+                                            SizeConfig.blockSizeVertical *
+                                                9,
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                                bottom: SizeConfig.blockSizeVertical *1,
+                                                top: SizeConfig.blockSizeVertical *1,
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    1,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    1),
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image:new AssetImage("assets/images/userProfile.png"),
+                                                  fit: BoxFit.fill,)),
+                                          ),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,52 +487,55 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         ],)
                                       ],
                                     ),
-
-                                    Container(
-                                      color: AppColors.themecolor,
-                                      alignment: Alignment.topCenter,
-                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                      height: SizeConfig.blockSizeVertical*30,
-                                      child: Stack(
-                                        alignment: AlignmentDirectional.bottomCenter,
-                                        children: <Widget>[
-                                          PageView.builder(
-                                            physics: ClampingScrollPhysics(),
-                                            itemCount: introWidgetsList.length,
-                                            onPageChanged: (int page) {
-                                              getChangedPageAndMoveBar(page);
-                                            },
-                                            controller: PageController(
-                                                initialPage: currentPageValue,
-                                                keepPage: true,
-                                                viewportFraction: 1),
-                                            itemBuilder: (context, index) {
-                                              return introWidgetsList[index];
-                                            },
-                                          ),
-                                          Stack(
-                                            alignment: AlignmentDirectional.bottomCenter,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    for (int i = 0; i < introWidgetsList.length; i++)
-                                                      if (i == currentPageValue) ...[
-                                                        circleBar(true)
-                                                      ] else
-                                                        circleBar(false),
-                                                  ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEventsDetailsscreen()));
+                                      },
+                                      child: Container(
+                                        color: AppColors.themecolor,
+                                        alignment: Alignment.topCenter,
+                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                        height: SizeConfig.blockSizeVertical*30,
+                                        child: Stack(
+                                          alignment: AlignmentDirectional.bottomCenter,
+                                          children: <Widget>[
+                                            PageView.builder(
+                                              physics: ClampingScrollPhysics(),
+                                              itemCount: introWidgetsList.length,
+                                              onPageChanged: (int page) {
+                                                getChangedPageAndMoveBar(page);
+                                              },
+                                              controller: PageController(
+                                                  initialPage: currentPageValue,
+                                                  keepPage: true,
+                                                  viewportFraction: 1),
+                                              itemBuilder: (context, index) {
+                                                return introWidgetsList[index];
+                                              },
+                                            ),
+                                            Stack(
+                                              alignment: AlignmentDirectional.bottomCenter,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      for (int i = 0; i < introWidgetsList.length; i++)
+                                                        if (i == currentPageValue) ...[
+                                                          circleBar(true)
+                                                        ] else
+                                                          circleBar(false),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                       child: Row(
@@ -708,10 +718,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEventsDetailsscreen()));
-                              },
-                            )
+
                         ),
                       );
                     }),

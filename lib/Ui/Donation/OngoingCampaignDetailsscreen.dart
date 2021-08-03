@@ -10,6 +10,7 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingCampaignDetailsscreen extends StatefulWidget {
@@ -242,21 +243,27 @@ class OngoingCampaignDetailsscreenState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              height: SizeConfig.blockSizeVertical * 9,
-                              width: SizeConfig.blockSizeVertical * 9,
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  bottom: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeHorizontal * 1,
-                                  left: SizeConfig.blockSizeHorizontal * 2),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image: new AssetImage(
-                                    "assets/images/userProfile.png"),
-                                fit: BoxFit.fill,
-                              )),
+                            GestureDetector(
+                              onTap: ()
+                              {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_Eventprofile()));
+                              },
+                              child:  Container(
+                                height: SizeConfig.blockSizeVertical * 9,
+                                width: SizeConfig.blockSizeVertical * 9,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                    right: SizeConfig.blockSizeHorizontal * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 2),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: new AssetImage(
+                                          "assets/images/userProfile.png"),
+                                      fit: BoxFit.fill,
+                                    )),
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

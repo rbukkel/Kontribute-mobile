@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -209,27 +210,32 @@ class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              height:
-                              SizeConfig.blockSizeVertical *
-                                  9,
-                              width:
-                              SizeConfig.blockSizeVertical *
-                                  9,
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical *2,
-                                  bottom: SizeConfig.blockSizeVertical *1,
-                                  right: SizeConfig
-                                      .blockSizeHorizontal *
-                                      1,
-                                  left: SizeConfig
-                                      .blockSizeHorizontal *
-                                      2),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image:new AssetImage("assets/images/userProfile.png"),
-                                    fit: BoxFit.fill,)),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                              },
+                              child:  Container(
+                                height:
+                                SizeConfig.blockSizeVertical *
+                                    9,
+                                width:
+                                SizeConfig.blockSizeVertical *
+                                    9,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical *2,
+                                    bottom: SizeConfig.blockSizeVertical *1,
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        1,
+                                    left: SizeConfig
+                                        .blockSizeHorizontal *
+                                        2),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image:new AssetImage("assets/images/userProfile.png"),
+                                      fit: BoxFit.fill,)),
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

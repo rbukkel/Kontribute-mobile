@@ -155,8 +155,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -206,8 +205,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     getCategory();
   }
 
@@ -220,15 +219,14 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
     setState(() {
       Date = picked.toString();
-      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+      formattedDate = DateFormat('yyyy-MM-dd').format(picked);
       print("onDate: " + formattedDate.toString());
     });
   }
 
 
   void getCategory() async {
-    var res =
-        await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
+    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
     final data = json.decode(res.body);
     List<dynamic> data1 = data["data"];
 
@@ -526,7 +524,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 )
                               ],
                             ),
-                          ))
+                          )
+                      )
                     ],
                   ),
                   Container(
@@ -634,7 +633,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
-                              )),
+                              )
+                          ),
                         ),
                       ],
                     ),
@@ -667,7 +667,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                   timeInSecForIosWeb: 1,
                                 );
                               }
-
                             } else {
                               Fluttertoast.showToast(
                                 msg: "No Internet Connection",
@@ -686,7 +685,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           );
                         }
                       }
-
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -718,6 +716,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           )),
     );
   }
+
+
+
 
   void requestIndivial(String username, String requiredamoun, String description,String date,File Imge, int userid) async {
     var jsonData = null;
@@ -762,15 +763,12 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (context) =>
-              sendreceivedgifts()),
-                  (route) => false);
-        } else {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+        }
+        else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Navigator.of(context).pop();
-            //   isLoading = false;
           });
           Fluttertoast.showToast(
             msg: jsonData["message"],
@@ -781,5 +779,25 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         }
       }
     });
+  }
+
+  Future<List> getServerData() async {
+    String url = 'https://restcountries.eu/rest/v2/all';
+//    String url = 'http://192.168.43.34:3000/numbers';
+    final response = await http.get(url, headers: {"Accept": "application/json"});
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      List<dynamic> responseBody = json.decode(response.body);
+      List<String> countries = new List();
+      for(int i=0; i < responseBody.length; i++) {
+        countries.add(responseBody[i]['name']);
+      }
+      return countries;
+    }
+    else {
+      print("error from server : $response");
+      throw Exception('Failed to load post');
+    }
   }
 }
