@@ -24,8 +24,14 @@ class CreatepoolState extends State<Createpool> {
     "Connections only",
     "Group members"
   ];
+  var categorylist;
+  List _selecteCategorys = List();
+  List _selecteName = List();
+  var catid;
+  var values;
   String currentSelectedValue;
   final TermsFocus = FocusNode();
+  bool expandFlag0 = false;
   final TextEditingController TermsController = new TextEditingController();
   String _terms;
   final CreatepoolFocus = FocusNode();
@@ -61,21 +67,24 @@ class CreatepoolState extends State<Createpool> {
   File _imageFile;
   bool image_value = false;
   bool imageUrl = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCategory();
-  }
-
+  var catname = null;
+  String data;
   String userName;
   int userid;
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
   var currentSelectedValues;
 
-  void getCategory() async {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+
+
+ /* void getCategory() async {
     var res =
         await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
     final data = json.decode(res.body);
@@ -84,7 +93,36 @@ class CreatepoolState extends State<Createpool> {
     setState(() {
       categoryTypes = data1;
     });
+  }*/
+
+  void getData() async {
+    http.Response response =
+    await http.get(Network.BaseApi + Network.username_list);
+    if (response.statusCode == 200) {
+      data = response.body; //store response as string
+      if (jsonDecode(data)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(data)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        setState(() {
+          categorylist = jsonDecode(data)['data']; //get all the data from json string superheros
+          //  print(categorylist.length); // just printed length of data
+        });
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(data)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
   }
+
 
   DateView() async {
     final DateTime picked = await showDatePicker(
@@ -481,70 +519,149 @@ class CreatepoolState extends State<Createpool> {
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 60,
-                      height: SizeConfig.blockSizeVertical * 7,
+                      width: SizeConfig.blockSizeHorizontal * 45,
+                      alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
+                          right: SizeConfig.blockSizeHorizontal * 3),
                       padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2,
-                          right: SizeConfig.blockSizeHorizontal * 2),
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
-                        ),
-                        color: Colors.transparent,
+                        top: SizeConfig.blockSizeVertical * 3,
                       ),
-                      child: FormField<dynamic>(
-                        builder: (FormFieldState<dynamic> state) {
-                          return InputDecorator(
-                            decoration: InputDecoration.collapsed(hintText: ''),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<dynamic>(
-                                hint: Text("select contact",
+                      child: Text(
+                        //catname!=null?catname.toString():category_names.toString(),
+                        catname != null
+                            ? catname.toString()
+                            : "please select contact",
+                        style: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black38,
+                            fontSize:
+                            SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                      ),
+                    )
+
+                  ],
+                ),
+                Container(
+                  height: SizeConfig.blockSizeVertical * 7,
+
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 2,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
+                    ),
+
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black26,
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child:    Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                        ),
+                        child: Text(
+                          "Search contact",
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize:
+                              SizeConfig.blockSizeHorizontal *
+                                  3,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat-Bold'),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          right: SizeConfig.blockSizeHorizontal * 2,
+                        ),
+                        child: IconButton(
+                            icon: new Container(
+                              height: 50.0,
+                              width: 50.0,
+                              child: new Center(
+                                child: new Icon(
+                                  expandFlag0
+                                      ? Icons.arrow_drop_up
+                                      : Icons.arrow_drop_down,
+                                  color: Colors.black87,
+                                  size: 30.0,
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                expandFlag0 = !expandFlag0;
+                              });
+                            }),
+                      ),
+                    ],
+                  ),
+                 /* FormField<dynamic>(
+                    builder: (FormFieldState<dynamic> state) {
+                      return InputDecorator(
+                        decoration: InputDecoration.collapsed(hintText: ''),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<dynamic>(
+                            hint: Text("select contact",
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold')),
+                            dropdownColor: Colors.white,
+                            value: currentSelectedValues,
+                            isDense: true,
+                            onChanged: (newValue) {
+                              setState(() {
+                                currentSelectedValues = newValue;
+                                userid = (newValue["id"]);
+                                userName = (newValue["full_name"]);
+                                print("User: " + userName.toString());
+                                print("Userid: " + userid.toString());
+                              });
+                            },
+                            items: categoryTypes.map((dynamic value) {
+                              return DropdownMenuItem<dynamic>(
+                                value: value,
+                                child: Text(value["full_name"],
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
                                         fontSize: 12,
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Poppins-Bold')),
-                                dropdownColor: Colors.white,
-                                value: currentSelectedValues,
-                                isDense: true,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    currentSelectedValues = newValue;
-                                    userid = (newValue["id"]);
-                                    userName = (newValue["full_name"]);
-                                    print("User: " + userName.toString());
-                                    print("Userid: " + userid.toString());
-                                  });
-                                },
-                                items: categoryTypes.map((dynamic value) {
-                                  return DropdownMenuItem<dynamic>(
-                                    value: value,
-                                    child: Text(value["full_name"],
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold')),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),*/
                 ),
+                Visibility(
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    child: Container()),
+                expandFlag0 == true ? Expandedview0() : Container(),
                 Container(
                   margin:
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
@@ -1189,7 +1306,7 @@ class CreatepoolState extends State<Createpool> {
       int user) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.pool_gift));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.poolgift));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["group_members"] = createpool.toString();
     request.fields["mesage"] = description.toString();
@@ -1251,4 +1368,59 @@ class CreatepoolState extends State<Createpool> {
       }
     });
   }
+
+  Expandedview0() {
+    return Container(
+      alignment: Alignment.topLeft,
+      height: SizeConfig.blockSizeVertical *30,
+      child: ListView.builder(
+          itemCount: categorylist == null ? 0 : categorylist.length,
+          itemBuilder: (BuildContext context, int index) {
+            return CheckboxListTile(
+              activeColor: AppColors.theme1color,
+              value: _selecteCategorys.contains(categorylist[index]['id']),
+              onChanged: (bool selected) {
+                _onCategorySelected(selected, categorylist[index]['id'],
+                    categorylist[index]['full_name']);
+              },
+              title: Text(categorylist[index]['full_name'],style: TextStyle(letterSpacing: 1.0,
+                  color: Colors.black,
+                  fontSize:
+                  SizeConfig.blockSizeHorizontal *
+                      3,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Montserrat-Bold'),),
+            );
+          }),
+    );
+  }
+
+  void _onCategorySelected(bool selected, category_id, category_name) {
+    if (selected == true) {
+      setState(() {
+        _selecteCategorys.add(category_id);
+        _selecteName.add(category_name);
+      });
+    } else {
+      setState(() {
+        _selecteCategorys.remove(category_id);
+        _selecteName.remove(category_name);
+      });
+    }
+    final input = _selecteName.toString();
+    final removedBrackets = input.substring(1, input.length - 1);
+    final parts = removedBrackets.split(',');
+
+    catname = parts.map((part) => "$part").join(',').trim();
+
+    final input1 = _selecteCategorys.toString();
+    final removedBrackets1 = input1.substring(1, input1.length - 1);
+    final parts1 = removedBrackets1.split(',');
+
+    catid = parts1.map((part1) => "$part1").join(',').trim();
+    values = catid.replaceAll(" ", "");
+    print(values);
+    print(catname);
+  }
+
 }

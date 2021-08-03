@@ -11,6 +11,6 @@ class Network{
   static String requestgiftlist = "requestgiftlist";
   static String individual_gift = "individual_gift";
   static String individualgiftlist = "individualgiftlist";
-  static String pool_gift = "pool_gift";
+  static String poolgift = "poolgift";
 
 }

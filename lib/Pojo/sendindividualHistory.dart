@@ -1,5 +1,5 @@
 class sendindividualHistory {
-  int status;
+  bool status;
   List<Data> data;
   String message;
 

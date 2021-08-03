@@ -369,7 +369,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                       );
                     }),
               ) : Container(
-                margin: EdgeInsets.only(top: 50),
+                margin: EdgeInsets.only(top: 150),
                 alignment: Alignment.center,
                 child: resultvalue == true
                     ? Center(
@@ -434,13 +434,21 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
     };
     print("usr: "+data.toString());
     var jsonResponse = null;
-    Dialogs.showLoadingDialog(context, _keyLoader);
     http.Response response = await http.post(Network.BaseApi + Network.individualgiftlist, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      val = response.body; //store response as string
-      if (jsonResponse["status"] == 200) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      val = response.body;
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
         sendindividual = new sendindividualHistory.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
@@ -448,7 +456,6 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
           setState(() {
             resultvalue = true;
             print("SSSS");
-
             storelist_length = sendindividual.data;
           });
         } else {
@@ -459,22 +466,15 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
             timeInSecForIosWeb: 1,
           );
         }
-
-      } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        setState(() {
-          resultvalue = false;
-        });
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
       }
     }
+    else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
   }
-
-
-
 }
