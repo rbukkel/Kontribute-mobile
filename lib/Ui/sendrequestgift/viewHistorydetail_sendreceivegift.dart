@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
+import 'package:kontribute/Pojo/SenddetailsPojo.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -7,18 +11,110 @@ import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class viewHistorydetail_sendreceivegift extends StatefulWidget{
+  final String data;
+
+  const viewHistorydetail_sendreceivegift({
+    Key key,
+    @required this.data,
+  }) : super(key: key);
+
   @override
   viewHistorydetail_sendreceivegiftState createState() => viewHistorydetail_sendreceivegiftState();
 
 }
 
 class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sendreceivegift>{
+ String data1;
+ bool internet = false;
+ String val;
+ String image;
+ SenddetailsPojo senddetailsPojo;
+ var productlist_length;
+
+  @override
+  void initState() {
+    super.initState();
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+        int a = int.parse(data1);
+        getData(a);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+
+  void getData(int id) async {
+    Map data = {
+      'product_id': id.toString(),
+    };
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.senddetails, body: data);
+
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        senddetailsPojo = new SenddetailsPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = senddetailsPojo.data;
+            if(senddetailsPojo.data.image !=null)
+            {
+              setState(() {
+                image = senddetailsPojo.data.image;
+              });
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: senddetailsPojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,19 +175,27 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 ],
               ),
             ),
-            Container(
+
+           productlist_length!=null? Container(
               child: Stack(
                 children: [
                   Container(
                     height: SizeConfig.blockSizeVertical * 19,
                     width: SizeConfig.blockSizeHorizontal * 100,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    /*decoration: BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage("assets/images/viewdetailsbg.png"),
                         fit: BoxFit.fill,
                       ),
-                    ),
+                    ),*/
+                    decoration: BoxDecoration(
+
+                        image: DecorationImage(
+                          image: NetworkImage(
+                           senddetailsPojo.data.image,
+                          ),
+                        )),
                   ),
                   Row(
                     children: [
@@ -129,7 +233,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *7),
                                 child: Text(
-                                  "Sam Miller",
+                                  senddetailsPojo.data.name,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,
@@ -172,7 +276,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
 
                             ],
                           ),
-                          Container(
+                         /* Container(
                             width: SizeConfig.blockSizeHorizontal *60,
                             margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *3),
                             alignment: Alignment.topRight,
@@ -197,7 +301,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                   fontFamily:
                                   'Poppins-Regular'),
                             ),
-                          ),
+                          ),*/
                          /* Container(
                             width: SizeConfig.blockSizeHorizontal *64,
                             alignment: Alignment.topLeft,
@@ -240,7 +344,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                     .blockSizeHorizontal *
                                     1),
                             child: Text(
-                              "Closing Date-21-05-2021 ",
+                              " ",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -288,15 +392,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                       'Poppins-Regular'),
                                 ),
                               )
-
                             ],
                           ),
                           Row(
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-
-
                                 child: Text(
                                   "Total Collected Amount- ",
                                   style: TextStyle(
@@ -349,7 +450,11 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                   ),
                 ],
               ),
-            ),
+            ):Container(
+      child: Center(
+      child: internet == true?CircularProgressIndicator():SizedBox(),
+    ),
+    ),
 
             Container(
               margin: EdgeInsets.only(

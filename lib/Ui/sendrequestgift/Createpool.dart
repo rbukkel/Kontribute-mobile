@@ -540,18 +540,15 @@ class CreatepoolState extends State<Createpool> {
                             fontFamily: 'Montserrat-Bold'),
                       ),
                     )
-
                   ],
                 ),
                 Container(
                   height: SizeConfig.blockSizeVertical * 7,
-
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 2,
                       left: SizeConfig.blockSizeHorizontal * 3,
                       right: SizeConfig.blockSizeHorizontal * 3,
                     ),
-
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
                       right: SizeConfig.blockSizeHorizontal * 2),

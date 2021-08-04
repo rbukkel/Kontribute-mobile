@@ -1,6 +1,7 @@
 class Network{
 
   static String BaseApi = "http://kontribute.knickglobal.com/api/";
+  static String BaseApipics = "http://kontribute.knickglobal.com/";
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";
@@ -12,5 +13,5 @@ class Network{
   static String individual_gift = "individual_gift";
   static String individualgiftlist = "individualgiftlist";
   static String poolgift = "poolgift";
-
+  static String senddetails = "senddetails";
 }

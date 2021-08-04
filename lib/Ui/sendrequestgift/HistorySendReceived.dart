@@ -44,7 +44,6 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,12 +203,11 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (BuildContext
-                                                            context) =>
-                                                                viewHistorydetail_sendreceivegift()));
+
+                                                    callNext(
+                                                        viewHistorydetail_sendreceivegift(
+                                                            data: sendindividual.data.elementAt(index).id.toString()),
+                                                        context);
                                                   },
                                                   child: Container(
                                                     alignment: Alignment.topLeft,

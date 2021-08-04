@@ -22,15 +22,11 @@ class SendIndividaulState extends State<SendIndividaul>{
   final SearchContactFocus = FocusNode();
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
-  final TextEditingController searchcontactController =
-  new TextEditingController();
-  final TextEditingController requiredamountController =
-  new TextEditingController();
-  final TextEditingController DescriptionController =
-  new TextEditingController();
+  final TextEditingController searchcontactController = new TextEditingController();
+  final TextEditingController requiredamountController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final MoneyCashFocus = FocusNode();
-  final TextEditingController MoneyCashController =
-  new TextEditingController();
+  final TextEditingController MoneyCashController = new TextEditingController();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   String _requiredamount;
   String _searchcontact;
@@ -100,7 +96,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'Camera',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -211,7 +207,6 @@ class SendIndividaulState extends State<SendIndividaul>{
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCategory();
   }
@@ -442,9 +437,6 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   ),
                                 ),
                               )
-
-
-
                             ],
                           ))
                     ],

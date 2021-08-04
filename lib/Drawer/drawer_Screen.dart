@@ -14,6 +14,7 @@ import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
 import 'package:kontribute/Ui/TermsandCondition.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/Ui/mynetwork.dart';
 import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -78,384 +79,420 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
             fit: BoxFit.fill,
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-                child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 10,
-                          left: SizeConfig.blockSizeVertical * 2),
-                      child: Row(
-                        children: [
-                          Container(
-                            alignment: Alignment.bottomLeft,
-                            margin: EdgeInsets.only(
-                                bottom: SizeConfig.blockSizeVertical * 1,
-                                left: SizeConfig.blockSizeHorizontal * 1),
-                            height: 70,
-                            width: 70,
-                            child: ClipOval(child:  imageUrl?
-                            ClipOval(child:  CachedNetworkImage(
-                              height: 70,width: 70,fit: BoxFit.fill ,
-                              imageUrl:image,
-                              placeholder: (context, url) => Container(
-                                  height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
-                                  child: Center(child: new CircularProgressIndicator())),
-                              errorWidget: (context, url, error) => new Icon(Icons.error),
-                            ),)
-                                :Image.asset("assets/images/userProfile.png", height: 70,
-                              width: 70),),
-                          ),
+        child: SingleChildScrollView(
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+                  Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 10,
                                 left: SizeConfig.blockSizeVertical * 2),
-                            width: SizeConfig.blockSizeHorizontal * 53,
-                            child: Text(
-                              username,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Poppins-Bold'),
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.bottomLeft,
+                                  margin: EdgeInsets.only(
+                                      bottom: SizeConfig.blockSizeVertical * 1,
+                                      left: SizeConfig.blockSizeHorizontal * 1),
+                                  height: 70,
+                                  width: 70,
+                                  child: ClipOval(child:  imageUrl?
+                                  ClipOval(child:  CachedNetworkImage(
+                                    height: 70,width: 70,fit: BoxFit.fill ,
+                                    imageUrl:image,
+                                    placeholder: (context, url) => Container(
+                                        height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                        child: Center(child: new CircularProgressIndicator())),
+                                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                                  ),)
+                                      :Image.asset("assets/images/userProfile.png", height: 70,
+                                      width: 70),),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 53,
+                                  child: Text(
+                                    username,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(1,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_home.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Home",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(2,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical *4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/person.png",
+                                      height: 25,
+                                      width: 25,
+                                      color: AppColors.whiteColor,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Profile",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(3,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/network.png",
+                                      height: 25,
+                                      width: 25,
+                                      color: AppColors.whiteColor,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "My Network",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(4,context);
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_mytranscaton.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "My Transactions",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(5,context);
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/walleticon.png",
+                                      color: Colors.white,
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Wallet",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(6,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_faq.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "FAQ",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(7,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_termsconditon.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Terms & Conditions",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(8,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_contactus.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Contact Us",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(9,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_share.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Share",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(10,context);
+
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  bottom: SizeConfig.blockSizeVertical *4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/logout.png",
+                                      height: 25,
+                                      width: 25,
+                                      color: AppColors.whiteColor,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        "Logout",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(1,context);
+                    ],
+                  )
 
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_home.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Home",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(2,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical *4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/person.png",
-                                height: 25,
-                                width: 25,
-                                color: AppColors.whiteColor,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Profile",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-                    InkWell(
-                      onTap: () {
-                        drawer_function(3,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_mytranscaton.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "My Transactions",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(4,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/walleticon.png",
-                                color: Colors.white,
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Wallet",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(5,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_faq.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "FAQ",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                         drawer_function(6,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_termsconditon.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Terms & Conditions",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(7,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_contactus.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Contact Us",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                          drawer_function(8,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/nav_share.png",
-                                height: 25,
-                                width: 25,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Share",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        drawer_function(9,context);
-
-                        // Navigator.pushReplacementNamed(context, pageRoutes.notification),
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4,
-                            left: SizeConfig.blockSizeVertical * 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Image.asset(
-                                "assets/images/logout.png",
-                                height: 25,
-                                width: 25,
-                                color: AppColors.whiteColor,
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Text(
-                                  "Logout",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      color: AppColors.whiteColor),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ))
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -480,8 +517,16 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
+        case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => mynetwork(),
+          ),
+        );
+        break;
 
-      case 3:
+      case 4:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -489,7 +534,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 4:
+      case 5:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -497,7 +542,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 5:
+      case 6:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -505,7 +550,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 6:
+      case 7:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -513,7 +558,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-        case 7:
+        case 8:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -521,7 +566,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 8:
+      case 9:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -529,7 +574,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 9:
+      case 10:
         logout(context);
 
         break;

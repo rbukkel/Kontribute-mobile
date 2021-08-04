@@ -157,6 +157,10 @@ flutter:
     - assets/images/search.png
     - assets/images/logout.png
     - assets/images/empty.png
+    - assets/images/network.png
+    - assets/images/check.png
+    - assets/images/error.png
+    - assets/images/next.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
