@@ -28,15 +28,17 @@ class sendindividualHistory {
 }
 
 class Data {
-  int id;
+  String id;
   String name;
   String amount;
   String message;
   String image;
   String userId;
-  String userProfile;
+  String recieverId;
   String createdAt;
   String updatedAt;
+  String fullName;
+  String profilePic;
 
   Data(
       {this.id,
@@ -45,9 +47,11 @@ class Data {
         this.message,
         this.image,
         this.userId,
-        this.userProfile,
+        this.recieverId,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.fullName,
+        this.profilePic});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -56,9 +60,11 @@ class Data {
     message = json['message'];
     image = json['image'];
     userId = json['user_id'];
-    userProfile = json['user_profile'];
+    recieverId = json['reciever_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,9 +75,11 @@ class Data {
     data['message'] = this.message;
     data['image'] = this.image;
     data['user_id'] = this.userId;
-    data['user_profile'] = this.userProfile;
+    data['reciever_id'] = this.recieverId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
     return data;
   }
 }

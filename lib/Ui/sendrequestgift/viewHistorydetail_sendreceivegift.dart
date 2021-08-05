@@ -2,14 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kontribute/Common/fab_bottom_app_bar.dart';
 import 'package:kontribute/Pojo/SenddetailsPojo.dart';
-import 'package:kontribute/Ui/AddScreen.dart';
-import 'package:kontribute/Ui/HomeScreen.dart';
-import 'package:kontribute/Ui/NotificationScreen.dart';
-import 'package:kontribute/Ui/SettingScreen.dart';
-import 'package:kontribute/Ui/WalletScreen.dart';
-import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -23,15 +16,14 @@ class viewHistorydetail_sendreceivegift extends StatefulWidget{
 
   const viewHistorydetail_sendreceivegift({
     Key key,
-    @required this.data,
-  }) : super(key: key);
+    @required this.data}) : super(key: key);
 
   @override
   viewHistorydetail_sendreceivegiftState createState() => viewHistorydetail_sendreceivegiftState();
-
 }
 
-class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sendreceivegift>{
+class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sendreceivegift>
+{
  String data1;
  bool internet = false;
  String val;
@@ -46,6 +38,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
       if (intenet != null && intenet) {
         data1 = widget.data;
         int a = int.parse(data1);
+        print("receiverComing: "+a.toString());
         getData(a);
         setState(() {
           internet = true;
@@ -67,8 +60,10 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
 
   void getData(int id) async {
     Map data = {
-      'product_id': id.toString(),
+      'reciever_id': id.toString(),
     };
+
+    print("receiver: "+data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.senddetails, body: data);
 
@@ -120,7 +115,6 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-
       body: Container(
         height: double.infinity,
         color: AppColors.sendreceivebg,
@@ -170,7 +164,6 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                   Container(
                     width: 25,height: 25,
                     margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-
                   ),
                 ],
               ),
@@ -189,13 +182,15 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                         fit: BoxFit.fill,
                       ),
                     ),*/
-                    decoration: BoxDecoration(
-
+                    decoration:
+                    BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                           senddetailsPojo.data.image,
+                          image: senddetailsPojo.data.image!=null||senddetailsPojo.data.image!=""?
+                          NetworkImage(
+                           Network.BaseApipics+senddetailsPojo.data.image):new AssetImage("assets/images/viewdetailsbg.png"),
+                            fit: BoxFit.fill,
                           ),
-                        )),
+                        )
                   ),
                   Row(
                     children: [
@@ -217,9 +212,19 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 .blockSizeHorizontal *
                                 4),
                         decoration: BoxDecoration(
+                            shape: BoxShape.circle,
                             image: DecorationImage(
-                              image:new AssetImage("assets/images/userProfile.png"),
-                              fit: BoxFit.fill,)),
+                                image: NetworkImage(
+                                  senddetailsPojo.data.profilePic!=null||
+                                      senddetailsPojo.data.profilePic!=""?Network.BaseApiprofile+senddetailsPojo.data.profilePic : Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black26),
+                                  ),
+                                ),
+                                fit: BoxFit.fill
+                            )
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +252,6 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 {
                                 },
                                 child: Container(
-
                                   padding: EdgeInsets.only(
                                     top:  SizeConfig
                                         .blockSizeVertical *
@@ -272,8 +276,6 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                   ),
                                 ),
                               )
-
-
                             ],
                           ),
                          /* Container(
@@ -333,17 +335,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                             margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *3),
                             alignment: Alignment.topRight,
                             padding: EdgeInsets.only(
-                                left: SizeConfig
-                                    .blockSizeHorizontal *
-                                    1,
-                                right: SizeConfig
-                                    .blockSizeHorizontal *
-                                    2,
-                                bottom: SizeConfig.blockSizeVertical *1,
-                                top: SizeConfig
-                                    .blockSizeHorizontal *
-                                    1),
-                            child: Text(
+                                left: SizeConfig.blockSizeHorizontal * 1,
+                                right: SizeConfig.blockSizeHorizontal * 2,
+                                bottom: SizeConfig.blockSizeVertical * 1,
+                                top: SizeConfig.blockSizeHorizontal * 1),
+                            child:
+                            Text(
                               " ",
                               style: TextStyle(
                                   letterSpacing: 1.0,
@@ -381,7 +378,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                         3,
                                    ),
                                 child: Text(
-                                  "\$1000",
+                                  "\$"+senddetailsPojo.data.amount,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -394,7 +391,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                               )
                             ],
                           ),
-                          Row(
+                        /*  Row(
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
@@ -431,7 +428,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                               )
 
                             ],
-                          ),
+                          ),*/
                           Container(
                             margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                             child:  LinearPercentIndicator(

@@ -23,40 +23,46 @@ class SenddetailsPojo {
 }
 
 class Data {
-  int id;
+  String id;
   String name;
   String amount;
+  String time;
   String message;
   String image;
-  String userId;
   String recieverId;
-  Null userProfile;
   String createdAt;
   String updatedAt;
+  String userId;
+  String fullName;
+  String profilePic;
 
   Data(
       {this.id,
         this.name,
         this.amount,
+        this.time,
         this.message,
         this.image,
-        this.userId,
         this.recieverId,
-        this.userProfile,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.userId,
+        this.fullName,
+        this.profilePic});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     amount = json['amount'];
+    time = json['time'];
     message = json['message'];
     image = json['image'];
-    userId = json['user_id'];
     recieverId = json['reciever_id'];
-    userProfile = json['user_profile'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    userId = json['user_id'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,13 +70,15 @@ class Data {
     data['id'] = this.id;
     data['name'] = this.name;
     data['amount'] = this.amount;
+    data['time'] = this.time;
     data['message'] = this.message;
     data['image'] = this.image;
-    data['user_id'] = this.userId;
     data['reciever_id'] = this.recieverId;
-    data['user_profile'] = this.userProfile;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['user_id'] = this.userId;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
     return data;
   }
 }

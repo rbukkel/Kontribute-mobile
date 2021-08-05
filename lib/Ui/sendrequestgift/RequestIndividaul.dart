@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/UserListResponse.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -48,7 +49,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   var userlist_length;
   String val;
   String userName;
-  int userid;
+  String userid;
+  int receiverid;
   bool isLoading = false;
   TextEditingController controller = new TextEditingController();
   String filter;
@@ -206,7 +208,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   @override
   void initState() {
     super.initState();
-
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("LOgin userid: " + userid.toString());
+    });
     getCategory();
   }
 
@@ -335,10 +341,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                   onChanged: (newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      userid = (newValue["id"]);
+                                      receiverid = (newValue["id"]);
                                       userName = (newValue["full_name"]);
                                       print("User: "+userName.toString());
-                                      print("Userid: "+userid.toString());
+                                      print("Userid: "+receiverid.toString());
                                     });
                                   },
                                   items: categoryTypes.map((dynamic value) {
@@ -642,7 +648,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   GestureDetector(
                     onTap: () {
                       if (_formKey.currentState.validate()) {
-                        if (userid != null) {
+                        if (receiverid != null) {
                           setState(() {
                             isLoading = true;
                           });
@@ -656,7 +662,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                     DescriptionController.text,
                                     formattedDate,
                                     _imageFile,
-                                    userid
+                                    receiverid
                                 );
                               }
                               else {
@@ -720,7 +726,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
 
 
-  void requestIndivial(String username, String requiredamoun, String description,String date,File Imge, int userid) async {
+  void requestIndivial(String username, String requiredamoun, String description,String date,File Imge, int receiver) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.gift_request),);
@@ -730,7 +736,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     request.fields["message"] = description;
     request.fields["user_id"] = userid.toString();
     request.fields["time"] = date.toString();
-    request.fields["form_filled "] = "individual";
+    request.fields["reciever_id"] = receiver.toString();
 
     print("Request: "+request.fields.toString());
 
@@ -781,23 +787,5 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     });
   }
 
-  Future<List> getServerData() async {
-    String url = 'https://restcountries.eu/rest/v2/all';
-//    String url = 'http://192.168.43.34:3000/numbers';
-    final response = await http.get(url, headers: {"Accept": "application/json"});
 
-    if (response.statusCode == 200) {
-      print(response.body);
-      List<dynamic> responseBody = json.decode(response.body);
-      List<String> countries = new List();
-      for(int i=0; i < responseBody.length; i++) {
-        countries.add(responseBody[i]['name']);
-      }
-      return countries;
-    }
-    else {
-      print("error from server : $response");
-      throw Exception('Failed to load post');
-    }
-  }
 }
