@@ -86,9 +86,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               ),
               InkWell(
                 onTap: () {
-                  /* setState(() {
-                    image_value = false;
-                  });*/
                   captureImage(ImageSource.camera);
                   Navigator.of(context).pop();
                 },
@@ -98,7 +95,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'Camera',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -109,9 +106,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               ),
               InkWell(
                 onTap: () {
-                  /* setState(() {
-                    image_value = false;
-                  });*/
                   captureImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
@@ -192,7 +186,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             });
           } else {
             Fluttertoast.showToast(
-              msg: "Please Select Image ",
+              msg: "Please Select Image",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -209,20 +203,20 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   void initState() {
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
+      print("UserId: " +val);
       userid = val;
-      print("LOgin userid: " + userid.toString());
+      print("Login userid: " +userid.toString());
     });
     getCategory();
   }
 
   DateView() async {
-    final DateTime picked = await showDatePicker(
+    final DateTime picked = await
+    showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
-
     setState(() {
       Date = picked.toString();
       formattedDate = DateFormat('yyyy-MM-dd').format(picked);
@@ -230,12 +224,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     });
   }
 
-
   void getCategory() async {
     var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
     final data = json.decode(res.body);
     List<dynamic> data1 = data["data"];
-
     setState(() {
       categoryTypes = data1;
     });
@@ -460,7 +452,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 ),
                               )
                             ],
-                          ))
+                          )
+                      )
                     ],
                   ),
                   Row(
@@ -723,9 +716,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     );
   }
 
-
-
-
   void requestIndivial(String username, String requiredamoun, String description,String date,File Imge, int receiver) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
@@ -737,6 +727,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     request.fields["user_id"] = userid.toString();
     request.fields["time"] = date.toString();
     request.fields["reciever_id"] = receiver.toString();
+    request.fields["pool_table"] = "individual";
 
     print("Request: "+request.fields.toString());
 
@@ -747,45 +738,64 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
-      jsonData = json.decode(value);
-
-      if (jsonData["status"] == false) {
+      if (response.statusCode == 200) {
+        jsonData = json.decode(value);
+        if (jsonData["status"] == false) {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+            setState(() {
+              isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+          }
+          else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      }
+      else if(response.statusCode == 500)
+        {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: "Internal server error",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      else{
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg: jsonData["message"],
+          msg:"Something went wrong",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-      } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        if (jsonData != null) {
-          setState(() {
-            isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
-        }
-        else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Navigator.of(context).pop();
-          });
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
       }
     });
   }
-
-
 }

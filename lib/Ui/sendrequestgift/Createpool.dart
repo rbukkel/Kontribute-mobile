@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -69,8 +70,7 @@ class CreatepoolState extends State<Createpool> {
   bool imageUrl = false;
   var catname = null;
   String data;
-  String userName;
-  int userid;
+  String userid;
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
   var currentSelectedValues;
@@ -79,12 +79,15 @@ class CreatepoolState extends State<Createpool> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("LOgin userid: " + userid.toString());
+    });
     getData();
   }
 
-
-
- /* void getCategory() async {
+  /* void getCategory() async {
     var res =
         await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
     final data = json.decode(res.body);
@@ -97,7 +100,7 @@ class CreatepoolState extends State<Createpool> {
 
   void getData() async {
     http.Response response =
-    await http.get(Network.BaseApi + Network.username_list);
+        await http.get(Network.BaseApi + Network.username_list);
     if (response.statusCode == 200) {
       data = response.body; //store response as string
       if (jsonDecode(data)["status"] == false) {
@@ -109,7 +112,8 @@ class CreatepoolState extends State<Createpool> {
         );
       } else {
         setState(() {
-          categorylist = jsonDecode(data)['data']; //get all the data from json string superheros
+          categorylist = jsonDecode(
+              data)['data']; //get all the data from json string superheros
           //  print(categorylist.length); // just printed length of data
         });
       }
@@ -122,7 +126,6 @@ class CreatepoolState extends State<Createpool> {
       );
     }
   }
-
 
   DateView() async {
     final DateTime picked = await showDatePicker(
@@ -534,8 +537,7 @@ class CreatepoolState extends State<Createpool> {
                         style: TextStyle(
                             letterSpacing: 1.0,
                             color: Colors.black38,
-                            fontSize:
-                            SizeConfig.blockSizeHorizontal * 3,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Montserrat-Bold'),
                       ),
@@ -544,11 +546,11 @@ class CreatepoolState extends State<Createpool> {
                 ),
                 Container(
                   height: SizeConfig.blockSizeVertical * 7,
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2,
-                      left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeHorizontal * 3,
-                    ),
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 2,
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
                       right: SizeConfig.blockSizeHorizontal * 2),
@@ -562,9 +564,8 @@ class CreatepoolState extends State<Createpool> {
                     ),
                     color: Colors.transparent,
                   ),
-                  child:    Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
@@ -577,9 +578,7 @@ class CreatepoolState extends State<Createpool> {
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
-                              fontSize:
-                              SizeConfig.blockSizeHorizontal *
-                                  3,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Montserrat-Bold'),
                         ),
@@ -610,7 +609,7 @@ class CreatepoolState extends State<Createpool> {
                       ),
                     ],
                   ),
-                 /* FormField<dynamic>(
+                  /* FormField<dynamic>(
                     builder: (FormFieldState<dynamic> state) {
                       return InputDecorator(
                         decoration: InputDecoration.collapsed(hintText: ''),
@@ -1215,49 +1214,35 @@ class CreatepoolState extends State<Createpool> {
                 GestureDetector(
                   onTap: () {
                     if (_formKey.currentState.validate()) {
-                      if (userid != null) {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        Internet_check().check().then((intenet) {
-                          if (intenet != null && intenet) {
-                            if (_imageFile != null) {
-                              createpool(
-                                  createpoolController.text,
-                                  DescriptionController.text,
-                                  userName,
-                                  requiredamountController.text,
-                                  collectionController.text,
-                                  currentSelectedValue.toString().toLowerCase(),
-                                  formattedDate,
-                                  TermsController.text,
-                                  _imageFile,
-                                  userid);
-                            } else {
-                              Fluttertoast.showToast(
-                                msg: "Please select gift image",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                              );
-                            }
+                      Internet_check().check().then((intenet) {
+                        if (intenet != null && intenet) {
+                          if (_imageFile != null) {
+                            createpool(
+                                createpoolController.text,
+                                DescriptionController.text,
+                                requiredamountController.text,
+                                collectionController.text,
+                                currentSelectedValue.toString().toLowerCase(),
+                                formattedDate,
+                                TermsController.text,
+                                _imageFile);
                           } else {
                             Fluttertoast.showToast(
-                              msg: "No Internet Connection",
+                              msg: "Please select gift image",
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                             );
                           }
-                        });
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: "please select contact",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                        );
-                      }
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: "No Internet Connection",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                          );
+                        }
+                      });
                     }
                   },
                   child: Container(
@@ -1291,77 +1276,97 @@ class CreatepoolState extends State<Createpool> {
   }
 
   void createpool(
-      String createpool,
-      String description,
-      String userName,
-      String requiredamount,
-      String collection,
-      String currentSelected,
-      String date,
-      String terms,
-      File imageFile,
-      int user) async {
+    String createpool,
+    String description,
+    String requiredamount,
+    String collection,
+    String currentSelected,
+    String date,
+    String terms,
+    File imageFile,
+  ) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.poolgift));
+    var request = http.MultipartRequest(
+        "POST", Uri.parse(Network.BaseApi + Network.poolgift));
     request.headers["Content-Type"] = "multipart/form-data";
-    request.fields["group_members"] = createpool.toString();
-    request.fields["mesage"] = description.toString();
-    request.fields["pool_member"] = userName;
+    request.fields["group_members"] = catname.toString();
+    request.fields["message"] = description.toString();
+    request.fields["group_name"] = createpool;
     request.fields["amount"] = requiredamount.toString();
     request.fields["target"] = collection.toString();
     request.fields["posted_date"] = date.toString();
     request.fields["post"] = currentSelected;
     request.fields["special_terms"] = terms;
-    request.fields["group_admin"] = user.toString();
-    request.fields["form_filled"] = "pool";
+    request.fields["group_admin"] = userid.toString();
+    request.fields["reciever_id"] = values.toString();
+    request.fields["pool_table"] = "pool";
 
     print("Request: " + request.fields.toString());
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
-      request.files.add(await http.MultipartFile.fromPath("image", imageFile.path, filename: imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath(
+          "image", imageFile.path,
+          filename: imageFile.path));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
-
-      if (jsonData["status"] == false) {
+      if (response.statusCode == 200) {
+        if (jsonData["status"] == false) {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+            setState(() {
+              isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => sendreceivedgifts()),
+                (route) => false);
+          } else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+              //   isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg: jsonData["message"],
+          msg: "Internal server error",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        if (jsonData != null) {
-          setState(() {
-            isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => sendreceivedgifts()),
-              (route) => false);
-        } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Navigator.of(context).pop();
-            //   isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
+        Fluttertoast.showToast(
+          msg: "Something went wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
       }
     });
   }
@@ -1369,7 +1374,7 @@ class CreatepoolState extends State<Createpool> {
   Expandedview0() {
     return Container(
       alignment: Alignment.topLeft,
-      height: SizeConfig.blockSizeVertical *30,
+      height: SizeConfig.blockSizeVertical * 30,
       child: ListView.builder(
           itemCount: categorylist == null ? 0 : categorylist.length,
           itemBuilder: (BuildContext context, int index) {
@@ -1380,13 +1385,15 @@ class CreatepoolState extends State<Createpool> {
                 _onCategorySelected(selected, categorylist[index]['id'],
                     categorylist[index]['full_name']);
               },
-              title: Text(categorylist[index]['full_name'],style: TextStyle(letterSpacing: 1.0,
-                  color: Colors.black,
-                  fontSize:
-                  SizeConfig.blockSizeHorizontal *
-                      3,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'Montserrat-Bold'),),
+              title: Text(
+                categorylist[index]['full_name'],
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: SizeConfig.blockSizeHorizontal * 3,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat-Bold'),
+              ),
             );
           }),
     );
@@ -1419,5 +1426,4 @@ class CreatepoolState extends State<Createpool> {
     print(values);
     print(catname);
   }
-
 }
