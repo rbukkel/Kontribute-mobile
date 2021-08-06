@@ -1,40 +1,119 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/request_sendpojo.dart';
 import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
 import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
-
 import 'package:percent_indicator/linear_percent_indicator.dart';
-
 
 class OngoingSendReceived extends StatefulWidget {
   @override
   OngoingSendReceivedState createState() => OngoingSendReceivedState();
 }
 
-class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerProviderStateMixin{
+class OngoingSendReceivedState extends State<OngoingSendReceived>
+    with TickerProviderStateMixin {
   Offset _tapDownPosition;
   bool _dialVisible = true;
+  String userid;
+  bool resultvalue = true;
+  bool internet = false;
+  String val;
+  var storelist_length;
+  String receivefrom;
+  request_sendpojo requestpojo;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+      getdata(userid, "individual");
+    });
+  }
+
+  void getdata(String user_id, String poolvalue) async {
+    Map data = {
+      'user_id': user_id.toString(),
+      'pool_table': poolvalue.toString(),
+    };
+    print("usr: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+        await http.post(Network.BaseApi + Network.combain, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        requestpojo = new request_sendpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            resultvalue = true;
+            print("SSSS");
+            if (poolvalue.toString() == "individual") {
+              receivefrom = "individual";
+            } else if (poolvalue.toString() == "pool") {
+              receivefrom = "pool";
+            }
+            storelist_length = requestpojo.data;
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: requestpojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
 
   _showPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
-        overlay.size.height - _tapDownPosition.dy,),
+        overlay.size.height - _tapDownPosition.dy,
+      ),
       items: [
         PopupMenuItem(
             value: 1,
@@ -48,11 +127,13 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerPr
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text(
+                    'Edit',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
-
       ],
       elevation: 8.0,
     );
@@ -60,339 +141,874 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerPr
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child:
-          Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-              Expanded(
-                child: ListView.builder(
-                    itemCount: 8,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(
-                              bottom: SizeConfig.blockSizeVertical * 2),
-                          child: Card(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  width: 1,
-                                ),
-                              ),
-                              child: InkWell(
-                                child: Container(
-                                  padding: EdgeInsets.all(5.0),
-                                  margin: EdgeInsets.only(
-                                      bottom: SizeConfig.blockSizeVertical * 2),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width:
-                                            SizeConfig.blockSizeHorizontal * 72,
-                                            margin: EdgeInsets.only(
-                                                left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2),
-                                            child: Text(
-                                              StringConstant.receivegift,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Poppins-Bold',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
+              storelist_length != null
+                  ? receivefrom == "individual"
+                      ? Expanded(
+                          child: ListView.builder(
+                              itemCount: storelist_length.length == null
+                                  ? 0
+                                  : storelist_length.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(
+                                          bottom:
+                                              SizeConfig.blockSizeVertical * 2),
+                                      child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                              color:
+                                                  Colors.grey.withOpacity(0.2),
+                                              width: 1,
                                             ),
                                           ),
-                                          Container(
-                                            alignment: Alignment.center,
-                                            margin: EdgeInsets.only(
-                                                right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2),
-                                            child: Text(
-                                              "01-01-2020",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Poppins-Regular',
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 8),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTapDown: (TapDownDetails details) {
-                                              _tapDownPosition =
-                                                  details.globalPosition;
-                                            },
-                                            onTap: () {
-                                              _showPopupMenu();
-                                            },
+                                          child: InkWell(
                                             child: Container(
+                                              padding: EdgeInsets.all(5.0),
                                               margin: EdgeInsets.only(
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
+                                                  bottom: SizeConfig
+                                                          .blockSizeVertical *
                                                       2),
-                                              child: Image.asset(
-                                                  "assets/images/menudot.png",
-                                                  height: 15,
-                                                  width: 20),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Divider(
-                                        thickness: 1,
-                                        color: Colors.black12,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            height:
-                                            SizeConfig.blockSizeVertical * 12,
-                                            width:
-                                            SizeConfig.blockSizeVertical * 12,
-                                            alignment: Alignment.center,
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig.blockSizeVertical *
-                                                    1,
-                                                bottom:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                                right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
-                                                left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2),
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: new AssetImage(
-                                                      "assets/images/userProfile.png"),
-                                                  fit: BoxFit.fill,
-                                                )),
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: [
-                                              Row(
+                                              child: Column(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        45,
-                                                    alignment: Alignment.topLeft,
-                                                    padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                    ),
-                                                    child: Text(
-                                                      "Sam Miller",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black87,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                          FontWeight.bold,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            72,
+                                                        margin: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                2),
+                                                        child: Text(
+                                                          StringConstant
+                                                              .receivegift,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  'Poppins-Bold',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        margin: EdgeInsets.only(
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                2),
+                                                        child: Text(
+                                                          requestpojo.data
+                                                              .elementAt(index)
+                                                              .time
+                                                              .toString(),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  'Poppins-Regular',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 8),
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTapDown:
+                                                            (TapDownDetails
+                                                                details) {
+                                                          _tapDownPosition =
+                                                              details
+                                                                  .globalPosition;
+                                                        },
+                                                        onTap: () {
+                                                          _showPopupMenu();
+                                                        },
+                                                        child: Container(
+                                                          margin: EdgeInsets.only(
+                                                              right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  2),
+                                                          child: Image.asset(
+                                                              "assets/images/menudot.png",
+                                                              height: 15,
+                                                              width: 20),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (BuildContext
-                                                              context) =>
-                                                                  viewdetail_sendreceivegift()));
-                                                    },
-                                                    child: Container(
-                                                      alignment: Alignment.topLeft,
-                                                      padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: Colors.black12,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        height: SizeConfig
+                                                                .blockSizeVertical *
+                                                            14,
+                                                        width: SizeConfig
+                                                                .blockSizeVertical *
+                                                            12,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1,
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                2),
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                  requestpojo.data.elementAt(index).profilePic ==
+                                                                              null ||
+                                                                          requestpojo.data.elementAt(index).profilePic ==
+                                                                              ""
+                                                                      ? Container(
+                                                                          decoration: BoxDecoration(
+                                                                              shape: BoxShape.circle,
+                                                                              color: Colors.black26),
+                                                                        )
+                                                                      : Network
+                                                                              .BaseApiprofile +
+                                                                          requestpojo
+                                                                              .data
+                                                                              .elementAt(index)
+                                                                              .profilePic,
+                                                                ),
+                                                                fit: BoxFit.fill)),
                                                       ),
-                                                      child: Text(
-                                                        "View Details",
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: AppColors.green,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                            FontWeight.normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                  )
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                width: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    45,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  left: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      1,
+                                                                ),
+                                                                child: Text(
+                                                                  requestpojo
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .name,
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: Colors
+                                                                          .black87,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  callNext(
+                                                                      viewdetail_sendreceivegift(
+                                                                          data: requestpojo
+                                                                              .data
+                                                                              .elementAt(index)
+                                                                              .recieverId
+                                                                              .toString()),
+                                                                      context);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topLeft,
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        3,
+                                                                  ),
+                                                                  child: Text(
+                                                                    "View Details",
+                                                                    style: TextStyle(
+                                                                        letterSpacing:
+                                                                            1.0,
+                                                                        color: AppColors
+                                                                            .green,
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .normal,
+                                                                        fontFamily:
+                                                                            'Poppins-Regular'),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                70,
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding: EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    3,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              requestpojo.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .message
+                                                                  .toString(),
+                                                              maxLines: 2,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize: 8,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                padding: EdgeInsets.only(
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    top: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        2),
+                                                                child: Text(
+                                                                  "Amount- ",
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: Colors
+                                                                          .black87,
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                padding: EdgeInsets.only(
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        3,
+                                                                    top: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        2),
+                                                                child: Text(
+                                                                  "\$" +
+                                                                      requestpojo
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .amount
+                                                                          .toString(),
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: Colors
+                                                                          .lightBlueAccent,
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                padding: EdgeInsets.only(
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    top: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        2),
+                                                                child: Text(
+                                                                  "",
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: Colors
+                                                                          .black87,
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                padding: EdgeInsets.only(
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        3,
+                                                                    top: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        2),
+                                                                child: Text(
+                                                                  "",
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: Colors
+                                                                          .lightBlueAccent,
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                              Container(
-                                                width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    70,
-                                                alignment: Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3,
-                                                    top: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                child: Text(
-                                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
-                                                  maxLines: 2,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.black87,
-                                                      fontSize: 8,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
+                                            ),
+                                            onTap: () {},
+                                          )),
+                                    )
+                                  ],
+                                );
+                              }),
+                        )
+                      : receivefrom == "pool"
+                          ? Expanded(
+                              child: ListView.builder(
+                                  itemCount: storelist_length.length == null
+                                      ? 0
+                                      : storelist_length.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  SizeConfig.blockSizeVertical *
+                                                      2),
+                                          child: Card(
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.2),
+                                                  width: 1,
                                                 ),
                                               ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    alignment: Alignment.topLeft,
-                                                    padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
-                                                    child: Text(
-                                                      "Amount- ",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black87,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
+                                              child: InkWell(
+                                                child: Container(
+                                                  padding: EdgeInsets.all(5.0),
+                                                  margin: EdgeInsets.only(
+                                                      bottom: SizeConfig
+                                                              .blockSizeVertical *
+                                                          2),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                72,
+                                                            margin: EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              StringConstant
+                                                                  .receivegift,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontFamily:
+                                                                      'Poppins-Bold',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            margin: EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              requestpojo.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .postedDate
+                                                                  .toString(),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontSize: 8),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTapDown:
+                                                                (TapDownDetails
+                                                                    details) {
+                                                              _tapDownPosition =
+                                                                  details
+                                                                      .globalPosition;
+                                                            },
+                                                            onTap: () {
+                                                              _showPopupMenu();
+                                                            },
+                                                            child: Container(
+                                                              margin: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      2),
+                                                              child: Image.asset(
+                                                                  "assets/images/menudot.png",
+                                                                  height: 15,
+                                                                  width: 20),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Divider(
+                                                        thickness: 1,
+                                                        color: Colors.black12,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            height: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                12,
+                                                            width: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                12,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            margin: EdgeInsets.only(
+                                                                top: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    1,
+                                                                bottom: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    1,
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            decoration: BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                image: DecorationImage(
+                                                                    image: NetworkImage(
+                                                                      requestpojo.data.elementAt(index).profilePic == null ||
+                                                                              requestpojo.data.elementAt(index).profilePic ==
+                                                                                  ""
+                                                                          ? Container(
+                                                                              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
+                                                                            )
+                                                                          : Network.BaseApiprofile +
+                                                                              requestpojo.data.elementAt(index).profilePic,
+                                                                    ),
+                                                                    fit: BoxFit.fill)),
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Container(
+                                                                    width: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        45,
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topLeft,
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      left:
+                                                                          SizeConfig.blockSizeHorizontal *
+                                                                              1,
+                                                                    ),
+                                                                    child: Text(
+                                                                      requestpojo
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .groupName,
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                              1.0,
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              'Poppins-Regular'),
+                                                                    ),
+                                                                  ),
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      callNext(
+                                                                          viewdetail_sendreceivegift(
+                                                                              data: requestpojo.data.elementAt(index).id.toString()),
+                                                                          context);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .topLeft,
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .only(
+                                                                        left: SizeConfig.blockSizeHorizontal *
+                                                                            1,
+                                                                        right:
+                                                                            SizeConfig.blockSizeHorizontal *
+                                                                                3,
+                                                                      ),
+                                                                      child:
+                                                                          Text(
+                                                                        "View Details",
+                                                                        style: TextStyle(
+                                                                            letterSpacing:
+                                                                                1.0,
+                                                                            color: AppColors
+                                                                                .green,
+                                                                            fontSize:
+                                                                                12,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                            fontFamily: 'Poppins-Regular'),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              Container(
+                                                                width: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    70,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                padding: EdgeInsets.only(
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        3,
+                                                                    top: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        2),
+                                                                child: Text(
+                                                                  requestpojo
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .message,
+                                                                  maxLines: 2,
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: Colors
+                                                                          .black87,
+                                                                      fontSize:
+                                                                          8,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topLeft,
+                                                                    padding: EdgeInsets.only(
+                                                                        left: SizeConfig.blockSizeHorizontal *
+                                                                            1,
+                                                                        top: SizeConfig.blockSizeHorizontal *
+                                                                            2),
+                                                                    child: Text(
+                                                                      "Amount- ",
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                              1.0,
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight: FontWeight
+                                                                              .normal,
+                                                                          fontFamily:
+                                                                              'Poppins-Regular'),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topLeft,
+                                                                    padding: EdgeInsets.only(
+                                                                        right:
+                                                                            SizeConfig.blockSizeHorizontal *
+                                                                                3,
+                                                                        top: SizeConfig.blockSizeHorizontal *
+                                                                            2),
+                                                                    child: Text(
+                                                                      "\$" +
+                                                                          requestpojo
+                                                                              .data
+                                                                              .elementAt(index)
+                                                                              .amount,
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                              1.0,
+                                                                          color: Colors
+                                                                              .lightBlueAccent,
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight: FontWeight
+                                                                              .normal,
+                                                                          fontFamily:
+                                                                              'Poppins-Regular'),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topLeft,
+                                                                    padding: EdgeInsets.only(
+                                                                        left: SizeConfig.blockSizeHorizontal *
+                                                                            1,
+                                                                        top: SizeConfig.blockSizeHorizontal *
+                                                                            2),
+                                                                    child: Text(
+                                                                      "Collection Target- ",
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                              1.0,
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight: FontWeight
+                                                                              .normal,
+                                                                          fontFamily:
+                                                                              'Poppins-Regular'),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topLeft,
+                                                                    padding: EdgeInsets.only(
+                                                                        right:
+                                                                            SizeConfig.blockSizeHorizontal *
+                                                                                3,
+                                                                        top: SizeConfig.blockSizeHorizontal *
+                                                                            2),
+                                                                    child: Text(
+                                                                      "\$" + requestpojo
+                                                                              .data
+                                                                              .elementAt(index)
+                                                                              .target
+                                                                              .toString(),
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                              1.0,
+                                                                          color: Colors
+                                                                              .lightBlueAccent,
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight: FontWeight
+                                                                              .normal,
+                                                                          fontFamily:
+                                                                              'Poppins-Regular'),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Container(
-                                                    alignment: Alignment.topLeft,
-                                                    padding: EdgeInsets.only(
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
-                                                    child: Text(
-                                                      "\$100",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    alignment: Alignment.topLeft,
-                                                    padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
-                                                    child: Text(
-                                                      "Collection Target- ",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black87,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    alignment: Alignment.topLeft,
-                                                    padding: EdgeInsets.only(
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
-                                                    child: Text(
-                                                      "\$1000",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {},
-                              )),
-                        )
-                        ],
-                      )
-                       ;
-                    }),
-              )
-            ],
-          )
-      ),
+                                                ),
+                                                onTap: () {
 
+                                                },
+                                              )),
+                                        )
+                                      ],
+                                    );
+                                  }),
+                            )
+                          : Container()
+                  : Container(
+                      margin: EdgeInsets.only(top: 150),
+                      alignment: Alignment.center,
+                      child: resultvalue == true
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Center(
+                              child: Image.asset("assets/images/empty.png",
+                                  height: SizeConfig.blockSizeVertical * 50,
+                                  width: SizeConfig.blockSizeVertical * 50),
+                            ),
+                    )
+            ],
+          )),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
@@ -415,20 +1031,20 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>  with TickerPr
               child: Icon(Icons.request_page),
               backgroundColor: AppColors.theme1color,
               label: 'Request',
-
-              onTap: () => print('FIRST CHILD')
-          ),
+              onTap: () {
+                getdata(userid, "individual");
+                print('FIRST CHILD');
+              }),
           SpeedDialChild(
-            child: Icon(Icons.public),
-            backgroundColor: AppColors.theme1color,
-            label: 'Pool',
-
-            onTap: () => print('SECOND CHILD'),
-          ),
-
+              child: Icon(Icons.public),
+              backgroundColor: AppColors.theme1color,
+              label: 'Pool',
+              onTap: () {
+                getdata(userid, "pool");
+                print('SECOND CHILD');
+              }),
         ],
       ),
     );
   }
-
 }

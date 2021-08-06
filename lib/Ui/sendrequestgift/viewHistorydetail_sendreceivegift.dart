@@ -169,7 +169,8 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
               ),
             ),
 
-           productlist_length!=null? Container(
+           productlist_length!=null?
+           Container(
               child: Stack(
                 children: [
                   Container(
@@ -461,7 +462,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 color: Colors.black12,
               ),
             ),
-            Row(
+         /*   Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
@@ -681,7 +682,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                       ),
                     );
                   }),
-            )
+            )*/
           ],
         ),
       ),

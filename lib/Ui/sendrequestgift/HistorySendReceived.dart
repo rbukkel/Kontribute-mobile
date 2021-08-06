@@ -51,7 +51,8 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 storelist_length != null
-                    ? Expanded(
+                    ?
+                Expanded(
                         child: ListView.builder(
                             itemCount: storelist_length.length == null
                                 ? 0
@@ -149,7 +150,44 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                             ),
                                             Row(
                                               children: [
-                                                Container(
+                                                sendindividual
+                                                    .data
+                                                    .elementAt(
+                                                    index)
+                                                    .profilePic==null||sendindividual
+                                                    .data
+                                                    .elementAt(
+                                                    index)
+                                                    .profilePic==""?Container(
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      14,
+                                                  width: SizeConfig
+                                                      .blockSizeVertical *
+                                                      12,
+                                                  alignment: Alignment.center,
+                                                  padding: EdgeInsets.all(
+                                                      SizeConfig
+                                                          .blockSizeVertical *
+                                                          3),
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1,
+                                                      bottom: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: AppColors.black),
+                                                )
+                                                    :Container(
                                                   height: SizeConfig
                                                           .blockSizeVertical *
                                                       14,
@@ -177,34 +215,16 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                          image: NetworkImage(
-                                                            sendindividual.data
-                                                                            .elementAt(
-                                                                                index)
-                                                                            .profilePic !=
-                                                                        null ||
-                                                                    sendindividual
-                                                                            .data
-                                                                            .elementAt(
-                                                                                index)
-                                                                            .profilePic !=
-                                                                        ""
-                                                                ? Network
-                                                                        .BaseApiprofile +
-                                                                    sendindividual
-                                                                        .data
-                                                                        .elementAt(
-                                                                            index)
-                                                                        .profilePic
-                                                                : Container(
-                                                                    decoration: BoxDecoration(
-                                                                        shape: BoxShape
-                                                                            .circle,
-                                                                        color: Colors
-                                                                            .black26),
-                                                                  ),
+                                                          image:
+                                                          NetworkImage(
+                                                              Network
+                                                                  .BaseApiprofile + sendindividual
+                                                                  .data
+                                                                  .elementAt(
+                                                                  index)
+                                                                  .profilePic
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          )),
                                                 ),
                                                 Column(
                                                   crossAxisAlignment:

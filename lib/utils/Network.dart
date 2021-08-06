@@ -15,4 +15,6 @@ class Network{
   static String individualgiftlist = "individualgiftlist";
   static String poolgift = "poolgift";
   static String senddetails = "senddetails";
+  static String combain = "combain";
+  static String requestdetails = "requestdetails";
 }

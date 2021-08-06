@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
+import 'package:kontribute/Pojo/SenddetailsPojo.dart';
+import 'package:http/http.dart' as http;
+import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -7,24 +13,118 @@ import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class viewdetail_sendreceivegift extends StatefulWidget{
+  final String data;
+
+  const viewdetail_sendreceivegift({
+    Key key,
+    @required this.data}) : super(key: key);
+
   @override
   viewdetail_sendreceivegiftState createState() => viewdetail_sendreceivegiftState();
 
 }
 
 class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
+  String data1;
+  bool internet = false;
+  String val;
+  String image;
+  individualRequestDetailspojo senddetailsPojo;
+  var productlist_length;
+
+  @override
+  void initState() {
+    super.initState();
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+        int a = int.parse(data1);
+        print("receiverComing: "+a.toString());
+        getData(a);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+  void getData(int id) async {
+    Map data = {
+      'reciever_id': id.toString(),
+    };
+
+    print("receiver: "+data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.requestdetails, body: data);
+
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        senddetailsPojo = new individualRequestDetailspojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = senddetailsPojo.data;
+            if(senddetailsPojo.data.image !=null)
+            {
+              setState(() {
+                image = senddetailsPojo.data.image;
+              });
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: senddetailsPojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-
       body: Container(
         height: double.infinity,
         color: AppColors.sendreceivebg,
@@ -74,11 +174,12 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                   Container(
                     width: 25,height: 25,
                     margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-
                   ),
                 ],
               ),
             ),
+
+            productlist_length!=null?
             Container(
               child: Stack(
                 children: [
@@ -86,12 +187,15 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                     height: SizeConfig.blockSizeVertical * 19,
                     width: SizeConfig.blockSizeHorizontal * 100,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      image: new DecorationImage(
-                        image: new AssetImage("assets/images/viewdetailsbg.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+                      decoration:
+                      BoxDecoration(
+                        image: DecorationImage(
+                          image: senddetailsPojo.data.image!=null||senddetailsPojo.data.image!=""?
+                          NetworkImage(
+                              Network.BaseApipics+senddetailsPojo.data.image):new AssetImage("assets/images/viewdetailsbg.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      )
                   ),
                   Row(
                     children: [
@@ -113,9 +217,19 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 .blockSizeHorizontal *
                                 4),
                         decoration: BoxDecoration(
+                            shape: BoxShape.circle,
                             image: DecorationImage(
-                              image:new AssetImage("assets/images/userProfile.png"),
-                              fit: BoxFit.fill,)),
+                                image: NetworkImage(
+                                  senddetailsPojo.data.profilePic!=null||
+                                      senddetailsPojo.data.profilePic!=""?Network.BaseApiprofile+senddetailsPojo.data.profilePic : Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black26),
+                                  ),
+                                ),
+                                fit: BoxFit.fill
+                            )
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +243,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *7),
                                 child: Text(
-                                  "Sam Miller",
+                                  senddetailsPojo.data.name,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,
@@ -143,7 +257,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 {
                                 },
                                 child: Container(
-
                                   padding: EdgeInsets.only(
                                     top:  SizeConfig
                                         .blockSizeVertical *
@@ -168,8 +281,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                   ),
                                 ),
                               )
-
-
                             ],
                           ),
                           Container(
@@ -187,7 +298,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                     .blockSizeHorizontal *
                                     1),
                             child: Text(
-                              StringConstant.totalContribution+"-25 ",
+                             /* StringConstant.totalContribution+"-25 ",*/
+                              "",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -240,7 +352,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                     .blockSizeHorizontal *
                                     1),
                             child: Text(
-                              "Closing Date-21-05-2021 ",
+                              "Closing Date-"+senddetailsPojo.data.time,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -277,7 +389,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                         3,
                                    ),
                                 child: Text(
-                                  "\$1000",
+                                  "\$"+senddetailsPojo.data.amount,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -298,7 +410,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
 
 
                                 child: Text(
-                                  "Total Collected Amount- ",
+                                  "",
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black87,
@@ -317,7 +429,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                       3,
                                 ),
                                 child: Text(
-                                  "\$40",
+                                  "",
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -349,8 +461,11 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                   ),
                 ],
               ),
+            ):Container(
+              child: Center(
+                child: internet == true?CircularProgressIndicator():SizedBox(),
+              ),
             ),
-
             Container(
               margin: EdgeInsets.only(
                   top: SizeConfig.blockSizeVertical * 2),
@@ -359,7 +474,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                 color: Colors.black12,
               ),
             ),
-            Row(
+          /*  Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
@@ -579,7 +694,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                       ),
                     );
                   }),
-            )
+            )*/
           ],
         ),
       ),
