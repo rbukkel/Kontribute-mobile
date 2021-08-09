@@ -17,4 +17,6 @@ class Network{
   static String senddetails = "senddetails";
   static String combain = "combain";
   static String requestdetails = "requestdetails";
+  static String postpayment = "postpayment";
+  static String individualpayment = "individualpayment";
 }

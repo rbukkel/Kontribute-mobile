@@ -195,6 +195,31 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                   ),
                   Row(
                     children: [
+                      senddetailsPojo.data.profilePic==null||
+                          senddetailsPojo.data.profilePic==""? Container(
+                        height:
+                        SizeConfig.blockSizeVertical *
+                            18,
+                        width:
+                        SizeConfig.blockSizeVertical *
+                            17,
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical *6,
+                            bottom: SizeConfig.blockSizeVertical *1,
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                1,
+                            left: SizeConfig
+                                .blockSizeHorizontal *
+                                4),
+                          decoration: BoxDecoration(
+                            image: new DecorationImage(
+                              image: new AssetImage("assets/images/account_circle.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                      ):
                       Container(
                         height:
                         SizeConfig.blockSizeVertical *
@@ -216,12 +241,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                  senddetailsPojo.data.profilePic!=null||
-                                      senddetailsPojo.data.profilePic!=""?Network.BaseApiprofile+senddetailsPojo.data.profilePic : Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black26),
-                                  ),
+                                  Network.BaseApiprofile+senddetailsPojo.data.profilePic
                                 ),
                                 fit: BoxFit.fill
                             )

@@ -498,47 +498,66 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     );
   }
 
+  _showDialog() async {
+    await Future.delayed(Duration(milliseconds:0));
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to logout"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (BuildContext context)=>HomeScreen()), (route) => false);
+              },
+            ),
+            FlatButton(
+              child: Text("Yes"),
+              onPressed: (){
+                signOutGoogle(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> signOutGoogle(BuildContext context) async {
+    SharedUtils.readloginData("login",false);
+    SharedUtils.writeloginId("UserId", "");
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext)=>login()), (route) => false);
+    print("User Signed Out");
+  }
+
   void drawer_function(var next_screen, BuildContext context) async {
     Navigator.pop(context);
     switch (next_screen) {
       case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),),
         );
         break;
       case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProfileScreen(),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(),
           ),
         );
         break;
         case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => mynetwork(),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => mynetwork(),
           ),
         );
         break;
 
       case 4:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => mytranscation(),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => mytranscation(),
           ),
         );
         break;
       case 5:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WalletScreen(),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen(),
           ),
         );
         break;
@@ -575,7 +594,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
       case 10:
-        logout(context);
+        _showDialog();
 
         break;
     }

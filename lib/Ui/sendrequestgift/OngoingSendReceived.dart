@@ -269,50 +269,78 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                   ),
                                                   Row(
                                                     children: [
-                                                      Container(
-                                                        height: SizeConfig
-                                                                .blockSizeVertical *
-                                                            14,
-                                                        width: SizeConfig
-                                                                .blockSizeVertical *
-                                                            12,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        margin: EdgeInsets.only(
-                                                            top: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1,
-                                                            bottom: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                1,
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                2),
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            image: DecorationImage(
-                                                                image: NetworkImage(
-                                                                  requestpojo.data.elementAt(index).profilePic ==
-                                                                              null ||
-                                                                          requestpojo.data.elementAt(index).profilePic ==
-                                                                              ""
-                                                                      ? Container(
-                                                                          decoration: BoxDecoration(
-                                                                              shape: BoxShape.circle,
-                                                                              color: Colors.black26),
-                                                                        )
-                                                                      : Network
-                                                                              .BaseApiprofile +
-                                                                          requestpojo
-                                                                              .data
-                                                                              .elementAt(index)
-                                                                              .profilePic,
-                                                                ),
-                                                                fit: BoxFit.fill)),
-                                                      ),
+                                                      requestpojo.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .profilePic ==
+                                                                  null ||
+                                                              requestpojo.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .profilePic ==
+                                                                  ""
+                                                          ? Container(
+                                                              height: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  12,
+                                                              width: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  12,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              margin: EdgeInsets.only(
+                                                                  top: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  bottom: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  right: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      1,
+                                                                  left: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      2),
+                                                          decoration: BoxDecoration(
+                                                            image: new DecorationImage(
+                                                              image: new AssetImage("assets/images/account_circle.png"),
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          )
+                                                            )
+                                                          : Container(
+                                                              height: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  14,
+                                                              width: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  12,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              margin: EdgeInsets.only(
+                                                                  top: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  bottom: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  right: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      1,
+                                                                  left: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  image: DecorationImage(
+                                                                      image: NetworkImage(
+                                                                        Network.BaseApiprofile +
+                                                                            requestpojo.data.elementAt(index).profilePic,
+                                                                      ),
+                                                                      fit: BoxFit.fill)),
+                                                            ),
                                                       Column(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
@@ -367,8 +395,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                           data: requestpojo
                                                                               .data
                                                                               .elementAt(index)
-                                                                              .recieverId
-                                                                              .toString()),
+                                                                              .id
+                                                                              .toString(),
+                                                                          receiverid: requestpojo.data.elementAt(index).recieverId.toString()
+                                                                      ),
                                                                       context);
                                                                 },
                                                                 child:
@@ -790,7 +820,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                     onTap: () {
                                                                       callNext(
                                                                           viewdetail_sendreceivegift(
-                                                                              data: requestpojo.data.elementAt(index).id.toString()),
+                                                                              data: requestpojo.data.elementAt(index).id.toString(),
+                                                                            receiverid: requestpojo.data.elementAt(index).recieverId.toString()
+                                                                          ),
                                                                           context);
                                                                     },
                                                                     child:
@@ -957,7 +989,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                         top: SizeConfig.blockSizeHorizontal *
                                                                             2),
                                                                     child: Text(
-                                                                      "\$" + requestpojo
+                                                                      "\$" +
+                                                                          requestpojo
                                                                               .data
                                                                               .elementAt(index)
                                                                               .target
@@ -984,9 +1017,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                     ],
                                                   ),
                                                 ),
-                                                onTap: () {
-
-                                                },
+                                                onTap: () {},
                                               )),
                                         )
                                       ],
@@ -1047,4 +1078,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
       ),
     );
   }
+
+
+
 }

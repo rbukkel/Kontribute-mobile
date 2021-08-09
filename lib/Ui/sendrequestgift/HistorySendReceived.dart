@@ -161,7 +161,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                     .profilePic==""?Container(
                                                   height: SizeConfig
                                                       .blockSizeVertical *
-                                                      14,
+                                                      12,
                                                   width: SizeConfig
                                                       .blockSizeVertical *
                                                       12,
@@ -183,14 +183,16 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                       left: SizeConfig
                                                           .blockSizeHorizontal *
                                                           2),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: AppColors.black),
+                                                    decoration: BoxDecoration(
+                                                      image: new DecorationImage(
+                                                        image: new AssetImage("assets/images/account_circle.png"),
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    )
                                                 )
                                                     :Container(
                                                   height: SizeConfig
-                                                          .blockSizeVertical *
-                                                      14,
+                                                      .blockSizeVertical * 14,
                                                   width: SizeConfig
                                                           .blockSizeVertical *
                                                       12,

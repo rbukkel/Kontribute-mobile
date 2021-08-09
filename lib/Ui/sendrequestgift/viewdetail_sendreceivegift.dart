@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
+import 'package:kontribute/Pojo/PaymentSendReceivedList.dart';
 import 'package:kontribute/Pojo/SenddetailsPojo.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
@@ -22,10 +23,12 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class viewdetail_sendreceivegift extends StatefulWidget{
   final String data;
+  final String receiverid;
 
   const viewdetail_sendreceivegift({
     Key key,
-    @required this.data}) : super(key: key);
+    @required this.data,
+    @required this.receiverid}) : super(key: key);
 
   @override
   viewdetail_sendreceivegiftState createState() => viewdetail_sendreceivegiftState();
@@ -34,9 +37,17 @@ class viewdetail_sendreceivegift extends StatefulWidget{
 
 class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
   String data1;
+  String receiverid1;
   bool internet = false;
+  bool resultvalue = true;
   String val;
+  String vals;
+  var storelist_length;
   String image;
+  int a;
+  int rec_id;
+  String updateval;
+  PaymentSendReceivedList paymentSendReceivedList;
   individualRequestDetailspojo senddetailsPojo;
   var productlist_length;
 
@@ -46,9 +57,13 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
-        int a = int.parse(data1);
+        receiverid1 = widget.receiverid;
+         a = int.parse(data1);
+        rec_id = int.parse(receiverid1);
         print("receiverComing: "+a.toString());
-        getData(a);
+        print("receiver: "+receiverid1.toString());
+        getData(rec_id);
+      getPymentList(receiverid1);
         setState(() {
           internet = true;
         });
@@ -199,6 +214,31 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                   ),
                   Row(
                     children: [
+                      senddetailsPojo.data.profilePic==null||
+                          senddetailsPojo.data.profilePic==""?Container(
+                        height:
+                        SizeConfig.blockSizeVertical *
+                            18,
+                        width:
+                        SizeConfig.blockSizeVertical *
+                            17,
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical *6,
+                            bottom: SizeConfig.blockSizeVertical *1,
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                1,
+                            left: SizeConfig
+                                .blockSizeHorizontal *
+                                4),
+                          decoration: BoxDecoration(
+                            image: new DecorationImage(
+                              image: new AssetImage("assets/images/account_circle.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                      ):
                       Container(
                         height:
                         SizeConfig.blockSizeVertical *
@@ -220,12 +260,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                  senddetailsPojo.data.profilePic!=null||
-                                      senddetailsPojo.data.profilePic!=""?Network.BaseApiprofile+senddetailsPojo.data.profilePic : Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black26),
-                                  ),
+                                  Network.BaseApiprofile+senddetailsPojo.data.profilePic
                                 ),
                                 fit: BoxFit.fill
                             )
@@ -407,8 +442,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-
-
                                 child: Text(
                                   "",
                                   style: TextStyle(
@@ -443,7 +476,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
 
                             ],
                           ),
-                          Container(
+                       /*   Container(
                             margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                             child:  LinearPercentIndicator(
                               width: 140.0,
@@ -453,7 +486,61 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                               backgroundColor: AppColors.lightgrey,
                               progressColor:AppColors.themecolor,
                             ),
-                          )
+                          )*/
+
+
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           Container(width: SizeConfig.blockSizeHorizontal *40,
+                           ),
+                           GestureDetector(
+                             onTap: ()
+                             {
+                               payamount();
+                             },
+                             child: Container(
+                               alignment: Alignment.bottomRight,
+                               margin: EdgeInsets.only(
+                                   left:
+                                   SizeConfig.blockSizeHorizontal *1,
+                                   right: SizeConfig.blockSizeHorizontal *2,
+                                   top: SizeConfig.blockSizeVertical *2),
+                               padding: EdgeInsets.only(
+                                   right: SizeConfig
+                                       .blockSizeHorizontal *
+                                       5,
+                                   left: SizeConfig
+                                       .blockSizeHorizontal *
+                                       5,
+                                   bottom: SizeConfig
+                                       .blockSizeHorizontal *
+                                       2,
+                                   top: SizeConfig
+                                       .blockSizeHorizontal *
+                                       2),
+                               decoration: BoxDecoration(
+                                 color: AppColors.darkgreen,
+                                 borderRadius: BorderRadius.circular(20),
+
+                               ),
+                               child: Text(
+                                 StringConstant.pay.toUpperCase(),
+                                 style: TextStyle(
+                                     letterSpacing: 1.0,
+                                     color: AppColors.whiteColor,
+                                     fontSize:12,
+                                     fontWeight:
+                                     FontWeight.normal,
+                                     fontFamily:
+                                     'Poppins-Regular'),
+                               ),
+                             ),
+                           )
+                         ],
+                       ),
+
+
 
                         ],
                       )
@@ -461,7 +548,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                   ),
                 ],
               ),
-            ):Container(
+            ):
+            Container(
               child: Center(
                 child: internet == true?CircularProgressIndicator():SizedBox(),
               ),
@@ -474,7 +562,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                 color: Colors.black12,
               ),
             ),
-          /*  Row(
+           /* Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
@@ -509,12 +597,13 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                   ),
                 ),
               ],
-            ),
-
-            Expanded(
+            ),*/
+            storelist_length!=null? Expanded(
               child:
               ListView.builder(
-                  itemCount: 8,
+                  itemCount:storelist_length.length == null
+                      ? 0
+                      : storelist_length.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       child: Card(
@@ -533,10 +622,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 crossAxisAlignment:
                                 CrossAxisAlignment.center,
                                 children: [
-
                                   Row(
                                     children: [
-                                      Container(
+                                      paymentSendReceivedList.data.elementAt(index).profilePic!=null?Container(
                                         height:
                                         SizeConfig.blockSizeVertical *
                                             8,
@@ -554,10 +642,34 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                 .blockSizeHorizontal *
                                                 2),
                                         decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
                                             image: DecorationImage(
-                                              image:new AssetImage("assets/images/userProfile.png"),
-                                              fit: BoxFit.fill,)),
-                                      ),
+                                                image: NetworkImage(
+                                                    Network.BaseApiprofile+paymentSendReceivedList.data.elementAt(index).profilePic
+                                                ),
+                                                fit: BoxFit.fill
+                                            )
+                                        ),
+                                      ):Container(
+                                height:
+                                SizeConfig.blockSizeVertical *
+                                    8,
+                                width:
+                                SizeConfig.blockSizeVertical *
+                                    8,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical *1,
+                                    bottom: SizeConfig.blockSizeVertical *1,
+                                    right: SizeConfig.blockSizeHorizontal * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 2),
+                                decoration: BoxDecoration(
+                                  image: new DecorationImage(
+                                    image: new AssetImage("assets/images/account_circle.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                              ),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.start,
@@ -574,7 +686,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                       1,
                                                 ),
                                                 child: Text(
-                                                  "Life America",
+                                                  paymentSendReceivedList.data.elementAt(index).name,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
@@ -627,7 +739,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                         .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
-                                                  "Contribute-\$120",
+                                                  "Contribute-\$"+paymentSendReceivedList.data.elementAt(index).amount,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
@@ -638,43 +750,58 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                       'Poppins-Regular'),
                                                 ),
                                               ),
-                                              Container(
-                                                width: SizeConfig.blockSizeHorizontal *20,
-                                                alignment: Alignment.topRight,
-                                                margin: EdgeInsets.only( top: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
-                                                padding: EdgeInsets.only(
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                       2,
-                                                    bottom: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2,
-                                                    top: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                       2),
-                                                decoration: BoxDecoration(
-                                                    color: AppColors.whiteColor,
-                                                    borderRadius: BorderRadius.circular(20),
-                                                    border: Border.all(color: AppColors.orange)
-                                                ),
-                                                child: Text(
-                                                  "Pending".toUpperCase(),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color:AppColors.orange,
-                                                      fontSize:10,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
+                                              GestureDetector(
+                                                onTap: ()
+                                                {
+                                                  paymentSendReceivedList.data.elementAt(index).paymentStatus!="success"?
+                                                  payamount(): Fluttertoast.showToast(
+                                                      msg: "Already paid",
+                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      gravity: ToastGravity.BOTTOM,
+                                                      timeInSecForIosWeb: 1);
+                                                },
+                                                child: Container(
+                                                  width: SizeConfig.blockSizeHorizontal *20,
+                                                  alignment: Alignment.center,
+                                                  margin: EdgeInsets.only( top: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      2),
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2,
+                                                      bottom: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2,
+                                                      top: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors.whiteColor,
+                                                      borderRadius: BorderRadius.circular(20),
+                                                      border: Border.all(color: AppColors.orange)
+                                                  ),
+                                                  child: Text(
+                                                    paymentSendReceivedList.data.elementAt(index).paymentStatus=="success"?
+                                                    "Done".toString().toUpperCase():
+                                                    paymentSendReceivedList.data.elementAt(index).paymentStatus==""?
+                                                    "Pending".toString().toUpperCase():"Pending".toString().toUpperCase(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color:AppColors.orange,
+                                                        fontSize:10,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
                                                 ),
                                               )
+
 
                                             ],
                                           ),
@@ -694,7 +821,13 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                       ),
                     );
                   }),
-            )*/
+            ):
+            Container(
+              child: Center(
+                child: internet == true?CircularProgressIndicator():SizedBox(),
+              ),
+            ),
+
           ],
         ),
       ),
@@ -702,6 +835,116 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
       bottomNavigationBar: bottombar(context),
 
     );
+  }
+
+
+  void getPymentList(String user_id) async {
+    Map data = {
+      'reciever_id': user_id.toString(),
+    };
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.individualpayment, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      vals = response.body; //store response as string
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+          msg: jsonDecode(vals)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        paymentSendReceivedList = new PaymentSendReceivedList.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            resultvalue = true;
+            print("SSSS");
+
+            // storelist_length = paymentSendReceivedList.resultPush.reversed.toList();
+            storelist_length = paymentSendReceivedList.data;
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: paymentSendReceivedList.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else if (response.statusCode == 422) {
+      vals = response.body;
+      if (jsonDecode(vals)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(vals)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(vals)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+    Future<void> payamount() async {
+      Map data = {
+        'id': a.toString(),
+        'payment_status': "success",
+
+      };
+
+      print("DATA: "+data.toString());
+      var jsonResponse = null;
+      http.Response response =
+      await http.post(Network.BaseApi + Network.postpayment, body: data);
+      if (response.statusCode == 200) {
+        jsonResponse = json.decode(response.body);
+        updateval = response.body; //store response as string
+        if (jsonResponse["status"] == false) {
+          Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+
+          if (jsonResponse != null) {
+            Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+            getPymentList(receiverid1);
+          } else {
+            Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      } else {
+        Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
   }
 
 
