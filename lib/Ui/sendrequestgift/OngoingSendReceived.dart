@@ -25,8 +25,7 @@ class OngoingSendReceived extends StatefulWidget {
   OngoingSendReceivedState createState() => OngoingSendReceivedState();
 }
 
-class OngoingSendReceivedState extends State<OngoingSendReceived>
-    with TickerProviderStateMixin {
+class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerProviderStateMixin {
   Offset _tapDownPosition;
   bool _dialVisible = true;
   String userid;
@@ -55,9 +54,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
     };
     print("usr: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.combain, body: data);
-    if (response.statusCode == 200) {
+    http.Response response = await http.post(Network.BaseApi + Network.combain, body: data);
+    if (response.statusCode == 200)
+    {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["status"] == false) {
@@ -68,8 +67,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
           msg: jsonDecode(val)["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+          timeInSecForIosWeb: 1);
       } else {
         requestpojo = new request_sendpojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -80,7 +78,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
             print("SSSS");
             if (poolvalue.toString() == "individual") {
               receivefrom = "individual";
-            } else if (poolvalue.toString() == "pool") {
+            }
+            else if (poolvalue.toString() == "pool") {
               receivefrom = "pool";
             }
             storelist_length = requestpojo.data;
@@ -108,7 +107,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(
+      position:
+      RelativeRect.fromLTRB(
         _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
@@ -142,7 +142,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:
+      Container(
           height: double.infinity,
           color: AppColors.whiteColor,
           child: Column(
@@ -151,7 +152,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
             children: [
               storelist_length != null
                   ? receivefrom == "individual"
-                      ? Expanded(
+                  ?
+              Expanded(
                           child: ListView.builder(
                               itemCount: storelist_length.length == null
                                   ? 0
@@ -169,8 +171,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                       child: Card(
                                           shape: RoundedRectangleBorder(
                                             side: BorderSide(
-                                              color:
-                                                  Colors.grey.withOpacity(0.2),
+                                              color: Colors.grey.withOpacity(0.2),
                                               width: 1,
                                             ),
                                           ),
@@ -188,26 +189,18 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Container(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            72,
+                                                        width: SizeConfig.blockSizeHorizontal * 72,
                                                         margin: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                2),
+                                                            left: SizeConfig.blockSizeHorizontal * 2),
                                                         child: Text(
-                                                          StringConstant
-                                                              .receivegift,
+                                                          StringConstant.receivegift,
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
+                                                              color: Colors.black,
                                                               fontFamily:
-                                                                  'Poppins-Bold',
+                                                              'Poppins-Bold',
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,

@@ -41,15 +41,11 @@ class CreatepoolState extends State<Createpool> {
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
   final CollectionFocus = FocusNode();
-  final TextEditingController searchcontactController =
-      new TextEditingController();
-  final TextEditingController collectionController =
-      new TextEditingController();
-  final TextEditingController searchpostController =
-      new TextEditingController();
-  final TextEditingController createpoolController =
-      new TextEditingController();
-  TextEditingController _date = new TextEditingController();
+  final TextEditingController searchcontactController = new TextEditingController();
+  final TextEditingController collectionController = new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
+  final TextEditingController createpoolController = new TextEditingController();
+  final TextEditingController _date = new TextEditingController();
   final TextEditingController requiredamountController =
       new TextEditingController();
   final TextEditingController DescriptionController =
@@ -77,12 +73,11 @@ class CreatepoolState extends State<Createpool> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      print("LOgin userid: " + userid.toString());
+      print("Login userid: " + userid.toString());
     });
     getData();
   }
@@ -99,8 +94,7 @@ class CreatepoolState extends State<Createpool> {
   }*/
 
   void getData() async {
-    http.Response response =
-        await http.get(Network.BaseApi + Network.username_list);
+    http.Response response = await http.get(Network.BaseApi + Network.username_list);
     if (response.statusCode == 200) {
       data = response.body; //store response as string
       if (jsonDecode(data)["status"] == false) {
@@ -112,8 +106,8 @@ class CreatepoolState extends State<Createpool> {
         );
       } else {
         setState(() {
-          categorylist = jsonDecode(
-              data)['data']; //get all the data from json string superheros
+          categorylist = jsonDecode(data)['data'];
+          //get all the data from json string superheros
           //  print(categorylist.length); // just printed length of data
         });
       }
@@ -133,7 +127,6 @@ class CreatepoolState extends State<Createpool> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
-
     setState(() {
       Date = picked.toString();
       formattedDate = DateFormat('yyyy-MM-dd').format(picked);
@@ -154,7 +147,7 @@ class CreatepoolState extends State<Createpool> {
           width: 300.0,
           height: 300.0,
           /*decoration: new BoxDecoration(
-                shape: BoxShape.rectangle,
+               shape: BoxShape.rectangle,
                 color: const Color(0xFFFFFF),
                 borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
               ),*/
@@ -183,7 +176,7 @@ class CreatepoolState extends State<Createpool> {
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'Camera',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -215,7 +208,8 @@ class CreatepoolState extends State<Createpool> {
                 ),
               ),
               InkWell(
-                onTap: () {
+                onTap: ()
+                {
                   Navigator.of(context).pop();
                 },
                 child: Container(
@@ -223,7 +217,8 @@ class CreatepoolState extends State<Createpool> {
                   color: AppColors.whiteColor,
                   alignment: Alignment.center,
                   height: 50,
-                  child: Text(
+                  child:
+                  Text(
                     'Cancel',
                     style: TextStyle(
                         fontSize: 18.0,
@@ -239,22 +234,25 @@ class CreatepoolState extends State<Createpool> {
     );
   }
 
-  Future<void> captureImage(ImageSource imageSource) async {
-    if (imageSource == ImageSource.camera) {
+  Future<void> captureImage(ImageSource imageSource) async
+  {
+    if (imageSource == ImageSource.camera)
+    {
       try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
+          if (_imageFile != null && await _imageFile.exists())
+          {
             setState(() {
               print("Path: " + _imageFile.toString());
               image_value = true;
               imageUrl = false;
             });
-          } else {
+          } else
+            {
             Fluttertoast.showToast(
-              msg: "Please Select Image ",
+              msg: "Please Select Image",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -271,21 +269,23 @@ class CreatepoolState extends State<Createpool> {
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
+            setState(()
+            {
               print("Path: " + _imageFile.toString());
               image_value = true;
               imageUrl = false;
             });
           } else {
             Fluttertoast.showToast(
-              msg: "Please Select Image ",
+              msg: "Please Select Image",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
           }
         });
-      } catch (e) {
+      }
+      catch (e) {
         print(e);
       }
     }
@@ -553,7 +553,8 @@ class CreatepoolState extends State<Createpool> {
                   ),
                   padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 2,
-                      right: SizeConfig.blockSizeHorizontal * 2),
+                      right: SizeConfig.blockSizeHorizontal * 2
+                  ),
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -573,9 +574,11 @@ class CreatepoolState extends State<Createpool> {
                           left: SizeConfig.blockSizeHorizontal * 3,
                           right: SizeConfig.blockSizeHorizontal * 3,
                         ),
-                        child: Text(
+                        child:
+                        Text(
                           "Search contact",
-                          style: TextStyle(
+                          style:
+                          TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
                               fontSize: SizeConfig.blockSizeHorizontal * 3,
@@ -592,7 +595,8 @@ class CreatepoolState extends State<Createpool> {
                               height: 50.0,
                               width: 50.0,
                               child: new Center(
-                                child: new Icon(
+                                child:
+                                new Icon(
                                   expandFlag0
                                       ? Icons.arrow_drop_up
                                       : Icons.arrow_drop_down,
@@ -746,8 +750,7 @@ class CreatepoolState extends State<Createpool> {
                                         return null;
                                     },
                                     onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(CollectionFocus);
+                                      FocusScope.of(context).requestFocus(CollectionFocus);
                                     },
                                     onSaved: (val) => _requiredamount = val,
                                     textAlign: TextAlign.left,
@@ -1275,20 +1278,11 @@ class CreatepoolState extends State<Createpool> {
     );
   }
 
-  void createpool(
-    String createpool,
-    String description,
-    String requiredamount,
-    String collection,
-    String currentSelected,
-    String date,
-    String terms,
-    File imageFile,
-  ) async {
+  void createpool(String createpool, String description, String requiredamount, String collection, String currentSelected, String date, String terms, File imageFile) async
+  {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest(
-        "POST", Uri.parse(Network.BaseApi + Network.poolgift));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.poolgift));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["group_members"] = catname.toString();
     request.fields["message"] = description.toString();
@@ -1301,13 +1295,10 @@ class CreatepoolState extends State<Createpool> {
     request.fields["group_admin"] = userid.toString();
     request.fields["reciever_id"] = values.toString();
     request.fields["pool_table"] = "pool";
-
     print("Request: " + request.fields.toString());
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
-      request.files.add(await http.MultipartFile.fromPath(
-          "image", imageFile.path,
-          filename: imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath("image", imageFile.path, filename: imageFile.path));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
@@ -1333,8 +1324,7 @@ class CreatepoolState extends State<Createpool> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
-            Navigator.pushAndRemoveUntil(
-                context,
+            Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (context) => sendreceivedgifts()),
                 (route) => false);
           } else {

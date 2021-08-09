@@ -19,4 +19,5 @@ class Network{
   static String requestdetails = "requestdetails";
   static String postpayment = "postpayment";
   static String individualpayment = "individualpayment";
+  static String individualsearch = "individualsearch";
 }

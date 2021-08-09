@@ -15,7 +15,6 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class RequestIndividaul extends StatefulWidget {
   @override
@@ -28,19 +27,16 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   final DescriptionFocus = FocusNode();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController searchcontactController =
-      new TextEditingController();
-  final TextEditingController requiredamountController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController searchcontactController =new TextEditingController();
+  final TextEditingController requiredamountController  = new TextEditingController();
+  final TextEditingController DescriptionController =new TextEditingController();
   String _searchcontact;
   String _requiredamount;
   String _Description;
   bool showvalue = false;
   String Date;
   List<dynamic> categoryTypes = List();
-  String formattedDate = "07-07-2021";
+  String formattedDate = "2021-07-07";
   File _imageFile;
   var currentSelectedValue;
   bool image_value = false;
@@ -94,7 +90,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   alignment: Alignment.center,
                   height: 50,
                   color: AppColors.whiteColor,
-                  child: Text(
+                  child:
+                  Text(
                     'Camera',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -174,8 +171,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     } else if (imageSource == ImageSource.gallery) {
       try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -716,7 +712,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     );
   }
 
-  void requestIndivial(String username, String requiredamoun, String description,String date,File Imge, int receiver) async {
+
+  void requestIndivial(String username, String requiredamoun, String description,
+      String date,File Imge, int receiver) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.gift_request),);
