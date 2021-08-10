@@ -469,10 +469,10 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 ],
               ),
             ):Container(
-      child: Center(
-      child: internet == true?CircularProgressIndicator():SizedBox(),
-    ),
-    ),
+                    child: Center(
+                    child: internet == true?CircularProgressIndicator():SizedBox(),
+            ),
+         ),
 
             Container(
               margin: EdgeInsets.only(

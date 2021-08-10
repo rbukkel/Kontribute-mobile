@@ -1292,7 +1292,7 @@ class CreatepoolState extends State<Createpool> {
     request.fields["posted_date"] = date.toString();
     request.fields["post"] = currentSelected;
     request.fields["special_terms"] = terms;
-    request.fields["group_admin"] = userid.toString();
+    request.fields["user_id"] = userid.toString();
     request.fields["reciever_id"] = values.toString();
     request.fields["pool_table"] = "pool";
     print("Request: " + request.fields.toString());

@@ -16,6 +16,7 @@ class Network{
   static String poolgift = "poolgift";
   static String senddetails = "senddetails";
   static String combain = "combain";
+  static String combainhistory = "combainhistory";
   static String requestdetails = "requestdetails";
   static String postpayment = "postpayment";
   static String individualpayment = "individualpayment";

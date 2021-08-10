@@ -48,9 +48,13 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
   }
 
   void getdata(String user_id, String poolvalue) async {
+    setState(() {
+      storelist_length=null;
+    });
     Map data = {
       'user_id': user_id.toString(),
       'pool_table': poolvalue.toString(),
+      'date_status': "ongoing",
     };
     print("usr: " + data.toString());
     var jsonResponse = null;
@@ -84,13 +88,13 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             }
             storelist_length = requestpojo.data;
           });
-        } else {
+        }
+        else {
           Fluttertoast.showToast(
             msg: requestpojo.message,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+            timeInSecForIosWeb: 1);
         }
       }
     } else {
@@ -129,7 +133,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                   ),
                   Text(
                     'Edit',
-                    style: TextStyle(fontSize: 14),
+                     style: TextStyle(fontSize: 14),
                   )
                 ],
               ),
@@ -150,8 +154,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              storelist_length != null
-                  ? receivefrom == "individual"
+              receivefrom == "individual"
+                  ?storelist_length != null
                   ?
               Expanded(
                           child: ListView.builder(
@@ -600,8 +604,23 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                 );
                               }),
                         )
-                      : receivefrom == "pool"
-                          ? Expanded(
+                  : Container(
+                margin: EdgeInsets.only(top: 150),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset("assets/images/empty.png",
+                      height: SizeConfig.blockSizeVertical * 50,
+                      width: SizeConfig.blockSizeVertical * 50),
+                ),
+              ):
+              receivefrom == "pool"
+                  ?storelist_length != null
+                  ?
+              Expanded(
                               child: ListView.builder(
                                   itemCount: storelist_length.length == null
                                       ? 0
@@ -726,6 +745,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       ),
                                                       Row(
                                                         children: [
+                                                          requestpojo.data.elementAt(index).profilePic == null ||
+                                                              requestpojo.data.elementAt(index).profilePic ==
+                                                                  ""?
                                                           Container(
                                                             height: SizeConfig
                                                                     .blockSizeVertical *
@@ -748,18 +770,40 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                                 left: SizeConfig
                                                                         .blockSizeHorizontal *
                                                                     2),
+                                                              decoration: BoxDecoration(
+                                                                image: new DecorationImage(
+                                                                  image: new AssetImage("assets/images/account_circle.png"),
+                                                                  fit: BoxFit.fill,
+                                                                ),
+                                                              )
+                                                          ):Container(
+                                                            height: SizeConfig
+                                                                .blockSizeVertical *
+                                                                12,
+                                                            width: SizeConfig
+                                                                .blockSizeVertical *
+                                                                12,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            margin: EdgeInsets.only(
+                                                                top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                    1,
+                                                                bottom: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                    1,
+                                                                right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    1,
+                                                                left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    2),
                                                             decoration: BoxDecoration(
                                                                 shape: BoxShape.circle,
                                                                 image: DecorationImage(
                                                                     image: NetworkImage(
-                                                                      requestpojo.data.elementAt(index).profilePic == null ||
-                                                                              requestpojo.data.elementAt(index).profilePic ==
-                                                                                  ""
-                                                                          ? Container(
-                                                                              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
-                                                                            )
-                                                                          : Network.BaseApiprofile +
-                                                                              requestpojo.data.elementAt(index).profilePic,
+                                                                      Network.BaseApiprofile +
+                                                                          requestpojo.data.elementAt(index).profilePic,
                                                                     ),
                                                                     fit: BoxFit.fill)),
                                                           ),
@@ -1017,20 +1061,20 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                     );
                                   }),
                             )
-                          : Container()
+
                   : Container(
-                      margin: EdgeInsets.only(top: 150),
-                      alignment: Alignment.center,
-                      child: resultvalue == true
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Center(
-                              child: Image.asset("assets/images/empty.png",
-                                  height: SizeConfig.blockSizeVertical * 50,
-                                  width: SizeConfig.blockSizeVertical * 50),
-                            ),
-                    )
+                margin: EdgeInsets.only(top: 150),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset("assets/images/empty.png",
+                      height: SizeConfig.blockSizeVertical * 50,
+                      width: SizeConfig.blockSizeVertical * 50),
+                ),
+              ): Container()
             ],
           )),
       floatingActionButton: SpeedDial(

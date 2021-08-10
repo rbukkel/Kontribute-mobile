@@ -25,12 +25,12 @@ class individualRequestDetailspojo {
 class Data {
   String id;
   String name;
-  Null groupName;
-  Null postedDate;
-  Null target;
-  Null groupMembers;
-  Null specialTerms;
-  Null post;
+  String groupName;
+  String postedDate;
+  String target;
+  String groupMembers;
+  String specialTerms;
+  String post;
   String amount;
   String time;
   String message;

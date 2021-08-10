@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,10 +39,22 @@ class SendIndividaulState extends State<SendIndividaul>{
   bool imageUrl = false;
   final _formKey = GlobalKey<FormState>();
   String userName;
+  String user;
   int userid;
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
   var currentSelectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    getCategory();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      user = val;
+      print("Login userid: " + user.toString());
+    });
+  }
 
   void getCategory() async {
     var res =
@@ -205,11 +218,6 @@ class SendIndividaulState extends State<SendIndividaul>{
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getCategory();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -645,7 +653,8 @@ class SendIndividaulState extends State<SendIndividaul>{
     request.fields["name"] = username.toString();
     request.fields["amount"] = requiredamoun.toString();
     request.fields["message"] = description;
-    request.fields["user_id"] = userid.toString();
+    request.fields["user_id"] = user.toString();
+    request.fields["reciever_id"] = userid.toString();
     print("Request: "+request.fields.toString());
     if (Imge != null) {
       print("PATH: " + Imge.path);

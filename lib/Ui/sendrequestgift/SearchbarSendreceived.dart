@@ -25,7 +25,7 @@ class SearchbarSendreceived extends StatefulWidget {
 
 class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
   Widget appBarTitle = new Text(
-    "Search...",
+    "",
     style: new TextStyle(color: Colors.white),
   );
   Icon actionIcon = new Icon(
@@ -71,7 +71,8 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      print("LOgin userid: " + userid.toString());
+      getData("");
+      print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
     data1 = widget.data;
@@ -107,7 +108,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
           print("response");
           setState(() {
             resultvalue = true;
-            productlist_length = searchpojo.data;
+            productlist_length = searchpojo.resultPush;
           });
         } else {
           Fluttertoast.showToast(
@@ -219,7 +220,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                         .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
-                                                  searchpojo.data
+                                                  searchpojo.resultPush
                                                       .elementAt(index)
                                                       .time
                                                       .toString(),
@@ -266,15 +267,15 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                           ),
                                           Row(
                                             children: [
-                                              searchpojo.data
+                                              searchpojo.resultPush
                                                   .elementAt(
                                                   index)
-                                                  .image ==
+                                                  .profilePic ==
                                                   null ||
-                                                  searchpojo.data
+                                                  searchpojo.resultPush
                                                       .elementAt(
                                                       index)
-                                                      .image ==
+                                                      .profilePic ==
                                                       ""
                                                   ? Container(
                                                   height: SizeConfig
@@ -334,7 +335,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                     image: DecorationImage(
                                                         image: NetworkImage(
                                                           Network.BaseApiprofile +
-                                                              searchpojo.data.elementAt(index).image,
+                                                              searchpojo.resultPush.elementAt(index).profilePic,
                                                         ),
                                                         fit: BoxFit.fill)),
                                               ),
@@ -367,7 +368,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                         ),
                                                         child: Text(
                                                           searchpojo
-                                                              .data
+                                                              .resultPush
                                                               .elementAt(
                                                               index)
                                                               .name,
@@ -449,7 +450,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                             .blockSizeHorizontal *
                                                             2),
                                                     child: Text(
-                                                      searchpojo.data
+                                                      searchpojo.resultPush
                                                           .elementAt(
                                                           index)
                                                           .message
@@ -511,7 +512,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                         child: Text(
                                                           "\$" +
                                                               searchpojo
-                                                                  .data
+                                                                  .resultPush
                                                                   .elementAt(
                                                                   index)
                                                                   .amount
@@ -712,7 +713,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                     },
                     decoration: new InputDecoration(
                         prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: "Search...",
+                       // hintText: "Search here...",
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
                   _handleSearchStart();
@@ -738,7 +739,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
         color: Colors.white,
       );
       this.appBarTitle = new Text(
-        "Search...",
+        "",
         style: new TextStyle(color: Colors.white),
       );
       _IsSearching = false;

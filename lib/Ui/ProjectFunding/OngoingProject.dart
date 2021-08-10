@@ -324,8 +324,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         ),
                                                       ),
                                                     )
-
-
                                                   ],
                                                 ),
                                                 Row(
