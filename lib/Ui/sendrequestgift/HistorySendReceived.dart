@@ -31,13 +31,15 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   @override
-  void initState() {
+  void initState()
+  {
     super.initState();
-    SharedUtils.readloginId("UserId").then((val) {
+    SharedUtils.readloginId("UserId").then((val)
+    {
       print("UserId: " + val);
       userid = val;
-      print("LOgin userid: " + userid.toString());
-      getdata(userid, "send");
+      print("Login userid: " + userid.toString());
+      getdata(userid,"send");
     });
   }
 
@@ -51,9 +53,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                receivefrom == "individual"
-                    ?storelist_length != null
-                    ?
+                receivefrom == "individual"? storelist_length != null ?
                 Expanded(
                         child: ListView.builder(
                             itemCount: storelist_length.length == null
@@ -78,15 +78,11 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                 SizeConfig.blockSizeVertical *
                                                     2),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
                                                   width: SizeConfig

@@ -272,11 +272,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                   index)
                                                   .profilePic ==
                                                   null ||
-                                                  searchpojo.resultPush
-                                                      .elementAt(
-                                                      index)
-                                                      .profilePic ==
-                                                      ""
+                                                  searchpojo.resultPush.elementAt(index).profilePic == ""
                                                   ? Container(
                                                   height: SizeConfig
                                                       .blockSizeVertical *
@@ -387,7 +383,8 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                         ),
                                                       ),
                                                       GestureDetector(
-                                                        onTap: () {
+                                                        onTap: ()
+                                                        {
                                                           /*callNext(
                                                     viewdetail_sendreceivegift(
                                                         data: requestpojo
@@ -434,8 +431,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                     ],
                                                   ),
                                                   Container(
-                                                    width: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                    width: SizeConfig.blockSizeHorizontal *
                                                         70,
                                                     alignment: Alignment
                                                         .topLeft,
@@ -450,23 +446,16 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                             .blockSizeHorizontal *
                                                             2),
                                                     child: Text(
-                                                      searchpojo.resultPush
-                                                          .elementAt(
-                                                          index)
+                                                      searchpojo.resultPush.elementAt(index)
                                                           .message
                                                           .toString(),
                                                       maxLines: 2,
                                                       style: TextStyle(
-                                                          letterSpacing:
-                                                          1.0,
-                                                          color: Colors
-                                                              .black87,
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.black87,
                                                           fontSize: 8,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ),
                                                   Row(
@@ -485,10 +474,8 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                         child: Text(
                                                           "Amount- ",
                                                           style: TextStyle(
-                                                              letterSpacing:
-                                                              1.0,
-                                                              color: Colors
-                                                                  .black87,
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.black87,
                                                               fontSize:
                                                               12,
                                                               fontWeight:
@@ -510,25 +497,17 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                                 .blockSizeHorizontal *
                                                                 2),
                                                         child: Text(
-                                                          "\$" +
-                                                              searchpojo
-                                                                  .resultPush
-                                                                  .elementAt(
-                                                                  index)
+                                                          "\$" +searchpojo.resultPush
+                                                                  .elementAt(index)
                                                                   .amount
                                                                   .toString(),
                                                           style: TextStyle(
                                                               letterSpacing:
                                                               1.0,
-                                                              color: Colors
-                                                                  .lightBlueAccent,
-                                                              fontSize:
-                                                              12,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .normal,
-                                                              fontFamily:
-                                                              'Poppins-Regular'),
+                                                              color: Colors.lightBlueAccent,
+                                                              fontSize: 12,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular'),
                                                         ),
                                                       )
                                                     ],
@@ -551,8 +530,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                           style: TextStyle(
                                                               letterSpacing:
                                                               1.0,
-                                                              color: Colors
-                                                                  .black87,
+                                                              color: Colors.black87,
                                                               fontSize:
                                                               12,
                                                               fontWeight:
@@ -564,9 +542,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                       ),
                                                       Container(
                                                         alignment:
-                                                        Alignment
-                                                            .topLeft,
-                                                        padding: EdgeInsets.only(
+                                                        Alignment.topLeft, padding: EdgeInsets.only(
                                                             right: SizeConfig
                                                                 .blockSizeHorizontal *
                                                                 3,

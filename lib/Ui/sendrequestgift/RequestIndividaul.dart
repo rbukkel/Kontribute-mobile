@@ -189,7 +189,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             );
           }
         });
-      } catch (e) {
+      }
+      catch (e)
+      {
         print(e);
       }
     }
@@ -199,7 +201,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   void initState() {
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " +val);
+      print("UserId: "+val);
       userid = val;
       print("Login userid: " +userid.toString());
     });
@@ -224,7 +226,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
     final data = json.decode(res.body);
     List<dynamic> data1 = data["data"];
-    setState(() {
+    setState(()
+    {
       categoryTypes = data1;
     });
   }
@@ -247,13 +250,15 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           height: SizeConfig.blockSizeVertical * 45,
                           width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.center,
-                          child:ClipRect(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
+                          child:ClipRect(child:  image_value?
+                          Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
                             width: SizeConfig.blockSizeHorizontal * 100,)
                               :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
                             width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: ()
+                          {
                             showAlert();
                           },
                           child: Container(
@@ -313,7 +318,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           builder: (FormFieldState<dynamic> state) {
                             return InputDecorator(
                               decoration:
-                              InputDecoration.collapsed(hintText: ''),
+                              InputDecoration.collapsed(hintText:''),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<dynamic>(
                                   hint: Text("select contact",
@@ -326,7 +331,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                   dropdownColor: Colors.white,
                                   value: currentSelectedValue,
                                   isDense: true,
-                                  onChanged: (newValue) {
+                                  onChanged: (newValue)
+                                  {
                                     setState(() {
                                       currentSelectedValue = newValue;
                                       receiverid = (newValue["id"]);
@@ -350,8 +356,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 ),
                               ),
                             );
-                          },
-                        ),)
+                            },
+                        ),
+                      )
                     ],
                   ),
                   Row(
@@ -359,7 +366,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
+                        margin:
+                        EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
