@@ -5,20 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/request_sendpojo.dart';
-import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
-import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:intl/intl.dart';
 import 'dart:math' as math;
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingSendReceived extends StatefulWidget {
   @override

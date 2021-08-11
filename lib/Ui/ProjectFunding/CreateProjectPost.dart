@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
@@ -9,6 +11,8 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as path;
+
 
 class CreateProjectPost extends StatefulWidget {
   @override
@@ -18,6 +22,16 @@ class CreateProjectPost extends StatefulWidget {
 class CreateProjectPostState extends State<CreateProjectPost> {
   File _imageFile;
   bool image_value = false;
+  bool fileTyp = false;
+  String fileName;
+  String pth;
+  Map<String, String> paths;
+  List<String> extensions;
+  bool isLoadingPath = false;
+  bool isMultiPick = false;
+  FileType fileType;
+  String basename;
+  List<File> _imageList = [];
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -57,21 +71,32 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   String _requiredamount;
   String _totalbudget;
   String _Video;
-  final List<String> _dropdownCategoryValues = ["Anyone", "Connections only","Group members"];
+  final List<String> _dropdownCategoryValues = [
+    "Anyone",
+    "Connections only",
+    "Group members"
+  ];
+  var file1;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String currentSelectedValue;
   String currentSelectedValueprivacy;
-  String Date,EndDate;
+  String Date, EndDate;
   String formattedDate = "07-07-2021";
   String formattedEndDate = "07-07-2021";
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 25,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner2.png",
-      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 25,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 25,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      fit: BoxFit.fitHeight,),
 
   ];
 
@@ -87,11 +112,14 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
+
+
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
   }
-  DateView() async {
+
+  DateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -104,7 +132,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     });
   }
 
-  EndDateView() async {
+  EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -116,8 +144,28 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       print("onDate: " + formattedEndDate.toString());
     });
   }
+  Future getPdfAndUpload() async {
 
-  showAlert() {
+    File file = await FilePicker.getFile(
+      type: FileType.custom,
+      allowedExtensions: ['pdf','docx'], //here you can add any of extention what you need to pick
+    );
+
+    if(file != null) {
+
+      setState(() {
+
+        file1 = file; //file1 is a global variable which i created
+        print("File Path: "+file1.toString());
+         basename = path.basename(file.path);
+        print("File basename: "+basename.toString());
+
+      });
+
+    }
+  }
+
+  showAlert(BuildContext context) {
     showDialog(
       context: context,
       child: Dialog(
@@ -215,24 +263,17 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
+
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
-              image_value = false;
-            });
-          } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+          _imageList.add(_imageFile);
+          for (int i = 0; i < _imageList.length; i++) {
+            print("ListImages:" + _imageList[i].toString());
           }
         });
       } catch (e) {
@@ -241,20 +282,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
-              image_value = false;
-            });
-          } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+          _imageList.add(_imageFile);
+          for (int i = 0; i < _imageList.length; i++) {
+            print("ListImages:" + _imageList[i].toString());
           }
         });
       } catch (e) {
@@ -353,8 +386,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               Container(
                                 color: AppColors.themecolor,
                                 alignment: Alignment.topCenter,
-                                height: SizeConfig.blockSizeVertical*25,
-                                width:SizeConfig.blockSizeHorizontal *100,
+                                height: SizeConfig.blockSizeVertical * 25,
+                                width: SizeConfig.blockSizeHorizontal * 100,
                                 child: Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: <Widget>[
@@ -373,15 +406,20 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       },
                                     ),
                                     Stack(
-                                      alignment: AlignmentDirectional.bottomCenter,
+                                      alignment: AlignmentDirectional
+                                          .bottomCenter,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                          margin: EdgeInsets.only(
+                                              bottom: SizeConfig
+                                                  .blockSizeVertical * 2),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
                                             children: <Widget>[
-                                              for (int i = 0; i < introWidgetsList.length; i++)
+                                              for (int i = 0; i <
+                                                  introWidgetsList.length; i++)
                                                 if (i == currentPageValue) ...[
                                                   circleBar(true)
                                                 ] else
@@ -396,14 +434,14 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  showAlert();
+                                  showAlert(context);
                                 },
                                 child: Container(
                                   alignment: Alignment.topRight,
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 3,
                                       right:
-                                          SizeConfig.blockSizeHorizontal * 3),
+                                      SizeConfig.blockSizeHorizontal * 3),
                                   child: Image.asset(
                                     "assets/images/camera.png",
                                     width: 50,
@@ -414,6 +452,136 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             ],
                           ),
                         ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        _imageList.length != 0
+                            ?
+                        Container(
+                            alignment: Alignment.topCenter,
+                            height: SizeConfig.blockSizeVertical * 10,
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 6,
+                                right: SizeConfig.blockSizeHorizontal * 6),
+                            child: _imageList.length == 0
+                                ? new Image.asset(
+                                'assets/images/orderListing.png')
+                                : ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: _imageList == null
+                                    ? 0
+                                    : _imageList.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                  return
+                                    Dismissible(
+                                        key: Key(
+                                            _imageList[index].toString()),
+                                        direction: DismissDirection.vertical,
+                                        onDismissed: (direction) {
+                                          setState(() {
+                                            _imageList.removeAt(index);
+                                          });
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.topCenter,
+                                          width: 60,
+                                          height: 60,
+                                          margin: EdgeInsets.only(
+                                              left: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  2,
+                                              top: SizeConfig
+                                                  .blockSizeVertical *
+                                                  1,
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  2),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                alignment:
+                                                Alignment.topCenter,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(20),
+                                                ),
+                                                width: 60,
+                                                height: 60,
+                                                child: Image.file(
+                                                  _imageList
+                                                      .elementAt(index),
+                                                  fit: BoxFit.fill,
+                                                  width: 60,
+                                                  height: 60,
+                                                ),
+                                              ),
+
+
+                                            ],
+                                          ),
+                                        ));
+                                })
+
+                          /*  GridView.count(
+                            shrinkWrap: true,
+                            primary: false,
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 5.0,
+                            crossAxisSpacing: 5.0,
+                            children:_imageList.map((File file){
+                              return
+                                Container(
+                                  alignment: Alignment.topCenter,
+                                  width:60,
+                                  height: 60,
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 1,
+                                      right: SizeConfig.blockSizeHorizontal * 2),
+                                  child: Stack(
+                                    children: [
+                                      new GridTile(
+                                          child: Container(
+                                            alignment: Alignment.topCenter,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),),
+                                            width:60,
+                                            height: 60,
+                                            child: Image.file(
+                                              file,
+                                              fit: BoxFit.fill,
+                                              width:60,
+                                              height: 60,
+                                            ),
+                                          )),
+                                      GestureDetector(
+                                        child:
+                                        Container(
+                                           margin: EdgeInsets.only(
+                                      bottom: SizeConfig.blockSizeVertical *1,
+                                        right: SizeConfig.blockSizeHorizontal*1),
+                                          alignment: Alignment.topRight,
+                                          child: Image.asset("assets/images/cross.png",
+                                              height: SizeConfig.blockSizeVertical * 3.5,
+                                              width: SizeConfig.blockSizeVertical * 3.5),
+                                        ),
+                                        onTap:
+                                            () {
+
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                            }).toList(),
+                          ),*/
+                        )
+                            : Container(),
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
@@ -490,7 +658,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal *3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
@@ -504,106 +672,115 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 1,
-                            right: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 1,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
                             ),
-                            color: Colors.transparent,
-                          ),
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                autofocus: false,
-                                maxLines: 4,
-                                focusNode: DescriptionFocus,
-                                controller: DescriptionController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter project description";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v) {
-                                  FocusScope.of(context).requestFocus(DateFocus);
-                                },
-                                onSaved: (val) => _description = val,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    fontSize: 15,
-                                    color: Colors.black),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    fontSize: 15,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                                width: 1.0,
                               ),
-                              GestureDetector(
-                                onTap: ()
-                                {
-                                  DescriptionController.text=DescriptionController.text+"#";
-                                  DescriptionController.selection =
-                                      TextSelection.fromPosition(TextPosition(offset: DescriptionController.text.length));
-                                },
-                                child:  Container(
-                                  alignment:Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 3,
-                                      right: SizeConfig.blockSizeHorizontal *3,
-                                      bottom: SizeConfig.blockSizeVertical * 2,
-                                      top: SizeConfig.blockSizeVertical * 2),
-                                  child: Text(
-                                    StringConstant.addhashtag,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.lightBlue,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
+                              color: Colors.transparent,
+                            ),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  autofocus: false,
+                                  maxLines: 4,
+                                  focusNode: DescriptionFocus,
+                                  controller: DescriptionController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.text,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter project description";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(
+                                        DateFocus);
+                                  },
+                                  onSaved: (val) => _description = val,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      decoration: TextDecoration.none,
+                                    ),
                                   ),
                                 ),
-                              )
-                            ],
-                          )
+                                GestureDetector(
+                                  onTap: () {
+                                    DescriptionController.text =
+                                        DescriptionController.text + "#";
+                                    DescriptionController.selection =
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset: DescriptionController.text
+                                                .length));
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal *
+                                            3,
+                                        right: SizeConfig.blockSizeHorizontal *
+                                            3,
+                                        bottom: SizeConfig.blockSizeVertical *
+                                            2,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    child: Text(
+                                      StringConstant.addhashtag,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.lightBlue,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
 
                         ),
                         Container(
-                          child:   Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width:SizeConfig.blockSizeHorizontal * 50,
+                                width: SizeConfig.blockSizeHorizontal * 50,
                                 child: Column(
                                   children: [
                                     Container(
-                                      alignment:Alignment.topLeft,
+                                      alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 2),
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeVertical *
+                                              2),
                                       child: Text(
                                         StringConstant.startdate,
                                         style: TextStyle(
@@ -616,72 +793,88 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     ),
                                     Container(
 
-                                      height: SizeConfig.blockSizeVertical *8,
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 1
-                                      ),
-                                      padding: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeVertical * 1,
-                                        right: SizeConfig.blockSizeVertical * 1,
-                                      ),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Colors.black26,
-                                          style: BorderStyle.solid,
-                                          width: 1.0,
+                                        height: SizeConfig.blockSizeVertical *
+                                            8,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig
+                                                .blockSizeHorizontal * 3,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal * 2,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1
                                         ),
-                                        color: Colors.transparent,
-                                      ),
-                                      child:
-                                      GestureDetector(
-                                        onTap: () {
-                                          DateView();
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 30,
-                                              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
-                                              child: Text(
-                                                formattedDate,
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    fontWeight: FontWeight.normal,
-                                                    fontFamily: 'Poppins-Regular',
-                                                    fontSize: 12,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 5,
-                                              child: Icon(
-                                                Icons.calendar_today_outlined,
-                                                color: AppColors.greyColor,
-                                              ),
-                                            )
-                                          ],
+                                        padding: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeVertical *
+                                              1,
+                                          right: SizeConfig.blockSizeVertical *
+                                              1,
                                         ),
-                                      )
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              10),
+                                          border: Border.all(
+                                            color: Colors.black26,
+                                            style: BorderStyle.solid,
+                                            width: 1.0,
+                                          ),
+                                          color: Colors.transparent,
+                                        ),
+                                        child:
+                                        GestureDetector(
+                                          onTap: () {
+                                            DateView(context);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal * 30,
+                                                padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1),
+                                                child: Text(
+                                                  formattedDate,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      fontWeight: FontWeight
+                                                          .normal,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal * 5,
+                                                child: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: AppColors.greyColor,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
                                     ),
                                   ],
                                 ),
                               ),
                               Container(
-                                  width:SizeConfig.blockSizeHorizontal * 50,
+                                  width: SizeConfig.blockSizeHorizontal * 50,
                                   child:
                                   Column(
                                     children: [
                                       Container(
-                                        alignment:Alignment.topLeft,
+                                        alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                            top: SizeConfig.blockSizeVertical * 2),
+                                            left: SizeConfig
+                                                .blockSizeHorizontal * 2,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal * 3,
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
 
                                         child: Text(
                                           StringConstant.enddate,
@@ -694,58 +887,72 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         ),
                                       ),
                                       Container(
-                                          height: SizeConfig.blockSizeVertical *8,
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 1,
-                                          left: SizeConfig.blockSizeHorizontal * 2,
-                                          right: SizeConfig.blockSizeHorizontal * 3,
-                                        ),
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeVertical * 1,
-                                          right: SizeConfig.blockSizeVertical * 1,
-                                        ),
-                                        alignment: Alignment.topLeft,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: Colors.black26,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
+                                          height: SizeConfig.blockSizeVertical *
+                                              8,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *
+                                                1,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal * 2,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal * 3,
                                           ),
-                                          color: Colors.transparent,
-                                        ),
-                                        child:
-                                        GestureDetector(
-                                          onTap: () {
-                                            EndDateView();
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: SizeConfig.blockSizeHorizontal * 30,
-                                                padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
-                                                child: Text(
-                                                  formattedEndDate,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily: 'Poppins-Regular',
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: SizeConfig.blockSizeHorizontal * 5,
-                                                child: Icon(
-                                                  Icons.calendar_today_outlined,
-                                                  color: AppColors.greyColor,
-                                                ),
-                                              )
-                                            ],
+                                          padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeVertical *
+                                                1,
+                                            right: SizeConfig
+                                                .blockSizeVertical * 1,
                                           ),
-                                        )
+                                          alignment: Alignment.topLeft,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                10),
+                                            border: Border.all(
+                                              color: Colors.black26,
+                                              style: BorderStyle.solid,
+                                              width: 1.0,
+                                            ),
+                                            color: Colors.transparent,
+                                          ),
+                                          child:
+                                          GestureDetector(
+                                            onTap: () {
+                                              EndDateView(context);
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal * 30,
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1),
+                                                  child: Text(
+                                                    formattedEndDate,
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        fontWeight: FontWeight
+                                                            .normal,
+                                                        fontFamily: 'Poppins-Regular',
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal * 5,
+                                                  child: Icon(
+                                                    Icons
+                                                        .calendar_today_outlined,
+                                                    color: AppColors.greyColor,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
                                       ),
                                     ],
                                   ))
@@ -800,9 +1007,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: SizeConfig.blockSizeVertical * 7,
+                                        height: SizeConfig.blockSizeVertical *
+                                            7,
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 10,
+                                        SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(8),
@@ -823,19 +1031,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                       Container(
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 30,
+                                        SizeConfig.blockSizeHorizontal * 30,
                                         padding: EdgeInsets.only(
                                             left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
+                                            SizeConfig.blockSizeHorizontal *
+                                                1,
                                             right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1),
+                                            SizeConfig.blockSizeHorizontal *
+                                                1),
                                         child: TextFormField(
                                           autofocus: false,
                                           focusNode: EnterRequiredAmountFocus,
                                           controller:
-                                              EnterRequiredAmountController,
+                                          EnterRequiredAmountController,
                                           textInputAction: TextInputAction.next,
                                           keyboardType: TextInputType.number,
                                           validator: (val) {
@@ -849,7 +1057,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 TotalBudgetFocus);
                                           },
                                           onSaved: (val) =>
-                                              _requiredamount = val,
+                                          _requiredamount = val,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -924,8 +1132,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          height: SizeConfig.blockSizeVertical * 7,
-                                          width: SizeConfig.blockSizeHorizontal * 10,
+                                          height: SizeConfig.blockSizeVertical *
+                                              7,
+                                          width: SizeConfig
+                                              .blockSizeHorizontal * 10,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(8),
@@ -945,16 +1155,20 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         ),
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *30,
+                                          width: SizeConfig
+                                              .blockSizeHorizontal * 30,
                                           padding: EdgeInsets.only(
-                                              left: SizeConfig.blockSizeHorizontal *1,
-                                              right: SizeConfig.blockSizeHorizontal * 1),
+                                              left: SizeConfig
+                                                  .blockSizeHorizontal * 1,
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal * 1),
                                           child:
                                           TextFormField(
                                             autofocus: false,
                                             focusNode: TotalBudgetFocus,
                                             controller: TotalBudgetController,
-                                            textInputAction: TextInputAction.done,
+                                            textInputAction: TextInputAction
+                                                .done,
                                             keyboardType: TextInputType.number,
                                             validator: (val) {
                                               if (val.length == 0)
@@ -967,7 +1181,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                   .unfocus();
                                             },
                                             onSaved: (val) =>
-                                                _totalbudget = val,
+                                            _totalbudget = val,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
@@ -1056,7 +1270,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 onFieldSubmitted: (v) {
                                   VideoFocus.unfocus();
                                 },
-                                onSaved: (val) => _Video= val,
+                                onSaved: (val) => _Video = val,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   letterSpacing: 1.0,
@@ -1076,7 +1290,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       decoration: TextDecoration.none,
                                     ),
                                     hintText:
-                                        "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
+                                    "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
                             )
                           ],
@@ -1108,55 +1322,59 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 70,
-                              height: SizeConfig.blockSizeVertical * 7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.black26,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
+                                width: SizeConfig.blockSizeHorizontal * 70,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
                                 ),
-                                color: Colors.transparent,
-                              ),
-                              child:
-                                  GestureDetector(onTap: ()
-                                    {
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child:
+                                GestureDetector(onTap: () {
 
-                                    },
+                                },
                                   child: Row(
                                     children: [
-                                  Container(
-                                  width:
-                                  SizeConfig.blockSizeHorizontal * 60,
-                                    child: Text("",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Regular',
-                                          fontSize: 10,
-                                          color: AppColors.black,
-                                        ),
-                                      )),
-
                                       Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 5,
-                                        child: Icon(
-                                          Icons.attachment,
-                                          color: AppColors.greyColor,
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 60,
+                                          child: Text(basename!=null?basename.toString():"",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 10,
+                                              color: AppColors.black,
+                                            ),
+                                          )),
+                                      GestureDetector(
+                                        onTap: () {
+                                          getPdfAndUpload();
+                                        },
+                                        child: Container(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 5,
+                                          child: Icon(
+                                            Icons.attachment,
+                                            color: AppColors.greyColor,
+                                          ),
                                         ),
                                       )
+
                                     ],
                                   ),)
 
@@ -1213,27 +1431,30 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
-                                  hint: Text("please select",style: TextStyle(fontSize: 12),),
+                                  hint: Text("please select",
+                                    style: TextStyle(fontSize: 12),),
                                   items: _dropdownCategoryValues
-                                      .map((String value) => DropdownMenuItem(
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
-                                            value: value,
-                                          ))
+                                      .map((String value) =>
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          value,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        value: value,
+                                      ))
                                       .toList(),
                                   value: currentSelectedValue,
                                   isDense: true,
                                   onChanged: (String newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      print(currentSelectedValue.toString().toLowerCase());
+                                      print(currentSelectedValue.toString()
+                                          .toLowerCase());
                                     });
                                   },
                                   isExpanded: true,
@@ -1289,19 +1510,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     children: [
                                       Container(
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 30,
+                                        SizeConfig.blockSizeHorizontal * 30,
                                         child: TextFormField(
                                           autofocus: false,
                                           focusNode: SearchPostFocus,
                                           controller: searchpostController,
                                           textInputAction: TextInputAction.done,
                                           keyboardType: TextInputType.text,
-                                          validator: (val) {
+                                          /*validator: (val) {
                                             if (val.length == 0)
                                               return "Please enter search post";
                                             else
                                               return null;
-                                          },
+                                          },*/
                                           onFieldSubmitted: (v) {
                                             SearchPostFocus.unfocus();
                                           },
@@ -1321,7 +1542,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                       Container(
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 5,
+                                        SizeConfig.blockSizeHorizontal * 5,
                                         child: Icon(
                                           Icons.search,
                                           color: AppColors.greyColor,
@@ -1388,22 +1609,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               else
                                 return null;
                             },
-                            onFieldSubmitted: (v)
-                            {
+                            onFieldSubmitted: (v) {
                               TermsFocus.unfocus();
                             },
                             onSaved: (val) => _terms = val,
                             textAlign: TextAlign.left,
                             style:
-                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                            TextStyle(letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
+                                color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               hintStyle: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
                                 decoration: TextDecoration.none,
                               ),
                             ),

@@ -64,14 +64,12 @@ class projectfundingState extends State<projectfunding> {
               onTap: (){
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
-
               },
               child: Container(
                 margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
                 child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
               ),
             ),
-
           ],
           bottom: TabBar(
             labelColor: Colors.white,
@@ -80,7 +78,6 @@ class projectfundingState extends State<projectfunding> {
             indicatorWeight: 3,
             tabs: <Widget>[
               Tab(
-
                 child: Container(
                     alignment: Alignment.center,
                     width: SizeConfig.blockSizeHorizontal * 40,
@@ -88,7 +85,6 @@ class projectfundingState extends State<projectfunding> {
                       mainAxisAlignment: MainAxisAlignment.center,
                        crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Text(StringConstant.ongoingproject.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
@@ -103,18 +99,15 @@ class projectfundingState extends State<projectfunding> {
                       mainAxisAlignment: MainAxisAlignment.center,
                        crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Text(StringConstant.historyproject.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),
-
             ],
           ),
         ),
-
           body: Container(
               height: double.infinity,
              color: AppColors.whiteColor,
@@ -125,15 +118,12 @@ class projectfundingState extends State<projectfunding> {
                   HistoryProject(),
                 ],
               ),
-
             ) ,
         bottomNavigationBar: bottombar(context),
-
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton:
         FloatingActionButton(
           //  backgroundColor: AppColors.whiteColor,
-
           child: new Icon(Icons.add_box),
           backgroundColor: AppColors.themecolor,
           /*  icon: Icon(
