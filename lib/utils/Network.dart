@@ -13,10 +13,10 @@ class Network{
   static String requestgiftlist = "requestgiftlist";
   static String send_gift = "send_gift";
   static String individualgiftlist = "individualgiftlist";
-  static String poolgift = "poolgift";
+  static String create_group = "create_group";
   static String senddetails = "senddetails";
   static String combain = "combain";
-  static String combainhistory = "combainhistory";
+  static String send_receive_gifts = "send_receive_gifts";
   static String requestdetails = "requestdetails";
   static String postpayment = "postpayment";
   static String individualpayment = "individualpayment";

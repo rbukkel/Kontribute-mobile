@@ -35,6 +35,7 @@ class CreatepoolState extends State<Createpool> {
   var productlist_length;
   bool resultvalue = true;
   String currentSelectedValue;
+  int currentid=0;
   final TermsFocus = FocusNode();
   bool expandFlag0 = false;
   final TextEditingController TermsController = new TextEditingController();
@@ -1051,9 +1052,20 @@ class CreatepoolState extends State<Createpool> {
                           onChanged: (String newValue) {
                             setState(() {
                               currentSelectedValue = newValue;
+
                               print(currentSelectedValue
                                   .toString()
                                   .toLowerCase());
+                              if(currentSelectedValues=="Anyone")
+                                {
+                                  currentid =1;
+                                }else if(currentSelectedValue=="Connections only")
+                                  {
+                                    currentid =2;
+                                  }else if(currentSelectedValue=="Group members")
+                                  {
+                                    currentid =3;
+                                  }
                             });
                           },
                           isExpanded: true,
@@ -1250,7 +1262,7 @@ class CreatepoolState extends State<Createpool> {
                                 DescriptionController.text,
                                 requiredamountController.text,
                                 collectionController.text,
-                                currentSelectedValue.toString().toLowerCase(),
+                                currentid.toString(),
                                 formattedDate,
                                 TermsController.text,
                                 _imageFile);
@@ -1303,27 +1315,27 @@ class CreatepoolState extends State<Createpool> {
     );
   }
 
-  void createpool(String createpool, String description, String requiredamount, String collection, String currentSelected, String date, String terms, File imageFile) async
+  void createpool(String createpool, String description, String requiredamount, String collection,
+      String currentSelected, String date, String terms, File imageFile) async
   {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.poolgift));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_group));
     request.headers["Content-Type"] = "multipart/form-data";
-    request.fields["group_members"] = catname.toString();
-    request.fields["message"] = description.toString();
+    request.fields["group_members"] = catid.toString();
+    request.fields["pool_messages"] = description.toString();
     request.fields["group_name"] = createpool;
-    request.fields["amount"] = requiredamount.toString();
-    request.fields["target"] = collection.toString();
-    request.fields["posted_date"] = date.toString();
-    request.fields["post"] = currentSelected;
-    request.fields["special_terms"] = terms;
-    request.fields["user_id"] = userid.toString();
-    request.fields["reciever_id"] = values.toString();
-    request.fields["pool_table"] = "pool";
+    request.fields["min_cash_by_participant"] = requiredamount.toString();
+    request.fields["collection_target"] = collection.toString();
+    request.fields["end_date"] = date.toString();
+    request.fields["can_see"] = currentSelected;
+    request.fields["special_terms_conditions"] = terms;
+    request.fields["userid"] = userid.toString();
+
     print("Request: " + request.fields.toString());
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
-      request.files.add(await http.MultipartFile.fromPath("image", imageFile.path, filename: imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath("file", imageFile.path, filename: imageFile.path));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {

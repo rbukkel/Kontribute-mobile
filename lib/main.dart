@@ -96,25 +96,26 @@ class _MyHomePageState extends State<MyHomePage> {
     //callSharedData();
   }
 
-
-
   void nextScreen() {
     SharedUtils.writeloginData("login").then((result){
       if(result!=null){
         if(result){
           print("trueValue");
-          Future.delayed(Duration(seconds: 3),(){
+          Future.delayed(Duration(seconds: 3),()
+          {
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
           });
         }else{
           print("falseValue");
-          Future.delayed(Duration(seconds: 3),(){
+          Future.delayed(Duration(seconds: 3),()
+          {
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Carousel()), (route) => false);
           });
         }
       }else{
         print("falseValue");
-        Future.delayed(Duration(seconds: 3),(){
+        Future.delayed(Duration(seconds: 3),()
+        {
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Carousel()), (route) => false);
         });
       }
@@ -145,7 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 250,
               ),
               Container(
-                margin: EdgeInsets.only(
+                margin:
+                EdgeInsets.only(
                     left: SizeConfig.blockSizeHorizontal * 15,
                     right: SizeConfig.blockSizeHorizontal * 15),
                 child: LinearPercentIndicator(

@@ -39,7 +39,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-      getdata(userid,"send");
+      getdata(userid,"all");
     });
   }
 
@@ -1360,7 +1360,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                 backgroundColor: AppColors.theme1color,
                 label: 'Request',
                 onTap: () {
-                  getdata(userid, "individual");
+                  getdata(userid, "request");
                   print('FIRST CHILD');
                 }),
             SpeedDialChild(
@@ -1434,23 +1434,23 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
   }*/
 
   void getdata(String user_id, String poolvalue) async {
-    setState(() {
+    setState(()
+    {
       storelist_length=null;
     });
     Map data = {
       'user_id': user_id.toString(),
-      'pool_table': poolvalue.toString(),
-      'date_status': "completed",
+      'sortby': poolvalue.toString(),
     };
     print("usr: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.combainhistory, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["status"] == false) {
-        setState(() {
+        setState((){
           resultvalue = false;
         });
         Fluttertoast.showToast(
@@ -1468,8 +1468,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
             print("SSSS");
             if (poolvalue.toString() == "individual") {
               receivefrom = "individual";
-            }
-            else if (poolvalue.toString() == "pool") {
+            } else if (poolvalue.toString() == "pool") {
               receivefrom = "pool";
             }else if (poolvalue.toString() == "send") {
               receivefrom = "send";
