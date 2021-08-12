@@ -328,7 +328,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                                   shape: BoxShape.circle,
                                                                   image: DecorationImage(
                                                                       image: NetworkImage(
-                                                                        Network.BaseApiprofile +
                                                                             requestpojo.data.elementAt(index).profilePic,
                                                                       ),
                                                                       fit: BoxFit.fill)),
@@ -797,7 +796,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                                 shape: BoxShape.circle,
                                                                 image: DecorationImage(
                                                                     image: NetworkImage(
-                                                                      Network.BaseApiprofile +
                                                                           requestpojo.data.elementAt(index).profilePic,
                                                                     ),
                                                                     fit: BoxFit.fill)),

@@ -134,8 +134,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -260,7 +258,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                  Network.BaseApiprofile+senddetailsPojo.data.profilePic
+                                  senddetailsPojo.data.profilePic
                                 ),
                                 fit: BoxFit.fill
                             )
@@ -539,9 +537,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                            )
                          ],
                        ),
-
-
-
                         ],
                       )
                     ],
@@ -625,27 +620,19 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                   Row(
                                     children: [
                                       paymentSendReceivedList.data.elementAt(index).profilePic!=null?Container(
-                                        height:
-                                        SizeConfig.blockSizeVertical *
-                                            8,
-                                        width:
-                                        SizeConfig.blockSizeVertical *
-                                            8,
+                                        height: SizeConfig.blockSizeVertical * 8,
+                                        width: SizeConfig.blockSizeVertical * 8,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *1,
                                             bottom: SizeConfig.blockSizeVertical *1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2),
+                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2),
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                    Network.BaseApiprofile+paymentSendReceivedList.data.elementAt(index).profilePic
+                                                   paymentSendReceivedList.data.elementAt(index).profilePic
                                                 ),
                                                 fit: BoxFit.fill
                                             )

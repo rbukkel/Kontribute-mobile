@@ -157,6 +157,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
 
         file1 = file; //file1 is a global variable which i created
         print("File Path: "+file1.toString());
+        print("File Path1: "+file.path.toString());
          basename = path.basename(file.path);
         print("File basename: "+basename.toString());
 
@@ -1289,8 +1290,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       fontSize: 10,
                                       decoration: TextDecoration.none,
                                     ),
-                                    hintText:
-                                    "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
+                                    hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
                             )
                           ],
@@ -1343,9 +1343,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   color: Colors.transparent,
                                 ),
                                 child:
-                                GestureDetector(onTap: () {
-
-                                },
+                                GestureDetector(onTap: () {},
                                   child: Row(
                                     children: [
                                       Container(
@@ -1374,11 +1372,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         ),
                                       )
-
                                     ],
                                   ),)
-
-
                             )
                           ],
                         ),

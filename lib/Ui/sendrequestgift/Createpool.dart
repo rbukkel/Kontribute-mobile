@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/Checkgroupnames.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -30,6 +31,9 @@ class CreatepoolState extends State<Createpool> {
   List _selecteName = List();
   var catid;
   var values;
+  String val;
+  var productlist_length;
+  bool resultvalue = true;
   String currentSelectedValue;
   final TermsFocus = FocusNode();
   bool expandFlag0 = false;
@@ -70,6 +74,7 @@ class CreatepoolState extends State<Createpool> {
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
   var currentSelectedValues;
+  Checkgroupnames checkgroupnames;
 
   @override
   void initState() {
@@ -80,6 +85,21 @@ class CreatepoolState extends State<Createpool> {
       print("Login userid: " + userid.toString());
     });
     getData();
+    createpoolController.addListener(() {
+      print(createpoolController.text);
+      if(createpoolController.text!=null || createpoolController.text!="")
+        {
+          CheckGroupNames(createpoolController.text);
+        }
+
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    createpoolController.dispose();
+    super.dispose();
   }
 
   /* void getCategory() async {
@@ -389,6 +409,11 @@ class CreatepoolState extends State<Createpool> {
                         controller: createpoolController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.text,
+                       /* onChanged: (value){
+                          setState(() {
+                            CheckGroupNames(value);
+                          });
+                        },*/
                         validator: (val) {
                           if (val.length == 0)
                             return "Please enter pool name";
@@ -1416,4 +1441,62 @@ class CreatepoolState extends State<Createpool> {
     print(values);
     print(catname);
   }
+
+
+
+  void CheckGroupNames(String search) async {
+    Map data = {
+      'polname': search,
+    };
+    print("Dta: "+data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.check_pool_name, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonResponse["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        checkgroupnames = new Checkgroupnames.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+          });
+
+        } else {
+          Fluttertoast.showToast(
+            msg: checkgroupnames.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else if (response.statusCode == 422) {
+      val = response.body;
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 }

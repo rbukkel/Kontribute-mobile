@@ -9,9 +9,9 @@ class Network{
   static String login = "login";
   static String socailLogin = "socailLogin";
   static String username_list = "username_list";
-  static String gift_request = "gift_request";
+  static String send_gift_request = "send_gift_request";
   static String requestgiftlist = "requestgiftlist";
-  static String individual_gift = "individual_gift";
+  static String send_gift = "send_gift";
   static String individualgiftlist = "individualgiftlist";
   static String poolgift = "poolgift";
   static String senddetails = "senddetails";
@@ -21,4 +21,5 @@ class Network{
   static String postpayment = "postpayment";
   static String individualpayment = "individualpayment";
   static String individualsearch = "individualsearch";
+  static String check_pool_name = "check_pool_name";
 }

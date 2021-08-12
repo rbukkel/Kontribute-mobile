@@ -230,20 +230,14 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                           )),
                                                 ),
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Container(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              45,
+                                                          width: SizeConfig.blockSizeHorizontal * 45,
                                                           alignment:
                                                               Alignment.topLeft,
                                                           padding:

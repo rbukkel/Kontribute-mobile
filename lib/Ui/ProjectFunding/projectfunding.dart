@@ -61,7 +61,8 @@ class projectfundingState extends State<projectfunding> {
           ),
           actions: [
             InkWell(
-              onTap: (){
+              onTap: ()
+              {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
               },

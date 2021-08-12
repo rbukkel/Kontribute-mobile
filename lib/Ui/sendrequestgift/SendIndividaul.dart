@@ -34,6 +34,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   String _moneyCash;
   String _Description;
   bool showvalue = false;
+  String notificationvalue="off";
   File _imageFile;
   bool image_value = false;
   bool imageUrl = false;
@@ -549,6 +550,13 @@ class SendIndividaulState extends State<SendIndividaul>{
                             onChanged: (bool value) {
                               setState(() {
                                 showvalue = value;
+                                if(showvalue == true)
+                                {
+                                  notificationvalue = "on";
+                                }
+                                else{
+                                  notificationvalue = "off";
+                                }
                               });
                             },
                           ),
@@ -578,7 +586,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                              if(_imageFile!=null)
                                {
                                  sendIndivial(
-                                     userName,
+                                     notificationvalue,
                                      MoneyCashController.text,
                                      DescriptionController.text,
                                      _imageFile,
@@ -645,26 +653,28 @@ class SendIndividaulState extends State<SendIndividaul>{
     );
   }
 
-  void sendIndivial(String username, String requiredamoun, String description,File Imge, int userid) async {
+  void sendIndivial(String  notification, String requiredamoun, String description,File Imge, int userid) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.individual_gift),);
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift),);
     request.headers["Content-Type"] = "multipart/form-data";
-    request.fields["name"] = username.toString();
-    request.fields["amount"] = requiredamoun.toString();
+    request.fields["notification"] = notification.toString();
+    request.fields["price"] = requiredamoun.toString();
     request.fields["message"] = description;
-    request.fields["user_id"] = user.toString();
-    request.fields["reciever_id"] = userid.toString();
+    request.fields["sender_id"] = user.toString();
+    request.fields["receiver_id"] = userid.toString();
+
+
     print("Request: "+request.fields.toString());
     if (Imge != null) {
       print("PATH: " + Imge.path);
-      request.files.add(await http.MultipartFile.fromPath("image", Imge.path, filename: Imge.path));
+      request.files.add(await http.MultipartFile.fromPath("file", Imge.path, filename: Imge.path));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
 
-      if (jsonData["status"] == false) {
+      if (jsonData["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonData["message"],
