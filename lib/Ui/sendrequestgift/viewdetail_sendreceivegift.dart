@@ -23,12 +23,10 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class viewdetail_sendreceivegift extends StatefulWidget{
   final String data;
-  final String receiverid;
 
   const viewdetail_sendreceivegift({
     Key key,
-    @required this.data,
-    @required this.receiverid}) : super(key: key);
+    @required this.data}) : super(key: key);
 
   @override
   viewdetail_sendreceivegiftState createState() => viewdetail_sendreceivegiftState();
@@ -37,7 +35,6 @@ class viewdetail_sendreceivegift extends StatefulWidget{
 
 class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
   String data1;
-  String receiverid1;
   bool internet = false;
   bool resultvalue = true;
   String val;
@@ -45,9 +42,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
   var storelist_length;
   String image;
   int a;
-  int rec_id;
   String updateval;
-  PaymentSendReceivedList paymentSendReceivedList;
   individualRequestDetailspojo senddetailsPojo;
   var productlist_length;
 
@@ -57,13 +52,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
-        receiverid1 = widget.receiverid;
+
          a = int.parse(data1);
-        rec_id = int.parse(receiverid1);
         print("receiverComing: "+a.toString());
-        print("receiver: "+receiverid1.toString());
-        getData(rec_id);
-      getPymentList(receiverid1);
+        getData(a);
         setState(() {
           internet = true;
         });
@@ -83,12 +75,12 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
 
   void getData(int id) async {
     Map data = {
-      'reciever_id': id.toString(),
+      'id': id.toString(),
     };
 
     print("receiver: "+data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.requestdetails, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts_contributer, body: data);
 
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -106,11 +98,12 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            productlist_length = senddetailsPojo.data;
-            if(senddetailsPojo.data.image !=null)
+            productlist_length = senddetailsPojo.result;
+            storelist_length = senddetailsPojo.paymentdetails;
+            if(senddetailsPojo.result.giftPicture !=null)
             {
               setState(() {
-                image = senddetailsPojo.data.image;
+                image = senddetailsPojo.result.giftPicture;
               });
             }
           });
@@ -203,17 +196,17 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                       decoration:
                       BoxDecoration(
                         image: DecorationImage(
-                          image: senddetailsPojo.data.image!=null||senddetailsPojo.data.image!=""?
+                          image: senddetailsPojo.result.giftPicture!=null||senddetailsPojo.result.giftPicture!=""?
                           NetworkImage(
-                              Network.BaseApipics+senddetailsPojo.data.image):new AssetImage("assets/images/viewdetailsbg.png"),
+                              Network.BaseApipics+senddetailsPojo.result.giftPicture):new AssetImage("assets/images/viewdetailsbg.png"),
                           fit: BoxFit.fill,
                         ),
                       )
                   ),
                   Row(
                     children: [
-                      senddetailsPojo.data.profilePic==null||
-                          senddetailsPojo.data.profilePic==""?Container(
+                      senddetailsPojo.result.profilePic==null||
+                          senddetailsPojo.result.profilePic==""?Container(
                         height:
                         SizeConfig.blockSizeVertical *
                             18,
@@ -258,7 +251,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                  senddetailsPojo.data.profilePic
+                                  senddetailsPojo.result.profilePic
                                 ),
                                 fit: BoxFit.fill
                             )
@@ -276,7 +269,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *7),
                                 child: Text(
-                                  senddetailsPojo.data.name,
+                                  senddetailsPojo.result.fullName==null?senddetailsPojo.result.groupName:senddetailsPojo.result.fullName,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,
@@ -385,7 +378,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                     .blockSizeHorizontal *
                                     1),
                             child: Text(
-                              "Closing Date-"+senddetailsPojo.data.time,
+                              "Closing Date-"+senddetailsPojo.result.endDate,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -422,7 +415,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                         3,
                                    ),
                                 child: Text(
-                                  "\$"+senddetailsPojo.data.amount,
+                                  "\$"+senddetailsPojo.result.collectionTarget,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -619,7 +612,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                 children: [
                                   Row(
                                     children: [
-                                      paymentSendReceivedList.data.elementAt(index).profilePic!=null?Container(
+                                      senddetailsPojo.paymentdetails.data.elementAt(index).profilePic!=null?Container(
                                         height: SizeConfig.blockSizeVertical * 8,
                                         width: SizeConfig.blockSizeVertical * 8,
                                         alignment: Alignment.center,
@@ -632,7 +625,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                   paymentSendReceivedList.data.elementAt(index).profilePic
+                                                    senddetailsPojo.paymentdetails.data.elementAt(index).profilePic
                                                 ),
                                                 fit: BoxFit.fill
                                             )
@@ -673,7 +666,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                       1,
                                                 ),
                                                 child: Text(
-                                                  paymentSendReceivedList.data.elementAt(index).name,
+                                                  senddetailsPojo.paymentdetails.data.elementAt(index).fullName,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
@@ -726,7 +719,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                         .blockSizeHorizontal *
                                                         2),
                                                 child: Text(
-                                                  "Contribute-\$"+paymentSendReceivedList.data.elementAt(index).amount,
+                                                  "Contribute-\$"+senddetailsPojo.paymentdetails.data.elementAt(index).amountRequested,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
@@ -740,7 +733,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                               GestureDetector(
                                                 onTap: ()
                                                 {
-                                                  paymentSendReceivedList.data.elementAt(index).paymentStatus!="success"?
+                                                  senddetailsPojo.paymentdetails.data.elementAt(index).status=="1"?
                                                   payamount(): Fluttertoast.showToast(
                                                       msg: "Already paid",
                                                       toastLength: Toast.LENGTH_SHORT,
@@ -772,9 +765,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                       border: Border.all(color: AppColors.orange)
                                                   ),
                                                   child: Text(
-                                                    paymentSendReceivedList.data.elementAt(index).paymentStatus=="success"?
+                                                    senddetailsPojo.paymentdetails.data.elementAt(index).status=="1"?
                                                     "Done".toString().toUpperCase():
-                                                    paymentSendReceivedList.data.elementAt(index).paymentStatus==""?
+                                                    senddetailsPojo.paymentdetails.data.elementAt(index).status=="0"?
                                                     "Pending".toString().toUpperCase():"Pending".toString().toUpperCase(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -788,12 +781,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
                                                   ),
                                                 ),
                                               )
-
-
                                             ],
                                           ),
-
-
                                         ],
                                       )
                                     ],
@@ -825,65 +814,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
   }
 
 
-  void getPymentList(String user_id) async {
-    Map data = {
-      'reciever_id': user_id.toString(),
-    };
-    var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.individualpayment, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      vals = response.body; //store response as string
-      if (jsonResponse["status"] == false) {
-        setState(() {
-          resultvalue = false;
-        });
-        Fluttertoast.showToast(
-          msg: jsonDecode(vals)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        paymentSendReceivedList = new PaymentSendReceivedList.fromJson(jsonResponse);
-        print("Json User" + jsonResponse.toString());
-        if (jsonResponse != null) {
-          print("response");
-          setState(() {
-            resultvalue = true;
-            print("SSSS");
 
-            // storelist_length = paymentSendReceivedList.resultPush.reversed.toList();
-            storelist_length = paymentSendReceivedList.data;
-          });
-        } else {
-          Fluttertoast.showToast(
-            msg: paymentSendReceivedList.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    } else if (response.statusCode == 422) {
-      vals = response.body;
-      if (jsonDecode(vals)["status"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(vals)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-    } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(vals)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
 
     Future<void> payamount() async {
       Map data = {
@@ -914,7 +845,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift>{
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
-            getPymentList(receiverid1);
+           // getPymentList(receiverid1);
           } else {
             Fluttertoast.showToast(
               msg: jsonDecode(updateval)["message"],

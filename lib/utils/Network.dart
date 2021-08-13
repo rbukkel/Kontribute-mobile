@@ -17,7 +17,8 @@ class Network{
   static String senddetails = "senddetails";
   static String combain = "combain";
   static String send_receive_gifts = "send_receive_gifts";
-  static String requestdetails = "requestdetails";
+  static String send_receive_gifts_history = "send_receive_gifts_history";
+  static String send_receive_gifts_contributer = "send_receive_gifts_contributer";
   static String postpayment = "postpayment";
   static String individualpayment = "individualpayment";
   static String individualsearch = "individualsearch";
