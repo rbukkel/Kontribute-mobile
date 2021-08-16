@@ -583,24 +583,24 @@ class SendIndividaulState extends State<SendIndividaul>{
                           });
                           Internet_check().check().then((intenet) {
                             if (intenet != null && intenet) {
-                             if(_imageFile!=null)
-                               {
-                                 sendIndivial(
-                                     notificationvalue,
-                                     MoneyCashController.text,
-                                     DescriptionController.text,
-                                     _imageFile,
-                                     userid
-                                 );
-                               }
-                             else {
-                               Fluttertoast.showToast(
-                                 msg: "Please select gift image",
-                                 toastLength: Toast.LENGTH_SHORT,
-                                 gravity: ToastGravity.BOTTOM,
-                                 timeInSecForIosWeb: 1,
-                               );
-                             }
+                              if(_imageFile!=null)
+                              {
+                                sendIndivial(
+                                    notificationvalue,
+                                    MoneyCashController.text,
+                                    DescriptionController.text,
+                                    _imageFile,
+                                    userid
+                                );
+                              }
+                              else {
+                                Fluttertoast.showToast(
+                                  msg: "Please select gift image",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                );
+                              }
 
                             } else {
                               Fluttertoast.showToast(

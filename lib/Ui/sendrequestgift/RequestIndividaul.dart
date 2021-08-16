@@ -357,7 +357,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 ),
                               ),
                             );
-                            },
+                          },
                         ),
                       )
                     ],
@@ -626,9 +626,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               setState(() {
                                 showvalue = value;
                                 if(showvalue == true)
-                                  {
-                                    notificationvalue = "on";
-                                  }
+                                {
+                                  notificationvalue = "on";
+                                }
                                 else{
                                   notificationvalue = "off";
                                 }
@@ -791,15 +791,15 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         }
       }
       else if(response.statusCode == 500)
-        {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: "Internal server error",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
+      {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
       else{
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(

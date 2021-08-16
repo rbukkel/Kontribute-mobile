@@ -35,109 +35,109 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
     SizeConfig().init(context);
     return
       DefaultTabController(
-      length: 2,
-      child: Scaffold(
+        length: 2,
+        child: Scaffold(
 
-        backgroundColor: AppColors.whiteColor,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          centerTitle: true,
-          toolbarHeight: SizeConfig.blockSizeVertical *15,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          title: Container(
-            child: Text(
-              StringConstant.sendandreceivegift,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  decoration: TextDecoration.none,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: "Poppins-Regular",
-                  color: Colors.white),
-            ),
-          ),
-          //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
-          flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 12,
-            image: AssetImage('assets/images/appbar.png'),
-            fit: BoxFit.cover,
-          ),
-           actions: [
-            InkWell(
-              onTap: (){
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
-                child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
+          backgroundColor: AppColors.whiteColor,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            centerTitle: true,
+            toolbarHeight: SizeConfig.blockSizeVertical *15,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            title: Container(
+              child: Text(
+                StringConstant.sendandreceivegift,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    decoration: TextDecoration.none,
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: "Poppins-Regular",
+                    color: Colors.white),
               ),
             ),
-
-          ],
-          bottom: TabBar(
-            labelColor: Colors.white,
-            indicatorColor: AppColors.theme1color,
-            isScrollable: true,
-            indicatorWeight: 3,
-            tabs: <Widget>[
-              Tab(
+            //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+            flexibleSpace: Image(
+              height: SizeConfig.blockSizeVertical * 12,
+              image: AssetImage('assets/images/appbar.png'),
+              fit: BoxFit.cover,
+            ),
+            actions: [
+              InkWell(
+                onTap: (){
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+                },
                 child: Container(
-                    alignment: Alignment.center,
-                    width: SizeConfig.blockSizeHorizontal * 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(StringConstant.ongoing.toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
-                      ],
-                    )),
-              ),
-              Tab(
-                child: Container(
-                    alignment: Alignment.center,
-                    width: SizeConfig.blockSizeHorizontal * 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-
-                        Text(StringConstant.history.toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black , fontSize: 12,letterSpacing: 1.0))
-                      ],
-                    )),
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
+                  child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
+                ),
               ),
 
             ],
+            bottom: TabBar(
+              labelColor: Colors.white,
+              indicatorColor: AppColors.theme1color,
+              isScrollable: true,
+              indicatorWeight: 3,
+              tabs: <Widget>[
+                Tab(
+                  child: Container(
+                      alignment: Alignment.center,
+                      width: SizeConfig.blockSizeHorizontal * 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(StringConstant.ongoing.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
+                        ],
+                      )),
+                ),
+                Tab(
+                  child: Container(
+                      alignment: Alignment.center,
+                      width: SizeConfig.blockSizeHorizontal * 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+
+                          Text(StringConstant.history.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.black , fontSize: 12,letterSpacing: 1.0))
+                        ],
+                      )),
+                ),
+
+              ],
+            ),
           ),
-        ),
 
           body: Container(
-              height: double.infinity,
-             color: AppColors.whiteColor,
-              child:
-              TabBarView(
-                children:[
-                  OngoingSendReceived(),
-                  HistorySendReceived(),
-                ],
-              ),
+            height: double.infinity,
+            color: AppColors.whiteColor,
+            child:
+            TabBarView(
+              children:[
+                OngoingSendReceived(),
+                HistorySendReceived(),
+              ],
+            ),
 
-            ) ,
+          ) ,
 
-        bottomNavigationBar: bottombar(context),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton:
-        FloatingActionButton(
-        //  backgroundColor: AppColors.whiteColor,
+          bottomNavigationBar: bottombar(context),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButton:
+          FloatingActionButton(
+            //  backgroundColor: AppColors.whiteColor,
 
-          child: new Icon(Icons.add_box),
-          backgroundColor: AppColors.themecolor,
-        /*  icon: Icon(
+            child: new Icon(Icons.add_box),
+            backgroundColor: AppColors.themecolor,
+            /*  icon: Icon(
             Icons.edit,
             color: AppColors.selectedcolor,
           ),
@@ -145,15 +145,15 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
             'Create Post',
             style: TextStyle(color: AppColors.selectedcolor),
           ),*/
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => createpostgift()));
-          },
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => createpostgift()));
+            },
+          ),
         ),
-      ),
-    );
+      );
   }
   Widget backgroundBGContainer() {
     return Container(

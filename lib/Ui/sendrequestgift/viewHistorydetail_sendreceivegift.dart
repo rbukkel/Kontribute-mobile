@@ -24,12 +24,12 @@ class viewHistorydetail_sendreceivegift extends StatefulWidget{
 
 class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sendreceivegift>
 {
- String data1;
- bool internet = false;
- String val;
- String image;
- SenddetailsPojo senddetailsPojo;
- var productlist_length;
+  String data1;
+  bool internet = false;
+  String val;
+  String image;
+  SenddetailsPojo senddetailsPojo;
+  var productlist_length;
 
   @override
   void initState() {
@@ -168,51 +168,50 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 ],
               ),
             ),
-
-           productlist_length!=null?
-           Container(
+            productlist_length!=null?
+            Container(
               child: Stack(
                 children: [
                   Container(
-                    height: SizeConfig.blockSizeVertical * 19,
-                    width: SizeConfig.blockSizeHorizontal * 100,
-                    alignment: Alignment.center,
-                    /*decoration: BoxDecoration(
+                      height: SizeConfig.blockSizeVertical * 19,
+                      width: SizeConfig.blockSizeHorizontal * 100,
+                      alignment: Alignment.center,
+                      /*decoration: BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage("assets/images/viewdetailsbg.png"),
                         fit: BoxFit.fill,
                       ),
                     ),*/
-                    decoration:
-                    BoxDecoration(
+                      decoration:
+                      BoxDecoration(
                         image: DecorationImage(
                           image: senddetailsPojo.data.image!=null||senddetailsPojo.data.image!=""?
                           NetworkImage(
-                           Network.BaseApipics+senddetailsPojo.data.image):new AssetImage("assets/images/viewdetailsbg.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                              Network.BaseApipics+senddetailsPojo.data.image):new AssetImage("assets/images/viewdetailsbg.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      )
                   ),
                   Row(
                     children: [
                       senddetailsPojo.data.profilePic==null||
                           senddetailsPojo.data.profilePic==""? Container(
-                        height:
-                        SizeConfig.blockSizeVertical *
-                            18,
-                        width:
-                        SizeConfig.blockSizeVertical *
-                            17,
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical *6,
-                            bottom: SizeConfig.blockSizeVertical *1,
-                            right: SizeConfig
-                                .blockSizeHorizontal *
-                                1,
-                            left: SizeConfig
-                                .blockSizeHorizontal *
-                                4),
+                          height:
+                          SizeConfig.blockSizeVertical *
+                              18,
+                          width:
+                          SizeConfig.blockSizeVertical *
+                              17,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical *6,
+                              bottom: SizeConfig.blockSizeVertical *1,
+                              right: SizeConfig
+                                  .blockSizeHorizontal *
+                                  1,
+                              left: SizeConfig
+                                  .blockSizeHorizontal *
+                                  4),
                           decoration: BoxDecoration(
                             image: new DecorationImage(
                               image: new AssetImage("assets/images/account_circle.png"),
@@ -241,7 +240,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                  Network.BaseApiprofile+senddetailsPojo.data.profilePic
+                                    Network.BaseApiprofile+senddetailsPojo.data.profilePic
                                 ),
                                 fit: BoxFit.fill
                             )
@@ -257,7 +256,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                               Container(
                                 width: SizeConfig.blockSizeHorizontal *46,
                                 alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *7),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *7),
                                 child: Text(
                                   senddetailsPojo.data.name,
                                   style: TextStyle(
@@ -299,7 +298,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                               )
                             ],
                           ),
-                         /* Container(
+                          /* Container(
                             width: SizeConfig.blockSizeHorizontal *60,
                             margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *3),
                             alignment: Alignment.topRight,
@@ -325,7 +324,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                   'Poppins-Regular'),
                             ),
                           ),*/
-                         /* Container(
+                          /* Container(
                             width: SizeConfig.blockSizeHorizontal *64,
                             alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(
@@ -394,10 +393,10 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
                                 alignment: Alignment.topLeft,
                                 padding: EdgeInsets.only(
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        3,
-                                   ),
+                                  right: SizeConfig
+                                      .blockSizeHorizontal *
+                                      3,
+                                ),
                                 child: Text(
                                   "\$"+senddetailsPojo.data.amount,
                                   style: TextStyle(
@@ -412,7 +411,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                               )
                             ],
                           ),
-                        /*  Row(
+                          /*  Row(
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
@@ -469,10 +468,10 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 ],
               ),
             ):Container(
-                    child: Center(
-                    child: internet == true?CircularProgressIndicator():SizedBox(),
+              child: Center(
+                child: internet == true?CircularProgressIndicator():SizedBox(),
+              ),
             ),
-         ),
 
             Container(
               margin: EdgeInsets.only(
@@ -482,7 +481,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 color: Colors.black12,
               ),
             ),
-         /*   Row(
+            /*   Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(

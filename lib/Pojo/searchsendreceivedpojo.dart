@@ -1,121 +1,197 @@
 class searchsendreceivedpojo {
+  bool success;
   String message;
-  bool status;
-  List<ResultPush> resultPush;
+  Result result;
 
-  searchsendreceivedpojo({this.message, this.status, this.resultPush});
+  searchsendreceivedpojo({this.success, this.message, this.result});
 
   searchsendreceivedpojo.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
     message = json['message'];
-    status = json['status'];
-    if (json['result_push'] != null) {
-      resultPush = new List<ResultPush>();
-      json['result_push'].forEach((v) {
-        resultPush.add(new ResultPush.fromJson(v));
-      });
-    }
+    result =
+    json['result'] != null ? new Result.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
     data['message'] = this.message;
-    data['status'] = this.status;
-    if (this.resultPush != null) {
-      data['result_push'] = this.resultPush.map((v) => v.toJson()).toList();
+    if (this.result != null) {
+      data['result'] = this.result.toJson();
     }
     return data;
   }
 }
 
-class ResultPush {
+class Result {
+  int currentPage;
+  List<Data> data;
+  String firstPageUrl;
+  int from;
+  int lastPage;
+  String lastPageUrl;
+  Null nextPageUrl;
+  String path;
+  int perPage;
+  Null prevPageUrl;
+  int to;
+  int total;
+
+  Result(
+      {this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total});
+
+  Result.fromJson(Map<String, dynamic> json) {
+    currentPage = json['current_page'];
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
+    firstPageUrl = json['first_page_url'];
+    from = json['from'];
+    lastPage = json['last_page'];
+    lastPageUrl = json['last_page_url'];
+    nextPageUrl = json['next_page_url'];
+    path = json['path'];
+    perPage = json['per_page'];
+    prevPageUrl = json['prev_page_url'];
+    to = json['to'];
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['current_page'] = this.currentPage;
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    data['first_page_url'] = this.firstPageUrl;
+    data['from'] = this.from;
+    data['last_page'] = this.lastPage;
+    data['last_page_url'] = this.lastPageUrl;
+    data['next_page_url'] = this.nextPageUrl;
+    data['path'] = this.path;
+    data['per_page'] = this.perPage;
+    data['prev_page_url'] = this.prevPageUrl;
+    data['to'] = this.to;
+    data['total'] = this.total;
+    return data;
+  }
+}
+
+class Data {
   String id;
-  String name;
-  String groupName;
-  String postedDate;
-  String target;
-  String groupMembers;
-  String specialTerms;
-  String post;
-  String amount;
-  String time;
+  Null senderId;
+  Null receiverId;
+  String endDate;
+  Null price;
+  String minCashByParticipant;
+  String collectionTarget;
+  String canSee;
   String message;
-  String image;
-  String recieverId;
-  String paymentStatus;
-  String dateStatus;
+  String status;
+  String giftPicture;
+  String notification;
+  Null acceptTerms;
+  String giftStatus;
+  String groupId;
+  Null viewType;
+  String postedDate;
   String createdAt;
   String updatedAt;
-  String userId;
-  String fullName;
-  String profilePic;
+  Null fullName;
+  Null profilePic;
+  String groupName;
+  String specialTerms;
 
-  ResultPush(
+  Data(
       {this.id,
-        this.name,
-        this.groupName,
-        this.postedDate,
-        this.target,
-        this.groupMembers,
-        this.specialTerms,
-        this.post,
-        this.amount,
-        this.time,
+        this.senderId,
+        this.receiverId,
+        this.endDate,
+        this.price,
+        this.minCashByParticipant,
+        this.collectionTarget,
+        this.canSee,
         this.message,
-        this.image,
-        this.recieverId,
-        this.paymentStatus,
-        this.dateStatus,
+        this.status,
+        this.giftPicture,
+        this.notification,
+        this.acceptTerms,
+        this.giftStatus,
+        this.groupId,
+        this.viewType,
+        this.postedDate,
         this.createdAt,
         this.updatedAt,
-        this.userId,
         this.fullName,
-        this.profilePic});
+        this.profilePic,
+        this.groupName,
+        this.specialTerms});
 
-  ResultPush.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    groupName = json['group_name'];
-    postedDate = json['posted_date'];
-    target = json['target'];
-    groupMembers = json['group_members'];
-    specialTerms = json['special_terms'];
-    post = json['post'];
-    amount = json['amount'];
-    time = json['time'];
+    senderId = json['sender_id'];
+    receiverId = json['receiver_id'];
+    endDate = json['end_date'];
+    price = json['price'];
+    minCashByParticipant = json['min_cash_by_participant'];
+    collectionTarget = json['collection_target'];
+    canSee = json['can_see'];
     message = json['message'];
-    image = json['image'];
-    recieverId = json['reciever_id'];
-    paymentStatus = json['payment_status'];
-    dateStatus = json['date_status'];
+    status = json['status'];
+    giftPicture = json['gift_picture'];
+    notification = json['notification'];
+    acceptTerms = json['accept_terms'];
+    giftStatus = json['gift_status'];
+    groupId = json['group_id'];
+    viewType = json['view_type'];
+    postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    userId = json['user_id'];
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
+    groupName = json['group_name'];
+    specialTerms = json['special_terms'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['group_name'] = this.groupName;
-    data['posted_date'] = this.postedDate;
-    data['target'] = this.target;
-    data['group_members'] = this.groupMembers;
-    data['special_terms'] = this.specialTerms;
-    data['post'] = this.post;
-    data['amount'] = this.amount;
-    data['time'] = this.time;
+    data['sender_id'] = this.senderId;
+    data['receiver_id'] = this.receiverId;
+    data['end_date'] = this.endDate;
+    data['price'] = this.price;
+    data['min_cash_by_participant'] = this.minCashByParticipant;
+    data['collection_target'] = this.collectionTarget;
+    data['can_see'] = this.canSee;
     data['message'] = this.message;
-    data['image'] = this.image;
-    data['reciever_id'] = this.recieverId;
-    data['payment_status'] = this.paymentStatus;
-    data['date_status'] = this.dateStatus;
+    data['status'] = this.status;
+    data['gift_picture'] = this.giftPicture;
+    data['notification'] = this.notification;
+    data['accept_terms'] = this.acceptTerms;
+    data['gift_status'] = this.giftStatus;
+    data['group_id'] = this.groupId;
+    data['view_type'] = this.viewType;
+    data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['user_id'] = this.userId;
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
+    data['group_name'] = this.groupName;
+    data['special_terms'] = this.specialTerms;
     return data;
   }
 }
