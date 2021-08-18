@@ -364,7 +364,7 @@ class viewdetail_sendreceivegiftState
                                 top: SizeConfig.blockSizeHorizontal * 1),
                             child: Text(
                               "Closing Date-" +
-                                  senddetailsPojo.result.endDate,
+                                  senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -904,7 +904,6 @@ class viewdetail_sendreceivegiftState
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
         showToast(updateval);
-
       } else {
         if (jsonResponse != null) {
           showToast(updateval);
@@ -917,7 +916,6 @@ class viewdetail_sendreceivegiftState
       showToast(updateval);
     }
   }
-
   void showToast(String updateval) {
     Fluttertoast.showToast(
       msg: jsonDecode(updateval)["message"],
