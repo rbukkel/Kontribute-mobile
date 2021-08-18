@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
@@ -47,15 +48,35 @@ class loginState extends State<login>{
     consumerKey: 'VLHZDyBzZN4jCtWivu0gsrF5v',
     consumerSecret: 'giMJBSteIpjBr6SpD0O4KxLm3OXZX7EEjmNFt4xavaRBxrHXem',
   );
+  FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
+
 
   @override
   void initState() {
+    super.initState();
+    gettoken();
+
     SharedUtils.readToken("Token").then((val) {
       print("Token: " + val);
       token = val;
-      print("LOgin token: " + token.toString());
+      print("Login token: " + token.toString());
     });
   }
+
+  gettoken() {
+    _firebaseMessaging.getToken().then((onValue) {
+      setState(() {
+        token = onValue;
+        SharedUtils.saveToken("Token", token);
+
+        print(token);
+      });
+    }).catchError((onError) {
+      token = onError.toString();
+      setState(() {});
+    });
+  }
+
 
 
   @override
@@ -439,11 +460,8 @@ class loginState extends State<login>{
       print('signInWithGoogle succeeded: $user');
       setState(() {
         SharedUtils.readloginData("login", true);
-       /* fetchData(
-            user.displayName, user.email, user.uid, user.photoURL, vendorname);
-        SharedUtils.readloginId("login_type", "google");*/
-
-
+        fetchData(user.displayName, user.email, user.uid, user.photoURL);
+        SharedUtils.writeloginId("login_type", "google");
       });
       return '$user';
     } else {
@@ -527,7 +545,7 @@ class loginState extends State<login>{
     };
 
 
-    print(data.toString());
+    print("Social: "+data.toString());
     var jsonResponse = null;
     var response =
     await http.post(Network.BaseApi + Network.socailLogin, body: data);
@@ -555,7 +573,6 @@ class loginState extends State<login>{
           SharedUtils.readloginData("login",true);
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
-
           Fluttertoast.showToast(
             msg: login.message,
             toastLength: Toast.LENGTH_SHORT,

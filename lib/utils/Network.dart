@@ -1,5 +1,4 @@
 class Network{
-
   static String BaseApi = "http://kontribute.knickglobal.com/api/";
   static String BaseApipics = "http://kontribute.knickglobal.com/";
   static String BaseApiprofile = "http://kontribute.knickglobal.com/uploads/profile_pic/";
