@@ -55,6 +55,8 @@ class Result {
   String profilePic;
   String groupName;
   String specialTerms;
+  String receiverName;
+  String receiverProfilePic;
 
   Result(
       {this.id,
@@ -79,7 +81,9 @@ class Result {
         this.fullName,
         this.profilePic,
         this.groupName,
-        this.specialTerms});
+        this.specialTerms,
+        this.receiverName,
+        this.receiverProfilePic});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -105,6 +109,8 @@ class Result {
     profilePic = json['profile_pic'];
     groupName = json['group_name'];
     specialTerms = json['special_terms'];
+    receiverName = json['receiver_name'];
+    receiverProfilePic = json['receiver_profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -132,6 +138,8 @@ class Result {
     data['profile_pic'] = this.profilePic;
     data['group_name'] = this.groupName;
     data['special_terms'] = this.specialTerms;
+    data['receiver_name'] = this.receiverName;
+    data['receiver_profile_pic'] = this.receiverProfilePic;
     return data;
   }
 }

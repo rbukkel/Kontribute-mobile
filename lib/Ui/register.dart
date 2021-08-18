@@ -1232,13 +1232,13 @@ class registerState extends State<register> {
   Future<String> signInWithGoogle() async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+    await googleSignInAccount.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
     final UserCredential authResult =
-        await _auth.signInWithCredential(credential);
+    await _auth.signInWithCredential(credential);
     final User user = authResult.user;
     if (user != null) {
       assert(!user.isAnonymous);
@@ -1248,9 +1248,8 @@ class registerState extends State<register> {
       print('signInWithGoogle succeeded: $user');
       setState(() {
         SharedUtils.readloginData("login", true);
-        /* fetchData(
-            user.displayName, user.email, user.uid, user.photoURL, vendorname);
-        SharedUtils.readloginId("login_type", "google");*/
+        fetchData(user.displayName, user.email, user.uid, user.photoURL);
+        SharedUtils.writeloginId("login_type", "google");
       });
       return '$user';
     } else {

@@ -213,8 +213,8 @@ class viewdetail_sendreceivegiftState
                       )),
                   Row(
                     children: [
-                      senddetailsPojo.result.profilePic == null ||
-                          senddetailsPojo.result.profilePic == ""
+                      senddetailsPojo.result.receiverProfilePic == null ||
+                          senddetailsPojo.result.receiverProfilePic == ""
                           ? Container(
                           height: SizeConfig.blockSizeVertical * 18,
                           width: SizeConfig.blockSizeVertical * 17,
@@ -250,7 +250,7 @@ class viewdetail_sendreceivegiftState
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(Network.BaseApiprofile +senddetailsPojo
-                                    .result.profilePic),
+                                    .result.receiverProfilePic),
                                 fit: BoxFit.fill)),
                       ),
                       Column(
@@ -269,9 +269,9 @@ class viewdetail_sendreceivegiftState
                                     top:
                                     SizeConfig.blockSizeVertical * 7),
                                 child: Text(
-                                  senddetailsPojo.result.fullName == null
+                                  senddetailsPojo.result.receiverName == null
                                       ? senddetailsPojo.result.groupName
-                                      : senddetailsPojo.result.fullName,
+                                      : senddetailsPojo.result.receiverName,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,

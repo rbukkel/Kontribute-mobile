@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
@@ -44,10 +43,10 @@ class loginState extends State<login>{
   final GoogleSignIn googleSignIn = GoogleSignIn();
   User user;
   String message;
-  final TwitterLogin twitterLogin = new TwitterLogin(
+ /* final TwitterLogin twitterLogin = new TwitterLogin(
     consumerKey: 'VLHZDyBzZN4jCtWivu0gsrF5v',
     consumerSecret: 'giMJBSteIpjBr6SpD0O4KxLm3OXZX7EEjmNFt4xavaRBxrHXem',
-  );
+  );*/
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
 
 
@@ -424,7 +423,7 @@ class loginState extends State<login>{
                             ),
                           ),
                           onTap: () {
-                            signInWithTwitter();
+                           // signInWithTwitter();
                           },
                         ),
 
@@ -614,7 +613,7 @@ class loginState extends State<login>{
   }
 
 
-  void signInWithTwitter() async {
+ /* void signInWithTwitter() async {
     final TwitterLoginResult result = await twitterLogin.authorize();
     String newMessage;
     if (result.status == TwitterLoginStatus.loggedIn) {
@@ -627,7 +626,7 @@ class loginState extends State<login>{
     setState(() {
       message = newMessage;
     });
-  }
+  }*/
 
  /* void _signInWithTwitter(String token, String secret) async {
     final AuthCredential credential = TwitterAuthProvider.getCredential(

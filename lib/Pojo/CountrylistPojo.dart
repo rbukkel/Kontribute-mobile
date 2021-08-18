@@ -18,7 +18,8 @@ class CountrylistPojo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.resultPush != null) {
+    if (this.resultPush != null)
+    {
       data['result_push'] = this.resultPush.map((v) => v.toJson()).toList();
     }
     data['success'] = this.success;
