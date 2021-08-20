@@ -71,15 +71,15 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
-          if(requestpojo.result.data.isEmpty)
-          {
-            setState(() {
+          setState(() {
+            if(requestpojo.result.data.isEmpty)
+            {
+
               resultvalue = false;
-            });
-          }
-          else
-          {
-            setState(() {
+
+            }
+            else
+            {
               resultvalue = true;
               print("SSSS");
               if (poolvalue.toString() == "request") {
@@ -90,8 +90,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                 receivefrom = "send";
               }
               storelist_length = requestpojo.result.data;
-            });
-          }
+            }
+          });
+
+
         }
         else {
           Fluttertoast.showToast(

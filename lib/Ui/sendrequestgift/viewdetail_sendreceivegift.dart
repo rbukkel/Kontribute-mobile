@@ -193,7 +193,8 @@ class viewdetail_sendreceivegiftState
               ),
             ),
             productlist_length != null
-                ? Container(
+                ?
+            Container(
               child: Stack(
                 children: [
                   Container(
@@ -891,14 +892,14 @@ class viewdetail_sendreceivegiftState
 
   Future<void> payamount() async {
     Map data = {
-      'id': a.toString(),
-      'payment_status': "success",
+      'id': senddetailsPojo.result.id.toString(),
+      'sender_id': senddetailsPojo.result.senderId.toString(),
     };
 
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response =
-    await http.post(Network.BaseApi + Network.postpayment, body: data);
+    await http.post(Network.BaseApi + Network.pay_money, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string

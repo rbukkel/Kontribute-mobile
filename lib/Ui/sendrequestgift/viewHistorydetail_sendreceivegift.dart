@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/SenddetailsPojo.dart';
+import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -28,7 +29,8 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
   bool internet = false;
   String val;
   String image;
-  SenddetailsPojo senddetailsPojo;
+  var storelist_length;
+  individualRequestDetailspojo senddetailsPojo;
   var productlist_length;
 
   @override
@@ -60,13 +62,11 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
 
   void getData(int id) async {
     Map data = {
-      'reciever_id': id.toString(),
+      'id': id.toString(),
     };
-
-    print("receiver: "+data.toString());
+    print("receiver: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.senddetails, body: data);
-
+    http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts_contributer, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
@@ -78,16 +78,17 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
           timeInSecForIosWeb: 1,
         );
       } else {
-        senddetailsPojo = new SenddetailsPojo.fromJson(jsonResponse);
+        senddetailsPojo =
+        new individualRequestDetailspojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            productlist_length = senddetailsPojo.data;
-            if(senddetailsPojo.data.image !=null)
-            {
+            productlist_length = senddetailsPojo.result;
+            storelist_length = senddetailsPojo.paymentdetails.data;
+            if (senddetailsPojo.result.giftPicture != null) {
               setState(() {
-                image = senddetailsPojo.data.image;
+                image = senddetailsPojo.result.giftPicture;
               });
             }
           });
@@ -100,8 +101,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
           );
         }
       }
-    }
-    else {
+    } else {
       Fluttertoast.showToast(
         msg: jsonDecode(val)["message"],
         toastLength: Toast.LENGTH_SHORT,
@@ -110,6 +110,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +169,8 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 ],
               ),
             ),
-            productlist_length!=null?
+            productlist_length != null
+                ?
             Container(
               child: Stack(
                 children: [
@@ -176,26 +178,21 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                       height: SizeConfig.blockSizeVertical * 19,
                       width: SizeConfig.blockSizeHorizontal * 100,
                       alignment: Alignment.center,
-                      /*decoration: BoxDecoration(
-                      image: new DecorationImage(
-                        image: new AssetImage("assets/images/viewdetailsbg.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),*/
-                      decoration:
-                      BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: senddetailsPojo.data.image!=null||senddetailsPojo.data.image!=""?
-                          NetworkImage(
-                              Network.BaseApipics+senddetailsPojo.data.image):new AssetImage("assets/images/viewdetailsbg.png"),
+                          image: senddetailsPojo.result.giftPicture !=
+                              null ||
+                              senddetailsPojo.result.giftPicture != ""
+                              ? NetworkImage(Network.BaseApiprofile +senddetailsPojo.result.giftPicture)
+                              : new AssetImage(
+                              "assets/images/viewdetailsbg.png"),
                           fit: BoxFit.fill,
                         ),
-                      )
-                  ),
+                      )),
                   Row(
                     children: [
-                      senddetailsPojo.data.profilePic==null||
-                          senddetailsPojo.data.profilePic==""? Container(
+                      senddetailsPojo.result.receiverProfilePic == null ||
+                          senddetailsPojo.result.receiverProfilePic == ""?Container(
                           height:
                           SizeConfig.blockSizeVertical *
                               18,
@@ -239,12 +236,9 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    Network.BaseApiprofile+senddetailsPojo.data.profilePic
-                                ),
-                                fit: BoxFit.fill
-                            )
-                        ),
+                                image: NetworkImage(Network.BaseApiprofile +senddetailsPojo
+                                    .result.receiverProfilePic),
+                                fit: BoxFit.fill)),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,7 +252,9 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 alignment: Alignment.topLeft,
                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *7),
                                 child: Text(
-                                  senddetailsPojo.data.name,
+                                  senddetailsPojo.result.receiverName == null
+                                      ? senddetailsPojo.result.groupName
+                                      : senddetailsPojo.result.receiverName,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,
@@ -361,7 +357,8 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 top: SizeConfig.blockSizeHorizontal * 1),
                             child:
                             Text(
-                              " ",
+                              "Closing Date-" +
+                                  senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -398,7 +395,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                       3,
                                 ),
                                 child: Text(
-                                  "\$"+senddetailsPojo.data.amount,
+                                  "\$" +senddetailsPojo.result.price==null?senddetailsPojo.result.collectionTarget:senddetailsPojo.result.price,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,

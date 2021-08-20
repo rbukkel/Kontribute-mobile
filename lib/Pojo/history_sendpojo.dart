@@ -30,10 +30,10 @@ class Result {
   int from;
   int lastPage;
   String lastPageUrl;
-  Null nextPageUrl;
+  String nextPageUrl;
   String path;
   int perPage;
-  Null prevPageUrl;
+  String prevPageUrl;
   int to;
   int total;
 
@@ -107,7 +107,7 @@ class Data {
   String acceptTerms;
   String giftStatus;
   String groupId;
-  Null viewType;
+  String viewType;
   String postedDate;
   String createdAt;
   String updatedAt;

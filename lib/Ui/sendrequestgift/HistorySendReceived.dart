@@ -90,9 +90,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                 .blockSizeHorizontal *
                                                 72,
                                             margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
+                                                left: SizeConfig.blockSizeHorizontal * 2),
                                             child: Text(
                                               StringConstant.receivegift,
                                               style: TextStyle(
@@ -107,14 +105,9 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                           Container(
                                             alignment: Alignment.center,
                                             margin: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
+                                                right: SizeConfig.blockSizeHorizontal * 2),
                                             child: Text(
-                                              requestpojo.result
-                                                  .data
-                                                  .elementAt(
-                                                  index).postedDate,
+                                              requestpojo.result.data.elementAt(index).postedDate,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: Colors.black,
@@ -152,36 +145,19 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                       ),
                                       Row(
                                         children: [
-                                          requestpojo.result
-                                              .data
-                                              .elementAt(
-                                              index)
-                                              .profilePic==null||requestpojo.result
-                                              .data
-                                              .elementAt(
-                                              index)
-                                              .profilePic==""?Container(
-                                              height: SizeConfig
-                                                  .blockSizeVertical *
-                                                  12,
-                                              width: SizeConfig
-                                                  .blockSizeVertical *
-                                                  12,
+                                          requestpojo.result.data.elementAt(index)
+                                              .profilePic == null||requestpojo.result
+                                              .data.elementAt(index)
+                                              .profilePic==""?
+                                          Container(
+                                              height: SizeConfig.blockSizeVertical * 12,
+                                              width: SizeConfig.blockSizeVertical * 12,
                                               alignment: Alignment.center,
-                                              padding: EdgeInsets.all(
-                                                  SizeConfig
-                                                      .blockSizeVertical *
-                                                      3),
+                                              padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 3),
                                               margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                  bottom: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
+                                                  top: SizeConfig.blockSizeVertical * 1,
+                                                  bottom: SizeConfig.blockSizeVertical * 1,
+                                                  right: SizeConfig.blockSizeHorizontal * 1,
                                                   left: SizeConfig
                                                       .blockSizeHorizontal *
                                                       2),
@@ -451,8 +427,11 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                     ],
                                   ),
                                 ),
-                                onTap: () {},
-                              )),
+                                onTap: () {
+
+                                },
+                              )
+                          ),
                         );
                       }),
                 )
@@ -462,14 +441,12 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                   child: resultvalue == true
                       ? Center(
                     child: CircularProgressIndicator(),
-                  )
-                      : Center(
+                  ) : Center(
                     child: Image.asset("assets/images/empty.png",
                         height: SizeConfig.blockSizeVertical * 50,
                         width: SizeConfig.blockSizeVertical * 50),
                   ),
                 )
-
               ],
             )),
         floatingActionButton: SpeedDial(
@@ -515,9 +492,9 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                   print('Third CHILD');
                 }),
           ],
-        ));
+        )
+    );
   }
-
   /*void getdata(String user_id) async {
     Map data = {
       'user_id': user_id.toString(),
@@ -578,7 +555,6 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
     };
     print("usr: " + data.toString());
     var jsonResponse = null;
-
     http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts_history, body: data);
     if (response.statusCode == 200)
     {
@@ -599,9 +575,19 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            resultvalue = true;
-            print("SSSS");
-            storelist_length = requestpojo.result.data;
+            if(requestpojo.result.data.isEmpty)
+              {
+
+                  resultvalue = false;
+
+              }
+            else
+              {
+                resultvalue = true;
+                print("SSSS");
+                storelist_length = requestpojo.result.data;
+              }
+
           });
         }
         else {

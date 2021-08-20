@@ -734,25 +734,17 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
     setState(() {
       this.actionIcon = new Icon(
         Icons.search,
-        color: Colors.white,
-      );
-      this.appBarTitle = new Text(
-        "",
-        style: new TextStyle(color: Colors.white),
-      );
+        color: Colors.white,);
+      this.appBarTitle = new Text("", style: new TextStyle(color: Colors.white));
       _IsSearching = false;
       _searchQuery.clear();
     });
   }
 }
 
-
-
 class ChildItem extends StatelessWidget {
   final String name;
-
   ChildItem(this.name);
-
   @override
   Widget build(BuildContext context) {
     return new Expanded(
@@ -784,16 +776,13 @@ class ChildItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal * 72,
                                     margin: EdgeInsets.only(
-                                        left:
-                                        SizeConfig.blockSizeHorizontal * 2),
-                                    child: Text(
-                                      StringConstant.receivegift,
+                                        left: SizeConfig.blockSizeHorizontal * 2),
+                                    child: Text(StringConstant.receivegift,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'Poppins-Bold',
@@ -824,7 +813,6 @@ class ChildItem extends StatelessWidget {
                                     onTap: () {
                                       _showPopupMenu();
                                     },*/
-
                                     child: Container(
                                       margin: EdgeInsets.only(
                                           right:
@@ -873,14 +861,10 @@ class ChildItem extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            width:
-                                            SizeConfig.blockSizeHorizontal *
-                                                45,
+                                            width: SizeConfig.blockSizeHorizontal * 45,
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
+                                              left: SizeConfig.blockSizeHorizontal * 1,
                                             ),
                                             child: Text(
                                               "Sam Miller",
@@ -907,12 +891,8 @@ class ChildItem extends StatelessWidget {
                                             child: Container(
                                               alignment: Alignment.topLeft,
                                               padding: EdgeInsets.only(
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    3,
+                                                left: SizeConfig.blockSizeHorizontal * 1,
+                                                right: SizeConfig.blockSizeHorizontal * 3,
                                               ),
                                               child: Text(
                                                 "View Details",
@@ -930,19 +910,12 @@ class ChildItem extends StatelessWidget {
                                         ],
                                       ),
                                       Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 70,
+                                        width: SizeConfig.blockSizeHorizontal * 70,
                                         alignment: Alignment.topLeft,
                                         padding: EdgeInsets.only(
-                                            left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1,
-                                            right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
-                                            top:
-                                            SizeConfig.blockSizeHorizontal *
-                                                2),
+                                            left: SizeConfig.blockSizeHorizontal * 1,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            top: SizeConfig.blockSizeHorizontal * 2),
                                         child: Text(
                                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
                                           maxLines: 2,
@@ -959,12 +932,8 @@ class ChildItem extends StatelessWidget {
                                           Container(
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1,
-                                                top: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
+                                                left: SizeConfig.blockSizeHorizontal * 1,
+                                                top: SizeConfig.blockSizeHorizontal * 2),
                                             child: Text(
                                               "Amount- ",
                                               style: TextStyle(
@@ -979,21 +948,15 @@ class ChildItem extends StatelessWidget {
                                           Container(
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    3,
-                                                top: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
-                                            child: Text(
-                                              "\$100",
+                                                right: SizeConfig.blockSizeHorizontal * 3,
+                                                top: SizeConfig.blockSizeHorizontal * 2),
+                                            child: Text("\$100",
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
+                                                  fontFamily: 'Poppins-Regular'),
                                             ),
                                           )
                                         ],
@@ -1049,8 +1012,11 @@ class ChildItem extends StatelessWidget {
                             ],
                           ),
                         ),
-                        onTap: () {},
-                      )),
+                        onTap: () {
+
+                        },
+                      )
+                  ),
                 )
               ],
             );
