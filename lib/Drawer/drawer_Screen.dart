@@ -533,16 +533,16 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     print("User Signed Out");
   }
 
+
   void drawer_function(var next_screen, BuildContext context) async {
     Navigator.pop(context);
     switch (next_screen) {
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()),
         );
         break;
       case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(),
-          ),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()),
         );
         break;
         case 3:
@@ -562,11 +562,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
       case 6:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FAQ(),
-          ),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),),
         );
         break;
       case 7:
@@ -586,24 +582,20 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
       case 9:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
-        );
+        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case 10:
         _showDialog();
-
         break;
     }
   }
 
   void logout(BuildContext context1) {
-   Widget cancelButton = FlatButton(
+   Widget cancelButton = FlatButton
+     (
       child: Text("No"),
-      onPressed: () {
+      onPressed: ()
+      {
         Navigator.of(context1,rootNavigator: true).pop();
       },
     );

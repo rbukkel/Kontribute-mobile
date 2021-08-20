@@ -22,7 +22,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -87,7 +86,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
-
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -98,22 +96,14 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_Eventprofile()));
                                           },
                                           child:Container(
-                                            height:
-                                            SizeConfig.blockSizeVertical *
-                                                9,
-                                            width:
-                                            SizeConfig.blockSizeVertical *
-                                                9,
+                                            height: SizeConfig.blockSizeVertical * 9,
+                                            width: SizeConfig.blockSizeVertical * 9,
                                             alignment: Alignment.center,
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *2,
                                                 bottom: SizeConfig.blockSizeVertical *1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
+                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                left: SizeConfig.blockSizeHorizontal * 2),
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                   image:new AssetImage("assets/images/userProfile.png"),
@@ -127,14 +117,14 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *2),
                                                   width: SizeConfig.blockSizeHorizontal *49,
                                                   padding: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child:
-                                                  Text(
-                                                    "Amitofo Care Center International",
+                                                  Text("Amitofo Care Center International",
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
@@ -177,9 +167,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
-
-
-
                                               ],
                                             ),
                                             Row(
@@ -252,8 +239,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                 ),
                                               ],
                                             ),
-
-
                                           ],
                                         )
                                       ],
@@ -455,8 +440,8 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                             ),
                                           ),
                                           InkWell(
-                                            onTap: (){
-
+                                            onTap: ()
+                                            {
                                             },
                                             child: Container(
                                               width: SizeConfig.blockSizeHorizontal*15,
