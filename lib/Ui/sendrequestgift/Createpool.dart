@@ -1428,6 +1428,7 @@ class CreatepoolState extends State<Createpool> {
   }
 
   void _onCategorySelected(bool selected, category_id, category_name) {
+
     if (selected == true) {
       setState(() {
         _selecteCategorys.add(category_id);
@@ -1439,6 +1440,7 @@ class CreatepoolState extends State<Createpool> {
         _selecteName.remove(category_name);
       });
     }
+
     final input = _selecteName.toString();
     final removedBrackets = input.substring(1, input.length - 1);
     final parts = removedBrackets.split(',');
@@ -1482,7 +1484,6 @@ class CreatepoolState extends State<Createpool> {
           setState(() {
             isLoading = false;
           });
-
         } else {
           Fluttertoast.showToast(
             msg: checkgroupnames.message,

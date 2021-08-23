@@ -74,26 +74,25 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
           setState(() {
             if(requestpojo.result.data.isEmpty)
             {
-
               resultvalue = false;
-
             }
             else
             {
               resultvalue = true;
               print("SSSS");
-              if (poolvalue.toString() == "request") {
+              if (poolvalue.toString() == "request")
+              {
                 receivefrom = "request";
-              } else if (poolvalue.toString() == "pool") {
+              } else if (poolvalue.toString() == "pool")
+              {
                 receivefrom = "pool";
-              } else if (poolvalue.toString() == "send") {
+              } else if (poolvalue.toString() == "send")
+              {
                 receivefrom = "send";
               }
               storelist_length = requestpojo.result.data;
             }
           });
-
-
         }
         else {
           Fluttertoast.showToast(
@@ -910,10 +909,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                     style: TextStyle(
                                                         letterSpacing:
                                                         1.0,
-                                                        color: Colors
-                                                            .black87,
-                                                        fontSize:
-                                                        8,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
                                                         fontWeight:
                                                         FontWeight
                                                             .normal,

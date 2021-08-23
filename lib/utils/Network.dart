@@ -20,7 +20,9 @@ class Network{
   static String send_receive_gifts_contributer = "send_receive_gifts_contributer";
   static String postpayment = "postpayment";
   static String pay_money = "pay_money";
+  static String pay_money_listing = "pay_money_listing";
   static String individualpayment = "individualpayment";
   static String individualsearch = "individualsearch";
   static String check_pool_name = "check_pool_name";
+  static String follow = "follow";
 }

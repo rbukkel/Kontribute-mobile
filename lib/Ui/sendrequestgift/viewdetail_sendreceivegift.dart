@@ -7,6 +7,7 @@ import 'package:kontribute/Pojo/PaymentSendReceivedList.dart';
 import 'package:kontribute/Pojo/SenddetailsPojo.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
+import 'package:kontribute/Pojo/paymentlist.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -41,9 +42,11 @@ class viewdetail_sendreceivegiftState
   String vals;
   var storelist_length;
   String image;
+  String Follow="Follow";
   int a;
   String updateval;
   individualRequestDetailspojo senddetailsPojo;
+  paymentlist paymentlistpojo;
   var productlist_length;
 
   @override
@@ -56,6 +59,7 @@ class viewdetail_sendreceivegiftState
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
         getData(a);
+        getpaymentlist(a);
         setState(() {
           internet = true;
         });
@@ -98,7 +102,7 @@ class viewdetail_sendreceivegiftState
           print("response");
           setState(() {
             productlist_length = senddetailsPojo.result;
-            storelist_length = senddetailsPojo.paymentdetails.data;
+           // storelist_length = senddetailsPojo.paymentdetails.data;
             if (senddetailsPojo.result.giftPicture != null) {
               setState(() {
                 image = senddetailsPojo.result.giftPicture;
@@ -123,6 +127,66 @@ class viewdetail_sendreceivegiftState
       );
     }
   }
+
+  void getpaymentlist(int gift_id) async {
+    setState(() {
+      storelist_length=null;
+    });
+    Map data = {
+      'gift_id': gift_id.toString(),
+    };
+    print("Gift id: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.pay_money_listing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        paymentlistpojo = new paymentlist.fromJson(jsonResponse);
+        print("Payment List" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(paymentlistpojo.paymentdetails.data.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = paymentlistpojo.paymentdetails.data;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: paymentlistpojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +259,7 @@ class viewdetail_sendreceivegiftState
             productlist_length != null
                 ?
             Container(
+              color: Colors.black12,
               child: Stack(
                 children: [
                   Container(
@@ -207,27 +272,23 @@ class viewdetail_sendreceivegiftState
                               null ||
                               senddetailsPojo.result.giftPicture != ""
                               ? NetworkImage(Network.BaseApiprofile +senddetailsPojo.result.giftPicture)
-                              : new AssetImage(
-                              "assets/images/viewdetailsbg.png"),
+                              : new AssetImage("assets/images/viewdetailsbg.png"),
                           fit: BoxFit.fill,
                         ),
                       )),
                   Row(
                     children: [
-                      senddetailsPojo.result.receiverProfilePic == null ||
+                          senddetailsPojo.result.receiverProfilePic == null ||
                           senddetailsPojo.result.receiverProfilePic == ""
                           ? Container(
                           height: SizeConfig.blockSizeVertical * 18,
                           width: SizeConfig.blockSizeVertical * 17,
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 6,
-                              bottom:
-                              SizeConfig.blockSizeVertical * 1,
-                              right:
-                              SizeConfig.blockSizeHorizontal * 1,
-                              left:
-                              SizeConfig.blockSizeHorizontal * 4),
+                              top: SizeConfig.blockSizeVertical * 1,
+                              bottom: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeHorizontal * 1,
+                              left: SizeConfig.blockSizeHorizontal * 4),
                           decoration: BoxDecoration(
                             image: new DecorationImage(
                               image: new AssetImage(
@@ -240,7 +301,7 @@ class viewdetail_sendreceivegiftState
                         width: SizeConfig.blockSizeVertical * 17,
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 6,
+                            top: SizeConfig.blockSizeVertical * 1,
                             bottom:
                             SizeConfig.blockSizeVertical * 1,
                             right:
@@ -282,7 +343,9 @@ class viewdetail_sendreceivegiftState
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  followapi();
+                                },
                                 child: Container(
                                   padding: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 8,
@@ -293,7 +356,7 @@ class viewdetail_sendreceivegiftState
                                         2,
                                   ),
                                   child: Text(
-                                    "Follow",
+                                    Follow,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: AppColors.yelowbg,
@@ -364,8 +427,7 @@ class viewdetail_sendreceivegiftState
                                 bottom: SizeConfig.blockSizeVertical * 1,
                                 top: SizeConfig.blockSizeHorizontal * 1),
                             child: Text(
-                              "Closing Date-" +
-                                  senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
+                              "Closing Date-" +senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -398,7 +460,8 @@ class viewdetail_sendreceivegiftState
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                 ),
                                 child: Text(
-                                  "\$" +senddetailsPojo.result.price==null?senddetailsPojo.result.collectionTarget:senddetailsPojo.result.price,
+                                  "\$",
+                                     // +senddetailsPojo.result.price!=null?senddetailsPojo.result.price.toString():senddetailsPojo.result.collectionTarget.toString(),
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -473,6 +536,9 @@ class viewdetail_sendreceivegiftState
                                           1,
                                       right:
                                       SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      bottom:
+                                      SizeConfig.blockSizeVertical *
                                           2,
                                       top: SizeConfig.blockSizeVertical *
                                           2),
@@ -590,7 +656,7 @@ class viewdetail_sendreceivegiftState
                                 children: [
                                   Row(
                                     children: [
-                                      senddetailsPojo.paymentdetails.data
+                                      paymentlistpojo.paymentdetails.data
                                           .elementAt(index)
                                           .profilePic !=
                                           null
@@ -620,7 +686,7 @@ class viewdetail_sendreceivegiftState
                                             image: DecorationImage(
                                                 image: NetworkImage(
                                                     Network.BaseApiprofile+
-                                                        senddetailsPojo
+                                                        paymentlistpojo
                                                             .paymentdetails
                                                             .data
                                                             .elementAt(
@@ -680,10 +746,10 @@ class viewdetail_sendreceivegiftState
                                                       1,
                                                 ),
                                                 child: Text(
-                                                  senddetailsPojo
+                                                  paymentlistpojo
                                                       .paymentdetails.data
                                                       .elementAt(index)
-                                                      .fullName!=null? senddetailsPojo
+                                                      .fullName!=null? paymentlistpojo
                                                       .paymentdetails.data
                                                       .elementAt(index)
                                                       .fullName:"",
@@ -750,7 +816,7 @@ class viewdetail_sendreceivegiftState
                                                         2),
                                                 child: Text(
                                                   "Contribute-\$" +
-                                                      senddetailsPojo
+                                                      paymentlistpojo
                                                           .paymentdetails
                                                           .data
                                                           .elementAt(
@@ -770,13 +836,13 @@ class viewdetail_sendreceivegiftState
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  senddetailsPojo
+                                                  paymentlistpojo
                                                       .paymentdetails
                                                       .data
                                                       .elementAt(
                                                       index)
                                                       .status ==
-                                                      "1"
+                                                      "0"
                                                       ? payamount()
                                                       : Fluttertoast.showToast(
                                                       msg:
@@ -823,7 +889,7 @@ class viewdetail_sendreceivegiftState
                                                           color: AppColors
                                                               .orange)),
                                                   child: Text(
-                                                    senddetailsPojo
+                                                    paymentlistpojo
                                                         .paymentdetails
                                                         .data
                                                         .elementAt(
@@ -833,7 +899,7 @@ class viewdetail_sendreceivegiftState
                                                         ? "Done"
                                                         .toString()
                                                         .toUpperCase()
-                                                        : senddetailsPojo
+                                                        : paymentlistpojo
                                                         .paymentdetails
                                                         .data
                                                         .elementAt(
@@ -876,13 +942,27 @@ class viewdetail_sendreceivegiftState
                     );
                   }),
             )
-                : Container(
+                :
+            Container(
               child: Center(
                 child: internet == true
                     ? CircularProgressIndicator()
                     : SizedBox(),
               ),
             ),
+
+
+            Container(
+              alignment: Alignment.center,
+              child: internet == true
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : Center(
+                child: Text("")
+              ),
+            ),
+
           ],
         ),
       ),
@@ -898,17 +978,17 @@ class viewdetail_sendreceivegiftState
 
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-    await http.post(Network.BaseApi + Network.pay_money, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.pay_money, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
         showToast(updateval);
-      } else {
+      }
+      else {
         if (jsonResponse != null) {
           showToast(updateval);
-          // getPymentList(receiverid1);
+          getpaymentlist(a);
         } else {
           showToast(updateval);
         }
@@ -925,4 +1005,35 @@ class viewdetail_sendreceivegiftState
       timeInSecForIosWeb: 1,
     );
   }
+
+  Future<void>  followapi() async {
+    Map data = {
+      'sender_id': senddetailsPojo.result.senderId.toString(),
+      'receiver_id': senddetailsPojo.result.receiverId.toString(),
+    };
+
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.follow, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(updateval);
+      }
+      else {
+        if (jsonResponse != null) {
+          showToast(updateval);
+          setState(() {
+            Follow = "";
+          });
+        } else {
+          showToast(updateval);
+        }
+      }
+    } else {
+      showToast(updateval);
+    }
+  }
+
 }
