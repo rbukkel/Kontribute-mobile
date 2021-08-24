@@ -32,7 +32,7 @@ callNext1(var className, var context) {
 
 createUpperBar(context, text) {
   return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Container(
         margin: EdgeInsets.only(
@@ -44,12 +44,13 @@ createUpperBar(context, text) {
               Navigator.pop(context, true);
             },
             child: Container(
+              color: AppColors.theme1color,
               child: ClipRRect(
                 child: Image.asset(
                   "assets/images/back.png",
-                  width: 25,
-                  height: 25,
-                  color: Colors.black,
+                  width: 20,
+                  height: 20,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -57,21 +58,30 @@ createUpperBar(context, text) {
         ),
       ),
       Container(
-        alignment: Alignment.topCenter,
+        height: SizeConfig.blockSizeVertical *6,
+        width: SizeConfig.blockSizeHorizontal *83,
+        alignment: Alignment.center,
         margin: EdgeInsets.only(
             top: SizeConfig.blockSizeVertical * 6,
-            left: SizeConfig.blockSizeHorizontal * 23),
+            ),
         child: Text(
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
               decoration: TextDecoration.none,
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.normal,
               fontFamily: "Montserrat",
-              color: Colors.black),
+              color: Colors.white),
         ),
       ),
+      Container(
+        width: 20,
+        height: 20,
+        margin: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 6,
+            right: SizeConfig.blockSizeHorizontal * 1),
+      )
     ],
   );
 }
@@ -94,6 +104,7 @@ titlebar(context, text) {
               "assets/images/back.png",
               width: 20,
               height: 20,
+              color: Colors.white,
             ),
           ),
         ),

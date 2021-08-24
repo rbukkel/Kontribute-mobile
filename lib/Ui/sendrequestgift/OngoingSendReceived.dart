@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/request_sendpojo.dart';
 import 'package:kontribute/Ui/Editcreatepostgift.dart';
+import 'package:kontribute/Ui/sendrequestgift/EditRequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -115,7 +116,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
     }
   }
 
-  _showPopupMenu(int index) async {
+  _showPopupMenu(int index, String valu) async {
+    print("Index: "+index.toString());
+    print("VALues: "+valu.toString());
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
@@ -133,12 +136,26 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               onTap: () {
                 //Navigator.of(context).pop();
 
-                callNext(
-                    Editcreatepostgift(
-                        indexvalue:tabValue,
-                        data:  requestpojo.result.data.elementAt(index).id.toString()
-                    ),
-                    context);
+                if(valu=="request")
+                  {
+                    callNext(
+                        EditRequestIndividaul(
+                            data:  requestpojo.result.data.elementAt(index).id.toString()
+                        ),
+                        context);
+                  } else if(valu=="pool")
+                    {
+
+                    }else if(valu=="send")
+                {
+                  callNext(
+                      EditSendIndividaul(
+                          data:  requestpojo.result.data.elementAt(index).id.toString()
+                      ),
+                      context);
+                }
+
+
               },
               child: Row(
                 children: <Widget>[
@@ -260,7 +277,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         .globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu(index);
+                                                _showPopupMenu(index,"request");
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -720,7 +737,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         .globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu(index);
+                                                _showPopupMenu(index,"pool");
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -1157,7 +1174,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         .globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu(index);
+                                                _showPopupMenu(index,"send");
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(

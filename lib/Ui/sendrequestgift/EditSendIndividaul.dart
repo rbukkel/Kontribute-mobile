@@ -108,6 +108,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
               {
                 showvalue = false;
               }
+
           });
         } else {
           Fluttertoast.showToast(
@@ -127,6 +128,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
       );
     }
   }
+
 
 
 
@@ -299,51 +301,260 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child:  Column(
-                children: [
-                  Container(
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: SizeConfig.blockSizeVertical * 45,
-                          width: SizeConfig.blockSizeHorizontal * 100,
-                          alignment: Alignment.center,
-                          child:ClipRect(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
-                            width: SizeConfig.blockSizeHorizontal * 100,)
-                              :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
-                            width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            showAlert();
-                          },
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 21,
-                                right: SizeConfig.blockSizeHorizontal*2),
-                            child: Image.asset(
-                              "assets/images/camera.png",
-                              width:50,
-                              height: 50,
-                            ),
-                          ),
-                        )
-                      ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: AppColors.theme1color,
+                child:
+                Row(
+                  children: [
+                    createUpperBar(context, "Edit Send Individual"),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ],
+                ),
+              ),
+              Expanded(child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child:  Column(
                     children: [
                       Container(
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: SizeConfig.blockSizeVertical * 45,
+                              width: SizeConfig.blockSizeHorizontal * 100,
+                              alignment: Alignment.center,
+                              child:ClipRect(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
+                                width: SizeConfig.blockSizeHorizontal * 100,)
+                                  :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
+                                width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showAlert();
+                              },
+                              child: Container(
+                                alignment: Alignment.topRight,
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 21,
+                                    right: SizeConfig.blockSizeHorizontal*2),
+                                child: Image.asset(
+                                  "assets/images/camera.png",
+                                  width:50,
+                                  height: 50,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 32,
+                            child: Text(
+                              StringConstant.searchcontact,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 60,
+                            height: SizeConfig.blockSizeVertical * 8,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2,
+                                right: SizeConfig.blockSizeHorizontal * 2),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child:
+                            FormField<dynamic>(
+                              builder: (FormFieldState<dynamic> state) {
+                                return InputDecorator(
+                                  decoration:
+                                  InputDecoration.collapsed(hintText: ''),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<dynamic>(
+                                      hint: Text("select contact",
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold')),
+                                      dropdownColor: Colors.white,
+                                      value: currentSelectedValue,
+                                      isDense: true,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          currentSelectedValue = newValue;
+                                          userid = (newValue["id"]);
+                                          userName = (newValue["full_name"]);
+                                          print("User: "+userName.toString());
+                                          print("Userid: "+userid.toString());
+                                        });
+                                      },
+                                      items: categoryTypes.map((dynamic value) {
+                                        return DropdownMenuItem<dynamic>(
+                                          value: value,
+                                          child: Text(value["full_name"],
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold')),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 45,
+                            child: Text(
+                              StringConstant.enteramount,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                              width: SizeConfig.blockSizeHorizontal * 42,
+                              height: SizeConfig.blockSizeVertical * 7,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                              ),
+
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: SizeConfig.blockSizeVertical * 7,
+                                    width: SizeConfig.blockSizeHorizontal * 10,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          bottomLeft: Radius.circular(8)),
+                                      border: Border.all(
+                                        color: AppColors.theme1color,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                      color: AppColors.theme1color,
+                                    ),
+                                    padding: EdgeInsets.all(0.7),
+                                    child: Image.asset(
+                                      "assets/images/dollersign.png",
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
+                                  Container(
+                                    width:
+                                    SizeConfig.blockSizeHorizontal *
+                                        30,
+                                    padding: EdgeInsets.only(
+                                        left: SizeConfig
+                                            .blockSizeHorizontal *
+                                            1,
+                                        right: SizeConfig
+                                            .blockSizeHorizontal *
+                                            1),
+                                    child:
+                                    TextFormField(
+                                      autofocus: false,
+                                      focusNode: MoneyCashFocus,
+                                      controller: MoneyCashController,
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.number,
+                                      validator: (val) {
+                                        if (val.length == 0)
+                                          return "Please enter required amount";
+                                        else
+                                          return null;
+                                      },
+                                      onFieldSubmitted: (v) {
+                                        FocusScope.of(context).requestFocus(DescriptionFocus);
+                                      },
+                                      onSaved: (val) => _moneyCash = val,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ))
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
-                        width: SizeConfig.blockSizeHorizontal * 32,
                         child: Text(
-                          StringConstant.searchcontact,
+                          StringConstant.message,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -353,16 +564,16 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                         ),
                       ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 60,
-                        height: SizeConfig.blockSizeVertical * 8,
                         margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 2,
+                          left: SizeConfig.blockSizeHorizontal * 3,
                           right: SizeConfig.blockSizeHorizontal * 3,
                         ),
                         padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2,
-                            right: SizeConfig.blockSizeHorizontal * 2),
-                        alignment: Alignment.centerLeft,
+                          left: SizeConfig.blockSizeVertical * 1,
+                          right: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        alignment: Alignment.topLeft,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
@@ -372,357 +583,168 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                           ),
                           color: Colors.transparent,
                         ),
-                        child:
-                        FormField<dynamic>(
-                          builder: (FormFieldState<dynamic> state) {
-                            return InputDecorator(
-                              decoration:
-                              InputDecoration.collapsed(hintText: ''),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<dynamic>(
-                                  hint: Text("select contact",
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Bold')),
-                                  dropdownColor: Colors.white,
-                                  value: currentSelectedValue,
-                                  isDense: true,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      currentSelectedValue = newValue;
-                                      userid = (newValue["id"]);
-                                      userName = (newValue["full_name"]);
-                                      print("User: "+userName.toString());
-                                      print("Userid: "+userid.toString());
-                                    });
-                                  },
-                                  items: categoryTypes.map((dynamic value) {
-                                    return DropdownMenuItem<dynamic>(
-                                      value: value,
-                                      child: Text(value["full_name"],
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold')),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            );
+                        child: TextFormField(
+                          autofocus: false,
+                          focusNode: DescriptionFocus,
+                          maxLines: 4,
+                          controller: DescriptionController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return "Please enter message";
+                            else
+                              return null;
                           },
-                        ),),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            top: SizeConfig.blockSizeVertical * 2),
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        child: Text(
-                          StringConstant.enteramount,
+                          onFieldSubmitted: (v) {
+                            DescriptionFocus.unfocus();
+                          },
+                          onSaved: (val) => _Description = val,
+                          textAlign: TextAlign.left,
                           style: TextStyle(
                               letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 15,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 12,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: "Type here message...",
+                          ),
                         ),
                       ),
                       Container(
-                          width: SizeConfig.blockSizeHorizontal * 42,
-                          height: SizeConfig.blockSizeVertical * 7,
-                          margin: EdgeInsets.only(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2),
+                        margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 2,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-
-                          alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: SizeConfig.blockSizeVertical * 7,
-                                width: SizeConfig.blockSizeHorizontal * 10,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8)),
-                                  border: Border.all(
-                                    color: AppColors.theme1color,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: AppColors.theme1color,
-                                ),
-                                padding: EdgeInsets.all(0.7),
-                                child: Image.asset(
-                                  "assets/images/dollersign.png",
-                                  width: 50,
-                                  height: 50,
-                                ),
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 15,
+                              width: 15,
+                              color: Colors.white,
+                              child: Checkbox(
+                                value: showvalue,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    showvalue = value;
+                                    if(showvalue == true)
+                                    {
+                                      notificationvalue = "on";
+                                    }
+                                    else{
+                                      notificationvalue = "off";
+                                    }
+                                  });
+                                },
                               ),
-                              Container(
-                                width:
-                                SizeConfig.blockSizeHorizontal *
-                                    30,
-                                padding: EdgeInsets.only(
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1,
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1),
-                                child:
-                                TextFormField(
-                                  autofocus: false,
-                                  focusNode: MoneyCashFocus,
-                                  controller: MoneyCashController,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.number,
-                                  validator: (val) {
-                                    if (val.length == 0)
-                                      return "Please enter required amount";
-                                    else
-                                      return null;
-                                  },
-                                  onFieldSubmitted: (v) {
-                                    FocusScope.of(context).requestFocus(DescriptionFocus);
-                                  },
-                                  onSaved: (val) => _moneyCash = val,
-                                  textAlign: TextAlign.left,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 5),
+                              child: Text(StringConstant.receivenotification,
                                   style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 12,
-                                      color: Colors.black),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ))
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                    child: Divider(
-                      thickness: 1,
-                      color: Colors.black12,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 3,
-                        top: SizeConfig.blockSizeVertical * 2),
-                    child: Text(
-                      StringConstant.message,
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Bold'),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2,
-                      left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeHorizontal * 3,
-                    ),
-                    padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 1,
-                      right: SizeConfig.blockSizeVertical * 1,
-                    ),
-                    alignment: Alignment.topLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black26,
-                        style: BorderStyle.solid,
-                        width: 1.0,
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: TextFormField(
-                      autofocus: false,
-                      focusNode: DescriptionFocus,
-                      maxLines: 4,
-                      controller: DescriptionController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      validator: (val) {
-                        if (val.length == 0)
-                          return "Please enter message";
-                        else
-                          return null;
-                      },
-                      onFieldSubmitted: (v) {
-                        DescriptionFocus.unfocus();
-                      },
-                      onSaved: (val) => _Description = val,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 15,
-                          color: Colors.black),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 12,
-                          decoration: TextDecoration.none,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                  )),
+                            ),
+                          ],
                         ),
-                        hintText: "Type here message...",
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2,
-                        right: SizeConfig.blockSizeHorizontal * 2),
-                    margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        left: SizeConfig.blockSizeHorizontal * 3,
-                        right: SizeConfig.blockSizeHorizontal * 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 15,
-                          width: 15,
-                          color: Colors.white,
-                          child: Checkbox(
-                            value: showvalue,
-                            onChanged: (bool value) {
+                      GestureDetector(
+                        onTap: () {
+                          if (_formKey.currentState.validate()) {
+                            if (userid != null) {
                               setState(() {
-                                showvalue = value;
-                                if(showvalue == true)
-                                {
-                                  notificationvalue = "on";
-                                }
-                                else{
-                                  notificationvalue = "off";
+                                isLoading = true;
+                              });
+                              Internet_check().check().then((intenet) {
+                                if (intenet != null && intenet) {
+                                  if(_imageFile!=null)
+                                  {
+                                    sendIndivial(
+                                        notificationvalue,
+                                        MoneyCashController.text,
+                                        DescriptionController.text,
+                                        _imageFile,
+                                        userid
+                                    );
+                                  }
+                                  else {
+                                    Fluttertoast.showToast(
+                                      msg: "Please select gift image",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
+
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "No Internet Connection",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                  );
                                 }
                               });
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 5),
-                          child: Text(StringConstant.receivenotification,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (_formKey.currentState.validate()) {
-                        if (userid != null) {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          Internet_check().check().then((intenet) {
-                            if (intenet != null && intenet) {
-                              if(_imageFile!=null)
-                              {
-                                sendIndivial(
-                                    notificationvalue,
-                                    MoneyCashController.text,
-                                    DescriptionController.text,
-                                    _imageFile,
-                                    userid
-                                );
-                              }
-                              else {
-                                Fluttertoast.showToast(
-                                  msg: "Please select gift image",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                );
-                              }
-
                             } else {
                               Fluttertoast.showToast(
-                                msg: "No Internet Connection",
+                                msg: "please select contact",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
                               );
                             }
-                          });
-                        } else {
-                          Fluttertoast.showToast(
-                            msg: "please select contact",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                          );
-                        }
-                      }
+                          }
 
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: SizeConfig.blockSizeHorizontal * 40,
-                      height: SizeConfig.blockSizeVertical * 6,
-                      margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 3,
-                          bottom: SizeConfig.blockSizeVertical * 3,
-                          left: SizeConfig.blockSizeHorizontal * 5,
-                          right: SizeConfig.blockSizeHorizontal * 5),
-                      decoration: BoxDecoration(
-                        image: new DecorationImage(
-                          image: new AssetImage("assets/images/sendbutton.png"),
-                          fit: BoxFit.fill,
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: SizeConfig.blockSizeHorizontal * 40,
+                          height: SizeConfig.blockSizeVertical * 6,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 3,
+                              bottom: SizeConfig.blockSizeVertical * 3,
+                              left: SizeConfig.blockSizeHorizontal * 5,
+                              right: SizeConfig.blockSizeHorizontal * 5),
+                          decoration: BoxDecoration(
+                            image: new DecorationImage(
+                              image: new AssetImage("assets/images/sendbutton.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Text(StringConstant.invite,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
+                              )),
                         ),
-                      ),
-                      child: Text(StringConstant.invite,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 15,
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )),
+                      )
+                    ],
+                  ),
+                ),
+              ),)
+            ],
+          )
+
+      ),
     );
   }
 

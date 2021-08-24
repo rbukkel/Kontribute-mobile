@@ -937,8 +937,7 @@ class viewdetail_sendreceivegiftState
                           )),
                     );
                   }),
-            )
-                :
+            ) :
             /*Container(
               child: Center(
                 child: internet == true
@@ -947,7 +946,6 @@ class viewdetail_sendreceivegiftState
               ),
             ),
 */
-
             Container(
               alignment: Alignment.center,
               child: internet == true

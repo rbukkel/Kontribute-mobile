@@ -10,6 +10,7 @@ class Network{
   static String username_list = "username_list";
   static String send_gift_request = "send_gift_request";
   static String requestgiftlist = "requestgiftlist";
+  static String edit_send_gift_request = "edit_send_gift_request";
   static String send_gift = "send_gift";
   static String individualgiftlist = "individualgiftlist";
   static String create_group = "create_group";

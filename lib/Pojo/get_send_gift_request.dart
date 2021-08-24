@@ -1,14 +1,19 @@
 class get_send_gift_request {
   bool success;
   String message;
-  Data data;
+  List<Data> data;
 
   get_send_gift_request({this.success, this.message, this.data});
 
   get_send_gift_request.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -16,14 +21,14 @@ class get_send_gift_request {
     data['success'] = this.success;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  int id;
+  String id;
   String senderId;
   String receiverId;
   String endDate;
@@ -35,34 +40,38 @@ class Data {
   String status;
   String giftPicture;
   String notification;
-  String acceptTerms;
+  Null acceptTerms;
   String giftStatus;
   String groupId;
   Null viewType;
   String postedDate;
   String createdAt;
   String updatedAt;
+  String fullName;
+  String profilePic;
 
   Data(
       {this.id,
-      this.senderId,
-      this.receiverId,
-      this.endDate,
-      this.price,
-      this.minCashByParticipant,
-      this.collectionTarget,
-      this.canSee,
-      this.message,
-      this.status,
-      this.giftPicture,
-      this.notification,
-      this.acceptTerms,
-      this.giftStatus,
-      this.groupId,
-      this.viewType,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.senderId,
+        this.receiverId,
+        this.endDate,
+        this.price,
+        this.minCashByParticipant,
+        this.collectionTarget,
+        this.canSee,
+        this.message,
+        this.status,
+        this.giftPicture,
+        this.notification,
+        this.acceptTerms,
+        this.giftStatus,
+        this.groupId,
+        this.viewType,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -84,6 +93,8 @@ class Data {
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -107,6 +118,8 @@ class Data {
     data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
     return data;
   }
 }
