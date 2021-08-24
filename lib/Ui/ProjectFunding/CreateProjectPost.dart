@@ -270,7 +270,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       try {
         final imageFile =
         await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
-        setState(() async {
+        setState(() {
           _imageFile = imageFile;
           _imageList.add(_imageFile);
           for (int i = 0; i < _imageList.length; i++) {
@@ -284,7 +284,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       try {
         final imageFile =
         await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
-        setState(() async {
+        setState(()  {
           _imageFile = imageFile;
           _imageList.add(_imageFile);
           for (int i = 0; i < _imageList.length; i++) {
@@ -453,13 +453,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             ],
                           ),
                         ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            child: Container()),
-                        _imageList.length != 0
-                            ?
+                  Visibility(
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      child: Container()),
+                  _imageList.length!=0 ?
                         Container(
                             alignment: Alignment.topCenter,
                             height: SizeConfig.blockSizeVertical * 10,
@@ -527,61 +526,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         ));
                                 })
-
-                          /*  GridView.count(
-                            shrinkWrap: true,
-                            primary: false,
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 5.0,
-                            crossAxisSpacing: 5.0,
-                            children:_imageList.map((File file){
-                              return
-                                Container(
-                                  alignment: Alignment.topCenter,
-                                  width:60,
-                                  height: 60,
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2,
-                                      top: SizeConfig.blockSizeVertical * 1,
-                                      right: SizeConfig.blockSizeHorizontal * 2),
-                                  child: Stack(
-                                    children: [
-                                      new GridTile(
-                                          child: Container(
-                                            alignment: Alignment.topCenter,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),),
-                                            width:60,
-                                            height: 60,
-                                            child: Image.file(
-                                              file,
-                                              fit: BoxFit.fill,
-                                              width:60,
-                                              height: 60,
-                                            ),
-                                          )),
-                                      GestureDetector(
-                                        child:
-                                        Container(
-                                           margin: EdgeInsets.only(
-                                      bottom: SizeConfig.blockSizeVertical *1,
-                                        right: SizeConfig.blockSizeHorizontal*1),
-                                          alignment: Alignment.topRight,
-                                          child: Image.asset("assets/images/cross.png",
-                                              height: SizeConfig.blockSizeVertical * 3.5,
-                                              width: SizeConfig.blockSizeVertical * 3.5),
-                                        ),
-                                        onTap:
-                                            () {
-
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                            }).toList(),
-                          ),*/
                         )
+
+
                             : Container(),
                         Container(
                           margin: EdgeInsets.only(
@@ -1639,6 +1586,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            createproject(ProjectNameController.text,DescriptionController.text,formattedDate,
+                                formattedEndDate,
+                                TermsController.text,
+                                EnterRequiredAmountController.text,
+                                TotalBudgetController.text,
+                                VideoController.text,);
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1677,4 +1630,92 @@ class CreateProjectPostState extends State<CreateProjectPost> {
           )),
     );
   }
+
+
+  void createproject(String createpool, String description, String requiredamount, String collection,
+      String currentSelected, String date, String terms, File imageFile) async
+  {
+    var jsonData = null;
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_group));
+    request.headers["Content-Type"] = "multipart/form-data";
+    request.fields["group_members"] = catid.toString();
+    request.fields["pool_messages"] = description.toString();
+    request.fields["group_name"] = createpool;
+    request.fields["min_cash_by_participant"] = requiredamount.toString();
+    request.fields["collection_target"] = collection.toString();
+    request.fields["end_date"] = date.toString();
+    request.fields["can_see"] = currentSelected;
+    request.fields["special_terms_conditions"] = terms;
+    request.fields["userid"] = userid.toString();
+
+    print("Request: " + request.fields.toString());
+    if (imageFile != null) {
+      print("PATH: " + imageFile.path);
+      request.files.add(await http.MultipartFile.fromPath("file", imageFile.path, filename: imageFile.path));
+    }
+    var response = await request.send();
+    response.stream.transform(utf8.decoder).listen((value) {
+      jsonData = json.decode(value);
+      if (response.statusCode == 200) {
+        if (jsonData["status"] == false) {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+            setState(() {
+              isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            Navigator.pushAndRemoveUntil(context,
+                MaterialPageRoute(builder: (context) => sendreceivedgifts()),
+                    (route) => false);
+          } else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+              //   isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      } else if (response.statusCode == 500) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Something went wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+
+
+
 }
