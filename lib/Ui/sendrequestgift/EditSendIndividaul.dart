@@ -16,10 +16,8 @@ import 'package:kontribute/utils/screen.dart';
 
 class EditSendIndividaul extends StatefulWidget{
   final String data;
-
   const EditSendIndividaul({Key key, @required this.data})
       : super(key: key);
-
   @override
   EditSendIndividaulState createState() => EditSendIndividaulState();
 }

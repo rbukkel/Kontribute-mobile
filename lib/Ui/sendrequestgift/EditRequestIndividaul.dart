@@ -243,7 +243,8 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
       } else {
         sendgift = new get_send_gift_request.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
-        if (jsonResponse != null) {
+        if (jsonResponse != null)
+        {
           print("response");
           setState(() {
             productlist_length = sendgift.data;
