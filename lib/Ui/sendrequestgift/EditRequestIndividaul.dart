@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kontribute/Pojo/get_send_gift.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/UserListResponse.dart';
+import 'package:kontribute/Pojo/get_send_gift_request.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -13,118 +15,54 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:intl/intl.dart';
 
-class SendIndividaul extends StatefulWidget{
+class EditRequestIndividaul extends StatefulWidget {
+  final String data;
+
+  const EditRequestIndividaul({Key key, @required this.data})
+      : super(key: key);
   @override
-  SendIndividaulState createState() => SendIndividaulState();
-
+  EditRequestIndividaulState createState() => EditRequestIndividaulState();
 }
 
-class SendIndividaulState extends State<SendIndividaul>{
+class EditRequestIndividaulState extends State<EditRequestIndividaul> {
   final SearchContactFocus = FocusNode();
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
-  final TextEditingController searchcontactController = new TextEditingController();
-  final TextEditingController requiredamountController = new TextEditingController();
-  final TextEditingController DescriptionController = new TextEditingController();
-  final MoneyCashFocus = FocusNode();
-  final TextEditingController MoneyCashController = new TextEditingController();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  String _requiredamount;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController searchcontactController =new TextEditingController();
+  final TextEditingController requiredamountController  = new TextEditingController();
+  final TextEditingController DescriptionController =new TextEditingController();
   String _searchcontact;
-  String _moneyCash;
+  String _requiredamount;
   String _Description;
   bool showvalue = false;
   String notificationvalue="off";
+  String Date;
+  List<dynamic> categoryTypes = List();
+  String formattedDate = "2021-07-07";
   File _imageFile;
+  var currentSelectedValue;
   bool image_value = false;
   bool imageUrl = false;
-  final _formKey = GlobalKey<FormState>();
+  bool resultvalue = true;
+  var userlist_length;
+  String val;
   String userName;
   String user;
-  int userid;
-  String val;
+  String userid;
+  int receiverid;
   bool isLoading = false;
-  List<dynamic> categoryTypes = List();
-  var currentSelectedValue;
-  get_send_gift sendgift;
+  TextEditingController controller = new TextEditingController();
+  String filter;
+  UserListResponse searchPojo;
+  get_send_gift_request sendgift;
+
   var productlist_length;
+  String id;
   String image;
-
-  @override
-  void initState() {
-    super.initState();
-    getCategory();
-
-    SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
-      user = val;
-      print("Login userid: " + user.toString());
-    });
-  }
-
-  void getData(int id) async {
-    Map data = {
-      'id': id.toString(),
-    };
-    print("receiver: " + data.toString());
-    var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.get_send_gift, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      val = response.body; //store response as string
-      if (jsonDecode(val)["status"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        sendgift = new get_send_gift.fromJson(jsonResponse);
-        print("Json User" + jsonResponse.toString());
-        if (jsonResponse != null) {
-          print("response");
-          setState(() {
-            productlist_length = sendgift.data;
-            // storelist_length = senddetailsPojo.paymentdetails.data;
-            if (sendgift.data.giftPicture != null) {
-              setState(() {
-                image = sendgift.data.giftPicture;
-              });
-            }
-          });
-        } else {
-          Fluttertoast.showToast(
-            msg: sendgift.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
-
-
-
-  void getCategory() async {
-    var res =
-    await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
-    final data = json.decode(res.body);
-    List<dynamic> data1 = data["data"];
-
-    setState(() {
-      categoryTypes = data1;
-    });
-  }
 
   showAlert() {
     showDialog(
@@ -156,9 +94,6 @@ class SendIndividaulState extends State<SendIndividaul>{
               ),
               InkWell(
                 onTap: () {
-                  /* setState(() {
-                    image_value = false;
-                  });*/
                   captureImage(ImageSource.camera);
                   Navigator.of(context).pop();
                 },
@@ -167,7 +102,8 @@ class SendIndividaulState extends State<SendIndividaul>{
                   alignment: Alignment.center,
                   height: 50,
                   color: AppColors.whiteColor,
-                  child: Text(
+                  child:
+                  Text(
                     'Camera',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -179,9 +115,6 @@ class SendIndividaulState extends State<SendIndividaul>{
               ),
               InkWell(
                 onTap: () {
-                  /* setState(() {
-                    image_value = false;
-                  });*/
                   captureImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
@@ -227,8 +160,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -237,7 +169,6 @@ class SendIndividaulState extends State<SendIndividaul>{
               image_value = true;
               imageUrl = false;
             });
-
           } else {
             Fluttertoast.showToast(
               msg: "Please Select Image ",
@@ -252,8 +183,7 @@ class SendIndividaulState extends State<SendIndividaul>{
       }
     } else if (imageSource == ImageSource.gallery) {
       try {
-        final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -264,19 +194,119 @@ class SendIndividaulState extends State<SendIndividaul>{
             });
           } else {
             Fluttertoast.showToast(
-              msg: "Please Select Image ",
+              msg: "Please Select Image",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
           }
         });
-      } catch (e) {
+      }
+      catch (e)
+      {
         print(e);
       }
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getCategory();
+    id = widget.data;
+    print("ID: "+id);
+    getData(id);
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      user = val;
+      print("Login userid: " + user.toString());
+    });
+  }
+
+  void getData(String id) async {
+    Map data = {
+      'id': id.toString(),
+    };
+    print("receiver: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.get_send_gift_request, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        sendgift = new get_send_gift_request.fromJson(jsonResponse);
+        print("Json User Details: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = sendgift.data;
+            if (sendgift.data.giftPicture != null) {
+              setState(() {
+                image = sendgift.data.giftPicture;
+              });
+            }
+            requiredamountController.text = sendgift.data.price.toString();
+            DescriptionController.text = sendgift.data.message.toString();
+            userid = sendgift.data.receiverId;
+            if(sendgift.data.notification=="on")
+            {
+              showvalue = true;
+            }
+            else
+            {
+              showvalue = false;
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: sendgift.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+  DateView() async {
+    final DateTime picked = await
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      Date = picked.toString();
+      formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+      print("onDate: " + formattedDate.toString());
+    });
+  }
+
+  void getCategory() async {
+    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
+    final data = json.decode(res.body);
+    List<dynamic> data1 = data["data"];
+    setState(()
+    {
+      categoryTypes = data1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -296,22 +326,25 @@ class SendIndividaulState extends State<SendIndividaul>{
                           height: SizeConfig.blockSizeVertical * 45,
                           width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.center,
-                          child:ClipRect(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
+                          child:ClipRect(child:  image_value?
+                          Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
                             width: SizeConfig.blockSizeHorizontal * 100,)
                               :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
                             width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: ()
+                          {
                             showAlert();
                           },
                           child: Container(
                             alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 21,
-                                right: SizeConfig.blockSizeHorizontal*2),
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 21,
+                                right: SizeConfig.blockSizeHorizontal * 2),
                             child: Image.asset(
                               "assets/images/camera.png",
-                              width:50,
+                              width: 50,
                               height: 50,
                             ),
                           ),
@@ -357,12 +390,11 @@ class SendIndividaulState extends State<SendIndividaul>{
                           ),
                           color: Colors.transparent,
                         ),
-                        child:
-                        FormField<dynamic>(
+                        child: FormField<dynamic>(
                           builder: (FormFieldState<dynamic> state) {
                             return InputDecorator(
                               decoration:
-                              InputDecoration.collapsed(hintText: ''),
+                              InputDecoration.collapsed(hintText:''),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<dynamic>(
                                   hint: Text("select contact",
@@ -375,13 +407,14 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   dropdownColor: Colors.white,
                                   value: currentSelectedValue,
                                   isDense: true,
-                                  onChanged: (newValue) {
+                                  onChanged: (newValue)
+                                  {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      userid = (newValue["id"]);
+                                      receiverid = (newValue["id"]);
                                       userName = (newValue["full_name"]);
                                       print("User: "+userName.toString());
-                                      print("Userid: "+userid.toString());
+                                      print("Userid: "+receiverid.toString());
                                     });
                                   },
                                   items: categoryTypes.map((dynamic value) {
@@ -400,7 +433,8 @@ class SendIndividaulState extends State<SendIndividaul>{
                               ),
                             );
                           },
-                        ),),
+                        ),
+                      )
                     ],
                   ),
                   Row(
@@ -408,12 +442,13 @@ class SendIndividaulState extends State<SendIndividaul>{
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
+                        margin:
+                        EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
                         child: Text(
-                          StringConstant.enteramount,
+                          StringConstant.enterrequiredamount,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -429,7 +464,6 @@ class SendIndividaulState extends State<SendIndividaul>{
                             top: SizeConfig.blockSizeVertical * 2,
                             right: SizeConfig.blockSizeHorizontal * 3,
                           ),
-
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -464,21 +498,14 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 ),
                               ),
                               Container(
-                                width:
-                                SizeConfig.blockSizeHorizontal *
-                                    30,
+                                width: SizeConfig.blockSizeHorizontal * 30,
                                 padding: EdgeInsets.only(
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1,
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1),
-                                child:
-                                TextFormField(
+                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                    right: SizeConfig.blockSizeHorizontal * 1),
+                                child: TextFormField(
                                   autofocus: false,
-                                  focusNode: MoneyCashFocus,
-                                  controller: MoneyCashController,
+                                  focusNode: requiredamountFocus,
+                                  controller: requiredamountController,
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
                                   validator: (val) {
@@ -488,9 +515,9 @@ class SendIndividaulState extends State<SendIndividaul>{
                                       return null;
                                   },
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context).requestFocus(DescriptionFocus);
+                                    requiredamountFocus.unfocus();
                                   },
-                                  onSaved: (val) => _moneyCash = val,
+                                  onSaved: (val) => _requiredamount = val,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
@@ -505,15 +532,80 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 ),
                               )
                             ],
-                          ))
+                          )
+                      )
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                    child: Divider(
-                      thickness: 1,
-                      color: Colors.black12,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            top: SizeConfig.blockSizeVertical * 2),
+                        width: SizeConfig.blockSizeHorizontal * 45,
+                        child: Text(
+                          StringConstant.timeframeforcollection,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Bold'),
+                        ),
+                      ),
+                      Container(
+                          width: SizeConfig.blockSizeHorizontal * 42,
+                          height: SizeConfig.blockSizeVertical * 7,
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 2,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 1,
+                            right: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black26,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              DateView();
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                  child: Text(
+                                    formattedDate,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 5,
+                                  child: Icon(
+                                    Icons.calendar_today_outlined,
+                                    color: AppColors.greyColor,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                      )
+                    ],
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -627,7 +719,8 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
-                              )),
+                              )
+                          ),
                         ),
                       ],
                     ),
@@ -635,7 +728,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                   GestureDetector(
                     onTap: () {
                       if (_formKey.currentState.validate()) {
-                        if (userid != null) {
+                        if (receiverid != null) {
                           setState(() {
                             isLoading = true;
                           });
@@ -643,12 +736,13 @@ class SendIndividaulState extends State<SendIndividaul>{
                             if (intenet != null && intenet) {
                               if(_imageFile!=null)
                               {
-                                sendIndivial(
+                                requestIndivial(
                                     notificationvalue,
-                                    MoneyCashController.text,
+                                    requiredamountController.text,
                                     DescriptionController.text,
+                                    formattedDate,
                                     _imageFile,
-                                    userid
+                                    receiverid
                                 );
                               }
                               else {
@@ -659,7 +753,6 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   timeInSecForIosWeb: 1,
                                 );
                               }
-
                             } else {
                               Fluttertoast.showToast(
                                 msg: "No Internet Connection",
@@ -678,7 +771,6 @@ class SendIndividaulState extends State<SendIndividaul>{
                           );
                         }
                       }
-
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -711,57 +803,33 @@ class SendIndividaulState extends State<SendIndividaul>{
     );
   }
 
-  void sendIndivial(String  notification, String requiredamoun, String description,File Imge, int userid) async {
+
+  void requestIndivial(String notification, String requiredamoun, String description,
+      String date,File Imge, int receiver) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift),);
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift_request),);
     request.headers["Content-Type"] = "multipart/form-data";
-    request.fields["notification"] = notification.toString();
     request.fields["price"] = requiredamoun.toString();
     request.fields["message"] = description;
-    request.fields["sender_id"] = user.toString();
-    request.fields["receiver_id"] = userid.toString();
-
+    request.fields["sender_id"] = userid.toString();
+    request.fields["end_date"] = date.toString();
+    request.fields["receiver_id"] = receiver.toString();
+    request.fields["notification"] = notification.toString();
 
     print("Request: "+request.fields.toString());
+
     if (Imge != null) {
       print("PATH: " + Imge.path);
-      request.files.add(await http.MultipartFile.fromPath("file", Imge.path, filename: Imge.path));
+      request.files.add(await http.MultipartFile.fromPath("file", Imge.path,
+          filename: Imge.path));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
-      jsonData = json.decode(value);
-
-      if (jsonData["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        if (jsonData != null) {
-          setState(() {
-            isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (context) =>
-              sendreceivedgifts()),
-                  (route) => false);
-        } else {
+      if (response.statusCode == 200) {
+        jsonData = json.decode(value);
+        if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Navigator.of(context).pop();
-            //   isLoading = false;
-          });
           Fluttertoast.showToast(
             msg: jsonData["message"],
             toastLength: Toast.LENGTH_SHORT,
@@ -769,6 +837,52 @@ class SendIndividaulState extends State<SendIndividaul>{
             timeInSecForIosWeb: 1,
           );
         }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+            setState(() {
+              isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+          }
+          else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      }
+      else if(response.statusCode == 500)
+      {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else{
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg:"Something went wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
       }
     });
   }

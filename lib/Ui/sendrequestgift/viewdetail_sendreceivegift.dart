@@ -95,8 +95,7 @@ class viewdetail_sendreceivegiftState
           timeInSecForIosWeb: 1,
         );
       } else {
-        senddetailsPojo =
-        new individualRequestDetailspojo.fromJson(jsonResponse);
+        senddetailsPojo = new individualRequestDetailspojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
@@ -427,7 +426,7 @@ class viewdetail_sendreceivegiftState
                                 bottom: SizeConfig.blockSizeVertical * 1,
                                 top: SizeConfig.blockSizeHorizontal * 1),
                             child: Text(
-                              "Closing Date-" +senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
+                              "Closing Date-"+senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -460,8 +459,7 @@ class viewdetail_sendreceivegiftState
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                 ),
                                 child: Text(
-                                  "\$",
-                                     // +senddetailsPojo.result.price!=null?senddetailsPojo.result.price.toString():senddetailsPojo.result.collectionTarget.toString(),
+                                  "\$"+senddetailsPojo.result.price!=null?senddetailsPojo.result.price.toString():senddetailsPojo.result.collectionTarget.toString(),
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -630,12 +628,10 @@ class viewdetail_sendreceivegiftState
                 ),
               ],
             ),*/
-            storelist_length != null
-                ? Expanded(
+            storelist_length != null ?
+            Expanded(
               child: ListView.builder(
-                  itemCount: storelist_length.length == null
-                      ? 0
-                      : storelist_length.length,
+                  itemCount: storelist_length.length == null ? 0 : storelist_length.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       child: Card(
@@ -943,14 +939,14 @@ class viewdetail_sendreceivegiftState
                   }),
             )
                 :
-            Container(
+            /*Container(
               child: Center(
                 child: internet == true
                     ? CircularProgressIndicator()
                     : SizedBox(),
               ),
             ),
-
+*/
 
             Container(
               alignment: Alignment.center,
@@ -997,6 +993,7 @@ class viewdetail_sendreceivegiftState
       showToast(updateval);
     }
   }
+
   void showToast(String updateval) {
     Fluttertoast.showToast(
       msg: jsonDecode(updateval)["message"],
@@ -1011,7 +1008,6 @@ class viewdetail_sendreceivegiftState
       'sender_id': senddetailsPojo.result.senderId.toString(),
       'receiver_id': senddetailsPojo.result.receiverId.toString(),
     };
-
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.follow, body: data);

@@ -7,6 +7,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/request_sendpojo.dart';
+import 'package:kontribute/Ui/Editcreatepostgift.dart';
+import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -29,6 +31,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
   String val;
   var storelist_length;
   String receivefrom;
+  String tabValue ="request";
   request_sendpojo requestpojo;
 
   @override
@@ -38,7 +41,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-      getdata(userid, "request");
+      getdata(userid,tabValue);
     });
   }
 
@@ -112,7 +115,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
     }
   }
 
-  _showPopupMenu() async {
+  _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
@@ -128,7 +131,14 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             value: 1,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
+
+                callNext(
+                    Editcreatepostgift(
+                        indexvalue:tabValue,
+                        data:  requestpojo.result.data.elementAt(index).id.toString()
+                    ),
+                    context);
               },
               child: Row(
                 children: <Widget>[
@@ -250,7 +260,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         .globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu();
+                                                _showPopupMenu(index);
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -710,7 +720,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         .globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu();
+                                                _showPopupMenu(index);
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -1147,7 +1157,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         .globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu();
+                                                _showPopupMenu(index);
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -1539,7 +1549,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               backgroundColor: AppColors.theme1color,
               label: 'Request',
               onTap: () {
-                getdata(userid, "request");
+                tabValue="request";
+                getdata(userid, tabValue);
                 print('FIRST CHILD');
               }),
           SpeedDialChild(
@@ -1547,7 +1558,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               backgroundColor: AppColors.theme1color,
               label: 'Pool',
               onTap: () {
-                getdata(userid, "pool");
+                tabValue="pool";
+                getdata(userid, tabValue);
                 print('SEcond CHILD');
               }),
           SpeedDialChild(
@@ -1555,7 +1567,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               backgroundColor: AppColors.theme1color,
               label: 'Send',
               onTap: () {
-                getdata(userid, "send");
+                tabValue="send";
+                getdata(userid, tabValue);
                 print('Third CHILD');
               }),
         ],

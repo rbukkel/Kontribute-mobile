@@ -14,13 +14,17 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
-class SendIndividaul extends StatefulWidget{
-  @override
-  SendIndividaulState createState() => SendIndividaulState();
+class EditSendIndividaul extends StatefulWidget{
+  final String data;
 
+  const EditSendIndividaul({Key key, @required this.data})
+      : super(key: key);
+
+  @override
+  EditSendIndividaulState createState() => EditSendIndividaulState();
 }
 
-class SendIndividaulState extends State<SendIndividaul>{
+class EditSendIndividaulState extends State<EditSendIndividaul>{
   final SearchContactFocus = FocusNode();
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
@@ -49,13 +53,16 @@ class SendIndividaulState extends State<SendIndividaul>{
   var currentSelectedValue;
   get_send_gift sendgift;
   var productlist_length;
+  String id;
   String image;
 
   @override
   void initState() {
     super.initState();
     getCategory();
-
+    id = widget.data;
+    print("ID: "+id);
+    getData(id);
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       user = val;
@@ -63,7 +70,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     });
   }
 
-  void getData(int id) async {
+  void getData(String id) async {
     Map data = {
       'id': id.toString(),
     };
@@ -73,7 +80,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
-      if (jsonDecode(val)["status"] == false) {
+      if (jsonDecode(val)["success"] == false) {
         Fluttertoast.showToast(
           msg: jsonDecode(val)["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -82,17 +89,27 @@ class SendIndividaulState extends State<SendIndividaul>{
         );
       } else {
         sendgift = new get_send_gift.fromJson(jsonResponse);
-        print("Json User" + jsonResponse.toString());
+        print("Json User Details: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
             productlist_length = sendgift.data;
-            // storelist_length = senddetailsPojo.paymentdetails.data;
             if (sendgift.data.giftPicture != null) {
               setState(() {
                 image = sendgift.data.giftPicture;
               });
             }
+            MoneyCashController.text = sendgift.data.price.toString();
+            DescriptionController.text = sendgift.data.message.toString();
+            userid = int.parse(sendgift.data.receiverId);
+            if(sendgift.data.notification=="on")
+              {
+                showvalue = true;
+              }
+            else
+              {
+                showvalue = false;
+              }
           });
         } else {
           Fluttertoast.showToast(

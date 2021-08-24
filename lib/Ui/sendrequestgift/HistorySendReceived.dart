@@ -578,9 +578,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
           setState(() {
             if(requestpojo.result.data.isEmpty)
               {
-
                   resultvalue = false;
-
               }
             else
               {
@@ -588,7 +586,6 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                 print("SSSS");
                 storelist_length = requestpojo.result.data;
               }
-
           });
         }
         else {
