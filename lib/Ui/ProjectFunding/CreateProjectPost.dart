@@ -286,7 +286,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
-
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {

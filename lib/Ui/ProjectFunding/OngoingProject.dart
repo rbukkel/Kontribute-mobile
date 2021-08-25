@@ -1,17 +1,25 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingProject extends StatefulWidget {
@@ -21,12 +29,111 @@ class OngoingProject extends StatefulWidget {
 
 class OngoingProjectState extends State<OngoingProject> {
   Offset _tapDownPosition;
+  String userid;
+  bool resultvalue = true;
+  bool internet = false;
+  String val;
+  var storelist_length;
+  projectlisting listing;
+  int amount;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+
+    });
+
+
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getdata(userid);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+
   }
-  _showPopupMenu() async {
+
+
+  void getdata(String user_id) async {
+    Map data = {
+      'userid': user_id.toString(),
+    };
+
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new projectlisting.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
+  _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
     await showMenu(
@@ -128,10 +235,13 @@ class OngoingProjectState extends State<OngoingProject> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
-              Expanded(
+              storelist_length != null
+                  ?Expanded(
                 child:
                 ListView.builder(
-                    itemCount: 8,
+                    itemCount: storelist_length.length == null
+                        ? 0
+                        : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       return
                         Container(
@@ -160,7 +270,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                           },
                                           onTap: ()
                                           {
-                                            _showPopupMenu();
+                                            _showPopupMenu(index);
                                           },
                                           child:  Container(
                                             alignment: Alignment.topRight,
@@ -176,9 +286,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
+
                                             GestureDetector(
                                               onTap: () {
                                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+
                                               },
                                               child: Container(
                                                 height:
@@ -336,7 +448,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         top: SizeConfig.blockSizeVertical *1,
                                                       ),
                                                       child: Text(
-                                                        "Project Name",
+                                                        listing.projectData.elementAt(index).projectName,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: Colors.black87,
@@ -360,7 +472,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         top: SizeConfig.blockSizeVertical *1,
                                                       ),
                                                       child: Text(
-                                                        "Start Date- 21/05/2021",
+                                                        "Start Date- "+listing.projectData.elementAt(index).projectStartdate,
                                                         textAlign: TextAlign.right,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -385,7 +497,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         top: SizeConfig.blockSizeVertical *1,
                                                       ),
                                                       child: Text(
-                                                        StringConstant.totalContribution+"-20",
+                                                        //StringConstant.totalContribution+"-20",
+                                                        "",
                                                         textAlign: TextAlign.right,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -410,7 +523,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         top: SizeConfig.blockSizeVertical *1,
                                                       ),
                                                       child: Text(
-                                                        "End Date- 30/05/2021",
+                                                        "End Date- "+listing.projectData.elementAt(index).projectEnddate,
                                                         textAlign: TextAlign.right,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -458,7 +571,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     3,
                                               ),
                                               child: Text(
-                                                "\$100",
+                                                "\$"+listing.projectData.elementAt(index).budget,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.lightBlueAccent,
@@ -472,7 +585,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                             Container(
                                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                               child:  LinearPercentIndicator(
-                                                width: 90.0,
+                                                width: 70.0,
                                                 lineHeight: 14.0,
                                                 percent: 0.6,
                                                 center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -502,7 +615,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   1),
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "\$40",
+                                                "\$"+listing.projectData.elementAt(index).requiredAmount,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.lightBlueAccent,
@@ -522,7 +635,12 @@ class OngoingProjectState extends State<OngoingProject> {
                                     ),*/
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                            //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                            callNext(
+                                                OngoingProjectDetailsscreen(
+                                                    data:
+                                                    listing.projectData.elementAt(index).id.toString()
+                                                ), context);
                                           },
                                           child: Container(
                                             color: AppColors.themecolor,
@@ -658,18 +776,10 @@ class OngoingProjectState extends State<OngoingProject> {
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                               top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 10,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                          child: new Html(
+                                              data: listing.projectData.elementAt(index).description,
+                                              defaultTextStyle: TextStyle(fontSize: 15),
+                                        ),
                                         ),
                                         GestureDetector(
                                           onTap: ()
@@ -755,6 +865,18 @@ class OngoingProjectState extends State<OngoingProject> {
                         ),
                       );
                     }),
+              ): Container(
+                margin: EdgeInsets.only(top: 150),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset("assets/images/empty.png",
+                      height: SizeConfig.blockSizeVertical * 50,
+                      width: SizeConfig.blockSizeVertical * 50),
+                ),
               )
             ],
           )

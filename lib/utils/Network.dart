@@ -30,4 +30,6 @@ class Network{
   static String get_send_gift_request = "get_send_gift_request";
   static String get_send_gift = "get_send_gift";
   static String create_project = "create_project";
+  static String projectListing = "projectListing";
+  static String projectDetails = "projectDetails";
 }

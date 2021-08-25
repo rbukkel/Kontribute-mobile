@@ -1,29 +1,126 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/Projectdetailspojo.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingProjectDetailsscreen extends StatefulWidget {
+
+  final String data;
+
+  const OngoingProjectDetailsscreen({Key key, @required this.data})
+      : super(key: key);
+
   @override
   OngoingProjectDetailsscreenState createState() => OngoingProjectDetailsscreenState();
 }
 
 class OngoingProjectDetailsscreenState extends State<OngoingProjectDetailsscreen> {
   Offset _tapDownPosition;
+  String data1;
+  String userid;
+  int a;
+  bool internet= false;
+  String val;
+  var productlist_length;
+  Projectdetailspojo projectdetailspojo;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+
+        a = int.parse(data1);
+        print("receiverComing: " + a.toString());
+        getData(userid,a);
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
   }
+
+  void getData(String id, int projectid) async {
+    Map data = {
+      'userid': id.toString(),
+      'project_id': projectid.toString(),
+    };
+    print("receiver: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectDetails, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        projectdetailspojo = new Projectdetailspojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = projectdetailspojo.commentsdata;
+
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: projectdetailspojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
