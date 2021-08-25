@@ -39,7 +39,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
   String _searchcontact;
   String _requiredamount;
   String _Description;
-  bool showvalue = false;
+  bool showvalue;
   String notificationvalue="off";
   String Date;
   List<dynamic> categoryTypes = List();
@@ -56,6 +56,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
   String user;
   String userid;
   int receiverid;
+  bool internet = false;
   bool isLoading = false;
   TextEditingController controller = new TextEditingController();
   String filter;
@@ -214,16 +215,35 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
   @override
   void initState() {
     super.initState();
-    getCategory();
-    id = widget.data;
-    print("ID: "+id);
-    getData(id);
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
     });
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getCategory();
+        id = widget.data;
+        print("ID: "+id);
+        getData(id);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
   }
+
+
 
   void getData(String id) async {
     Map data = {
@@ -250,21 +270,21 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
           print("response");
           setState(() {
             productlist_length = sendgift.data;
-            if (sendgift.data.elementAt(0).giftPicture != null) {
+            if (sendgift.data.giftPicture != null) {
               setState(() {
-                image = sendgift.data.elementAt(0).giftPicture;
+                image = sendgift.data.giftPicture;
               });
             }
-            requiredamountController.text = sendgift.data.elementAt(0).price.toString();
-            DescriptionController.text = sendgift.data.elementAt(0).message.toString();
-            receiverid = int.parse(sendgift.data.elementAt(0).receiverId);
-            receiverName = sendgift.data.elementAt(0).fullName;
-            formattedDate = sendgift.data.elementAt(0).endDate;
-            if(sendgift.data.elementAt(0).notification=="on")
+            requiredamountController.text = sendgift.data.price.toString();
+            DescriptionController.text = sendgift.data.message.toString();
+            receiverid = int.parse(sendgift.data.receiverId);
+            receiverName = sendgift.data.fullName;
+            formattedDate = sendgift.data.endDate;
+            if(sendgift.data.notification=="on")
             {
               showvalue = true;
             }
-            else if(sendgift.data.elementAt(0).notification=="off")
+            else if(sendgift.data.notification=="off")
             {
               showvalue = false;
             }
@@ -335,6 +355,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                   ],
                 ),
               ),
+              productlist_length!=null?
               Expanded(
                 child: SingleChildScrollView(
                   child:Form(
@@ -345,13 +366,13 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                         Container(
                           child: Stack(
                             children: [
-                              image_value==false?Container(
+                            /*  image_value==false?Container(
                                 height: SizeConfig.blockSizeVertical * 25,
                                 width: SizeConfig.blockSizeHorizontal * 100,
                                 alignment: Alignment.center,
                                 child:  CachedNetworkImage(
                                   fit: BoxFit.fill,
-                                  imageUrl: Network.BaseApipics+image,
+                                  imageUrl: Network.BaseApigift+image,
                                   imageBuilder:
                                       (context, imageProvider) =>
                                       Container(
@@ -366,15 +387,59 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                   placeholder: (context, url) =>
                                       CircularProgressIndicator(),
                                 )
-                              ):Container(
+                              ):
+                              Container(
                                 height: SizeConfig.blockSizeVertical * 25,
                                 width: SizeConfig.blockSizeHorizontal * 100,
                                 alignment: Alignment.center,
-                                child:ClipRect(child:  _imageFile!=null?
-                                Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
-                                  width: SizeConfig.blockSizeHorizontal * 100,)
-                                    :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
-                                  width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),
+                                child:ClipRect(child: _imageFile!=null?
+                                Image.file(_imageFile,
+                                  fit: BoxFit.fill,
+                                  height: SizeConfig.blockSizeVertical * 45,
+                                  width: SizeConfig.blockSizeHorizontal * 100) :
+                                new Image.asset("assets/images/banner1.png",
+                                  height: SizeConfig.blockSizeVertical * 45,
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  fit: BoxFit.fill)
+                                ),
+                              ),*/
+
+                              image_value==false?Container(
+                                  height: SizeConfig.blockSizeVertical * 25,
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  alignment: Alignment.center,
+                                  child:  CachedNetworkImage(
+                                    fit: BoxFit.fill,
+                                    imageUrl: Network.BaseApigift+image,
+                                    imageBuilder:
+                                        (context, imageProvider) =>
+                                        Container(
+                                          height: SizeConfig.blockSizeVertical * 25,
+                                          width: SizeConfig.blockSizeHorizontal * 100,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                  )
+                              ):
+                              Container(
+                                height: SizeConfig.blockSizeVertical * 25,
+                                width: SizeConfig.blockSizeHorizontal * 100,
+                                alignment: Alignment.center,
+                                child:ClipRect(child: _imageFile!=null?
+                                Image.file(_imageFile,
+                                    fit: BoxFit.fill,
+                                    height: SizeConfig.blockSizeVertical * 45,
+                                    width: SizeConfig.blockSizeHorizontal * 100) :
+                                new Image.asset("assets/images/banner1.png",
+                                    height: SizeConfig.blockSizeVertical * 45,
+                                    width: SizeConfig.blockSizeHorizontal * 100,
+                                    fit: BoxFit.fill)
+                                ),
                               ),
                               InkWell(
                                 onTap: ()
@@ -848,6 +913,11 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                 )
 
               )
+                  :Container(
+                child: Center(
+                  child: internet == true?CircularProgressIndicator():SizedBox(),
+                ),
+              ),
             ],
           )
 

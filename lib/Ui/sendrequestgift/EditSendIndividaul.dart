@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:flutter/material.dart';
@@ -36,15 +37,16 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
   String _searchcontact;
   String _moneyCash;
   String _Description;
-  bool showvalue = false;
+  bool showvalue;
   String notificationvalue="off";
   File _imageFile;
   bool image_value = false;
   bool imageUrl = false;
   final _formKey = GlobalKey<FormState>();
   String userName;
+  String receiverName;
   String user;
-  int userid;
+  int receiverid;
   String val;
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
@@ -53,18 +55,38 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
   var productlist_length;
   String id;
   String image;
+  bool internet = false;
 
   @override
   void initState() {
     super.initState();
-    getCategory();
-    id = widget.data;
-    print("ID: "+id);
-    getData(id);
+
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       user = val;
       print("Login userid: " + user.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getCategory();
+        id = widget.data;
+        print("ID: "+id);
+        getData(id);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
     });
   }
 
@@ -99,15 +121,18 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
             }
             MoneyCashController.text = sendgift.data.price.toString();
             DescriptionController.text = sendgift.data.message.toString();
-            userid = int.parse(sendgift.data.receiverId);
+            receiverName = sendgift.data.fullName.toString();
+            receiverid = int.parse(sendgift.data.receiverId);
             if(sendgift.data.notification=="on")
-              {
-                showvalue = true;
-              }
-            else
-              {
-                showvalue = false;
-              }
+            {
+              showvalue = true;
+            }
+            else if(sendgift.data.notification=="off")
+            {
+              showvalue = false;
+            }
+
+
 
           });
         } else {
@@ -317,6 +342,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                   ],
                 ),
               ),
+              productlist_length!=null?
               Expanded(child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
@@ -325,15 +351,44 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                       Container(
                         child: Stack(
                           children: [
+                            image_value==false?Container(
+                                height: SizeConfig.blockSizeVertical * 25,
+                                width: SizeConfig.blockSizeHorizontal * 100,
+                                alignment: Alignment.center,
+                                child:  CachedNetworkImage(
+                                  fit: BoxFit.fill,
+                                  imageUrl: Network.BaseApigift+image,
+                                  imageBuilder:
+                                      (context, imageProvider) =>
+                                      Container(
+                                        height: SizeConfig.blockSizeVertical * 25,
+                                        width: SizeConfig.blockSizeHorizontal * 100,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                )
+                            ):
                             Container(
-                              height: SizeConfig.blockSizeVertical * 45,
+                              height: SizeConfig.blockSizeVertical * 25,
                               width: SizeConfig.blockSizeHorizontal * 100,
                               alignment: Alignment.center,
-                              child:ClipRect(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
-                                width: SizeConfig.blockSizeHorizontal * 100,)
-                                  :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
-                                width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),
+                              child:ClipRect(child: _imageFile!=null?
+                              Image.file(_imageFile,
+                                  fit: BoxFit.fill,
+                                  height: SizeConfig.blockSizeVertical * 45,
+                                  width: SizeConfig.blockSizeHorizontal * 100) :
+                              new Image.asset("assets/images/banner1.png",
+                                  height: SizeConfig.blockSizeVertical * 45,
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  fit: BoxFit.fill)
+                              ),
                             ),
+
                             InkWell(
                               onTap: () {
                                 showAlert();
@@ -398,7 +453,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                                   InputDecoration.collapsed(hintText: ''),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<dynamic>(
-                                      hint: Text("select contact",
+                                      hint: Text(receiverName!=null?receiverName:"select contact",
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -411,10 +466,10 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                                       onChanged: (newValue) {
                                         setState(() {
                                           currentSelectedValue = newValue;
-                                          userid = (newValue["id"]);
+                                          receiverid = (newValue["id"]);
                                           userName = (newValue["full_name"]);
                                           print("User: "+userName.toString());
-                                          print("Userid: "+userid.toString());
+                                          print("Userid: "+receiverid.toString());
                                         });
                                       },
                                       items: categoryTypes.map((dynamic value) {
@@ -668,7 +723,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                       GestureDetector(
                         onTap: () {
                           if (_formKey.currentState.validate()) {
-                            if (userid != null) {
+                            if (receiverid != null) {
                               setState(() {
                                 isLoading = true;
                               });
@@ -681,7 +736,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                                         MoneyCashController.text,
                                         DescriptionController.text,
                                         _imageFile,
-                                        userid
+                                        receiverid
                                     );
                                   }
                                   else {
@@ -740,7 +795,11 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                     ],
                   ),
                 ),
-              ),)
+              ),) :Container(
+                child: Center(
+                  child: internet == true?CircularProgressIndicator():SizedBox(),
+                ),
+              ),
             ],
           )
 
@@ -758,9 +817,8 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
     request.fields["message"] = description;
     request.fields["sender_id"] = user.toString();
     request.fields["receiver_id"] = userid.toString();
-
-
     print("Request: "+request.fields.toString());
+
     if (Imge != null) {
       print("PATH: " + Imge.path);
       request.files.add(await http.MultipartFile.fromPath("file", Imge.path, filename: Imge.path));

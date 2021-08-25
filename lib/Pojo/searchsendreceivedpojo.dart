@@ -30,10 +30,10 @@ class Result {
   int from;
   int lastPage;
   String lastPageUrl;
-  Null nextPageUrl;
+  String nextPageUrl;
   String path;
   int perPage;
-  Null prevPageUrl;
+  String prevPageUrl;
   int to;
   int total;
 
@@ -93,10 +93,10 @@ class Result {
 
 class Data {
   String id;
-  Null senderId;
-  Null receiverId;
+  String senderId;
+  String receiverId;
   String endDate;
-  Null price;
+  String price;
   String minCashByParticipant;
   String collectionTarget;
   String canSee;
@@ -104,15 +104,15 @@ class Data {
   String status;
   String giftPicture;
   String notification;
-  Null acceptTerms;
+  String acceptTerms;
   String giftStatus;
   String groupId;
-  Null viewType;
+  String viewType;
   String postedDate;
   String createdAt;
   String updatedAt;
-  Null fullName;
-  Null profilePic;
+  String fullName;
+  String profilePic;
   String groupName;
   String specialTerms;
 

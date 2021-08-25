@@ -2,6 +2,7 @@ class Network{
   static String BaseApi = "http://kontribute.knickglobal.com/api/";
   static String BaseApipics = "http://kontribute.knickglobal.com/";
   static String BaseApiprofile = "http://kontribute.knickglobal.com/uploads/profile_pic/";
+  static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";

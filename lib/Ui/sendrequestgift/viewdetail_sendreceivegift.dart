@@ -258,7 +258,7 @@ class viewdetail_sendreceivegiftState
             productlist_length != null
                 ?
             Container(
-              color: Colors.black12,
+            // color: Colors.black12,
               child: Stack(
                 children: [
                   Container(
@@ -270,7 +270,7 @@ class viewdetail_sendreceivegiftState
                           image: senddetailsPojo.result.giftPicture !=
                               null ||
                               senddetailsPojo.result.giftPicture != ""
-                              ? NetworkImage(Network.BaseApiprofile +senddetailsPojo.result.giftPicture)
+                              ? NetworkImage(Network.BaseApigift +senddetailsPojo.result.giftPicture)
                               : new AssetImage("assets/images/viewdetailsbg.png"),
                           fit: BoxFit.fill,
                         ),
@@ -310,7 +310,7 @@ class viewdetail_sendreceivegiftState
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(Network.BaseApiprofile +senddetailsPojo
+                                image: NetworkImage(senddetailsPojo
                                     .result.receiverProfilePic),
                                 fit: BoxFit.fill)),
                       ),
@@ -459,7 +459,7 @@ class viewdetail_sendreceivegiftState
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                 ),
                                 child: Text(
-                                  "\$"+senddetailsPojo.result.price!=null?senddetailsPojo.result.price.toString():senddetailsPojo.result.collectionTarget.toString(),
+                                  senddetailsPojo.result.price!=null?"\$"+senddetailsPojo.result.price.toString():"\$"+senddetailsPojo.result.collectionTarget.toString(),
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -681,7 +681,7 @@ class viewdetail_sendreceivegiftState
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                    Network.BaseApiprofile+
+
                                                         paymentlistpojo
                                                             .paymentdetails
                                                             .data

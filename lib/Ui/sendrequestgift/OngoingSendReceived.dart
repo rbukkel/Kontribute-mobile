@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/request_sendpojo.dart';
-import 'package:kontribute/Ui/Editcreatepostgift.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditRequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
@@ -16,7 +14,6 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'dart:math' as math;
 
 class OngoingSendReceived extends StatefulWidget {
   @override
@@ -54,6 +51,17 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
       'user_id': user_id.toString(),
       'sortby': poolvalue.toString(),
     };
+
+    if (poolvalue.toString() == "request")
+    {
+      receivefrom = "request";
+    } else if (poolvalue.toString() == "pool")
+    {
+      receivefrom = "pool";
+    } else if (poolvalue.toString() == "send")
+    {
+      receivefrom = "send";
+    }
     print("user: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts, body: data);
@@ -61,7 +69,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
     {
       jsonResponse = json.decode(response.body);
       val = response.body;
-      if (jsonResponse["status"] == false) {
+      if (jsonResponse["success"] == false) {
         setState(() {
           resultvalue = false;
         });
@@ -76,6 +84,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
         if (jsonResponse != null) {
           print("response");
           setState(() {
+
             if(requestpojo.result.data.isEmpty)
             {
               resultvalue = false;
@@ -84,16 +93,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             {
               resultvalue = true;
               print("SSSS");
-              if (poolvalue.toString() == "request")
-              {
-                receivefrom = "request";
-              } else if (poolvalue.toString() == "pool")
-              {
-                receivefrom = "pool";
-              } else if (poolvalue.toString() == "send")
-              {
-                receivefrom = "send";
-              }
               storelist_length = requestpojo.result.data;
             }
           });
@@ -135,7 +134,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             child: GestureDetector(
               onTap: () {
                 //Navigator.of(context).pop();
-
                 if(valu=="request")
                   {
                     callNext(
@@ -154,8 +152,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       ),
                       context);
                 }
-
-
               },
               child: Row(
                 children: <Widget>[
@@ -365,7 +361,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                        Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
+                                                      requestpojo.result.data.elementAt(index).profilePic,
                                                       ),
                                                       fit: BoxFit.fill)),
                                             ),

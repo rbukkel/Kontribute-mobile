@@ -1,18 +1,24 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
-
+import 'package:path/path.dart';
 
 class CreateProjectPost extends StatefulWidget {
   @override
@@ -71,18 +77,23 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   String _requiredamount;
   String _totalbudget;
   String _Video;
+  String userid;
+  bool isLoading = false;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
     "Group members"
   ];
   var file1;
+  var documentPath;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String currentSelectedValue;
+  int currentid=0;
   String currentSelectedValueprivacy;
   String Date, EndDate;
-  String formattedDate = "07-07-2021";
-  String formattedEndDate = "07-07-2021";
+  String formattedDate = "2021-07-07";
+  String formattedEndDate = "2021-07-07";
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -127,20 +138,30 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         lastDate: DateTime(2100));
     setState(() {
       Date = picked.toString();
-      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+      formattedDate = DateFormat('yyyy-MM-yy').format(picked);
       print("onDate: " + formattedDate.toString());
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+    });
+  }
+
   EndDateView(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime picke = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     setState(() {
-      EndDate = picked.toString();
-      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
+      EndDate = picke.toString();
+      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
       print("onDate: " + formattedEndDate.toString());
     });
   }
@@ -157,6 +178,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
 
         file1 = file; //file1 is a global variable which i created
         print("File Path: "+file1.toString());
+        documentPath = file.path.toString();
         print("File Path1: "+file.path.toString());
          basename = path.basename(file.path);
         print("File basename: "+basename.toString());
@@ -1397,6 +1419,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       currentSelectedValue = newValue;
                                       print(currentSelectedValue.toString()
                                           .toLowerCase());
+                                      print(currentSelectedValue
+                                          .toString()
+                                          .toLowerCase());
+                                      if(currentSelectedValue=="Anyone")
+                                      {
+                                        currentid =1;
+                                      }else if(currentSelectedValue=="Connections only")
+                                      {
+                                        currentid =2;
+                                      }else if(currentSelectedValue=="Group members")
+                                      {
+                                        currentid =3;
+                                      }
                                     });
                                   },
                                   isExpanded: true,
@@ -1586,12 +1621,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            createproject(ProjectNameController.text,DescriptionController.text,formattedDate,
+                            createproject(
+                              context,
+                                ProjectNameController.text,
+                                DescriptionController.text,
+                                formattedDate,
                                 formattedEndDate,
                                 TermsController.text,
                                 EnterRequiredAmountController.text,
                                 TotalBudgetController.text,
-                                VideoController.text,);
+                                VideoController.text,
+                                _imageList
+                            );
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1632,27 +1673,47 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 
 
-  void createproject(String createpool, String description, String requiredamount, String collection,
-      String currentSelected, String date, String terms, File imageFile) async
+  void createproject(
+      BuildContext context,
+      String projectname,
+      String description,
+      String startdate,
+      String enddate,
+      String terms,
+      String enterrequiredamount,
+      String totalbudget,
+      String video,
+      List images) async
   {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_group));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_project));
     request.headers["Content-Type"] = "multipart/form-data";
-    request.fields["group_members"] = catid.toString();
-    request.fields["pool_messages"] = description.toString();
-    request.fields["group_name"] = createpool;
-    request.fields["min_cash_by_participant"] = requiredamount.toString();
-    request.fields["collection_target"] = collection.toString();
-    request.fields["end_date"] = date.toString();
-    request.fields["can_see"] = currentSelected;
+    request.fields["project_name"] = projectname.toString();
+    request.fields["project_description"] = description.toString();
+    request.fields["start_date"] = startdate.toString();
+    request.fields["end_date"] = enddate;
+    request.fields["minimum_participant"] = enterrequiredamount.toString();
+    request.fields["project_budget"] = totalbudget.toString();
+    request.fields["who_can_see"] = currentid.toString();
+    request.fields["video_link"] = video;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
 
     print("Request: " + request.fields.toString());
-    if (imageFile != null) {
-      print("PATH: " + imageFile.path);
-      request.files.add(await http.MultipartFile.fromPath("file", imageFile.path, filename: imageFile.path));
+    for (int i = 0; i < images.length; i++) {
+      request.files.add(
+        http.MultipartFile(
+          "fileimages[]",
+          http.ByteStream(DelegatingStream.typed(images[i].openRead())),
+          await images[i].length(),
+          filename: path.basename(images[i].path),
+        ),
+      );
+    }
+    if (documentPath != null) {
+      print("DocumentPATH: " + documentPath);
+      request.files.add(await http.MultipartFile.fromPath("file", documentPath, filename: documentPath));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
@@ -1679,7 +1740,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               timeInSecForIosWeb: 1,
             );
             Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (context) => sendreceivedgifts()),
+                MaterialPageRoute(builder: (context) => projectfunding()),
                     (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

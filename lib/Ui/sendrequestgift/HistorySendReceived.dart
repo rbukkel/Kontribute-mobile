@@ -328,28 +328,19 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                     child: Text(
                                                       "Amount- ",
                                                       style: TextStyle(
-                                                          letterSpacing:
-                                                          1.0,
-                                                          color: Colors
-                                                              .black87,
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.black87,
                                                           fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ),
                                                   Container(
                                                     alignment:
                                                     Alignment.topLeft,
                                                     padding: EdgeInsets.only(
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
+                                                        right: SizeConfig.blockSizeHorizontal * 3,
+                                                        top: SizeConfig.blockSizeHorizontal * 2),
                                                     child: Text(
                                                       "\$" +
                                                           requestpojo.result

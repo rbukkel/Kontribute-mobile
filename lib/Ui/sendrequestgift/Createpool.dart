@@ -1057,7 +1057,7 @@ class CreatepoolState extends State<Createpool> {
                                   print(currentSelectedValue
                                       .toString()
                                       .toLowerCase());
-                                  if(currentSelectedValues=="Anyone")
+                                  if(currentSelectedValue=="Anyone")
                                   {
                                     currentid =1;
                                   }else if(currentSelectedValue=="Connections only")
@@ -1126,12 +1126,12 @@ class CreatepoolState extends State<Createpool> {
                                       controller: searchpostController,
                                       textInputAction: TextInputAction.done,
                                       keyboardType: TextInputType.text,
-                                      validator: (val) {
+                                     /* validator: (val) {
                                         if (val.length == 0)
                                           return "Please enter search post";
                                         else
                                           return null;
-                                      },
+                                      },*/
                                       onFieldSubmitted: (v) {
                                         FocusScope.of(context)
                                             .requestFocus(TermsFocus);

@@ -23,7 +23,7 @@ class get_send_gift {
 }
 
 class Data {
-  int id;
+  String id;
   String senderId;
   String receiverId;
   String endDate;
@@ -42,27 +42,31 @@ class Data {
   String postedDate;
   String createdAt;
   String updatedAt;
+  String fullName;
+  String profilePic;
 
   Data(
       {this.id,
-      this.senderId,
-      this.receiverId,
-      this.endDate,
-      this.price,
-      this.minCashByParticipant,
-      this.collectionTarget,
-      this.canSee,
-      this.message,
-      this.status,
-      this.giftPicture,
-      this.notification,
-      this.acceptTerms,
-      this.giftStatus,
-      this.groupId,
-      this.viewType,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.senderId,
+        this.receiverId,
+        this.endDate,
+        this.price,
+        this.minCashByParticipant,
+        this.collectionTarget,
+        this.canSee,
+        this.message,
+        this.status,
+        this.giftPicture,
+        this.notification,
+        this.acceptTerms,
+        this.giftStatus,
+        this.groupId,
+        this.viewType,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -84,6 +88,8 @@ class Data {
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -107,6 +113,8 @@ class Data {
     data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
     return data;
   }
 }
