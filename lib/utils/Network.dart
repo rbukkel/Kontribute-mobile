@@ -3,6 +3,7 @@ class Network{
   static String BaseApipics = "http://kontribute.knickglobal.com/";
   static String BaseApiprofile = "http://kontribute.knickglobal.com/uploads/profile_pic/";
   static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
+  static String BaseApiProject = "http://kontribute.knickglobal.com/uploads/project/";
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";
@@ -32,4 +33,7 @@ class Network{
   static String create_project = "create_project";
   static String projectListing = "projectListing";
   static String projectDetails = "projectDetails";
+  static String projectlikes = "projectlikes";
+  static String postComments = "postComments";
+  static String reportProject = "reportProject";
 }

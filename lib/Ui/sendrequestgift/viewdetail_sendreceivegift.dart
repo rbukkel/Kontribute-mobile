@@ -1,26 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kontribute/Common/fab_bottom_app_bar.dart';
-import 'package:kontribute/Pojo/PaymentSendReceivedList.dart';
-import 'package:kontribute/Pojo/SenddetailsPojo.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/Pojo/paymentlist.dart';
-import 'package:kontribute/Ui/AddScreen.dart';
-import 'package:kontribute/Ui/HomeScreen.dart';
-import 'package:kontribute/Ui/NotificationScreen.dart';
-import 'package:kontribute/Ui/SettingScreen.dart';
-import 'package:kontribute/Ui/WalletScreen.dart';
-import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class viewdetail_sendreceivegift extends StatefulWidget {
   final String data;
@@ -33,8 +22,7 @@ class viewdetail_sendreceivegift extends StatefulWidget {
       viewdetail_sendreceivegiftState();
 }
 
-class viewdetail_sendreceivegiftState
-    extends State<viewdetail_sendreceivegift> {
+class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> {
   String data1;
   bool internet = false;
   bool resultvalue = true;
@@ -55,7 +43,6 @@ class viewdetail_sendreceivegiftState
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
-
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
         getData(a);
@@ -186,7 +173,6 @@ class viewdetail_sendreceivegiftState
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -255,8 +241,7 @@ class viewdetail_sendreceivegiftState
                 ],
               ),
             ),
-            productlist_length != null
-                ?
+            productlist_length != null ?
             Container(
             // color: Colors.black12,
               child: Stack(

@@ -8,9 +8,11 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
+import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -34,8 +36,12 @@ class OngoingProjectState extends State<OngoingProject> {
   bool internet = false;
   String val;
   var storelist_length;
+  var imageslist_length;
   projectlisting listing;
   int amount;
+  int amoun;
+  String vallike;
+  projectlike prolike;
 
   @override
   void initState() {
@@ -110,6 +116,7 @@ class OngoingProjectState extends State<OngoingProject> {
               print("SSSS");
               storelist_length = listing.projectData;
 
+
             }
           });
         }
@@ -180,6 +187,10 @@ class OngoingProjectState extends State<OngoingProject> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -243,6 +254,9 @@ class OngoingProjectState extends State<OngoingProject> {
                         ? 0
                         : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
+                         imageslist_length = listing.projectData.elementAt(index).projectImages;
+                      double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) / double.parse(listing.projectData.elementAt(index).budget) * 100;
+                      amoun =amount.toInt();
                       return
                         Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
@@ -287,18 +301,44 @@ class OngoingProjectState extends State<OngoingProject> {
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
 
-                                            GestureDetector(
+
+                                            listing.projectData.elementAt(index).profilePic== null ||
+                                                listing.projectData.elementAt(index).profilePic == ""
+                                                ? GestureDetector(
                                               onTap: () {
                                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
 
                                               },
                                               child: Container(
-                                                height:
-                                                SizeConfig.blockSizeVertical *
-                                                    9,
-                                                width:
-                                                SizeConfig.blockSizeVertical *
-                                                    9,
+                                                  height:
+                                                  SizeConfig.blockSizeVertical * 9,
+                                                  width: SizeConfig.blockSizeVertical * 9,
+                                                  alignment: Alignment.center,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *2,
+                                                      bottom: SizeConfig.blockSizeVertical *1,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1),
+                                                  decoration: BoxDecoration(
+                                                    image: new DecorationImage(
+                                                      image: new AssetImage(
+                                                          "assets/images/account_circle.png"),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  )),
+                                            )
+                                                : GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+
+                                              },
+                                              child: Container(
+                                                height: SizeConfig.blockSizeVertical * 9,
+                                                width: SizeConfig.blockSizeVertical * 9,
                                                 alignment: Alignment.center,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *2,
@@ -310,11 +350,14 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         .blockSizeHorizontal *
                                                         1),
                                                 decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
                                                     image: DecorationImage(
-                                                      image:new AssetImage("assets/images/userProfile.png"),
-                                                      fit: BoxFit.fill,)),
+                                                        image: NetworkImage(
+                                                            listing.projectData.elementAt(index).profilePic),
+                                                        fit: BoxFit.fill)),
                                               ),
                                             ),
+
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
@@ -328,7 +371,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         top: SizeConfig.blockSizeVertical *1,
                                                       ),
                                                       child: Text(
-                                                        "Phani Kumar G.",
+                                                        listing.projectData.elementAt(index).fullName,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: AppColors.themecolor,
@@ -362,7 +405,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     ),
                                                     Container(
                                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
-
                                                       alignment: Alignment.topRight,
                                                       padding: EdgeInsets.only(
                                                           right: SizeConfig
@@ -587,8 +629,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                               child:  LinearPercentIndicator(
                                                 width: 70.0,
                                                 lineHeight: 14.0,
-                                                percent: 0.6,
-                                                center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                                percent: amoun/100,
+                                                center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
                                                 backgroundColor: AppColors.lightgrey,
                                                 progressColor:AppColors.themecolor,
                                               ),
@@ -633,6 +675,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                       child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),
                                     ),*/
+                                        imageslist_length!=null?
                                         GestureDetector(
                                           onTap: () {
                                             //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
@@ -640,6 +683,76 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 OngoingProjectDetailsscreen(
                                                     data:
                                                     listing.projectData.elementAt(index).id.toString()
+                                                ), context);
+                                          },
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            alignment: Alignment.topCenter,
+                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                            height: SizeConfig.blockSizeVertical*30,
+                                            child: Stack(
+                                              alignment: AlignmentDirectional.bottomCenter,
+                                              children: <Widget>[
+                                                PageView.builder(
+                                                  physics: ClampingScrollPhysics(),
+                                                  itemCount:
+                                                  imageslist_length.length == null
+                                                  ? 0
+                                                      : imageslist_length.length,
+                                                  onPageChanged: (int page) {
+                                                    getChangedPageAndMoveBar(page);
+                                                  },
+                                                  controller: PageController(
+                                                      initialPage: currentPageValue,
+                                                      keepPage: true,
+                                                      viewportFraction: 1),
+                                                  itemBuilder: (context, ind) {
+                                                    return Container(
+                                                      width:
+                                                      SizeConfig.blockSizeHorizontal *
+                                                          80,
+                                                      height:
+                                                      SizeConfig.blockSizeVertical * 50,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors.transparent),
+                                                          image: DecorationImage(
+                                                              image: NetworkImage(
+                                                                Network.BaseApiProject +
+                                                                    listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
+                                                              ),
+                                                              fit: BoxFit.fill)),
+                                                    );
+                                                  },
+                                                ),
+                                                Stack(
+                                                  alignment: AlignmentDirectional.bottomCenter,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          for (int i = 0; i < imageslist_length.length; i++)
+                                                            if (i == currentPageValue) ...[
+                                                              circleBar(true)
+                                                            ] else
+                                                              circleBar(false),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ): GestureDetector(
+                                          onTap: () {
+                                            //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                            callNext(
+                                                OngoingProjectDetailsscreen(
+                                                    data: listing.projectData.elementAt(index).id.toString()
                                                 ), context);
                                           },
                                           child: Container(
@@ -691,8 +804,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                           child: Row(
                                             children: [
-                                              InkWell(
-                                                onTap: (){},
+                                              GestureDetector(
+                                                onTap: (){
+                                                  print("LIke");
+                                                  addlike(listing.projectData.elementAt(index).id);
+                                                },
                                                 child: Container(
                                                   width: SizeConfig.blockSizeHorizontal*7,
                                                   margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
@@ -706,7 +822,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   //child: Image.asset("assets/images/flat.png"),
                                                 ),
                                               ),
-                                              InkWell(
+                                              GestureDetector(
                                                 onTap: ()
                                                 {
 
@@ -778,10 +894,16 @@ class OngoingProjectState extends State<OngoingProject> {
                                               top: SizeConfig.blockSizeVertical *1),
                                           child: new Html(
                                               data: listing.projectData.elementAt(index).description,
-                                              defaultTextStyle: TextStyle(fontSize: 15),
+                                              defaultTextStyle: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black87,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Regular'),
+                                          
                                         ),
                                         ),
-                                        GestureDetector(
+                                    /*    GestureDetector(
                                           onTap: ()
                                           {
                                             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
@@ -858,7 +980,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
-                                        ),
+                                        ),*/
                                       ],
                                     ),
                                   ),
@@ -936,4 +1058,54 @@ class OngoingProjectState extends State<OngoingProject> {
       ),
     );
   }
-}
+
+  Future<void> addlike(String id) async {
+    Map data = {
+      'userid': userid.toString(),
+      'project_id': id.toString(),
+    };
+    print("projectlikes: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectlikes, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      vallike = response.body; //store response as string
+      if (jsonDecode(vallike)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(vallike)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        prolike = new projectlike.fromJson(jsonResponse);
+        print("Json UserLike: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("responseLIke: ");
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          getdata(userid);
+        } else {
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(vallike)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+  }
+

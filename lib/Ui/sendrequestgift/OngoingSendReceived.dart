@@ -785,7 +785,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                     fit: BoxFit.fill,
                                                   ),
                                                 )
-                                            ):Container(
+                                            ):
+                                            Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
                                                   12,
