@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/Checkgroupnames.dart';
+import 'package:kontribute/Pojo/get_create_group.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -16,6 +18,10 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 
 class EditCreatepool extends StatefulWidget {
+  final String data;
+
+  const EditCreatepool({Key key, @required this.data})
+      : super(key: key);
   @override
   EditCreatepoolState createState() => EditCreatepoolState();
 }
@@ -73,9 +79,16 @@ class EditCreatepoolState extends State<EditCreatepool> {
   String data;
   String userid;
   bool isLoading = false;
+  bool internet = false;
   List<dynamic> categoryTypes = List();
   var currentSelectedValues;
   Checkgroupnames checkgroupnames;
+  String id;
+  get_create_group sendgift;
+  String image;
+  int groupid;
+  String groupName;
+  String showpost;
 
   @override
   void initState() {
@@ -85,7 +98,27 @@ class EditCreatepoolState extends State<EditCreatepool> {
       userid = val;
       print("Login userid: " + userid.toString());
     });
-    getData();
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getCategory();
+        id = widget.data;
+        print("ID: "+id);
+        getData(id);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
     createpoolController.addListener(() {
       print(createpoolController.text);
       if(createpoolController.text!=null || createpoolController.text!="")
@@ -94,6 +127,7 @@ class EditCreatepoolState extends State<EditCreatepool> {
       }
     });
   }
+
 
   @override
   void dispose() {
@@ -113,7 +147,7 @@ class EditCreatepoolState extends State<EditCreatepool> {
     });
   }*/
 
-  void getData() async {
+  void getCategory() async {
     http.Response response = await http.get(Network.BaseApi + Network.username_list);
     if (response.statusCode == 200) {
       data = response.body; //store response as string
@@ -253,6 +287,87 @@ class EditCreatepoolState extends State<EditCreatepool> {
     );
   }
 
+  void getData(String id) async {
+    Map data = {
+      'id': id.toString(),
+    };
+    print("receiver: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.get_create_group, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        sendgift = new get_create_group.fromJson(jsonResponse);
+        print("Json User Details: " + jsonResponse.toString());
+        if (jsonResponse != null)
+        {
+          print("response");
+          setState(() {
+            productlist_length = sendgift.data;
+            if (sendgift.data.giftPicture != null) {
+              setState(() {
+                image = sendgift.data.giftPicture;
+              });
+            }
+            requiredamountController.text = sendgift.data.minCashByParticipant.toString();
+            collectionController.text = sendgift.data.collectionTarget.toString();
+            DescriptionController.text = sendgift.data.message.toString();
+            TermsController.text = sendgift.data.specialTerms.toString();
+            createpoolController.text = sendgift.data.groupName.toString();
+            groupid = int.parse(sendgift.data.groupId);
+            groupName = sendgift.data.groupName;
+            formattedDate = sendgift.data.endDate;
+            if(sendgift.data.notification=="on")
+            {
+              showvalue = true;
+            }
+            else if(sendgift.data.notification=="off")
+            {
+              showvalue = false;
+            }
+
+            currentid = int.parse(sendgift.data.canSee);
+
+
+            if(currentid==1)
+            {
+              showpost ="Anyone";
+            }else if(currentid==2)
+            {
+              showpost ="Connections only";
+            }else if(currentid==3)
+            {
+              showpost ="Group members";
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: sendgift.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
   Future<void> captureImage(ImageSource imageSource) async
   {
     if (imageSource == ImageSource.camera)
@@ -317,328 +432,385 @@ class EditCreatepoolState extends State<EditCreatepool> {
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: AppColors.theme1color,
+                child:
+                Row(
                   children: [
-                    Container(
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: SizeConfig.blockSizeVertical * 45,
-                            width: SizeConfig.blockSizeHorizontal * 100,
-                            alignment: Alignment.center,
-                            child: ClipRect(
-                              child: image_value
-                                  ? Image.file(
-                                _imageFile,
-                                fit: BoxFit.fill,
-                                height: SizeConfig.blockSizeVertical * 45,
-                                width: SizeConfig.blockSizeHorizontal * 100,
-                              )
-                                  : new Image.asset(
-                                "assets/images/banner1.png",
-                                height: SizeConfig.blockSizeVertical * 45,
-                                width: SizeConfig.blockSizeHorizontal * 100,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showAlert();
-                            },
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 21,
-                                  right: SizeConfig.blockSizeHorizontal * 2),
-                              child: Image.asset(
-                                "assets/images/camera.png",
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                    createUpperBar(context, "Edit Create Pool"),
+                    SizedBox(
+                      height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 32,
-                          child: Text(
-                            StringConstant.createpoolname,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 60,
-                          height: SizeConfig.blockSizeVertical * 7,
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 2,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 2,
-                              right: SizeConfig.blockSizeHorizontal * 2),
-                          alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                  ],
+                ),
+              ),
+              productlist_length!=null?
+              Expanded(
+                child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+
+                          Container(
+                            child: Stack(
+                              children: [
+                               /* Container(
+                                  height: SizeConfig.blockSizeVertical * 25,
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  alignment: Alignment.center,
+                                  child: ClipRect(
+                                    child: image_value
+                                        ? Image.file(
+                                      _imageFile,
+                                      fit: BoxFit.fill,
+                                      height: SizeConfig.blockSizeVertical * 25,
+                                      width: SizeConfig.blockSizeHorizontal * 100,
+                                    )
+                                        : new Image.asset(
+                                      "assets/images/banner1.png",
+                                      height: SizeConfig.blockSizeVertical * 25,
+                                      width: SizeConfig.blockSizeHorizontal * 100,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),*/
+
+                                image_value==false?Container(
+                                    height: SizeConfig.blockSizeVertical * 25,
+                                    width: SizeConfig.blockSizeHorizontal * 100,
+                                    alignment: Alignment.center,
+                                    child:  CachedNetworkImage(
+                                      fit: BoxFit.fill,
+                                      imageUrl: Network.BaseApigift+image,
+                                      imageBuilder:
+                                          (context, imageProvider) =>
+                                          Container(
+                                            height: SizeConfig.blockSizeVertical * 25,
+                                            width: SizeConfig.blockSizeHorizontal * 100,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                    )
+                                ):
+                                Container(
+                                  height: SizeConfig.blockSizeVertical * 25,
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  alignment: Alignment.center,
+                                  child:ClipRect(child: _imageFile!=null?
+                                  Image.file(_imageFile,
+                                      fit: BoxFit.fill,
+                                      height: SizeConfig.blockSizeVertical * 25,
+                                      width: SizeConfig.blockSizeHorizontal * 100) :
+                                  new Image.asset("assets/images/banner1.png",
+                                      height: SizeConfig.blockSizeVertical * 25,
+                                      width: SizeConfig.blockSizeHorizontal * 100,
+                                      fit: BoxFit.fill)
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showAlert();
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.topRight,
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 5,
+                                        right: SizeConfig.blockSizeHorizontal * 2),
+                                    child: Image.asset(
+                                      "assets/images/camera.png",
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                            color: Colors.transparent,
                           ),
-                          child: TextFormField(
-                            autofocus: false,
-                            maxLines: 2,
-                            focusNode: CreatepoolFocus,
-                            controller: createpoolController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            /* onChanged: (value){
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 32,
+                                child: Text(
+                                  StringConstant.createpoolname,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 60,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 2),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child: TextFormField(
+                                  autofocus: false,
+                                  maxLines: 2,
+                                  focusNode: CreatepoolFocus,
+                                  controller: createpoolController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.text,
+                                  /* onChanged: (value){
                           setState(() {
                             CheckGroupNames(value);
                           });
                         },*/
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please enter pool name";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(DescriptionFocus);
-                            },
-                            onSaved: (val) => _createpool = val,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 12,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter pool name";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(DescriptionFocus);
+                                  },
+                                  onSaved: (val) => _createpool = val,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 12,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                          top: SizeConfig.blockSizeVertical * 2),
-                      child: Text(
-                        StringConstant.message,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Bold'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        left: SizeConfig.blockSizeHorizontal * 3,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeVertical * 1,
-                        right: SizeConfig.blockSizeVertical * 1,
-                      ),
-                      alignment: Alignment.topLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                      child: TextFormField(
-                        autofocus: false,
-                        focusNode: DescriptionFocus,
-                        maxLines: 4,
-                        controller: DescriptionController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.text,
-                        validator: (val) {
-                          if (val.length == 0)
-                            return "Please enter message";
-                          else
-                            return null;
-                        },
-                        onFieldSubmitted: (v) {
-                          FocusScope.of(context).requestFocus(SearchContactFocus);
-                        },
-                        onSaved: (val) => _Description = val,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 15,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            decoration: TextDecoration.none,
-                          ),
-                          hintText: "Type here message...",
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 32,
-                          child: Text(
-                            StringConstant.searchcontact,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(
-                              right: SizeConfig.blockSizeHorizontal * 3),
-                          padding: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          child: Text(
-                            //catname!=null?catname.toString():category_names.toString(),
-                            catname != null
-                                ? catname.toString()
-                                : "please select contact",
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black38,
-                                fontSize: SizeConfig.blockSizeHorizontal * 3,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Montserrat-Bold'),
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      height: SizeConfig.blockSizeVertical * 7,
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 2,
-                        left: SizeConfig.blockSizeHorizontal * 3,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2,
-                          right: SizeConfig.blockSizeHorizontal * 2
-                      ),
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
                           Container(
                             alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            child: Text(
+                              StringConstant.message,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
                               left: SizeConfig.blockSizeHorizontal * 3,
                               right: SizeConfig.blockSizeHorizontal * 3,
                             ),
-                            child:
-                            Text(
-                              "Search contact",
-                              style:
-                              TextStyle(
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: DescriptionFocus,
+                              maxLines: 4,
+                              controller: DescriptionController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.text,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter message";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context).requestFocus(SearchContactFocus);
+                              },
+                              onSaved: (val) => _Description = val,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
                                   letterSpacing: 1.0,
-                                  color: Colors.black,
-                                  fontSize: SizeConfig.blockSizeHorizontal * 3,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: 'Montserrat-Bold'),
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 15,
+                                  color: Colors.black),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 12,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: "Type here message...",
+                              ),
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.only(
-                              right: SizeConfig.blockSizeHorizontal * 2,
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
                             ),
-                            child: IconButton(
-                                icon: new Container(
-                                  height: 50.0,
-                                  width: 50.0,
-                                  child: new Center(
-                                    child:
-                                    new Icon(
-                                      expandFlag0
-                                          ? Icons.arrow_drop_up
-                                          : Icons.arrow_drop_down,
-                                      color: Colors.black87,
-                                      size: 30.0,
-                                    ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 32,
+                                child: Text(
+                                  StringConstant.searchcontact,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                alignment: Alignment.topLeft,
+                                margin: EdgeInsets.only(
+                                    right: SizeConfig.blockSizeHorizontal * 3),
+                                padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 3,
+                                ),
+                                child: Text(
+                                  //catname!=null?catname.toString():category_names.toString(),
+                                  catname != null
+                                      ? catname.toString()
+                                      : "please select contact",
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black38,
+                                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Montserrat-Bold'),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical * 7,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2,
+                                right: SizeConfig.blockSizeHorizontal * 2
+                            ),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  child:
+                                  Text(
+                                    "Search contact",
+                                    style:
+                                    TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: SizeConfig.blockSizeHorizontal * 3,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Montserrat-Bold'),
                                   ),
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    expandFlag0 = !expandFlag0;
-                                  });
-                                }),
-                          ),
-                        ],
-                      ),
-                      /* FormField<dynamic>(
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                  ),
+                                  child: IconButton(
+                                      icon: new Container(
+                                        height: 50.0,
+                                        width: 50.0,
+                                        child: new Center(
+                                          child:
+                                          new Icon(
+                                            expandFlag0
+                                                ? Icons.arrow_drop_up
+                                                : Icons.arrow_drop_down,
+                                            color: Colors.black87,
+                                            size: 30.0,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          expandFlag0 = !expandFlag0;
+                                        });
+                                      }),
+                                ),
+                              ],
+                            ),
+                            /* FormField<dynamic>(
                     builder: (FormFieldState<dynamic> state) {
                       return InputDecorator(
                         decoration: InputDecoration.collapsed(hintText: ''),
@@ -680,362 +852,32 @@ class EditCreatepoolState extends State<EditCreatepool> {
                       );
                     },
                   ),*/
-                    ),
-                    Visibility(
-                        maintainSize: true,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        child: Container()),
-                    expandFlag0 == true ? Expandedview0() : Container(),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.enterrequiredamount,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
                           ),
-                        ),
-                        Container(
-                            width: SizeConfig.blockSizeHorizontal * 42,
-                            height: SizeConfig.blockSizeVertical * 7,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              right: SizeConfig.blockSizeHorizontal * 3,
+                          Visibility(
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: Container()),
+                          expandFlag0 == true ? Expandedview0() : Container(),
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
                             ),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.black26,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                            child: GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: SizeConfig.blockSizeVertical * 7,
-                                      width: SizeConfig.blockSizeHorizontal * 10,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            bottomLeft: Radius.circular(8)),
-                                        border: Border.all(
-                                          color: AppColors.theme1color,
-                                          style: BorderStyle.solid,
-                                          width: 1.0,
-                                        ),
-                                        color: AppColors.theme1color,
-                                      ),
-                                      padding: EdgeInsets.all(0.7),
-                                      child: Image.asset(
-                                        "assets/images/dollersign.png",
-                                        width: 50,
-                                        height: 50,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal * 30,
-                                      padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 1,
-                                          right:
-                                          SizeConfig.blockSizeHorizontal * 1),
-                                      child: TextFormField(
-                                        autofocus: false,
-                                        focusNode: requiredamountFocus,
-                                        controller: requiredamountController,
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.number,
-                                        validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter required amount";
-                                          else
-                                            return null;
-                                        },
-                                        onFieldSubmitted: (v) {
-                                          FocusScope.of(context).requestFocus(CollectionFocus);
-                                        },
-                                        onSaved: (val) => _requiredamount = val,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 12,
-                                            color: Colors.black),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )))
-                      ],
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.collectiontarget,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
                           ),
-                        ),
-                        Container(
-                            width: SizeConfig.blockSizeHorizontal * 42,
-                            height: SizeConfig.blockSizeVertical * 7,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.black26,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                            child: GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: SizeConfig.blockSizeVertical * 7,
-                                      width: SizeConfig.blockSizeHorizontal * 10,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            bottomLeft: Radius.circular(8)),
-                                        border: Border.all(
-                                          color: AppColors.theme1color,
-                                          style: BorderStyle.solid,
-                                          width: 1.0,
-                                        ),
-                                        color: AppColors.theme1color,
-                                      ),
-                                      padding: EdgeInsets.all(0.7),
-                                      child: Image.asset(
-                                        "assets/images/dollersign.png",
-                                        width: 50,
-                                        height: 50,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal * 30,
-                                      padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 1,
-                                          right:
-                                          SizeConfig.blockSizeHorizontal * 1),
-                                      child: TextFormField(
-                                        autofocus: false,
-                                        focusNode: CollectionFocus,
-                                        controller: collectionController,
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.number,
-                                        validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter collection target";
-                                          else
-                                            return null;
-                                        },
-                                        onFieldSubmitted: (v) {
-                                          CollectionFocus.unfocus();
-                                        },
-                                        onSaved: (val) => _Collection = val,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 12,
-                                            color: Colors.black),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )))
-                      ],
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.timeframeforcollection,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                            width: SizeConfig.blockSizeHorizontal * 42,
-                            height: SizeConfig.blockSizeVertical * 7,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeVertical * 1,
-                              right: SizeConfig.blockSizeVertical * 1,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.black26,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                DateView();
-                              },
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 30,
-                                    child: Text(
-                                      formattedDate,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Regular',
-                                          fontSize: 12,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 5,
-                                    child: Icon(
-                                      Icons.calendar_today_outlined,
-                                      color: AppColors.greyColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ))
-                      ],
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.showpost,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 42,
-                          height: SizeConfig.blockSizeVertical * 7,
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 2,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 1,
-                            right: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              hint: Text("please select",
-                                  style: TextStyle(fontSize: 12)),
-                              items: _dropdownCategoryValues
-                                  .map((String value) => DropdownMenuItem(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  value,
+                                  StringConstant.enterrequiredamount,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -1043,66 +885,490 @@ class EditCreatepoolState extends State<EditCreatepool> {
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Poppins-Bold'),
                                 ),
-                                value: value,
-                              ))
-                                  .toList(),
-                              value: currentSelectedValue,
-                              isDense: true,
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  currentSelectedValue = newValue;
-
-                                  print(currentSelectedValue
-                                      .toString()
-                                      .toLowerCase());
-                                  if(currentSelectedValues=="Anyone")
-                                  {
-                                    currentid =1;
-                                  }else if(currentSelectedValue=="Connections only")
-                                  {
-                                    currentid =2;
-                                  }else if(currentSelectedValue=="Group members")
-                                  {
-                                    currentid =3;
-                                  }
-                                });
-                              },
-                              isExpanded: true,
+                              ),
+                              Container(
+                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  height: SizeConfig.blockSizeVertical * 7,
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: GestureDetector(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: SizeConfig.blockSizeVertical * 7,
+                                            width: SizeConfig.blockSizeHorizontal * 10,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(8),
+                                                  bottomLeft: Radius.circular(8)),
+                                              border: Border.all(
+                                                color: AppColors.theme1color,
+                                                style: BorderStyle.solid,
+                                                width: 1.0,
+                                              ),
+                                              color: AppColors.theme1color,
+                                            ),
+                                            padding: EdgeInsets.all(0.7),
+                                            child: Image.asset(
+                                              "assets/images/dollersign.png",
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                          ),
+                                          Container(
+                                            width: SizeConfig.blockSizeHorizontal * 30,
+                                            padding: EdgeInsets.only(
+                                                left: SizeConfig.blockSizeHorizontal * 1,
+                                                right:
+                                                SizeConfig.blockSizeHorizontal * 1),
+                                            child: TextFormField(
+                                              autofocus: false,
+                                              focusNode: requiredamountFocus,
+                                              controller: requiredamountController,
+                                              textInputAction: TextInputAction.next,
+                                              keyboardType: TextInputType.number,
+                                              validator: (val) {
+                                                if (val.length == 0)
+                                                  return "Please enter required amount";
+                                                else
+                                                  return null;
+                                              },
+                                              onFieldSubmitted: (v) {
+                                                FocusScope.of(context).requestFocus(CollectionFocus);
+                                              },
+                                              onSaved: (val) => _requiredamount = val,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Regular',
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )))
+                            ],
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            "",
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                child: Text(
+                                  StringConstant.collectiontarget,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  height: SizeConfig.blockSizeVertical * 7,
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: GestureDetector(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: SizeConfig.blockSizeVertical * 7,
+                                            width: SizeConfig.blockSizeHorizontal * 10,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(8),
+                                                  bottomLeft: Radius.circular(8)),
+                                              border: Border.all(
+                                                color: AppColors.theme1color,
+                                                style: BorderStyle.solid,
+                                                width: 1.0,
+                                              ),
+                                              color: AppColors.theme1color,
+                                            ),
+                                            padding: EdgeInsets.all(0.7),
+                                            child: Image.asset(
+                                              "assets/images/dollersign.png",
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                          ),
+                                          Container(
+                                            width: SizeConfig.blockSizeHorizontal * 30,
+                                            padding: EdgeInsets.only(
+                                                left: SizeConfig.blockSizeHorizontal * 1,
+                                                right:
+                                                SizeConfig.blockSizeHorizontal * 1),
+                                            child: TextFormField(
+                                              autofocus: false,
+                                              focusNode: CollectionFocus,
+                                              controller: collectionController,
+                                              textInputAction: TextInputAction.next,
+                                              keyboardType: TextInputType.number,
+                                              validator: (val) {
+                                                if (val.length == 0)
+                                                  return "Please enter collection target";
+                                                else
+                                                  return null;
+                                              },
+                                              onFieldSubmitted: (v) {
+                                                CollectionFocus.unfocus();
+                                              },
+                                              onSaved: (val) => _Collection = val,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Regular',
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )))
+                            ],
                           ),
-                        ),
-                        Container(
-                            width: SizeConfig.blockSizeHorizontal * 42,
-                            height: SizeConfig.blockSizeVertical * 7,
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                child: Text(
+                                  StringConstant.timeframeforcollection,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  height: SizeConfig.blockSizeVertical * 7,
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeVertical * 1,
+                                    right: SizeConfig.blockSizeVertical * 1,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      DateView();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal * 30,
+                                          child: Text(
+                                            formattedDate,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 12,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal * 5,
+                                          child: Icon(
+                                            Icons.calendar_today_outlined,
+                                            color: AppColors.greyColor,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                            ],
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                child: Text(
+                                  StringConstant.showpost,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 42,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    hint: Text(showpost==null?"please select":showpost,
+                                        style: TextStyle(fontSize: 12)),
+                                    items: _dropdownCategoryValues
+                                        .map((String value) => DropdownMenuItem(
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                      value: value,
+                                    ))
+                                        .toList(),
+                                    value: currentSelectedValue,
+                                    isDense: true,
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        currentSelectedValue = newValue;
+
+                                        print(currentSelectedValue
+                                            .toString()
+                                            .toLowerCase());
+                                        if(currentSelectedValues=="Anyone")
+                                        {
+                                          currentid =1;
+                                        }else if(currentSelectedValue=="Connections only")
+                                        {
+                                          currentid =2;
+                                        }else if(currentSelectedValue=="Group members")
+                                        {
+                                          currentid =3;
+                                        }
+                                      });
+                                    },
+                                    isExpanded: true,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                child: Text(
+                                  "",
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  height: SizeConfig.blockSizeVertical * 7,
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeVertical * 1,
+                                    right: SizeConfig.blockSizeVertical * 1,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal * 30,
+                                          child: TextFormField(
+                                            autofocus: false,
+                                            focusNode: SearchPostFocus,
+                                            controller: searchpostController,
+                                            textInputAction: TextInputAction.done,
+                                            keyboardType: TextInputType.text,
+                                           /* validator: (val) {
+                                              if (val.length == 0)
+                                                return "Please enter search post";
+                                              else
+                                                return null;
+                                            },*/
+                                            onFieldSubmitted: (v) {
+                                              FocusScope.of(context)
+                                                  .requestFocus(TermsFocus);
+                                            },
+                                            onSaved: (val) => _searchpost = val,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 12,
+                                                color: Colors.black),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal * 5,
+                                          child: Icon(
+                                            Icons.search,
+                                            color: AppColors.greyColor,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                            ],
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
                             margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 5,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 90,
+                            child: Text(
+                              StringConstant.addyourspecialtermcond,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 1,
+                              left: SizeConfig.blockSizeHorizontal * 3,
                               right: SizeConfig.blockSizeHorizontal * 3,
                             ),
                             padding: EdgeInsets.only(
                               left: SizeConfig.blockSizeVertical * 1,
                               right: SizeConfig.blockSizeVertical * 1,
                             ),
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.topLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
@@ -1112,205 +1378,121 @@ class EditCreatepoolState extends State<EditCreatepool> {
                               ),
                               color: Colors.transparent,
                             ),
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 30,
-                                    child: TextFormField(
-                                      autofocus: false,
-                                      focusNode: SearchPostFocus,
-                                      controller: searchpostController,
-                                      textInputAction: TextInputAction.done,
-                                      keyboardType: TextInputType.text,
-                                      validator: (val) {
-                                        if (val.length == 0)
-                                          return "Please enter search post";
-                                        else
-                                          return null;
-                                      },
-                                      onFieldSubmitted: (v) {
-                                        FocusScope.of(context)
-                                            .requestFocus(TermsFocus);
-                                      },
-                                      onSaved: (val) => _searchpost = val,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Regular',
-                                          fontSize: 12,
-                                          color: Colors.black),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 5,
-                                    child: Icon(
-                                      Icons.search,
-                                      color: AppColors.greyColor,
-                                    ),
-                                  )
-                                ],
+                            child: TextFormField(
+                              autofocus: false,
+                              focusNode: TermsFocus,
+                              controller: TermsController,
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.text,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please add your special terms & condition";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v) {
+                                TermsFocus.unfocus();
+                              },
+                              onSaved: (val) => _terms = val,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 15,
+                                  color: Colors.black),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 15,
+                                  decoration: TextDecoration.none,
+                                ),
                               ),
-                            ))
-                      ],
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                          right: SizeConfig.blockSizeHorizontal * 5,
-                          top: SizeConfig.blockSizeVertical * 2),
-                      width: SizeConfig.blockSizeHorizontal * 90,
-                      child: Text(
-                        StringConstant.addyourspecialtermcond,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Bold'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 1,
-                        left: SizeConfig.blockSizeHorizontal * 3,
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeVertical * 1,
-                        right: SizeConfig.blockSizeVertical * 1,
-                      ),
-                      alignment: Alignment.topLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1.0,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                      child: TextFormField(
-                        autofocus: false,
-                        focusNode: TermsFocus,
-                        controller: TermsController,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.text,
-                        validator: (val) {
-                          if (val.length == 0)
-                            return "Please add your special terms & condition";
-                          else
-                            return null;
-                        },
-                        onFieldSubmitted: (v) {
-                          TermsFocus.unfocus();
-                        },
-                        onSaved: (val) => _terms = val,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 15,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 15,
-                            decoration: TextDecoration.none,
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black12,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (_formKey.currentState.validate()) {
-                          Internet_check().check().then((intenet) {
-                            if (intenet != null && intenet) {
-                              if (_imageFile != null) {
-                                createpool(
-                                    createpoolController.text,
-                                    DescriptionController.text,
-                                    requiredamountController.text,
-                                    collectionController.text,
-                                    currentid.toString(),
-                                    formattedDate,
-                                    TermsController.text,
-                                    _imageFile);
-                              } else {
-                                Fluttertoast.showToast(
-                                  msg: "Please select gift image",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                );
+                          Container(
+                            margin:
+                            EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (_formKey.currentState.validate()) {
+                                Internet_check().check().then((intenet) {
+                                  if (intenet != null && intenet) {
+                                    if (_imageFile != null) {
+                                      createpool(
+                                          createpoolController.text,
+                                          DescriptionController.text,
+                                          requiredamountController.text,
+                                          collectionController.text,
+                                          currentid.toString(),
+                                          formattedDate,
+                                          TermsController.text,
+                                          _imageFile);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg: "Please select gift image",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                      );
+                                    }
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: "No Internet Connection",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
+                                });
                               }
-                            } else {
-                              Fluttertoast.showToast(
-                                msg: "No Internet Connection",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                              );
-                            }
-                          });
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: SizeConfig.blockSizeHorizontal * 40,
-                        height: SizeConfig.blockSizeVertical * 5,
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 3,
-                            bottom: SizeConfig.blockSizeVertical * 3,
-                            left: SizeConfig.blockSizeHorizontal * 5,
-                            right: SizeConfig.blockSizeHorizontal * 5),
-                        decoration: BoxDecoration(
-                          image: new DecorationImage(
-                            image: new AssetImage("assets/images/sendbutton.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: Text(StringConstant.submit,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 15,
-                            )),
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: SizeConfig.blockSizeHorizontal * 40,
+                              height: SizeConfig.blockSizeVertical * 5,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 3,
+                                  bottom: SizeConfig.blockSizeVertical * 3,
+                                  left: SizeConfig.blockSizeHorizontal * 5,
+                                  right: SizeConfig.blockSizeHorizontal * 5),
+                              decoration: BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new AssetImage("assets/images/sendbutton.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Text(StringConstant.submit,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                  )),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
+                    )),
+              )
+                  :Container(
+                child: Center(
+                  child: internet == true?CircularProgressIndicator():SizedBox(),
                 ),
-              ))),
+              ),
+            ],
+          )
+
+      ),
     );
   }
 
@@ -1319,7 +1501,7 @@ class EditCreatepoolState extends State<EditCreatepool> {
   {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_group));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.edit_create_group));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["group_members"] = catid.toString();
     request.fields["pool_messages"] = description.toString();
@@ -1330,6 +1512,8 @@ class EditCreatepoolState extends State<EditCreatepool> {
     request.fields["can_see"] = currentSelected;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
+    request.fields["gid"] = sendgift.data.groupId.toString();
+    request.fields["id"] = id.toString();
 
     print("Request: " + request.fields.toString());
     if (imageFile != null) {

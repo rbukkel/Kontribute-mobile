@@ -88,7 +88,7 @@ class ProjectReportState extends State<ProjectReport> {
                 child:
                 Row(
                   children: [
-                    createUpperBar(context, "Edit Request Individual"),
+                    createUpperBar(context, "Report"),
                     SizedBox(
                       height: 10,
                     ),
@@ -140,7 +140,7 @@ class ProjectReportState extends State<ProjectReport> {
                             controller: CommentController,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.text,
-                            maxLines: 3,
+                            maxLines: 10,
                             validator: (val) {
                               if (val.length == 0)
                                 return "Please enter comment";
@@ -160,7 +160,6 @@ class ProjectReportState extends State<ProjectReport> {
                                 color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              prefixIcon: Icon(Icons.tag_faces),
                               focusedBorder: InputBorder.none,
                               hintStyle: TextStyle(
                                 color: Colors.black,
@@ -201,7 +200,7 @@ class ProjectReportState extends State<ProjectReport> {
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: AppColors.themecolor,
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal,
                                   fontFamily: 'Poppins-Regular'),
                             ),

@@ -6,6 +6,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/request_sendpojo.dart';
+import 'package:kontribute/Ui/sendrequestgift/EditCreatepool.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditRequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
@@ -58,9 +59,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
     } else if (poolvalue.toString() == "pool")
     {
       receivefrom = "pool";
-    } else if (poolvalue.toString() == "send")
-    {
-      receivefrom = "send";
     }
     print("user: " + data.toString());
     var jsonResponse = null;
@@ -143,7 +141,11 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                         context);
                   } else if(valu=="pool")
                     {
-
+                      callNext(
+                          EditCreatepool(
+                              data:  requestpojo.result.data.elementAt(index).id.toString()
+                          ),
+                          context);
                     }else if(valu=="send")
                 {
                   callNext(
@@ -626,16 +628,12 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       width: SizeConfig.blockSizeVertical * 50),
                 ),
               ):
-              receivefrom == "pool"
-                  ?storelist_length != null
-                  ?
+              receivefrom == "pool"? storelist_length != null ?
               Expanded(
                 child: ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
-                    itemBuilder:
-                        (BuildContext context, int index) {
+                    itemCount: storelist_length.length == null ? 0 : storelist_length.length,
+                    itemBuilder: (BuildContext context, int index)
+                    {
                       return Column(
                         crossAxisAlignment:
                         CrossAxisAlignment.start,
@@ -651,8 +649,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                             child: Card(
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                    color: Colors.grey
-                                        .withOpacity(0.2),
+                                    color: Colors.grey.withOpacity(0.2),
                                     width: 1,
                                   ),
                                 ),
@@ -660,15 +657,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                   child: Container(
                                     padding: EdgeInsets.all(5.0),
                                     margin: EdgeInsets.only(
-                                        bottom: SizeConfig
-                                            .blockSizeVertical *
-                                            2),
+                                        bottom: SizeConfig.blockSizeVertical * 2),
                                     child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
@@ -684,32 +676,23 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       .blockSizeHorizontal *
                                                       2),
                                               child: Text(
-                                                StringConstant
-                                                    .receivegift,
+                                                StringConstant.receivegift,
                                                 style: TextStyle(
-                                                    color: Colors
-                                                        .black,
-                                                    fontFamily:
-                                                    'Poppins-Bold',
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .bold,
+                                                    color: Colors.black,
+                                                    fontFamily: 'Poppins-Bold',
+                                                    fontWeight: FontWeight.bold,
                                                     fontSize: 16),
                                               ),
                                             ),
                                             Container(
-                                              alignment: Alignment
-                                                  .center,
+                                              alignment: Alignment.center,
                                               margin: EdgeInsets.only(
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      2),
-                                              child: Text(
-                                                requestpojo.result.data
-                                                    .elementAt(
-                                                    index)
-                                                    .postedDate
-                                                    .toString(),
+                                                  right: SizeConfig.blockSizeHorizontal * 2),
+                                              child: Text(requestpojo.result.data
+                                                  .elementAt(
+                                                  index)
+                                                  .postedDate
+                                                  .toString(),
                                                 textAlign:
                                                 TextAlign
                                                     .center,
@@ -767,18 +750,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                 alignment: Alignment
                                                     .center,
                                                 margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    bottom: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
+                                                    top: SizeConfig.blockSizeVertical * 1,
+                                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                                    right: SizeConfig.blockSizeHorizontal * 1,
+                                                    left: SizeConfig.blockSizeHorizontal * 2),
                                                 decoration: BoxDecoration(
                                                   image: new DecorationImage(
                                                     image: new AssetImage("assets/images/account_circle.png"),
@@ -1066,7 +1041,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       );
                     }),
               )
-
                   : Container(
                 margin: EdgeInsets.only(top: 150),
                 alignment: Alignment.center,
@@ -1079,8 +1053,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       height: SizeConfig.blockSizeVertical * 50,
                       width: SizeConfig.blockSizeVertical * 50),
                 ),
-              ):
-              receivefrom == "send"
+              ): Container()
+             /* receivefrom == "send"
                   ?storelist_length != null
                   ?
               Expanded(
@@ -1537,7 +1511,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       height: SizeConfig.blockSizeVertical * 50,
                       width: SizeConfig.blockSizeVertical * 50),
                 ),
-              ): Container()
+              ): Container()*/
             ],
           )),
       floatingActionButton: SpeedDial(
@@ -1576,7 +1550,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                 getdata(userid, tabValue);
                 print('SEcond CHILD');
               }),
-          SpeedDialChild(
+         /* SpeedDialChild(
               child: Icon(Icons.send),
               backgroundColor: AppColors.theme1color,
               label: 'Send',
@@ -1584,7 +1558,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                 tabValue="send";
                 getdata(userid, tabValue);
                 print('Third CHILD');
-              }),
+              }),*/
         ],
       ),
     );

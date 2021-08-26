@@ -1,33 +1,56 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/PostcommentPojo.dart';
+import 'package:kontribute/Pojo/Projectdetailspojo.dart';
+import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class HistoryProjectDetailsscreen extends StatefulWidget {
+  final String data;
+
+  const HistoryProjectDetailsscreen({Key key, @required this.data})
+      : super(key: key);
   @override
   HistoryProjectDetailsscreenState createState() => HistoryProjectDetailsscreenState();
 }
 
 class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen> {
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final CommentFocus = FocusNode();
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
-
+  String data1;
+  String userid;
+  int a;
+  bool internet = false;
+  String val;
+  String vallike;
+  String valPost;
+  int amoun;
+  var productlist_length;
+  var storelist_length;
+  var imageslist_length;
+  List<String> imagestore = [];
+  Projectdetailspojo projectdetailspojo;
+  projectlike prolike;
+  PostcommentPojo postcom;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
@@ -56,6 +79,96 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
     currentPageValue = page;
     setState(() {});
   }
+
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+        a = int.parse(data1);
+        print("receiverComing: " + a.toString());
+        getData(userid, a);
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+  void getData(String id, int projectid) async {
+    Map data = {
+      'userid': id.toString(),
+      'project_id': projectid.toString(),
+    };
+    print("receiver: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.projectDetails, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        projectdetailspojo = new Projectdetailspojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = projectdetailspojo.commentsdata;
+            storelist_length = projectdetailspojo.commentsdata.commentslist;
+            imageslist_length =
+                projectdetailspojo.commentsdata.projectimagesdata;
+            double amount =
+                double.parse(projectdetailspojo.commentsdata.requiredAmount) /
+                    double.parse(projectdetailspojo.commentsdata.budget) *
+                    100;
+            amoun = amount.toInt();
+            print("Amountval: " + amoun.toString());
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: projectdetailspojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +228,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                   ],
                 ),
               ),
+              productlist_length!=null?
               Expanded(
                 child: Container(
                   child:  SingleChildScrollView(
@@ -127,32 +241,68 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                              onTap: ()
-                              {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                            projectdetailspojo.commentsdata.profilePic == null || projectdetailspojo.commentsdata.profilePic == ""
+                                ? GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            viewdetail_profile()));
                               },
                               child: Container(
-                                height:
-                                SizeConfig.blockSizeVertical *
-                                    9,
-                                width:
-                                SizeConfig.blockSizeVertical *
-                                    9,
+                                  height:
+                                  SizeConfig.blockSizeVertical * 9,
+                                  width: SizeConfig.blockSizeVertical * 9,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical *
+                                          2,
+                                      bottom:
+                                      SizeConfig.blockSizeVertical *
+                                          1,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          1,
+                                      left:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2),
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage(
+                                          "assets/images/account_circle.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )),
+                            )
+                                : GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            viewdetail_profile()));
+                              },
+                              child: Container(
+                                height: SizeConfig.blockSizeVertical * 9,
+                                width: SizeConfig.blockSizeVertical * 9,
                                 alignment: Alignment.center,
                                 margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical *2,
-                                    bottom: SizeConfig.blockSizeVertical *1,
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    bottom:
+                                    SizeConfig.blockSizeVertical * 1,
+                                    right:
+                                    SizeConfig.blockSizeHorizontal *
                                         1,
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
+                                    left: SizeConfig.blockSizeHorizontal *
                                         2),
                                 decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image:new AssetImage("assets/images/userProfile.png"),
-                                      fit: BoxFit.fill,)),
+                                        image: NetworkImage(
+                                            projectdetailspojo
+                                                .commentsdata.profilePic),
+                                        fit: BoxFit.fill)),
                               ),
                             ),
                             Column(
@@ -168,7 +318,8 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Phani Kumar G.",
+                                        projectdetailspojo
+                                            .commentsdata.fullName,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.themecolor,
@@ -249,7 +400,8 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Project Name",
+                                        projectdetailspojo
+                                            .commentsdata.projectName,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
@@ -273,7 +425,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Start Date- 21/05/2021",
+                                        "Start Date- " +
+                                            projectdetailspojo
+                                                .commentsdata.projectStartdate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -298,7 +452,8 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        StringConstant.totalContribution+"-20",
+                                       // StringConstant.totalContribution+"-20",
+                                        "",
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -323,7 +478,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "End Date- 30/05/2021",
+                                        "End Date- " +
+                                            projectdetailspojo
+                                                .commentsdata.projectEnddate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -369,10 +526,10 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                               padding: EdgeInsets.only(
                                 right: SizeConfig
                                     .blockSizeHorizontal *
-                                    3,
+                                    1,
                               ),
                               child: Text(
-                                "\$100",
+                                "\$" + projectdetailspojo.commentsdata.budget,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -386,10 +543,14 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               child:  LinearPercentIndicator(
-                                width: 110.0,
+                                width: 70.0,
                                 lineHeight: 14.0,
-                                percent: 0.6,
-                                center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                percent: amoun / 100,
+                                center: Text(
+                                  amoun.toString() + "%",
+                                  style: TextStyle(
+                                      fontSize: 8, color: AppColors.whiteColor),
+                                ),
                                 backgroundColor: AppColors.lightgrey,
                                 progressColor:AppColors.themecolor,
                               ),
@@ -421,7 +582,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                     1,
                               ),
                               child: Text(
-                                "\$40",
+                                "\$" +
+                                    projectdetailspojo
+                                        .commentsdata.requiredAmount,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -434,11 +597,83 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                             )
                           ],
                         ),
-                        Container(
+                        imageslist_length != null
+                            ? Container(
+                          color:Colors.transparent,
+                          alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          height: SizeConfig.blockSizeVertical * 30,
+                          child: Stack(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            children: <Widget>[
+                              PageView.builder(
+                                physics: ClampingScrollPhysics(),
+                                itemCount:
+                                imageslist_length.length == null
+                                    ? 0
+                                    : imageslist_length.length,
+                                onPageChanged: (int page) {
+                                  getChangedPageAndMoveBar(page);
+                                },
+                                controller: PageController(
+                                    initialPage: currentPageValue,
+                                    keepPage: true,
+                                    viewportFraction: 1),
+                                itemBuilder: (context, ind) {
+                                  return Container(
+                                    width:
+                                    SizeConfig.blockSizeHorizontal *
+                                        80,
+                                    height:
+                                    SizeConfig.blockSizeVertical * 50,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.transparent),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              Network.BaseApiProject +
+                                                  projectdetailspojo
+                                                      .commentsdata
+                                                      .projectimagesdata
+                                                      .elementAt(ind)
+                                                      .imagePath,
+                                            ),
+                                            fit: BoxFit.fill)),
+                                  );
+                                },
+                              ),
+                              Stack(
+                                alignment:
+                                AlignmentDirectional.bottomCenter,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: SizeConfig.blockSizeVertical * 2),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        for (int i = 0; i < imageslist_length.length; i++)
+                                          if (i == currentPageValue) ...[
+                                            circleBar(true)
+                                          ] else
+                                            circleBar(false),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                            : Container(
                           color: AppColors.themecolor,
                           alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                          height: SizeConfig.blockSizeVertical*30,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          height: SizeConfig.blockSizeVertical * 30,
                           child: Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: <Widget>[
@@ -457,15 +692,22 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                 },
                               ),
                               Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
+                                alignment:
+                                AlignmentDirectional.bottomCenter,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                    margin: EdgeInsets.only(
+                                        bottom:
+                                        SizeConfig.blockSizeVertical *
+                                            2),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
                                       children: <Widget>[
-                                        for (int i = 0; i < introWidgetsList.length; i++)
+                                        for (int i = 0;
+                                        i < introWidgetsList.length;
+                                        i++)
                                           if (i == currentPageValue) ...[
                                             circleBar(true)
                                           ] else
@@ -485,7 +727,8 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                               InkWell(
                                 onTap: ()
                                 {
-
+                                  print("LIke");
+                                  addlike();
                                 },
                                 child: Container(
                                   width: SizeConfig.blockSizeHorizontal*7,
@@ -535,7 +778,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                           child: Image.asset("assets/images/color_heart.png",color: Colors.black,height: 15,width: 25,)
                                       ),
                                       Container(
-                                        child: Text("1,555",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
+                                        child: Text( projectdetailspojo
+                                            .commentsdata.totalLike
+                                            .toString(),style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
                                       )
                                     ],
                                   ),
@@ -556,7 +801,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
 
                                       ),
                                       Container(
-                                        child: Text("22",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
+                                        child: Text(projectdetailspojo
+                                            .commentsdata.totalcomments
+                                            .toString(),style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
                                       )
                                     ],
                                   ),
@@ -571,17 +818,14 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                               top: SizeConfig.blockSizeVertical *1),
-                          child: Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                            maxLines:8,
-                            style: TextStyle(
+                          child: new Html(
+                            data: projectdetailspojo.commentsdata.description,
+                            defaultTextStyle: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
                         Container(
@@ -590,7 +834,11 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                               top: SizeConfig.blockSizeVertical *1),
                           child: Text(
-                            "View all 29 comments",
+                            "View all " +
+                                (projectdetailspojo
+                                    .commentsdata.commentslist.length)
+                                    .toString() +
+                                " comments",
                             maxLines: 2,
                             style: TextStyle(
                                 letterSpacing: 1.0,
@@ -602,62 +850,50 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                 'Poppins-Regular'),
                           ),
                         ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                        storelist_length != null
+                            ? Container(
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
-                          child: Text(
-                            "thekratos carry killed it🤑🤑🤣",
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'NotoEmoji'),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
-                          child: Text(
-                            "itx_kamie_94🤑🤣🤣",
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'NotoEmoji'),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
-                          child: Text(
-                            "3 Hours ago".toUpperCase(),
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black26,
-                                fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
-                          ),
-                        ),
+                          height: SizeConfig.blockSizeVertical * 30,
+                          child: ListView.builder(
+                              itemCount: storelist_length.length == null
+                                  ? 0
+                                  : storelist_length.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (BuildContext context, int i) {
+                                return Container(
+                                  width: SizeConfig.blockSizeHorizontal *
+                                      100,
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical *1,
+                                    bottom: SizeConfig.blockSizeVertical *1,
+                                    left: SizeConfig.blockSizeHorizontal *
+                                        3,
+                                    right:
+                                    SizeConfig.blockSizeHorizontal *
+                                        3,
+                                  ),
+                                  child: Text(
+                                    projectdetailspojo
+                                        .commentsdata.commentslist
+                                        .elementAt(i)
+                                        .comment,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'NotoEmoji'),
+                                  ),
+                                );
+                              }),
+                        )
+                            : Container(),
 
-                        Container(
+                   /*     Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Divider(
@@ -769,12 +1005,12 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                     ],
                                   ),
 
-                                  /* decoration: BoxDecoration(
+                                  *//* decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage("assets/images/files.png"),
                                       fit: BoxFit.fill,
                                     ),
-                                  ),*/
+                                  ),*//*
                                 );
                               }),
                         ),
@@ -1021,7 +1257,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                   );
                                 }),
 
-                        )
+                        )*/
 
                       ],
                     ),
@@ -1029,9 +1265,64 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                 )
                ,
               )
+                  :Container(
+                child: Center(
+                  child: internet == true?CircularProgressIndicator():SizedBox(),
+                ),
+              ),
             ],
           )
          ),
     );
   }
+
+  void addlike() async {
+    Map data = {
+      'userid': userid.toString(),
+      'project_id': a.toString(),
+    };
+    print("projectlikes: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectlikes, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      vallike = response.body; //store response as string
+      if (jsonDecode(vallike)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(vallike)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        prolike = new projectlike.fromJson(jsonResponse);
+        print("Json UserLike: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("responseLIke: ");
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          getData(userid, a);
+        } else {
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(vallike)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 }

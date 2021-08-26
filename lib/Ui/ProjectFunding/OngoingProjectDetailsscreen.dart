@@ -9,6 +9,8 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/PostcommentPojo.dart';
 import 'package:kontribute/Pojo/Projectdetailspojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
+import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
+import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -215,6 +217,10 @@ class OngoingProjectDetailsscreenState
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+                callNext(
+                    EditCreateProjectPost(
+                        data:  projectdetailspojo.commentsdata.id.toString()
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -234,6 +240,10 @@ class OngoingProjectDetailsscreenState
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: projectdetailspojo.commentsdata.id.toString()
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -1006,7 +1016,7 @@ class OngoingProjectDetailsscreenState
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
                               right: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 1),
+                              top: SizeConfig.blockSizeVertical * 2),
                           child: Text(
                             "View all " +
                                 (projectdetailspojo
@@ -1025,7 +1035,7 @@ class OngoingProjectDetailsscreenState
                         storelist_length != null
                             ? Container(
                                 alignment: Alignment.topLeft,
-                                height: SizeConfig.blockSizeVertical * 10,
+                                height: SizeConfig.blockSizeVertical * 30,
                                 child: ListView.builder(
                                     itemCount: storelist_length.length == null
                                         ? 0
@@ -1039,6 +1049,8 @@ class OngoingProjectDetailsscreenState
                                             100,
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical *1,
+                                          bottom: SizeConfig.blockSizeVertical *1,
                                           left: SizeConfig.blockSizeHorizontal *
                                               3,
                                           right:
@@ -1166,7 +1178,9 @@ class OngoingProjectDetailsscreenState
                             color: Colors.black12,
                           ),
                         ),
-                        Container(
+
+
+                       /* Container(
                           height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
                               itemCount: 5,
@@ -1284,12 +1298,12 @@ class OngoingProjectDetailsscreenState
                                     ],
                                   ),
 
-                                  /* decoration: BoxDecoration(
+                                  *//* decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage("assets/images/files.png"),
                                       fit: BoxFit.fill,
                                     ),
-                                  ),*/
+                                  ),*//*
                                 );
                               }),
                         ),
@@ -1591,7 +1605,8 @@ class OngoingProjectDetailsscreenState
                                       )),
                                 );
                               }),
-                        )
+                        )*/
+
                       ],
                     ),
                   ),

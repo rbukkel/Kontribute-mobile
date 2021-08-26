@@ -29,6 +29,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
   var storelist_length;
   history_sendpojo requestpojo;
   String receivefrom;
+  String tabValue ="all";
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   @override
@@ -40,7 +41,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-      getdata(userid);
+      getdata(userid,tabValue);
     });
   }
 
@@ -463,24 +464,28 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                 backgroundColor: AppColors.theme1color,
                 label: 'Request',
                 onTap: () {
-                  //getdata(userid, "request");
+                  tabValue="request";
+                  getdata(userid, tabValue);
                   print('FIRST CHILD');
                 }),
-            SpeedDialChild(
-                child: Icon(Icons.people_rounded),
-                backgroundColor: AppColors.theme1color,
-                label: 'Pool',
-                onTap: () {
-                  // getdata(userid, "pool");
-                  print('SEcond CHILD');
-                }),
+
             SpeedDialChild(
                 child: Icon(Icons.send),
                 backgroundColor: AppColors.theme1color,
                 label: 'Send',
                 onTap: () {
-                  //  getdata(userid, "send");
+                  tabValue="send";
+                  getdata(userid, tabValue);
                   print('Third CHILD');
+                }),
+            SpeedDialChild(
+                child: Icon(Icons.people_rounded),
+                backgroundColor: AppColors.theme1color,
+                label: 'All',
+                onTap: () {
+                   tabValue="all";
+                   getdata(userid, tabValue);
+                  print('SEcond CHILD');
                 }),
           ],
         )
@@ -537,15 +542,16 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
     }
   }*/
 
-  void getdata(String user_id) async {
+  void getdata(String user_id, String msg) async {
     setState(()
     {
       storelist_length=null;
     });
     Map data = {
       'user_id': user_id.toString(),
+      'sortby': msg.toString(),
     };
-    print("usr: " + data.toString());
+    print("user: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts_history, body: data);
     if (response.statusCode == 200)

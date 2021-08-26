@@ -433,10 +433,10 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                 child:ClipRect(child: _imageFile!=null?
                                 Image.file(_imageFile,
                                     fit: BoxFit.fill,
-                                    height: SizeConfig.blockSizeVertical * 45,
+                                    height: SizeConfig.blockSizeVertical * 25,
                                     width: SizeConfig.blockSizeHorizontal * 100) :
                                 new Image.asset("assets/images/banner1.png",
-                                    height: SizeConfig.blockSizeVertical * 45,
+                                    height: SizeConfig.blockSizeVertical * 25,
                                     width: SizeConfig.blockSizeHorizontal * 100,
                                     fit: BoxFit.fill)
                                 ),

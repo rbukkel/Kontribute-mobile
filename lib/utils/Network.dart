@@ -13,6 +13,7 @@ class Network{
   static String send_gift_request = "send_gift_request";
   static String requestgiftlist = "requestgiftlist";
   static String edit_send_gift_request = "edit_send_gift_request";
+  static String edit_create_group = "edit_create_group";
   static String send_gift = "send_gift";
   static String individualgiftlist = "individualgiftlist";
   static String create_group = "create_group";
@@ -30,10 +31,14 @@ class Network{
   static String follow = "follow";
   static String get_send_gift_request = "get_send_gift_request";
   static String get_send_gift = "get_send_gift";
+  static String get_create_group = "get_create_group";
+  static String get_create_project = "get_create_project";
   static String create_project = "create_project";
   static String projectListing = "projectListing";
   static String projectDetails = "projectDetails";
   static String projectlikes = "projectlikes";
   static String postComments = "postComments";
   static String reportProject = "reportProject";
+  static String projectListingHistory = "projectListingHistory";
+  static String edit_create_project = "edit_create_project";
 }

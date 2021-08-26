@@ -380,10 +380,10 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                               child:ClipRect(child: _imageFile!=null?
                               Image.file(_imageFile,
                                   fit: BoxFit.fill,
-                                  height: SizeConfig.blockSizeVertical * 45,
+                                  height: SizeConfig.blockSizeVertical * 25,
                                   width: SizeConfig.blockSizeHorizontal * 100) :
                               new Image.asset("assets/images/banner1.png",
-                                  height: SizeConfig.blockSizeVertical * 45,
+                                  height: SizeConfig.blockSizeVertical * 25,
                                   width: SizeConfig.blockSizeHorizontal * 100,
                                   fit: BoxFit.fill)
                               ),
@@ -395,7 +395,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                               },
                               child: Container(
                                 alignment: Alignment.topRight,
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 21,
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5,
                                     right: SizeConfig.blockSizeHorizontal*2),
                                 child: Image.asset(
                                   "assets/images/camera.png",

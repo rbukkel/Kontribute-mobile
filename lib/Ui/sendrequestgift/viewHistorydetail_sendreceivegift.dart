@@ -183,7 +183,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                           image: senddetailsPojo.result.giftPicture !=
                               null ||
                               senddetailsPojo.result.giftPicture != ""
-                              ? NetworkImage(Network.BaseApiprofile +senddetailsPojo.result.giftPicture)
+                              ? NetworkImage(Network.BaseApigift +senddetailsPojo.result.giftPicture)
                               : new AssetImage(
                               "assets/images/viewdetailsbg.png"),
                           fit: BoxFit.fill,
@@ -464,7 +464,9 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                   ),
                 ],
               ),
-            ):Container(
+            ):
+
+            Container(
               child: Center(
                 child: internet == true?CircularProgressIndicator():SizedBox(),
               ),

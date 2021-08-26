@@ -11,6 +11,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
+import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -171,6 +172,10 @@ class OngoingProjectState extends State<OngoingProject> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+                callNext(
+                    EditCreateProjectPost(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -747,7 +752,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                               ],
                                             ),
                                           ),
-                                        ): GestureDetector(
+                                        ):
+                                        GestureDetector(
                                           onTap: () {
                                             //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
                                             callNext(
@@ -844,7 +850,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                               ),
 
                                               Spacer(),
-                                              InkWell(
+                                          /*    InkWell(
                                                 onTap: (){
 
                                                 },
@@ -883,7 +889,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   ),
                                                   //child: Image.asset("assets/images/save.png"),
                                                 ),
-                                              ),
+                                              ),*/
                                             ],
                                           ),
                                         ),
@@ -987,7 +993,8 @@ class OngoingProjectState extends State<OngoingProject> {
                         ),
                       );
                     }),
-              ): Container(
+              )
+                  : Container(
                 margin: EdgeInsets.only(top: 150),
                 alignment: Alignment.center,
                 child: resultvalue == true

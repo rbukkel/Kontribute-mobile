@@ -315,9 +315,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                     top:
                                     SizeConfig.blockSizeVertical * 7),
                                 child: Text(
-                                  senddetailsPojo.result.receiverName == null
-                                      ? senddetailsPojo.result.groupName
-                                      : senddetailsPojo.result.receiverName,
+                                  senddetailsPojo.result.receiverName == null||senddetailsPojo.result.receiverName==""?
+                                  senddetailsPojo.result.groupName:senddetailsPojo.result.receiverName,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.white,
@@ -411,7 +410,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                 bottom: SizeConfig.blockSizeVertical * 1,
                                 top: SizeConfig.blockSizeHorizontal * 1),
                             child: Text(
-                              "Closing Date-"+senddetailsPojo.result.endDate!=null?senddetailsPojo.result.endDate:"",
+                              senddetailsPojo.result.endDate!=null?"Closing Date-"+senddetailsPojo.result.endDate:"",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.white,
@@ -733,7 +732,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                       .fullName!=null? paymentlistpojo
                                                       .paymentdetails.data
                                                       .elementAt(index)
-                                                      .fullName:"",
+                                                      .fullName:paymentlistpojo
+                                                      .paymentdetails.data
+                                                      .elementAt(index)
+                                                      .groupName,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color:
@@ -935,7 +937,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
               alignment: Alignment.center,
               child: internet == true
                   ? Center(
-                child: CircularProgressIndicator(),
+                child: Text("No Payment"),
               )
                   : Center(
                 child: Text("")
@@ -952,9 +954,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   Future<void> payamount() async {
     Map data = {
       'id': senddetailsPojo.result.id.toString(),
-      'sender_id': senddetailsPojo.result.senderId.toString(),
+      'sender_id': senddetailsPojo.result.senderId!=null?senddetailsPojo.result.senderId.toString():"0",
+      'groupid': senddetailsPojo.result.groupId!=null?senddetailsPojo.result.groupId.toString():"0",
     };
-
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.pay_money, body: data);
