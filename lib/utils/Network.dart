@@ -41,4 +41,5 @@ class Network{
   static String reportProject = "reportProject";
   static String projectListingHistory = "projectListingHistory";
   static String edit_create_project = "edit_create_project";
+  static String projectSearch = "projectSearch";
 }

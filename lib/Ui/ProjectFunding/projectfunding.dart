@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
+import 'package:kontribute/Ui/ProjectFunding/SearchbarProject.dart';
 import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -55,7 +56,7 @@ class projectfundingState extends State<projectfunding> {
               onTap: ()
               {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+                    .push(MaterialPageRoute(builder: (context) => SearchbarProject()));
               },
               child: Container(
                 margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),

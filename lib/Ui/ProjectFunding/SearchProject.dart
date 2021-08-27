@@ -25,12 +25,12 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class OngoingProject extends StatefulWidget {
+class SearchProject extends StatefulWidget {
   @override
-  OngoingProjectState createState() => OngoingProjectState();
+  SearchProjectState createState() => SearchProjectState();
 }
 
-class OngoingProjectState extends State<OngoingProject> {
+class SearchProjectState extends State<SearchProject> {
   Offset _tapDownPosition;
   String userid;
   bool resultvalue = true;
@@ -75,6 +75,7 @@ class OngoingProjectState extends State<OngoingProject> {
         );
       }
     });
+
   }
 
 
@@ -250,9 +251,20 @@ class OngoingProjectState extends State<OngoingProject> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
+              Container(
+                color: AppColors.theme1color,
+                child:
+                Row(
+                  children: [
+                    createUpperBar(context, "Search Project"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
               storelist_length != null
-                  ?
-              Expanded(
+                  ?Expanded(
                 child:
                 ListView.builder(
                     itemCount: storelist_length.length == null
