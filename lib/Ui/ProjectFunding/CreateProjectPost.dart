@@ -1712,7 +1712,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     }
     if (documentPath != null) {
       print("DocumentPATH: " + documentPath);
-      request.files.add(await http.MultipartFile.fromPath("file", documentPath, filename: documentPath));
+      request.files.add(await http.MultipartFile.fromPath("file[]", documentPath, filename: documentPath));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
