@@ -1774,8 +1774,4 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       }
     });
   }
-
-
-
-
 }

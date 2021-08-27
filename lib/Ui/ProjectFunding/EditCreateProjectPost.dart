@@ -141,8 +141,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
     );
   }
 
-
-
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
@@ -220,10 +218,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
           setState(() {
             productlist_length = sendgift.projectData;
             imageslist_length = sendgift.projectImagesdata;
-
-
             ProjectNameController.text = sendgift.projectData.projectName.toString();
-
             DescriptionController.text = sendgift.projectData.description.toString();
             formattedDate = sendgift.projectData.projectStartdate;
             formattedEndDate = sendgift.projectData.projectEnddate;
@@ -233,8 +228,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             TermsController.text = sendgift.projectData.termsAndCondition!=null||sendgift.projectData.termsAndCondition!=""?sendgift.projectData.termsAndCondition.toString():"";
             basename = sendgift.projectData.documents.toString();
             currentid = int.parse(sendgift.projectData.viewType);
-
-
             if(currentid==1)
             {
               showpost ="Anyone";
@@ -683,8 +676,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 })
                         )
 
-
-                            : Container(),
+                      : Container(),
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
