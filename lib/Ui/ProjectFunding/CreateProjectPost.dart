@@ -9,7 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -18,7 +17,6 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
-import 'package:path/path.dart';
 
 class CreateProjectPost extends StatefulWidget {
   @override
@@ -92,8 +90,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   int currentid=0;
   String currentSelectedValueprivacy;
   String Date, EndDate;
-  String formattedDate = "2021-07-07";
-  String formattedEndDate = "2021-07-07";
+  DateTime currentDate = DateTime.now();
+  var myFormat = DateFormat('yyyy-MM-dd');
+
+  DateTime currentEndDate = DateTime.now();
+  var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -124,24 +125,41 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 
 
-
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
   }
 
+
   DateView(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      Date = picked.toString();
-      formattedDate = DateFormat('yyyy-MM-yy').format(picked);
-      print("onDate: " + formattedDate.toString());
-    });
+    final DateTime picked = await
+    showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate:DateTime.now(),
+      lastDate: DateTime(2050),);
+
+    if (picked != null && picked != currentDate)
+      setState(() {
+        currentDate = picked;
+      });
   }
+
+  EndDateView(BuildContext context) async {
+    final DateTime picked = await
+    showDatePicker(
+      context: context,
+      initialDate: currentEndDate,
+      firstDate:DateTime.now(),
+      lastDate: DateTime(2050),);
+
+    if (picked != null && picked != currentEndDate)
+      setState(() {
+        currentEndDate = picked;
+      });
+  }
+
+
 
   @override
   void initState() {
@@ -153,18 +171,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     });
   }
 
-  EndDateView(BuildContext context) async {
-    final DateTime picke = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      EndDate = picke.toString();
-      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
-      print("onDate: " + formattedEndDate.toString());
-    });
-  }
+
   Future getPdfAndUpload() async {
 
     File file = await FilePicker.getFile(
@@ -173,9 +180,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
 
     if(file != null) {
-
       setState(() {
-
         file1 = file; //file1 is a global variable which i created
         print("File Path: "+file1.toString());
         documentPath = file.path.toString();
@@ -428,20 +433,16 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       },
                                     ),
                                     Stack(
-                                      alignment: AlignmentDirectional
-                                          .bottomCenter,
+                                      alignment: AlignmentDirectional.bottomCenter,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: SizeConfig
-                                                  .blockSizeVertical * 2),
+                                              margin: EdgeInsets.only(
+                                              bottom: SizeConfig.blockSizeVertical * 2),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: <Widget>[
-                                              for (int i = 0; i <
-                                                  introWidgetsList.length; i++)
+                                              for (int i = 0; i < introWidgetsList.length; i++)
                                                 if (i == currentPageValue) ...[
                                                   circleBar(true)
                                                 ] else
@@ -600,8 +601,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 return null;
                             },
                             onFieldSubmitted: (v) {
-                              FocusScope.of(context)
-                                  .requestFocus(DescriptionFocus);
+                              FocusScope.of(context).requestFocus(DescriptionFocus);
                             },
                             onSaved: (val) => _ProjectName = val,
                             textAlign: TextAlign.left,
@@ -731,7 +731,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 )
                               ],
                             )
-
                         ),
                         Container(
                           child: Row(
@@ -761,27 +760,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                     ),
                                     Container(
-
-                                        height: SizeConfig.blockSizeVertical *
-                                            8,
+                                        height: SizeConfig.blockSizeVertical * 8,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal * 3,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal * 2,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1
+                                            left: SizeConfig.blockSizeHorizontal * 3,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
+                                            top: SizeConfig.blockSizeVertical * 1
                                         ),
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeVertical *
-                                              1,
-                                          right: SizeConfig.blockSizeVertical *
-                                              1,
+                                          left: SizeConfig.blockSizeVertical * 1,
+                                          right: SizeConfig.blockSizeVertical * 1,
                                         ),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              10),
+                                          borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
                                             color: Colors.black26,
                                             style: BorderStyle.solid,
@@ -804,7 +795,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                         .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
-                                                  formattedDate,
+                                                  myFormat.format(currentDate),
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -899,7 +890,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                           .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    formattedEndDate,
+                                                    myFormat.format(currentEndDate),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1624,8 +1615,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               context,
                                 ProjectNameController.text,
                                 DescriptionController.text,
-                                formattedDate,
-                                formattedEndDate,
+                                myFormat.format(currentDate),
+                                myFormat.format(currentEndDate),
                                 TermsController.text,
                                 EnterRequiredAmountController.text,
                                 TotalBudgetController.text,
@@ -1670,7 +1661,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
           )),
     );
   }
-
 
   void createproject(
       BuildContext context,
