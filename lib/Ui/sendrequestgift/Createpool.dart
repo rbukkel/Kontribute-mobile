@@ -26,6 +26,7 @@ class CreatepoolState extends State<Createpool> {
     "Connections only",
     "Group members"
   ];
+  static List<String> friendsList = [null];
   var categorylist;
   List _selecteCategorys = List();
   List _selecteName = List();
@@ -65,7 +66,6 @@ class CreatepoolState extends State<Createpool> {
   String _Collection;
   bool showvalue = false;
   String Date;
-  String formattedDate = "07-07-2021";
   File _imageFile;
   bool image_value = false;
   bool imageUrl = false;
@@ -76,6 +76,8 @@ class CreatepoolState extends State<Createpool> {
   List<dynamic> categoryTypes = List();
   var currentSelectedValues;
   Checkgroupnames checkgroupnames;
+  DateTime currentDate = DateTime.now();
+  var myFormat = DateFormat('yyyy-MM-dd');
 
   @override
   void initState() {
@@ -94,6 +96,7 @@ class CreatepoolState extends State<Createpool> {
       }
     });
   }
+
 
   @override
   void dispose() {
@@ -161,16 +164,32 @@ class CreatepoolState extends State<Createpool> {
 
 
   DateView() async {
-    final DateTime picked = await showDatePicker(
+    final DateTime picked = await
+    showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
+        initialDate: currentDate,
+      firstDate:DateTime.now(),
+      lastDate: DateTime(2050),);
+
+    if (picked != null && picked != currentDate)
+      setState(() {
+        currentDate = picked;
+        /* formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
+        print("onDate: " + formattedDate.toString());*/
+        /* final DateFormat formatter = DateFormat('yyyy-MM-dd');
+        formattedDate = formatter.format(currentDate);
+        print(formattedDate); */
+      });
+    /* final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    formattedDate = formatter.format(currentDate);
+    print(formattedDate); // something like 2013-04-20*/
+    /* setState(() {
       Date = picked.toString();
       formattedDate = DateFormat('yyyy-MM-dd').format(picked);
       print("onDate: " + formattedDate.toString());
-    });
+    });*/
+
   }
 
   showAlert() {
@@ -979,7 +998,7 @@ class CreatepoolState extends State<Createpool> {
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal * 30,
                                     child: Text(
-                                      formattedDate,
+                                      myFormat.format(currentDate),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
@@ -1093,7 +1112,7 @@ class CreatepoolState extends State<Createpool> {
                         )
                       ],
                     ),
-                    Row(
+                    /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
@@ -1144,12 +1163,12 @@ class CreatepoolState extends State<Createpool> {
                                       controller: searchpostController,
                                       textInputAction: TextInputAction.done,
                                       keyboardType: TextInputType.text,
-                                     /* validator: (val) {
+                                     *//* validator: (val) {
                                         if (val.length == 0)
                                           return "Please enter search post";
                                         else
                                           return null;
-                                      },*/
+                                      },*//*
                                       onFieldSubmitted: (v) {
                                         FocusScope.of(context)
                                             .requestFocus(TermsFocus);
@@ -1179,7 +1198,7 @@ class CreatepoolState extends State<Createpool> {
                               ),
                             ))
                       ],
-                    ),
+                    ),*/
                     Container(
                       margin:
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
@@ -1282,7 +1301,7 @@ class CreatepoolState extends State<Createpool> {
                                     requiredamountController.text,
                                     collectionController.text,
                                     currentid.toString(),
-                                    formattedDate,
+                                    myFormat.format(currentDate),
                                     TermsController.text,
                                     _imageFile);
                               } else {
@@ -1421,32 +1440,37 @@ class CreatepoolState extends State<Createpool> {
     return Container(
       alignment: Alignment.topLeft,
       height: SizeConfig.blockSizeVertical * 30,
-      child: ListView.builder(
-          itemCount: categorylist == null ? 0 : categorylist.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CheckboxListTile(
-              activeColor: AppColors.theme1color,
-              value: _selecteCategorys.contains(categorylist[index]['id']),
-              onChanged: (bool selected) {
-                _onCategorySelected(selected, categorylist[index]['id'],
-                    categorylist[index]['full_name']);
-              },
-              title: Text(
-                categorylist[index]['full_name'],
-                style: TextStyle(
-                    letterSpacing: 1.0,
-                    color: Colors.black,
-                    fontSize: SizeConfig.blockSizeHorizontal * 3,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Montserrat-Bold'),
-              ),
-            );
-          }),
+      child:MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child:  ListView.builder(
+            itemCount: categorylist == null ? 0 : categorylist.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CheckboxListTile(
+                activeColor: AppColors.theme1color,
+                value: _selecteCategorys.contains(categorylist[index]['id']),
+                onChanged: (bool selected) {
+                  _onCategorySelected(selected, categorylist[index]['id'],
+                      categorylist[index]['full_name']
+                  );
+                },
+                title: Text(
+                  categorylist[index]['full_name'],
+                  style: TextStyle(
+                      letterSpacing: 1.0,
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat-Bold'),
+                ),
+              );
+            }),
+      )
+
     );
   }
 
   void _onCategorySelected(bool selected, category_id, category_name) {
-
     if (selected == true) {
       setState(() {
         _selecteCategorys.add(category_id);
@@ -1458,24 +1482,18 @@ class CreatepoolState extends State<Createpool> {
         _selecteName.remove(category_name);
       });
     }
-
     final input = _selecteName.toString();
     final removedBrackets = input.substring(1, input.length - 1);
     final parts = removedBrackets.split(',');
-
     catname = parts.map((part) => "$part").join(',').trim();
-
     final input1 = _selecteCategorys.toString();
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');
-
     catid = parts1.map((part1) => "$part1").join(',').trim();
-    values = catid.replaceAll(" ", "");
+    values = catid.replaceAll(" ","");
     print(values);
     print(catname);
   }
-
-
 
   void CheckGroupNames(String search) async {
     Map data = {

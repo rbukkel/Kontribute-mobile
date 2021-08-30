@@ -1040,26 +1040,20 @@ class OngoingProjectState extends State<OngoingProject> {
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
-          SpeedDialChild(
-              child: Icon(Icons.request_page),
-              backgroundColor: AppColors.theme1color,
-              label: 'Request',
 
-              onTap: () => print('FIRST CHILD')
-          ),
           SpeedDialChild(
             child: Icon(Icons.public),
             backgroundColor: AppColors.theme1color,
             label: 'Public',
 
-            onTap: () => print('SECOND CHILD'),
+            onTap: () => print('First CHILD'),
           ),
           SpeedDialChild(
             child: Icon(Icons.privacy_tip),
             backgroundColor: AppColors.theme1color,
             label: 'Private',
 
-            onTap: () => print('THIRD CHILD'),
+            onTap: () => print('SECOND CHILD'),
           ),
         ],
       ),

@@ -35,9 +35,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   String _Description;
   bool showvalue = false;
   String notificationvalue="off";
+  DateTime currentDate = DateTime.now();
   String Date;
   List<dynamic> categoryTypes = List();
-  String formattedDate = "2021-07-07";
   File _imageFile;
   var currentSelectedValue;
   bool image_value = false;
@@ -52,6 +52,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   TextEditingController controller = new TextEditingController();
   String filter;
   UserListResponse searchPojo;
+  var myFormat = DateFormat('yyyy-MM-dd');
 
   showAlert() {
     showDialog(
@@ -214,14 +215,31 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     final DateTime picked = await
     showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
+        initialDate: currentDate,
+      firstDate:DateTime.now(),
+      lastDate: DateTime(2050),);
+
+    if (picked != null && picked != currentDate)
+      setState(() {
+        currentDate = picked;
+       /* formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
+        print("onDate: " + formattedDate.toString());*/
+       /* final DateFormat formatter = DateFormat('yyyy-MM-dd');
+        formattedDate = formatter.format(currentDate);
+        print(formattedDate); */
+       //
+      });
+   /* final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    formattedDate = formatter.format(currentDate);
+    print(formattedDate); // something like 2013-04-20*/
+
+   /* setState(() {
       Date = picked.toString();
       formattedDate = DateFormat('yyyy-MM-dd').format(picked);
       print("onDate: " + formattedDate.toString());
-    });
+    });*/
+
   }
 
 
@@ -550,7 +568,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 30,
                                   child: Text(
-                                    formattedDate,
+                                    myFormat.format(currentDate),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
@@ -706,7 +724,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                     notificationvalue,
                                     requiredamountController.text,
                                     DescriptionController.text,
-                                    formattedDate,
+                                    myFormat.format(currentDate),
                                     _imageFile,
                                     receiverid
                                 );
@@ -782,7 +800,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     request.fields["end_date"] = date.toString();
     request.fields["receiver_id"] = receiver.toString();
     request.fields["notification"] = notification.toString();
-
     print("Request: "+request.fields.toString());
 
     if (Imge != null) {
