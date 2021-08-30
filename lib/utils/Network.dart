@@ -9,7 +9,7 @@ class Network{
   static String nationality = "nationality";
   static String login = "login";
   static String socailLogin = "socailLogin";
-  static String username_list = "username_list";
+  static String username_listing = "username_listing";
   static String send_gift_request = "send_gift_request";
   static String requestgiftlist = "requestgiftlist";
   static String edit_send_gift_request = "edit_send_gift_request";

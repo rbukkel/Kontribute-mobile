@@ -148,7 +148,7 @@ class EditCreatepoolState extends State<EditCreatepool> {
   }*/
 
   void getCategory() async {
-    http.Response response = await http.get(Network.BaseApi + Network.username_list);
+    http.Response response = await http.get(Network.BaseApi + Network.username_listing);
     if (response.statusCode == 200) {
       data = response.body; //store response as string
       if (jsonDecode(data)["status"] == false) {

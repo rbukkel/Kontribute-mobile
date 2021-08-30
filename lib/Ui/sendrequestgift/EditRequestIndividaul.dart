@@ -324,7 +324,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
 
 
   void getCategory() async {
-    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
+    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_listing));
     final data = json.decode(res.body);
     List<dynamic> data1 = data["data"];
     setState(()

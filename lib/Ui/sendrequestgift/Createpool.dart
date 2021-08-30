@@ -83,16 +83,15 @@ class CreatepoolState extends State<Createpool> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+      getData(userid);
       print("Login userid: " + userid.toString());
     });
-    getData();
     createpoolController.addListener(() {
       print(createpoolController.text);
       if(createpoolController.text!=null || createpoolController.text!="")
       {
         CheckGroupNames(createpoolController.text);
       }
-
     });
   }
 
@@ -114,33 +113,52 @@ class CreatepoolState extends State<Createpool> {
     });
   }*/
 
-  void getData() async {
-    http.Response response = await http.get(Network.BaseApi + Network.username_list);
-    if (response.statusCode == 200) {
-      data = response.body; //store response as string
-      if (jsonDecode(data)["status"] == false) {
+
+  Future<void> getData(String a) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'userid': a.toString()};
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.username_listing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg: jsonDecode(data)["message"],
+          msg: jsonResponse["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-      } else {
-        setState(() {
-          categorylist = jsonDecode(data)['data'];
-          //get all the data from json string superheros
-          //  print(categorylist.length); // just printed length of data
-        });
       }
-    } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(data)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          setState(() {
+            categorylist = jsonResponse['data'];
+            //get all the data from json string superheros
+            //  print(categorylist.length); // just printed length of data
+          });
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
     }
   }
+
 
   DateView() async {
     final DateTime picked = await showDatePicker(

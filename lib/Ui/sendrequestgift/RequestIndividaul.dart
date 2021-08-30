@@ -204,9 +204,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: "+val);
       userid = val;
+      getCategory(userid);
       print("Login userid: " +userid.toString());
     });
-    getCategory();
+
   }
 
   DateView() async {
@@ -223,15 +224,55 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     });
   }
 
-  void getCategory() async {
-    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_list));
-    final data = json.decode(res.body);
-    List<dynamic> data1 = data["data"];
-    setState(()
+
+  Future<void> getCategory(String a) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'userid': a.toString()};
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.username_listing, body: data);
+    if (response.statusCode == 200)
     {
-      categoryTypes = data1;
-    });
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          final data = json.decode(response.body);
+          List<dynamic> data1 = data["data"];
+            setState(()
+            {
+              categoryTypes = data1;
+            });
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
