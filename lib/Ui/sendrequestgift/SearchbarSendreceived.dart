@@ -5,7 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/request_sendpojo.dart';
 import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
+import 'package:kontribute/Ui/sendrequestgift/EditCreatepool.dart';
+import 'package:kontribute/Ui/sendrequestgift/EditRequestIndividaul.dart';
+import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -45,11 +49,14 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
   bool internet = false;
   String val;
   String userid;
-  var productlist_length;
+
+  var storelist_length;
+  request_sendpojo requestpojo;
   bool resultvalue = true;
   String searchvalue = "";
-  searchsendreceivedpojo searchpojo;
-  List<searchsendreceivedpojo> searchproductListing = new List<searchsendreceivedpojo>();
+
+  List<searchsendreceivedpojo> searchproductListing =
+      new List<searchsendreceivedpojo>();
 
   SearchbarSendreceivedState() {
     _searchQuery.addListener(() {
@@ -73,74 +80,57 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      getData("");
+      getData(userid, "");
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
     data1 = widget.data;
   }
 
-  void getData(String search) async
-  {
+  void getData(String user_id, String search) async {
     Map data = {
       'search': search,
       'user_id': userid.toString(),
     };
-    print("Dta: "+data.toString());
+
+    print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-    await http.post(Network.BaseApi + Network.send_receive_gifts, body: data);
+    http.Response response = await http
+        .post(Network.BaseApi + Network.send_receive_gifts, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      val = response.body; //store response as string
-      if (jsonResponse["status"] == false)
-      {
+      val = response.body;
+      if (jsonResponse["success"] == false) {
         setState(() {
-          productlist_length = null;
+          storelist_length = null;
           resultvalue = false;
         });
         Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
       } else {
-        searchpojo = new searchsendreceivedpojo.fromJson(jsonResponse);
+        requestpojo = new request_sendpojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
-          if(searchpojo.result.data.isEmpty)
-          {
-            setState(() {
+          setState(() {
+            if (requestpojo.result.data.isEmpty) {
               resultvalue = false;
-            });
-          }
-          else{
-            setState(() {
+            } else {
               resultvalue = true;
-              productlist_length = searchpojo.result.data;
-            });
-          }
-        } else
-          {
+              print("SSSS");
+              storelist_length = requestpojo.result.data;
+            }
+          });
+        } else {
           Fluttertoast.showToast(
-            msg: searchpojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+              msg: requestpojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
         }
-      }
-    } else if (response.statusCode == 422) {
-      val = response.body;
-      if (jsonDecode(val)["status"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
       }
     } else {
       Fluttertoast.showToast(
@@ -152,7 +142,6 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -162,464 +151,586 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
         padding: new EdgeInsets.symmetric(vertical: 8.0),
         children: _IsSearching ? _buildSearchList() : _buildList(),
       ),*/
-        body:
-        Container(
+        body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child:  Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              productlist_length != null
+              storelist_length != null
                   ? Expanded(
-                child: ListView.builder(
-                    itemCount: productlist_length.length == null
-                        ? 0
-                        : productlist_length.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(
-                                bottom:
-                                SizeConfig.blockSizeVertical * 2),
-                            child: Card(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: InkWell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(5.0),
-                                    margin: EdgeInsets.only(
-                                        bottom: SizeConfig
-                                            .blockSizeVertical *
-                                            2),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 72,
-                                              margin: EdgeInsets.only(
-                                                  left: SizeConfig.blockSizeHorizontal * 2),
-                                              child: Text(
-                                                StringConstant.receivegift,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily:
-                                                    'Poppins-Bold',
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .bold,
-                                                    fontSize: 16),
-                                              ),
-                                            ),
-                                            Container(
-                                              alignment:
-                                              Alignment.center,
-                                              margin: EdgeInsets.only(
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      2),
-                                              child: Text(
-                                                searchpojo.result.data
-                                                    .elementAt(index)
-                                                    .postedDate
-                                                    .toString(),
-                                                textAlign:
-                                                TextAlign.center,
-                                                style: TextStyle(
-                                                    color:
-                                                    Colors.black,
-                                                    fontFamily:
-                                                    'Poppins-Regular',
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .normal,
-                                                    fontSize: 8),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTapDown:
-                                                  (TapDownDetails
-                                              details) {
-                                                _tapDownPosition =
-                                                    details
-                                                        .globalPosition;
-                                              },
-                                              onTap: () {
-                                                _showPopupMenu();
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                child: Image.asset(
-                                                    "assets/images/menudot.png",
-                                                    height: 15,
-                                                    width: 20),
-                                              ),
-                                            )
-                                          ],
+                      child: ListView.builder(
+                          itemCount: storelist_length.length == null
+                              ? 0
+                              : storelist_length.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      bottom: SizeConfig.blockSizeVertical * 2),
+                                  child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          width: 1,
                                         ),
-                                        Divider(
-                                          thickness: 1,
-                                          color: Colors.black12,
-                                        ),
-                                        Row(
-                                          children: [
-                                            searchpojo.result.data
-                                                .elementAt(
-                                                index)
-                                                .profilePic ==
-                                                null ||
-                                                searchpojo.result.data.elementAt(index).profilePic == ""
-                                                ? Container(
-                                                height: SizeConfig
-                                                    .blockSizeVertical *
-                                                    12,
-                                                width: SizeConfig
-                                                    .blockSizeVertical *
-                                                    12,
-                                                alignment:
-                                                Alignment
-                                                    .center,
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    bottom: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                decoration: BoxDecoration(
-                                                  image: new DecorationImage(
-                                                    image: new AssetImage("assets/images/account_circle.png"),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                )
-                                            )
-                                                : Container(
-                                              height: SizeConfig
-                                                  .blockSizeVertical *
-                                                  14,
-                                              width: SizeConfig
-                                                  .blockSizeVertical *
-                                                  12,
-                                              alignment:
-                                              Alignment
-                                                  .center,
-                                              margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                  bottom: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
+                                      ),
+                                      child: InkWell(
+                                        child: Container(
+                                          padding: EdgeInsets.all(5.0),
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  SizeConfig.blockSizeVertical *
                                                       2),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        Network.BaseApiprofile +
-                                                            searchpojo.result.data.elementAt(index).profilePic,
-                                                      ),
-                                                      fit: BoxFit.fill)),
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          45,
-                                                      alignment:
-                                                      Alignment
-                                                          .topLeft,
-                                                      padding:
-                                                      EdgeInsets
-                                                          .only(
-                                                        left: SizeConfig
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    width: SizeConfig
                                                             .blockSizeHorizontal *
-                                                            1,
-                                                      ),
-                                                      child: Text(
-                                                        searchpojo
-                                                            .result.data
-                                                            .elementAt(
-                                                            index)
-                                                            .fullName==null?searchpojo
-                                                            .result.data
-                                                            .elementAt(
-                                                            index)
-                                                            .groupName:searchpojo
-                                                            .result.data
-                                                            .elementAt(
-                                                            index)
-                                                            .fullName,
-                                                        style: TextStyle(
-                                                            letterSpacing:
-                                                            1.0,
-                                                            color: Colors
-                                                                .black87,
-                                                            fontSize:
-                                                            14,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .bold,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
+                                                        72,
+                                                    margin: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            2),
+                                                    child: Text(
+                                                      requestpojo.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .status ==
+                                                              "request"
+                                                          ? "Request Received from:"
+                                                          : requestpojo.result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .status ==
+                                                                  "sent"
+                                                              ? "Send to:"
+                                                              : requestpojo
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .status ==
+                                                                      "group"
+                                                                  ? "Group Request:"
+                                                                  : "",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontFamily:
+                                                              'Poppins-Bold',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16),
                                                     ),
-                                                    GestureDetector(
-                                                      onTap: ()
-                                                      {
-                                                        callNext(
-                                                            viewdetail_sendreceivegift(
-                                                                data:  searchpojo.result.data.elementAt(index).id.toString()
-                                                            ),
-                                                            context);
-                                                      },
-                                                      child:
-                                                      Container(
-                                                        alignment:
-                                                        Alignment
-                                                            .topLeft,
-                                                        padding:
-                                                        EdgeInsets
-                                                            .only(
-                                                          left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              1,
+                                                  ),
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    margin: EdgeInsets.only(
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            2),
+                                                    child: Text(
+                                                      requestpojo.result.data
+                                                          .elementAt(index)
+                                                          .postedDate
+                                                          .toString(),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontFamily:
+                                                              'Poppins-Regular',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 8),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTapDown: (TapDownDetails
+                                                        details) {
+                                                      _tapDownPosition = details
+                                                          .globalPosition;
+                                                    },
+                                                    onTap: () {
+                                                      requestpojo.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .status ==
+                                                              "request"
+                                                          ? _showPopupMenu(
+                                                              index, "request")
+                                                          : requestpojo.result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .status ==
+                                                                  "sent"
+                                                              ? _showPopupMenu(
+                                                                  index, "send")
+                                                              : requestpojo
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .status ==
+                                                                      "group"
+                                                                  ? _showPopupMenu(
+                                                                      index,
+                                                                      "pool")
+                                                                  : _showPopupMenu(
+                                                                      index,
+                                                                      "");
+                                                    },
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
                                                           right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              3,
+                                                                  .blockSizeHorizontal *
+                                                              2),
+                                                      child: Image.asset(
+                                                          "assets/images/menudot.png",
+                                                          height: 15,
+                                                          width: 20),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Divider(
+                                                thickness: 1,
+                                                color: Colors.black12,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  requestpojo.result.data.elementAt(index).profilePic == null ||
+                                                          requestpojo.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .profilePic ==
+                                                              ""
+                                                      ? requestpojo.result.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .giftPicture ==
+                                                                  null ||
+                                                              requestpojo.result.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .giftPicture ==
+                                                                  ""
+                                                          ? Container(
+                                                              height: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  12,
+                                                              width: SizeConfig.blockSizeVertical *
+                                                                  12,
+                                                              alignment: Alignment
+                                                                  .center,
+                                                              margin: EdgeInsets.only(
+                                                                  top: SizeConfig.blockSizeVertical * 1,
+                                                                  bottom: SizeConfig.blockSizeVertical * 1,
+                                                                  right: SizeConfig.blockSizeHorizontal * 1,
+                                                                  left: SizeConfig.blockSizeHorizontal * 2),
+                                                              decoration: BoxDecoration(
+                                                                image:
+                                                                    new DecorationImage(
+                                                                  image: new AssetImage(
+                                                                      "assets/images/account_circle.png"),
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ))
+                                                          : Container(
+                                                              height: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  14,
+                                                              width: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  12,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              margin: EdgeInsets.only(
+                                                                  top: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  bottom: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  right: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      1,
+                                                                  left: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  image: DecorationImage(
+                                                                      image: NetworkImage(
+                                                                        Network.BaseApigift +
+                                                                            requestpojo.result.data.elementAt(index).giftPicture,
+                                                                      ),
+                                                                      fit: BoxFit.fill)),
+                                                            )
+                                                      : Container(
+                                                          height: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              14,
+                                                          width: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              12,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          margin: EdgeInsets.only(
+                                                              top: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  1,
+                                                              bottom: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  1,
+                                                              right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
+                                                              left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  2),
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                    Network.BaseApigift +
+                                                                        requestpojo
+                                                                            .result
+                                                                            .data
+                                                                            .elementAt(index)
+                                                                            .giftPicture,
+                                                                  ),
+                                                                  fit: BoxFit.fill)),
                                                         ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                45,
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
+                                                            ),
+                                                            child: Text(
+                                                              requestpojo.result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .groupName !=
+                                                                      null
+                                                                  ? requestpojo
+                                                                      .result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .groupName
+                                                                  : requestpojo
+                                                                              .result
+                                                                              .data
+                                                                              .elementAt(
+                                                                                  index)
+                                                                              .fullName !=
+                                                                          null
+                                                                      ? requestpojo
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .fullName
+                                                                      : "",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              callNext(
+                                                                  viewdetail_sendreceivegift(
+                                                                      data: requestpojo
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .id
+                                                                          .toString()),
+                                                                  context);
+                                                              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
+                                                            },
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .only(
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    3,
+                                                              ),
+                                                              child: Text(
+                                                                "View Details",
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                        1.0,
+                                                                    color: AppColors
+                                                                        .green,
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontFamily:
+                                                                        'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            70,
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                3,
+                                                            top: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                2),
                                                         child: Text(
-                                                          "View Details",
+                                                          requestpojo
+                                                              .result.data
+                                                              .elementAt(index)
+                                                              .message
+                                                              .toString(),
+                                                          maxLines: 2,
                                                           style: TextStyle(
                                                               letterSpacing:
-                                                              1.0,
-                                                              color: AppColors
-                                                                  .green,
-                                                              fontSize:
-                                                              12,
+                                                                  1.0,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontSize: 8,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .normal,
+                                                                  FontWeight
+                                                                      .normal,
                                                               fontFamily:
-                                                              'Poppins-Regular'),
+                                                                  'Poppins-Regular'),
                                                         ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                                Container(
-                                                  width: SizeConfig.blockSizeHorizontal *
-                                                      70,
-                                                  alignment: Alignment
-                                                      .topLeft,
-                                                  padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          3,
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2),
-                                                  child: Text(
-                                                    searchpojo.result.data.elementAt(index)
-                                                        .message
-                                                        .toString(),
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      alignment:
-                                                      Alignment
-                                                          .topLeft,
-                                                      padding: EdgeInsets.only(
-                                                          left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              1,
-                                                          top: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2),
-                                                      child: Text(
-                                                        "Amount- ",
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: Colors.black87,
-                                                            fontSize:
-                                                            12,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding: EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              "Amount- ",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding: EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    3,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              requestpojo.result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .price !=
+                                                                      null
+                                                                  ? "\$" +
+                                                                      requestpojo
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .price
+                                                                  : requestpojo
+                                                                              .result
+                                                                              .data
+                                                                              .elementAt(
+                                                                                  index)
+                                                                              .minCashByParticipant !=
+                                                                          null
+                                                                      ? "\$" +
+                                                                          requestpojo
+                                                                              .result
+                                                                              .data
+                                                                              .elementAt(index)
+                                                                              .minCashByParticipant
+                                                                      : "",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .lightBlueAccent,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                      Alignment
-                                                          .topLeft,
-                                                      padding: EdgeInsets.only(
-                                                          right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              3,
-                                                          top: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2),
-                                                      child: Text(
-                                                        "\$" +searchpojo.result.data
-                                                            .elementAt(index)
-                                                            .collectionTarget
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            letterSpacing:
-                                                            1.0,
-                                                            color: Colors.lightBlueAccent,
-                                                            fontSize: 12,
-                                                            fontWeight: FontWeight.normal,
-                                                            fontFamily: 'Poppins-Regular'),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding: EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              "",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            padding: EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    3,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            child: Text(
+                                                              "",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: Colors
+                                                                      .lightBlueAccent,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      alignment:
-                                                      Alignment
-                                                          .topLeft,
-                                                      padding: EdgeInsets.only(
-                                                          left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              1,
-                                                          top: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2),
-                                                      child: Text(
-                                                        "",
-                                                        style: TextStyle(
-                                                            letterSpacing:
-                                                            1.0,
-                                                            color: Colors.black87,
-                                                            fontSize:
-                                                            12,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                      Alignment.topLeft, padding: EdgeInsets.only(
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            3,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
-                                                      child: Text(
-                                                        "",
-                                                        style: TextStyle(
-                                                            letterSpacing:
-                                                            1.0,
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            fontSize:
-                                                            12,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    callNext(
-                                        viewdetail_sendreceivegift(
-                                            data: searchpojo.result.data.elementAt(index).id.toString()
-                                        ),
-                                        context);
-                                  },
-                                )),
-                          )
-                        ],
-                      );
-                    }),
-              ): Container(
-                margin: EdgeInsets.only(top: 150),
-                alignment: Alignment.center,
-                child: resultvalue == true
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : Center(
-                  child: Image.asset("assets/images/empty.png",
-                      height: SizeConfig.blockSizeVertical * 50,
-                      width: SizeConfig.blockSizeVertical * 50),
-                ),
-              )
+                                        onTap: () {},
+                                      )),
+                                )
+                              ],
+                            );
+                          }),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(top: 150),
+                      alignment: Alignment.center,
+                      child: resultvalue == true
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Center(
+                              child: Image.asset("assets/images/empty.png",
+                                  height: SizeConfig.blockSizeVertical * 50,
+                                  width: SizeConfig.blockSizeVertical * 50),
+                            ),
+                    )
             ],
           ),
-        )
-
-    );
+        ));
   }
 
   List<ChildItem> _buildList() {
@@ -640,12 +751,14 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
       return _searchList.map((contact) => new ChildItem(contact)).toList();
     }
   }
-  _showPopupMenu() async {
+
+  _showPopupMenu(int index, String valu) async {
+    print("Index: " + index.toString());
+    print("VALues: " + valu.toString());
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position:
-      RelativeRect.fromLTRB(
+      position: RelativeRect.fromLTRB(
         _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
@@ -656,7 +769,32 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
             value: 1,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
+                if (valu == "request") {
+                  callNext(
+                      EditRequestIndividaul(
+                          data: requestpojo.result.data
+                              .elementAt(index)
+                              .id
+                              .toString()),
+                      context);
+                } else if (valu == "pool") {
+                  callNext(
+                      EditCreatepool(
+                          data: requestpojo.result.data
+                              .elementAt(index)
+                              .id
+                              .toString()),
+                      context);
+                } else if (valu == "send") {
+                  callNext(
+                      EditSendIndividaul(
+                          data: requestpojo.result.data
+                              .elementAt(index)
+                              .id
+                              .toString()),
+                      context);
+                }
               },
               child: Row(
                 children: <Widget>[
@@ -675,7 +813,6 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
       elevation: 8.0,
     );
   }
-
 
   Widget buildBar(BuildContext context) {
     return new AppBar(
@@ -702,11 +839,9 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                     style: new TextStyle(
                       color: Colors.white,
                     ),
-                    onChanged: (value){
+                    onChanged: (value) {
                       setState(() {
-
-                        getData(value);
-
+                        getData(userid, value);
                       });
                     },
                     decoration: new InputDecoration(
@@ -734,8 +869,10 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
     setState(() {
       this.actionIcon = new Icon(
         Icons.search,
-        color: Colors.white,);
-      this.appBarTitle = new Text("", style: new TextStyle(color: Colors.white));
+        color: Colors.white,
+      );
+      this.appBarTitle =
+          new Text("", style: new TextStyle(color: Colors.white));
       _IsSearching = false;
       _searchQuery.clear();
     });
@@ -744,7 +881,9 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
 
 class ChildItem extends StatelessWidget {
   final String name;
+
   ChildItem(this.name);
+
   @override
   Widget build(BuildContext context) {
     return new Expanded(
@@ -758,7 +897,7 @@ class ChildItem extends StatelessWidget {
                 Container(
                   alignment: Alignment.topLeft,
                   margin:
-                  EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
+                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
                   child: Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
@@ -776,13 +915,16 @@ class ChildItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal * 72,
                                     margin: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal * 2),
-                                    child: Text(StringConstant.receivegift,
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                    child: Text(
+                                      StringConstant.receivegift,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'Poppins-Bold',
@@ -794,7 +936,7 @@ class ChildItem extends StatelessWidget {
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(
                                         right:
-                                        SizeConfig.blockSizeHorizontal * 2),
+                                            SizeConfig.blockSizeHorizontal * 2),
                                     child: Text(
                                       "01-01-2020",
                                       textAlign: TextAlign.center,
@@ -816,8 +958,8 @@ class ChildItem extends StatelessWidget {
                                     child: Container(
                                       margin: EdgeInsets.only(
                                           right:
-                                          SizeConfig.blockSizeHorizontal *
-                                              2),
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2),
                                       child: Image.asset(
                                           "assets/images/menudot.png",
                                           height: 15,
@@ -839,32 +981,36 @@ class ChildItem extends StatelessWidget {
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1,
                                         bottom:
-                                        SizeConfig.blockSizeVertical * 1,
+                                            SizeConfig.blockSizeVertical * 1,
                                         right:
-                                        SizeConfig.blockSizeHorizontal * 1,
+                                            SizeConfig.blockSizeHorizontal * 1,
                                         left:
-                                        SizeConfig.blockSizeHorizontal * 2),
+                                            SizeConfig.blockSizeHorizontal * 2),
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image: new AssetImage(
-                                              "assets/images/userProfile.png"),
-                                          fit: BoxFit.fill,
-                                        )),
+                                      image: new AssetImage(
+                                          "assets/images/userProfile.png"),
+                                      fit: BoxFit.fill,
+                                    )),
                                   ),
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            width: SizeConfig.blockSizeHorizontal * 45,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    45,
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
-                                              left: SizeConfig.blockSizeHorizontal * 1,
+                                              left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  1,
                                             ),
                                             child: Text(
                                               "Sam Miller",
@@ -874,7 +1020,7 @@ class ChildItem extends StatelessWidget {
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   fontFamily:
-                                                  'Poppins-Regular'),
+                                                      'Poppins-Regular'),
                                             ),
                                           ),
                                           GestureDetector(
@@ -891,8 +1037,12 @@ class ChildItem extends StatelessWidget {
                                             child: Container(
                                               alignment: Alignment.topLeft,
                                               padding: EdgeInsets.only(
-                                                left: SizeConfig.blockSizeHorizontal * 1,
-                                                right: SizeConfig.blockSizeHorizontal * 3,
+                                                left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    1,
+                                                right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    3,
                                               ),
                                               child: Text(
                                                 "View Details",
@@ -901,21 +1051,28 @@ class ChildItem extends StatelessWidget {
                                                     color: AppColors.green,
                                                     fontSize: 12,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                        FontWeight.normal,
                                                     fontFamily:
-                                                    'Poppins-Regular'),
+                                                        'Poppins-Regular'),
                                               ),
                                             ),
                                           )
                                         ],
                                       ),
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal * 70,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 70,
                                         alignment: Alignment.topLeft,
                                         padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 1,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                            top: SizeConfig.blockSizeHorizontal * 2),
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    1,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            top:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2),
                                         child: Text(
                                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
                                           maxLines: 2,
@@ -932,8 +1089,12 @@ class ChildItem extends StatelessWidget {
                                           Container(
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
-                                                left: SizeConfig.blockSizeHorizontal * 1,
-                                                top: SizeConfig.blockSizeHorizontal * 2),
+                                                left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    1,
+                                                top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    2),
                                             child: Text(
                                               "Amount- ",
                                               style: TextStyle(
@@ -942,21 +1103,27 @@ class ChildItem extends StatelessWidget {
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                  'Poppins-Regular'),
+                                                      'Poppins-Regular'),
                                             ),
                                           ),
                                           Container(
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
-                                                right: SizeConfig.blockSizeHorizontal * 3,
-                                                top: SizeConfig.blockSizeHorizontal * 2),
-                                            child: Text("\$100",
+                                                right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    3,
+                                                top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    2),
+                                            child: Text(
+                                              "\$100",
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Regular'),
+                                                  fontFamily:
+                                                      'Poppins-Regular'),
                                             ),
                                           )
                                         ],
@@ -967,10 +1134,10 @@ class ChildItem extends StatelessWidget {
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
                                                 left: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     1,
                                                 top: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     2),
                                             child: Text(
                                               "Collection Target- ",
@@ -980,17 +1147,17 @@ class ChildItem extends StatelessWidget {
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                  'Poppins-Regular'),
+                                                      'Poppins-Regular'),
                                             ),
                                           ),
                                           Container(
                                             alignment: Alignment.topLeft,
                                             padding: EdgeInsets.only(
                                                 right: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     3,
                                                 top: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     2),
                                             child: Text(
                                               "\$1000",
@@ -1000,7 +1167,7 @@ class ChildItem extends StatelessWidget {
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                  'Poppins-Regular'),
+                                                      'Poppins-Regular'),
                                             ),
                                           )
                                         ],
@@ -1012,11 +1179,8 @@ class ChildItem extends StatelessWidget {
                             ],
                           ),
                         ),
-                        onTap: () {
-
-                        },
-                      )
-                  ),
+                        onTap: () {},
+                      )),
                 )
               ],
             );

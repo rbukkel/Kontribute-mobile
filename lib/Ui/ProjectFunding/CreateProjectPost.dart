@@ -36,6 +36,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   FileType fileType;
   String basename;
   List<File> _imageList = [];
+  List<File> _documentList = [];
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -50,16 +51,22 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final VideoFocus = FocusNode();
   final TermsFocus = FocusNode();
   final TextEditingController TermsController = new TextEditingController();
-  final TextEditingController searchpostController = new TextEditingController();
-  final TextEditingController ProjectNameController = new TextEditingController();
+  final TextEditingController searchpostController =
+      new TextEditingController();
+  final TextEditingController ProjectNameController =
+      new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController = new TextEditingController();
-  final TextEditingController DescriptionController = new TextEditingController();
+  final TextEditingController LocationDetailsController =
+      new TextEditingController();
+  final TextEditingController DescriptionController =
+      new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController EnterRequiredAmountController = new TextEditingController();
-  final TextEditingController TotalBudgetController = new TextEditingController();
+  final TextEditingController EnterRequiredAmountController =
+      new TextEditingController();
+  final TextEditingController TotalBudgetController =
+      new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
   String _ProjectName;
@@ -83,11 +90,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     "Connections only",
     "Group members"
   ];
+  static List<String> videoList = [null];
   var file1;
   var documentPath;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String currentSelectedValue;
-  int currentid=0;
+  int currentid = 0;
   String currentSelectedValueprivacy;
   String Date, EndDate;
   DateTime currentDate = DateTime.now();
@@ -97,19 +105,24 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png",
+    Image.asset(
+      "assets/images/banner1.png",
       height: SizeConfig.blockSizeVertical * 25,
       width: SizeConfig.blockSizeHorizontal * 100,
-      fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner2.png",
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner2.png",
       height: SizeConfig.blockSizeVertical * 25,
       width: SizeConfig.blockSizeHorizontal * 100,
-      fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner1.png",
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner1.png",
       height: SizeConfig.blockSizeVertical * 25,
       width: SizeConfig.blockSizeHorizontal * 100,
-      fit: BoxFit.fitHeight,),
-
+      fit: BoxFit.fitHeight,
+    ),
   ];
 
   Widget circleBar(bool isActive) {
@@ -124,20 +137,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
-
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
   }
 
-
   DateView(BuildContext context) async {
-    final DateTime picked = await
-    showDatePicker(
+    final DateTime picked = await showDatePicker(
       context: context,
       initialDate: currentDate,
-      firstDate:DateTime.now(),
-      lastDate: DateTime(2050),);
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2050),
+    );
 
     if (picked != null && picked != currentDate)
       setState(() {
@@ -146,20 +157,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 
   EndDateView(BuildContext context) async {
-    final DateTime picked = await
-    showDatePicker(
+    final DateTime picked = await showDatePicker(
       context: context,
       initialDate: currentEndDate,
-      firstDate:DateTime.now(),
-      lastDate: DateTime(2050),);
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2050),
+    );
 
     if (picked != null && picked != currentEndDate)
       setState(() {
         currentEndDate = picked;
       });
   }
-
-
 
   @override
   void initState() {
@@ -171,25 +180,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     });
   }
 
-
   Future getPdfAndUpload() async {
-
     File file = await FilePicker.getFile(
       type: FileType.custom,
-      allowedExtensions: ['pdf','docx'], //here you can add any of extention what you need to pick
+      allowedExtensions: [
+        'pdf',
+        'docx'
+      ], //here you can add any of extention what you need to pick
     );
 
-    if(file != null) {
+    if (file != null) {
       setState(() {
         file1 = file; //file1 is a global variable which i created
-        print("File Path: "+file1.toString());
+        print("File Path: " + file1.toString());
+        _documentList.add(file1);
         documentPath = file.path.toString();
-        print("File Path1: "+file.path.toString());
-         basename = path.basename(file.path);
-        print("File basename: "+basename.toString());
-
+        print("File Path1: " + file.path.toString());
+        basename = path.basename(file.path);
+        print("File basename: " + basename.toString());
       });
-
     }
   }
 
@@ -294,8 +303,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() {
           _imageFile = imageFile;
           _imageList.add(_imageFile);
@@ -309,8 +317,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
-        setState(()  {
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        setState(() {
           _imageFile = imageFile;
           _imageList.add(_imageFile);
           for (int i = 0; i < _imageList.length; i++) {
@@ -403,6 +411,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
+                      child: Form(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,16 +442,22 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       },
                                     ),
                                     Stack(
-                                      alignment: AlignmentDirectional.bottomCenter,
+                                      alignment:
+                                          AlignmentDirectional.bottomCenter,
                                       children: <Widget>[
                                         Container(
-                                              margin: EdgeInsets.only(
-                                              bottom: SizeConfig.blockSizeVertical * 2),
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  SizeConfig.blockSizeVertical *
+                                                      2),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
-                                              for (int i = 0; i < introWidgetsList.length; i++)
+                                              for (int i = 0;
+                                                  i < introWidgetsList.length;
+                                                  i++)
                                                 if (i == currentPageValue) ...[
                                                   circleBar(true)
                                                 ] else
@@ -464,7 +479,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 3,
                                       right:
-                                      SizeConfig.blockSizeHorizontal * 3),
+                                          SizeConfig.blockSizeHorizontal * 3),
                                   child: Image.asset(
                                     "assets/images/camera.png",
                                     width: 50,
@@ -475,82 +490,77 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             ],
                           ),
                         ),
-                  Visibility(
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      child: Container()),
-                  _imageList.length!=0 ?
-                        Container(
-                            alignment: Alignment.topCenter,
-                            height: SizeConfig.blockSizeVertical * 10,
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 6,
-                                right: SizeConfig.blockSizeHorizontal * 6),
-                            child: _imageList.length == 0
-                                ? new Image.asset(
-                                'assets/images/orderListing.png')
-                                : ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: _imageList == null
-                                    ? 0
-                                    : _imageList.length,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                  return
-                                    Dismissible(
-                                        key: Key(
-                                            _imageList[index].toString()),
-                                        direction: DismissDirection.vertical,
-                                        onDismissed: (direction) {
-                                          setState(() {
-                                            _imageList.removeAt(index);
-                                          });
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.topCenter,
-                                          width: 60,
-                                          height: 60,
-                                          margin: EdgeInsets.only(
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  2,
-                                              top: SizeConfig
-                                                  .blockSizeVertical *
-                                                  1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  2),
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                alignment:
-                                                Alignment.topCenter,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius
-                                                      .circular(20),
-                                                ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        _imageList.length != 0
+                            ? Container(
+                                alignment: Alignment.topCenter,
+                                height: SizeConfig.blockSizeVertical * 10,
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 6,
+                                    right: SizeConfig.blockSizeHorizontal * 6),
+                                child: _imageList.length == 0
+                                    ? new Image.asset(
+                                        'assets/images/orderListing.png')
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: _imageList == null
+                                            ? 0
+                                            : _imageList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Dismissible(
+                                              key: Key(
+                                                  _imageList[index].toString()),
+                                              direction:
+                                                  DismissDirection.vertical,
+                                              onDismissed: (direction) {
+                                                setState(() {
+                                                  _imageList.removeAt(index);
+                                                });
+                                              },
+                                              child: Container(
+                                                alignment: Alignment.topCenter,
                                                 width: 60,
                                                 height: 60,
-                                                child: Image.file(
-                                                  _imageList
-                                                      .elementAt(index),
-                                                  fit: BoxFit.fill,
-                                                  width: 60,
-                                                  height: 60,
+                                                margin: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        2,
+                                                    top: SizeConfig
+                                                            .blockSizeVertical *
+                                                        1,
+                                                    right: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        2),
+                                                child: Stack(
+                                                  children: [
+                                                    Container(
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                      width: 60,
+                                                      height: 60,
+                                                      child: Image.file(
+                                                        _imageList
+                                                            .elementAt(index),
+                                                        fit: BoxFit.fill,
+                                                        width: 60,
+                                                        height: 60,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-
-
-                                            ],
-                                          ),
-                                        ));
-                                })
-                        )
-
-
+                                              ));
+                                        }))
                             : Container(),
                         Container(
                           margin: EdgeInsets.only(
@@ -601,7 +611,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 return null;
                             },
                             onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(DescriptionFocus);
+                              FocusScope.of(context)
+                                  .requestFocus(DescriptionFocus);
                             },
                             onSaved: (val) => _ProjectName = val,
                             textAlign: TextAlign.left,
@@ -676,8 +687,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       return null;
                                   },
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context).requestFocus(
-                                        DateFocus);
+                                    FocusScope.of(context)
+                                        .requestFocus(DateFocus);
                                   },
                                   onSaved: (val) => _description = val,
                                   textAlign: TextAlign.left,
@@ -705,18 +716,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         DescriptionController.text + "#";
                                     DescriptionController.selection =
                                         TextSelection.fromPosition(TextPosition(
-                                            offset: DescriptionController.text
-                                                .length));
+                                            offset: DescriptionController
+                                                .text.length));
                                   },
                                   child: Container(
                                     alignment: Alignment.topLeft,
                                     margin: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal *
-                                            3,
-                                        right: SizeConfig.blockSizeHorizontal *
-                                            3,
-                                        bottom: SizeConfig.blockSizeVertical *
-                                            2,
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        bottom:
+                                            SizeConfig.blockSizeVertical * 2,
                                         top: SizeConfig.blockSizeVertical * 2),
                                     child: Text(
                                       StringConstant.addhashtag,
@@ -730,8 +741,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                 )
                               ],
-                            )
-                        ),
+                            )),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -745,10 +755,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockSizeHorizontal *
                                               3,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical *
-                                              2),
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
                                       child: Text(
                                         StringConstant.startdate,
                                         style: TextStyle(
@@ -760,19 +771,27 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                     ),
                                     Container(
-                                        height: SizeConfig.blockSizeVertical * 8,
+                                        height:
+                                            SizeConfig.blockSizeVertical * 8,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 3,
-                                            right: SizeConfig.blockSizeHorizontal * 2,
-                                            top: SizeConfig.blockSizeVertical * 1
-                                        ),
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1),
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeVertical * 1,
-                                          right: SizeConfig.blockSizeVertical * 1,
+                                          left:
+                                              SizeConfig.blockSizeVertical * 1,
+                                          right:
+                                              SizeConfig.blockSizeVertical * 1,
                                         ),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           border: Border.all(
                                             color: Colors.black26,
                                             style: BorderStyle.solid,
@@ -780,8 +799,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                           color: Colors.transparent,
                                         ),
-                                        child:
-                                        GestureDetector(
+                                        child: GestureDetector(
                                           onTap: () {
                                             DateView(context);
                                           },
@@ -789,26 +807,29 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                             children: [
                                               Container(
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal * 30,
+                                                        .blockSizeHorizontal *
+                                                    30,
                                                 padding: EdgeInsets.only(
                                                     left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
                                                   myFormat.format(currentDate),
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
-                                                      fontWeight: FontWeight
-                                                          .normal,
-                                                      fontFamily: 'Poppins-Regular',
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontFamily:
+                                                          'Poppins-Regular',
                                                       fontSize: 12,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Container(
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal * 5,
+                                                        .blockSizeHorizontal *
+                                                    5,
                                                 child: Icon(
                                                   Icons.calendar_today_outlined,
                                                   color: AppColors.greyColor,
@@ -816,26 +837,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               )
                                             ],
                                           ),
-                                        )
-                                    ),
+                                        )),
                                   ],
                                 ),
                               ),
                               Container(
                                   width: SizeConfig.blockSizeHorizontal * 50,
-                                  child:
-                                  Column(
+                                  child: Column(
                                     children: [
                                       Container(
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal * 2,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal * 3,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
-
                                         child: Text(
                                           StringConstant.enddate,
                                           style: TextStyle(
@@ -847,26 +867,29 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         ),
                                       ),
                                       Container(
-                                          height: SizeConfig.blockSizeVertical *
-                                              8,
+                                          height:
+                                              SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 1,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal * 2,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal * 3,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                           ),
                                           padding: EdgeInsets.only(
                                             left: SizeConfig.blockSizeVertical *
                                                 1,
-                                            right: SizeConfig
-                                                .blockSizeVertical * 1,
+                                            right:
+                                                SizeConfig.blockSizeVertical *
+                                                    1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                               color: Colors.black26,
                                               style: BorderStyle.solid,
@@ -874,8 +897,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                             ),
                                             color: Colors.transparent,
                                           ),
-                                          child:
-                                          GestureDetector(
+                                          child: GestureDetector(
                                             onTap: () {
                                               EndDateView(context);
                                             },
@@ -884,26 +906,30 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 Container(
                                                   alignment: Alignment.center,
                                                   width: SizeConfig
-                                                      .blockSizeHorizontal * 30,
+                                                          .blockSizeHorizontal *
+                                                      30,
                                                   padding: EdgeInsets.only(
                                                       left: SizeConfig
-                                                          .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    myFormat.format(currentEndDate),
+                                                    myFormat
+                                                        .format(currentEndDate),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
-                                                        fontWeight: FontWeight
-                                                            .normal,
-                                                        fontFamily: 'Poppins-Regular',
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontFamily:
+                                                            'Poppins-Regular',
                                                         fontSize: 12,
                                                         color: Colors.black),
                                                   ),
                                                 ),
                                                 Container(
                                                   width: SizeConfig
-                                                      .blockSizeHorizontal * 5,
+                                                          .blockSizeHorizontal *
+                                                      5,
                                                   child: Icon(
                                                     Icons
                                                         .calendar_today_outlined,
@@ -912,8 +938,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 )
                                               ],
                                             ),
-                                          )
-                                      ),
+                                          )),
                                     ],
                                   ))
                             ],
@@ -967,10 +992,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: SizeConfig.blockSizeVertical *
-                                            7,
+                                        height:
+                                            SizeConfig.blockSizeVertical * 7,
                                         width:
-                                        SizeConfig.blockSizeHorizontal * 10,
+                                            SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(8),
@@ -991,19 +1016,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                       Container(
                                         width:
-                                        SizeConfig.blockSizeHorizontal * 30,
+                                            SizeConfig.blockSizeHorizontal * 30,
                                         padding: EdgeInsets.only(
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    1,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1),
+                                                SizeConfig.blockSizeHorizontal *
+                                                    1),
                                         child: TextFormField(
                                           autofocus: false,
                                           focusNode: EnterRequiredAmountFocus,
                                           controller:
-                                          EnterRequiredAmountController,
+                                              EnterRequiredAmountController,
                                           textInputAction: TextInputAction.next,
                                           keyboardType: TextInputType.number,
                                           validator: (val) {
@@ -1013,11 +1038,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               return null;
                                           },
                                           onFieldSubmitted: (v) {
-                                            FocusScope.of(context).requestFocus(
-                                                TotalBudgetFocus);
+                                            FocusScope.of(context)
+                                                .requestFocus(TotalBudgetFocus);
                                           },
                                           onSaved: (val) =>
-                                          _requiredamount = val,
+                                              _requiredamount = val,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1086,16 +1111,16 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                   color: Colors.transparent,
                                 ),
-                                child:
-                                GestureDetector(
+                                child: GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
                                         Container(
-                                          height: SizeConfig.blockSizeVertical *
-                                              7,
-                                          width: SizeConfig
-                                              .blockSizeHorizontal * 10,
+                                          height:
+                                              SizeConfig.blockSizeVertical * 7,
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  10,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(8),
@@ -1115,33 +1140,34 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         ),
                                         Container(
-                                          width: SizeConfig
-                                              .blockSizeHorizontal * 30,
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  30,
                                           padding: EdgeInsets.only(
                                               left: SizeConfig
-                                                  .blockSizeHorizontal * 1,
+                                                      .blockSizeHorizontal *
+                                                  1,
                                               right: SizeConfig
-                                                  .blockSizeHorizontal * 1),
-                                          child:
-                                          TextFormField(
+                                                      .blockSizeHorizontal *
+                                                  1),
+                                          child: TextFormField(
                                             autofocus: false,
                                             focusNode: TotalBudgetFocus,
                                             controller: TotalBudgetController,
-                                            textInputAction: TextInputAction
-                                                .done,
+                                            textInputAction:
+                                                TextInputAction.done,
                                             keyboardType: TextInputType.number,
                                             validator: (val) {
                                               if (val.length == 0)
-                                                return "Please enter total buget";
+                                                return "Please enter total budget";
                                               else
                                                 return null;
                                             },
                                             onFieldSubmitted: (v) {
-                                              TotalBudgetFocus
-                                                  .unfocus();
+                                              TotalBudgetFocus.unfocus();
                                             },
                                             onSaved: (val) =>
-                                            _totalbudget = val,
+                                                _totalbudget = val,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
@@ -1163,8 +1189,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                         )
                                       ],
-                                    ))
-                            )
+                                    )))
                           ],
                         ),
                         Container(
@@ -1175,15 +1200,15 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             color: Colors.black12,
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 22,
+                              width: SizeConfig.blockSizeHorizontal * 15,
                               child: Text(
                                 StringConstant.video,
                                 style: TextStyle(
@@ -1195,7 +1220,33 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 70,
+                              width: SizeConfig.blockSizeHorizontal * 75,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 1,
+                                right: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child: Column(
+                                children: [..._getVideoLink()],
+                              ),
+                            )
+
+                            /*  Container(
+
+                              width: SizeConfig.blockSizeHorizontal * 65,
                               height: SizeConfig.blockSizeVertical * 7,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
@@ -1215,7 +1266,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child: TextFormField(
+                              child:
+
+                              TextFormField(
                                 autofocus: false,
                                 focusNode: VideoFocus,
                                 controller: VideoController,
@@ -1251,7 +1304,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     ),
                                     hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
-                            )
+                            )*/
                           ],
                         ),
                         Container(
@@ -1301,14 +1354,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                   color: Colors.transparent,
                                 ),
-                                child:
-                                GestureDetector(onTap: () {},
+                                child: GestureDetector(
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Container(
                                           width:
-                                          SizeConfig.blockSizeHorizontal * 60,
-                                          child: Text(basename!=null?basename.toString():"",
+                                              SizeConfig.blockSizeHorizontal *
+                                                  60,
+                                          child: Text(
+                                            basename != null
+                                                ? basename.toString()
+                                                : "",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1324,7 +1381,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         },
                                         child: Container(
                                           width:
-                                          SizeConfig.blockSizeHorizontal * 5,
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5,
                                           child: Icon(
                                             Icons.attachment,
                                             color: AppColors.greyColor,
@@ -1332,8 +1390,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         ),
                                       )
                                     ],
-                                  ),)
-                            )
+                                  ),
+                                ))
                           ],
                         ),
                         Container(
@@ -1385,43 +1443,45 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
-                                  hint: Text("please select",
-                                    style: TextStyle(fontSize: 12),),
+                                  hint: Text(
+                                    "please select",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                   items: _dropdownCategoryValues
-                                      .map((String value) =>
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                        value: value,
-                                      ))
+                                      .map((String value) => DropdownMenuItem(
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                            value: value,
+                                          ))
                                       .toList(),
                                   value: currentSelectedValue,
                                   isDense: true,
                                   onChanged: (String newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      print(currentSelectedValue.toString()
+                                      print(currentSelectedValue
+                                          .toString()
                                           .toLowerCase());
                                       print(currentSelectedValue
                                           .toString()
                                           .toLowerCase());
-                                      if(currentSelectedValue=="Anyone")
-                                      {
-                                        currentid =1;
-                                      }else if(currentSelectedValue=="Connections only")
-                                      {
-                                        currentid =2;
-                                      }else if(currentSelectedValue=="Group members")
-                                      {
-                                        currentid =3;
+                                      if (currentSelectedValue == "Anyone") {
+                                        currentid = 1;
+                                      } else if (currentSelectedValue ==
+                                          "Connections only") {
+                                        currentid = 2;
                                       }
+                                     /* else if (currentSelectedValue ==
+                                          "Group members") {
+                                        currentid = 3;
+                                      }*/
                                     });
                                   },
                                   isExpanded: true,
@@ -1430,17 +1490,15 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             )
                           ],
                         ),
-                        Row(
+                      /*  Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              margin:
-                              EdgeInsets.only(
+                              margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child:
-                              Text(
+                              child: Text(
                                 "",
                                 style: TextStyle(
                                     letterSpacing: 1.0,
@@ -1477,19 +1535,20 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     children: [
                                       Container(
                                         width:
-                                        SizeConfig.blockSizeHorizontal * 30,
+                                            SizeConfig.blockSizeHorizontal * 30,
                                         child: TextFormField(
                                           autofocus: false,
                                           focusNode: SearchPostFocus,
                                           controller: searchpostController,
                                           textInputAction: TextInputAction.done,
                                           keyboardType: TextInputType.text,
-                                          /*validator: (val) {
+                                          */
+                      /*validator: (val) {
                                             if (val.length == 0)
                                               return "Please enter search post";
                                             else
                                               return null;
-                                          },*/
+                                          },*//*
                                           onFieldSubmitted: (v) {
                                             SearchPostFocus.unfocus();
                                           },
@@ -1509,7 +1568,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                       Container(
                                         width:
-                                        SizeConfig.blockSizeHorizontal * 5,
+                                            SizeConfig.blockSizeHorizontal * 5,
                                         child: Icon(
                                           Icons.search,
                                           color: AppColors.greyColor,
@@ -1519,7 +1578,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                 ))
                           ],
-                        ),
+                        ),*/
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1581,8 +1640,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             },
                             onSaved: (val) => _terms = val,
                             textAlign: TextAlign.left,
-                            style:
-                            TextStyle(letterSpacing: 1.0,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
                                 fontSize: 15,
@@ -1600,7 +1659,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             ),
                           ),
                         ),
-
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1612,7 +1670,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         GestureDetector(
                           onTap: () {
                             createproject(
-                              context,
+                                context,
                                 ProjectNameController.text,
                                 DescriptionController.text,
                                 myFormat.format(currentDate),
@@ -1621,8 +1679,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 EnterRequiredAmountController.text,
                                 TotalBudgetController.text,
                                 VideoController.text,
-                                _imageList
-                            );
+                                _imageList);
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1654,11 +1711,62 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         )
                       ],
                     ),
-                  ),
+                  )),
                 ),
               )
             ],
           )),
+    );
+  }
+
+  /// get firends text-fields
+  List<Widget> _getVideoLink() {
+    List<Widget> friendsTextFields = [];
+    for (int i = 0; i < videoList.length; i++) {
+      friendsTextFields.add(Container(
+        height: SizeConfig.blockSizeVertical * 10,
+        width: SizeConfig.blockSizeHorizontal * 70,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            children: [
+              Expanded(child: FriendTextFields(i)),
+              SizedBox(
+                width: 16,
+              ),
+              // we need add button at last friends row
+              _addRemoveButton(i == videoList.length - 1, i),
+            ],
+          ),
+        ),
+      ));
+    }
+    return friendsTextFields;
+  }
+
+  // add remove button
+  Widget _addRemoveButton(bool add, int index) {
+    return InkWell(
+      onTap: () {
+        if (add) {
+          // add new text-fields at the top of all friends textfields
+          videoList.insert(0, null);
+        } else
+          videoList.removeAt(index);
+        setState(() {});
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: (add) ? Colors.green : Colors.red,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(
+          (add) ? Icons.add : Icons.remove,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 
@@ -1672,8 +1780,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       String enterrequiredamount,
       String totalbudget,
       String video,
-      List images) async
-  {
+      List images) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_project));
@@ -1689,20 +1796,22 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
 
-    print("Request: " + request.fields.toString());
+    print("Request: "+request.fields.toString());
     for (int i = 0; i < images.length; i++) {
       request.files.add(
         http.MultipartFile(
           "fileimages[]",
           http.ByteStream(DelegatingStream.typed(images[i].openRead())),
           await images[i].length(),
-          filename: path.basename(images[i].path),
+          filename:path.basename(images[i].path),
         ),
       );
     }
     if (documentPath != null) {
       print("DocumentPATH: " + documentPath);
-      request.files.add(await http.MultipartFile.fromPath("file[]", documentPath, filename: documentPath));
+      request.files.add(await http.MultipartFile.fromPath(
+          "file[]", documentPath,
+          filename: documentPath));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
@@ -1728,9 +1837,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
-            Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (context) => projectfunding()),
-                    (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => projectfunding()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
@@ -1763,5 +1870,59 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         );
       }
     });
+  }
+}
+
+
+class FriendTextFields extends StatefulWidget {
+  final int index;
+  FriendTextFields(this.index);
+  @override
+  _FriendTextFieldsState createState() => _FriendTextFieldsState();
+}
+
+class _FriendTextFieldsState extends State<FriendTextFields> {
+  TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _nameController.text =
+          CreateProjectPostState.videoList[widget.index] ?? '';
+    });
+
+    return TextFormField(
+      controller: _nameController,
+      onChanged: (v) => CreateProjectPostState.videoList[widget.index] = v,
+      style: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.normal,
+      fontFamily: 'Poppins-Regular',
+      fontSize: 10,
+    ),
+      decoration: InputDecoration(
+          hintText: 'Enter video link',hintStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Poppins-Regular',
+        fontSize: 10,
+      )),
+      validator: (v) {
+        if (v.trim().isEmpty) return 'Please enter something';
+        return null;
+      },
+    );
   }
 }

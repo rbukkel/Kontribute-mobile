@@ -295,7 +295,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(senddetailsPojo
+                                image: NetworkImage(Network.BaseApiprofile+senddetailsPojo
                                     .result.receiverProfilePic),
                                 fit: BoxFit.fill)),
                       ),

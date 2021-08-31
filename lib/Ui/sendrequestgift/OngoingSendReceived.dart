@@ -9,6 +9,7 @@ import 'package:kontribute/Pojo/request_sendpojo.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditCreatepool.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditRequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
+import 'package:kontribute/Ui/sendrequestgift/MyForm.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -29,9 +30,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
   bool internet = false;
   String val;
   var storelist_length;
-  String receivefrom;
-  String tabValue ="request";
+  String receivefrom ="all";
+  String tabValue ="all";
   request_sendpojo requestpojo;
+  String headline;
 
   @override
   void initState() {
@@ -40,20 +42,26 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-      getdata(userid);
+      getdata(userid,tabValue);
     });
   }
 
-  void getdata(String user_id) async {
+  void getdata(String user_id,String poolvalue) async {
     setState(() {
       storelist_length=null;
     });
     Map data = {
       'user_id': user_id.toString(),
-     // 'sortby': poolvalue.toString(),
+      'sortby': poolvalue.toString(),
     };
 
-
+    if (poolvalue.toString() == "request")
+    {
+      receivefrom = "request";
+    } else if (poolvalue.toString() == "pool")
+    {
+      receivefrom = "pool";
+    }
     print("user: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts, body: data);
@@ -250,8 +258,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              storelist_length != null
-                  ?
+              receivefrom == "all" ?
+              storelist_length != null ?
               Expanded(
                 child: ListView.builder(
                     itemCount: storelist_length.length == null
@@ -295,7 +303,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                               margin: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal * 2),
                                               child: Text(
-                                                StringConstant.receivegift,
+                                                requestpojo.result.data
+                                                    .elementAt(index).status=="request"?"Request Received from:": requestpojo.result.data
+                                                    .elementAt(index).status=="sent"?"Send to:":requestpojo.result.data
+                                                    .elementAt(index).status=="group"?"Group Request:":"",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily:
@@ -335,12 +346,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                               onTapDown:
                                                   (TapDownDetails
                                               details) {
-                                                _tapDownPosition =
-                                                    details
-                                                        .globalPosition;
+                                                _tapDownPosition = details.globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu(index,"request");
+                                                _showPopupMenu(index,"all");
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -372,36 +381,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                     .profilePic ==
                                                     ""
                                                 ?
-                                            Container(
-                                                height: SizeConfig
-                                                    .blockSizeVertical *
-                                                    12,
-                                                width: SizeConfig
-                                                    .blockSizeVertical *
-                                                    12,
-                                                alignment:
-                                                Alignment
-                                                    .center,
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    bottom: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                decoration: BoxDecoration(
-                                                  image: new DecorationImage(
-                                                    image: new AssetImage("assets/images/account_circle.png"),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                )
-                                            ):
                                             requestpojo.result.data
                                                 .elementAt(
                                                 index)
@@ -472,45 +451,65 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         Network.BaseApigift+requestpojo.result.data.elementAt(index).giftPicture,
                                                       ),
                                                       fit: BoxFit.fill)),
+                                            )    :
+                                            Container(
+                                              height: SizeConfig
+                                                  .blockSizeVertical *
+                                                  14,
+                                              width: SizeConfig
+                                                  .blockSizeVertical *
+                                                  12,
+                                              alignment:
+                                              Alignment
+                                                  .center,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical *
+                                                      1,
+                                                  bottom: SizeConfig
+                                                      .blockSizeVertical *
+                                                      1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      2),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        Network.BaseApigift+requestpojo.result.data.elementAt(index).giftPicture,
+                                                      ),
+                                                      fit: BoxFit.fill)),
                                             ),
                                             Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Container(
-                                                      width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          45,
-                                                      alignment:
-                                                      Alignment
-                                                          .topLeft,
+                                                      width: SizeConfig.blockSizeHorizontal * 45,
+                                                      alignment: Alignment.topLeft,
                                                       padding:
-                                                      EdgeInsets
-                                                          .only(
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
+                                                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1,
                                                       ),
                                                       child: Text(
-                                                        requestpojo.result.data
+                                                       requestpojo.result.data
                                                             .elementAt(
                                                             index)
-                                                            .fullName!=null?requestpojo.result.data
-                                                            .elementAt(
-                                                            index)
-                                                            .fullName:requestpojo.result.data
-                                                            .elementAt(
-                                                            index)
-                                                            .groupName,
+                                                            .groupName!=null?requestpojo.result.data
+                                                           .elementAt(
+                                                           index)
+                                                           .groupName:requestpojo.result.data
+                                                           .elementAt(
+                                                           index)
+                                                           .fullName!=null?requestpojo.result.data
+                                                           .elementAt(
+                                                           index)
+                                                           .fullName:"",
                                                         style: TextStyle(
                                                             letterSpacing:
                                                             1.0,
@@ -532,6 +531,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                                 data:
                                                                 requestpojo.result.data.elementAt(index).id.toString()
                                                             ), context);
+                                                      //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
                                                       },
                                                       child: Container(
                                                         alignment: Alignment.topLeft,
@@ -542,17 +542,11 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         child: Text(
                                                           "View Details",
                                                           style: TextStyle(
-                                                              letterSpacing:
-                                                              1.0,
-                                                              color: AppColors
-                                                                  .green,
-                                                              fontSize:
-                                                              12,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .normal,
-                                                              fontFamily:
-                                                              'Poppins-Regular'),
+                                                              letterSpacing: 1.0,
+                                                              color: AppColors.green,
+                                                              fontSize: 12,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular'),
                                                         ),
                                                       ),
                                                     )
@@ -635,14 +629,16 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                               .blockSizeHorizontal *
                                                               2),
                                                       child: Text(
-
-                                                            requestpojo.result.data
-                                                                .elementAt(
-                                                                index).price!=null?"\$" +requestpojo.result.data
+                                                          requestpojo.result.data
+                                                              .elementAt(
+                                                              index).price!=null?"\$" +requestpojo.result.data
+                                                              .elementAt(
+                                                              index).price:requestpojo.result.data
+                                                              .elementAt(
+                                                              index).minCashByParticipant!=null?
+                                                            "\$" +requestpojo.result.data
                                                             .elementAt(
-                                                            index).price:"\$" +requestpojo.result.data
-                                                            .elementAt(
-                                                            index).minCashByParticipant,
+                                                            index).minCashByParticipant:"",
                                                         style: TextStyle(
                                                             letterSpacing:
                                                             1.0,
@@ -744,7 +740,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       width: SizeConfig.blockSizeVertical * 50),
                 ),
               )
-             /* receivefrom == "request" ?
+                  :
+              receivefrom == "request" ?
               storelist_length != null ?
               Expanded(
                 child: ListView.builder(
@@ -789,7 +786,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                               margin: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal * 2),
                                               child: Text(
-                                                StringConstant.receivegift,
+                                                requestpojo.result.data
+                                                    .elementAt(index).status=="request"?"Request Received from:": requestpojo.result.data
+                                                    .elementAt(index).status=="sent"?"Send to:":requestpojo.result.data
+                                                    .elementAt(index).status=="group"?"Group Request:":"",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily:
@@ -810,7 +810,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                               child: Text(
                                                 requestpojo.result.data
                                                     .elementAt(index)
-                                                    .endDate
+                                                    .postedDate
                                                     .toString(),
                                                 textAlign:
                                                 TextAlign.center,
@@ -922,7 +922,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                      requestpojo.result.data.elementAt(index).profilePic,
+                                                      Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
                                                       ),
                                                       fit: BoxFit.fill)),
                                             ),
@@ -1612,7 +1612,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       width: SizeConfig.blockSizeVertical * 50),
                 ),
               ): Container()
-             *//* receivefrom == "send"
+             /* receivefrom == "send"
                   ?storelist_length != null
                   ?
               Expanded(
@@ -2096,7 +2096,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               label: 'Request',
               onTap: () {
                 tabValue="request";
-              //  getdata(userid, tabValue);
+              getdata(userid, tabValue);
                 print('FIRST CHILD');
               }),
           SpeedDialChild(
@@ -2105,7 +2105,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               label: 'Pool',
               onTap: () {
                 tabValue="pool";
-               // getdata(userid, tabValue);
+                getdata(userid, tabValue);
                 print('SEcond CHILD');
               }),
          /* SpeedDialChild(
