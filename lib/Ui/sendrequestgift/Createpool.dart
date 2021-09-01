@@ -79,6 +79,7 @@ class CreatepoolState extends State<Createpool> {
   DateTime currentDate = DateTime.now();
   var myFormat = DateFormat('yyyy-MM-dd');
 
+
   @override
   void initState() {
     super.initState();
@@ -115,7 +116,6 @@ class CreatepoolState extends State<Createpool> {
       categoryTypes = data1;
     });
   }*/
-
 
   Future<void> getData(String a) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
@@ -161,7 +161,6 @@ class CreatepoolState extends State<Createpool> {
       }
     }
   }
-
 
   DateView() async {
     final DateTime picked = await
@@ -1087,12 +1086,11 @@ class CreatepoolState extends State<Createpool> {
                                   .toList(),
                               value: currentSelectedValue,
                               isDense: true,
-                              onChanged: (String newValue) {
+                              onChanged: (String newValue)
+                              {
                                 setState(() {
                                   currentSelectedValue = newValue;
-
-                                  print(currentSelectedValue
-                                      .toString()
+                                  print(currentSelectedValue.toString()
                                       .toLowerCase());
                                   if(currentSelectedValue=="Anyone")
                                   {
@@ -1163,12 +1161,14 @@ class CreatepoolState extends State<Createpool> {
                                       controller: searchpostController,
                                       textInputAction: TextInputAction.done,
                                       keyboardType: TextInputType.text,
-                                     *//* validator: (val) {
+                                     */
+                    /* validator: (val) {
                                         if (val.length == 0)
                                           return "Please enter search post";
                                         else
                                           return null;
-                                      },*//*
+                                      },*/
+                    /*
                                       onFieldSubmitted: (v) {
                                         FocusScope.of(context)
                                             .requestFocus(TermsFocus);
@@ -1251,7 +1251,8 @@ class CreatepoolState extends State<Createpool> {
                         controller: TermsController,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
-                        validator: (val) {
+                        validator: (val)
+                        {
                           if (val.length == 0)
                             return "Please add your special terms & condition";
                           else
@@ -1360,7 +1361,7 @@ class CreatepoolState extends State<Createpool> {
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_group));
     request.headers["Content-Type"] = "multipart/form-data";
-    request.fields["group_members"] = catid.toString();
+    request.fields["group_members"] = values.toString()+","+userid.toString();
     request.fields["pool_messages"] = description.toString();
     request.fields["group_name"] = createpool;
     request.fields["min_cash_by_participant"] = requiredamount.toString();
@@ -1492,7 +1493,7 @@ class CreatepoolState extends State<Createpool> {
     catid = parts1.map((part1) => "$part1").join(',').trim();
     values = catid.replaceAll(" ","");
     print(values);
-    print(catname);
+    print("CatName: "+catname);
   }
 
   void CheckGroupNames(String search) async {

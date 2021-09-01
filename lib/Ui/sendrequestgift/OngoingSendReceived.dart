@@ -98,7 +98,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
           });
         }
         else {
-          Fluttertoast.showToast(
+           Fluttertoast.showToast(
               msg: requestpojo.message,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
@@ -497,14 +497,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1,
                                                       ),
                                                       child: Text(
-                                                       requestpojo.result.data
-                                                            .elementAt(
-                                                            index)
-                                                            .groupName!=null?requestpojo.result.data
-                                                           .elementAt(
-                                                           index)
-                                                           .groupName:requestpojo.result.data
-                                                           .elementAt(
+                                                       requestpojo.result.data.elementAt(index)
+                                                            .groupName!=null?requestpojo.result.data.elementAt(index)
+                                                           .groupName:requestpojo.result.data.elementAt(
                                                            index)
                                                            .fullName!=null?requestpojo.result.data
                                                            .elementAt(
@@ -527,10 +522,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                     GestureDetector(
                                                       onTap: () {
                                                         callNext(
-                                                            viewdetail_sendreceivegift(
-                                                                data:
-                                                                requestpojo.result.data.elementAt(index).id.toString()
-                                                            ), context);
+                                                      viewdetail_sendreceivegift(
+                                                          data: requestpojo.result.data.elementAt(index).id.toString()),
+                                                            context);
                                                       //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
                                                       },
                                                       child: Container(
@@ -559,33 +553,18 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   alignment: Alignment
                                                       .topLeft,
                                                   padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          3,
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2),
+                                                      left: SizeConfig.blockSizeHorizontal * 1,
+                                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                                      top: SizeConfig.blockSizeHorizontal * 2),
                                                   child: Text(
-                                                    requestpojo.result.data
-                                                        .elementAt(
-                                                        index)
-                                                        .message
-                                                        .toString(),
+                                                    requestpojo.result.data.elementAt(index).message.toString(),
                                                     maxLines: 2,
                                                     style: TextStyle(
-                                                        letterSpacing:
-                                                        1.0,
-                                                        color: Colors
-                                                            .black87,
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
                                                         fontSize: 8,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
                                                 Row(
