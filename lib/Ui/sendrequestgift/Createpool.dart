@@ -138,7 +138,8 @@ class CreatepoolState extends State<Createpool> {
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        if (jsonResponse != null) {
+        if (jsonResponse != null)
+        {
           setState(() {
             categorylist = jsonResponse['data'];
             //get all the data from json string superheros
@@ -168,7 +169,8 @@ class CreatepoolState extends State<Createpool> {
         context: context,
         initialDate: currentDate,
       firstDate:DateTime.now(),
-      lastDate: DateTime(2050),);
+      lastDate: DateTime(2050)
+    );
 
     if (picked != null && picked != currentDate)
       setState(() {
@@ -188,7 +190,6 @@ class CreatepoolState extends State<Createpool> {
       formattedDate = DateFormat('yyyy-MM-dd').format(picked);
       print("onDate: " + formattedDate.toString());
     });*/
-
   }
 
   showAlert() {

@@ -180,199 +180,205 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
       body: Container(
         height: double.infinity,
         color: AppColors.sendreceivebg,
-        child: Column(
-          children: [
-            Container(
-              height: SizeConfig.blockSizeVertical * 12,
-              decoration: BoxDecoration(
-                image: new DecorationImage(
-                  image: new AssetImage("assets/images/appbar.png"),
-                  fit: BoxFit.fill,
+
+          child: Column(
+            children: [
+              Container(
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/images/appbar.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 6,
+                          top: SizeConfig.blockSizeVertical * 2),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Image.asset(
+                            "assets/images/back.png",
+                            color: AppColors.whiteColor,
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 60,
+                      alignment: Alignment.center,
+                      margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                      // margin: EdgeInsets.only(top: 10, left: 40),
+                      child: Text(
+                        StringConstant.sendandreceivegift,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: "Poppins-Regular",
+                            color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      width: 25,
+                      height: 25,
+                      margin: EdgeInsets.only(
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical * 2),
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 20,
-                    height: 20,
-                    margin: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 6,
-                        top: SizeConfig.blockSizeVertical * 2),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/back.png",
-                          color: AppColors.whiteColor,
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 60,
-                    alignment: Alignment.center,
-                    margin:
-                    EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                    // margin: EdgeInsets.only(top: 10, left: 40),
-                    child: Text(
-                      StringConstant.sendandreceivegift,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: "Poppins-Regular",
-                          color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    width: 25,
-                    height: 25,
-                    margin: EdgeInsets.only(
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                        top: SizeConfig.blockSizeVertical * 2),
-                  ),
-                ],
-              ),
-            ),
-            productlist_length != null ?
-            Container(
-            // color: Colors.black12,
-              child: Stack(
-                children: [
-                  Container(
-                      height: SizeConfig.blockSizeVertical * 19,
-                      width: SizeConfig.blockSizeHorizontal * 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: senddetailsPojo.result.giftPicture !=
-                              null ||
-                              senddetailsPojo.result.giftPicture != ""
-                              ? NetworkImage(Network.BaseApigift +senddetailsPojo.result.giftPicture)
-                              : new AssetImage("assets/images/viewdetailsbg.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      )),
-                  Row(
-                    children: [
-                          senddetailsPojo.result.receiverProfilePic == null ||
-                          senddetailsPojo.result.receiverProfilePic == ""
-                          ? Container(
-                          height: SizeConfig.blockSizeVertical * 18,
-                          width: SizeConfig.blockSizeVertical * 17,
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 1,
-                              bottom: SizeConfig.blockSizeVertical * 1,
-                              right: SizeConfig.blockSizeHorizontal * 1,
-                              left: SizeConfig.blockSizeHorizontal * 4),
-                          decoration: BoxDecoration(
-                            image: new DecorationImage(
-                              image: new AssetImage(
-                                  "assets/images/account_circle.png"),
-                              fit: BoxFit.fill,
-                            ),
-                          ))
-                          : Container(
-                        height: SizeConfig.blockSizeVertical * 18,
-                        width: SizeConfig.blockSizeVertical * 17,
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 1,
-                            bottom:
-                            SizeConfig.blockSizeVertical * 1,
-                            right:
-                            SizeConfig.blockSizeHorizontal * 1,
-                            left:
-                            SizeConfig.blockSizeHorizontal * 4),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(Network.BaseApiprofile+senddetailsPojo
-                                    .result.receiverProfilePic),
-                                fit: BoxFit.fill)),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+              Expanded(
+                child:
+                Column
+                  (
+                  children: [
+                    productlist_length != null ?
+                    Container(
+                      // color: Colors.black12,
+                      child: Stack(
                         children: [
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width:
-                                SizeConfig.blockSizeHorizontal * 46,
-                                alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(
-                                    top:
-                                    SizeConfig.blockSizeVertical * 7),
-                                child: Text(
-                                  senddetailsPojo.result.receiverName == null||senddetailsPojo.result.receiverName==""?
-                                  senddetailsPojo.result.groupName:senddetailsPojo.result.receiverName,
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins-Regular'),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  followapi();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 8,
-                                    left: SizeConfig.blockSizeHorizontal *
-                                        1,
-                                    right:
-                                    SizeConfig.blockSizeHorizontal *
-                                        2,
-                                  ),
-                                  child: Text(
-                                    Follow,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: AppColors.yelowbg,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Poppins-Regular'),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
                           Container(
-                            width: SizeConfig.blockSizeHorizontal * 60,
-                            margin: EdgeInsets.only(
-                                right:
-                                SizeConfig.blockSizeHorizontal * 3),
-                            alignment: Alignment.topRight,
-                            padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 1,
-                                right: SizeConfig.blockSizeHorizontal * 2,
-                                top: SizeConfig.blockSizeHorizontal * 1),
-                            child: Text(
-                              /* StringConstant.totalContribution+"-25 ",*/
-                              "",
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular'),
-                            ),
-                          ),
-                          /* Container(
+                              height: SizeConfig.blockSizeVertical * 19,
+                              width: SizeConfig.blockSizeHorizontal * 100,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: senddetailsPojo.result.giftPicture !=
+                                      null ||
+                                      senddetailsPojo.result.giftPicture != ""
+                                      ? NetworkImage(Network.BaseApigift +senddetailsPojo.result.giftPicture)
+                                      : new AssetImage("assets/images/viewdetailsbg.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              )),
+                          Row(
+                            children: [
+                              senddetailsPojo.result.receiverProfilePic == null ||
+                                  senddetailsPojo.result.receiverProfilePic == ""
+                                  ? Container(
+                                  height: SizeConfig.blockSizeVertical * 18,
+                                  width: SizeConfig.blockSizeVertical * 17,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 1,
+                                      bottom: SizeConfig.blockSizeVertical * 1,
+                                      right: SizeConfig.blockSizeHorizontal * 1,
+                                      left: SizeConfig.blockSizeHorizontal * 4),
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage(
+                                          "assets/images/account_circle.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ))
+                                  : Container(
+                                height: SizeConfig.blockSizeVertical * 18,
+                                width: SizeConfig.blockSizeVertical * 17,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 1,
+                                    bottom:
+                                    SizeConfig.blockSizeVertical * 1,
+                                    right:
+                                    SizeConfig.blockSizeHorizontal * 1,
+                                    left:
+                                    SizeConfig.blockSizeHorizontal * 4),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(Network.BaseApiprofile+senddetailsPojo
+                                            .result.receiverProfilePic),
+                                        fit: BoxFit.fill)),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 46,
+                                        alignment: Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            top:
+                                            SizeConfig.blockSizeVertical * 7),
+                                        child: Text(
+                                          senddetailsPojo.result.receiverName == null||senddetailsPojo.result.receiverName==""?
+                                          senddetailsPojo.result.groupName:senddetailsPojo.result.receiverName,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.white,
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          followapi();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 8,
+                                            left: SizeConfig.blockSizeHorizontal *
+                                                1,
+                                            right:
+                                            SizeConfig.blockSizeHorizontal *
+                                                2,
+                                          ),
+                                          child: Text(
+                                            Follow,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: AppColors.yelowbg,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 60,
+                                    margin: EdgeInsets.only(
+                                        right:
+                                        SizeConfig.blockSizeHorizontal * 3),
+                                    alignment: Alignment.topRight,
+                                    padding: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal * 1,
+                                        right: SizeConfig.blockSizeHorizontal * 2,
+                                        top: SizeConfig.blockSizeHorizontal * 1),
+                                    child: Text(
+                                      /* StringConstant.totalContribution+"-25 ",*/
+                                      "",
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ),
+                                  /* Container(
                             width: SizeConfig.blockSizeHorizontal *64,
                             alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(
@@ -398,77 +404,77 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                   'Poppins-Regular'),
                             ),
                           ),*/
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 60,
-                            margin: EdgeInsets.only(
-                                right:
-                                SizeConfig.blockSizeHorizontal * 3),
-                            alignment: Alignment.topRight,
-                            padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 1,
-                                right: SizeConfig.blockSizeHorizontal * 2,
-                                bottom: SizeConfig.blockSizeVertical * 1,
-                                top: SizeConfig.blockSizeHorizontal * 1),
-                            child: Text(
-                              senddetailsPojo.result.endDate!=null?"Closing Date-"+senddetailsPojo.result.endDate:"",
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular'),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 4),
-                                child: Text(
-                                  "Collection Target- ",
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black87,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular'),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 4),
-                                alignment: Alignment.topLeft,
-                                padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                child: Text(
-                                  senddetailsPojo.result.price!=null?"\$"+senddetailsPojo.result.price.toString():"\$"+senddetailsPojo.result.collectionTarget.toString(),
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.lightBlueAccent,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular'),
-                                ),
-                              )
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              senddetailsPojo.result.message,
-                              maxLines: 3,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.black87,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular'),
-                            ),
-                          ),
-   /*Row(
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 60,
+                                    margin: EdgeInsets.only(
+                                        right:
+                                        SizeConfig.blockSizeHorizontal * 3),
+                                    alignment: Alignment.topRight,
+                                    padding: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal * 1,
+                                        right: SizeConfig.blockSizeHorizontal * 2,
+                                        bottom: SizeConfig.blockSizeVertical * 1,
+                                        top: SizeConfig.blockSizeHorizontal * 1),
+                                    child: Text(
+                                      senddetailsPojo.result.endDate!=null?"Closing Date-"+senddetailsPojo.result.endDate:"",
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 4),
+                                        child: Text(
+                                          "Collection Target- ",
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black87,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 4),
+                                        alignment: Alignment.topLeft,
+                                        padding: EdgeInsets.only(
+                                          right: SizeConfig.blockSizeHorizontal * 3,
+                                        ),
+                                        child: Text(
+                                          senddetailsPojo.result.price!=null?"\$"+senddetailsPojo.result.price.toString():"\$"+senddetailsPojo.result.collectionTarget.toString(),
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.lightBlueAccent,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      senddetailsPojo.result.message,
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black87,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ),
+                                  /*Row(
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
                             children: [
@@ -525,31 +531,31 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                               )
                             ],
                           ),*/
-                          Container(
-                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.black12,
-                            ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                                    child: Divider(
+                                      thickness: 1,
+                                      color: Colors.black12,
+                                    ),
+                                  ),
+
+
+                                ],
+                              )
+                            ],
                           ),
-
-
                         ],
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            )
-                : Container(
-              child: Center(
-                child: internet == true
-                    ? CircularProgressIndicator()
-                    : SizedBox(),
-              ),
-            ),
+                      ),
+                    )
+                        : Container(
+                      child: Center(
+                        child: internet == true
+                            ? CircularProgressIndicator()
+                            : SizedBox(),
+                      ),
+                    ),
 
-            /* Row(
+                    /* Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
@@ -586,203 +592,202 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
               ],
             ),*/
 
-            Expanded(
+                    Expanded(
 
-              child: storelist_length != null ?
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: storelist_length.length == null ? 0 : storelist_length.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              color: Colors.grey.withOpacity(0.2),
-                              width: 1,
-                            ),
-                          ),
-                          child: InkWell(
-                            child: Container(
-                              padding: EdgeInsets.all(5.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      senddetailsPojo.memberlist
-                                          .elementAt(index)
-                                          .memberProfilePic !=
-                                          null
-                                          ? Container(
-                                        height: SizeConfig
-                                            .blockSizeVertical *
-                                            8,
-                                        width: SizeConfig
-                                            .blockSizeVertical *
-                                            8,
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            bottom: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    Network.BaseApiprofile+
-                                                        senddetailsPojo.memberlist
-                                                            .elementAt(index)
-                                                            .memberProfilePic ),
-                                                fit: BoxFit.fill)),
-                                      )
-                                          : Container(
-                                          height: SizeConfig
-                                              .blockSizeVertical *
-                                              8,
-                                          width: SizeConfig
-                                              .blockSizeVertical *
-                                              8,
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(
-                                              top: SizeConfig
-                                                  .blockSizeVertical *
-                                                  1,
-                                              bottom: SizeConfig
-                                                  .blockSizeVertical *
-                                                  1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  2),
-                                          decoration: BoxDecoration(
-                                            image:
-                                            new DecorationImage(
-                                              image: new AssetImage(
-                                                  "assets/images/account_circle.png"),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          )),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                      child: storelist_length != null ?
+                      ListView.builder(
+
+                          itemCount: storelist_length.length == null ? 0 : storelist_length.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: InkWell(
+                                    child: Container(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                        MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
                                             children: [
-                                              Container(
+                                              senddetailsPojo.memberlist
+                                                  .elementAt(index)
+                                                  .memberProfilePic !=
+                                                  null
+                                                  ? Container(
+                                                height: SizeConfig
+                                                    .blockSizeVertical *
+                                                    8,
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    53,
-                                                alignment:
-                                                Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                ),
-                                                child: Text(
-                                                  senddetailsPojo.memberlist
-                                                      .elementAt(index).memberName!=null?senddetailsPojo.memberlist
-                                                      .elementAt(index).memberName:"",
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color:
-                                                      Colors.black87,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    20,
-                                                alignment:
-                                                Alignment.topRight,
-                                                padding: EdgeInsets.only(
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      3,
-                                                ),
-                                                child: Text(
-                                                  "Status",
-                                                  textAlign:
-                                                  TextAlign.right,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color:
-                                                      AppColors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                width: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    53,
-                                                alignment:
-                                                Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                    .blockSizeVertical *
+                                                    8,
+                                                alignment: Alignment.center,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    bottom: SizeConfig
+                                                        .blockSizeVertical *
                                                         1,
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        3,
-                                                    top: SizeConfig
+                                                        1,
+                                                    left: SizeConfig
                                                         .blockSizeHorizontal *
                                                         2),
-                                                child: Text(
-                                                  "Contribute-\$" +
-                                                      senddetailsPojo.memberlist
-                                                          .elementAt(index).minCashByParticipant.toString(),
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color:
-                                                      Colors.black87,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ),
-                                                GestureDetector(
-                                                              onTap: () {
-                                                               /* paymentlistpojo
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+
+                                                                senddetailsPojo.memberlist
+                                                                    .elementAt(index)
+                                                                    .memberProfilePic ),
+                                                        fit: BoxFit.fill)),
+                                              )
+                                                  : Container(
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      8,
+                                                  width: SizeConfig
+                                                      .blockSizeVertical *
+                                                      8,
+                                                  alignment: Alignment.center,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1,
+                                                      bottom: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2),
+                                                  decoration: BoxDecoration(
+                                                    image:
+                                                    new DecorationImage(
+                                                      image: new AssetImage(
+                                                          "assets/images/account_circle.png"),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  )),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            53,
+                                                        alignment:
+                                                        Alignment.topLeft,
+                                                        padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              1,
+                                                        ),
+                                                        child: Text(
+                                                          senddetailsPojo.memberlist
+                                                              .elementAt(index).memberName!=null?senddetailsPojo.memberlist
+                                                              .elementAt(index).memberName:"",
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
+                                                              Colors.black87,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            20,
+                                                        alignment:
+                                                        Alignment.topRight,
+                                                        padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              1,
+                                                          right: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              3,
+                                                        ),
+                                                        child: Text(
+                                                          "Status",
+                                                          textAlign:
+                                                          TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
+                                                              AppColors.black,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            53,
+                                                        alignment:
+                                                        Alignment.topLeft,
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                1,
+                                                            right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                3,
+                                                            top: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                2),
+                                                        child: Text(
+                                                          "Contribute-\$" +
+                                                              senddetailsPojo.memberlist
+                                                                  .elementAt(index).minCashByParticipant.toString(),
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
+                                                              Colors.black87,
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          /* paymentlistpojo
                                                                     .paymentdetails
                                                                     .data
                                                                     .elementAt(
@@ -800,73 +805,79 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                         .BOTTOM,
                                                                     timeInSecForIosWeb:
                                                                     1);*/
-                                                              },
-                                                              child: Container(
-                                                                width: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    20,
-                                                                alignment:
-                                                                Alignment.center,
-                                                                margin: EdgeInsets.only
-                                                                  (top: SizeConfig
-                                                                        .blockSizeHorizontal *
-                                                                        2),
-                                                                padding: EdgeInsets.only(
-                                                                    right: SizeConfig.blockSizeHorizontal * 2,
-                                                                    left: SizeConfig.blockSizeHorizontal * 2,
-                                                                    bottom: SizeConfig.blockSizeHorizontal * 2,
-                                                                    top: SizeConfig.blockSizeHorizontal * 2),
-                                                                decoration: BoxDecoration(
-                                                                    color: AppColors
-                                                                        .whiteColor,
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        20),
-                                                                    border: Border.all(
-                                                                        color: AppColors
-                                                                            .orange)),
-                                                                child: Text(
-                                                                 "Pay",
-                                                                  textAlign:
-                                                                  TextAlign.center,
-                                                                  style: TextStyle(
-                                                                      letterSpacing: 1.0,
-                                                                      color: AppColors.orange,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.normal,
-                                                                      fontFamily: 'Poppins-Regular'),
-                                                                ),
-                                                              ),
-                                           )
+                                                        },
+                                                        child: Container(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              20,
+                                                          alignment:
+                                                          Alignment.center,
+                                                          margin: EdgeInsets.only
+                                                            (top: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              2),
+                                                          padding: EdgeInsets.only(
+                                                              right: SizeConfig.blockSizeHorizontal * 2,
+                                                              left: SizeConfig.blockSizeHorizontal * 2,
+                                                              bottom: SizeConfig.blockSizeHorizontal * 2,
+                                                              top: SizeConfig.blockSizeHorizontal * 2),
+                                                          decoration: BoxDecoration(
+                                                              color: AppColors
+                                                                  .whiteColor,
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  20),
+                                                              border: Border.all(
+                                                                  color: AppColors
+                                                                      .orange)),
+                                                          child: Text(
+                                                            "Pay",
+                                                            textAlign:
+                                                            TextAlign.center,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color: AppColors.orange,
+                                                                fontSize: 10,
+                                                                fontWeight: FontWeight.normal,
+                                                                fontFamily: 'Poppins-Regular'),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
                                             ],
                                           ),
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {},
-                          )),
-                    );
-                  }) :
-              Container(
-                alignment: Alignment.center,
-                child: internet == true
-                    ? Center(
-                  child: Text("No Payment"),
-                )
-                    : Center(
-                    child: Text("")
+                                      ),
+                                    ),
+                                    onTap: () {},
+                                  )),
+                            );
+                          }) :
+                      Container(
+                        alignment: Alignment.center,
+                        child: internet == true
+                            ? Center(
+                          child: Text("No Payment"),
+                        )
+                            : Center(
+                            child: Text("")
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-            )
+              )
 
 
-          ],
-        ),
+
+
+            ],
+          ),
+
       ),
       bottomNavigationBar: bottombar(context),
     );

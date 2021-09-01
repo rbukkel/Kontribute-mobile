@@ -254,7 +254,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
       Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column(
+          child:
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -2053,7 +2054,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                 ),
               ): Container()*/
             ],
-          )),
+          )
+      ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
