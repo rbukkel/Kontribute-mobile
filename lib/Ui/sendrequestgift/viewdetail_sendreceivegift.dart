@@ -46,7 +46,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
         getData(a);
-        getpaymentlist(a);
+       // getpaymentlist(a);
         setState(() {
           internet = true;
         });
@@ -88,7 +88,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
           print("response");
           setState(() {
             productlist_length = senddetailsPojo.result;
-           // storelist_length = senddetailsPojo.paymentdetails.data;
+            storelist_length = senddetailsPojo.memberlist;
             if (senddetailsPojo.result.giftPicture != null) {
               setState(() {
                 image = senddetailsPojo.result.giftPicture;
@@ -114,7 +114,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
     }
   }
 
-  void getpaymentlist(int gift_id) async {
+  /*void getpaymentlist(int gift_id) async {
     setState(() {
       storelist_length=null;
     });
@@ -171,7 +171,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
         timeInSecForIosWeb: 1,
       );
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -454,51 +454,21 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                               )
                             ],
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "",
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black87,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular'),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.topLeft,
-                                padding: EdgeInsets.only(
-                                  right:
-                                  SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                child: Text(
-                                  "",
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.lightBlueAccent,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular'),
-                                ),
-                              )
-                            ],
-                          ),
-                          /*   Container(
+                          Container(
                             margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                            child:  LinearPercentIndicator(
-                              width: 140.0,
-                              lineHeight: 14.0,
-                              percent: 0.6,
-                              center: Text("60%"),
-                              backgroundColor: AppColors.lightgrey,
-                              progressColor:AppColors.themecolor,
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              senddetailsPojo.result.message,
+                              maxLines: 3,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black87,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
                             ),
-                          )*/
-
-                          Row(
+                          ),
+   /*Row(
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
                             children: [
@@ -554,7 +524,16 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                 ),
                               )
                             ],
+                          ),*/
+                          Container(
+                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
                           ),
+
+
                         ],
                       )
                     ],
@@ -569,13 +548,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                     : SizedBox(),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-              child: Divider(
-                thickness: 1,
-                color: Colors.black12,
-              ),
-            ),
+
             /* Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -612,9 +585,13 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                 ),
               ],
             ),*/
-            storelist_length != null ?
+
             Expanded(
-              child: ListView.builder(
+
+              child: storelist_length != null ?
+              ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: storelist_length.length == null ? 0 : storelist_length.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -636,9 +613,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                 children: [
                                   Row(
                                     children: [
-                                      paymentlistpojo.paymentdetails.data
+                                      senddetailsPojo.memberlist
                                           .elementAt(index)
-                                          .profilePic !=
+                                          .memberProfilePic !=
                                           null
                                           ? Container(
                                         height: SizeConfig
@@ -665,13 +642,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(
-
-                                                        paymentlistpojo
-                                                            .paymentdetails
-                                                            .data
-                                                            .elementAt(
-                                                            index)
-                                                            .profilePic),
+                                                    Network.BaseApiprofile+
+                                                        senddetailsPojo.memberlist
+                                                            .elementAt(index)
+                                                            .memberProfilePic ),
                                                 fit: BoxFit.fill)),
                                       )
                                           : Container(
@@ -726,16 +700,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                       1,
                                                 ),
                                                 child: Text(
-                                                  paymentlistpojo
-                                                      .paymentdetails.data
-                                                      .elementAt(index)
-                                                      .fullName!=null? paymentlistpojo
-                                                      .paymentdetails.data
-                                                      .elementAt(index)
-                                                      .fullName:paymentlistpojo
-                                                      .paymentdetails.data
-                                                      .elementAt(index)
-                                                      .groupName,
+                                                  senddetailsPojo.memberlist
+                                                      .elementAt(index).memberName!=null?senddetailsPojo.memberlist
+                                                      .elementAt(index).memberName:"",
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color:
@@ -799,12 +766,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                         2),
                                                 child: Text(
                                                   "Contribute-\$" +
-                                                      paymentlistpojo
-                                                          .paymentdetails
-                                                          .data
-                                                          .elementAt(
-                                                          index)
-                                                          .amountRequested,
+                                                      senddetailsPojo.memberlist
+                                                          .elementAt(index).minCashByParticipant.toString(),
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color:
@@ -817,100 +780,65 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                       'Poppins-Regular'),
                                                 ),
                                               ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  paymentlistpojo
-                                                      .paymentdetails
-                                                      .data
-                                                      .elementAt(
-                                                      index)
-                                                      .status ==
-                                                      "0"
-                                                      ? payamount()
-                                                      : Fluttertoast.showToast(
-                                                      msg:
-                                                      "Already paid",
-                                                      toastLength: Toast
-                                                          .LENGTH_SHORT,
-                                                      gravity:
-                                                      ToastGravity
-                                                          .BOTTOM,
-                                                      timeInSecForIosWeb:
-                                                      1);
-                                                },
-                                                child: Container(
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      20,
-                                                  alignment:
-                                                  Alignment.center,
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2),
-                                                  padding: EdgeInsets.only(
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      bottom: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .whiteColor,
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          20),
-                                                      border: Border.all(
-                                                          color: AppColors
-                                                              .orange)),
-                                                  child: Text(
-                                                    paymentlistpojo
-                                                        .paymentdetails
-                                                        .data
-                                                        .elementAt(
-                                                        index)
-                                                        .status ==
-                                                        "1"
-                                                        ? "Done"
-                                                        .toString()
-                                                        .toUpperCase()
-                                                        : paymentlistpojo
-                                                        .paymentdetails
-                                                        .data
-                                                        .elementAt(
-                                                        index)
-                                                        .status ==
-                                                        "0"
-                                                        ? "Pending"
-                                                        .toString()
-                                                        .toUpperCase()
-                                                        : "Pending"
-                                                        .toString()
-                                                        .toUpperCase(),
-                                                    textAlign:
-                                                    TextAlign.center,
-                                                    style: TextStyle(
-                                                        letterSpacing:
-                                                        1.0,
-                                                        color: AppColors
-                                                            .orange,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                              )
+                                                GestureDetector(
+                                                              onTap: () {
+                                                               /* paymentlistpojo
+                                                                    .paymentdetails
+                                                                    .data
+                                                                    .elementAt(
+                                                                    index)
+                                                                    .status ==
+                                                                    "0"
+                                                                    ? payamount()
+                                                                    : Fluttertoast.showToast(
+                                                                    msg:
+                                                                    "Already paid",
+                                                                    toastLength: Toast
+                                                                        .LENGTH_SHORT,
+                                                                    gravity:
+                                                                    ToastGravity
+                                                                        .BOTTOM,
+                                                                    timeInSecForIosWeb:
+                                                                    1);*/
+                                                              },
+                                                              child: Container(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    20,
+                                                                alignment:
+                                                                Alignment.center,
+                                                                margin: EdgeInsets.only
+                                                                  (top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                        2),
+                                                                padding: EdgeInsets.only(
+                                                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                                                    left: SizeConfig.blockSizeHorizontal * 2,
+                                                                    bottom: SizeConfig.blockSizeHorizontal * 2,
+                                                                    top: SizeConfig.blockSizeHorizontal * 2),
+                                                                decoration: BoxDecoration(
+                                                                    color: AppColors
+                                                                        .whiteColor,
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        20),
+                                                                    border: Border.all(
+                                                                        color: AppColors
+                                                                            .orange)),
+                                                                child: Text(
+                                                                 "Pay",
+                                                                  textAlign:
+                                                                  TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      letterSpacing: 1.0,
+                                                                      color: AppColors.orange,
+                                                                      fontSize: 10,
+                                                                      fontWeight: FontWeight.normal,
+                                                                      fontFamily: 'Poppins-Regular'),
+                                                                ),
+                                                              ),
+                                           )
                                             ],
                                           ),
                                         ],
@@ -923,26 +851,19 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                             onTap: () {},
                           )),
                     );
-                  }),
-            ) :
-            /*Container(
-              child: Center(
+                  }) :
+              Container(
+                alignment: Alignment.center,
                 child: internet == true
-                    ? CircularProgressIndicator()
-                    : SizedBox(),
+                    ? Center(
+                  child: Text("No Payment"),
+                )
+                    : Center(
+                    child: Text("")
+                ),
               ),
-            ),
-*/
-            Container(
-              alignment: Alignment.center,
-              child: internet == true
-                  ? Center(
-                child: Text("No Payment"),
-              )
-                  : Center(
-                child: Text("")
-              ),
-            ),
+            )
+
 
           ],
         ),
@@ -969,7 +890,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
       else {
         if (jsonResponse != null) {
           showToast(updateval);
-          getpaymentlist(a);
+         // getpaymentlist(a);
         } else {
           showToast(updateval);
         }

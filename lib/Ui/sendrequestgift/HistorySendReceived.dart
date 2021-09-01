@@ -558,7 +558,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
     {
       jsonResponse = json.decode(response.body);
       val = response.body;
-      if (jsonResponse["status"] == false) {
+      if (jsonResponse["success"] == false) {
         setState((){
           resultvalue = false;
         });

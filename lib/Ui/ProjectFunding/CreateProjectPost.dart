@@ -1873,7 +1873,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 }
 
-
 class FriendTextFields extends StatefulWidget {
   final int index;
   FriendTextFields(this.index);

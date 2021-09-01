@@ -258,7 +258,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              receivefrom == "all" ?
+              receivefrom == "all"?
               storelist_length != null ?
               Expanded(
                 child: ListView.builder(
@@ -1235,7 +1235,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       .blockSizeHorizontal *
                                                       2),
                                               child: Text(
-                                                StringConstant.receivegift,
+                                                requestpojo.result.data
+                                                    .elementAt(index).status=="request"?"Request Received from:": requestpojo.result.data
+                                                    .elementAt(index).status=="sent"?"Send to:":requestpojo.result.data
+                                                    .elementAt(index).status=="group"?"Group Request:":"",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: 'Poppins-Bold',
@@ -2108,20 +2111,17 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                 getdata(userid, tabValue);
                 print('SEcond CHILD');
               }),
-         /* SpeedDialChild(
-              child: Icon(Icons.send),
+          SpeedDialChild(
+              child: Icon(Icons.all_inclusive),
               backgroundColor: AppColors.theme1color,
-              label: 'Send',
+              label: 'All',
               onTap: () {
-                tabValue="send";
+                tabValue="all";
                 getdata(userid, tabValue);
                 print('Third CHILD');
-              }),*/
+              }),
         ],
       ),
     );
   }
-
-
-
 }

@@ -2,16 +2,27 @@ class individualRequestDetailspojo {
   bool success;
   String message;
   Result result;
+  List<Memberlist> memberlist;
   Paymentdetails paymentdetails;
 
   individualRequestDetailspojo(
-      {this.success, this.message, this.result, this.paymentdetails});
+      {this.success,
+        this.message,
+        this.result,
+        this.memberlist,
+        this.paymentdetails});
 
   individualRequestDetailspojo.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     result =
     json['result'] != null ? new Result.fromJson(json['result']) : null;
+    if (json['memberlist'] != null) {
+      memberlist = new List<Memberlist>();
+      json['memberlist'].forEach((v) {
+        memberlist.add(new Memberlist.fromJson(v));
+      });
+    }
     paymentdetails = json['paymentdetails'] != null
         ? new Paymentdetails.fromJson(json['paymentdetails'])
         : null;
@@ -23,6 +34,9 @@ class individualRequestDetailspojo {
     data['message'] = this.message;
     if (this.result != null) {
       data['result'] = this.result.toJson();
+    }
+    if (this.memberlist != null) {
+      data['memberlist'] = this.memberlist.map((v) => v.toJson()).toList();
     }
     if (this.paymentdetails != null) {
       data['paymentdetails'] = this.paymentdetails.toJson();
@@ -54,9 +68,13 @@ class Result {
   String fullName;
   String profilePic;
   String groupName;
+  String groupAdmin;
+  String groupMembers;
   String specialTerms;
   String receiverName;
   String receiverProfilePic;
+  String groupAdminName;
+  String adminProfilePic;
 
   Result(
       {this.id,
@@ -81,9 +99,13 @@ class Result {
         this.fullName,
         this.profilePic,
         this.groupName,
+        this.groupAdmin,
+        this.groupMembers,
         this.specialTerms,
         this.receiverName,
-        this.receiverProfilePic});
+        this.receiverProfilePic,
+        this.groupAdminName,
+        this.adminProfilePic});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -108,9 +130,13 @@ class Result {
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
     groupName = json['group_name'];
+    groupAdmin = json['group_admin'];
+    groupMembers = json['group_members'];
     specialTerms = json['special_terms'];
     receiverName = json['receiver_name'];
     receiverProfilePic = json['receiver_profile_pic'];
+    groupAdminName = json['group_admin_name'];
+    adminProfilePic = json['admin_profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -137,9 +163,42 @@ class Result {
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
     data['group_name'] = this.groupName;
+    data['group_admin'] = this.groupAdmin;
+    data['group_members'] = this.groupMembers;
     data['special_terms'] = this.specialTerms;
     data['receiver_name'] = this.receiverName;
     data['receiver_profile_pic'] = this.receiverProfilePic;
+    data['group_admin_name'] = this.groupAdminName;
+    data['admin_profile_pic'] = this.adminProfilePic;
+    return data;
+  }
+}
+
+class Memberlist {
+  String id;
+  String memberName;
+  String memberProfilePic;
+  String minCashByParticipant;
+
+  Memberlist(
+      {this.id,
+        this.memberName,
+        this.memberProfilePic,
+        this.minCashByParticipant});
+
+  Memberlist.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    memberName = json['member_name'];
+    memberProfilePic = json['member_profile_pic'];
+    minCashByParticipant = json['min_cash_by_participant'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['member_name'] = this.memberName;
+    data['member_profile_pic'] = this.memberProfilePic;
+    data['min_cash_by_participant'] = this.minCashByParticipant;
     return data;
   }
 }
@@ -191,7 +250,6 @@ class Paymentdetails {
     to = json['to'];
     total = json['total'];
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['current_page'] = this.currentPage;
@@ -280,3 +338,11 @@ class Data {
     return data;
   }
 }
+
+
+
+
+
+
+
+
