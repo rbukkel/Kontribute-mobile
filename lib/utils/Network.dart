@@ -29,6 +29,9 @@ class Network{
   static String individualsearch = "individualsearch";
   static String check_pool_name = "check_pool_name";
   static String follow = "follow";
+  static String followlisting = "followlisting";
+  static String follow_Request = "follow_Request";
+  static String follow_Request_update = "follow_Request_update";
   static String get_send_gift_request = "get_send_gift_request";
   static String get_send_gift = "get_send_gift";
   static String get_create_group = "get_create_group";

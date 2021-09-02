@@ -1371,7 +1371,6 @@ class CreatepoolState extends State<Createpool> {
     request.fields["can_see"] = currentSelected;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
-
     print("Request: " + request.fields.toString());
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
@@ -1392,7 +1391,8 @@ class CreatepoolState extends State<Createpool> {
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
-            setState(() {
+            setState(()
+            {
               isLoading = false;
             });
             Fluttertoast.showToast(
@@ -1453,8 +1453,7 @@ class CreatepoolState extends State<Createpool> {
                 value: _selecteCategorys.contains(categorylist[index]['id']),
                 onChanged: (bool selected) {
                   _onCategorySelected(selected, categorylist[index]['id'],
-                      categorylist[index]['full_name']
-                  );
+                      categorylist[index]['full_name']);
                 },
                 title: Text(
                   categorylist[index]['full_name'],
@@ -1468,7 +1467,6 @@ class CreatepoolState extends State<Createpool> {
               );
             }),
       )
-
     );
   }
 

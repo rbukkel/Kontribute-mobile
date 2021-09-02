@@ -113,6 +113,9 @@ class Data {
   String updatedAt;
   String fullName;
   String profilePic;
+  String groupName;
+  String groupAdmin;
+  String specialTerms;
 
   Data(
       {this.id,
@@ -135,7 +138,10 @@ class Data {
         this.createdAt,
         this.updatedAt,
         this.fullName,
-        this.profilePic});
+        this.profilePic,
+        this.groupName,
+        this.groupAdmin,
+        this.specialTerms});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -159,6 +165,9 @@ class Data {
     updatedAt = json['updated_at'];
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
+    groupName = json['group_name'];
+    groupAdmin = json['group_admin'];
+    specialTerms = json['special_terms'];
   }
 
   Map<String, dynamic> toJson() {
@@ -184,6 +193,9 @@ class Data {
     data['updated_at'] = this.updatedAt;
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
+    data['group_name'] = this.groupName;
+    data['group_admin'] = this.groupAdmin;
+    data['special_terms'] = this.specialTerms;
     return data;
   }
 }
