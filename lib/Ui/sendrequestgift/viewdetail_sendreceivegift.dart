@@ -927,7 +927,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   Future<void>  followapi() async {
     Map data = {
       'sender_id': senddetailsPojo.result.senderId.toString(),
-      'receiver_id': senddetailsPojo.result.receiverId.toString(),
+      'receiver_id': senddetailsPojo.result.receiverId.toString()!=null?senddetailsPojo.result.receiverId.toString()
+          :senddetailsPojo.result.groupAdmin.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;

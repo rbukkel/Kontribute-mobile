@@ -1,7 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Pojo/FollowRequestAcceptPojo.dart';
+import 'package:kontribute/Pojo/FollowinglistPojo.dart';
+import 'package:kontribute/Pojo/follow_Request_updatePojo.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:http/http.dart' as http;
 
 class mynetwork extends StatefulWidget {
   @override
@@ -10,6 +19,145 @@ class mynetwork extends StatefulWidget {
 
 class _mynetworkState extends State<mynetwork> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String userid;
+  bool resultvalue = true;
+  bool resultfollowvalue = true;
+  bool internet = false;
+  String val;
+  String requestval;
+  String followval;
+  var storelist_length;
+  var followlist_length;
+  FollowRequestAcceptPojo requestpojo;
+  FollowinglistPojo followlistpojo;
+  follow_Request_updatePojo followupdatepojo;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+      getdata(userid);
+      getFollowing(userid);
+    });
+  }
+  void getdata(String user_id) async {
+    Map data = {
+      'receiver_id': user_id.toString(),
+    };
+
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.follow_Request, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        requestpojo = new FollowRequestAcceptPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+
+            if(requestpojo.result.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = requestpojo.result;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: requestpojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+  void getFollowing(String user_id) async {
+    Map data = {
+      'receiver_id': user_id.toString(),
+    };
+    print("receiver_id: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      followval = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultfollowvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(followval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        followlistpojo = new FollowinglistPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+
+            if(followlistpojo.result.isEmpty)
+            {
+              resultfollowvalue = false;
+            }
+            else
+            {
+              resultfollowvalue = true;
+              print("SSSS");
+              followlist_length = followlistpojo.result;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: followlistpojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(followval)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -168,15 +316,19 @@ class _mynetworkState extends State<mynetwork> {
                             )
                           ],
                         ),
+                        storelist_length != null ?
                         Container(
                           child: ListView.builder(
-                              itemCount: 2,
+                              itemCount:  storelist_length.length == null
+                                  ? 0
+                                  : storelist_length.length,
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                     child: Row(
                                   children: [
+                                    requestpojo.result.elementAt(index).facebookId!=null?
                                     GestureDetector(
                                       onTap: () {
                                         // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
@@ -199,11 +351,42 @@ class _mynetworkState extends State<mynetwork> {
                                                 SizeConfig.blockSizeHorizontal *
                                                     5),
                                         decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
                                             image: DecorationImage(
-                                          image: new AssetImage(
-                                              "assets/images/userProfile.png"),
-                                          fit: BoxFit.fill,
-                                        )),
+                                                image: NetworkImage(
+                                                  requestpojo.result.elementAt(index).profilePic,
+                                                ),
+                                                fit: BoxFit.fill)),
+                                      ),
+                                    ):
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                      },
+                                      child: Container(
+                                        height:
+                                        SizeConfig.blockSizeVertical * 9,
+                                        width: SizeConfig.blockSizeVertical * 9,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                            bottom:
+                                            SizeConfig.blockSizeVertical *
+                                                1,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1,
+                                            right:
+                                            SizeConfig.blockSizeHorizontal *
+                                                1,
+                                            left:
+                                            SizeConfig.blockSizeHorizontal *
+                                                5),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                  Network.BaseApigift+requestpojo.result.elementAt(index).profilePic,
+                                                ),
+                                                fit: BoxFit.fill)),
                                       ),
                                     ),
                                     Column(
@@ -224,7 +407,7 @@ class _mynetworkState extends State<mynetwork> {
                                                     1,
                                               ),
                                               child: Text(
-                                                "Yogita Sharma",
+                                                requestpojo.result.elementAt(index).fullName,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: AppColors.themecolor,
@@ -237,7 +420,7 @@ class _mynetworkState extends State<mynetwork> {
                                             ),
                                           ],
                                         ),
-                                        Container(
+                                      /*  Container(
                                           width:
                                               SizeConfig.blockSizeHorizontal *
                                                   45,
@@ -288,43 +471,72 @@ class _mynetworkState extends State<mynetwork> {
                                                           'Poppins-Regular'),
                                                 ),
                                               ],
-                                            )),
+                                            )),*/
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: SizeConfig.blockSizeHorizontal * 1,
-                                              right: SizeConfig.blockSizeHorizontal *3,
-                                              top: SizeConfig.blockSizeVertical * 1),
-                                          child: Image.asset(
-                                            "assets/images/error.png",
-                                            color: AppColors.black,
-                                            width: 38,
-                                            height: 38,
+                                        GestureDetector(
+                                          onTap:(){
+
+                                           followaccept(userid,
+                                               requestpojo.result.elementAt(index).id,
+                                           "2");
+
+                                           },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: SizeConfig.blockSizeHorizontal * 1,
+                                                right: SizeConfig.blockSizeHorizontal *3,
+                                                top: SizeConfig.blockSizeVertical * 1),
+                                            child: Image.asset(
+                                              "assets/images/error.png",
+                                              color: AppColors.black,
+                                              width: 38,
+                                              height: 38,
+                                            ),
                                           ),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  5,
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1),
-                                          child: Image.asset(
-                                            "assets/images/check.png",
-                                            color: AppColors.theme1color,
-                                            width: 38,
-                                            height: 38,
+                                        GestureDetector(
+                                          onTap:(){
+
+                                            followaccept(userid,
+                                                requestpojo.result.elementAt(index).id,
+                                                "1");
+
+                                          },
+                                          child:   Container(
+                                            margin: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    5,
+                                                top:
+                                                SizeConfig.blockSizeVertical *
+                                                    1),
+                                            child: Image.asset(
+                                              "assets/images/check.png",
+                                              color: AppColors.theme1color,
+                                              width: 38,
+                                              height: 38,
+                                            ),
                                           ),
                                         )
+
                                       ],
                                     )
                                   ],
                                 ));
                               }),
+                        ): Container(
+                          margin: EdgeInsets.only(top: 150),
+                          alignment: Alignment.center,
+                          child: resultvalue == true
+                              ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                              : Center(
+                            child: Container()
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -381,6 +593,7 @@ class _mynetworkState extends State<mynetwork> {
                             )
                           ],
                         ),
+                        followlist_length != null ?
                         Container(
                           height: SizeConfig.blockSizeVertical * 30,
                           margin: EdgeInsets.only(
@@ -389,10 +602,12 @@ class _mynetworkState extends State<mynetwork> {
                               left: SizeConfig.blockSizeHorizontal * 2,
                               right: SizeConfig.blockSizeHorizontal * 2),
                           child: ListView.builder(
-                              itemCount: 5,
+                              itemCount: followlist_length.length == null
+                                  ? 0
+                                  : followlist_length.length,
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
+                              itemBuilder: (BuildContext context, int ind) {
                                 return Container(
                                     width: SizeConfig.blockSizeHorizontal * 60,
                                     child: Card(
@@ -423,7 +638,7 @@ class _mynetworkState extends State<mynetwork> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              GestureDetector(
+                                              followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
                                                 onTap: () {
                                                   // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                                 },
@@ -446,11 +661,43 @@ class _mynetworkState extends State<mynetwork> {
                                                               .blockSizeHorizontal *
                                                           5),
                                                   decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                    image: new AssetImage(
-                                                        "assets/images/userProfile.png"),
-                                                    fit: BoxFit.fill,
-                                                  )),
+                                                          image: NetworkImage(
+                                                           followlistpojo.result.elementAt(ind).profilePic,
+                                                          ),
+                                                          fit: BoxFit.fill)),
+                                                ),
+                                              ):
+                                              GestureDetector(
+                                                onTap: () {
+                                                  // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                },
+                                                child: Container(
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      12,
+                                                  width: SizeConfig
+                                                      .blockSizeVertical *
+                                                      12,
+                                                  alignment: Alignment.center,
+                                                  margin: EdgeInsets.only(
+                                                      bottom: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          5),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                            Network.BaseApigift+followlistpojo.result.elementAt(ind).profilePic,
+                                                          ),
+                                                          fit: BoxFit.fill)),
                                                 ),
                                               ),
                                             ],
@@ -466,7 +713,7 @@ class _mynetworkState extends State<mynetwork> {
                                             ),
                                             alignment: Alignment.center,
                                             child: Text(
-                                              "Yogita Sharma",
+                                              followlistpojo.result.elementAt(ind).fullName,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.black,
@@ -476,7 +723,7 @@ class _mynetworkState extends State<mynetwork> {
                                                       'Poppins-Regular'),
                                             ),
                                           ),
-                                          Container(
+                                      /*    Container(
                                             width:
                                                 SizeConfig.blockSizeHorizontal *
                                                     55,
@@ -528,11 +775,21 @@ class _mynetworkState extends State<mynetwork> {
                                                             'Poppins-Regular'),
                                                   ),
                                                 ],
-                                              ))
+                                              ))*/
                                         ],
                                       ),
                                     ));
                               }),
+                        ): Container(
+                          margin: EdgeInsets.only(top: 150),
+                          alignment: Alignment.center,
+                          child: resultvalue == true
+                              ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                              : Center(
+                              child: Container()
+                          ),
                         ),
                       ],
                     )),
@@ -544,5 +801,54 @@ class _mynetworkState extends State<mynetwork> {
         ),
       ),
     );
+  }
+
+  Future<void> followaccept(String userid, String id, String status) async {
+    Map data = {
+      'receiver_id': userid.toString(),
+      'id': id.toString(),
+      'status': status.toString(),
+    };
+
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.follow_Request_update, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      requestval = response.body;
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(requestval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        followupdatepojo = new follow_Request_updatePojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          Fluttertoast.showToast(
+              msg: followupdatepojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: followupdatepojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(requestval)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
   }
 }

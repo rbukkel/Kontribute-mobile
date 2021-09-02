@@ -286,10 +286,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                 child: InkWell(
                                   child: Container(
                                     padding: EdgeInsets.all(5.0),
-                                    margin: EdgeInsets.only(
-                                        bottom: SizeConfig
-                                            .blockSizeVertical *
-                                            2),
+                                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
                                     child: Column(
                                       mainAxisAlignment:
                                       MainAxisAlignment.start,
