@@ -209,14 +209,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         final removedBrackets = input.substring(1, input.length - 1);
         final parts = removedBrackets.split(',');
         catname = parts.map((part) => "$part").join(',').trim();
-
         print("Docname: "+catname.toString());
-
-
       });
-
-
-
       setState(() {
         file1 = file;
         _documentList.add(file1);
@@ -1709,7 +1703,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 EnterRequiredAmountController.text,
                                 TotalBudgetController.text,
                                 VideoController.text,
-                                _imageList);
+                                _imageList,
+                            _documentList);
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1810,7 +1805,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       String enterrequiredamount,
       String totalbudget,
       String video,
-      List images) async {
+      List images, List documentList) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_project));
@@ -1838,12 +1833,24 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         ),
       );
     }
-    if (documentPath != null) {
+
+    for (int i = 0; i < documentList.length; i++) {
+      request.files.add(
+        http.MultipartFile(
+          "file[]",
+          http.ByteStream(DelegatingStream.typed(documentList[i].openRead())),
+          await documentList[i].length(),
+          filename:path.basename(documentList[i].path),
+        ),
+      );
+    }
+
+   /* if (documentPath != null) {
       print("DocumentPATH: " + documentPath);
       request.files.add(await http.MultipartFile.fromPath(
           "file[]", documentPath,
           filename: documentPath));
-    }
+    }*/
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);

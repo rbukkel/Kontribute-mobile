@@ -34,8 +34,8 @@ class Commentsdata {
   String userId;
   String budget;
   String requiredAmount;
-  String videoLink;
-  String documents;
+  List<VideoLink> videoLink;
+  List<Documents> documents;
   String viewType;
   String members;
   String termsAndCondition;
@@ -86,8 +86,18 @@ class Commentsdata {
     userId = json['user_id'];
     budget = json['budget'];
     requiredAmount = json['required_amount'];
-    videoLink = json['video_link'];
-    documents = json['documents'];
+    if (json['video_link'] != null) {
+      videoLink = new List<VideoLink>();
+      json['video_link'].forEach((v) {
+        videoLink.add(new VideoLink.fromJson(v));
+      });
+    }
+    if (json['documents'] != null) {
+      documents = new List<Documents>();
+      json['documents'].forEach((v) {
+        documents.add(new Documents.fromJson(v));
+      });
+    }
     viewType = json['view_type'];
     members = json['members'];
     termsAndCondition = json['terms_and_condition'];
@@ -124,8 +134,12 @@ class Commentsdata {
     data['user_id'] = this.userId;
     data['budget'] = this.budget;
     data['required_amount'] = this.requiredAmount;
-    data['video_link'] = this.videoLink;
-    data['documents'] = this.documents;
+    if (this.videoLink != null) {
+      data['video_link'] = this.videoLink.map((v) => v.toJson()).toList();
+    }
+    if (this.documents != null) {
+      data['documents'] = this.documents.map((v) => v.toJson()).toList();
+    }
     data['view_type'] = this.viewType;
     data['members'] = this.members;
     data['terms_and_condition'] = this.termsAndCondition;
@@ -148,6 +162,37 @@ class Commentsdata {
   }
 }
 
+class VideoLink {
+  String vlink;
+
+  VideoLink({this.vlink});
+
+  VideoLink.fromJson(Map<String, dynamic> json) {
+    vlink = json['vlink'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['vlink'] = this.vlink;
+    return data;
+  }
+}
+
+class Documents {
+  String documents;
+
+  Documents({this.documents});
+
+  Documents.fromJson(Map<String, dynamic> json) {
+    documents = json['documents'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['documents'] = this.documents;
+    return data;
+  }
+}
 class Commentslist {
   int id;
   String projectId;
@@ -195,7 +240,6 @@ class Projectimagesdata {
   String imagePath;
   String status;
   String postedDate;
-  String image;
   String createdAt;
   String updatedAt;
 
@@ -205,7 +249,6 @@ class Projectimagesdata {
         this.imagePath,
         this.status,
         this.postedDate,
-        this.image,
         this.createdAt,
         this.updatedAt});
 
@@ -215,7 +258,6 @@ class Projectimagesdata {
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];
-    image = json['image'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -227,7 +269,6 @@ class Projectimagesdata {
     data['image_path'] = this.imagePath;
     data['status'] = this.status;
     data['posted_date'] = this.postedDate;
-    data['image'] = this.image;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

@@ -54,7 +54,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
       'user_id': user_id.toString(),
       'sortby': poolvalue.toString(),
     };
-
     if (poolvalue.toString() == "request")
     {
       receivefrom = "request";
@@ -84,7 +83,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(requestpojo.result.data.isEmpty)
             {
               resultvalue = false;
@@ -115,8 +113,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
     }
   }
 
-
-/*
+  /*
   void getdata(String user_id, String poolvalue) async {
     setState(() {
       storelist_length=null;

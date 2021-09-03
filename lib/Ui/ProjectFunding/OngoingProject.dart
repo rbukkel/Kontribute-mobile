@@ -38,11 +38,13 @@ class OngoingProjectState extends State<OngoingProject> {
   String val;
   var storelist_length;
   var imageslist_length;
+  var commentlist_length;
   projectlisting listing;
   int amount;
   int amoun;
   String vallike;
   projectlike prolike;
+  String tabValue ="1";
 
   @override
   void initState() {
@@ -54,9 +56,6 @@ class OngoingProjectState extends State<OngoingProject> {
       print("Login userid: " + userid.toString());
 
     });
-
-
-
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         getdata(userid);
@@ -79,10 +78,12 @@ class OngoingProjectState extends State<OngoingProject> {
 
 
   void getdata(String user_id) async {
+    setState(() {
+      storelist_length =null;
+    });
     Map data = {
       'userid': user_id.toString(),
     };
-
     print("user: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.projectListing, body: data);
@@ -105,7 +106,6 @@ class OngoingProjectState extends State<OngoingProject> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(listing.projectData.isEmpty)
             {
               resultvalue = false;
@@ -115,8 +115,6 @@ class OngoingProjectState extends State<OngoingProject> {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
-
-
             }
           });
         }
@@ -139,10 +137,69 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 
 
+  void getsortdata(String user_id,String sortval) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+      'sortby': sortval.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new projectlisting.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
-
     await showMenu(
       context: context,
       position: RelativeRect.fromLTRB( _tapDownPosition.dx,
@@ -260,6 +317,7 @@ class OngoingProjectState extends State<OngoingProject> {
                         : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                          imageslist_length = listing.projectData.elementAt(index).projectImages;
+                         commentlist_length = listing.projectData.elementAt(index).comments;
                       double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) / double.parse(listing.projectData.elementAt(index).budget) * 100;
                       amoun =amount.toInt();
                       return
@@ -909,67 +967,72 @@ class OngoingProjectState extends State<OngoingProject> {
                                           
                                         ),
                                         ),
-                                    /*    GestureDetector(
-                                          onTap: ()
-                                          {
-                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                          },
-                                          child: Container(
-                                            width: SizeConfig.blockSizeHorizontal *100,
-                                            alignment: Alignment.topLeft,
-                                            margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                                top: SizeConfig.blockSizeVertical *1),
-                                            child: Text(
-                                              "View all 29 comments",
-                                              maxLines: 2,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black26,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: SizeConfig.blockSizeHorizontal *100,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                              top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "thekratos carry killed it🤑🤑🤣",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'NotoEmoji'),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: SizeConfig.blockSizeHorizontal *100,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                              top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "itx_kamie_94🤑🤣🤣",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'NotoEmoji'),
-                                          ),
-                                        ),
-                                        Container(
+                                       /* commentlist_length!=null?
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: ()
+                                                  {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                                  },
+                                                  child: Container(
+                                                    width: SizeConfig.blockSizeHorizontal *100,
+                                                    alignment: Alignment.topLeft,
+                                                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                                        top: SizeConfig.blockSizeVertical *1),
+                                                    child: Text(
+                                                     commentlist_length.length.toString(),
+                                                      maxLines: 2,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.black26,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal *100,
+                                                  alignment: Alignment.topLeft,
+                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                                      top: SizeConfig.blockSizeVertical *1),
+                                                  child: Text(
+                                                    listing.projectData.elementAt(index).comments.elementAt(0).comment,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'NotoEmoji'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal *100,
+                                                  alignment: Alignment.topLeft,
+                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                                      top: SizeConfig.blockSizeVertical *1),
+                                                  child: Text(
+                                                    "itx_kamie_94🤑🤣🤣",
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'NotoEmoji'),
+                                                  ),
+                                                )
+                                              ],
+                                            ): Container()*/
+                                       /* Container(
                                           width: SizeConfig.blockSizeHorizontal *100,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
@@ -1046,14 +1109,21 @@ class OngoingProjectState extends State<OngoingProject> {
             backgroundColor: AppColors.theme1color,
             label: 'Public',
 
-            onTap: () => print('First CHILD'),
+              onTap: () {
+                tabValue="1";
+                getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
           ),
           SpeedDialChild(
             child: Icon(Icons.privacy_tip),
             backgroundColor: AppColors.theme1color,
             label: 'Private',
-
-            onTap: () => print('SECOND CHILD'),
+              onTap: () {
+                tabValue="2";
+                getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
           ),
         ],
       ),

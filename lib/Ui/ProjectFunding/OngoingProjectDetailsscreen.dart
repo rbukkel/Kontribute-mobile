@@ -47,6 +47,8 @@ class OngoingProjectDetailsscreenState
   var productlist_length;
   var storelist_length;
   var imageslist_length;
+  var documentlist_length;
+  var videolist_length;
   List<String> imagestore = [];
   Projectdetailspojo projectdetailspojo;
   projectlike prolike;
@@ -113,8 +115,9 @@ class OngoingProjectDetailsscreenState
           setState(() {
             productlist_length = projectdetailspojo.commentsdata;
             storelist_length = projectdetailspojo.commentsdata.commentslist;
-            imageslist_length =
-                projectdetailspojo.commentsdata.projectimagesdata;
+            imageslist_length = projectdetailspojo.commentsdata.projectimagesdata;
+            documentlist_length = projectdetailspojo.commentsdata.documents;
+            videolist_length = projectdetailspojo.commentsdata.videoLink;
             double amount =
                 double.parse(projectdetailspojo.commentsdata.requiredAmount) /
                     double.parse(projectdetailspojo.commentsdata.budget) *
@@ -1179,11 +1182,13 @@ class OngoingProjectDetailsscreenState
                           ),
                         ),
 
-
-                       /* Container(
+                        videolist_length!=null?
+                        Container(
                           height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
-                              itemCount: 5,
+                              itemCount:  videolist_length.length == null
+                                  ? 0
+                                  : videolist_length.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
@@ -1232,14 +1237,17 @@ class OngoingProjectDetailsscreenState
                                       ],
                                     ));
                               }),
-                        ),
+                        ):Container(),
+                        documentlist_length!=null?
                         Container(
-                          height: SizeConfig.blockSizeVertical * 20,
+                          height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
-                              itemCount: 5,
+                              itemCount:   documentlist_length.length == null
+                                  ? 0
+                                  : documentlist_length.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
+                              itemBuilder: (BuildContext context, int inde) {
                                 return Container(
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 3,
@@ -1265,12 +1273,12 @@ class OngoingProjectDetailsscreenState
                                             SizeConfig.blockSizeHorizontal * 20,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "Abc.pdf",
+                                          projectdetailspojo.commentsdata.documents.elementAt(inde).documents.toString(),
                                           maxLines: 2,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.black,
-                                              fontSize: 12,
+                                              fontSize: 8,
                                               fontWeight: FontWeight.normal,
                                               fontFamily: 'Poppins-Regular'),
                                         ),
@@ -1298,16 +1306,17 @@ class OngoingProjectDetailsscreenState
                                     ],
                                   ),
 
-                                  *//* decoration: BoxDecoration(
+                                /*   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage("assets/images/files.png"),
                                       fit: BoxFit.fill,
                                     ),
-                                  ),*//*
+                                  ),*/
                                 );
                               }),
-                        ),
-                        Container(
+                        ):Container(),
+
+                   /*     Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Divider(

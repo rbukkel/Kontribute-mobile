@@ -46,8 +46,8 @@ class ProjectData {
   String userId;
   String budget;
   String requiredAmount;
-  String videoLink;
-  String documents;
+  List<VideoLink> videoLink;
+  List<Documents> documents;
   String viewType;
   String members;
   String termsAndCondition;
@@ -55,30 +55,32 @@ class ProjectData {
   String status;
   String createdAt;
   String updatedAt;
+  String facebookId;
   String fullName;
   String profilePic;
 
   ProjectData(
       {this.id,
-      this.projectName,
-      this.projectStartdate,
-      this.projectEnddate,
-      this.description,
-      this.tags,
-      this.userId,
-      this.budget,
-      this.requiredAmount,
-      this.videoLink,
-      this.documents,
-      this.viewType,
-      this.members,
-      this.termsAndCondition,
-      this.postedDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.fullName,
-      this.profilePic});
+        this.projectName,
+        this.projectStartdate,
+        this.projectEnddate,
+        this.description,
+        this.tags,
+        this.userId,
+        this.budget,
+        this.requiredAmount,
+        this.videoLink,
+        this.documents,
+        this.viewType,
+        this.members,
+        this.termsAndCondition,
+        this.postedDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.facebookId,
+        this.fullName,
+        this.profilePic});
 
   ProjectData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -90,8 +92,18 @@ class ProjectData {
     userId = json['user_id'];
     budget = json['budget'];
     requiredAmount = json['required_amount'];
-    videoLink = json['video_link'];
-    documents = json['documents'];
+    if (json['video_link'] != null) {
+      videoLink = new List<VideoLink>();
+      json['video_link'].forEach((v) {
+        videoLink.add(new VideoLink.fromJson(v));
+      });
+    }
+    if (json['documents'] != null) {
+      documents = new List<Documents>();
+      json['documents'].forEach((v) {
+        documents.add(new Documents.fromJson(v));
+      });
+    }
     viewType = json['view_type'];
     members = json['members'];
     termsAndCondition = json['terms_and_condition'];
@@ -99,6 +111,7 @@ class ProjectData {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    facebookId = json['facebook_id'];
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
   }
@@ -114,8 +127,12 @@ class ProjectData {
     data['user_id'] = this.userId;
     data['budget'] = this.budget;
     data['required_amount'] = this.requiredAmount;
-    data['video_link'] = this.videoLink;
-    data['documents'] = this.documents;
+    if (this.videoLink != null) {
+      data['video_link'] = this.videoLink.map((v) => v.toJson()).toList();
+    }
+    if (this.documents != null) {
+      data['documents'] = this.documents.map((v) => v.toJson()).toList();
+    }
     data['view_type'] = this.viewType;
     data['members'] = this.members;
     data['terms_and_condition'] = this.termsAndCondition;
@@ -123,8 +140,41 @@ class ProjectData {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['facebook_id'] = this.facebookId;
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
+    return data;
+  }
+}
+
+class VideoLink {
+  String vlink;
+
+  VideoLink({this.vlink});
+
+  VideoLink.fromJson(Map<String, dynamic> json) {
+    vlink = json['vlink'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['vlink'] = this.vlink;
+    return data;
+  }
+}
+
+class Documents {
+  String documents;
+
+  Documents({this.documents});
+
+  Documents.fromJson(Map<String, dynamic> json) {
+    documents = json['documents'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['documents'] = this.documents;
     return data;
   }
 }
@@ -135,19 +185,17 @@ class ProjectImagesdata {
   String imagePath;
   String status;
   String postedDate;
-  String image;
   String createdAt;
   String updatedAt;
 
   ProjectImagesdata(
       {this.id,
-      this.projectId,
-      this.imagePath,
-      this.status,
-      this.postedDate,
-      this.image,
-      this.createdAt,
-      this.updatedAt});
+        this.projectId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   ProjectImagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -155,7 +203,6 @@ class ProjectImagesdata {
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];
-    image = json['image'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -167,7 +214,6 @@ class ProjectImagesdata {
     data['image_path'] = this.imagePath;
     data['status'] = this.status;
     data['posted_date'] = this.postedDate;
-    data['image'] = this.image;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

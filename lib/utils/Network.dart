@@ -42,7 +42,7 @@ class Network{
   static String projectlikes = "projectlikes";
   static String postComments = "postComments";
   static String reportProject = "reportProject";
-  static String projectListingHistory = "projectListingHistory";
+  static String projectListing_history = "projectListing_history";
   static String edit_create_project = "edit_create_project";
   static String projectSearch = "projectSearch";
   static String checkfollow_status = "checkfollow_status";

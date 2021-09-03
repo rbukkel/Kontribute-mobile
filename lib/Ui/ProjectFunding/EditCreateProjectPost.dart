@@ -44,9 +44,14 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   bool isLoadingPath = false;
   bool isMultiPick = false;
   FileType fileType;
-  String basename;
-  String data1;
+  var basename=null;
+  var catname=null;
+  var videoname=null;
   List<File> _imageList = [];
+  List<File> _documentList = [];
+  List _selecteName = List();
+  List _selectlink = List();
+  String data1;
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -112,7 +117,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   var productlist_length;
   var imageslist_length;
   bool resultvalue = true;
-
+  String link;
+  String linkdocuments;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
       height: SizeConfig.blockSizeVertical * 25,
@@ -224,9 +230,34 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             formattedEndDate = sendgift.projectData.projectEnddate;
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
-            VideoController.text = sendgift.projectData.videoLink.toString();
+            for(int i =0; i< sendgift.projectData.videoLink.length;i++)
+              {
+                print("link: "+sendgift.projectData.videoLink.elementAt(i).vlink);
+                 link = sendgift.projectData.videoLink.elementAt(i).vlink;
+                print(": "+link);
+
+              }
+            _selectlink.add(link);
+
+            final input = _selectlink.toString();
+            final removedBrackets = input.substring(1, input.length - 1);
+            final parts = removedBrackets.split(',');
+            videoname = parts.map((part) => "$part").join(',').trim();
+
+            print("videoname: "+videoname.toString());
+
+            VideoController.text = videoname;
+
+            for(int i =0; i< sendgift.projectData.documents.length;i++)
+            {
+              print("link: "+sendgift.projectData.documents.elementAt(i).documents);
+              linkdocuments = sendgift.projectData.documents.elementAt(i).documents;
+              print(": "+linkdocuments);
+              catname = linkdocuments +",";
+            }
+
             TermsController.text = sendgift.projectData.termsAndCondition!=null||sendgift.projectData.termsAndCondition!=""?sendgift.projectData.termsAndCondition.toString():"";
-            basename = sendgift.projectData.documents.toString();
+          //  basename = sendgift.projectData.documents.toString();
             currentid = int.parse(sendgift.projectData.viewType);
             if(currentid==1)
             {
@@ -234,9 +265,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             }else if(currentid==2)
             {
               showpost ="Connections only";
-            }else if(currentid==3)
-            {
-              showpost ="Group members";
             }
           });
         } else {
@@ -272,25 +300,47 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
     });
   }
   Future getPdfAndUpload() async {
-
     File file = await FilePicker.getFile(
       type: FileType.custom,
-      allowedExtensions: ['pdf','docx'], //here you can add any of extention what you need to pick
+      allowedExtensions: [
+        'pdf',
+        'docx'
+      ], //here you can add any of extention what you need to pick
     );
 
-    if(file != null) {
-
+    if (file != null) {
       setState(() {
-
         file1 = file; //file1 is a global variable which i created
-        print("File Path: "+file1.toString());
+        print("File Path: " + file1.toString());
+        _documentList.add(file1);
+        for (int i = 0; i < _documentList.length; i++) {
+          print("ListDoc:" + _documentList[i].toString());
+        }
         documentPath = file.path.toString();
-        print("File Path1: "+file.path.toString());
-         basename = path.basename(file.path);
-        print("File basename: "+basename.toString());
+        print("File Path1: " + file.path.toString());
+        basename = path.basename(file.path);
+        print("File basename: " + basename.toString());
+        _selecteName.add(basename);
+
+        final input = _selecteName.toString();
+        final removedBrackets = input.substring(1, input.length - 1);
+        final parts = removedBrackets.split(',');
+        catname = parts.map((part) => "$part").join(',').trim();
+
+        print("Docname: "+catname.toString());
+
 
       });
 
+
+
+      setState(() {
+        file1 = file;
+        _documentList.add(file1);
+        for (int i = 0; i < _imageList.length; i++) {
+          print("ListImages:" + _imageList[i].toString());
+        }
+      });
     }
   }
 
@@ -1331,7 +1381,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                             ),
                             Container(
                               width: SizeConfig.blockSizeHorizontal * 70,
-                              height: SizeConfig.blockSizeVertical * 7,
+                              height: SizeConfig.blockSizeVertical * 10,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 right: SizeConfig.blockSizeHorizontal * 3,
@@ -1367,6 +1417,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 },
                                 onSaved: (val) => _Video = val,
                                 textAlign: TextAlign.left,
+                                maxLines: 5,
                                 style: TextStyle(
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.normal,
@@ -1417,7 +1468,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                             ),
                             Container(
                                 width: SizeConfig.blockSizeHorizontal * 70,
-                                height: SizeConfig.blockSizeVertical * 7,
+                                height: SizeConfig.blockSizeVertical *10,
                                 margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2,
                                   right: SizeConfig.blockSizeHorizontal * 3,
@@ -1443,7 +1494,9 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                       Container(
                                           width:
                                           SizeConfig.blockSizeHorizontal * 60,
-                                          child: Text(basename!=null?basename.toString():"",
+                                          child: Text( catname != null
+                                              ? catname.toString()
+                                              : "",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1553,9 +1606,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                       }else if(currentSelectedValue=="Connections only")
                                       {
                                         currentid =2;
-                                      }else if(currentSelectedValue=="Group members")
-                                      {
-                                        currentid =3;
                                       }
                                     });
                                   },
@@ -1565,96 +1615,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                             )
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin:
-                              EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child:
-                              Text(
-                                "",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeVertical * 1,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 30,
-                                        child: TextFormField(
-                                          autofocus: false,
-                                          focusNode: SearchPostFocus,
-                                          controller: searchpostController,
-                                          textInputAction: TextInputAction.done,
-                                          keyboardType: TextInputType.text,
-                                          /*validator: (val) {
-                                            if (val.length == 0)
-                                              return "Please enter search post";
-                                            else
-                                              return null;
-                                          },*/
-                                          onFieldSubmitted: (v) {
-                                            SearchPostFocus.unfocus();
-                                          },
-                                          onSaved: (val) => _searchpost = val,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 12,
-                                              color: Colors.black),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 5,
-                                        child: Icon(
-                                          Icons.search,
-                                          color: AppColors.greyColor,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),
+
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1758,7 +1719,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     EnterRequiredAmountController.text,
                                     TotalBudgetController.text,
                                     VideoController.text,
-                                    _imageList
+                                    _imageList,
+                                    _documentList
                                 );
                               }
                             else
@@ -1826,7 +1788,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       String enterrequiredamount,
       String totalbudget,
       String video,
-      List images) async
+      List images,
+      List documentList) async
   {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
@@ -1855,9 +1818,15 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
         ),
       );
     }
-    if (documentPath != null) {
-      print("DocumentPATH: " + documentPath);
-      request.files.add(await http.MultipartFile.fromPath("file", documentPath, filename: documentPath));
+    for (int i = 0; i < documentList.length; i++) {
+      request.files.add(
+        http.MultipartFile(
+          "file[]",
+          http.ByteStream(DelegatingStream.typed(documentList[i].openRead())),
+          await documentList[i].length(),
+          filename:path.basename(documentList[i].path),
+        ),
+      );
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
@@ -37,6 +38,7 @@ class HistoryProjectState extends State<HistoryProject> {
   int amoun;
   String vallike;
   projectlike prolike;
+  String tabValue ="1";
 
   @override
   void initState() {
@@ -69,6 +71,67 @@ class HistoryProjectState extends State<HistoryProject> {
 
   }
 
+  void getsortdata(String user_id,String sortval) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+      'sortby': sortval.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing_history, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new projectlisting.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
@@ -98,13 +161,16 @@ class HistoryProjectState extends State<HistoryProject> {
   }
 
   void getdata(String user_id) async {
+    setState(() {
+      storelist_length =null;
+    });
     Map data = {
       'userid': user_id.toString(),
     };
 
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.projectListingHistory, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing_history, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
@@ -134,8 +200,6 @@ class HistoryProjectState extends State<HistoryProject> {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
-
-
             }
           });
         }
@@ -157,7 +221,7 @@ class HistoryProjectState extends State<HistoryProject> {
     }
   }
 
-
+  bool _dialVisible = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -536,11 +600,11 @@ class HistoryProjectState extends State<HistoryProject> {
                                     GestureDetector(
                                       onTap: () {
                                         //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                        callNext(
+                                        /*callNext(
                                             HistoryProjectDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
-                                            ), context);
+                                            ), context);*/
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -608,10 +672,10 @@ class HistoryProjectState extends State<HistoryProject> {
                                     GestureDetector(
                                       onTap: () {
                                         //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                        callNext(
+                                        /*callNext(
                                             HistoryProjectDetailsscreen(
                                                 data: listing.projectData.elementAt(index).id.toString()
-                                            ), context);
+                                            ), context);*/
                                       },
                                       child: Container(
                                         color: AppColors.themecolor,
@@ -863,6 +927,48 @@ class HistoryProjectState extends State<HistoryProject> {
               )
             ],
           )
+      ),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        // this is ignored if animatedIcon is non null
+        // child: Icon(Icons.add),
+        visible: _dialVisible,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        tooltip: 'Speed Dial',
+        heroTag: 'speed-dial-hero-tag',
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 8.0,
+        shape: CircleBorder(),
+        children: [
+
+          SpeedDialChild(
+              child: Icon(Icons.public),
+              backgroundColor: AppColors.theme1color,
+              label: 'Public',
+
+              onTap: () {
+                tabValue="1";
+                getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
+          ),
+          SpeedDialChild(
+              child: Icon(Icons.privacy_tip),
+              backgroundColor: AppColors.theme1color,
+              label: 'Private',
+              onTap: () {
+                tabValue="2";
+                getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
+          ),
+        ],
       ),
     );
 
