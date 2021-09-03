@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/FollowinglistPojo.dart';
+import 'package:kontribute/Pojo/followstatus.dart';
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/Pojo/paymentlist.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -14,8 +16,9 @@ import 'package:kontribute/utils/screen.dart';
 
 class viewdetail_sendreceivegift extends StatefulWidget {
   final String data;
+  final String coming;
 
-  const viewdetail_sendreceivegift({Key key, @required this.data})
+  const viewdetail_sendreceivegift({Key key, @required this.data,@required this.coming})
       : super(key: key);
 
   @override
@@ -25,9 +28,11 @@ class viewdetail_sendreceivegift extends StatefulWidget {
 
 class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> {
   String data1;
+  String coming1;
   bool internet = false;
   bool resultvalue = true;
   String val;
+  String valfollowstatus;
   String vals;
   var storelist_length;
   String image;
@@ -36,8 +41,15 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   String updateval;
   String userid;
   individualRequestDetailspojo senddetailsPojo;
+  followstatus followstatusPojo;
   paymentlist paymentlistpojo;
   var productlist_length;
+  String reverid;
+  bool resultfollowvalue = true;
+  var followlist_length;
+  FollowinglistPojo followlistpojo;
+  String followval;
+
 
   @override
   void initState() {
@@ -45,16 +57,16 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
+        coming1 = widget.coming;
         a = int.parse(data1);
-        print("receiverComing: " + a.toString());
+        print("receiverComing: "+ coming1.toString());
+        print("Coming: "+ a.toString());
         SharedUtils.readloginId("UserId").then((val) {
           print("UserId: " + val);
           userid = val;
           getData(a,userid);
           print("Login userid: " + userid.toString());
         });
-
-
        // getpaymentlist(a);
         setState(() {
           internet = true;
@@ -72,6 +84,66 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
       }
     });
   }
+
+
+
+  void getfollowstatus(String userid,String rec) async {
+    Map data = {
+      'receiver_id': rec.toString(),
+      'userid': userid.toString(),
+    };
+    print("follow: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.checkfollow_status, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valfollowstatus = response.body; //store response as string
+      if (jsonDecode(valfollowstatus)["status"] == false) {
+        setState(() {
+          Follow="Follow";
+        });
+
+        Fluttertoast.showToast(
+          msg: jsonDecode(valfollowstatus)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        followstatusPojo = new followstatus.fromJson(jsonResponse);
+        print("Json status: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            Follow="";
+          });
+
+          Fluttertoast.showToast(
+              msg: jsonDecode(valfollowstatus)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+    );
+        } else {
+          Fluttertoast.showToast(
+            msg: followstatusPojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(valfollowstatus)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
 
   void getData(int id,String userid) async {
     Map data = {
@@ -93,17 +165,32 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
         );
       } else {
         senddetailsPojo = new individualRequestDetailspojo.fromJson(jsonResponse);
-        print("Json User" + jsonResponse.toString());
+        print("Json User: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
             productlist_length = senddetailsPojo.result;
             storelist_length = senddetailsPojo.memberlist;
-            if (senddetailsPojo.result.giftPicture != null) {
-              setState(() {
+            if(senddetailsPojo.result.receiverId==null)
+            {
+              reverid = senddetailsPojo.result.groupAdmin.toString();
+              print("TRue"+reverid);
+              getfollowstatus(userid,reverid);
+            }
+            else {
+              reverid = senddetailsPojo.result.receiverId.toString();
+              print("false"+reverid);
+              getfollowstatus(userid,reverid);
+            }
+            if (senddetailsPojo.result.giftPicture != null)
+            {
+              setState(()
+              {
                 image = senddetailsPojo.result.giftPicture;
               });
+
             }
+
           });
         } else {
           Fluttertoast.showToast(
@@ -324,7 +411,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                         children: [
                                           Container(
                                             width:
-                                            SizeConfig.blockSizeHorizontal * 46,
+                                            SizeConfig.blockSizeHorizontal * 43,
                                             alignment: Alignment.topLeft,
                                             margin: EdgeInsets.only(
                                                 top:
@@ -340,9 +427,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                   fontFamily: 'Poppins-Regular'),
                                             ),
                                           ),
+                                          coming1=="Ongoing"?
                                           GestureDetector(
                                             onTap: () {
-                                              followapi();
+                                              followapi(userid,reverid);
                                             },
                                             child: Container(
                                               padding: EdgeInsets.only(
@@ -363,7 +451,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                     fontFamily: 'Poppins-Regular'),
                                               ),
                                             ),
-                                          )
+                                          ):Container()
                                         ],
                                       ),
                                       Container(
@@ -795,6 +883,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                .elementAt(index).id==userid?
                                                          GestureDetector(
                                                            onTap: () {
+                                                             payamount();
                                                              /* paymentlistpojo
                                                                     .paymentdetails
                                                                     .data
@@ -890,8 +979,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   Future<void> payamount() async {
     Map data = {
       'id': senddetailsPojo.result.id.toString(),
-      'sender_id': senddetailsPojo.result.senderId!=null?senddetailsPojo.result.senderId.toString():"0",
-      'groupid': senddetailsPojo.result.groupId!=null?senddetailsPojo.result.groupId.toString():"0",
+      'sender_id': userid.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
@@ -924,11 +1012,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
     );
   }
 
-  Future<void>  followapi() async {
+  Future<void>  followapi(String useid,String rece) async {
     Map data = {
-      'sender_id': senddetailsPojo.result.senderId.toString(),
-      'receiver_id': senddetailsPojo.result.receiverId.toString()!=null?senddetailsPojo.result.receiverId.toString()
-          :senddetailsPojo.result.groupAdmin.toString(),
+      'sender_id': useid.toString(),
+      'receiver_id': rece.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;

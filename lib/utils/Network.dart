@@ -45,4 +45,5 @@ class Network{
   static String projectListingHistory = "projectListingHistory";
   static String edit_create_project = "edit_create_project";
   static String projectSearch = "projectSearch";
+  static String checkfollow_status = "checkfollow_status";
 }

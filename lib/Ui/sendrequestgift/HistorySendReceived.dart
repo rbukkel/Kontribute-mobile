@@ -318,7 +318,8 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                         onTap: () {
                                                           callNext(
                                                               viewdetail_sendreceivegift(
-                                                                  data: requestpojo.result.data.elementAt(index).id.toString()),
+                                                                  data: requestpojo.result.data.elementAt(index).id.toString(),
+                                                                  coming:"History"),
                                                               context);
                                                           //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
                                                         },
@@ -751,7 +752,8 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                           callNext(
                                                               viewdetail_sendreceivegift(
                                                                   data:
-                                                                  requestpojo.result.data.elementAt(index).id.toString()
+                                                                  requestpojo.result.data.elementAt(index).id.toString(),
+                                                                  coming:"History"
                                                               ), context);
                                                         },
                                                         child: Container(
@@ -1181,7 +1183,8 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                         onTap: () {
                                                           callNext(
                                                               viewdetail_sendreceivegift(
-                                                                  data: requestpojo.result.data.elementAt(index).id.toString()
+                                                                  data: requestpojo.result.data.elementAt(index).id.toString(),
+                                                                  coming:"History"
                                                               ), context);
                                                         },
                                                         child:
@@ -2020,5 +2023,4 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
       );
     }
   }
-
 }

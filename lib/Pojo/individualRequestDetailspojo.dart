@@ -1,3 +1,4 @@
+
 class individualRequestDetailspojo {
   bool success;
   String message;
@@ -73,8 +74,8 @@ class Result {
   String specialTerms;
   String receiverName;
   String receiverProfilePic;
-  String groupAdminName;
   String adminProfilePic;
+  String groupAdminName;
 
   Result(
       {this.id,
@@ -104,8 +105,8 @@ class Result {
         this.specialTerms,
         this.receiverName,
         this.receiverProfilePic,
-        this.groupAdminName,
-        this.adminProfilePic});
+        this.adminProfilePic,
+        this.groupAdminName});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -135,8 +136,8 @@ class Result {
     specialTerms = json['special_terms'];
     receiverName = json['receiver_name'];
     receiverProfilePic = json['receiver_profile_pic'];
-    groupAdminName = json['group_admin_name'];
     adminProfilePic = json['admin_profile_pic'];
+    groupAdminName = json['group_admin_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -168,8 +169,8 @@ class Result {
     data['special_terms'] = this.specialTerms;
     data['receiver_name'] = this.receiverName;
     data['receiver_profile_pic'] = this.receiverProfilePic;
-    data['group_admin_name'] = this.groupAdminName;
     data['admin_profile_pic'] = this.adminProfilePic;
+    data['group_admin_name'] = this.groupAdminName;
     return data;
   }
 }
@@ -178,19 +179,25 @@ class Memberlist {
   String id;
   String memberName;
   String memberProfilePic;
-  String minCashByParticipant;
+  int minCashByParticipant;
+  int amountPaid;
+  int paymentStatus;
 
   Memberlist(
       {this.id,
         this.memberName,
         this.memberProfilePic,
-        this.minCashByParticipant});
+        this.minCashByParticipant,
+        this.amountPaid,
+        this.paymentStatus});
 
   Memberlist.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     memberName = json['member_name'];
     memberProfilePic = json['member_profile_pic'];
     minCashByParticipant = json['min_cash_by_participant'];
+    amountPaid = json['amount_paid'];
+    paymentStatus = json['payment_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -199,6 +206,8 @@ class Memberlist {
     data['member_name'] = this.memberName;
     data['member_profile_pic'] = this.memberProfilePic;
     data['min_cash_by_participant'] = this.minCashByParticipant;
+    data['amount_paid'] = this.amountPaid;
+    data['payment_status'] = this.paymentStatus;
     return data;
   }
 }
@@ -338,6 +347,8 @@ class Data {
     return data;
   }
 }
+
+
 
 
 

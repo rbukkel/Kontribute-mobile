@@ -477,9 +477,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                                   color: Colors
                                                                       .black87,
                                                                   fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  fontWeight: FontWeight.bold,
                                                                   fontFamily:
                                                                       'Poppins-Regular'),
                                                             ),
@@ -494,7 +492,8 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
                                                                           .elementAt(
                                                                               index)
                                                                           .id
-                                                                          .toString()),
+                                                                          .toString(),
+                                                                      coming:"Search"),
                                                                   context);
                                                               //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
                                                             },

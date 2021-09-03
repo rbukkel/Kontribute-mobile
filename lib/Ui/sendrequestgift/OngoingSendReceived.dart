@@ -477,7 +477,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                        Network.BaseApigift+requestpojo.result.data.elementAt(index).giftPicture,
+                                                        Network.BaseApigift+requestpojo.result.data.elementAt(index).profilePic,
                                                       ),
                                                       fit: BoxFit.fill)),
                                             ),
@@ -521,7 +521,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       onTap: () {
                                                         callNext(
                                                       viewdetail_sendreceivegift(
-                                                          data: requestpojo.result.data.elementAt(index).id.toString()),
+                                                          data: requestpojo.result.data.elementAt(index).id.toString(),
+                                                        coming:"Ongoing"),
                                                             context);
                                                       //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
                                                       },
@@ -954,7 +955,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         callNext(
                                                             viewdetail_sendreceivegift(
                                                                 data:
-                                                                requestpojo.result.data.elementAt(index).id.toString()
+                                                                requestpojo.result.data.elementAt(index).id.toString(),
+                                                                coming:"Ongoing"
                                                             ), context);
                                                       },
                                                       child: Container(
@@ -1384,7 +1386,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       onTap: () {
                                                         callNext(
                                                             viewdetail_sendreceivegift(
-                                                                data: requestpojo.result.data.elementAt(index).id.toString()
+                                                                data: requestpojo.result.data.elementAt(index).id.toString(),
+                                                                coming:"Ongoing"
                                                             ), context);
                                                       },
                                                       child:

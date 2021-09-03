@@ -169,8 +169,7 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                 ],
               ),
             ),
-            productlist_length != null
-                ?
+            productlist_length != null?
             Container(
               child: Stack(
                 children: [

@@ -34,9 +34,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   bool isLoadingPath = false;
   bool isMultiPick = false;
   FileType fileType;
-  String basename;
+  var basename=null;
+  var catname=null;
   List<File> _imageList = [];
   List<File> _documentList = [];
+  List _selecteName = List();
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -194,10 +196,33 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         file1 = file; //file1 is a global variable which i created
         print("File Path: " + file1.toString());
         _documentList.add(file1);
+        for (int i = 0; i < _documentList.length; i++) {
+          print("ListDoc:" + _documentList[i].toString());
+        }
         documentPath = file.path.toString();
         print("File Path1: " + file.path.toString());
         basename = path.basename(file.path);
         print("File basename: " + basename.toString());
+        _selecteName.add(basename);
+
+        final input = _selecteName.toString();
+        final removedBrackets = input.substring(1, input.length - 1);
+        final parts = removedBrackets.split(',');
+        catname = parts.map((part) => "$part").join(',').trim();
+
+        print("Docname: "+catname.toString());
+
+
+      });
+
+
+
+      setState(() {
+        file1 = file;
+        _documentList.add(file1);
+        for (int i = 0; i < _imageList.length; i++) {
+          print("ListImages:" + _imageList[i].toString());
+        }
       });
     }
   }
@@ -1211,6 +1236,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               width: SizeConfig.blockSizeHorizontal * 15,
                               child: Text(
                                 StringConstant.video,
+                                maxLines: 4,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1219,7 +1245,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
-                            Container(
+                          /*  Container(
                               width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
@@ -1242,12 +1268,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               child: Column(
                                 children: [..._getVideoLink()],
                               ),
-                            )
+                            )*/
 
-                            /*  Container(
-
+                              Container(
                               width: SizeConfig.blockSizeHorizontal * 65,
-                              height: SizeConfig.blockSizeVertical * 7,
+                              height: SizeConfig.blockSizeVertical *10,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 right: SizeConfig.blockSizeHorizontal * 3,
@@ -1272,6 +1297,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 autofocus: false,
                                 focusNode: VideoFocus,
                                 controller: VideoController,
+                                maxLines: 5,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.url,
                                 validator: (val) {
@@ -1304,7 +1330,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     ),
                                     hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
-                            )*/
+                            )
                           ],
                         ),
                         Container(
@@ -1335,7 +1361,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             ),
                             Container(
                                 width: SizeConfig.blockSizeHorizontal * 70,
-                                height: SizeConfig.blockSizeVertical * 7,
+                                height: SizeConfig.blockSizeVertical * 10,
                                 margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2,
                                   right: SizeConfig.blockSizeHorizontal * 3,
@@ -1362,19 +1388,22 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           width:
                                               SizeConfig.blockSizeHorizontal *
                                                   60,
-                                          child: Text(
-                                            basename != null
-                                                ? basename.toString()
-                                                : "",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 10,
-                                              color: AppColors.black,
+                                            child: Text(
+                                              catname != null
+                                                  ? catname.toString()
+                                                  : "",
+                                              maxLines: 5,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                color: AppColors.black,
+                                              ),
                                             ),
-                                          )),
+
+                                      ),
                                       GestureDetector(
                                         onTap: () {
                                           getPdfAndUpload();
@@ -1548,7 +1577,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               return "Please enter search post";
                                             else
                                               return null;
-                                          },*//*
+                                          },*/
+                      /*
                                           onFieldSubmitted: (v) {
                                             SearchPostFocus.unfocus();
                                           },
@@ -1795,6 +1825,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     request.fields["video_link"] = video;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
+
 
     print("Request: "+request.fields.toString());
     for (int i = 0; i < images.length; i++) {

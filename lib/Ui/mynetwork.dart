@@ -44,6 +44,9 @@ class _mynetworkState extends State<mynetwork> {
     });
   }
   void getdata(String user_id) async {
+    setState(() {
+      storelist_length=null;
+    });
     Map data = {
       'receiver_id': user_id.toString(),
     };
@@ -158,7 +161,6 @@ class _mynetworkState extends State<mynetwork> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -245,7 +247,9 @@ class _mynetworkState extends State<mynetwork> {
                     color: AppColors.whiteColor,
                     height: SizeConfig.blockSizeVertical * 8,
                     child: Card(
-                      child: Row(
+                      child:
+                      followlist_length!=null?
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
@@ -265,7 +269,7 @@ class _mynetworkState extends State<mynetwork> {
                             margin: EdgeInsets.only(
                                 right: SizeConfig.blockSizeHorizontal * 5),
                             child: Text(
-                              "883",
+                              followlist_length.length!=null?followlist_length.length.toString():"",
                               style: TextStyle(
                                   decoration: TextDecoration.none,
                                   fontSize: 16,
@@ -275,7 +279,7 @@ class _mynetworkState extends State<mynetwork> {
                             ),
                           )
                         ],
-                      ),
+                      ):Container(),
                     ),
                   ),
                   Container(
@@ -286,6 +290,7 @@ class _mynetworkState extends State<mynetwork> {
                     child: Card(
                         child: Column(
                       children: [
+                        storelist_length != null ?
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -315,7 +320,7 @@ class _mynetworkState extends State<mynetwork> {
                               ),
                             )
                           ],
-                        ),
+                        ):Container(),
                         storelist_length != null ?
                         Container(
                           child: ListView.builder(
@@ -528,7 +533,6 @@ class _mynetworkState extends State<mynetwork> {
                                 ));
                               }),
                         ): Container(
-                          margin: EdgeInsets.only(top: 150),
                           alignment: Alignment.center,
                           child: resultvalue == true
                               ? Center(
@@ -538,6 +542,7 @@ class _mynetworkState extends State<mynetwork> {
                             child: Container()
                           ),
                         ),
+                        storelist_length != null ?
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2,
@@ -551,7 +556,7 @@ class _mynetworkState extends State<mynetwork> {
                                 fontFamily: "Poppins-Regular",
                                 color: AppColors.theme1color),
                           ),
-                        )
+                        ):Container()
                       ],
                     )),
                   ),
@@ -595,6 +600,7 @@ class _mynetworkState extends State<mynetwork> {
                         ),
                         followlist_length != null ?
                         Container(
+                          alignment: Alignment.centerLeft,
                           height: SizeConfig.blockSizeVertical * 30,
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 1,
@@ -780,10 +786,11 @@ class _mynetworkState extends State<mynetwork> {
                                       ),
                                     ));
                               }),
-                        ): Container(
+                        ):
+                        Container(
                           margin: EdgeInsets.only(top: 150),
                           alignment: Alignment.center,
-                          child: resultvalue == true
+                          child: resultfollowvalue == true
                               ? Center(
                             child: CircularProgressIndicator(),
                           )
@@ -833,6 +840,9 @@ class _mynetworkState extends State<mynetwork> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
+          setState(() {
+            getdata(userid);
+          });
         }
         else {
           Fluttertoast.showToast(
