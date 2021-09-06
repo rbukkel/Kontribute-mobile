@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
+import 'package:dio/dio.dart';
+import 'package:file_utils/file_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -10,6 +13,7 @@ import 'package:kontribute/Pojo/PostcommentPojo.dart';
 import 'package:kontribute/Pojo/Projectdetailspojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
+import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -20,7 +24,9 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 
 class OngoingProjectDetailsscreen extends StatefulWidget {
   final String data;
@@ -54,6 +60,64 @@ class OngoingProjectDetailsscreenState
   projectlike prolike;
   PostcommentPojo postcom;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  bool downloading = false;
+  var progress = "";
+  var path = "No Data";
+  var platformVersion = "Unknown";
+  Permission permission1 = Permission.WriteExternalStorage;
+  var _onPressed;
+  static final Random random = Random();
+  Directory externalDir;
+
+  Future<void> downloadFile() async {
+    Dio dio = Dio();
+    bool checkPermission1 =
+    await SimplePermissions.checkPermission(permission1);
+    // print(checkPermission1);
+    if (checkPermission1 == false) {
+      await SimplePermissions.requestPermission(permission1);
+      checkPermission1 = await SimplePermissions.checkPermission(permission1);
+    }
+    if (checkPermission1 == true) {
+      String dirloc = "";
+      if (Platform.isAndroid) {
+        dirloc = "/sdcard/download/";
+      } else {
+        dirloc = (await getApplicationDocumentsDirectory()).path;
+      }
+
+      var randid = random.nextInt(10000);
+
+      try {
+        FileUtils.mkdir([dirloc]);
+        await dio.download(imgUrl, dirloc + randid.toString() + ".jpg",
+            onReceiveProgress: (receivedBytes, totalBytes) {
+              setState(() {
+                downloading = true;
+                progress =
+                    ((receivedBytes / totalBytes) * 100).toStringAsFixed(0) + "%";
+              });
+            });
+      } catch (e) {
+        print(e);
+      }
+
+      setState(() {
+        downloading = false;
+        progress = "Download Completed.";
+        path = dirloc + randid.toString() + ".jpg";
+      });
+    } else {
+      setState(() {
+        progress = "Permission Denied!";
+        _onPressed = () {
+          downloadFile();
+        };
+      });
+    }
+  }
+
+
 
   @override
   void initState() {
@@ -95,12 +159,11 @@ class OngoingProjectDetailsscreenState
     };
     print("receiver: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.projectDetails, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.projectDetails, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
-      if (jsonDecode(val)["status"] == false) {
+      if (jsonDecode(val)["success"] == false) {
         Fluttertoast.showToast(
           msg: jsonDecode(val)["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -1191,7 +1254,7 @@ class OngoingProjectDetailsscreenState
                                   : videolist_length.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
+                              itemBuilder: (BuildContext context, int indx) {
                                 return Container(
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 2,
@@ -1216,7 +1279,7 @@ class OngoingProjectDetailsscreenState
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            // showAlert();
+                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,

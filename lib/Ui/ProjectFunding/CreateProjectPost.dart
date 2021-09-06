@@ -36,6 +36,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   FileType fileType;
   var basename=null;
   var catname=null;
+  var vidoname=null;
   List<File> _imageList = [];
   List<File> _documentList = [];
   List _selecteName = List();
@@ -89,8 +90,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final List<String> _dropdownCategoryValues = [
     "Anyone",
-    "Connections only",
-    "Group members"
+    "Connections only"
   ];
   static List<String> videoList = [null];
   var file1;
@@ -1239,7 +1239,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
-                          /*  Container(
+                            Container(
                               width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
@@ -1262,9 +1262,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               child: Column(
                                 children: [..._getVideoLink()],
                               ),
-                            )*/
+                            )
 
-                              Container(
+                           /*   Container(
                               width: SizeConfig.blockSizeHorizontal * 65,
                               height: SizeConfig.blockSizeVertical *10,
                               margin: EdgeInsets.only(
@@ -1324,7 +1324,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     ),
                                     hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
-                            )
+                            )*/
                           ],
                         ),
                         Container(
@@ -1693,6 +1693,13 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         ),
                         GestureDetector(
                           onTap: () {
+
+                            final input2 = videoList.toString();
+                            final removedBrackets = input2.substring(1, input2.length - 1);
+                            final parts = removedBrackets.split(',');
+                            vidoname = parts.map((part) => "$part").join(',').trim();
+                            print("Vidoname: "+vidoname.toString());
+
                             createproject(
                                 context,
                                 ProjectNameController.text,
@@ -1702,9 +1709,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 TermsController.text,
                                 EnterRequiredAmountController.text,
                                 TotalBudgetController.text,
-                                VideoController.text,
+                                vidoname,
                                 _imageList,
-                            _documentList);
+                               _documentList);
+
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1875,6 +1883,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
+            videoList.clear();
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => projectfunding()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

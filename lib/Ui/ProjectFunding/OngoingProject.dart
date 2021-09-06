@@ -1097,7 +1097,7 @@ class OngoingProjectState extends State<OngoingProject> {
         onOpen: () => print('OPENING DIAL'),
         onClose: () => print('DIAL CLOSED'),
         tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
+        heroTag: null,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 8.0,

@@ -599,12 +599,11 @@ class HistoryProjectState extends State<HistoryProject> {
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {
-                                        //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                        /*callNext(
+                                        heroTag:callNext(
                                             HistoryProjectDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                            ), context);
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -672,10 +671,11 @@ class HistoryProjectState extends State<HistoryProject> {
                                     GestureDetector(
                                       onTap: () {
                                         //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                        /*callNext(
+
+                                        callNext(
                                             HistoryProjectDetailsscreen(
                                                 data: listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                            ), context);
                                       },
                                       child: Container(
                                         color: AppColors.themecolor,
@@ -928,7 +928,10 @@ class HistoryProjectState extends State<HistoryProject> {
             ],
           )
       ),
-      floatingActionButton: SpeedDial(
+      floatingActionButton:
+
+      SpeedDial(
+        heroTag: null,
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
         // this is ignored if animatedIcon is non null
@@ -940,12 +943,12 @@ class HistoryProjectState extends State<HistoryProject> {
         onOpen: () => print('OPENING DIAL'),
         onClose: () => print('DIAL CLOSED'),
         tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
+
 
           SpeedDialChild(
               child: Icon(Icons.public),

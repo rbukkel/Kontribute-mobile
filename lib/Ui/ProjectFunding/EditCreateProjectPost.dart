@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/get_createProjectPojo.dart';
+import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -22,6 +23,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:path/path.dart';
+import 'package:collection/collection.dart';
 
 class EditCreateProjectPost extends StatefulWidget {
   final String data;
@@ -99,11 +101,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final List<String> _dropdownCategoryValues = [
     "Anyone",
-    "Connections only",
-    "Group members"
+    "Connections only"
   ];
   var file1;
   var documentPath;
+  var vidoname=null;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String currentSelectedValue;
   int currentid=0;
@@ -134,6 +136,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       fit: BoxFit.fitHeight,),
 
   ];
+
+  static List<String> videoList = [null];
+  static List<String> newvideoList = [null];
+  static List<String> newdocList = [null];
+  static List<String> docList = [null];
 
   Widget circleBar(bool isActive) {
     return AnimatedContainer(
@@ -230,31 +237,42 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             formattedEndDate = sendgift.projectData.projectEnddate;
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
+
             for(int i =0; i< sendgift.projectData.videoLink.length;i++)
               {
                 print("link: "+sendgift.projectData.videoLink.elementAt(i).vlink);
                  link = sendgift.projectData.videoLink.elementAt(i).vlink;
                 print(": "+link);
-
+                newvideoList.add(link);
               }
-            _selectlink.add(link);
+            videoList =[for (var i in newvideoList) if (i != null) i];
 
-            final input = _selectlink.toString();
+           // _selectlink.add(link);
+
+            final input = videoList.toString();
             final removedBrackets = input.substring(1, input.length - 1);
             final parts = removedBrackets.split(',');
-            videoname = parts.map((part) => "$part").join(',').trim();
+            vidoname = parts.map((part) => "$part").join(',').trim();
 
-            print("videoname: "+videoname.toString());
+            print("videoname: "+vidoname.toString());
 
-            VideoController.text = videoname;
+           // VideoController.text = vidoname;
 
             for(int i =0; i< sendgift.projectData.documents.length;i++)
             {
               print("link: "+sendgift.projectData.documents.elementAt(i).documents);
               linkdocuments = sendgift.projectData.documents.elementAt(i).documents;
-              print(": "+linkdocuments);
-              catname = linkdocuments +",";
+             docList.add(linkdocuments);
             }
+            newdocList =[for (var i in docList) if (i != null) i];
+
+            final input3 = newdocList.toString();
+            final removedBrackets3 = input3.substring(1, input3.length - 1);
+            final parts3 = removedBrackets3.split(',');
+            catname = parts3.map((part) => "$part").join(',').trim();
+
+            print("Docname: "+catname.toString());
+
 
             TermsController.text = sendgift.projectData.termsAndCondition!=null||sendgift.projectData.termsAndCondition!=""?sendgift.projectData.termsAndCondition.toString():"";
           //  basename = sendgift.projectData.documents.toString();
@@ -1363,14 +1381,16 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 22,
+                              width: SizeConfig.blockSizeHorizontal * 15,
                               child: Text(
                                 StringConstant.video,
+                                maxLines: 4,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1380,8 +1400,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 70,
-                              height: SizeConfig.blockSizeVertical * 10,
+                              width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 right: SizeConfig.blockSizeHorizontal * 3,
@@ -1400,10 +1419,39 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child: TextFormField(
+                              child: Column(
+                                children: [..._getVideoLink()],
+                              ),
+                            )
+
+                            /*   Container(
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical *10,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 1,
+                                right: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child:
+
+                              TextFormField(
                                 autofocus: false,
                                 focusNode: VideoFocus,
                                 controller: VideoController,
+                                maxLines: 5,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.url,
                                 validator: (val) {
@@ -1417,7 +1465,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 },
                                 onSaved: (val) => _Video = val,
                                 textAlign: TextAlign.left,
-                                maxLines: 5,
                                 style: TextStyle(
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.normal,
@@ -1437,7 +1484,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     ),
                                     hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
-                            )
+                            )*/
                           ],
                         ),
                         Container(
@@ -1709,6 +1756,12 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                           onTap: () {
                             if(_imageList!=null && documentPath !=null)
                               {
+                                final input2 = videoList.toString();
+                                final removedBrackets = input2.substring(1, input2.length - 1);
+                                final parts = removedBrackets.split(',');
+                                vidoname = parts.map((part) => "$part").join(',').trim();
+                                print("Vidoname: "+vidoname.toString());
+
                                 createproject(
                                     context,
                                     ProjectNameController.text,
@@ -1718,7 +1771,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     TermsController.text,
                                     EnterRequiredAmountController.text,
                                     TotalBudgetController.text,
-                                    VideoController.text,
+                                    vidoname,
                                     _imageList,
                                     _documentList
                                 );
@@ -1852,6 +1905,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
+            videoList.clear();
             Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (context) => projectfunding()),
                     (route) => false);
@@ -1887,6 +1941,57 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
         );
       }
     });
+  }
+
+  /// get friends text-fields
+  List<Widget> _getVideoLink() {
+    List<Widget> friendsTextFields = [];
+    for (int i = 0; i < videoList.length; i++) {
+      friendsTextFields.add(Container(
+        height: SizeConfig.blockSizeVertical * 10,
+        width: SizeConfig.blockSizeHorizontal * 70,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            children: [
+              Expanded(child: FriendTextFields(i)),
+              SizedBox(
+                width: 16,
+              ),
+              // we need add button at last friends row
+              _addRemoveButton(i == videoList.length - 1, i),
+            ],
+          ),
+        ),
+      ));
+    }
+    return friendsTextFields;
+  }
+
+  // add remove button
+  Widget _addRemoveButton(bool add, int index) {
+    return InkWell(
+      onTap: () {
+        if (add) {
+          // add new text-fields at the top of all friends textfields
+          videoList.insert(0, null);
+        } else
+          videoList.removeAt(index);
+        setState(() {});
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: (add) ? Colors.green : Colors.red,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(
+          (add) ? Icons.add : Icons.remove,
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 
 
