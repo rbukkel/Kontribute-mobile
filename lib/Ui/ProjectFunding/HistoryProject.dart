@@ -599,7 +599,7 @@ class HistoryProjectState extends State<HistoryProject> {
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {
-                                        heroTag:callNext(
+                                       callNext(
                                             HistoryProjectDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()

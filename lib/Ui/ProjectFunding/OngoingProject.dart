@@ -14,6 +14,7 @@ import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
+import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -45,6 +46,7 @@ class OngoingProjectState extends State<OngoingProject> {
   String vallike;
   projectlike prolike;
   String tabValue ="1";
+  String updateval;
 
   @override
   void initState() {
@@ -367,7 +369,8 @@ class OngoingProjectState extends State<OngoingProject> {
 
                                             listing.projectData.elementAt(index).profilePic== null ||
                                                 listing.projectData.elementAt(index).profilePic == ""
-                                                ? GestureDetector(
+                                                ?
+                                            GestureDetector(
                                               onTap: () {
                                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
 
@@ -394,7 +397,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     ),
                                                   )),
                                             )
-                                                : GestureDetector(
+                                                :
+                                            GestureDetector(
                                               onTap: () {
                                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
 
@@ -504,6 +508,34 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     GestureDetector(
                                                       onTap: ()
                                                       {
+                                                        Widget cancelButton = FlatButton(
+                                                          child: Text("No"),
+                                                          onPressed: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                        );
+                                                        Widget continueButton = FlatButton(
+                                                          child: Text("Yes"),
+                                                          onPressed: () async {
+                                                            Payamount(listing.projectData.elementAt(index).id,listing.projectData.elementAt(index).requiredAmount,userid);
+                                                          },
+                                                        );
+                                                        // set up the AlertDialog
+                                                        AlertDialog alert = AlertDialog(
+                                                          title: Text("Pay now.."),
+                                                          content: Text("Are you sure you want to Pay this project?"),
+                                                          actions: [
+                                                            cancelButton,
+                                                            continueButton,
+                                                          ],
+                                                        );
+                                                        // show the dialog
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return alert;
+                                                          },
+                                                        );
                                                       },
                                                       child: Container(
                                                         margin: EdgeInsets.only(left:
@@ -1178,5 +1210,54 @@ class OngoingProjectState extends State<OngoingProject> {
       );
     }
   }
+
+
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'project_id': id.toString(),
+      'amount': requiredAmount.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
   }
+
+
+
+}
 

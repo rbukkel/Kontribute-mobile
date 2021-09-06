@@ -164,16 +164,19 @@ class Commentsdata {
 
 class VideoLink {
   String vlink;
+  String videoThumbnail;
 
-  VideoLink({this.vlink});
+  VideoLink({this.vlink, this.videoThumbnail});
 
   VideoLink.fromJson(Map<String, dynamic> json) {
     vlink = json['vlink'];
+    videoThumbnail = json['video_thumbnail'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['vlink'] = this.vlink;
+    data['video_thumbnail'] = this.videoThumbnail;
     return data;
   }
 }

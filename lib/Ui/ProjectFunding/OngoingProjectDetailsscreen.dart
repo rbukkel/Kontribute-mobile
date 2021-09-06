@@ -24,9 +24,10 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:ext_storage/ext_storage.dart';
+import 'dart:io';
 
 class OngoingProjectDetailsscreen extends StatefulWidget {
   final String data;
@@ -64,12 +65,12 @@ class OngoingProjectDetailsscreenState
   var progress = "";
   var path = "No Data";
   var platformVersion = "Unknown";
-  Permission permission1 = Permission.WriteExternalStorage;
   var _onPressed;
   static final Random random = Random();
   Directory externalDir;
-
-  Future<void> downloadFile() async {
+  String updateval;
+  var dio = Dio();
+  /* Future<void> downloadFile(String imgUrl) async {
     Dio dio = Dio();
     bool checkPermission1 =
     await SimplePermissions.checkPermission(permission1);
@@ -111,17 +112,23 @@ class OngoingProjectDetailsscreenState
       setState(() {
         progress = "Permission Denied!";
         _onPressed = () {
-          downloadFile();
+          downloadFile(imgUrl);
         };
       });
     }
   }
+*/
 
+  void getPermission() async {
+    print("getPermission");
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+  }
 
 
   @override
   void initState() {
     super.initState();
+    getPermission();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
@@ -328,6 +335,37 @@ class OngoingProjectDetailsscreenState
       elevation: 8.0,
     );
   }
+
+  Future download2(Dio dio, String url, String savePath) async {
+    try {
+      Response response = await dio.get(
+        url,
+        onReceiveProgress: showDownloadProgress,
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      print(response.headers);
+      File file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -573,7 +611,39 @@ class OngoingProjectDetailsscreenState
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: ()
+                                      {
+                                        Widget cancelButton = FlatButton(
+                                          child: Text("No"),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                        Widget continueButton = FlatButton(
+                                          child: Text("Yes"),
+                                          onPressed: () async {
+                                            Payamount( projectdetailspojo
+                                                .commentsdata.id, projectdetailspojo
+                                                .commentsdata.requiredAmount,userid);
+                                          },
+                                        );
+                                        // set up the AlertDialog
+                                        AlertDialog alert = AlertDialog(
+                                          title: Text("Pay now.."),
+                                          content: Text("Are you sure you want to Pay this project?"),
+                                          actions: [
+                                            cancelButton,
+                                            continueButton,
+                                          ],
+                                        );
+                                        // show the dialog
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return alert;
+                                          },
+                                        );
+                                      },
                                       child: Container(
                                         margin: EdgeInsets.only(
                                             left:
@@ -1262,6 +1332,7 @@ class OngoingProjectDetailsscreenState
                                         right: SizeConfig.blockSizeHorizontal * 1),
                                     child: Stack(
                                       children: [
+                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==null||projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==""?
                                         Container(
                                           height:
                                               SizeConfig.blockSizeVertical * 45,
@@ -1276,6 +1347,20 @@ class OngoingProjectDetailsscreenState
                                               fit: BoxFit.fill,
                                             ),
                                           ),
+                                        ):
+                                        Container(
+                                          height:
+                                              SizeConfig.blockSizeVertical * 45,
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  60,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
+                                                  fit: BoxFit.fill)),
                                         ),
                                         InkWell(
                                           onTap: () {
@@ -1346,24 +1431,38 @@ class OngoingProjectDetailsscreenState
                                               fontFamily: 'Poppins-Regular'),
                                         ),
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 1,
-                                        ),
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 20,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Download",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              letterSpacing: 1.0,
-                                              color: Colors.blue,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular'),
+                                      GestureDetector(
+                                        onTap: ()
+                                        async {
+                                          String path =
+                                              await ExtStorage.getExternalStoragePublicDirectory(
+                                              ExtStorage.DIRECTORY_DOWNLOADS);
+                                          //String fullPath = tempDir.path + "/boo2.pdf'";
+                                          String fullPath = "$path/test.pdf";
+                                          print('full path ${fullPath}');
+
+                                          download2(dio, Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents, fullPath);
+                                         // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                          ),
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 20,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Download",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                decoration:
+                                                TextDecoration.underline,
+                                                letterSpacing: 1.0,
+                                                color: Colors.blue,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -1693,6 +1792,52 @@ class OngoingProjectDetailsscreenState
           )),
     );
   }
+
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'project_id': id.toString(),
+      'amount': requiredAmount.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 
   void addlike() async {
     Map data = {

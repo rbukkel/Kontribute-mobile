@@ -920,6 +920,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         right: SizeConfig.blockSizeHorizontal * 1),
                                     child: Stack(
                                       children: [
+                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==null||projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==""?
                                         Container(
                                           height:
                                           SizeConfig.blockSizeVertical * 45,
@@ -934,6 +935,20 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                               fit: BoxFit.fill,
                                             ),
                                           ),
+                                        ):
+                                        Container(
+                                          height:
+                                          SizeConfig.blockSizeVertical * 45,
+                                          width:
+                                          SizeConfig.blockSizeHorizontal *
+                                              60,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
+                                                  fit: BoxFit.fill)),
                                         ),
                                         InkWell(
                                           onTap: () {

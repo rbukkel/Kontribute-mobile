@@ -122,23 +122,28 @@ class SearchbarProjectState extends State<SearchbarProject> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      getdata("");
+      getdata(userid,"");
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
     data1 = widget.data;
   }
 
-  void getdata(String user_id) async {
-    Map data = {
-      'search': user_id.toString(),
-    };
 
+
+  void getdata(String user_id,String search) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+      'search': search.toString(),
+    };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.projectSearch, body: data);
-    if (response.statusCode == 200) {
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing, body: data);
+    if (response.statusCode == 200)
+    {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["success"] == false) {
@@ -156,15 +161,19 @@ class SearchbarProjectState extends State<SearchbarProject> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if (listing.projectData.isEmpty) {
+            if(listing.projectData.isEmpty)
+            {
               resultvalue = false;
-            } else {
+            }
+            else
+            {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
             }
           });
-        } else {
+        }
+        else {
           Fluttertoast.showToast(
               msg: listing.message,
               toastLength: Toast.LENGTH_SHORT,
@@ -181,6 +190,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -1363,7 +1373,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          getdata("");
+          getdata(userid,"");
         } else {
           Fluttertoast.showToast(
             msg: prolike.message,
@@ -1445,7 +1455,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        getdata(value);
+                        getdata(userid,value);
                       });
                     },
                     decoration: new InputDecoration(

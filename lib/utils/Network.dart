@@ -4,6 +4,7 @@ class Network{
   static String BaseApiprofile = "http://kontribute.knickglobal.com/uploads/profile_pic/";
   static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
   static String BaseApiProject = "http://kontribute.knickglobal.com/uploads/project/";
+
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";
@@ -46,4 +47,6 @@ class Network{
   static String edit_create_project = "edit_create_project";
   static String projectSearch = "projectSearch";
   static String checkfollow_status = "checkfollow_status";
+  static String notificationlisting = "notificationlisting";
+  static String project_pay = "project_pay";
 }

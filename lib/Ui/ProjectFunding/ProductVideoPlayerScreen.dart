@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -55,23 +57,41 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
 
     String videoId;
     videoId = YoutubePlayer.convertUrlToId(urlLik);
-    print("ID: "+videoId);
-    _controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-        forceHD: false,
-        enableCaption: true,
-      ),
-    )..addListener(listener);
-    _idController = TextEditingController();
-    _seekToController = TextEditingController();
-    _videoMetaData = const YoutubeMetaData();
-    _playerState = PlayerState.unknown;
+    if(videoId!=null)
+      {
+        print("ID: "+videoId);
+
+        _controller = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            mute: false,
+            autoPlay: true,
+            disableDragSeek: false,
+            loop: false,
+            isLive: false,
+            forceHD: false,
+            enableCaption: true,
+          ),
+        )..addListener(listener);
+        _idController = TextEditingController();
+        _seekToController = TextEditingController();
+        _videoMetaData = const YoutubeMetaData();
+        _playerState = PlayerState.unknown;
+      }
+    else{
+      Fluttertoast.showToast(
+        msg: "video link is not valid",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  projectfunding()));
+    }
+
   }
 
   void listener() {

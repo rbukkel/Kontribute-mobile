@@ -156,7 +156,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
-      if (jsonDecode(val)["status"] == false) {
+      if (jsonDecode(val)["success"] == false) {
         Fluttertoast.showToast(
           msg: jsonDecode(val)["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -397,7 +397,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
-                                            image: NetworkImage(Network.BaseApiprofile+senddetailsPojo
+                                            image: NetworkImage(senddetailsPojo
                                                 .result.receiverProfilePic),
                                             fit: BoxFit.fill)),
                                   ),
