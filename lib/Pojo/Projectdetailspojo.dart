@@ -182,20 +182,24 @@ class VideoLink {
 }
 
 class Documents {
-  String documents;
+  String documentsUrl;
+  String docName;
 
-  Documents({this.documents});
+  Documents({this.documentsUrl, this.docName});
 
   Documents.fromJson(Map<String, dynamic> json) {
-    documents = json['documents'];
+    documentsUrl = json['documents_url'];
+    docName = json['doc_name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['documents'] = this.documents;
+    data['documents_url'] = this.documentsUrl;
+    data['doc_name'] = this.docName;
     return data;
   }
 }
+
 class Commentslist {
   int id;
   String projectId;

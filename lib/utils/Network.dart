@@ -49,4 +49,7 @@ class Network{
   static String checkfollow_status = "checkfollow_status";
   static String notificationlisting = "notificationlisting";
   static String project_pay = "project_pay";
+  static String get_profiledata = "get_profiledata";
+  static String update_profiledata = "update_profiledata";
+  static String viewprofile = "viewprofile";
 }

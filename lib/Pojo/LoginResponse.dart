@@ -41,18 +41,18 @@ class ResultPush {
 
   ResultPush(
       {this.userId,
-        this.nickName,
-        this.fullName,
-        this.email,
-        this.password,
-        this.mobile,
-        this.dob,
-        this.nationality,
-        this.facebookId,
-        this.currentCountry,
-        this.profilePic,
-        this.usertype,
-        this.mobileToken});
+      this.nickName,
+      this.fullName,
+      this.email,
+      this.password,
+      this.mobile,
+      this.dob,
+      this.nationality,
+      this.facebookId,
+      this.currentCountry,
+      this.profilePic,
+      this.usertype,
+      this.mobileToken});
 
   ResultPush.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -60,6 +60,7 @@ class ResultPush {
     fullName = json['full_name'];
     email = json['email'];
     password = json['password'];
+
     mobile = json['mobile'];
     dob = json['dob'];
     nationality = json['nationality'];

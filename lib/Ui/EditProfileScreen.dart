@@ -1,15 +1,29 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:kontribute/Ui/ProfileScreen.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class EditProfileScreen extends StatefulWidget{
+
+  final String data;
+
+  const EditProfileScreen({Key key, @required this.data})
+      : super(key: key);
+
   @override
   EditProfileScreenState createState() => EditProfileScreenState();
 
@@ -46,6 +60,19 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   String _companyname;
   String _natinality;
   String _currentCountry;
+  String userid;
+  String data1;
+  bool internet = false;
+  int a;
+  LoginResponse loginResponse;
+  String val;
+  bool imageUrl = false;
+  bool _loading = false;
+  String image;
+  String token;
+  var storelist_length;
+
+  bool isLoading = false;
 
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
@@ -94,6 +121,156 @@ class EditProfileScreenState extends State<EditProfileScreen>{
       }
     }
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readToken("Token").then((val) {
+      print("Token: " + val);
+      token = val;
+      print("Login token: " + token.toString());
+    });
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+        a = int.parse(data1);
+        print("receiverComing: " + a.toString());
+        getData(a);
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+  void getData(int id) async {
+    Map data = {
+      'userid': id.toString(),
+    };
+    print("profile data: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.get_profiledata, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        loginResponse = new LoginResponse.fromJson(jsonResponse);
+        print("Json profile data: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            storelist_length = loginResponse.resultPush;
+            if(loginResponse.resultPush.fullName=="")
+            {
+              fullnameController.text = "";
+            }
+            else{
+              fullnameController.text = loginResponse.resultPush.fullName;
+            }
+
+            if(loginResponse.resultPush.nickName=="")
+            {
+              nicknameController.text = "";
+            }
+            else{
+              nicknameController.text = loginResponse.resultPush.nickName;
+            }
+
+            if(loginResponse.resultPush.email=="")
+            {
+              emailController.text = "";
+            }
+            else{
+              emailController.text = loginResponse.resultPush.email;
+            }
+
+            if(loginResponse.resultPush.mobile=="")
+            {
+              mobileController.text = "";
+            }
+            else{
+              mobileController.text = loginResponse.resultPush.mobile;
+            }
+
+            if( loginResponse.resultPush.dob=="")
+            {
+              dateofbirthController.text = "";
+            }
+            else{
+              dateofbirthController.text = loginResponse.resultPush.dob;
+            }
+
+            if( loginResponse.resultPush.nationality=="")
+            {
+              natinalityController.text = "";
+            }
+            else{
+              natinalityController.text = loginResponse.resultPush.nationality;
+            }
+
+            if( loginResponse.resultPush.currentCountry=="")
+            {
+              companynameController.text = "";
+            }
+            else{
+              companynameController.text = loginResponse.resultPush.currentCountry;
+            }
+
+
+            if(loginResponse.resultPush.profilePic !=null || loginResponse.resultPush.profilePic !=""){
+              setState(() {
+                image = loginResponse.resultPush.profilePic;
+                if(image.isNotEmpty){
+                  imageUrl = true;
+                  _loading = true;
+                }
+              });
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: loginResponse.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
 
   showAlert() {
@@ -274,7 +451,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                 ],
               ),
             ),
-
+           storelist_length!=null?
             Expanded(
               child: SingleChildScrollView(
                 child: Form(
@@ -284,21 +461,29 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                       children: [
                         Stack(
                           children: [
-
                             GestureDetector(
                               onTap: () {
                                 showAlert();
                               },
-                              child:  Container(
-                                alignment: Alignment.topCenter,
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 4),
-                                height: 120,
+                              child:  imageUrl==false?
+                              Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                 width: 120,
-                                child: Image.asset(
-                                  "assets/images/userProfile.png",
-                                  height: 120,
-                                  width: 120,
+                                height: 120,
+                                child: ClipOval(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill,):Image.asset("assets/images/Group3.png",height: 120,width: 120,),),
+                              ):
+                              Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*4),
+                                child: _loading? ClipOval(child:  CachedNetworkImage(
+                                  height: 120,width: 120,fit: BoxFit.fill ,
+                                  imageUrl:image,
+                                  placeholder: (context, url) => Container(
+                                      height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                      child: Center(child: new CircularProgressIndicator())),
+                                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                                ),): CircularProgressIndicator(
+                                  valueColor:
+                                  new AlwaysStoppedAnimation<Color>(Colors.grey),
                                 ),
                               ),
                             ),
@@ -330,7 +515,6 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 right: SizeConfig.blockSizeHorizontal * 2,
                               ),
                               alignment: Alignment.topLeft,
-
                               child: TextFormField(
                                   autofocus: false,
                                   focusNode: NickNameFocus,
@@ -624,7 +808,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
 
                           ],
                         ),
-                        Row(
+                     /*   Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
@@ -682,7 +866,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                             )
 
                           ],
-                        ),
+                        ),*/
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -803,6 +987,8 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                         ),
                         GestureDetector(
                           onTap: () {
+                            updateprofile(userid,fullnameController.text,nicknameController.text,mobileController.text,
+                            dateofbirthController.text,natinalityController.text,currentCountryController.text,token,_imageFile);
 
                           },
                           child: Container(
@@ -837,10 +1023,100 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                 )
 
               ),
-            )
+            ): Container(
+             margin: EdgeInsets.only(top: 150),
+             alignment: Alignment.center,
+             child:Center(
+               child: CircularProgressIndicator(),
+             ),
+           )
           ],
         ),
       ),
     );
   }
+
+  void updateprofile(String user, String name, String nickname, String phone,
+      String dob, String nation, String country,String tken, File imageFile) async
+  {
+    var jsonData = null;
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.update_profiledata));
+    request.headers["Content-Type"] = "multipart/form-data";
+    request.fields["userid"] = user.toString();
+    request.fields["full_name"] = name.toString();
+    request.fields["nick_name"] = nickname;
+    request.fields["mobile"] = phone.toString();
+    request.fields["dob"] = dob.toString();
+    request.fields["nationality"] = nation.toString();
+    request.fields["current_country"] = country;
+    request.fields["mobile_token"] = tken;
+
+    print("Request: " + request.fields.toString());
+
+
+    if (imageFile != null) {
+      print("PATH: " + imageFile.path);
+      request.files.add(await http.MultipartFile.fromPath("profile_pic", imageFile.path, filename: imageFile.path));
+    }
+    var response = await request.send();
+    response.stream.transform(utf8.decoder).listen((value) {
+      jsonData = json.decode(value);
+      if (response.statusCode == 200) {
+        if (jsonData["success"] == false) {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            Navigator.pushAndRemoveUntil(context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    (route) => false);
+          } else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+              //   isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      } else if (response.statusCode == 500) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Something went wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+
 }

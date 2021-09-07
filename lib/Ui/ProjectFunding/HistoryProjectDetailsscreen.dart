@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -56,7 +58,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
   projectlike prolike;
   PostcommentPojo postcom;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-
+  var dio = Dio();
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
@@ -147,8 +149,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
             double amount = double.parse(projectdetailspojo.commentsdata.requiredAmount) /
-                    double.parse(projectdetailspojo.commentsdata.budget) *
-                    100;
+                    double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
           });
@@ -171,7 +172,6 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,7 +180,6 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
           color: AppColors.whiteColor,
           child: Column( crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
-
             children: [
               Container(
                 height: SizeConfig.blockSizeVertical *12,
@@ -257,17 +256,10 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                   width: SizeConfig.blockSizeVertical * 9,
                                   alignment: Alignment.center,
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *
-                                          2,
-                                      bottom:
-                                      SizeConfig.blockSizeVertical *
-                                          1,
-                                      right:
-                                      SizeConfig.blockSizeHorizontal *
-                                          1,
-                                      left:
-                                      SizeConfig.blockSizeHorizontal *
-                                          2),
+                                      top: SizeConfig.blockSizeVertical * 2,
+                                      bottom: SizeConfig.blockSizeVertical * 1,
+                                      right: SizeConfig.blockSizeHorizontal * 1,
+                                      left: SizeConfig.blockSizeHorizontal * 2),
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage(
@@ -937,35 +929,36 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                           ),
                                         ):
                                         Container(
-                                          height:
-                                          SizeConfig.blockSizeVertical * 45,
-                                          width:
-                                          SizeConfig.blockSizeHorizontal *
-                                              60,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
-                                                  fit: BoxFit.fill)),
+                                          color: Colors.black12,
+                                          child: Container(
+                                            height:
+                                            SizeConfig.blockSizeVertical * 45,
+                                            width:
+                                            SizeConfig.blockSizeHorizontal *
+                                                60,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.black12),
+                                                shape: BoxShape.rectangle,
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
+                                                    fit: BoxFit.fill)
+                                            ),
+                                          ),
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            // showAlert();
                                             callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
                                             margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    25,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    25),
+                                                left: SizeConfig.blockSizeHorizontal * 25,
+                                                right: SizeConfig.blockSizeHorizontal * 25),
                                             child: Image.asset(
                                               "assets/images/play.png",
+                                              color: Colors.white,
                                               width: 50,
                                               height: 50,
                                             ),
@@ -1010,7 +1003,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         SizeConfig.blockSizeHorizontal * 20,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          projectdetailspojo.commentsdata.documents.elementAt(inde).documents.toString(),
+                                          projectdetailspojo.commentsdata.documents.elementAt(inde).docName.toString(),
                                           maxLines: 2,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1020,24 +1013,38 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                               fontFamily: 'Poppins-Regular'),
                                         ),
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 1,
-                                        ),
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 20,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Download",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration.underline,
-                                              letterSpacing: 1.0,
-                                              color: Colors.blue,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular'),
+                                      GestureDetector(
+                                        onTap: ()
+                                        async {
+                                          String path =
+                                          await ExtStorage.getExternalStoragePublicDirectory(
+                                              ExtStorage.DIRECTORY_DOWNLOADS);
+                                          //String fullPath = tempDir.path + "/boo2.pdf'";
+                                          String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
+                                          print('full path ${fullPath}');
+
+                                          download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
+                                          // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                          ),
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 20,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Download",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                decoration:
+                                                TextDecoration.underline,
+                                                letterSpacing: 1.0,
+                                                color: Colors.blue,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -1117,5 +1124,52 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
       );
     }
   }
+
+
+  Future download2(Dio dio, String url, String savePath) async {
+    try {
+      Response response = await dio.get(
+        url,
+        onReceiveProgress: showDownloadProgress,
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      print(response.headers);
+      File file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
+      Fluttertoast.showToast(
+        msg: "Downloading file "+(received / total * 100).toStringAsFixed(0) + "%",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+      if((received / total * 100).toStringAsFixed(0) + "%"=="100%")
+      {
+        Fluttertoast.showToast(
+          msg: "Saved in download folder",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    }
+  }
+
 
 }

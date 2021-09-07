@@ -372,8 +372,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 ?
                                             GestureDetector(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-
+                                               // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                callNext(
+                                                    viewdetail_profile(
+                                                        data: listing.projectData.elementAt(index).userId.toString()
+                                                    ), context);
                                               },
                                               child: Container(
                                                   height:
@@ -400,7 +403,10 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 :
                                             GestureDetector(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                callNext(
+                                                    viewdetail_profile(
+                                                        data: listing.projectData.elementAt(index).userId.toString()
+                                                    ), context);
 
                                               },
                                               child: Container(
@@ -431,21 +437,30 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                      width: SizeConfig.blockSizeHorizontal *31,
-                                                      padding: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                      ),
-                                                      child: Text(
-                                                        listing.projectData.elementAt(index).fullName,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: AppColors.themecolor,
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.normal,
-                                                            fontFamily: 'Poppins-Regular'),
-                                                      ),
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        callNext(
+                                                            viewdetail_profile(
+                                                                data: listing.projectData.elementAt(index).userId.toString()
+                                                            ), context);
+                                                      },
+                                                      child: Container(
+                                                        margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
+                                                        width: SizeConfig.blockSizeHorizontal *31,
+                                                        padding: EdgeInsets.only(
+                                                          top: SizeConfig.blockSizeVertical *1,
+                                                        ),
+                                                        child: Text(
+                                                          listing.projectData.elementAt(index).fullName,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: AppColors.themecolor,
+                                                              fontSize: 13,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular'),
+                                                        ),
+                                                      ) ,
                                                     ),
                                                     GestureDetector(
                                                       onTap: ()

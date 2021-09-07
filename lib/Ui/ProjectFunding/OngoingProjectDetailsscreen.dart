@@ -363,6 +363,21 @@ class OngoingProjectDetailsscreenState
   void showDownloadProgress(received, total) {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");
+      Fluttertoast.showToast(
+        msg: "Downloading file "+(received / total * 100).toStringAsFixed(0) + "%",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+      if((received / total * 100).toStringAsFixed(0) + "%"=="100%")
+        {
+          Fluttertoast.showToast(
+            msg: "Saved in download folder",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
     }
   }
 
@@ -1169,7 +1184,8 @@ class OngoingProjectDetailsscreenState
                           ),
                         ),
                         storelist_length != null
-                            ? Container(
+                            ?
+                        Container(
                                 alignment: Alignment.topLeft,
                                 height: SizeConfig.blockSizeVertical * 30,
                                 child: ListView.builder(
@@ -1348,20 +1364,25 @@ class OngoingProjectDetailsscreenState
                                             ),
                                           ),
                                         ):
-                                        Container(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 45,
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  60,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
-                                                  fit: BoxFit.fill)),
-                                        ),
+                                            Container(
+                                              color: Colors.black12,
+                                              child: Container(
+                                                height:
+                                                SizeConfig.blockSizeVertical * 45,
+                                                width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    60,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(color: Colors.black12),
+                                                    shape: BoxShape.rectangle,
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
+                                                        fit: BoxFit.fill)
+                                                ),
+                                              ),
+                                            ),
                                         InkWell(
                                           onTap: () {
                                             callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
@@ -1369,14 +1390,11 @@ class OngoingProjectDetailsscreenState
                                           child: Container(
                                             alignment: Alignment.center,
                                             margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    25,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    25),
+                                                left: SizeConfig.blockSizeHorizontal * 25,
+                                                right: SizeConfig.blockSizeHorizontal * 25),
                                             child: Image.asset(
                                               "assets/images/play.png",
+                                              color: Colors.white,
                                               width: 50,
                                               height: 50,
                                             ),
@@ -1421,7 +1439,7 @@ class OngoingProjectDetailsscreenState
                                             SizeConfig.blockSizeHorizontal * 20,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          projectdetailspojo.commentsdata.documents.elementAt(inde).documents.toString(),
+                                          projectdetailspojo.commentsdata.documents.elementAt(inde).docName.toString(),
                                           maxLines: 2,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1438,10 +1456,10 @@ class OngoingProjectDetailsscreenState
                                               await ExtStorage.getExternalStoragePublicDirectory(
                                               ExtStorage.DIRECTORY_DOWNLOADS);
                                           //String fullPath = tempDir.path + "/boo2.pdf'";
-                                          String fullPath = "$path/test.pdf";
+                                          String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
                                           print('full path ${fullPath}');
 
-                                          download2(dio, Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents, fullPath);
+                                          download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
                                          // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
                                         },
                                         child: Container(

@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
+import 'package:kontribute/Pojo/ProfilePojo.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -7,12 +13,20 @@ import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:http/http.dart' as http;
 
 class viewdetail_profile extends StatefulWidget{
+
+  final String data;
+
+  const viewdetail_profile({Key key, @required this.data})
+      : super(key: key);
+
   @override
   viewdetail_profileState createState() => viewdetail_profileState();
 
@@ -32,6 +46,133 @@ class viewdetail_profileState extends State<viewdetail_profile>{
   String tabvalue = "Home";
   bool home =true;
   bool pastproject = false;
+  bool internet = false;
+  String val;
+  String userid;
+  var storelist_length;
+  var pproject;
+  ProfilePojo loginResponse;
+  String data1;
+  int a;
+  bool imageUrl = false;
+  bool _loading = false;
+  String image;
+
+
+  void getData(int id) async {
+    Map data = {
+      'userid': id.toString(),
+    };
+    print("profile data: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.viewprofile, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["status"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        loginResponse = new ProfilePojo.fromJson(jsonResponse);
+        print("Json profile data: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            storelist_length = loginResponse.data;
+            pproject = loginResponse.data.copleteProjects;
+
+            if(loginResponse.data.profilepic !=null || loginResponse.data.profilepic !=""){
+              setState(() {
+                image = loginResponse.data.profilepic;
+                if(image.isNotEmpty){
+                  imageUrl = true;
+                  _loading = true;
+                }
+              });
+            }
+
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: loginResponse.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+  void getfollowstatus(String userid,String rec) async {
+    Map data = {
+      'receiver_id': rec.toString(),
+      'userid': userid.toString(),
+    };
+    print("follow: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.checkfollow_status, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valfollowstatus = response.body; //store response as string
+      if (jsonDecode(valfollowstatus)["status"] == false) {
+        setState(() {
+          Follow="Follow";
+        });
+
+        Fluttertoast.showToast(
+          msg: jsonDecode(valfollowstatus)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        followstatusPojo = new followstatus.fromJson(jsonResponse);
+        print("Json status: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            Follow="";
+          });
+
+          Fluttertoast.showToast(
+            msg: jsonDecode(valfollowstatus)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: followstatusPojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(valfollowstatus)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
 
   Widget circleBar(bool isActive) {
     return AnimatedContainer(
@@ -49,6 +190,36 @@ class viewdetail_profileState extends State<viewdetail_profile>{
     currentPageValue = page;
     setState(() {});
   }
+
+  @override
+  void initState() {
+    super.initState();
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+
+        data1 = widget.data;
+        a = int.parse(data1);
+        print("receiverComing: " + a.toString());
+        getData(a);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+
+
 
 
 
@@ -112,6 +283,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                 ],
               ),
             ),
+            storelist_length!=null?
             Expanded(
               child:
               Container(
@@ -136,29 +308,47 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                             ),
                             Row(
                               children: [
+
+                                imageUrl==false?
                                 Container(
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*10),
                                   height:
                                   SizeConfig.blockSizeVertical *
                                       17,
                                   width:
                                   SizeConfig.blockSizeVertical *
                                       17,
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *10,
-                                      right: SizeConfig
-                                          .blockSizeHorizontal *
-                                          1,
-                                      left: SizeConfig
-                                          .blockSizeHorizontal *
-                                          4),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      image: DecorationImage(
-                                        image:new AssetImage("assets/images/userProfile.png"),
-                                        fit: BoxFit.fill,)),
+                                  child: ClipOval(child: Image.asset("assets/images/userProfile.png", height:
+                                  SizeConfig.blockSizeVertical *
+                                      17,
+                                    width:
+                                    SizeConfig.blockSizeVertical *
+                                        17,)),
+                                ):
+                                Container(
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*10),
+                                  child: _loading? ClipOval(child:  CachedNetworkImage(
+                                    height:
+                                    SizeConfig.blockSizeVertical *
+                                        17,
+                                    width:
+                                    SizeConfig.blockSizeVertical *
+                                        17,fit: BoxFit.fill ,
+                                    imageUrl:image,
+                                    placeholder: (context, url) => Container(
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            17,
+                                        width:
+                                        SizeConfig.blockSizeVertical *
+                                            17,
+                                        child: Center(child: new CircularProgressIndicator())),
+                                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                                  ),): CircularProgressIndicator(
+                                    valueColor:
+                                    new AlwaysStoppedAnimation<Color>(Colors.grey),
+                                  ),
                                 ),
-
                               ],
                             ),
                           ],
@@ -172,7 +362,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                             left:SizeConfig.blockSizeHorizontal *5
                         ),
                         child: Text(
-                          "Phani Kumar G.",
+                          loginResponse.data.fullName+" ("+loginResponse.data.nickName+")",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               letterSpacing: 1.0,
@@ -190,7 +380,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                             left:SizeConfig.blockSizeHorizontal *5
                         ),
                         child: Text(
-                          "Associate Manager",
+                          loginResponse.data.email,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               letterSpacing: 1.0,
@@ -211,7 +401,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                 left:SizeConfig.blockSizeHorizontal *5
                             ),
                             child: Text(
-                              "E-learning Mumbai, Maharashtra",
+                              loginResponse.data.nationality,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   letterSpacing: 1.0,
@@ -237,7 +427,8 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                 right:SizeConfig.blockSizeHorizontal *5
                             ),
                             child: Text(
-                              "326423 followers",
+                             //"326423 followers",
+                              "",
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   letterSpacing: 1.0,
@@ -375,7 +566,12 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                   ),
                 ),
               )
-            )
+            ) :Container(
+              child: Center(
+                child: internet == true?CircularProgressIndicator():SizedBox(),
+              ),
+            ),
+
 
           ],
         ),
@@ -387,10 +583,14 @@ class viewdetail_profileState extends State<viewdetail_profile>{
   }
 
   pastprojects() {
-    return  Container(
+    return
+      pproject!=null?
+      Container(
       child:
       ListView.builder(
-          itemCount: 8,
+          itemCount: pproject.length == null
+              ? 0
+              : pproject.length,
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
@@ -867,7 +1067,11 @@ class viewdetail_profileState extends State<viewdetail_profile>{
               ),
             );
           }),
-    );
+    ) :Container(
+        child: Center(
+          child: internet == true?CircularProgressIndicator():SizedBox(),
+        ),
+      );
   }
 
   homeview() {
