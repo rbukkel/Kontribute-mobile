@@ -462,6 +462,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         ),
                                                       ) ,
                                                     ),
+                                                    listing.projectData.elementAt(index).userId.toString()==userid?
+                                                        Container():
                                                     GestureDetector(
                                                       onTap: ()
                                                       {
@@ -519,7 +521,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             'Poppins-Regular'),
                                                       ),
                                                     ),
-
+                                                    listing.projectData.elementAt(index).userId.toString()==userid?
+                                                        Container():
                                                     GestureDetector(
                                                       onTap: ()
                                                       {
@@ -1150,7 +1153,6 @@ class OngoingProjectState extends State<OngoingProject> {
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
-
           SpeedDialChild(
             child: Icon(Icons.public),
             backgroundColor: AppColors.theme1color,

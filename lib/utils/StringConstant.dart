@@ -144,6 +144,7 @@ class StringConstant {
   static const String dummyproject="Follow";
 
   static const String ongoing="OnGoing";
+  static const String Invitations="Invitations";
 
   static const String totalContribution="Total Contributors";
 

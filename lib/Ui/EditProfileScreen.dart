@@ -235,10 +235,10 @@ class EditProfileScreenState extends State<EditProfileScreen>{
 
             if( loginResponse.resultPush.currentCountry=="")
             {
-              companynameController.text = "";
+              currentCountryController.text = "";
             }
             else{
-              companynameController.text = loginResponse.resultPush.currentCountry;
+              currentCountryController.text = loginResponse.resultPush.currentCountry;
             }
 
 

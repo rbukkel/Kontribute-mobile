@@ -10,6 +10,7 @@ import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
+import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -64,6 +65,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
   String vallike;
   projectlike prolike;
   int amoun;
+  String updateval;
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
@@ -282,14 +284,18 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       ""
                                               ? GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                viewdetail_profile()));
+                                                    callNext(
+                                                        viewdetail_profile(
+                                                            data: listing
+                                                                .projectData
+                                                                .elementAt(
+                                                                index)
+                                                                .userId
+                                                                .toString()
+                                                        ), context);
                                                   },
-                                                  child: Container(
+
+                                                    child: Container(
                                                       height: SizeConfig
                                                               .blockSizeVertical *
                                                           9,
@@ -322,12 +328,11 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                 )
                                               : GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                viewdetail_profile()));
+                                                    callNext(
+                                                        viewdetail_profile(
+                                                            data: listing.projectData.elementAt(index).userId.toString()
+                                                        ), context);
+
                                                   },
                                                   child: Container(
                                                     height: SizeConfig
@@ -371,34 +376,46 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            2),
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        31,
-                                                    padding: EdgeInsets.only(
-                                                      top: SizeConfig
+                                                  GestureDetector(
+                                                    onTap:()
+                                                        {
+                                                        callNext(
+                                                        viewdetail_profile(
+                                                        data: listing.projectData.elementAt(index).userId.toString()
+                                                        ), context);
+
+                                                        },
+                                                    child:  Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig
                                                               .blockSizeVertical *
-                                                          1,
-                                                    ),
-                                                    child: Text(
-                                                      listing.projectData
-                                                          .elementAt(index)
-                                                          .fullName,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: AppColors
-                                                              .themecolor,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
-                                                              'Poppins-Regular'),
+                                                              2),
+                                                      width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          31,
+                                                      padding: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                            .blockSizeVertical *
+                                                            1,
+                                                      ),
+                                                      child: Text(
+                                                        listing.projectData
+                                                            .elementAt(index)
+                                                            .fullName,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors
+                                                                .themecolor,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
                                                     ),
                                                   ),
+                                                  listing.projectData.elementAt(index).userId.toString()==userid?
+                                                  Container():
                                                   GestureDetector(
                                                     onTap: () {},
                                                     child: Container(
@@ -477,8 +494,39 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               'Poppins-Regular'),
                                                     ),
                                                   ),
+                                                  listing.projectData.elementAt(index).userId.toString()==userid?
+                                                  Container():
                                                   GestureDetector(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      Widget cancelButton = FlatButton(
+                                                        child: Text("No"),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      );
+                                                      Widget continueButton = FlatButton(
+                                                        child: Text("Yes"),
+                                                        onPressed: () async {
+                                                          Payamount(listing.projectData.elementAt(index).id,listing.projectData.elementAt(index).requiredAmount,userid);
+                                                        },
+                                                      );
+                                                      // set up the AlertDialog
+                                                      AlertDialog alert = AlertDialog(
+                                                        title: Text("Pay now.."),
+                                                        content: Text("Are you sure you want to Pay this project?"),
+                                                        actions: [
+                                                          cancelButton,
+                                                          continueButton,
+                                                        ],
+                                                      );
+                                                      // show the dialog
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return alert;
+                                                        },
+                                                      );
+                                                    },
                                                     child: Container(
                                                       margin: EdgeInsets.only(
                                                           left: SizeConfig
@@ -1491,4 +1539,50 @@ class SearchbarProjectState extends State<SearchbarProject> {
       _searchQuery.clear();
     });
   }
+
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'project_id': id.toString(),
+      'amount': requiredAmount.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 }

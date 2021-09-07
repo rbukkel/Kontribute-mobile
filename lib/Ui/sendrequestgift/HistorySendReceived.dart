@@ -151,10 +151,7 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                       right: SizeConfig
                                                           .blockSizeHorizontal *
                                                           2),
-                                                  child: Image.asset(
-                                                      "assets/images/menudot.png",
-                                                      height: 15,
-                                                      width: 20),
+
                                                 ),
                                               )
                                             ],

@@ -486,11 +486,10 @@ class OngoingProjectDetailsscreenState
                             projectdetailspojo.commentsdata.profilePic == null || projectdetailspojo.commentsdata.profilePic == ""
                                 ? GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  viewdetail_profile()));
+                                      callNext(
+                                          viewdetail_profile(
+                                              data: projectdetailspojo.commentsdata.userId.toString()
+                                          ), context);
                                     },
                                     child: Container(
                                         height:
@@ -519,11 +518,10 @@ class OngoingProjectDetailsscreenState
                                   )
                                 : GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  viewdetail_profile()));
+                                      callNext(
+                                          viewdetail_profile(
+                                              data: projectdetailspojo.commentsdata.userId.toString()
+                                          ), context);
                                     },
                                     child: Container(
                                       height: SizeConfig.blockSizeVertical * 9,
@@ -553,24 +551,35 @@ class OngoingProjectDetailsscreenState
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 2),
-                                      width: SizeConfig.blockSizeHorizontal * 32,
-                                      padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 1,
-                                      ),
-                                      child: Text(
-                                        projectdetailspojo
-                                            .commentsdata.fullName,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: AppColors.themecolor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular'),
+                                    GestureDetector(
+                                      onTap: ()
+                                      {
+                                        callNext(
+                                            viewdetail_profile(
+                                                data: projectdetailspojo.commentsdata.userId.toString()
+                                            ), context);
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 2),
+                                        width: SizeConfig.blockSizeHorizontal * 32,
+                                        padding: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        child: Text(
+                                          projectdetailspojo
+                                              .commentsdata.fullName,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: AppColors.themecolor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
                                       ),
                                     ),
+                                    projectdetailspojo
+                                        .commentsdata.userId.toString()==userid?Container():
                                     GestureDetector(
                                       onTap: () {},
                                       child: Container(
@@ -625,6 +634,9 @@ class OngoingProjectDetailsscreenState
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
+                                    projectdetailspojo
+                                        .commentsdata.userId.toString()==userid?
+                                    Container():
                                     GestureDetector(
                                       onTap: ()
                                       {
@@ -1142,6 +1154,59 @@ class OngoingProjectDetailsscreenState
                           child: new Html(
                             data: projectdetailspojo.commentsdata.description,
                             defaultTextStyle: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black87,
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
+                          ),
+                        ),
+                        projectdetailspojo.commentsdata.termsAndCondition!=null?
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
+                            left: SizeConfig.blockSizeHorizontal *3,
+                            right: SizeConfig.blockSizeHorizontal * 3,),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Terms and condition: ",
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black87,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins-Regular'),
+                          ),
+                        ):Container(),
+
+                        projectdetailspojo.commentsdata.termsAndCondition!=null?
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                            left: SizeConfig.blockSizeHorizontal *3,
+                            right: SizeConfig.blockSizeHorizontal * 3,),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            projectdetailspojo.commentsdata.termsAndCondition,
+                            maxLines: 3,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black87,
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
+                          ),
+                        ):
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                            left: SizeConfig.blockSizeHorizontal *3,
+                            right: SizeConfig.blockSizeHorizontal * 3,),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "",
+                            maxLines: 3,
+                            style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,

@@ -35,10 +35,10 @@ class Data {
   String status;
   String giftPicture;
   String notification;
-  Null acceptTerms;
+  String acceptTerms;
   String giftStatus;
   String groupId;
-  Null viewType;
+  String viewType;
   String postedDate;
   String createdAt;
   String updatedAt;

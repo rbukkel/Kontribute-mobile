@@ -7,6 +7,7 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/FollowRequestAcceptPojo.dart';
 import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:kontribute/Pojo/follow_Request_updatePojo.dart';
+import 'package:kontribute/myinvitation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -543,20 +544,27 @@ class _mynetworkState extends State<mynetwork> {
                           ),
                         ),
                         storelist_length != null ?
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              bottom: SizeConfig.blockSizeVertical * 2),
-                          child: Text(
-                            "Show more",
-                            style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: "Poppins-Regular",
-                                color: AppColors.theme1color),
-                          ),
-                        ):Container()
+                            GestureDetector(
+                              onTap: ()
+                              {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => myinvitation()));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    bottom: SizeConfig.blockSizeVertical * 2),
+                                child: Text(
+                                  "Show more",
+                                  style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: "Poppins-Regular",
+                                      color: AppColors.theme1color),
+                                ),
+                              ),
+                            )
+                        :Container()
                       ],
                     )),
                   ),

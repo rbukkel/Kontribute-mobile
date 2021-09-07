@@ -344,7 +344,15 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                 _tapDownPosition = details.globalPosition;
                                               },
                                               onTap: () {
-                                                _showPopupMenu(index,"all");
+                                                if(requestpojo.result.data.elementAt(index).status=="request")
+                                                  {
+                                                    _showPopupMenu(index,"request");
+                                                  }
+                                                else if(requestpojo.result.data.elementAt(index).status=="group")
+                                                    {
+                                                      _showPopupMenu(index,"pool");
+                                                    }
+
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
