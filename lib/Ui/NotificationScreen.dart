@@ -32,6 +32,7 @@ class NotificationScreenState extends State<NotificationScreen>{
   bool resultvalue = true;
   bool internet = false;
   String val;
+  String updateval;
   var storelist_length;
   Notificationpojo listing;
 
@@ -100,7 +101,7 @@ class NotificationScreenState extends State<NotificationScreen>{
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if(listing.data.data.isEmpty)
+            if(listing.result.data.isEmpty)
             {
               resultvalue = false;
             }
@@ -108,7 +109,7 @@ class NotificationScreenState extends State<NotificationScreen>{
             {
               resultvalue = true;
               print("SSSS");
-              storelist_length = listing.data.data;
+              storelist_length = listing.result.data;
             }
           });
         }
@@ -295,7 +296,6 @@ class NotificationScreenState extends State<NotificationScreen>{
                                   itemBuilder: (BuildContext context, int index) {
                                     return
                                       Container(
-
                                           child:
                                           Column(
                                             children: [
@@ -310,8 +310,8 @@ class NotificationScreenState extends State<NotificationScreen>{
                                              Row(
                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                children: [
-                                                 listing.data.data.elementAt(index).profilePic== null ||
-                                                     listing.data.data.elementAt(index).profilePic == ""
+                                                 listing.result.data.elementAt(index).profilePic== null ||
+                                                     listing.result.data.elementAt(index).profilePic == ""
                                                      ?
                                                  GestureDetector(
                                                    onTap: () {
@@ -341,12 +341,11 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                        )),
                                                  )
                                                      :
-                                                 listing.data.data.elementAt(index).facebookId== null ||
-                                                     listing.data.data.elementAt(index).facebookId == ""?
+                                                 listing.result.data.elementAt(index).facebookId== null ||
+                                                     listing.result.data.elementAt(index).facebookId == ""?
                                                  GestureDetector(
                                                    onTap: () {
                                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-
                                                    },
                                                    child: Container(
                                                      height: SizeConfig.blockSizeVertical * 9,
@@ -365,14 +364,13 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                          shape: BoxShape.circle,
                                                          image: DecorationImage(
                                                              image: NetworkImage(
-                                                                 Network.BaseApiprofile+listing.data.data.elementAt(index).profilePic),
+                                                                 Network.BaseApiprofile+listing.result.data.elementAt(index).profilePic),
                                                              fit: BoxFit.fill)),
                                                    ),
                                                  ):
                                                  GestureDetector(
                                                    onTap: () {
                                                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-
                                                    },
                                                    child: Container(
                                                      height: SizeConfig.blockSizeVertical * 9,
@@ -391,31 +389,66 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                          shape: BoxShape.circle,
                                                          image: DecorationImage(
                                                              image: NetworkImage(
-                                                                 listing.data.data.elementAt(index).profilePic),
+                                                                 listing.result.data.elementAt(index).profilePic),
                                                              fit: BoxFit.fill)),
                                                    ),
                                                  ),
 
                                                  Row(
                                                    children: [
-                                                     Container(
-                                                       alignment: Alignment.center,
-                                                       width: SizeConfig.blockSizeHorizontal *25,
-                                                       height: SizeConfig.blockSizeVertical *5,
-                                                       decoration: BoxDecoration(
-                                                           border: Border.all(color: Colors.black)
-                                                       ),
-                                                       margin: EdgeInsets.only(
-                                                         left: SizeConfig.blockSizeHorizontal*1,
-                                                         right: SizeConfig.blockSizeHorizontal*4,),
-                                                       child: Text(
-                                                         StringConstant.pay, textAlign: TextAlign.center,
-                                                         style: TextStyle(
-                                                             decoration: TextDecoration.none,
-                                                             fontSize: 12,
-                                                             fontWeight: FontWeight.normal,
-                                                             fontFamily: "Poppins-Regular",
-                                                             color: AppColors.theme1color),
+                                                     GestureDetector(
+                                                       onTap: ()
+                                                       {
+                                                         Widget cancelButton = FlatButton(
+                                                           child: Text("No"),
+                                                           onPressed: () {
+                                                             Navigator.pop(context);
+                                                           },
+                                                         );
+                                                         Widget continueButton = FlatButton(
+                                                           child: Text("Yes"),
+                                                           onPressed: () async {
+                                                             listing.result.data.elementAt(index).price=="0"?
+                                                             Payamount(listing.result.data.elementAt(index).updateId, userid):
+                                                             Payamount(listing.result.data.elementAt(index).updateId, userid);
+                                                           },
+                                                         );
+                                                         // set up the AlertDialog
+                                                         AlertDialog alert = AlertDialog(
+                                                           title: Text("Pay now.."),
+                                                           content: Text("Are you sure you want to Pay this project?"),
+                                                           actions: [
+                                                             cancelButton,
+                                                             continueButton,
+                                                           ],
+                                                         );
+                                                         // show the dialog
+                                                         showDialog(
+                                                           context: context,
+                                                           builder: (BuildContext context) {
+                                                             return alert;
+                                                           },
+                                                         );
+                                                       },
+                                                       child:  Container(
+                                                         alignment: Alignment.center,
+                                                         width: SizeConfig.blockSizeHorizontal *25,
+                                                         height: SizeConfig.blockSizeVertical *5,
+                                                         decoration: BoxDecoration(
+                                                             border: Border.all(color: Colors.black)
+                                                         ),
+                                                         margin: EdgeInsets.only(
+                                                           left: SizeConfig.blockSizeHorizontal*1,
+                                                           right: SizeConfig.blockSizeHorizontal*4,),
+                                                         child: Text(
+                                                           StringConstant.pay, textAlign: TextAlign.center,
+                                                           style: TextStyle(
+                                                               decoration: TextDecoration.none,
+                                                               fontSize: 12,
+                                                               fontWeight: FontWeight.normal,
+                                                               fontFamily: "Poppins-Regular",
+                                                               color: AppColors.theme1color),
+                                                         ),
                                                        ),
                                                      ),
                                                      InkWell(
@@ -431,7 +464,6 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                      ),
                                                    ],
                                                  )
-
 
                                                ],
                                              ),
@@ -452,7 +484,8 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                             right: SizeConfig.blockSizeHorizontal *5),
                                                         alignment: Alignment.centerLeft,
                                                         child: Text(
-                                                          listing.data.data.elementAt(index).fullName, textAlign: TextAlign.left,
+                                                          listing.result.data.elementAt(index).fullName!=null?
+                                                          listing.result.data.elementAt(index).fullName:listing.result.data.elementAt(index).groupName, textAlign: TextAlign.left,
                                                           style: TextStyle(
                                                               decoration: TextDecoration.none,
                                                               fontSize: 10,
@@ -470,7 +503,9 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                             right: SizeConfig.blockSizeHorizontal *1),
                                                         alignment: Alignment.centerLeft,
                                                         child: Text(
-                                                          "Amount: "+listing.data.data.elementAt(index).price, textAlign: TextAlign.left,
+                                    listing.result.data.elementAt(index).price=="0"?
+                                    "Amount: "+listing.result.data.elementAt(index).minCashByParticipant:
+                                    "Amount: "+listing.result.data.elementAt(index).price, textAlign: TextAlign.left,
                                                           style: TextStyle(
                                                               decoration: TextDecoration.none,
                                                               fontSize: 10,
@@ -486,7 +521,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                             right: SizeConfig.blockSizeHorizontal *5),
                                                         alignment: Alignment.centerLeft,
                                                         child: Text(
-                                                          listing.data.data.elementAt(index).description, textAlign: TextAlign.left,
+                                                          listing.result.data.elementAt(index).description, textAlign: TextAlign.left,
                                                           maxLines:3,
                                                           style: TextStyle(
                                                               decoration: TextDecoration.none,
@@ -499,8 +534,6 @@ class NotificationScreenState extends State<NotificationScreen>{
 
                                                     ],
                                                   ),
-
-
                                                 ],
                                               ),
 
@@ -516,7 +549,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                         right: SizeConfig.blockSizeHorizontal *1),
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      "Start date: "+listing.data.data.elementAt(index).postedDate, textAlign: TextAlign.left,
+                                                      "Start date: "+listing.result.data.elementAt(index).postedDate, textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                           decoration: TextDecoration.none,
                                                           fontSize: 10,
@@ -533,7 +566,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                         right: SizeConfig.blockSizeHorizontal *5),
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                      "End date: "+listing.data.data.elementAt(index).postedDate, textAlign: TextAlign.left,
+                                                      "End date: "+listing.result.data.elementAt(index).postedDate, textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                           decoration: TextDecoration.none,
                                                           fontSize: 10,
@@ -550,7 +583,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                 alignment: Alignment.center,
                                                 child:  CachedNetworkImage(
                                                   fit: BoxFit.fill,
-                                                  imageUrl: Network.BaseApigift+listing.data.data.elementAt(index).giftPicture,
+                                                  imageUrl: Network.BaseApigift+listing.result.data.elementAt(index).giftPicture,
                                                   imageBuilder:
                                                       (context, imageProvider) =>
                                                       Container(
@@ -729,6 +762,52 @@ class NotificationScreenState extends State<NotificationScreen>{
   }
 
 
+  Future<void> Payamount(String id, String userid) async {
+    Map data = {
+      'id': id.toString(),
+      'sender_id': userid.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.pay_money, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
+
+
+
   Widget _buildFab(BuildContext context) {
     // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
     return  FloatingActionButton(
@@ -758,5 +837,7 @@ class NotificationScreenState extends State<NotificationScreen>{
       }
     });
   }
+
+
 
 }

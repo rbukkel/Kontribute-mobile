@@ -535,7 +535,9 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         Widget continueButton = FlatButton(
                                                           child: Text("Yes"),
                                                           onPressed: () async {
-                                                            Payamount(listing.projectData.elementAt(index).id,listing.projectData.elementAt(index).requiredAmount,userid);
+                                                            Payamount(listing.projectData.elementAt(index).id,
+                                                                listing.projectData.elementAt(index).requiredAmount,
+                                                                userid);
                                                           },
                                                         );
                                                         // set up the AlertDialog
