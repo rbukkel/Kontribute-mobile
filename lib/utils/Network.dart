@@ -52,4 +52,5 @@ class Network{
   static String get_profiledata = "get_profiledata";
   static String update_profiledata = "update_profiledata";
   static String viewprofile = "viewprofile";
+  static String delete_notification = "delete_notification";
 }

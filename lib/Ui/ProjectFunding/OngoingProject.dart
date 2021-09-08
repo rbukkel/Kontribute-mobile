@@ -522,7 +522,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                       ),
                                                     ),
                                                     listing.projectData.elementAt(index).userId.toString()==userid?
-                                                        Container():
+                                                    listing.projectData.elementAt(index).status.toString()!="pending"?
+                                                        Container():Container():
                                                     GestureDetector(
                                                       onTap: ()
                                                       {

@@ -103,12 +103,12 @@ class viewdetail_sendreceivegiftState
           Follow = "Follow";
         });
 
-        Fluttertoast.showToast(
+       /* Fluttertoast.showToast(
           msg: jsonDecode(valfollowstatus)["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
-        );
+        );*/
       } else {
         followstatusPojo = new followstatus.fromJson(jsonResponse);
         print("Json status: " + jsonResponse.toString());
@@ -144,6 +144,9 @@ class viewdetail_sendreceivegiftState
   }
 
   void getData(int id, String userid) async {
+    setState(() {
+      productlist_length=null;
+    });
     Map data = {
       'id': id.toString(),
       'user_id': userid.toString(),
@@ -471,7 +474,8 @@ class viewdetail_sendreceivegiftState
                                                 ),
                                               ),
                                               coming1 == "Ongoing"
-                                                  ? GestureDetector(
+                                                  ?
+                                              GestureDetector(
                                                       onTap: () {
                                                         followapi(
                                                             userid, reverid);
@@ -504,7 +508,41 @@ class viewdetail_sendreceivegiftState
                                                                   'Poppins-Regular'),
                                                         ),
                                                       ),
-                                                    )
+                                                    ): coming1 == "Search"
+                                                  ? GestureDetector(
+                                                onTap: () {
+                                                  followapi(
+                                                      userid, reverid);
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                  EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical *
+                                                        8,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2,
+                                                  ),
+                                                  child: Text(
+                                                    Follow,
+                                                    style: TextStyle(
+                                                        letterSpacing:
+                                                        1.0,
+                                                        color: AppColors
+                                                            .yelowbg,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .bold,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                              )
                                                   : Container()
                                             ],
                                           ),
@@ -1019,7 +1057,13 @@ class viewdetail_sendreceivegiftState
                                                                 3,
                                                           ),
                                                           child: Text(
-                                                            "Status",
+                                                            senddetailsPojo
+                                                                .memberlist
+                                                                .elementAt(
+                                                                index).paymentStatus==0?"Pending": senddetailsPojo
+                                                                .memberlist
+                                                                .elementAt(
+                                                                index).paymentStatus==1?"Done":"Pending",
                                                             textAlign:
                                                                 TextAlign.right,
                                                             style: TextStyle(
@@ -1082,7 +1126,11 @@ class viewdetail_sendreceivegiftState
                                                                         index)
                                                                     .id ==
                                                                 userid
-                                                            ? GestureDetector(
+                                                            ?senddetailsPojo
+                                                            .memberlist
+                                                            .elementAt(
+                                                            index).paymentStatus==0?
+                                                        GestureDetector(
                                                                 onTap: () {
                                                                   payamount();
                                                                   /* paymentlistpojo
@@ -1157,7 +1205,7 @@ class viewdetail_sendreceivegiftState
                                                                             'Poppins-Regular'),
                                                                   ),
                                                                 ),
-                                                              )
+                                                              ):Container()
                                                             : Container()
                                                       ],
                                                     ),
@@ -1208,6 +1256,9 @@ class viewdetail_sendreceivegiftState
       } else {
         if (jsonResponse != null) {
           showToast(updateval);
+          setState(() {
+            getData(a, userid);
+          });
           // getpaymentlist(a);
         } else {
           showToast(updateval);

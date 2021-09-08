@@ -195,29 +195,42 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       setState(() {
         file1 = file; //file1 is a global variable which i created
         print("File Path: " + file1.toString());
-        _documentList.add(file1);
-        for (int i = 0; i < _documentList.length; i++) {
-          print("ListDoc:" + _documentList[i].toString());
-        }
-        documentPath = file.path.toString();
-        print("File Path1: " + file.path.toString());
-        basename = path.basename(file.path);
-        print("File basename: " + basename.toString());
-        _selecteName.add(basename);
 
-        final input = _selecteName.toString();
-        final removedBrackets = input.substring(1, input.length - 1);
-        final parts = removedBrackets.split(',');
-        catname = parts.map((part) => "$part").join(',').trim();
-        print("Docname: "+catname.toString());
+        if(_documentList.length<2)
+          {
+            _documentList.add(file1);
+            for (int i = 0; i < _documentList.length; i++) {
+              print("ListDoc:" + _documentList[i].toString());
+            }
+            documentPath = file.path.toString();
+            print("File Path1: " + file.path.toString());
+            basename = path.basename(file.path);
+            print("File basename: " + basename.toString());
+            _selecteName.add(basename);
+
+            final input = _selecteName.toString();
+            final removedBrackets = input.substring(1, input.length - 1);
+            final parts = removedBrackets.split(',');
+            catname = parts.map((part) => "$part").join(',').trim();
+            print("Docname: "+catname.toString());
+          }
+        else{
+          Fluttertoast.showToast(
+            msg: "upload upto 2 documents",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+
       });
-      setState(() {
+     /* setState(() {
         file1 = file;
-        _documentList.add(file1);
+        _imageList.add(file1);
         for (int i = 0; i < _imageList.length; i++) {
           print("ListImages:" + _imageList[i].toString());
         }
-      });
+      });*/
     }
   }
 
@@ -322,13 +335,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() {
           _imageFile = imageFile;
-          _imageList.add(_imageFile);
-          for (int i = 0; i < _imageList.length; i++) {
-            print("ListImages:" + _imageList[i].toString());
-          }
+
+          if(_imageList.length<3)
+            {
+              _imageList.add(_imageFile);
+              for (int i = 0; i < _imageList.length; i++) {
+                print("ListImages:" + _imageList[i].toString());
+              }
+            }
+          else{
+          Fluttertoast.showToast(
+          msg: "upload upto 3 images",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          );
+            }
         });
       } catch (e) {
         print(e);
@@ -336,12 +361,23 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() {
           _imageFile = imageFile;
-          _imageList.add(_imageFile);
-          for (int i = 0; i < _imageList.length; i++) {
-            print("ListImages:" + _imageList[i].toString());
+          if(_imageList.length<3)
+          {
+            _imageList.add(_imageFile);
+            for (int i = 0; i < _imageList.length; i++) {
+              print("ListImages:" + _imageList[i].toString());
+            }
+          }
+          else{
+            Fluttertoast.showToast(
+              msg: "upload upto 3 images",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
           }
         });
       } catch (e) {
@@ -1755,25 +1791,29 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   /// get firends text-fields
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
-    for (int i = 0; i < videoList.length; i++) {
-      friendsTextFields.add(Container(
-        height: SizeConfig.blockSizeVertical * 10,
-        width: SizeConfig.blockSizeHorizontal * 70,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Row(
-            children: [
-              Expanded(child: FriendTextFields(i)),
-              SizedBox(
-                width: 16,
+
+        for (int i = 0; i < videoList.length; i++) {
+          friendsTextFields.add(Container(
+            height: SizeConfig.blockSizeVertical * 10,
+            width: SizeConfig.blockSizeHorizontal * 70,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+                children: [
+                  Expanded(child: FriendTextFields(i)),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  // we need add button at last friends row
+                  _addRemoveButton(i == videoList.length - 1, i),
+                ],
               ),
-              // we need add button at last friends row
-              _addRemoveButton(i == videoList.length - 1, i),
-            ],
-          ),
-        ),
-      ));
-    }
+            ),
+          ));
+        }
+
+
+
     return friendsTextFields;
   }
 

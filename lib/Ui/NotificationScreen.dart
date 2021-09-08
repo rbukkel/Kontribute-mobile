@@ -35,6 +35,8 @@ class NotificationScreenState extends State<NotificationScreen>{
   String updateval;
   var storelist_length;
   Notificationpojo listing;
+  String deleteval;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   @override
   void initState() {
@@ -283,14 +285,11 @@ class NotificationScreenState extends State<NotificationScreen>{
                                     fontFamily: 'Poppins-Regular'),
                               ),
                             ),
-                            storelist_length != null
-                                ?
+                            storelist_length != null ?
                             Container(
                               child:
                               ListView.builder(
-                                  itemCount:storelist_length.length == null
-                                      ? 0
-                                      : storelist_length.length,
+                                  itemCount:storelist_length.length == null ? 0 : storelist_length.length,
                                   physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemBuilder: (BuildContext context, int index) {
@@ -310,13 +309,11 @@ class NotificationScreenState extends State<NotificationScreen>{
                                              Row(
                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                children: [
-                                                 listing.result.data.elementAt(index).profilePic== null ||
-                                                     listing.result.data.elementAt(index).profilePic == ""
-                                                     ?
+                                                 listing.result.data.elementAt(index).profilePic== null
+                                                     || listing.result.data.elementAt(index).profilePic == ""?
                                                  GestureDetector(
                                                    onTap: () {
                                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-
                                                    },
                                                    child: Container(
                                                        height:
@@ -326,12 +323,8 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                        margin: EdgeInsets.only(
                                                            top: SizeConfig.blockSizeVertical *2,
                                                            bottom: SizeConfig.blockSizeVertical *1,
-                                                           right: SizeConfig
-                                                               .blockSizeHorizontal *
-                                                               1,
-                                                           left: SizeConfig
-                                                               .blockSizeHorizontal *
-                                                               5),
+                                                           right: SizeConfig.blockSizeHorizontal * 1,
+                                                           left: SizeConfig.blockSizeHorizontal * 5),
                                                        decoration: BoxDecoration(
                                                          image: new DecorationImage(
                                                            image: new AssetImage(
@@ -451,9 +444,9 @@ class NotificationScreenState extends State<NotificationScreen>{
                                                          ),
                                                        ),
                                                      ),
-                                                     InkWell(
+                                                     GestureDetector(
                                                        onTap: () {
-
+                                                         deleteItem(listing.result.data.elementAt(index).id.toString());
                                                        },
                                                        child: Container(
                                                          color: Colors.transparent,
@@ -837,6 +830,67 @@ class NotificationScreenState extends State<NotificationScreen>{
       }
     });
   }
+
+  Future<void> deleteItem(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'id': id.toString(),
+
+    };
+    print("ID: "+data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.delete_notification, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteval = response.body; //store response as string
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+        Fluttertoast.showToast(
+          msg: jsonDecode(deleteval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getdata(userid);
+          });
+          Fluttertoast.showToast(
+              msg: jsonDecode(deleteval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonDecode(deleteval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonDecode(deleteval)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
 
 

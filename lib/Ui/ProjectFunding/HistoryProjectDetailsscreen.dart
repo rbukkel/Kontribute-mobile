@@ -846,7 +846,6 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                 fontFamily: 'Poppins-Regular'),
                           ),
                         ):Container(),
-
                         projectdetailspojo.commentsdata.termsAndCondition!=null?
                         Container(
                           width: SizeConfig.blockSizeHorizontal * 90,
