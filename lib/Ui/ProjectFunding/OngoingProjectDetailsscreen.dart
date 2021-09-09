@@ -1488,14 +1488,26 @@ class OngoingProjectDetailsscreenState
                                   alignment: Alignment.center,
                                   child: Column(
                                     children: [
-                                      Image.asset(
+                                      GestureDetector(
+                                          onTap: () async {
+                                        String path =
+                                        await ExtStorage.getExternalStoragePublicDirectory(
+                                            ExtStorage.DIRECTORY_DOWNLOADS);
+                                        //String fullPath = tempDir.path + "/boo2.pdf'";
+                                        String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
+                                        print('full path ${fullPath}');
+
+                                        download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
+                                        // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                      },
+                                      child:  Image.asset(
                                         "assets/images/files.png",
                                         height:
-                                            SizeConfig.blockSizeVertical * 10,
+                                        SizeConfig.blockSizeVertical * 10,
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 25,
+                                        SizeConfig.blockSizeHorizontal * 25,
                                         fit: BoxFit.fitHeight,
-                                      ),
+                                      )),
                                       Container(
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
@@ -2004,9 +2016,11 @@ class OngoingProjectDetailsscreenState
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          CommentController.text =null;
-          getData(userid, a);
+          setState(() {
+            CommentController.text ="";
+          });
 
+          getData(userid, a);
         } else {
           Fluttertoast.showToast(
             msg: postcom.message,

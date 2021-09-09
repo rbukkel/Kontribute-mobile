@@ -54,6 +54,7 @@ class StringConstant {
   static const String createnewticket = "Create New Ticket";
   static const String createnewcampaign = "Create New Campaign";
   static const String createnewproject = "Create New Project";
+  static const String editnewproject = "Edit Project";
   static const String showpostproject = "Who can see this project";
   static const String addyourspecialtermcond = "Add your special terms & condition";
   static const String showpostevent = "Who can see this event";

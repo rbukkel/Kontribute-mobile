@@ -25,7 +25,7 @@ class Notificationpojo {
 
 class Result {
   int currentPage;
-  List<Data> data;
+  List<Datum> data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -54,9 +54,9 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<Datum>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new Datum.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -91,7 +91,7 @@ class Result {
   }
 }
 
-class Data {
+class Datum {
   String id;
   String senderId;
   String groupId;
@@ -112,7 +112,7 @@ class Data {
   String facebookId;
   String groupName;
 
-  Data(
+  Datum(
       {this.id,
         this.senderId,
         this.groupId,
@@ -133,7 +133,7 @@ class Data {
         this.facebookId,
         this.groupName});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Datum.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     senderId = json['sender_id'];
     groupId = json['group_id'];
