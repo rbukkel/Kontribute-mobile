@@ -634,9 +634,10 @@ class OngoingProjectDetailsscreenState
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
+
                                     projectdetailspojo
-                                        .commentsdata.userId.toString()==userid?
-                                    Container():
+                                        .commentsdata.userId.toString()!=userid?
+                                    projectdetailspojo.commentsdata.status=="pending"?
                                     GestureDetector(
                                       onTap: ()
                                       {
@@ -672,44 +673,43 @@ class OngoingProjectDetailsscreenState
                                         );
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            top: SizeConfig.blockSizeVertical *
-                                                2),
+                                        margin: EdgeInsets.only(left:
+                                        SizeConfig.blockSizeHorizontal *1,
+                                            right: SizeConfig.blockSizeHorizontal *2,
+                                            top: SizeConfig.blockSizeVertical *2),
                                         padding: EdgeInsets.only(
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4,
-                                            bottom:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
-                                            top:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1),
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                3,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                3,
+                                            bottom: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            top: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1),
                                         decoration: BoxDecoration(
                                           color: AppColors.darkgreen,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(20),
+
                                         ),
                                         child: Text(
                                           StringConstant.pay.toUpperCase(),
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.whiteColor,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular'),
+                                              fontSize:12,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              'Poppins-Regular'),
                                         ),
                                       ),
-                                    )
+                                    ): Container(): Container()
+
+
                                   ],
                                 ),
                                 Row(

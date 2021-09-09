@@ -521,10 +521,10 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             'Poppins-Regular'),
                                                       ),
                                                     ),
-                                                    listing.projectData.elementAt(index).userId.toString()==userid?
-                                                    listing.projectData.elementAt(index).status.toString()!="pending"?
-                                                        Container():Container():
-                                                    GestureDetector(
+
+                                                    listing.projectData.elementAt(index).userId.toString()!=userid?
+                                                    listing.projectData.elementAt(index).status=="pending"?
+                                                   GestureDetector(
                                                       onTap: ()
                                                       {
                                                         Widget cancelButton = FlatButton(
@@ -593,7 +593,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               'Poppins-Regular'),
                                                         ),
                                                       ),
-                                                    )
+                                                    ): Container(): Container()
                                                   ],
                                                 ),
                                                 Row(

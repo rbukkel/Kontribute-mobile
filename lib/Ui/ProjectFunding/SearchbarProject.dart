@@ -494,10 +494,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               'Poppins-Regular'),
                                                     ),
                                                   ),
-                                                  listing.projectData.elementAt(index).userId.toString()==userid?
-                                                  Container():
+
+                                                  listing.projectData.elementAt(index).userId.toString()!=userid?
+                                                  listing.projectData.elementAt(index).status=="pending"?
                                                   GestureDetector(
-                                                    onTap: () {
+                                                    onTap: ()
+                                                    {
                                                       Widget cancelButton = FlatButton(
                                                         child: Text("No"),
                                                         onPressed: () {
@@ -507,7 +509,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       Widget continueButton = FlatButton(
                                                         child: Text("Yes"),
                                                         onPressed: () async {
-                                                          Payamount(listing.projectData.elementAt(index).id,listing.projectData.elementAt(index).requiredAmount,userid);
+                                                          Payamount(listing.projectData.elementAt(index).id,
+                                                              listing.projectData.elementAt(index).requiredAmount,
+                                                              userid);
                                                         },
                                                       );
                                                       // set up the AlertDialog
@@ -528,52 +532,41 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       );
                                                     },
                                                     child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              1,
-                                                          right: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              2,
-                                                          top: SizeConfig
-                                                                  .blockSizeVertical *
-                                                              2),
+                                                      margin: EdgeInsets.only(left:
+                                                      SizeConfig.blockSizeHorizontal *1,
+                                                          right: SizeConfig.blockSizeHorizontal *2,
+                                                          top: SizeConfig.blockSizeVertical *2),
                                                       padding: EdgeInsets.only(
                                                           right: SizeConfig
-                                                                  .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                               3,
                                                           left: SizeConfig
-                                                                  .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                               3,
                                                           bottom: SizeConfig
-                                                                  .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                               1,
                                                           top: SizeConfig
-                                                                  .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                               1),
                                                       decoration: BoxDecoration(
-                                                        color:
-                                                            AppColors.darkgreen,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
+                                                        color: AppColors.darkgreen,
+                                                        borderRadius: BorderRadius.circular(20),
+
                                                       ),
                                                       child: Text(
-                                                        StringConstant.pay
-                                                            .toUpperCase(),
+                                                        StringConstant.pay.toUpperCase(),
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
-                                                            color: AppColors
-                                                                .whiteColor,
-                                                            fontSize: 12,
+                                                            color: AppColors.whiteColor,
+                                                            fontSize:12,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                            FontWeight.normal,
                                                             fontFamily:
-                                                                'Poppins-Regular'),
+                                                            'Poppins-Regular'),
                                                       ),
                                                     ),
-                                                  )
+                                                  ): Container(): Container()
                                                 ],
                                               ),
                                               Row(

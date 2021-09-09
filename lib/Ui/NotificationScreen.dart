@@ -17,12 +17,12 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 
-class NotificationScreen extends StatefulWidget{
+class NotificationScreen extends StatefulWidget {
   @override
   NotificationScreenState createState() => NotificationScreenState();
 }
 
-class NotificationScreenState extends State<NotificationScreen>{
+class NotificationScreenState extends State<NotificationScreen> {
   int _index;
   bool home = false;
   bool wallet = false;
@@ -38,78 +38,41 @@ class NotificationScreenState extends State<NotificationScreen>{
   String deleteval;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
-  Notificationpojo payload;
-  int page = 1;
-  List<Datum> _DataList = [];
-  Future<List<Datum>> _future;
-  ScrollController _controller = ScrollController();
+  int pageNumber = 1;
+  int totalPage = 1;
+  bool isLoading = false;
+  static ScrollController _listViewController;
+
+  void function() {
+    print("scrolling");
+  }
 
 
-  Future<List<Datum>> getData(int pageCount, String user_id) async {
-    Map data = {
-      'userid': user_id.toString(),
-    };
-    print("user: " + data.toString());
-    var jsonResponse = null;
-    String url = Uri.encodeFull("http://kontribute.knickglobal.com/api/notificationlisting?page=$pageCount");
-    var response = await http.post(url, body: data, headers: {
-      "Accept": "application/json"
-    }).timeout(const Duration(seconds: 10));
-    jsonResponse = json.decode(response.body);
-    val = response.body;
-    if (jsonResponse["success"] == false) {
-      setState(() {
-        resultvalue = false;
-      });
-      Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
-    } else {
-      payload = new Notificationpojo.fromJson(jsonResponse);
-      print("Json User" + jsonResponse.toString());
-      if (jsonResponse != null) {
-        print("response");
-        setState(() {
-          if(payload.result.data.isEmpty)
-          {
-            resultvalue = false;
-          }
-          else
-          {
-
-            print("Json User" + jsonResponse.toString());
-            storelist_length = payload.result.data;
-            _DataList.insertAll(0, payload.result.data);
-            page++;
-            print("Page: "+page.toString());
-          }
-        });
-      }
-      else {
-        Fluttertoast.showToast(
-            msg: payload.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
-      }
-    }
-    return _DataList;
+  @override
+  Future<void> initState() {
+    _listViewController = new ScrollController()..addListener(function);
+    super.initState();
+    _loadID();
   }
 
   @override
-  void initState() {
+  void dispose() {
+    _listViewController.dispose();
+    super.dispose();
+  }
+
+  _loadID() async {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
-      userid = val;
-      _future = getData(page,userid);
-      print("Login userid: " + userid.toString());
-
+      setState(() {
+        userid = val;
+        getdata(userid, pageNumber);
+        print("Login userid: " + userid.toString());
+        paginationApi();
+      });
     });
-
-
-    super.initState();
+  }
+  /*  super.initState();
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         setState(() {
@@ -117,8 +80,199 @@ class NotificationScreenState extends State<NotificationScreen>{
         });
       }
     });
+  }*/
+
+  void paginationApi() {
+    ScrollController _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        if (!isLoading) {
+          isLoading = !isLoading;
+          setState(() {
+            if (pageNumber < listing.result.lastPage) {
+              pageNumber += 1;
+              getdata(userid, pageNumber);
+            }
+          });
+          // Perform event when user reach at the end of list (e.g. do Api call)
+        }
+      }
+
+      if (_scrollController.position.minScrollExtent ==
+          _scrollController.position.pixels) {
+        if (!isLoading) {
+          isLoading = !isLoading;
+          setState(() {
+            if (pageNumber >= 1) {
+              pageNumber = pageNumber - 1;
+              print('ggggggg' + pageNumber.toString());
+              if (pageNumber < listing.result.lastPage) {
+                getSUBdata(userid, pageNumber);
+              }
+            } else {
+              getSUBdata(userid, pageNumber);
+              print("Last page");
+            }
+          });
+          // Perform event when user reach at the end of list (e.g. do Api call)
+        }
+      }
+
+    });
+   /* _listViewController.addListener(() {
+      if (_listViewController.offset >=
+              _listViewController.position.maxScrollExtent &&
+          !_listViewController.position.outOfRange) {
+        setState(() {
+          if (pageNumber < listing.result.lastPage) {
+            pageNumber += 1;
+            getdata(userid, pageNumber);
+          }
+        });
+      }*/
+/*
+      if (_listViewController.offset <=
+              _listViewController.position.minScrollExtent &&
+          !_listViewController.position.outOfRange) {
+        setState(() {
+          if (pageNumber >= 1) {
+            pageNumber = pageNumber - 1;
+            print('ggggggg' + pageNumber.toString());
+            if (pageNumber < listing.result.lastPage) {
+              getSUBdata(userid, pageNumber);
+            }
+          } else {
+            getSUBdata(userid, pageNumber);
+            print("Last page");
+          }
+        });
+      }
+      });
+*/
+
   }
 
+  void getSUBdata(String user_id, int page) async {
+    Map data = {
+      'userid': user_id.toString(),
+    };
+    print("Subuser: " + data.toString());
+    var jsonResponse = null;
+    print(Network.BaseApi +
+        Network.notificationlisting +
+        "?page=" +
+        page.toString());
+    http.Response response = await http.post(
+        Network.BaseApi + Network.notificationlisting + "?page=$page",
+        body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }  else {
+        listing = new Notificationpojo.fromJson(jsonResponse);
+        print("Json User: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if (listing.result.data.isEmpty) {
+              resultvalue = false;
+            } else {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.result.data;
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+  void getdata(String user_id, int page) async {
+    Map data = {
+      'userid': user_id.toString(),
+    };
+
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    print(Network.BaseApi +
+        Network.notificationlisting +
+        "?page=" +
+        page.toString());
+    http.Response response = await http.post(
+        Network.BaseApi + Network.notificationlisting + "?page=$page",
+        body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        listing = new Notificationpojo.fromJson(jsonResponse);
+        print("Json User: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if (listing.result.data.isEmpty) {
+              resultvalue = false;
+            } else {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.result.data;
+            }
+          });
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+    paginationApi();
+  }
 
 /*
   @override
@@ -154,8 +308,6 @@ class NotificationScreenState extends State<NotificationScreen>{
     });
   }
 */
-
-
 
   /*void getdata(String user_id) async {
     setState(() {
@@ -216,8 +368,6 @@ class NotificationScreenState extends State<NotificationScreen>{
     }
   }*/
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,7 +377,7 @@ class NotificationScreenState extends State<NotificationScreen>{
         child: Column(
           children: [
             Container(
-              height: SizeConfig.blockSizeVertical *12,
+              height: SizeConfig.blockSizeVertical * 12,
               decoration: BoxDecoration(
                 image: new DecorationImage(
                   image: new AssetImage("assets/images/appbar.png"),
@@ -238,24 +388,25 @@ class NotificationScreenState extends State<NotificationScreen>{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 20,height: 20,
-                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *2),
-                    child:
-                    InkWell(
-                      onTap: () {
-
-                      },
-                      child: Container(
-                      ),
+                    width: 20,
+                    height: 20,
+                    margin: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 6,
+                        top: SizeConfig.blockSizeVertical * 2),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(),
                     ),
                   ),
                   Container(
-                    width: SizeConfig.blockSizeHorizontal *60,
+                    width: SizeConfig.blockSizeHorizontal * 60,
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                    margin:
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      StringConstant.notification, textAlign: TextAlign.center,
+                      StringConstant.notification,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 20,
@@ -265,22 +416,23 @@ class NotificationScreenState extends State<NotificationScreen>{
                     ),
                   ),
                   Container(
-                    width: 25,height: 25,
-                    margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-
+                    width: 25,
+                    height: 25,
+                    margin: EdgeInsets.only(
+                        right: SizeConfig.blockSizeHorizontal * 3,
+                        top: SizeConfig.blockSizeVertical * 2),
                   ),
                 ],
               ),
             ),
-
             Expanded(
               child: Container(
-                child:  SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                     /* Container(
+                      /* Container(
                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
                             left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
 
@@ -342,21 +494,24 @@ class NotificationScreenState extends State<NotificationScreen>{
                         ),
                       ),*/
                       Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
-                            left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
-                         padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *1),
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 3,
+                            bottom: SizeConfig.blockSizeVertical * 3,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3),
+                        padding: EdgeInsets.only(
+                            bottom: SizeConfig.blockSizeVertical * 1),
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black26)
-                        ),
+                            border: Border.all(color: Colors.black26)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              alignment:Alignment.centerLeft,
+                              alignment: Alignment.centerLeft,
                               padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical *2,
-                                left: SizeConfig.blockSizeHorizontal *4,
-                                right: SizeConfig.blockSizeHorizontal *4,
+                                top: SizeConfig.blockSizeVertical * 2,
+                                left: SizeConfig.blockSizeHorizontal * 4,
+                                right: SizeConfig.blockSizeHorizontal * 4,
                               ),
                               child: Text(
                                 "Earlier",
@@ -368,674 +523,610 @@ class NotificationScreenState extends State<NotificationScreen>{
                                     fontFamily: 'Poppins-Regular'),
                               ),
                             ),
-                            storelist_length != null ?
-                            Container(
-                              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *60),
-                              child:
-                            /*  ListView.builder(
-                                  itemCount:storelist_length.length == null ? 0 : storelist_length.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return
-                                      Container(
-                                          child:
-                                          Column(
+                            storelist_length != null
+                                ? Container(
+                                    child: ListView.builder(
+                                        controller: _listViewController,
+                                        itemCount:
+                                            storelist_length.length == null
+                                                ? 0
+                                                : storelist_length.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Container(
+                                              child: Column(
                                             children: [
                                               Container(
                                                 margin: EdgeInsets.only(
-                                                    bottom: SizeConfig.blockSizeVertical * 1),
+                                                    bottom: SizeConfig
+                                                            .blockSizeVertical *
+                                                        1),
                                                 child: Divider(
                                                   thickness: 1,
                                                   color: Colors.black12,
                                                 ),
                                               ),
-                                             Row(
-                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                               children: [
-                                                 listing.result.data.elementAt(index).profilePic== null
-                                                     || listing.result.data.elementAt(index).profilePic == ""?
-                                                 GestureDetector(
-                                                   onTap: () {
-                                                     //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                   },
-                                                   child: Container(
-                                                       height:
-                                                       SizeConfig.blockSizeVertical * 9,
-                                                       width: SizeConfig.blockSizeVertical * 9,
-                                                       alignment: Alignment.centerLeft,
-                                                       margin: EdgeInsets.only(
-                                                           top: SizeConfig.blockSizeVertical *2,
-                                                           bottom: SizeConfig.blockSizeVertical *1,
-                                                           right: SizeConfig.blockSizeHorizontal * 1,
-                                                           left: SizeConfig.blockSizeHorizontal * 5),
-                                                       decoration: BoxDecoration(
-                                                         image: new DecorationImage(
-                                                           image: new AssetImage(
-                                                               "assets/images/account_circle.png"),
-                                                           fit: BoxFit.fill,
-                                                         ),
-                                                       )),
-                                                 )
-                                                     :
-                                                 listing.result.data.elementAt(index).facebookId== null ||
-                                                     listing.result.data.elementAt(index).facebookId == ""?
-                                                 GestureDetector(
-                                                   onTap: () {
-                                                     //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                   },
-                                                   child: Container(
-                                                     height: SizeConfig.blockSizeVertical * 9,
-                                                     width: SizeConfig.blockSizeVertical * 9,
-                                                     alignment: Alignment.centerLeft,
-                                                     margin: EdgeInsets.only(
-                                                         top: SizeConfig.blockSizeVertical *2,
-                                                         bottom: SizeConfig.blockSizeVertical *1,
-                                                         right: SizeConfig
-                                                             .blockSizeHorizontal *
-                                                             1,
-                                                         left: SizeConfig
-                                                             .blockSizeHorizontal *
-                                                             5),
-                                                     decoration: BoxDecoration(
-                                                         shape: BoxShape.circle,
-                                                         image: DecorationImage(
-                                                             image: NetworkImage(
-                                                                 Network.BaseApiprofile+listing.result.data.elementAt(index).profilePic),
-                                                             fit: BoxFit.fill)),
-                                                   ),
-                                                 ):
-                                                 GestureDetector(
-                                                   onTap: () {
-                                                     // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                   },
-                                                   child: Container(
-                                                     height: SizeConfig.blockSizeVertical * 9,
-                                                     width: SizeConfig.blockSizeVertical * 9,
-                                                     alignment: Alignment.centerLeft,
-                                                     margin: EdgeInsets.only(
-                                                         top: SizeConfig.blockSizeVertical *2,
-                                                         bottom: SizeConfig.blockSizeVertical *1,
-                                                         right: SizeConfig
-                                                             .blockSizeHorizontal *
-                                                             1,
-                                                         left: SizeConfig
-                                                             .blockSizeHorizontal *
-                                                             5),
-                                                     decoration: BoxDecoration(
-                                                         shape: BoxShape.circle,
-                                                         image: DecorationImage(
-                                                             image: NetworkImage(
-                                                                 listing.result.data.elementAt(index).profilePic),
-                                                             fit: BoxFit.fill)),
-                                                   ),
-                                                 ),
-
-                                                 Row(
-                                                   children: [
-                                                     GestureDetector(
-                                                       onTap: ()
-                                                       {
-                                                         Widget cancelButton = FlatButton(
-                                                           child: Text("No"),
-                                                           onPressed: () {
-                                                             Navigator.pop(context);
-                                                           },
-                                                         );
-                                                         Widget continueButton = FlatButton(
-                                                           child: Text("Yes"),
-                                                           onPressed: () async {
-                                                             listing.result.data.elementAt(index).price=="0"?
-                                                             Payamount(listing.result.data.elementAt(index).updateId, userid):
-                                                             Payamount(listing.result.data.elementAt(index).updateId, userid);
-                                                           },
-                                                         );
-                                                         // set up the AlertDialog
-                                                         AlertDialog alert = AlertDialog(
-                                                           title: Text("Pay now.."),
-                                                           content: Text("Are you sure you want to Pay this project?"),
-                                                           actions: [
-                                                             cancelButton,
-                                                             continueButton,
-                                                           ],
-                                                         );
-                                                         // show the dialog
-                                                         showDialog(
-                                                           context: context,
-                                                           builder: (BuildContext context) {
-                                                             return alert;
-                                                           },
-                                                         );
-                                                       },
-                                                       child:  Container(
-                                                         alignment: Alignment.center,
-                                                         width: SizeConfig.blockSizeHorizontal *25,
-                                                         height: SizeConfig.blockSizeVertical *5,
-                                                         decoration: BoxDecoration(
-                                                             border: Border.all(color: Colors.black)
-                                                         ),
-                                                         margin: EdgeInsets.only(
-                                                           left: SizeConfig.blockSizeHorizontal*1,
-                                                           right: SizeConfig.blockSizeHorizontal*4,),
-                                                         child: Text(
-                                                           StringConstant.pay, textAlign: TextAlign.center,
-                                                           style: TextStyle(
-                                                               decoration: TextDecoration.none,
-                                                               fontSize: 12,
-                                                               fontWeight: FontWeight.normal,
-                                                               fontFamily: "Poppins-Regular",
-                                                               color: AppColors.theme1color),
-                                                         ),
-                                                       ),
-                                                     ),
-                                                     GestureDetector(
-                                                       onTap: () {
-                                                         deleteItem(listing.result.data.elementAt(index).id.toString());
-                                                       },
-                                                       child: Container(
-                                                         color: Colors.transparent,
-                                                         margin: EdgeInsets.only(
-                                                           right: SizeConfig.blockSizeHorizontal*5,),
-                                                         child: Image.asset("assets/images/cross.png",color:AppColors.redbg,width: 15,height: 15,),
-                                                       ),
-                                                     ),
-                                                   ],
-                                                 )
-
-                                               ],
-                                             ),
-
-
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment:  CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .profilePic ==
+                                                              null ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .profilePic ==
+                                                              ""
+                                                      ? GestureDetector(
+                                                          onTap: () {
+                                                            //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                          },
+                                                          child: Container(
+                                                              height: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  9,
+                                                              width: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  9,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              margin: EdgeInsets.only(
+                                                                  top: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      1,
+                                                                  right: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      1,
+                                                                  left: SizeConfig
+                                                                          .blockSizeHorizontal *
+                                                                      5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    new DecorationImage(
+                                                                  image: new AssetImage(
+                                                                      "assets/images/account_circle.png"),
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              )),
+                                                        )
+                                                      : listing.result.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .facebookId ==
+                                                                  null ||
+                                                              listing.result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .facebookId ==
+                                                                  ""
+                                                          ? GestureDetector(
+                                                              onTap: () {
+                                                                //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                              },
+                                                              child: Container(
+                                                                height: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    9,
+                                                                width: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    9,
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                margin: EdgeInsets.only(
+                                                                    top: SizeConfig
+                                                                            .blockSizeVertical *
+                                                                        2,
+                                                                    bottom:
+                                                                        SizeConfig.blockSizeVertical *
+                                                                            1,
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        5),
+                                                                decoration: BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(Network.BaseApiprofile +
+                                                                            listing.result.data.elementAt(index).profilePic),
+                                                                        fit: BoxFit.fill)),
+                                                              ),
+                                                            )
+                                                          : GestureDetector(
+                                                              onTap: () {
+                                                                // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                              },
+                                                              child: Container(
+                                                                height: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    9,
+                                                                width: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    9,
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                margin: EdgeInsets.only(
+                                                                    top: SizeConfig
+                                                                            .blockSizeVertical *
+                                                                        2,
+                                                                    bottom:
+                                                                        SizeConfig.blockSizeVertical *
+                                                                            1,
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        5),
+                                                                decoration: BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(listing
+                                                                            .result
+                                                                            .data
+                                                                            .elementAt(
+                                                                                index)
+                                                                            .profilePic),
+                                                                        fit: BoxFit
+                                                                            .fill)),
+                                                              ),
+                                                            ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Widget cancelButton =
+                                                              FlatButton(
+                                                            child: Text("No"),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          );
+                                                          Widget
+                                                              continueButton =
+                                                              FlatButton(
+                                                            child: Text("Yes"),
+                                                            onPressed:
+                                                                () async {
+                                                              listing.result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .price ==
+                                                                      "0"
+                                                                  ? Payamount(
+                                                                      listing
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .updateId,
+                                                                      userid)
+                                                                  : Payamount(
+                                                                      listing
+                                                                          .result
+                                                                          .data
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .updateId,
+                                                                      userid);
+                                                            },
+                                                          );
+                                                          // set up the AlertDialog
+                                                          AlertDialog alert =
+                                                              AlertDialog(
+                                                            title: Text(
+                                                                "Pay now.."),
+                                                            content: Text(
+                                                                "Are you sure you want to Pay this project?"),
+                                                            actions: [
+                                                              cancelButton,
+                                                              continueButton,
+                                                            ],
+                                                          );
+                                                          // show the dialog
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return alert;
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              25,
+                                                          height: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              5,
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .black)),
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                4,
+                                                          ),
+                                                          child: Text(
+                                                            StringConstant.pay,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    "Poppins-Regular",
+                                                                color: AppColors
+                                                                    .theme1color),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          deleteItem(listing
+                                                              .result.data
+                                                              .elementAt(index)
+                                                              .id
+                                                              .toString());
+                                                        },
+                                                        child: Container(
+                                                          color: Colors
+                                                              .transparent,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5,
+                                                          ),
+                                                          child: Image.asset(
+                                                            "assets/images/cross.png",
+                                                            color:
+                                                                AppColors.redbg,
+                                                            width: 15,
+                                                            height: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Container(
-                                                        width: SizeConfig.blockSizeHorizontal *80,
-                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                                            bottom: SizeConfig.blockSizeVertical *1),
-                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                            right: SizeConfig.blockSizeHorizontal *5),
-                                                        alignment: Alignment.centerLeft,
-                                                        child: Text(
-                                                          listing.result.data.elementAt(index).fullName!=null?
-                                                          listing.result.data.elementAt(index).fullName:listing.result.data.elementAt(index).groupName, textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                              decoration: TextDecoration.none,
-                                                              fontSize: 10,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontFamily: "Poppins-Regular",
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: SizeConfig.blockSizeHorizontal *40,
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            80,
                                                         margin: EdgeInsets.only(
-                                                            top: SizeConfig.blockSizeVertical *1,
-                                                        ),
-                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                            right: SizeConfig.blockSizeHorizontal *1),
-                                                        alignment: Alignment.centerLeft,
+                                                            top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1),
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5),
+                                                        alignment: Alignment
+                                                            .centerLeft,
                                                         child: Text(
-                                    listing.result.data.elementAt(index).price=="0"?
-                                    "Amount: "+listing.result.data.elementAt(index).minCashByParticipant:
-                                    "Amount: "+listing.result.data.elementAt(index).price, textAlign: TextAlign.left,
+                                                          listing.result.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .fullName !=
+                                                                  null
+                                                              ? listing
+                                                                  .result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .fullName
+                                                              : listing
+                                                                  .result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .groupName,
+                                                          textAlign:
+                                                              TextAlign.left,
                                                           style: TextStyle(
-                                                              decoration: TextDecoration.none,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
                                                               fontSize: 10,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontFamily: "Poppins-Regular",
-                                                              color: Colors.black),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily:
+                                                                  "Poppins-Regular",
+                                                              color:
+                                                                  Colors.black),
                                                         ),
                                                       ),
                                                       Container(
-                                                        width: SizeConfig.blockSizeHorizontal *80,
-                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                            right: SizeConfig.blockSizeHorizontal *5),
-                                                        alignment: Alignment.centerLeft,
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            40,
+                                                        margin: EdgeInsets.only(
+                                                          top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              1,
+                                                        ),
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1),
+                                                        alignment: Alignment
+                                                            .centerLeft,
                                                         child: Text(
-                                                          listing.result.data.elementAt(index).description, textAlign: TextAlign.left,
-                                                          maxLines:3,
+                                                          listing.result.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .price ==
+                                                                  "0"
+                                                              ? "Amount: " +
+                                                                  listing.result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .minCashByParticipant
+                                                              : "Amount: " +
+                                                                  listing.result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .price,
+                                                          textAlign:
+                                                              TextAlign.left,
                                                           style: TextStyle(
-                                                              decoration: TextDecoration.none,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
                                                               fontSize: 10,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontFamily: "Poppins-Regular",
-                                                              color: Colors.black54),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily:
+                                                                  "Poppins-Regular",
+                                                              color:
+                                                                  Colors.black),
                                                         ),
                                                       ),
-
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            80,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1),
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5),
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          listing.result.data
+                                                              .elementAt(index)
+                                                              .description,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          maxLines: 3,
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily:
+                                                                  "Poppins-Regular",
+                                                              color: Colors
+                                                                  .black54),
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                 ],
                                               ),
-
                                               Row(
-                                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Container(
-                                                    width: SizeConfig.blockSizeHorizontal *40,
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        40,
                                                     margin: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                        bottom: SizeConfig.blockSizeVertical *1),
-                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                        right: SizeConfig.blockSizeHorizontal *1),
-                                                    alignment: Alignment.centerLeft,
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1),
+                                                    padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1),
+                                                    alignment:
+                                                        Alignment.centerLeft,
                                                     child: Text(
-                                                      "Start date: "+listing.result.data.elementAt(index).postedDate, textAlign: TextAlign.left,
+                                                      "Start date: " +
+                                                          listing.result.data
+                                                              .elementAt(index)
+                                                              .postedDate,
+                                                      textAlign: TextAlign.left,
                                                       style: TextStyle(
-                                                          decoration: TextDecoration.none,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
                                                           fontSize: 10,
-                                                          fontWeight: FontWeight.normal,
-                                                          fontFamily: "Poppins-Regular",
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily:
+                                                              "Poppins-Regular",
                                                           color: Colors.black),
                                                     ),
                                                   ),
                                                   Container(
-                                                    width: SizeConfig.blockSizeHorizontal *40,
-                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                                        bottom: SizeConfig.blockSizeVertical *1),
-                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *1,
-                                                        right: SizeConfig.blockSizeHorizontal *5),
-                                                    alignment: Alignment.centerRight,
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        40,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1),
+                                                    padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5),
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
-                                                      "End date: "+listing.result.data.elementAt(index).postedDate, textAlign: TextAlign.left,
+                                                      "End date: " +
+                                                          listing.result.data
+                                                              .elementAt(index)
+                                                              .postedDate,
+                                                      textAlign: TextAlign.left,
                                                       style: TextStyle(
-                                                          decoration: TextDecoration.none,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
                                                           fontSize: 10,
-                                                          fontWeight: FontWeight.normal,
-                                                          fontFamily: "Poppins-Regular",
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily:
+                                                              "Poppins-Regular",
                                                           color: Colors.black),
                                                     ),
                                                   )
                                                 ],
                                               ),
                                               Container(
-                                                height: SizeConfig.blockSizeVertical * 25,
-                                                width: SizeConfig.blockSizeHorizontal * 100,
-                                                alignment: Alignment.center,
-                                                child:  CachedNetworkImage(
-                                                  fit: BoxFit.fill,
-                                                  imageUrl: Network.BaseApigift+listing.result.data.elementAt(index).giftPicture,
-                                                  imageBuilder:
-                                                      (context, imageProvider) =>
-                                                      Container(
-                                                        height: SizeConfig.blockSizeVertical * 25,
-                                                        width: SizeConfig.blockSizeHorizontal * 100,
-                                                        decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: imageProvider,
-                                                              fit: BoxFit.cover),
-                                                        ),
+                                                  height: SizeConfig
+                                                          .blockSizeVertical *
+                                                      25,
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      100,
+                                                  alignment: Alignment.center,
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.fill,
+                                                    imageUrl: Network
+                                                            .BaseApigift +
+                                                        listing.result.data
+                                                            .elementAt(index)
+                                                            .giftPicture,
+                                                    imageBuilder: (context,
+                                                            imageProvider) =>
+                                                        Container(
+                                                      height: SizeConfig
+                                                              .blockSizeVertical *
+                                                          25,
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          100,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image:
+                                                                imageProvider,
+                                                            fit: BoxFit.cover),
                                                       ),
-                                                  placeholder: (context, url) =>
-                                                      CircularProgressIndicator(),
-                                                )
-                                              ),
-                                            ],
-                                          )
-
-                                      );
-                                  }),*/
-                              FutureBuilder(
-                                  future: _future,
-                                  builder: (BuildContext ctx, AsyncSnapshot<List<Datum>> snapshot) {
-                                    if (snapshot.connectionState != ConnectionState.done) {
-                                      return Center(child: CircularProgressIndicator());
-                                    }
-
-                                    if (snapshot.hasError) {
-                                      return Center(child: Text("Error"));
-                                    }
-                                    if (!snapshot.hasData) {
-                                      return Center(child: Text("Error"));
-                                    }
-
-                                    var dataToShow = snapshot.data;
-
-                                    return ListView.builder(
-                                        controller: _controller,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: dataToShow == null ? 0 : dataToShow.length,
-                                        itemBuilder: (context, index) {
-                                          final item = dataToShow[index];
-                                          return  Container(
-                                              child:
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        bottom: SizeConfig.blockSizeVertical * 1),
-                                                    child: Divider(
-                                                      thickness: 1,
-                                                      color: Colors.black12,
                                                     ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      dataToShow[index].profilePic== null
-                                                          || dataToShow[index].profilePic == ""?
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                        },
-                                                        child: Container(
-                                                            height:
-                                                            SizeConfig.blockSizeVertical * 9,
-                                                            width: SizeConfig.blockSizeVertical * 9,
-                                                            alignment: Alignment.centerLeft,
-                                                            margin: EdgeInsets.only(
-                                                                top: SizeConfig.blockSizeVertical *2,
-                                                                bottom: SizeConfig.blockSizeVertical *1,
-                                                                right: SizeConfig.blockSizeHorizontal * 1,
-                                                                left: SizeConfig.blockSizeHorizontal * 5),
-                                                            decoration: BoxDecoration(
-                                                              image: new DecorationImage(
-                                                                image: new AssetImage(
-                                                                    "assets/images/account_circle.png"),
-                                                                fit: BoxFit.fill,
-                                                              ),
-                                                            )),
-                                                      )
-                                                          :
-                                                      dataToShow[index].facebookId== null ||
-                                                          dataToShow[index].facebookId == ""?
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                        },
-                                                        child: Container(
-                                                          height: SizeConfig.blockSizeVertical * 9,
-                                                          width: SizeConfig.blockSizeVertical * 9,
-                                                          alignment: Alignment.centerLeft,
-                                                          margin: EdgeInsets.only(
-                                                              top: SizeConfig.blockSizeVertical *2,
-                                                              bottom: SizeConfig.blockSizeVertical *1,
-                                                              right: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  1,
-                                                              left: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  5),
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                  image: NetworkImage(
-                                                                      Network.BaseApiprofile+dataToShow[index].profilePic),
-                                                                  fit: BoxFit.fill)),
-                                                        ),
-                                                      ):
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                        },
-                                                        child: Container(
-                                                          height: SizeConfig.blockSizeVertical * 9,
-                                                          width: SizeConfig.blockSizeVertical * 9,
-                                                          alignment: Alignment.centerLeft,
-                                                          margin: EdgeInsets.only(
-                                                              top: SizeConfig.blockSizeVertical *2,
-                                                              bottom: SizeConfig.blockSizeVertical *1,
-                                                              right: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  1,
-                                                              left: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  5),
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                  image: NetworkImage(
-                                                                      dataToShow[index].profilePic),
-                                                                  fit: BoxFit.fill)),
-                                                        ),
-                                                      ),
-
-                                                      Row(
-                                                        children: [
-                                                          GestureDetector(
-                                                            onTap: ()
-                                                            {
-                                                              Widget cancelButton = FlatButton(
-                                                                child: Text("No"),
-                                                                onPressed: () {
-                                                                  Navigator.pop(context);
-                                                                },
-                                                              );
-                                                              Widget continueButton = FlatButton(
-                                                                child: Text("Yes"),
-                                                                onPressed: () async {
-                                                                  dataToShow[index].price=="0"?
-                                                                  Payamount(dataToShow[index].updateId, userid):
-                                                                  Payamount(dataToShow[index].updateId, userid);
-                                                                },
-                                                              );
-                                                              // set up the AlertDialog
-                                                              AlertDialog alert = AlertDialog(
-                                                                title: Text("Pay now.."),
-                                                                content: Text("Are you sure you want to Pay this project?"),
-                                                                actions: [
-                                                                  cancelButton,
-                                                                  continueButton,
-                                                                ],
-                                                              );
-                                                              // show the dialog
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return alert;
-                                                                },
-                                                              );
-                                                            },
-                                                            child:  Container(
-                                                              alignment: Alignment.center,
-                                                              width: SizeConfig.blockSizeHorizontal *25,
-                                                              height: SizeConfig.blockSizeVertical *5,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border.all(color: Colors.black)
-                                                              ),
-                                                              margin: EdgeInsets.only(
-                                                                left: SizeConfig.blockSizeHorizontal*1,
-                                                                right: SizeConfig.blockSizeHorizontal*4,),
-                                                              child: Text(
-                                                                StringConstant.pay, textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    decoration: TextDecoration.none,
-                                                                    fontSize: 12,
-                                                                    fontWeight: FontWeight.normal,
-                                                                    fontFamily: "Poppins-Regular",
-                                                                    color: AppColors.theme1color),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              deleteItem(dataToShow[index].id.toString());
-                                                            },
-                                                            child: Container(
-                                                              color: Colors.transparent,
-                                                              margin: EdgeInsets.only(
-                                                                right: SizeConfig.blockSizeHorizontal*5,),
-                                                              child: Image.asset("assets/images/cross.png",color:AppColors.redbg,width: 15,height: 15,),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-
-                                                    ],
-                                                  ),
-
-
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    crossAxisAlignment:  CrossAxisAlignment.center,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *80,
-                                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                                                bottom: SizeConfig.blockSizeVertical *1),
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                                right: SizeConfig.blockSizeHorizontal *5),
-                                                            alignment: Alignment.centerLeft,
-                                                            child: Text(
-                                                              dataToShow[index].fullName!=null?
-                                                              dataToShow[index].fullName:dataToShow[index].groupName, textAlign: TextAlign.left,
-                                                              style: TextStyle(
-                                                                  decoration: TextDecoration.none,
-                                                                  fontSize: 10,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  fontFamily: "Poppins-Regular",
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *40,
-                                                            margin: EdgeInsets.only(
-                                                              top: SizeConfig.blockSizeVertical *1,
-                                                            ),
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                                right: SizeConfig.blockSizeHorizontal *1),
-                                                            alignment: Alignment.centerLeft,
-                                                            child: Text(
-                                                             dataToShow[index].price=="0"?
-                                                              "Amount: "+dataToShow[index].minCashByParticipant:
-                                                              "Amount: "+dataToShow[index].price, textAlign: TextAlign.left,
-                                                              style: TextStyle(
-                                                                  decoration: TextDecoration.none,
-                                                                  fontSize: 10,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  fontFamily: "Poppins-Regular",
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *80,
-                                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                                right: SizeConfig.blockSizeHorizontal *5),
-                                                            alignment: Alignment.centerLeft,
-                                                            child: Text(
-                                                              dataToShow[index].description, textAlign: TextAlign.left,
-                                                              maxLines:3,
-                                                              style: TextStyle(
-                                                                  decoration: TextDecoration.none,
-                                                                  fontSize: 10,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  fontFamily: "Poppins-Regular",
-                                                                  color: Colors.black54),
-                                                            ),
-                                                          ),
-
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-
-                                                  Row(
-                                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        width: SizeConfig.blockSizeHorizontal *40,
-                                                        margin: EdgeInsets.only(
-                                                            top: SizeConfig.blockSizeVertical *1,
-                                                            bottom: SizeConfig.blockSizeVertical *1),
-                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5,
-                                                            right: SizeConfig.blockSizeHorizontal *1),
-                                                        alignment: Alignment.centerLeft,
-                                                        child: Text(
-                                                          "Start date: "+dataToShow[index].postedDate, textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                              decoration: TextDecoration.none,
-                                                              fontSize: 10,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontFamily: "Poppins-Regular",
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: SizeConfig.blockSizeHorizontal *40,
-                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                                            bottom: SizeConfig.blockSizeVertical *1),
-                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *1,
-                                                            right: SizeConfig.blockSizeHorizontal *5),
-                                                        alignment: Alignment.centerRight,
-                                                        child: Text(
-                                                          "End date: "+dataToShow[index].postedDate, textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                              decoration: TextDecoration.none,
-                                                              fontSize: 10,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontFamily: "Poppins-Regular",
-                                                              color: Colors.black),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                      height: SizeConfig.blockSizeVertical * 25,
-                                                      width: SizeConfig.blockSizeHorizontal * 100,
-                                                      alignment: Alignment.center,
-                                                      child:  CachedNetworkImage(
-                                                        fit: BoxFit.fill,
-                                                        imageUrl: Network.BaseApigift+dataToShow[index].giftPicture,
-                                                        imageBuilder:
-                                                            (context, imageProvider) =>
-                                                            Container(
-                                                              height: SizeConfig.blockSizeVertical * 25,
-                                                              width: SizeConfig.blockSizeHorizontal * 100,
-                                                              decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                    image: imageProvider,
-                                                                    fit: BoxFit.cover),
-                                                              ),
-                                                            ),
-                                                        placeholder: (context, url) =>
-                                                            CircularProgressIndicator(),
-                                                      )
-                                                  ),
-                                                ],
-                                              )
-
-                                          );
-                                        });
-                                  })
-
-                            ): Container(
-                              margin: EdgeInsets.only(top: 150),
-                              alignment: Alignment.center,
-                              child: resultvalue == true
-                                  ? Center(
-                                child: CircularProgressIndicator(),
-                              )
-                                  : Center(
-                                child: Image.asset("assets/images/empty.png",
-                                    height: SizeConfig.blockSizeVertical * 50,
-                                    width: SizeConfig.blockSizeVertical * 50),
-                              ),
-                            )
-
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        CircularProgressIndicator(),
+                                                  )),
+                                            ],
+                                          ));
+                                        }),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(top: 150),
+                                    alignment: Alignment.center,
+                                    child: resultvalue == true
+                                        ? Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : Center(
+                                            child: Image.asset(
+                                                "assets/images/empty.png",
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    50,
+                                                width: SizeConfig
+                                                        .blockSizeVertical *
+                                                    50),
+                                          ),
+                                  )
                           ],
                         ),
                       )
                     ],
                   ),
                 ),
-              )
-              ,
+              ),
             ),
-
-
-
-
           ],
         ),
       ),
@@ -1056,9 +1147,9 @@ class NotificationScreenState extends State<NotificationScreen>{
                   builder: (BuildContext context) => HomeScreen()));
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal *15,
+                width: SizeConfig.blockSizeHorizontal * 15,
                 margin:
-                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1068,17 +1159,17 @@ class NotificationScreenState extends State<NotificationScreen>{
                       height: 20,
                       width: 20,
                     ),
-
                     Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
                         "Home",
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 10),
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
                     )
                   ],
-                )
-            ),
+                )),
           ),
           GestureDetector(
             onTap: () {
@@ -1086,7 +1177,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                   builder: (BuildContext context) => WalletScreen()));
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal *15,
+                width: SizeConfig.blockSizeHorizontal * 15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1097,10 +1188,12 @@ class NotificationScreenState extends State<NotificationScreen>{
                       width: 20,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
                         "Wallet",
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 10),
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
                     )
                   ],
@@ -1112,7 +1205,7 @@ class NotificationScreenState extends State<NotificationScreen>{
                   builder: (BuildContext context) => NotificationScreen()));
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal *15,
+                width: SizeConfig.blockSizeHorizontal * 15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1124,10 +1217,12 @@ class NotificationScreenState extends State<NotificationScreen>{
                       color: AppColors.selectedcolor,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
                         "Notification",
-                        style: TextStyle(color: AppColors.selectedcolor, fontSize: 10),
+                        style: TextStyle(
+                            color: AppColors.selectedcolor, fontSize: 10),
                       ),
                     )
                   ],
@@ -1139,9 +1234,9 @@ class NotificationScreenState extends State<NotificationScreen>{
                   builder: (BuildContext context) => SettingScreen()));
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal *15,
+                width: SizeConfig.blockSizeHorizontal * 15,
                 margin:
-                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1152,10 +1247,12 @@ class NotificationScreenState extends State<NotificationScreen>{
                       width: 20,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
                         "Setting",
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 10),
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
                     )
                   ],
@@ -1166,7 +1263,6 @@ class NotificationScreenState extends State<NotificationScreen>{
     );
   }
 
-
   Future<void> Payamount(String id, String userid) async {
     Map data = {
       'id': id.toString(),
@@ -1175,7 +1271,7 @@ class NotificationScreenState extends State<NotificationScreen>{
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response =
-    await http.post(Network.BaseApi + Network.pay_money, body: data);
+        await http.post(Network.BaseApi + Network.pay_money, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1192,7 +1288,10 @@ class NotificationScreenState extends State<NotificationScreen>{
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => NotificationScreen()));
         } else {
           Fluttertoast.showToast(
               msg: jsonDecode(updateval)["message"],
@@ -1210,35 +1309,33 @@ class NotificationScreenState extends State<NotificationScreen>{
     }
   }
 
-
-
-
   Widget _buildFab(BuildContext context) {
     // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
-    return  FloatingActionButton(
+    return FloatingActionButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AddScreen()));
-
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AddScreen()));
       },
       child: Image.asset("assets/images/addpost.png"),
       elevation: 3.0,
     );
   }
+
   void _selectedTab(int index) {
-    index =-1;
+    index = -1;
     setState(() {
-      if(index==0)
-      {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      }else if(index==1)
-      {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen()));
-      }else if(index==2)
-      {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-      }else if(index==3)
-      {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SettingScreen()));
+      if (index == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else if (index == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WalletScreen()));
+      } else if (index == 2) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NotificationScreen()));
+      } else if (index == 3) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SettingScreen()));
       }
     });
   }
@@ -1247,12 +1344,11 @@ class NotificationScreenState extends State<NotificationScreen>{
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': id.toString(),
-
     };
-    print("ID: "+data.toString());
+    print("ID: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-    await http.post(Network.BaseApi + Network.delete_notification, body: data);
+    http.Response response = await http
+        .post(Network.BaseApi + Network.delete_notification, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       deleteval = response.body; //store response as string
@@ -1270,7 +1366,7 @@ class NotificationScreenState extends State<NotificationScreen>{
         if (jsonResponse != null) {
           print(" if Item Deleted Successfully");
           setState(() {
-            getData(page,userid);
+            getdata(userid, pageNumber);
           });
           Fluttertoast.showToast(
               msg: jsonDecode(deleteval)["message"],
@@ -1302,8 +1398,4 @@ class NotificationScreenState extends State<NotificationScreen>{
       );
     }
   }
-
-
-
-
 }
