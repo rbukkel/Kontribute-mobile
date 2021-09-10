@@ -200,7 +200,7 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 
 
-  _showPopupMenu(int index) async {
+  _showEditPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
@@ -247,6 +247,57 @@ class OngoingProjectState extends State<OngoingProject> {
             )),
         PopupMenuItem(
             value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
+  }
+  _showPopupMenu(int index) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+        PopupMenuItem(
+            value:2,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
@@ -349,6 +400,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                           },
                                           onTap: ()
                                           {
+                                            listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
                                             _showPopupMenu(index);
                                           },
                                           child:  Container(
@@ -365,8 +417,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-
-
                                             listing.projectData.elementAt(index).profilePic== null ||
                                                 listing.projectData.elementAt(index).profilePic == ""
                                                 ?

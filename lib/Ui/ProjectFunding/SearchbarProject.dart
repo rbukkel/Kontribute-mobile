@@ -9,7 +9,9 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
+import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
+import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -254,6 +256,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                               details.globalPosition;
                                         },
                                         onTap: () {
+                                          listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
                                           _showPopupMenu(index);
                                         },
                                         child: Container(
@@ -1438,12 +1441,10 @@ class SearchbarProjectState extends State<SearchbarProject> {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(
-        _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
-        overlay.size.height - _tapDownPosition.dy,
-      ),
+        overlay.size.height - _tapDownPosition.dy,),
       items: [
         PopupMenuItem(
             value: 1,
@@ -1455,19 +1456,114 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.edit),
+                    child: Icon(Icons.content_copy),
                   ),
-                  Text(
-                    'Edit',
-                    style: TextStyle(fontSize: 14),
-                  )
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
+
+        PopupMenuItem(
+            value:2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
       ],
       elevation: 8.0,
     );
   }
+
+
+  _showEditPopupMenu(int index) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    EditCreateProjectPost(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.edit),
+                  ),
+                  Text('Edit',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
+  }
+
+
+
+
 
   Widget buildBar(BuildContext context) {
     return new AppBar(

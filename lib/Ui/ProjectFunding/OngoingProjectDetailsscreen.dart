@@ -286,8 +286,68 @@ class OngoingProjectDetailsscreenState
               ),
             )),
         PopupMenuItem(
-            value: 2,
+            value:2,
             child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: projectdetailspojo.commentsdata.id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text(
+                    'Report',
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            )),
+      ],
+      elevation: 8.0,
+    );
+  }
+
+  _showEditPopupMenu() async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,
+      ),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text(
+                    'Copy this post',
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child:
+            GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
@@ -307,7 +367,8 @@ class OngoingProjectDetailsscreenState
                   )
                 ],
               ),
-            )),
+            )
+        ),
         PopupMenuItem(
             value: 3,
             child: GestureDetector(
@@ -468,7 +529,8 @@ class OngoingProjectDetailsscreenState
                             _tapDownPosition = details.globalPosition;
                           },
                           onTap: () {
-                            _showPopupMenu();
+                            projectdetailspojo.commentsdata.userId==userid?
+                            _showEditPopupMenu(): _showPopupMenu();
                           },
                           child: Container(
                             alignment: Alignment.topRight,
@@ -1251,8 +1313,7 @@ class OngoingProjectDetailsscreenState
                         storelist_length != null
                             ?
                         Container(
-                                alignment: Alignment.topLeft,
-                                height: SizeConfig.blockSizeVertical * 30,
+
                                 child: ListView.builder(
                                     itemCount: storelist_length.length == null
                                         ? 0
@@ -1279,7 +1340,7 @@ class OngoingProjectDetailsscreenState
                                               .commentsdata.commentslist
                                               .elementAt(i)
                                               .comment,
-                                          maxLines: 2,
+                                          maxLines: 10,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,

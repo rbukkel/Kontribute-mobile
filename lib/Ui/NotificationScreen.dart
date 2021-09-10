@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
@@ -41,7 +42,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   int pageNumber = 1;
   int totalPage = 1;
   bool isLoading = false;
-  static ScrollController _listViewController;
+  static ScrollController _scrollController;
 
   void function() {
     print("scrolling");
@@ -50,14 +51,14 @@ class NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Future<void> initState() {
-    _listViewController = new ScrollController()..addListener(function);
+    _scrollController = new ScrollController()..addListener(function);
     super.initState();
     _loadID();
   }
 
   @override
   void dispose() {
-    _listViewController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -83,14 +84,16 @@ class NotificationScreenState extends State<NotificationScreen> {
   }*/
 
   void paginationApi() {
-    ScrollController _scrollController = ScrollController();
+  //  ScrollController _scrollController = ScrollController();
+/*
     _scrollController.addListener(() {
-      if (_scrollController.position.maxScrollExtent ==
-          _scrollController.position.pixels) {
+      if (_scrollController.position.maxScrollExtent == _scrollController.position.pixels)
+      {
         if (!isLoading) {
           isLoading = !isLoading;
           setState(() {
-            if (pageNumber < listing.result.lastPage) {
+            if (pageNumber < listing.result.lastPage)
+            {
               pageNumber += 1;
               getdata(userid, pageNumber);
             }
@@ -120,21 +123,21 @@ class NotificationScreenState extends State<NotificationScreen> {
       }
 
     });
-   /* _listViewController.addListener(() {
-      if (_listViewController.offset >=
-              _listViewController.position.maxScrollExtent &&
-          !_listViewController.position.outOfRange) {
+*/
+    _scrollController.addListener(() {
+      if (_scrollController.offset >=
+              _scrollController.position.maxScrollExtent &&
+          !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber < listing.result.lastPage) {
             pageNumber += 1;
             getdata(userid, pageNumber);
           }
         });
-      }*/
-/*
-      if (_listViewController.offset <=
-              _listViewController.position.minScrollExtent &&
-          !_listViewController.position.outOfRange) {
+      }
+      if (_scrollController.offset <=
+              _scrollController.position.minScrollExtent &&
+          !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber >= 1) {
             pageNumber = pageNumber - 1;
@@ -149,7 +152,6 @@ class NotificationScreenState extends State<NotificationScreen> {
         });
       }
       });
-*/
 
   }
 
@@ -218,10 +220,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     Dialogs.showLoadingDialog(context, _keyLoader);
     print("user: " + data.toString());
     var jsonResponse = null;
-    print(Network.BaseApi +
-        Network.notificationlisting +
-        "?page=" +
-        page.toString());
+    print(Network.BaseApi + Network.notificationlisting + "?page=" + page.toString());
     http.Response response = await http.post(
         Network.BaseApi + Network.notificationlisting + "?page=$page",
         body: data);
@@ -415,6 +414,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                           color: Colors.white),
                     ),
                   ),
+
+
                   Container(
                     width: 25,
                     height: 25,
@@ -425,14 +426,627 @@ class NotificationScreenState extends State<NotificationScreen> {
                 ],
               ),
             ),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin:
+              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2,left: SizeConfig.blockSizeHorizontal * 5),
+              // margin: EdgeInsets.only(top: 10, left: 40),
+              child: Text(
+                "Earlier",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    decoration: TextDecoration.none,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',
+                    color: Colors.black),
+              ),
+            ),
             Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
+              child: storelist_length != null
+                  ?
+                ListView.builder(
+                    controller: _scrollController,
+                    itemCount:
+                    storelist_length.length == null
+                        ? 0
+                        : storelist_length.length,
+                    /*physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,*/
+                    itemBuilder:
+                        (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
+                        right: SizeConfig.blockSizeHorizontal *5),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig
+                                        .blockSizeVertical *
+                                        1),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  listing.result.data
+                                      .elementAt(
+                                      index)
+                                      .profilePic ==
+                                      null ||
+                                      listing.result.data
+                                          .elementAt(
+                                          index)
+                                          .profilePic ==
+                                          ""
+                                      ? GestureDetector(
+                                    onTap: () {
+                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                    },
+                                    child: Container(
+                                        height: SizeConfig
+                                            .blockSizeVertical *
+                                            9,
+                                        width: SizeConfig
+                                            .blockSizeVertical *
+                                            9,
+                                        alignment: Alignment
+                                            .centerLeft,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig
+                                                .blockSizeVertical *
+                                               1,
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
+                                                1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1),
+                                        decoration:
+                                        BoxDecoration(
+                                          image:
+                                          new DecorationImage(
+                                            image: new AssetImage(
+                                                "assets/images/account_circle.png"),
+                                            fit: BoxFit
+                                                .fill,
+                                          ),
+                                        )),
+                                  )
+                                      : listing.result.data
+                                      .elementAt(
+                                      index)
+                                      .facebookId ==
+                                      null ||
+                                      listing.result
+                                          .data
+                                          .elementAt(
+                                          index)
+                                          .facebookId ==
+                                          ""
+                                      ? GestureDetector(
+                                    onTap: () {
+                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                    },
+                                    child: Container(
+                                      height: SizeConfig
+                                          .blockSizeVertical *
+                                          9,
+                                      width: SizeConfig
+                                          .blockSizeVertical *
+                                          9,
+                                      alignment: Alignment
+                                          .centerLeft,
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig
+                                              .blockSizeVertical *
+                                              2,
+                                          bottom:
+                                          SizeConfig.blockSizeVertical *
+                                              1,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1,
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape
+                                              .circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(Network.BaseApiprofile +
+                                                  listing.result.data.elementAt(index).profilePic),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                  )
+                                      : GestureDetector(
+                                    onTap: () {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                    },
+                                    child: Container(
+                                      height: SizeConfig
+                                          .blockSizeVertical *
+                                          9,
+                                      width: SizeConfig
+                                          .blockSizeVertical *
+                                          9,
+                                      alignment: Alignment
+                                          .centerLeft,
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig
+                                              .blockSizeVertical *
+                                              2,
+                                          bottom:
+                                          SizeConfig.blockSizeVertical *
+                                              1,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1,
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape
+                                              .circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(listing
+                                                  .result
+                                                  .data
+                                                  .elementAt(
+                                                  index)
+                                                  .profilePic),
+                                              fit: BoxFit
+                                                  .fill)),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Widget cancelButton =
+                                          FlatButton(
+                                            child: Text("No"),
+                                            onPressed: () {
+                                              Navigator.pop(
+                                                  context);
+                                            },
+                                          );
+                                          Widget
+                                          continueButton =
+                                          FlatButton(
+                                            child: Text("Yes"),
+                                            onPressed:
+                                                () async {
+                                              listing.result
+                                                  .data
+                                                  .elementAt(
+                                                  index)
+                                                  .price ==
+                                                  "0"
+                                                  ? Payamount(
+                                                  listing
+                                                      .result
+                                                      .data
+                                                      .elementAt(
+                                                      index)
+                                                      .updateId,
+                                                  userid)
+                                                  : Payamount(
+                                                  listing
+                                                      .result
+                                                      .data
+                                                      .elementAt(
+                                                      index)
+                                                      .updateId,
+                                                  userid);
+                                            },
+                                          );
+                                          // set up the AlertDialog
+                                          AlertDialog alert =
+                                          AlertDialog(
+                                            title: Text(
+                                                "Pay now.."),
+                                            content: Text(
+                                                "Are you sure you want to Pay this project?"),
+                                            actions: [
+                                              cancelButton,
+                                              continueButton,
+                                            ],
+                                          );
+                                          // show the dialog
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (BuildContext
+                                            context) {
+                                              return alert;
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          alignment:
+                                          Alignment.center,
+                                          width: SizeConfig
+                                              .blockSizeHorizontal *
+                                              25,
+                                          height: SizeConfig
+                                              .blockSizeVertical *
+                                              5,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .black)),
+                                          margin:
+                                          EdgeInsets.only(
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                4,
+                                          ),
+                                          child: Text(
+                                            StringConstant.pay,
+                                            textAlign: TextAlign
+                                                .center,
+                                            style: TextStyle(
+                                                decoration:
+                                                TextDecoration
+                                                    .none,
+                                                fontSize: 12,
+                                                fontWeight:
+                                                FontWeight
+                                                    .normal,
+                                                fontFamily:
+                                                "Poppins-Regular",
+                                                color: AppColors
+                                                    .theme1color),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          deleteItem(listing
+                                              .result.data
+                                              .elementAt(index)
+                                              .id
+                                              .toString());
+                                        },
+                                        child: Container(
+                                          color: Colors
+                                              .transparent,
+                                          margin:
+                                          EdgeInsets.only(
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                          ),
+                                          child: Image.asset(
+                                            "assets/images/cross.png",
+                                            color:
+                                            AppColors.redbg,
+                                            width: 15,
+                                            height: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment
+                                    .spaceBetween,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                      Container(
+                                        width: SizeConfig
+                                            .blockSizeHorizontal *
+                                            80,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig
+                                                .blockSizeVertical *
+                                                1,
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
+                                                1),
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                               1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1),
+                                        alignment: Alignment
+                                            .centerLeft,
+                                        child: Text(
+                                          listing.result.data
+                                              .elementAt(
+                                              index)
+                                              .fullName !=
+                                              null
+                                              ? listing
+                                              .result.data
+                                              .elementAt(
+                                              index)
+                                              .fullName
+                                              : listing
+                                              .result.data
+                                              .elementAt(
+                                              index)
+                                              .groupName,
+                                          textAlign:
+                                          TextAlign.left,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration
+                                                  .none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight
+                                                  .normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color:
+                                              Colors.black),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: SizeConfig
+                                            .blockSizeHorizontal *
+                                            40,
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                        ),
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1),
+                                        alignment: Alignment
+                                            .centerLeft,
+                                        child: Text(
+                                          listing.result.data
+                                              .elementAt(
+                                              index)
+                                              .price ==
+                                              "0"
+                                              ? "Amount: " +
+                                              listing.result
+                                                  .data
+                                                  .elementAt(
+                                                  index)
+                                                  .minCashByParticipant
+                                              : "Amount: " +
+                                              listing.result
+                                                  .data
+                                                  .elementAt(
+                                                  index)
+                                                  .price,
+                                          textAlign:
+                                          TextAlign.left,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration
+                                                  .none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight
+                                                  .normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color:
+                                              Colors.black),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: SizeConfig
+                                            .blockSizeHorizontal *
+                                            80,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig
+                                                .blockSizeVertical *
+                                                1),
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1),
+                                        alignment: Alignment
+                                            .centerLeft,
+                                        child: Text(
+                                          listing.result.data
+                                              .elementAt(index)
+                                              .description,
+                                          textAlign:
+                                          TextAlign.left,
+                                          maxLines: 3,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration
+                                                  .none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight
+                                                  .normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color: Colors
+                                                  .black54),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  Container(
+                                    width: SizeConfig
+                                        .blockSizeHorizontal *
+                                        40,
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig
+                                            .blockSizeVertical *
+                                            1,
+                                        bottom: SizeConfig
+                                            .blockSizeVertical *
+                                            1),
+                                    padding: EdgeInsets.only(
+                                        left: SizeConfig
+                                            .blockSizeHorizontal *
+                                            1,
+                                        right: SizeConfig
+                                            .blockSizeHorizontal *
+                                            1),
+                                    alignment:
+                                    Alignment.centerLeft,
+                                    child: Text(
+                                      "Start date: " +
+                                          listing.result.data
+                                              .elementAt(index)
+                                              .postedDate,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          decoration:
+                                          TextDecoration
+                                              .none,
+                                          fontSize: 10,
+                                          fontWeight:
+                                          FontWeight.normal,
+                                          fontFamily:
+                                          "Poppins-Regular",
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig
+                                        .blockSizeHorizontal *
+                                        40,
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig
+                                            .blockSizeVertical *
+                                            1,
+                                        bottom: SizeConfig
+                                            .blockSizeVertical *
+                                            1),
+                                    padding: EdgeInsets.only(
+                                        left: SizeConfig
+                                            .blockSizeHorizontal *
+                                            1,
+                                        right: SizeConfig
+                                            .blockSizeHorizontal *
+                                            1),
+                                    alignment:
+                                    Alignment.centerRight,
+                                    child: Text(
+                                      "End date: " +
+                                          listing.result.data
+                                              .elementAt(index)
+                                              .postedDate,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          decoration:
+                                          TextDecoration
+                                              .none,
+                                          fontSize: 10,
+                                          fontWeight:
+                                          FontWeight.normal,
+                                          fontFamily:
+                                          "Poppins-Regular",
+                                          color: Colors.black),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                  height: SizeConfig
+                                      .blockSizeVertical *
+                                      25,
+                                  width: SizeConfig
+                                      .blockSizeHorizontal *
+                                      100,
+                                  alignment: Alignment.center,
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.fill,
+                                    imageUrl: Network
+                                        .BaseApigift +
+                                        listing.result.data
+                                            .elementAt(index)
+                                            .giftPicture,
+                                    imageBuilder: (context,
+                                        imageProvider) =>
+                                        Container(
+                                          height: SizeConfig
+                                              .blockSizeVertical *
+                                              25,
+                                          width: SizeConfig
+                                              .blockSizeHorizontal *
+                                              100,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                    placeholder: (context,
+                                        url) =>
+                                    new Image.asset(
+                                        'assets/images/dummyplace.jpg')
+                                  )),
+                            ],
+                          ));
+                    })
+
+                  : Container(
+                margin: EdgeInsets.only(top: 150),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset(
+                      "assets/images/empty.png",
+                      height: SizeConfig
+                          .blockSizeVertical *
+                          50,
+                      width: SizeConfig
+                          .blockSizeVertical *
+                          50),
+                ),
+              )
+            /*  Container(
+                child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /* Container(
+                      *//* Container(
                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
                             left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
 
@@ -492,7 +1106,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             ),
                           ],
                         ),
-                      ),*/
+                      ),*//*
                       Container(
                         margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 3,
@@ -523,609 +1137,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                     fontFamily: 'Poppins-Regular'),
                               ),
                             ),
-                            storelist_length != null
-                                ? Container(
-                                    child: ListView.builder(
-                                        controller: _listViewController,
-                                        itemCount:
-                                            storelist_length.length == null
-                                                ? 0
-                                                : storelist_length.length,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Container(
-                                              child: Column(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: SizeConfig
-                                                            .blockSizeVertical *
-                                                        1),
-                                                child: Divider(
-                                                  thickness: 1,
-                                                  color: Colors.black12,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  listing.result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .profilePic ==
-                                                              null ||
-                                                          listing.result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .profilePic ==
-                                                              ""
-                                                      ? GestureDetector(
-                                                          onTap: () {
-                                                            //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                          },
-                                                          child: Container(
-                                                              height: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  9,
-                                                              width: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  9,
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              margin: EdgeInsets.only(
-                                                                  top: SizeConfig
-                                                                          .blockSizeVertical *
-                                                                      2,
-                                                                  bottom: SizeConfig
-                                                                          .blockSizeVertical *
-                                                                      1,
-                                                                  right: SizeConfig
-                                                                          .blockSizeHorizontal *
-                                                                      1,
-                                                                  left: SizeConfig
-                                                                          .blockSizeHorizontal *
-                                                                      5),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                image:
-                                                                    new DecorationImage(
-                                                                  image: new AssetImage(
-                                                                      "assets/images/account_circle.png"),
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              )),
-                                                        )
-                                                      : listing.result.data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .facebookId ==
-                                                                  null ||
-                                                              listing.result
-                                                                      .data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .facebookId ==
-                                                                  ""
-                                                          ? GestureDetector(
-                                                              onTap: () {
-                                                                //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                              },
-                                                              child: Container(
-                                                                height: SizeConfig
-                                                                        .blockSizeVertical *
-                                                                    9,
-                                                                width: SizeConfig
-                                                                        .blockSizeVertical *
-                                                                    9,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                margin: EdgeInsets.only(
-                                                                    top: SizeConfig
-                                                                            .blockSizeVertical *
-                                                                        2,
-                                                                    bottom:
-                                                                        SizeConfig.blockSizeVertical *
-                                                                            1,
-                                                                    right: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                        1,
-                                                                    left: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                        5),
-                                                                decoration: BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(Network.BaseApiprofile +
-                                                                            listing.result.data.elementAt(index).profilePic),
-                                                                        fit: BoxFit.fill)),
-                                                              ),
-                                                            )
-                                                          : GestureDetector(
-                                                              onTap: () {
-                                                                // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                              },
-                                                              child: Container(
-                                                                height: SizeConfig
-                                                                        .blockSizeVertical *
-                                                                    9,
-                                                                width: SizeConfig
-                                                                        .blockSizeVertical *
-                                                                    9,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                margin: EdgeInsets.only(
-                                                                    top: SizeConfig
-                                                                            .blockSizeVertical *
-                                                                        2,
-                                                                    bottom:
-                                                                        SizeConfig.blockSizeVertical *
-                                                                            1,
-                                                                    right: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                        1,
-                                                                    left: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                        5),
-                                                                decoration: BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(listing
-                                                                            .result
-                                                                            .data
-                                                                            .elementAt(
-                                                                                index)
-                                                                            .profilePic),
-                                                                        fit: BoxFit
-                                                                            .fill)),
-                                                              ),
-                                                            ),
-                                                  Row(
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Widget cancelButton =
-                                                              FlatButton(
-                                                            child: Text("No"),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          );
-                                                          Widget
-                                                              continueButton =
-                                                              FlatButton(
-                                                            child: Text("Yes"),
-                                                            onPressed:
-                                                                () async {
-                                                              listing.result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .price ==
-                                                                      "0"
-                                                                  ? Payamount(
-                                                                      listing
-                                                                          .result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .updateId,
-                                                                      userid)
-                                                                  : Payamount(
-                                                                      listing
-                                                                          .result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .updateId,
-                                                                      userid);
-                                                            },
-                                                          );
-                                                          // set up the AlertDialog
-                                                          AlertDialog alert =
-                                                              AlertDialog(
-                                                            title: Text(
-                                                                "Pay now.."),
-                                                            content: Text(
-                                                                "Are you sure you want to Pay this project?"),
-                                                            actions: [
-                                                              cancelButton,
-                                                              continueButton,
-                                                            ],
-                                                          );
-                                                          // show the dialog
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return alert;
-                                                            },
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              25,
-                                                          height: SizeConfig
-                                                                  .blockSizeVertical *
-                                                              5,
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: Colors
-                                                                      .black)),
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                1,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                4,
-                                                          ),
-                                                          child: Text(
-                                                            StringConstant.pay,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .none,
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                fontFamily:
-                                                                    "Poppins-Regular",
-                                                                color: AppColors
-                                                                    .theme1color),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          deleteItem(listing
-                                                              .result.data
-                                                              .elementAt(index)
-                                                              .id
-                                                              .toString());
-                                                        },
-                                                        child: Container(
-                                                          color: Colors
-                                                              .transparent,
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                5,
-                                                          ),
-                                                          child: Image.asset(
-                                                            "assets/images/cross.png",
-                                                            color:
-                                                                AppColors.redbg,
-                                                            width: 15,
-                                                            height: 15,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            80,
-                                                        margin: EdgeInsets.only(
-                                                            top: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1,
-                                                            bottom: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1),
-                                                        padding: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                5,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                5),
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                          listing.result.data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .fullName !=
-                                                                  null
-                                                              ? listing
-                                                                  .result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .fullName
-                                                              : listing
-                                                                  .result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .groupName,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              fontFamily:
-                                                                  "Poppins-Regular",
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            40,
-                                                        margin: EdgeInsets.only(
-                                                          top: SizeConfig
-                                                                  .blockSizeVertical *
-                                                              1,
-                                                        ),
-                                                        padding: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                5,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                1),
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                          listing.result.data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .price ==
-                                                                  "0"
-                                                              ? "Amount: " +
-                                                                  listing.result
-                                                                      .data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .minCashByParticipant
-                                                              : "Amount: " +
-                                                                  listing.result
-                                                                      .data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .price,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              fontFamily:
-                                                                  "Poppins-Regular",
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            80,
-                                                        margin: EdgeInsets.only(
-                                                            top: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1),
-                                                        padding: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                5,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                5),
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                          listing.result.data
-                                                              .elementAt(index)
-                                                              .description,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          maxLines: 3,
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              fontFamily:
-                                                                  "Poppins-Regular",
-                                                              color: Colors
-                                                                  .black54),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        40,
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                        bottom: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1),
-                                                    padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            5,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1),
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      "Start date: " +
-                                                          listing.result.data
-                                                              .elementAt(index)
-                                                              .postedDate,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
-                                                              "Poppins-Regular",
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        40,
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                        bottom: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1),
-                                                    padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            5),
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Text(
-                                                      "End date: " +
-                                                          listing.result.data
-                                                              .elementAt(index)
-                                                              .postedDate,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
-                                                              "Poppins-Regular",
-                                                          color: Colors.black),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              Container(
-                                                  height: SizeConfig
-                                                          .blockSizeVertical *
-                                                      25,
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      100,
-                                                  alignment: Alignment.center,
-                                                  child: CachedNetworkImage(
-                                                    fit: BoxFit.fill,
-                                                    imageUrl: Network
-                                                            .BaseApigift +
-                                                        listing.result.data
-                                                            .elementAt(index)
-                                                            .giftPicture,
-                                                    imageBuilder: (context,
-                                                            imageProvider) =>
-                                                        Container(
-                                                      height: SizeConfig
-                                                              .blockSizeVertical *
-                                                          25,
-                                                      width: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          100,
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image:
-                                                                imageProvider,
-                                                            fit: BoxFit.cover),
-                                                      ),
-                                                    ),
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        CircularProgressIndicator(),
-                                                  )),
-                                            ],
-                                          ));
-                                        }),
-                                  )
-                                : Container(
-                                    margin: EdgeInsets.only(top: 150),
-                                    alignment: Alignment.center,
-                                    child: resultvalue == true
-                                        ? Center(
-                                            child: CircularProgressIndicator(),
-                                          )
-                                        : Center(
-                                            child: Image.asset(
-                                                "assets/images/empty.png",
-                                                height: SizeConfig
-                                                        .blockSizeVertical *
-                                                    50,
-                                                width: SizeConfig
-                                                        .blockSizeVertical *
-                                                    50),
-                                          ),
-                                  )
+
                           ],
                         ),
                       )
                     ],
                   ),
-                ),
-              ),
+
+              ),*/
             ),
           ],
         ),

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:async/async.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -1892,7 +1891,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         ),
       );
     }
-
    /* if (documentPath != null) {
       print("DocumentPATH: " + documentPath);
       request.files.add(await http.MultipartFile.fromPath(
@@ -1960,14 +1958,16 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 }
 
-class FriendTextFields extends StatefulWidget {
+class FriendTextFields extends StatefulWidget
+{
   final int index;
   FriendTextFields(this.index);
   @override
   _FriendTextFieldsState createState() => _FriendTextFieldsState();
 }
 
-class _FriendTextFieldsState extends State<FriendTextFields> {
+class _FriendTextFieldsState extends State<FriendTextFields>
+{
   TextEditingController _nameController;
 
   @override
@@ -1985,8 +1985,7 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text =
-          CreateProjectPostState.videoList[widget.index] ?? '';
+      _nameController.text = CreateProjectPostState.videoList[widget.index] ?? '';
     });
 
     return TextFormField(
@@ -1999,7 +1998,8 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
       fontSize: 10,
     ),
       decoration: InputDecoration(
-          hintText: 'Enter video link',hintStyle: TextStyle(
+        hintText: 'Enter video link',
+        hintStyle: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Poppins-Regular',
