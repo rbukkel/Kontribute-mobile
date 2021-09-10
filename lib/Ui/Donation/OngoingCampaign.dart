@@ -1,16 +1,26 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/donationlistingPojo.dart';
 import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
+import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -20,10 +30,20 @@ class OngoingCampaign extends StatefulWidget {
 }
 
 class OngoingCampaignState extends State<OngoingCampaign> {
-
+  bool internet = false;
+  String val;
+  var storelist_length;
+  var imageslist_length;
+  var commentlist_length;
   Offset _tapDownPosition;
-
+  String userid;
   int currentPageValue = 0;
+  bool resultvalue = true;
+  donationlistingPojo listing;
+  int amount;
+  int amoun;
+  String updateval;
+
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
@@ -51,14 +71,102 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     setState(() {});
   }
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  }
-  _showPopupMenu() async {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
 
+    });
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getdata(userid);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+  void getdata(String user_id) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationListing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new donationlistingPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
+
+  _showEditPopupMenu(int index) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
       position: RelativeRect.fromLTRB( _tapDownPosition.dx,
@@ -87,6 +195,10 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+               /* callNext(
+                    EditCreateProjectPost(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);*/
               },
               child: Row(
                 children: <Widget>[
@@ -103,6 +215,61 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+               /* callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);*/
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
+    );
+  }
+  _showPopupMenu(int index) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+        PopupMenuItem(
+            value:2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+               /* callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);*/
               },
               child: Row(
                 children: <Widget>[
@@ -120,6 +287,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     );
   }
 
+
   bool _dialVisible = true;
   @override
   Widget build(BuildContext context) {
@@ -129,11 +297,20 @@ class OngoingCampaignState extends State<OngoingCampaign> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
+              storelist_length != null
+                  ?
               Expanded(
                 child:
                 ListView.builder(
-                    itemCount: 8,
+                    itemCount: storelist_length.length == null
+                        ? 0
+                        : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
+                      imageslist_length = listing.projectData.elementAt(index).projectImages;
+                      commentlist_length = listing.projectData.elementAt(index).comments;
+                      double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) /
+                          double.parse(listing.projectData.elementAt(index).budget) * 100;
+                      amoun =amount.toInt();
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -159,7 +336,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                       },
                                       onTap: ()
                                       {
-                                        _showPopupMenu();
+                                        listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
+                                        _showPopupMenu(index);
                                       },
                                       child:  Container(
                                         alignment: Alignment.topRight,
@@ -175,18 +353,50 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
+                                        listing.projectData.elementAt(index).profilePic== null ||
+                                            listing.projectData.elementAt(index).profilePic == ""
+                                            ?
                                         GestureDetector(
-                                          onTap: ()
-                                          {
-                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_Eventprofile()));
+                                          onTap: () {
+                                            callNext(
+                                                viewdetail_profile(
+                                                    data: listing.projectData.elementAt(index).userId.toString()
+                                                ), context);
                                           },
                                           child: Container(
-                                            height:
-                                            SizeConfig.blockSizeVertical *
-                                                9,
-                                            width:
-                                            SizeConfig.blockSizeVertical *
-                                                9,
+                                              height:
+                                              SizeConfig.blockSizeVertical * 9,
+                                              width: SizeConfig.blockSizeVertical * 9,
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *2,
+                                                  bottom: SizeConfig.blockSizeVertical *1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1),
+                                              decoration: BoxDecoration(
+                                                image: new DecorationImage(
+                                                  image: new AssetImage(
+                                                      "assets/images/account_circle.png"),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              )),
+                                        )
+                                            :
+                                        GestureDetector(
+                                          onTap: () {
+                                            callNext(
+                                                viewdetail_profile(
+                                                    data: listing.projectData.elementAt(index).userId.toString()
+                                                ), context);
+
+                                          },
+                                          child: Container(
+                                            height: SizeConfig.blockSizeVertical * 9,
+                                            width: SizeConfig.blockSizeVertical * 9,
                                             alignment: Alignment.center,
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *2,
@@ -196,11 +406,13 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                     1,
                                                 left: SizeConfig
                                                     .blockSizeHorizontal *
-                                                    2),
+                                                    1),
                                             decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                  image:new AssetImage("assets/images/userProfile.png"),
-                                                  fit: BoxFit.fill,)),
+                                                    image: NetworkImage(
+                                                        listing.projectData.elementAt(index).profilePic),
+                                                    fit: BoxFit.fill)),
                                           ),
                                         ),
                                         Column(
@@ -210,21 +422,30 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                                               children: [
-                                                Container(
-                                                  margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                  width: SizeConfig.blockSizeHorizontal *38,
-                                                  padding: EdgeInsets.only(
-                                                    top: SizeConfig.blockSizeVertical *1,
-                                                  ),
-                                                  child: Text(
-                                                    "Amitofo Care Center International",
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.themecolor,
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
+                                                GestureDetector(
+                                                  onTap: ()
+                                                  {
+                                                    callNext(
+                                                        viewdetail_profile(
+                                                            data: listing.projectData.elementAt(index).userId.toString()
+                                                        ), context);
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
+                                                    width: SizeConfig.blockSizeHorizontal *38,
+                                                    padding: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *1,
+                                                    ),
+                                                    child: Text(
+                                                      listing.projectData.elementAt(index).fullName,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.themecolor,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: 'Poppins-Regular'),
+                                                    ),
+                                                  ) ,
                                                 ),
 
                                                 Container(
@@ -265,23 +486,54 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   ),
                                                 ),
 
+                                                listing.projectData.elementAt(index).userId.toString()!=userid?
+                                                listing.projectData.elementAt(index).status=="pending"?
                                                 GestureDetector(
                                                   onTap: ()
                                                   {
+                                                    Widget cancelButton = FlatButton(
+                                                      child: Text("No"),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    );
+                                                    Widget continueButton = FlatButton(
+                                                      child: Text("Yes"),
+                                                      onPressed: () async {
+                                                        Payamount(listing.projectData.elementAt(index).id,
+                                                            listing.projectData.elementAt(index).requiredAmount,
+                                                            userid);
+                                                      },
+                                                    );
+                                                    // set up the AlertDialog
+                                                    AlertDialog alert = AlertDialog(
+                                                      title: Text("Pay now.."),
+                                                      content: Text("Are you sure you want to Pay this project?"),
+                                                      actions: [
+                                                        cancelButton,
+                                                        continueButton,
+                                                      ],
+                                                    );
+                                                    // show the dialog
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return alert;
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
-                                                    alignment: Alignment.topRight,
-                                                    margin: EdgeInsets.only(
-                                                        left: SizeConfig.blockSizeHorizontal *2,
+                                                    margin: EdgeInsets.only(left:
+                                                    SizeConfig.blockSizeHorizontal *1,
                                                         right: SizeConfig.blockSizeHorizontal *2,
                                                         top: SizeConfig.blockSizeVertical *2),
                                                     padding: EdgeInsets.only(
                                                         right: SizeConfig
                                                             .blockSizeHorizontal *
-                                                            4,
+                                                            3,
                                                         left: SizeConfig
                                                             .blockSizeHorizontal *
-                                                            4,
+                                                            3,
                                                         bottom: SizeConfig
                                                             .blockSizeHorizontal *
                                                             1,
@@ -294,7 +546,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
 
                                                     ),
                                                     child: Text(
-                                                      "PAY",
+                                                      StringConstant.pay.toUpperCase(),
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.whiteColor,
@@ -305,7 +557,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                           'Poppins-Regular'),
                                                     ),
                                                   ),
-                                                )
+                                                ): Container(): Container()
 
 
                                               ],
@@ -321,7 +573,57 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    StringConstant.totalContribution+"-20",
+                                                    listing.projectData.elementAt(index).campaignName,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal *38,
+                                                  alignment: Alignment.topRight,
+                                                  padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                  ),
+                                                  margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *1,
+                                                  ),
+                                                  child: Text(
+                                                    "Start Date- "+listing.projectData.elementAt(index).campaignStartdate,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
+
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal *35,
+                                                  alignment: Alignment.topLeft,
+                                                  margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *1,
+                                                  ),
+                                                  child: Text(
+                                                    //StringConstant.totalContribution+"-20",
+                                                    "",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -346,7 +648,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Project Timeline- 8 Days",
+                                                    "End Date- "+listing.projectData.elementAt(index).campaignEnddate,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -366,95 +668,182 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         )
                                       ],
                                     ),
-                                    Row(
+                               /*     Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          width: SizeConfig.blockSizeHorizontal *23,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                                          child: Text(
-                                            "Collection Target- ",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: SizeConfig.blockSizeHorizontal *23,
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
+                                              child: Text(
+                                                "Collection Target- ",
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                              alignment: Alignment.topLeft,
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    3,
+                                              ),
+                                              child: Text(
+                                                "\$"+listing.projectData.elementAt(index).budget,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,
-                                          ),
-                                          child: Text(
-                                            "\$100",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
+
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 90.0,
+                                            width: 70.0,
                                             lineHeight: 14.0,
-                                            percent: 0.6,
-                                            center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                            percent: amoun/100,
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
                                         ),
-                                        Container(
-                                          alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *25,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "Collected Amount-",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1),
-                                          alignment: Alignment.topLeft,
-
-                                          child: Text(
-                                            "\$40",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.centerRight,
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                              child: Text(
+                                                StringConstant.collectedamount+"-",
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  4),
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "\$"+listing.projectData.elementAt(index).requiredAmount.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
-                                    ),
+                                    ),*/
+                                    imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaignDetailsscreen()));
+
+                                       /* callNext(
+                                            OngoingCampaignDetailsscreen(
+                                                data:
+                                                listing.projectData.elementAt(index).id.toString()
+                                            ), context);*/
+                                      },
+                                      child: Container(
+                                        color: Colors.transparent,
+                                        alignment: Alignment.topCenter,
+                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                        height: SizeConfig.blockSizeVertical*30,
+                                        child: Stack(
+                                          alignment: AlignmentDirectional.bottomCenter,
+                                          children: <Widget>[
+                                            PageView.builder(
+                                              physics: ClampingScrollPhysics(),
+                                              itemCount:
+                                              imageslist_length.length == null
+                                                  ? 0
+                                                  : imageslist_length.length,
+                                              onPageChanged: (int page) {
+                                                getChangedPageAndMoveBar(page);
+                                              },
+                                              controller: PageController(
+                                                  initialPage: currentPageValue,
+                                                  keepPage: true,
+                                                  viewportFraction: 1),
+                                              itemBuilder: (context, ind) {
+                                                return Container(
+                                                  width:
+                                                  SizeConfig.blockSizeHorizontal *
+                                                      80,
+                                                  height:
+                                                  SizeConfig.blockSizeVertical * 50,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.transparent),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                            Network.BaseApidonation +
+                                                                listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
+                                                          ),
+                                                          fit: BoxFit.fill)),
+                                                );
+                                              },
+                                            ),
+                                            Stack(
+                                              alignment: AlignmentDirectional.bottomCenter,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      for (int i = 0; i < imageslist_length.length; i++)
+                                                        if (i == currentPageValue) ...[
+                                                          circleBar(true)
+                                                        ] else
+                                                          circleBar(false),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ):
+                                    GestureDetector(
+                                      onTap: () {
+                                        /* callNext(
+                                            OngoingCampaignDetailsscreen(
+                                                data:
+                                                listing.projectData.elementAt(index).id.toString()
+                                            ), context);*/
                                       },
                                       child: Container(
                                         color: AppColors.themecolor,
@@ -501,7 +890,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         ),
                                       ),
                                     ),
-                                    Container(
+                                    /*Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                       child: Row(
                                         children: [
@@ -583,106 +972,26 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                      top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black87,
-                                            fontSize: 10,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: ()
-                                      {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaignDetailsscreen()));
-                                      },
-                                      child: Container(
-                                        width: SizeConfig.blockSizeHorizontal *100,
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                            top: SizeConfig.blockSizeVertical *1),
-                                        child: Text(
-                                          "View all 29 comments",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black26,
-                                              fontSize: 8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "thekratos carry killed it🤑🤑🤣",
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'NotoEmoji'),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "itx_kamie_94🤑🤣🤣",
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'NotoEmoji'),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1,
-                                      bottom: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "3 Hours ago".toUpperCase(),
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black26,
-                                            fontSize: 8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
-                                    ),
+                                    ),*/
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal *100,
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                  top: SizeConfig.blockSizeVertical *1),
+                              child: new Html(
+                                data: listing.projectData.elementAt(index).description,
+                                defaultTextStyle: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black87,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular'),
 
-                                    Container(
+                              ),
+                            ),
+
+
+                                   /* Container(
 
                                       child:
                                       ListView.builder(
@@ -891,7 +1200,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                               'Poppins-Regular'),
                                         ),
                                       ),
-                                    )
+                                    )*/
 
 
                                   ],
@@ -900,6 +1209,19 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                         ),
                       );
                     }),
+              )
+                  : Container(
+                margin: EdgeInsets.only(top: 150),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset("assets/images/empty.png",
+                      height: SizeConfig.blockSizeVertical * 50,
+                      width: SizeConfig.blockSizeVertical * 50),
+                ),
               )
             ],
           )
@@ -959,4 +1281,50 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       ),
     );
   }
+
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'donation_id': id.toString(),
+      'amount': requiredAmount.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donation_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 }

@@ -4,6 +4,7 @@ class Network{
   static String BaseApiprofile = "http://kontribute.knickglobal.com/uploads/profile_pic/";
   static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
   static String BaseApiProject = "http://kontribute.knickglobal.com/uploads/project/";
+  static String BaseApidonation = "http://kontribute.knickglobal.com/uploads/donation/";
 
   static String register = "register";
   static String countrylist = "countrylist";
@@ -53,5 +54,9 @@ class Network{
   static String update_profiledata = "update_profiledata";
   static String viewprofile = "viewprofile";
   static String delete_notification = "delete_notification";
+  static String notification_projectpay = "notification_projectpay";
   static String create_donation = "create_donation";
+  static String donationListing = "donationListing";
+  static String donationListing_history = "donationListing_history";
+  static String donation_pay = "donation_pay";
 }

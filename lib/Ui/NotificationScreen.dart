@@ -639,6 +639,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                       .elementAt(
                                                       index)
                                                       .updateId,
+                                                  listing.result.data.elementAt(index).id.toString(),
                                                   userid)
                                                   : Payamount(
                                                   listing
@@ -647,6 +648,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                       .elementAt(
                                                       index)
                                                       .updateId,
+                                                  listing.result.data.elementAt(index).id.toString(),
                                                   userid);
                                             },
                                           );
@@ -1282,15 +1284,16 @@ class NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Future<void> Payamount(String id, String userid) async {
+  Future<void> Payamount(String id,String notificationid, String userid) async {
     Map data = {
       'id': id.toString(),
+      'notificationid': notificationid.toString(),
       'sender_id': userid.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response =
-        await http.post(Network.BaseApi + Network.pay_money, body: data);
+        await http.post(Network.BaseApi + Network.notification_projectpay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string

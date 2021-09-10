@@ -696,7 +696,6 @@ class OngoingProjectDetailsscreenState
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-
                                     projectdetailspojo
                                         .commentsdata.userId.toString()!=userid?
                                     projectdetailspojo.commentsdata.status=="pending"?
@@ -1322,32 +1321,47 @@ class OngoingProjectDetailsscreenState
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     itemBuilder: (BuildContext context, int i) {
-                                      return Container(
-                                        width: SizeConfig.blockSizeHorizontal *
-                                            100,
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical *1,
-                                          bottom: SizeConfig.blockSizeVertical *1,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
+                                      return
+                                      Column(
+                                        children: [
+                                          Container(
+
+                                            width: SizeConfig.blockSizeHorizontal *
+                                                100,
+                                            alignment: Alignment.topLeft,
+                                            margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical *1,
+                                              bottom: SizeConfig.blockSizeVertical *1,
+                                              left: SizeConfig.blockSizeHorizontal *
+                                                  3,
+                                              right:
                                               SizeConfig.blockSizeHorizontal *
                                                   3,
-                                        ),
-                                        child: Text(
-                                          projectdetailspojo
-                                              .commentsdata.commentslist
-                                              .elementAt(i)
-                                              .comment,
-                                          maxLines: 10,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 8,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'NotoEmoji'),
-                                        ),
+                                            ),
+                                            child: Text(
+                                              projectdetailspojo
+                                                  .commentsdata.commentslist
+                                                  .elementAt(i)
+                                                  .comment,
+                                              maxLines: 10,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 8,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'NotoEmoji'),
+                                            ),
+                                          ),
+                                          Container(
+                                            width:SizeConfig.blockSizeHorizontal * 30,
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig.blockSizeVertical * 1),
+                                            child: Divider(
+                                              thickness: 0.5,
+                                              color: Colors.black12,
+                                            ),
+                                          ),
+                                        ],
                                       );
                                     }),
                               )
@@ -1380,8 +1394,8 @@ class OngoingProjectDetailsscreenState
                         ),
                         Container(
                           padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 1,
-                            right: SizeConfig.blockSizeVertical * 1,
+                            left: SizeConfig.blockSizeHorizontal * 2,
+                            right: SizeConfig.blockSizeHorizontal * 2,
                           ),
                           alignment: Alignment.centerLeft,
                           child: TextFormField(
@@ -1390,7 +1404,7 @@ class OngoingProjectDetailsscreenState
                             controller: CommentController,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.text,
-                            maxLines: 3,
+                            maxLines: 10,
                             validator: (val) {
                               if (val.length == 0)
                                 return "Please enter comment";
@@ -1410,7 +1424,7 @@ class OngoingProjectDetailsscreenState
                                 color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              prefixIcon: Icon(Icons.tag_faces),
+                             // prefixIcon: Icon(Icons.tag_faces),
                               focusedBorder: InputBorder.none,
                               hintStyle: TextStyle(
                                 color: Colors.black,
@@ -1438,7 +1452,7 @@ class OngoingProjectDetailsscreenState
                                 top: SizeConfig.blockSizeVertical * 1),
                             child: Text(
                               "Post",
-                              maxLines: 2,
+
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: AppColors.themecolor,
