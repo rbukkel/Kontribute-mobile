@@ -132,7 +132,15 @@ class ProjectData {
         comments.add(new Comments.fromJson(v));
       });
     }
-    totalcollectedamount = json['totalcollectedamount'];
+    if(json['totalcollectedamount'] is int)
+      {
+        totalcollectedamount = json['totalcollectedamount'].toString();
+      }
+    else
+      {
+        totalcollectedamount = json['totalcollectedamount'];
+      }
+
     projectPath = json['project_path'];
   }
 

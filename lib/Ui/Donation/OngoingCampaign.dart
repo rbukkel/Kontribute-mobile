@@ -43,6 +43,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   int amount;
   int amoun;
   String updateval;
+  String tabValue ="1";
 
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -71,17 +72,13 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     setState(() {});
   }
 
-
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-
     });
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
@@ -102,6 +99,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       }
     });
   }
+
 
   void getdata(String user_id) async {
     setState(() {
@@ -163,6 +161,65 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   }
 
 
+  void getsortdata(String user_id,String sortval) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+      'sortby': sortval.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationListing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new donationlistingPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
 
 
   _showEditPopupMenu(int index) async {
@@ -486,6 +543,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   ),
                                                 ),
 
+
                                                 listing.projectData.elementAt(index).userId.toString()!=userid?
                                                 listing.projectData.elementAt(index).status=="pending"?
                                                 GestureDetector(
@@ -768,11 +826,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                     GestureDetector(
                                       onTap: () {
 
-                                       /* callNext(
+                                        callNext(
                                             OngoingCampaignDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                            ), context);
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -1250,33 +1308,42 @@ class OngoingCampaignState extends State<OngoingCampaign> {
         onOpen: () => print('OPENING DIAL'),
         onClose: () => print('DIAL CLOSED'),
         tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
+        heroTag: null,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-              child: Icon(Icons.request_page),
+              child: Icon(Icons.public),
               backgroundColor: AppColors.theme1color,
-              label: 'Request',
+              label: 'Public',
 
-              onTap: () => print('FIRST CHILD')
+              onTap: () {
+                tabValue="1";
+              getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
           ),
           SpeedDialChild(
-            child: Icon(Icons.public),
-            backgroundColor: AppColors.theme1color,
-            label: 'Public',
-
-            onTap: () => print('SECOND CHILD'),
+              child: Icon(Icons.privacy_tip),
+              backgroundColor: AppColors.theme1color,
+              label: 'Private',
+              onTap: () {
+                tabValue="2";
+              getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
           ),
           SpeedDialChild(
-            child: Icon(Icons.privacy_tip),
-            backgroundColor: AppColors.theme1color,
-            label: 'Private',
-
-            onTap: () => print('THIRD CHILD'),
-          ),
+              child: Icon(Icons.all_inclusive),
+              backgroundColor: AppColors.theme1color,
+              label: 'All',
+              onTap: () {
+                tabValue="0";
+                getsortdata(userid, tabValue);
+                print('Third CHILD');
+              }),
         ],
       ),
     );
@@ -1317,6 +1384,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
         }
+
+
       }
     } else {
       Fluttertoast.showToast(

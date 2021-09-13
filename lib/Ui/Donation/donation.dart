@@ -4,6 +4,7 @@ import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/Donation/CampaignHistory.dart';
 import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
+import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
@@ -60,7 +61,7 @@ class donationState extends State<donation> {
             InkWell(
               onTap: (){
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+                    .push(MaterialPageRoute(builder: (context) => SearchbarDonation()));
 
               },
               child: Container(

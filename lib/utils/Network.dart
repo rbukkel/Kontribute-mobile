@@ -59,4 +59,5 @@ class Network{
   static String donationListing = "donationListing";
   static String donationListing_history = "donationListing_history";
   static String donation_pay = "donation_pay";
+  static String donationDetails = "donationDetails";
 }

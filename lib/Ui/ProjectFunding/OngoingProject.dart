@@ -167,6 +167,7 @@ class OngoingProjectState extends State<OngoingProject> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
+    print("Sub link: "+Network.BaseApi + Network.projectListing + "?page=$page");
     http.Response response = await http.post(Network.BaseApi + Network.projectListing + "?page=$page", body: data);
     if (response.statusCode == 200)
     {
@@ -227,6 +228,7 @@ class OngoingProjectState extends State<OngoingProject> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
+    print("Add link: "+Network.BaseApi + Network.projectListing + "?page=$page");
     http.Response response = await http.post(Network.BaseApi + Network.projectListing + "?page=$page", body: data);
     if (response.statusCode == 200)
     {
@@ -455,12 +457,10 @@ class OngoingProjectState extends State<OngoingProject> {
                 ],
               ),
             )),
-
       ],
       elevation: 8.0,
     );
   }
-
 
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
@@ -1368,6 +1368,15 @@ class OngoingProjectState extends State<OngoingProject> {
                 print('FIRST CHILD');
               }
           ),
+          SpeedDialChild(
+              child: Icon(Icons.all_inclusive),
+              backgroundColor: AppColors.theme1color,
+              label: 'All',
+              onTap: () {
+                tabValue="0";
+                getsortdata(userid, tabValue);
+                print('Third CHILD');
+              }),
         ],
       ),
     );
