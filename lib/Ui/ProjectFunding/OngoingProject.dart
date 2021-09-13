@@ -48,19 +48,99 @@ class OngoingProjectState extends State<OngoingProject> {
   String tabValue ="1";
   String updateval;
 
+  int pageNumber = 1;
+  int totalPage = 1;
+  bool isLoading = false;
+  static ScrollController _scrollController;
+
+  void function() {
+    print("scrolling");
+  }
+
+  @override
+  Future<void> initState() {
+    _scrollController = new ScrollController()..addListener(function);
+    super.initState();
+    _loadID();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  _loadID() async {
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      setState(() {
+        userid = val;
+        print("PAge: "+pageNumber.toString());
+        getdata(userid, pageNumber);
+        print("Login userid: " + userid.toString());
+        paginationApi();
+      });
+    });
+  }
+  /*  super.initState();
+    _controller.addListener(() {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        setState(() {
+          _future = getData(page,userid);
+        });
+      }
+    });
+  }*/
+
+  void paginationApi() {
+    _scrollController.addListener(() {
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
+          !_scrollController.position.outOfRange) {
+        setState(() {
+          if (pageNumber < listing.lastPage) {
+            pageNumber += 1;
+            getdata(userid, pageNumber);
+          }
+        });
+      }
+      if (_scrollController.offset <= _scrollController.position.minScrollExtent && !_scrollController.position.outOfRange)
+      {
+        setState(() {
+          if (pageNumber >= 1) {
+            pageNumber = pageNumber - 1;
+            print('ggggggg' + pageNumber.toString());
+            if (pageNumber < listing.lastPage) {
+              getSUBdata(userid, pageNumber);
+            }
+          } else {
+            getSUBdata(userid, pageNumber);
+            print("Last page");
+          }
+        });
+      }
+    });
+
+  }
+
+
+
+
+
+/*
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-
     });
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
-        getdata(userid);
+        print("PAge: "+pageNumber.toString());
+        getdata(userid, pageNumber);
+        paginationApi();
+
         setState(() {
           internet = true;
         });
@@ -77,9 +157,8 @@ class OngoingProjectState extends State<OngoingProject> {
       }
     });
   }
-
-
-  void getdata(String user_id) async {
+*/
+  void getSUBdata(String user_id, int page) async {
     setState(() {
       storelist_length =null;
     });
@@ -88,7 +167,67 @@ class OngoingProjectState extends State<OngoingProject> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.projectListing, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing + "?page=$page", body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new projectlisting.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+  void getdata(String user_id, int page) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectListing + "?page=$page", body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
@@ -360,14 +499,13 @@ class OngoingProjectState extends State<OngoingProject> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
-              storelist_length != null
-                  ?
+              storelist_length != null ?
               Expanded(
                 child:
                 ListView.builder(
+                    controller: _scrollController,
                     itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
+                        ? 0 : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                          imageslist_length = listing.projectData.elementAt(index).projectImages;
                          commentlist_length = listing.projectData.elementAt(index).comments;
@@ -1190,18 +1328,7 @@ class OngoingProjectState extends State<OngoingProject> {
             ],
           )
          ),
-      /*floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.whiteColor,
-        shape: RoundedRectangleBorder(
 
-            borderRadius: BorderRadius.all(Radius.circular(30.0))
-        ),
-        icon: Icon(Icons.edit,color: AppColors.selectedcolor,),
-        label: Text(StringConstant.createpost,style: TextStyle(color:AppColors.selectedcolor ),),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateProjectPost()));
-        },
-      ),*/
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
@@ -1275,7 +1402,7 @@ class OngoingProjectState extends State<OngoingProject> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          getdata(userid);
+          getdata(userid, pageNumber);
         } else {
           Fluttertoast.showToast(
             msg: prolike.message,

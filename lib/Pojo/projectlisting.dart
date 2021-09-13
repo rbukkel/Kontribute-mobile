@@ -3,9 +3,20 @@ class projectlisting {
   int totalrecord;
   String message;
   List<ProjectData> projectData;
+  int allrecord;
+  int perPage;
+  String nextPageUrl;
+  int lastPage;
 
   projectlisting(
-      {this.success, this.totalrecord, this.message, this.projectData});
+      {this.success,
+        this.totalrecord,
+        this.message,
+        this.projectData,
+        this.allrecord,
+        this.perPage,
+        this.nextPageUrl,
+        this.lastPage});
 
   projectlisting.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -17,6 +28,10 @@ class projectlisting {
         projectData.add(new ProjectData.fromJson(v));
       });
     }
+    allrecord = json['allrecord'];
+    perPage = json['Per Page'];
+    nextPageUrl = json['Next Page Url'];
+    lastPage = json['last page'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +42,10 @@ class projectlisting {
     if (this.projectData != null) {
       data['project_data'] = this.projectData.map((v) => v.toJson()).toList();
     }
+    data['allrecord'] = this.allrecord;
+    data['Per Page'] = this.perPage;
+    data['Next Page Url'] = this.nextPageUrl;
+    data['last page'] = this.lastPage;
     return data;
   }
 }
@@ -113,13 +132,7 @@ class ProjectData {
         comments.add(new Comments.fromJson(v));
       });
     }
-    if(json['totalcollectedamount'] is int) {
-      totalcollectedamount = json['totalcollectedamount'].toString();
-    }
-    else{
-      totalcollectedamount = json['totalcollectedamount'];
-    }
-
+    totalcollectedamount = json['totalcollectedamount'];
     projectPath = json['project_path'];
   }
 
@@ -201,6 +214,7 @@ class ProjectImages {
 class Comments {
   int id;
   String projectId;
+  String donationId;
   String comment;
   String userId;
   String postedDate;
@@ -210,6 +224,7 @@ class Comments {
   Comments(
       {this.id,
         this.projectId,
+        this.donationId,
         this.comment,
         this.userId,
         this.postedDate,
@@ -219,6 +234,7 @@ class Comments {
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     projectId = json['project_id'];
+    donationId = json['donation_id'];
     comment = json['comment'];
     userId = json['user_id'];
     postedDate = json['posted_date'];
@@ -230,6 +246,7 @@ class Comments {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['project_id'] = this.projectId;
+    data['donation_id'] = this.donationId;
     data['comment'] = this.comment;
     data['user_id'] = this.userId;
     data['posted_date'] = this.postedDate;

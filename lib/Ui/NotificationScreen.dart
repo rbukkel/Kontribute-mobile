@@ -38,7 +38,6 @@ class NotificationScreenState extends State<NotificationScreen> {
   Notificationpojo listing;
   String deleteval;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-
   int pageNumber = 1;
   int totalPage = 1;
   bool isLoading = false;
@@ -47,7 +46,6 @@ class NotificationScreenState extends State<NotificationScreen> {
   void function() {
     print("scrolling");
   }
-
 
   @override
   Future<void> initState() {
@@ -67,6 +65,7 @@ class NotificationScreenState extends State<NotificationScreen> {
       print("UserId: " + val);
       setState(() {
         userid = val;
+        print("PAge: "+pageNumber.toString());
         getdata(userid, pageNumber);
         print("Login userid: " + userid.toString());
         paginationApi();
@@ -84,49 +83,8 @@ class NotificationScreenState extends State<NotificationScreen> {
   }*/
 
   void paginationApi() {
-  //  ScrollController _scrollController = ScrollController();
-/*
     _scrollController.addListener(() {
-      if (_scrollController.position.maxScrollExtent == _scrollController.position.pixels)
-      {
-        if (!isLoading) {
-          isLoading = !isLoading;
-          setState(() {
-            if (pageNumber < listing.result.lastPage)
-            {
-              pageNumber += 1;
-              getdata(userid, pageNumber);
-            }
-          });
-          // Perform event when user reach at the end of list (e.g. do Api call)
-        }
-      }
-
-      if (_scrollController.position.minScrollExtent ==
-          _scrollController.position.pixels) {
-        if (!isLoading) {
-          isLoading = !isLoading;
-          setState(() {
-            if (pageNumber >= 1) {
-              pageNumber = pageNumber - 1;
-              print('ggggggg' + pageNumber.toString());
-              if (pageNumber < listing.result.lastPage) {
-                getSUBdata(userid, pageNumber);
-              }
-            } else {
-              getSUBdata(userid, pageNumber);
-              print("Last page");
-            }
-          });
-          // Perform event when user reach at the end of list (e.g. do Api call)
-        }
-      }
-
-    });
-*/
-    _scrollController.addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber < listing.result.lastPage) {
@@ -135,9 +93,8 @@ class NotificationScreenState extends State<NotificationScreen> {
           }
         });
       }
-      if (_scrollController.offset <=
-              _scrollController.position.minScrollExtent &&
-          !_scrollController.position.outOfRange) {
+      if (_scrollController.offset <= _scrollController.position.minScrollExtent && !_scrollController.position.outOfRange)
+      {
         setState(() {
           if (pageNumber >= 1) {
             pageNumber = pageNumber - 1;
@@ -216,14 +173,11 @@ class NotificationScreenState extends State<NotificationScreen> {
     Map data = {
       'userid': user_id.toString(),
     };
-
     Dialogs.showLoadingDialog(context, _keyLoader);
     print("user: " + data.toString());
     var jsonResponse = null;
     print(Network.BaseApi + Network.notificationlisting + "?page=" + page.toString());
-    http.Response response = await http.post(
-        Network.BaseApi + Network.notificationlisting + "?page=$page",
-        body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.notificationlisting + "?page=$page", body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
@@ -443,14 +397,11 @@ class NotificationScreenState extends State<NotificationScreen> {
               ),
             ),
             Expanded(
-              child: storelist_length != null
-                  ?
+              child: storelist_length != null ?
                 ListView.builder(
                     controller: _scrollController,
-                    itemCount:
-                    storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
+                    itemCount: storelist_length.length == null
+                        ? 0 : storelist_length.length,
                     /*physics: NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,*/
                     itemBuilder:

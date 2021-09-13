@@ -96,7 +96,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
           });
         }
         else {
-           Fluttertoast.showToast(
+          Fluttertoast.showToast(
               msg: requestpojo.message,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
@@ -204,20 +204,20 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               onTap: () {
                 //Navigator.of(context).pop();
                 if(valu=="request")
-                  {
-                    callNext(
-                        EditRequestIndividaul(
-                            data:  requestpojo.result.data.elementAt(index).id.toString()
-                        ),
-                        context);
-                  } else if(valu=="pool")
-                    {
-                      callNext(
-                          EditCreatepool(
-                              data:  requestpojo.result.data.elementAt(index).id.toString()
-                          ),
-                          context);
-                    }else if(valu=="send")
+                {
+                  callNext(
+                      EditRequestIndividaul(
+                          data:  requestpojo.result.data.elementAt(index).id.toString()
+                      ),
+                      context);
+                } else if(valu=="pool")
+                {
+                  callNext(
+                      EditCreatepool(
+                          data:  requestpojo.result.data.elementAt(index).id.toString()
+                      ),
+                      context);
+                }else if(valu=="send")
                 {
                   callNext(
                       EditSendIndividaul(
@@ -345,13 +345,13 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                               },
                                               onTap: () {
                                                 if(requestpojo.result.data.elementAt(index).status=="request")
-                                                  {
-                                                    _showPopupMenu(index,"request");
-                                                  }
+                                                {
+                                                  _showPopupMenu(index,"request");
+                                                }
                                                 else if(requestpojo.result.data.elementAt(index).status=="group")
-                                                    {
-                                                      _showPopupMenu(index,"pool");
-                                                    }
+                                                {
+                                                  _showPopupMenu(index,"pool");
+                                                }
 
                                               },
                                               child: Container(
@@ -424,7 +424,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   ),
                                                 )
                                             ):
-                                               Container(
+                                            Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
                                                   14,
@@ -500,14 +500,14 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1,
                                                       ),
                                                       child: Text(
-                                                       requestpojo.result.data.elementAt(index)
+                                                        requestpojo.result.data.elementAt(index)
                                                             .groupName!=null?requestpojo.result.data.elementAt(index)
-                                                           .groupName:requestpojo.result.data.elementAt(
-                                                           index)
-                                                           .fullName!=null?requestpojo.result.data
-                                                           .elementAt(
-                                                           index)
-                                                           .fullName:"",
+                                                            .groupName:requestpojo.result.data.elementAt(
+                                                            index)
+                                                            .fullName!=null?requestpojo.result.data
+                                                            .elementAt(
+                                                            index)
+                                                            .fullName:"",
                                                         style: TextStyle(
                                                             letterSpacing:
                                                             1.0,
@@ -525,11 +525,11 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                     GestureDetector(
                                                       onTap: () {
                                                         callNext(
-                                                      viewdetail_sendreceivegift(
-                                                          data: requestpojo.result.data.elementAt(index).id.toString(),
-                                                        coming:"Ongoing"),
+                                                            viewdetail_sendreceivegift(
+                                                                data: requestpojo.result.data.elementAt(index).id.toString(),
+                                                                coming:"Ongoing"),
                                                             context);
-                                                      //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
+                                                        //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
                                                       },
                                                       child: Container(
                                                         alignment: Alignment.topLeft,
@@ -612,14 +612,14 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                               .blockSizeHorizontal *
                                                               2),
                                                       child: Text(
-                                                          requestpojo.result.data
-                                                              .elementAt(
-                                                              index).price!=null?"\$" +requestpojo.result.data
-                                                              .elementAt(
-                                                              index).price:requestpojo.result.data
-                                                              .elementAt(
-                                                              index).minCashByParticipant!=null?
-                                                            "\$" +requestpojo.result.data
+                                                        requestpojo.result.data
+                                                            .elementAt(
+                                                            index).price!=null?"\$" +requestpojo.result.data
+                                                            .elementAt(
+                                                            index).price:requestpojo.result.data
+                                                            .elementAt(
+                                                            index).minCashByParticipant!=null?
+                                                        "\$" +requestpojo.result.data
                                                             .elementAt(
                                                             index).minCashByParticipant:"",
                                                         style: TextStyle(
@@ -905,7 +905,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                      Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
+                                                        Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
                                                       ),
                                                       fit: BoxFit.fill)),
                                             ),
@@ -1600,7 +1600,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                       width: SizeConfig.blockSizeVertical * 50),
                 ),
               ): Container()
-             /* receivefrom == "send"
+              /* receivefrom == "send"
                   ?storelist_length != null
                   ?
               Expanded(
@@ -2085,7 +2085,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
               label: 'Request',
               onTap: () {
                 tabValue="request";
-              getdata(userid, tabValue);
+                getdata(userid, tabValue);
                 print('FIRST CHILD');
               }),
           SpeedDialChild(
