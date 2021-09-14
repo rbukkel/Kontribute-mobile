@@ -68,54 +68,6 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
   Directory externalDir;
   String updateval;
   var dio = Dio();
-  /* Future<void> downloadFile(String imgUrl) async {
-    Dio dio = Dio();
-    bool checkPermission1 =
-    await SimplePermissions.checkPermission(permission1);
-    // print(checkPermission1);
-    if (checkPermission1 == false) {
-      await SimplePermissions.requestPermission(permission1);
-      checkPermission1 = await SimplePermissions.checkPermission(permission1);
-    }
-    if (checkPermission1 == true) {
-      String dirloc = "";
-      if (Platform.isAndroid) {
-        dirloc = "/sdcard/download/";
-      } else {
-        dirloc = (await getApplicationDocumentsDirectory()).path;
-      }
-
-      var randid = random.nextInt(10000);
-
-      try {
-        FileUtils.mkdir([dirloc]);
-        await dio.download(imgUrl, dirloc + randid.toString() + ".jpg",
-            onReceiveProgress: (receivedBytes, totalBytes) {
-              setState(() {
-                downloading = true;
-                progress =
-                    ((receivedBytes / totalBytes) * 100).toStringAsFixed(0) + "%";
-              });
-            });
-      } catch (e) {
-        print(e);
-      }
-
-      setState(() {
-        downloading = false;
-        progress = "Download Completed.";
-        path = dirloc + randid.toString() + ".jpg";
-      });
-    } else {
-      setState(() {
-        progress = "Permission Denied!";
-        _onPressed = () {
-          downloadFile(imgUrl);
-        };
-      });
-    }
-  }
-*/
 
   void getPermission() async {
     print("getPermission");
@@ -935,7 +887,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                             color: Colors.transparent),
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                              Network.BaseApiProject +
+                                              Network.BaseApidonation +
                                                   projectdetailspojo
                                                       .commentsdata
                                                       .donationimagesdata

@@ -11,6 +11,7 @@ import 'package:kontribute/Pojo/donationlistingPojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Ui/Donation/CampaignHistoryDetailsscreen.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -404,6 +405,95 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                 ),
                                               ],
                                             ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal * 23,
+                                                  alignment: Alignment.topLeft,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical * 1,
+                                                      left: SizeConfig.blockSizeHorizontal * 2),
+                                                  child: Text(
+                                                    "Collection Target- ",
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical * 1),
+                                                  alignment: Alignment.topLeft,
+                                                  padding: EdgeInsets.only(
+                                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                                  ),
+                                                  child: Text(
+                                                    "\$" + listing.projectData.elementAt(index).budget,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical * 1),
+                                                  child: LinearPercentIndicator(
+                                                    width: 100.0,
+                                                    lineHeight: 14.0,
+                                                    percent: amoun / 100,
+                                                    center: Text(
+                                                      amoun.toString() + "%",
+                                                      style: TextStyle(
+                                                          fontSize: 8, color: AppColors.whiteColor),
+                                                    ),
+                                                    backgroundColor: AppColors.lightgrey,
+                                                    progressColor: AppColors.themecolor,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  alignment: Alignment.centerRight,
+                                                  width: SizeConfig.blockSizeHorizontal * 25,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical * 1),
+                                                  child: Text(
+                                                    "Collected Amount- ",
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical * 1,
+                                                      right: SizeConfig.blockSizeHorizontal * 3),
+                                                  alignment: Alignment.topLeft,
+                                                  padding: EdgeInsets.only(
+                                                    right: SizeConfig.blockSizeHorizontal * 1,
+                                                  ),
+                                                  child: Text(
+                                                    "\$" +
+                                                        listing.projectData.elementAt(index).requiredAmount,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ],
                                         )
                                       ],
@@ -412,11 +502,11 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {
-                                       /* callNext(
+                                        callNext(
                                             CampaignHistoryDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                            ), context);
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -451,7 +541,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                           color: Colors.transparent),
                                                       image: DecorationImage(
                                                           image: NetworkImage(
-                                                            Network.BaseApiProject +
+                                                            Network.BaseApidonation +
                                                                 listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                           ),
                                                           fit: BoxFit.fill)),
@@ -483,12 +573,11 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                     ):
                                     GestureDetector(
                                       onTap: () {
-                                        //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-
-                                       /* callNext(
+                                        callNext(
                                             CampaignHistoryDetailsscreen(
-                                                data: listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                                data:
+                                                listing.projectData.elementAt(index).id.toString()
+                                            ), context);
                                       },
                                       child: Container(
                                         color: AppColors.themecolor,

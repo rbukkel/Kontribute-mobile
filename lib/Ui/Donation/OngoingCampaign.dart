@@ -897,11 +897,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                     ):
                                     GestureDetector(
                                       onTap: () {
-                                        /* callNext(
+                                        callNext(
                                             OngoingCampaignDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                            ), context);
                                       },
                                       child: Container(
                                         color: AppColors.themecolor,
@@ -1047,8 +1047,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
 
                               ),
                             ),
-
-
                                    /* Container(
 
                                       child:
@@ -1259,8 +1257,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         ),
                                       ),
                                     )*/
-
-
                                   ],
                                 ),
                               ),
@@ -1384,8 +1380,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
         }
-
-
       }
     } else {
       Fluttertoast.showToast(
