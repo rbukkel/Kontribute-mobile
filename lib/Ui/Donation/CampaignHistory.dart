@@ -30,7 +30,6 @@ class CampaignHistory extends StatefulWidget {
 }
 
 class CampaignHistoryState extends State<CampaignHistory> {
-
   String userid;
   bool resultvalue = true;
   bool internet = false;
@@ -71,7 +70,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
         );
       }
     });
-
   }
 
   void getdata(String user_id) async {
@@ -145,7 +143,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner1.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-
   ];
 
   Widget circleBar(bool isActive) {
@@ -173,8 +170,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
-              storelist_length != null
-                  ?
+              storelist_length != null ?
               Expanded(
                 child:
                 ListView.builder(
@@ -284,7 +280,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                   },
                                                   child: Container(
                                                     margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                    width: SizeConfig.blockSizeHorizontal *49,
+                                                    width: SizeConfig.blockSizeHorizontal *40,
                                                     padding: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *1,
                                                     ),
@@ -300,7 +296,9 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *2,
+                                                      left: SizeConfig.blockSizeHorizontal *3),
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
                                                       right: SizeConfig
@@ -377,7 +375,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *38,
+                                                  width: SizeConfig.blockSizeHorizontal *35,
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig
@@ -405,100 +403,101 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                 ),
                                               ],
                                             ),
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Container(
-                                                  width: SizeConfig.blockSizeHorizontal * 23,
-                                                  alignment: Alignment.topLeft,
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical * 1,
-                                                      left: SizeConfig.blockSizeHorizontal * 2),
-                                                  child: Text(
-                                                    "Collection Target- ",
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical * 1),
-                                                  alignment: Alignment.topLeft,
-                                                  padding: EdgeInsets.only(
-                                                    right: SizeConfig.blockSizeHorizontal * 3,
-                                                  ),
-                                                  child: Text(
-                                                    "\$" + listing.projectData.elementAt(index).budget,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.lightBlueAccent,
-                                                        fontSize: 8,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical * 1),
-                                                  child: LinearPercentIndicator(
-                                                    width: 100.0,
-                                                    lineHeight: 14.0,
-                                                    percent: amoun / 100,
-                                                    center: Text(
-                                                      amoun.toString() + "%",
-                                                      style: TextStyle(
-                                                          fontSize: 8, color: AppColors.whiteColor),
-                                                    ),
-                                                    backgroundColor: AppColors.lightgrey,
-                                                    progressColor: AppColors.themecolor,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  alignment: Alignment.centerRight,
-                                                  width: SizeConfig.blockSizeHorizontal * 25,
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical * 1),
-                                                  child: Text(
-                                                    "Collected Amount- ",
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical * 1,
-                                                      right: SizeConfig.blockSizeHorizontal * 3),
-                                                  alignment: Alignment.topLeft,
-                                                  padding: EdgeInsets.only(
-                                                    right: SizeConfig.blockSizeHorizontal * 1,
-                                                  ),
-                                                  child: Text(
-                                                    "\$" +
-                                                        listing.projectData.elementAt(index).requiredAmount,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.lightBlueAccent,
-                                                        fontSize: 8,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+
                                           ],
                                         )
                                       ],
                                     ),
-
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal * 23,
+                                          alignment: Alignment.topLeft,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal *2
+                                          ),
+                                          child: Text(
+                                            "Collection Target- ",
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black87,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 1),
+                                          alignment: Alignment.topLeft,
+                                          padding: EdgeInsets.only(
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                          ),
+                                          child: Text(
+                                            "\$" + listing.projectData.elementAt(index).budget,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.lightBlueAccent,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 1),
+                                          child: LinearPercentIndicator(
+                                            width: 70.0,
+                                            lineHeight: 14.0,
+                                            percent: amoun / 100,
+                                            center: Text(
+                                              amoun.toString() + "%",
+                                              style: TextStyle(
+                                                  fontSize: 8, color: AppColors.whiteColor),
+                                            ),
+                                            backgroundColor: AppColors.lightgrey,
+                                            progressColor: AppColors.themecolor,
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          width: SizeConfig.blockSizeHorizontal * 25,
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 1),
+                                          child: Text(
+                                            "Collected Amount- ",
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black87,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 1,
+                                              right: SizeConfig.blockSizeHorizontal * 3),
+                                          alignment: Alignment.topLeft,
+                                          padding: EdgeInsets.only(
+                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                          ),
+                                          child: Text(
+                                            "\$" +
+                                                listing.projectData.elementAt(index).requiredAmount,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.lightBlueAccent,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {

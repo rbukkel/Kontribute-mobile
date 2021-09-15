@@ -220,7 +220,6 @@ class OngoingProjectDetailsscreenState
       );
     }
   }
-
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
@@ -357,10 +356,7 @@ class OngoingProjectDetailsscreenState
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                callNext(
-                    EditCreateProjectPost(
-                        data:  projectdetailspojo.commentsdata.id.toString()
-                    ), context);
+                callNext(EditCreateProjectPost(data:  projectdetailspojo.commentsdata.id.toString()), context);
               },
               child: Row(
                 children: <Widget>[
@@ -706,7 +702,9 @@ class OngoingProjectDetailsscreenState
                                     projectdetailspojo
                                         .commentsdata.userId.toString()==userid?Container():
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        followapi(userid, reverid);
+                                      },
                                       child: Container(
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical * 2,
@@ -2181,5 +2179,43 @@ class OngoingProjectDetailsscreenState
         timeInSecForIosWeb: 1,
       );
     }
+  }
+
+
+  Future<void> followapi(String useid, String rece) async {
+    Map data = {
+      'sender_id': useid.toString(),
+      'receiver_id': rece.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.follow, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(updateval);
+      } else {
+        if (jsonResponse != null) {
+          showToast(updateval);
+          setState(() {
+            Follow = "";
+          });
+        } else {
+          showToast(updateval);
+        }
+      }
+    } else {
+      showToast(updateval);
+    }
+  }
+  void showToast(String updateval) {
+    Fluttertoast.showToast(
+      msg: jsonDecode(updateval)["message"],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+    );
   }
 }

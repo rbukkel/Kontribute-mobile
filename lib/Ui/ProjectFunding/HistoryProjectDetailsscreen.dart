@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/PostcommentPojo.dart';
 import 'package:kontribute/Pojo/Projectdetailspojo.dart';
+import 'package:kontribute/Pojo/followstatus.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
@@ -42,6 +43,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
   String _Comment;
   String data1;
   String userid;
+  String reverid;
   int a;
   bool internet = false;
   String val;
@@ -56,9 +58,13 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
   List<String> imagestore = [];
   Projectdetailspojo projectdetailspojo;
   projectlike prolike;
+  String updateval;
   PostcommentPojo postcom;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   var dio = Dio();
+  String Follow = "Follow";
+  String valfollowstatus;
+  followstatus followstatusPojo;
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
@@ -120,7 +126,19 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
     });
   }
 
-  void getData(String id, String projectid) async {
+  void showToast(String updateval)
+  {
+    Fluttertoast.showToast
+      (
+      msg: jsonDecode(updateval)["message"],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+    );
+  }
+
+  void getData(String id, String projectid) async
+  {
     Map data = {
       'userid': id.toString(),
       'project_id': projectid.toString(),
@@ -151,7 +169,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
             double amount = double.parse(projectdetailspojo.commentsdata.requiredAmount) /
                     double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
+            reverid = projectdetailspojo.commentsdata.userId.toString();
             print("Amountval: " + amoun.toString());
+            getfollowstatus(userid, reverid);
           });
         } else {
           Fluttertoast.showToast(
@@ -171,6 +191,63 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
       );
     }
   }
+
+  void getfollowstatus(String userid, String rec) async {
+    Map data = {
+      'receiver_id': rec.toString(),
+      'userid': userid.toString(),
+    };
+    print("follow: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http
+        .post(Network.BaseApi + Network.checkfollow_status, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valfollowstatus = response.body; //store response as string
+      if (jsonDecode(valfollowstatus)["status"] == false) {
+        setState(() {
+          Follow = "Follow";
+        });
+        /* Fluttertoast.showToast(
+          msg: jsonDecode(valfollowstatus)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );*/
+      } else {
+        followstatusPojo = new followstatus.fromJson(jsonResponse);
+        print("Json status: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            Follow = "";
+          });
+
+          Fluttertoast.showToast(
+            msg: jsonDecode(valfollowstatus)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: followstatusPojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(valfollowstatus)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -328,10 +405,12 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         ),
                                       ),
                                     ),
+                                    projectdetailspojo
+                                        .commentsdata.userId.toString()==userid?Container():
                                     GestureDetector(
                                       onTap: ()
                                       {
-
+                                        followapi(userid, reverid);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal*1),
@@ -339,7 +418,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                           top: SizeConfig.blockSizeVertical *1,
                                         ),
                                         child: Text(
-                                          "Follow",
+                                            Follow,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.darkgreen,
@@ -1182,6 +1261,34 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
       );
+    }
+  }
+  Future<void> followapi(String useid, String rece) async {
+    Map data = {
+      'sender_id': useid.toString(),
+      'receiver_id': rece.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.follow, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(updateval);
+      } else {
+        if (jsonResponse != null) {
+          showToast(updateval);
+          setState(() {
+            Follow = "";
+          });
+        } else {
+          showToast(updateval);
+        }
+      }
+    } else {
+      showToast(updateval);
     }
   }
 

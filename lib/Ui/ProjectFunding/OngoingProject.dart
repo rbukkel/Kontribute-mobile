@@ -384,7 +384,7 @@ class OngoingProjectState extends State<OngoingProject> {
                 ],
               ),
             )),
-        PopupMenuItem(
+       /* PopupMenuItem(
             value:3,
             child: GestureDetector(
               onTap: () {
@@ -403,7 +403,7 @@ class OngoingProjectState extends State<OngoingProject> {
                   Text('Report',style: TextStyle(fontSize: 14),)
                 ],
               ),
-            )),
+            )),*/
 
       ],
       elevation: 8.0,
