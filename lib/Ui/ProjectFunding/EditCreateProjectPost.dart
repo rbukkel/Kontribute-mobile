@@ -67,22 +67,16 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   final VideoFocus = FocusNode();
   final TermsFocus = FocusNode();
   final TextEditingController TermsController = new TextEditingController();
-  final TextEditingController searchpostController =
-      new TextEditingController();
-  final TextEditingController ProjectNameController =
-      new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
+  final TextEditingController ProjectNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController LocationDetailsController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController EnterRequiredAmountController =
-      new TextEditingController();
-  final TextEditingController TotalBudgetController =
-      new TextEditingController();
+  final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  final TextEditingController TotalBudgetController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
   String _ProjectName;

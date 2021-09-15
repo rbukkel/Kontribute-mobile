@@ -56,8 +56,12 @@ class Network{
   static String delete_notification = "delete_notification";
   static String notification_projectpay = "notification_projectpay";
   static String create_donation = "create_donation";
+  static String edit_donation = "edit_donation";
   static String donationListing = "donationListing";
   static String donationListing_history = "donationListing_history";
   static String donation_pay = "donation_pay";
   static String donationDetails = "donationDetails";
+  static String donationlikes = "donationlikes";
+  static String post_DonationComments = "post_DonationComments";
+  static String reportdonation = "reportdonation";
 }

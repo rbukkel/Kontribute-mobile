@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/donationlistingPojo.dart';
 import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
+import 'package:kontribute/Ui/Donation/DonationReport.dart';
+import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -252,10 +254,10 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
-                    EditCreateProjectPost(
+                callNext(
+                    EditDonationPost(
                         data: listing.projectData.elementAt(index).id.toString()
-                    ), context);*/
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -267,15 +269,15 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 ],
               ),
             )),
-        PopupMenuItem(
+     /*   PopupMenuItem(
             value:3,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
+               *//* callNext(
                     ProjectReport(
                         data: listing.projectData.elementAt(index).id.toString()
-                    ), context);*/
+                    ), context);*//*
               },
               child: Row(
                 children: <Widget>[
@@ -287,7 +289,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 ],
               ),
             )),
-
+*/
       ],
       elevation: 8.0,
     );
@@ -323,10 +325,10 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
-                    ProjectReport(
+                callNext(
+                    DonationReport(
                         data: listing.projectData.elementAt(index).id.toString()
-                    ), context);*/
+                    ), context);
               },
               child: Row(
                 children: <Widget>[

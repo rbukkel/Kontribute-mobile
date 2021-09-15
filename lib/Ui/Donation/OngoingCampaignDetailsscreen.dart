@@ -10,9 +10,11 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/PostDonationcommentPojo.dart';
 import 'package:kontribute/Pojo/PostcommentPojo.dart';
 import 'package:kontribute/Pojo/donationDetails.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
+import 'package:kontribute/Ui/Donation/DonationReport.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
@@ -57,7 +59,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
   List<String> imagestore = [];
   donationDetails projectdetailspojo;
   projectlike prolike;
-  PostcommentPojo postcom;
+  PostDonationcommentPojo postcom;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   bool downloading = false;
   var progress = "";
@@ -236,10 +238,10 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
-                    ProjectReport(
+                callNext(
+                    DonationReport(
                         data: projectdetailspojo.commentsdata.id.toString()
-                    ), context);*/
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -315,15 +317,15 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
               ),
             )
         ),
-        PopupMenuItem(
+        /*PopupMenuItem(
             value: 3,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
+               *//* callNext(
                     ProjectReport(
                         data: projectdetailspojo.commentsdata.id.toString()
-                    ), context);*/
+                    ), context);*//*
               },
               child: Row(
                 children: <Widget>[
@@ -337,7 +339,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                   )
                 ],
               ),
-            )),
+            )),*/
       ],
       elevation: 8.0,
     );
@@ -980,10 +982,10 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Row(
                             children: [
-                              InkWell(
+                              GestureDetector(
                                 onTap: () {
                                   print("LIke");
-                                 // addlike();
+                                  addlike();
                                 },
                                 child: Container(
                                   width: SizeConfig.blockSizeHorizontal * 7,
@@ -1042,8 +1044,9 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                       )),
                                       Container(
                                         child: Text(
-                                         /* "1,555",*/
-                                          "",
+                                          projectdetailspojo
+                                              .commentsdata.totalLike
+                                              .toString(),
                                           style: TextStyle(
                                               fontFamily: 'Montserrat-Bold',
                                               fontSize:
@@ -1074,7 +1077,9 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                       )),
                                       Container(
                                         child: Text(
-                                          "",
+                                          projectdetailspojo
+                                              .commentsdata.totalcomments
+                                              .toString(),
                                           style: TextStyle(
                                               fontFamily: 'Montserrat-Bold',
                                               fontSize:
@@ -1248,76 +1253,88 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                             color: Colors.black12,
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2,
-                            right: SizeConfig.blockSizeHorizontal * 2,
-                          ),
-                          alignment: Alignment.centerLeft,
-                          child: TextFormField(
-                            autofocus: false,
-                            focusNode: CommentFocus,
-                            controller: CommentController,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.text,
-                            maxLines: 10,
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please enter comment";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v) {
-                              CommentFocus.unfocus();
-                            },
-                            onSaved: (val) => _Comment = val,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 12,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              // prefixIcon: Icon(Icons.tag_faces),
-                              focusedBorder: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 12,
-                                decoration: TextDecoration.none,
+                        projectdetailspojo.commentsdata.userId==userid?Container():
+                        Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2,
+                                right: SizeConfig.blockSizeHorizontal * 2,
                               ),
-                              hintText: "Add a comment...",
+                              alignment: Alignment.centerLeft,
+                              child: TextFormField(
+                                autofocus: false,
+                                focusNode: CommentFocus,
+                                controller: CommentController,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.text,
+                                maxLines: 10,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter comment";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  CommentFocus.unfocus();
+                                },
+                                onSaved: (val) => _Comment = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 12,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  // prefixIcon: Icon(Icons.tag_faces),
+                                  focusedBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 12,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  hintText: "Add a comment...",
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 100,
-                          alignment: Alignment.topRight,
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 5,
-                              top: SizeConfig.blockSizeVertical * 1),
-                          child: Text(
-                            "Post",
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: AppColors.themecolor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular'),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
+                            GestureDetector(
+                              onTap: ()
+                              {
+
+                              addPost(CommentController.text);
+                              },
+                              child: Container(
+                                width: SizeConfig.blockSizeHorizontal * 100,
+                                alignment: Alignment.topRight,
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 5,
+                                    top: SizeConfig.blockSizeVertical * 1),
+                                child: Text(
+                                  "Post",
+
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: AppColors.themecolor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.black12,
+                              ),
+                            ),
+                          ],
                         ),
                         videolist_length!=null?
                         Container(
@@ -1600,6 +1617,115 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
       }
     }
   }
+
+  void addlike() async {
+    Map data = {
+      'userid': userid.toString(),
+      'donation_id': a.toString(),
+    };
+    print("projectlikes: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationlikes, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      vallike = response.body; //store response as string
+      if (jsonDecode(vallike)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(vallike)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        prolike = new projectlike.fromJson(jsonResponse);
+        print("Json UserLike: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("responseLIke: ");
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          getData(userid, a);
+        } else {
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(vallike)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+  Future<void> addPost(String post) async {
+    Map data = {
+      'userid': userid.toString(),
+      'donation_id': a.toString(),
+      'comment': post.toString(),
+    };
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    print("projectPOst: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.post_DonationComments, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valPost = response.body; //store response as string
+      if (jsonDecode(valPost)["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonDecode(valPost)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        postcom = new PostDonationcommentPojo.fromJson(jsonResponse);
+        print("Json UserLike: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("responseLIke: ");
+          Fluttertoast.showToast(
+            msg: postcom.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          setState(() {
+            CommentController.text ="";
+          });
+
+          getData(userid, a);
+        } else {
+          Fluttertoast.showToast(
+            msg: postcom.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonDecode(valPost)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
 
 
 }

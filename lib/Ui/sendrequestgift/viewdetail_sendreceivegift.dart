@@ -509,7 +509,9 @@ class viewdetail_sendreceivegiftState
                                                         ),
                                                       ),
                                                     ): coming1 == "Search"
-                                                  ? GestureDetector(
+                                                  ?
+
+                                              GestureDetector(
                                                 onTap: () {
                                                   followapi(
                                                       userid, reverid);

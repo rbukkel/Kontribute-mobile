@@ -1297,15 +1297,26 @@ class CreatepoolState extends State<Createpool> {
                           Internet_check().check().then((intenet) {
                             if (intenet != null && intenet) {
                               if (_imageFile != null) {
-                                createpool(
-                                    createpoolController.text,
-                                    DescriptionController.text,
-                                    requiredamountController.text,
-                                    collectionController.text,
-                                    currentid.toString(),
-                                    myFormat.format(currentDate),
-                                    TermsController.text,
-                                    _imageFile);
+                                if(values==null || values=="")
+                                  {
+                                    Fluttertoast.showToast(
+                                      msg: "Please select contacts",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
+                                else {
+                                  createpool(
+                                      createpoolController.text,
+                                      DescriptionController.text,
+                                      requiredamountController.text,
+                                      collectionController.text,
+                                      currentid.toString(),
+                                      myFormat.format(currentDate),
+                                      TermsController.text,
+                                      _imageFile);
+                                }
                               } else {
                                 Fluttertoast.showToast(
                                   msg: "Please select gift image",
