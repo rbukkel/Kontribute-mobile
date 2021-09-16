@@ -19,6 +19,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'package:kontribute/Pojo/get_createDonationPojo.dart';
 
 class EditDonationPost extends StatefulWidget {
   final String data;
@@ -93,12 +94,13 @@ class EditDonationPostState extends State<EditDonationPost> {
   String _Video;
   String userid;
   bool isLoading = false;
+  get_createDonationPojo sendgift;
+
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only"
   ];
-  static List<String> videoList = [null];
   var file1;
   var documentPath;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
@@ -107,13 +109,27 @@ class EditDonationPostState extends State<EditDonationPost> {
   String currentSelectedValueprivacy;
   String Date, EndDate;
   DateTime currentDate = DateTime.now();
+  String formattedDate = "2021-07-07";
+  String formattedEndDate = "2021-07-07";
   var myFormat = DateFormat('yyyy-MM-dd');
   String data1;
   int a;
   bool internet = false;
+  String val;
+  var productlist_length;
+  var imageslist_length;
   DateTime currentEndDate = DateTime.now();
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
+  String link;
+  String linkdocuments;
+  static List<String> videoList = [null];
+  static List<String> newvideoList = [null];
+  static List<String> newdocList = [null];
+  static List<String> docList = [null];
+  String showpost;
+
+
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
       "assets/images/banner1.png",
@@ -154,32 +170,29 @@ class EditDonationPostState extends State<EditDonationPost> {
 
   DateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2050),
-    );
-
-    if (picked != null && picked != currentDate)
-      setState(() {
-        currentDate = picked;
-      });
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      Date = picked.toString();
+      formattedDate = DateFormat('yyyy-MM-yy').format(picked);
+      print("onDate: " + formattedDate.toString());
+    });
   }
 
   EndDateView(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: currentEndDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2050),
-    );
-
-    if (picked != null && picked != currentEndDate)
-      setState(() {
-        currentEndDate = picked;
-      });
+    final DateTime picke = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2100));
+    setState(() {
+      EndDate = picke.toString();
+      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
+      print("onDate: " + formattedEndDate.toString());
+    });
   }
-
 
 
   @override
@@ -196,7 +209,7 @@ class EditDonationPostState extends State<EditDonationPost> {
         data1 = widget.data;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
-      //  getData(a);
+       getData(a);
 
         setState(() {
           internet = true;
@@ -265,6 +278,118 @@ class EditDonationPostState extends State<EditDonationPost> {
       });*/
     }
   }
+
+
+  void getData(int id) async {
+    Map data = {
+      'id': id.toString(),
+    };
+    print("receiver: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http
+        .post(Network.BaseApi + Network.get_donation, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        sendgift = new get_createDonationPojo.fromJson(jsonResponse);
+        print("Json User Details: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = sendgift.projectData;
+            imageslist_length = sendgift.projectImagesdata;
+            ProjectNameController.text =
+                sendgift.projectData.campaignName.toString();
+            DescriptionController.text =
+                sendgift.projectData.description.toString();
+            formattedDate = sendgift.projectData.campaignStartdate;
+            formattedEndDate = sendgift.projectData.campaignEnddate;
+            EnterRequiredAmountController.text =
+                sendgift.projectData.requiredAmount.toString();
+            TotalBudgetController.text = sendgift.projectData.budget.toString();
+
+            for (int i = 0; i < sendgift.projectData.videoLink.length; i++) {
+              print(
+                  "link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
+              link = sendgift.projectData.videoLink.elementAt(i).vlink;
+              print(": " + link);
+              newvideoList.add(link);
+            }
+            videoList = [
+              for (var i in newvideoList)
+                if (i != null) i
+            ];
+
+            // _selectlink.add(link);
+
+            final input = videoList.toString();
+            final removedBrackets = input.substring(1, input.length - 1);
+            final parts = removedBrackets.split(',');
+            vidoname = parts.map((part) => "$part").join(',').trim();
+
+            print("videoname: " + vidoname.toString());
+
+            // VideoController.text = vidoname;
+
+            for (int i = 0; i < sendgift.projectData.documents.length; i++) {
+              print("link: " +
+                  sendgift.projectData.documents.elementAt(i).documents);
+              linkdocuments =
+                  sendgift.projectData.documents.elementAt(i).documents;
+              docList.add(linkdocuments);
+            }
+            newdocList = [
+              for (var i in docList)
+                if (i != null) i
+            ];
+
+            final input3 = newdocList.toString();
+            final removedBrackets3 = input3.substring(1, input3.length - 1);
+            final parts3 = removedBrackets3.split(',');
+            catname = parts3.map((part) => "$part").join(',').trim();
+
+            print("Docname: " + catname.toString());
+
+            TermsController.text =
+            sendgift.projectData.termsAndCondition != null ||
+                sendgift.projectData.termsAndCondition != ""
+                ? sendgift.projectData.termsAndCondition.toString()
+                : "";
+            //  basename = sendgift.projectData.documents.toString();
+            currentid = int.parse(sendgift.projectData.viewType);
+            if (currentid == 1) {
+              showpost = "Anyone";
+            } else if (currentid == 2) {
+              showpost = "Connections only";
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: sendgift.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   showAlert(BuildContext context) {
     showDialog(
@@ -495,6 +620,8 @@ class EditDonationPostState extends State<EditDonationPost> {
                   ],
                 ),
               ),
+              productlist_length != null
+                  ?
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
@@ -510,13 +637,18 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     color: AppColors.themecolor,
                                     alignment: Alignment.topCenter,
                                     height: SizeConfig.blockSizeVertical * 25,
-                                    width: SizeConfig.blockSizeHorizontal * 100,
+                                    width:
+                                    SizeConfig.blockSizeHorizontal * 100,
                                     child: Stack(
-                                      alignment: AlignmentDirectional.bottomCenter,
+                                      alignment:
+                                      AlignmentDirectional.bottomCenter,
                                       children: <Widget>[
                                         PageView.builder(
                                           physics: ClampingScrollPhysics(),
-                                          itemCount: introWidgetsList.length,
+                                          itemCount:
+                                          imageslist_length.length == null
+                                              ? 0
+                                              : imageslist_length.length,
                                           onPageChanged: (int page) {
                                             getChangedPageAndMoveBar(page);
                                           },
@@ -524,28 +656,53 @@ class EditDonationPostState extends State<EditDonationPost> {
                                               initialPage: currentPageValue,
                                               keepPage: true,
                                               viewportFraction: 1),
-                                          itemBuilder: (context, index) {
-                                            return introWidgetsList[index];
+                                          itemBuilder: (context, ind) {
+                                            return Container(
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  100,
+                                              height: SizeConfig
+                                                  .blockSizeVertical *
+                                                  25,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color:
+                                                      Colors.transparent),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        Network.BaseApidonation +
+                                                            sendgift
+                                                                .projectImagesdata
+                                                                .elementAt(
+                                                                ind)
+                                                                .imagePath,
+                                                      ),
+                                                      fit: BoxFit.fill)),
+                                            );
                                           },
                                         ),
                                         Stack(
-                                          alignment:
-                                          AlignmentDirectional.bottomCenter,
+                                          alignment: AlignmentDirectional
+                                              .bottomCenter,
                                           children: <Widget>[
                                             Container(
                                               margin: EdgeInsets.only(
-                                                  bottom:
-                                                  SizeConfig.blockSizeVertical *
+                                                  bottom: SizeConfig
+                                                      .blockSizeVertical *
                                                       2),
                                               child: Row(
-                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisSize:
+                                                MainAxisSize.min,
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   for (int i = 0;
-                                                  i < introWidgetsList.length;
+                                                  i <
+                                                      imageslist_length
+                                                          .length;
                                                   i++)
-                                                    if (i == currentPageValue) ...[
+                                                    if (i ==
+                                                        currentPageValue) ...[
                                                       circleBar(true)
                                                     ] else
                                                       circleBar(false),
@@ -564,9 +721,11 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     child: Container(
                                       alignment: Alignment.topRight,
                                       margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 3,
+                                          top: SizeConfig.blockSizeVertical *
+                                              3,
                                           right:
-                                          SizeConfig.blockSizeHorizontal * 3),
+                                          SizeConfig.blockSizeHorizontal *
+                                              3),
                                       child: Image.asset(
                                         "assets/images/camera.png",
                                         width: 50,
@@ -901,7 +1060,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                             .blockSizeHorizontal *
                                                             1),
                                                     child: Text(
-                                                      myFormat.format(currentDate),
+                                                      formattedDate,
                                                       textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
@@ -1000,8 +1159,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                               .blockSizeHorizontal *
                                                               1),
                                                       child: Text(
-                                                        myFormat
-                                                            .format(currentEndDate),
+                                                        formattedEndDate,
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -1422,11 +1580,13 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   ),
                                 ),
                                 Container(
-                                    width: SizeConfig.blockSizeHorizontal * 70,
+                                    width:
+                                    SizeConfig.blockSizeHorizontal * 70,
                                     height: SizeConfig.blockSizeVertical * 10,
                                     margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 2,
-                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal * 3,
                                     ),
                                     alignment: Alignment.centerLeft,
                                     padding: EdgeInsets.only(
@@ -1447,32 +1607,31 @@ class EditDonationPostState extends State<EditDonationPost> {
                                       child: Row(
                                         children: [
                                           Container(
-                                            width:
-                                            SizeConfig.blockSizeHorizontal *
-                                                60,
-                                            child: Text(
-                                              catname != null
-                                                  ? catname.toString()
-                                                  : "",
-                                              maxLines: 5,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',
-                                                fontSize: 10,
-                                                color: AppColors.black,
-                                              ),
-                                            ),
-
-                                          ),
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  60,
+                                              child: Text(
+                                                catname != null
+                                                    ? catname.toString()
+                                                    : "",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular',
+                                                  fontSize: 10,
+                                                  color: AppColors.black,
+                                                ),
+                                              )),
                                           GestureDetector(
                                             onTap: () {
                                               getPdfAndUpload();
                                             },
                                             child: Container(
-                                              width:
-                                              SizeConfig.blockSizeHorizontal *
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal *
                                                   5,
                                               child: Icon(
                                                 Icons.attachment,
@@ -1535,22 +1694,27 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
                                       hint: Text(
-                                        "please select",
+                                        showpost == null
+                                            ? "please select"
+                                            : showpost,
                                         style: TextStyle(fontSize: 12),
                                       ),
                                       items: _dropdownCategoryValues
-                                          .map((String value) => DropdownMenuItem(
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                        value: value,
-                                      ))
+                                          .map((String value) =>
+                                          DropdownMenuItem(
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Bold'),
+                                            ),
+                                            value: value,
+                                          ))
                                           .toList(),
                                       value: currentSelectedValue,
                                       isDense: true,
@@ -1563,16 +1727,13 @@ class EditDonationPostState extends State<EditDonationPost> {
                                           print(currentSelectedValue
                                               .toString()
                                               .toLowerCase());
-                                          if (currentSelectedValue == "Anyone") {
+                                          if (currentSelectedValue ==
+                                              "Anyone") {
                                             currentid = 1;
                                           } else if (currentSelectedValue ==
                                               "Connections only") {
                                             currentid = 2;
                                           }
-                                          /* else if (currentSelectedValue ==
-                                          "Group members") {
-                                        currentid = 3;
-                                      }*/
                                         });
                                       },
                                       isExpanded: true,
@@ -1760,6 +1921,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                               ),
                             ),
                             GestureDetector(
+/*
                               onTap: () {
 
                                 final input2 = videoList.toString();
@@ -1781,10 +1943,12 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     _imageList,
                                     _documentList);
 
-                                /* Navigator.pushAndRemoveUntil(
+                                */
+/* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
-                                            (route) => false);*/
+                                            (route) => false);*//*
+
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -1809,12 +1973,78 @@ class EditDonationPostState extends State<EditDonationPost> {
                                       fontSize: 15,
                                     )),
                               ),
+*/
+                              onTap: () {
+                                if (_imageList != null &&
+                                    documentPath != null) {
+                                  final input2 = videoList.toString();
+                                  final removedBrackets =
+                                  input2.substring(1, input2.length - 1);
+                                  final parts = removedBrackets.split(',');
+                                  vidoname = parts
+                                      .map((part) => "$part")
+                                      .join(',')
+                                      .trim();
+                                  print("Vidoname: " + vidoname.toString());
+
+                                  createproject(
+                                      context,
+                                      ProjectNameController.text,
+                                      DescriptionController.text,
+                                      formattedDate,
+                                      formattedEndDate,
+                                      TermsController.text,
+                                      EnterRequiredAmountController.text,
+                                      TotalBudgetController.text,
+                                      vidoname,
+                                      _imageList,
+                                      _documentList);
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "Please Select Images/documents",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                }
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: SizeConfig.blockSizeVertical * 6,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 3,
+                                    bottom: SizeConfig.blockSizeVertical * 3,
+                                    left: SizeConfig.blockSizeHorizontal * 25,
+                                    right:
+                                    SizeConfig.blockSizeHorizontal * 25),
+                                decoration: BoxDecoration(
+                                  image: new DecorationImage(
+                                    image: new AssetImage(
+                                        "assets/images/sendbutton.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                child: Text(StringConstant.creat,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                    )),
+                              ),
+
                             )
                           ],
                         ),
                       )),
                 ),
-              )
+              ): Container(
+                child: Center(
+                  child: internet == true
+                      ? CircularProgressIndicator()
+                      : SizedBox(),
+                ),
+              ),
             ],
           )),
     );

@@ -168,7 +168,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
             paymentdetails_length = projectdetailspojo.commentsdata.projectpaymentdetails;
-            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) /
+            double amount = double.parse(projectdetailspojo.commentsdata.requiredAmount) /
                     double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
             reverid = projectdetailspojo.commentsdata.userId.toString();

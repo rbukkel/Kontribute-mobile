@@ -64,4 +64,5 @@ class Network{
   static String donationlikes = "donationlikes";
   static String post_DonationComments = "post_DonationComments";
   static String reportdonation = "reportdonation";
+  static String get_donation = "get_donation";
 }

@@ -39,6 +39,7 @@ class registerState extends State<register> {
   final TextEditingController mobileController = new TextEditingController();
   bool _showPassword = false;
   bool isLoading = false;
+  bool _confirmPassword = false;
   String _email;
   String _password;
   String _nickname;
@@ -509,7 +510,7 @@ class registerState extends State<register> {
                           validator: (val) {
                             if (val.length == 0)
                               return "Please enter password";
-                            else if(regex.hasMatch(val))
+                            else if(!regex.hasMatch(val))
                               return "should contain at least one upper case, lower case, digit,Special character and Must be at least 8 characters in length";
                             else
                               return null;
@@ -537,6 +538,16 @@ class registerState extends State<register> {
                               decoration: TextDecoration.none,
                             ),
                             hintText: StringConstant.password,
+                            suffixIcon:  InkWell(
+                              onTap: (){
+                                setState(() => this._showPassword = !this._showPassword);
+                              },
+                              child: Icon(
+                                _showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            ),
                           ),
                         ),
                       ),
