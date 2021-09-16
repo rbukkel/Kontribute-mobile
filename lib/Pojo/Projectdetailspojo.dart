@@ -47,6 +47,8 @@ class Commentsdata {
   int totalcomments;
   List<Commentslist> commentslist;
   List<Projectimagesdata> projectimagesdata;
+  List<Projectpaymentdetails> projectpaymentdetails;
+  String totalcollectedamount;
   String fullName;
   String profilePic;
 
@@ -73,6 +75,8 @@ class Commentsdata {
         this.totalcomments,
         this.commentslist,
         this.projectimagesdata,
+        this.projectpaymentdetails,
+        this.totalcollectedamount,
         this.fullName,
         this.profilePic});
 
@@ -119,6 +123,13 @@ class Commentsdata {
         projectimagesdata.add(new Projectimagesdata.fromJson(v));
       });
     }
+    if (json['projectpaymentdetails'] != null) {
+      projectpaymentdetails = new List<Projectpaymentdetails>();
+      json['projectpaymentdetails'].forEach((v) {
+        projectpaymentdetails.add(new Projectpaymentdetails.fromJson(v));
+      });
+    }
+    totalcollectedamount = json['totalcollectedamount'];
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
   }
@@ -156,6 +167,11 @@ class Commentsdata {
       data['projectimagesdata'] =
           this.projectimagesdata.map((v) => v.toJson()).toList();
     }
+    if (this.projectpaymentdetails != null) {
+      data['projectpaymentdetails'] =
+          this.projectpaymentdetails.map((v) => v.toJson()).toList();
+    }
+    data['totalcollectedamount'] = this.totalcollectedamount;
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
     return data;
@@ -200,6 +216,46 @@ class Documents {
   }
 }
 
+class Projectimagesdata {
+  int id;
+  String projectId;
+  String imagePath;
+  String status;
+  String postedDate;
+  String createdAt;
+  String updatedAt;
+
+  Projectimagesdata(
+      {this.id,
+        this.projectId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
+
+  Projectimagesdata.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    projectId = json['project_id'];
+    imagePath = json['image_path'];
+    status = json['status'];
+    postedDate = json['posted_date'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['project_id'] = this.projectId;
+    data['image_path'] = this.imagePath;
+    data['status'] = this.status;
+    data['posted_date'] = this.postedDate;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
 class Commentslist {
   int id;
   String projectId;
@@ -241,43 +297,55 @@ class Commentslist {
   }
 }
 
-class Projectimagesdata {
-  int id;
+class Projectpaymentdetails {
+  String id;
   String projectId;
-  String imagePath;
+  String senderId;
+  String amount;
   String status;
-  String postedDate;
   String createdAt;
   String updatedAt;
+  String fullName;
+  String profilePic;
+  String facebookId;
 
-  Projectimagesdata(
+  Projectpaymentdetails(
       {this.id,
         this.projectId,
-        this.imagePath,
+        this.senderId,
+        this.amount,
         this.status,
-        this.postedDate,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.facebookId});
 
-  Projectimagesdata.fromJson(Map<String, dynamic> json) {
+  Projectpaymentdetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     projectId = json['project_id'];
-    imagePath = json['image_path'];
+    senderId = json['sender_id'];
+    amount = json['amount'];
     status = json['status'];
-    postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
+    facebookId = json['facebook_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['project_id'] = this.projectId;
-    data['image_path'] = this.imagePath;
+    data['sender_id'] = this.senderId;
+    data['amount'] = this.amount;
     data['status'] = this.status;
-    data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
+    data['facebook_id'] = this.facebookId;
     return data;
   }
 }

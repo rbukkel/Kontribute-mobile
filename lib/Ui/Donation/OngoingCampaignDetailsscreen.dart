@@ -185,7 +185,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
     ),
   ];
 
-  Widget circleBar(bool isActive) {
+  Widget circleBar(bool isActive)
+  {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 5),
@@ -451,9 +452,11 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            projectdetailspojo.commentsdata.profilePic == null || projectdetailspojo.commentsdata.profilePic == ""
+                            projectdetailspojo.commentsdata.profilePic == null ||
+                                projectdetailspojo.commentsdata.profilePic == ""
                                 ? GestureDetector(
-                              onTap: () {
+                              onTap: ()
+                              {
                                 callNext(
                                     viewdetail_profile(
                                         data: projectdetailspojo.commentsdata.userId.toString()
@@ -499,8 +502,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                     top: SizeConfig.blockSizeVertical * 2,
                                     bottom:
                                     SizeConfig.blockSizeVertical * 1,
-                                    right:
-                                    SizeConfig.blockSizeHorizontal *
+                                    right: SizeConfig.blockSizeHorizontal *
                                         1,
                                     left: SizeConfig.blockSizeHorizontal *
                                         2),
@@ -792,7 +794,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 right: SizeConfig.blockSizeHorizontal * 3,
                               ),
                               child: Text(
-                                "\$" + projectdetailspojo.commentsdata.budget,
+                                "\$"+projectdetailspojo.commentsdata.budget,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -805,7 +807,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 1),
                               child: LinearPercentIndicator(
-                                width: 100.0,
+                                width: 70.0,
                                 lineHeight: 14.0,
                                 percent: amoun / 100,
                                 center: Text(
@@ -841,9 +843,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 right: SizeConfig.blockSizeHorizontal * 1,
                               ),
                               child: Text(
-                                "\$" +
-                                    projectdetailspojo
-                                        .commentsdata.requiredAmount,
+                                "\$" + projectdetailspojo.commentsdata.requiredAmount,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -1130,7 +1130,6 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 fontFamily: 'Poppins-Regular'),
                           ),
                         ):Container(),
-
                         projectdetailspojo.commentsdata.termsAndCondition!=null?
                         Container(
                           width: SizeConfig.blockSizeHorizontal * 90,
@@ -1141,8 +1140,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           child: Text(
                             projectdetailspojo.commentsdata.termsAndCondition,
                             maxLines: 3,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
+                            style: TextStyle(letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,
                                 fontWeight: FontWeight.normal,

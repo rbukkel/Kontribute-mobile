@@ -57,6 +57,7 @@ class OngoingProjectDetailsscreenState
   var imageslist_length;
   var documentlist_length;
   var videolist_length;
+  var paymentdetails_length;
   List<String> imagestore = [];
   Projectdetailspojo projectdetailspojo;
   projectlike prolike;
@@ -75,6 +76,9 @@ class OngoingProjectDetailsscreenState
   String updateval;
   var dio = Dio();
   String reverid;
+  final AmountFocus = FocusNode();
+  final TextEditingController AmountController = new TextEditingController();
+  String _amount;
   /* Future<void> downloadFile(String imgUrl) async {
     Dio dio = Dio();
     bool checkPermission1 =
@@ -124,11 +128,11 @@ class OngoingProjectDetailsscreenState
   }
 */
 
-  void getPermission() async {
+  void getPermission() async
+  {
     print("getPermission");
     Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
-
 
   @override
   void initState() {
@@ -193,8 +197,8 @@ class OngoingProjectDetailsscreenState
             imageslist_length = projectdetailspojo.commentsdata.projectimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            double amount =
-                double.parse(projectdetailspojo.commentsdata.requiredAmount) /
+            paymentdetails_length = projectdetailspojo.commentsdata.projectpaymentdetails;
+            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) /
                     double.parse(projectdetailspojo.commentsdata.budget) *
                     100;
             amoun = amount.toInt();
@@ -726,20 +730,13 @@ class OngoingProjectDetailsscreenState
                                     Container(
                                       margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 2,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3),
+                                          left: SizeConfig.blockSizeHorizontal * 3),
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              2,
-                                          bottom:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top: SizeConfig.blockSizeHorizontal *
-                                              2),
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          left: SizeConfig.blockSizeHorizontal * 2,
+                                          bottom: SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeHorizontal * 2),
                                       decoration: BoxDecoration(
                                           color: AppColors.whiteColor,
                                           borderRadius:
@@ -757,30 +754,72 @@ class OngoingProjectDetailsscreenState
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-                                    projectdetailspojo
-                                        .commentsdata.userId.toString()!=userid?
+                                    projectdetailspojo.commentsdata.userId.toString()!=userid?
                                     projectdetailspojo.commentsdata.status=="pending"?
                                     GestureDetector(
                                       onTap: ()
                                       {
                                         Widget cancelButton = FlatButton(
-                                          child: Text("No"),
+                                          child: Text("Cancel"),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
                                         );
                                         Widget continueButton = FlatButton(
-                                          child: Text("Yes"),
+                                          child: Text("Continue"),
                                           onPressed: () async {
-                                            Payamount( projectdetailspojo
-                                                .commentsdata.id, projectdetailspojo
-                                                .commentsdata.requiredAmount,userid);
+                                            Payamount(
+                                                projectdetailspojo.commentsdata.id,
+                                                AmountController.text,
+                                                userid);
                                           },
                                         );
                                         // set up the AlertDialog
                                         AlertDialog alert = AlertDialog(
                                           title: Text("Pay now.."),
-                                          content: Text("Are you sure you want to Pay this project?"),
+                                          // content: Text("Are you sure you want to Pay this project?"),
+                                          content: new Row(
+                                            children: <Widget>[
+                                              new Expanded(
+                                                child: new  TextFormField(
+                                                  autofocus: false,
+                                                  focusNode: AmountFocus,
+                                                  controller: AmountController,
+                                                  textInputAction: TextInputAction.next,
+                                                  keyboardType: TextInputType.number,
+                                                  validator: (val) {
+                                                    if (val.length == 0)
+                                                      return "Please enter payment amount";
+                                                    else
+                                                      return null;
+                                                  },
+                                                  onFieldSubmitted: (v) {
+                                                    AmountFocus.unfocus();
+                                                  },
+                                                  onSaved: (val) => _amount = val,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 10,
+                                                      color: Colors.black),
+                                                  decoration: InputDecoration(
+                                                    // border: InputBorder.none,
+                                                    // focusedBorder: InputBorder.none,
+                                                    hintStyle: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 10,
+                                                      decoration: TextDecoration.none,
+                                                    ),
+                                                    hintText:"Enter payment amount",
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                           actions: [
                                             cancelButton,
                                             continueButton,
@@ -1015,7 +1054,7 @@ class OngoingProjectDetailsscreenState
                               child: Text(
                                 "\$" +
                                     projectdetailspojo
-                                        .commentsdata.requiredAmount,
+                                        .commentsdata.totalcollectedamount,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -1590,7 +1629,9 @@ class OngoingProjectDetailsscreenState
                                             ),
                                         InkWell(
                                           onTap: () {
-                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                            callNext(
+                                                ProductVideoPlayerScreen(
+                                                    data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
@@ -1713,7 +1754,7 @@ class OngoingProjectDetailsscreenState
                               }),
                         ):Container(),
 
-                   /*     Container(
+                        Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Divider(
@@ -1740,7 +1781,7 @@ class OngoingProjectDetailsscreenState
                                     color: Colors.black),
                               ),
                             ),
-                            Container(
+                          /*  Container(
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 5,
                                   top: SizeConfig.blockSizeVertical * 2),
@@ -1786,15 +1827,18 @@ class OngoingProjectDetailsscreenState
                                   height: 40,
                                 ),
                               ),
-                            ),
+                            ),*/
                           ],
                         ),
+                        paymentdetails_length!=null?
                         Container(
                           child: ListView.builder(
-                              itemCount: 5,
+                              itemCount:  paymentdetails_length.length == null
+                                  ? 0
+                                  : paymentdetails_length.length,
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
+                              itemBuilder: (BuildContext context, int idex) {
                                 return Container(
                                   child: Card(
                                       shape: RoundedRectangleBorder(
@@ -1814,34 +1858,75 @@ class OngoingProjectDetailsscreenState
                                             children: [
                                               Row(
                                                 children: [
-                                                  Container(
-                                                    height: SizeConfig
-                                                            .blockSizeVertical *
-                                                        8,
-                                                    width: SizeConfig
-                                                            .blockSizeVertical *
-                                                        8,
-                                                    alignment: Alignment.center,
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                        bottom: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
-                                                        left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            2),
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                      image: new AssetImage(
-                                                          "assets/images/userProfile.png"),
-                                                      fit: BoxFit.fill,
-                                                    )),
-                                                  ),
+                                                  projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).facebookId==null?
+                                                      GestureDetector(
+                                                        onTap: ()
+                                                        {
+                                                          callNext(
+                                                              viewdetail_profile(
+                                                                  data:  projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()
+                                                              ), context);
+                                                        },
+                                                        child: Container(
+                                                          height: SizeConfig
+                                                              .blockSizeVertical *
+                                                              8,
+                                                          width: SizeConfig
+                                                              .blockSizeVertical *
+                                                              8,
+                                                          alignment: Alignment.center,
+                                                          margin: EdgeInsets.only(
+                                                              top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                                  1,
+                                                              bottom: SizeConfig.blockSizeVertical * 1,
+                                                              right: SizeConfig.blockSizeHorizontal * 1,
+                                                              left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  2),
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                      Network.BaseApiprofile+projectdetailspojo
+                                                                          .commentsdata.projectpaymentdetails.elementAt(idex).profilePic),
+                                                                  fit: BoxFit.fill)),
+                                                        ),
+                                                      ) :
+                                                      GestureDetector(
+                                                        onTap: ()
+                                                        {
+                                                          callNext(
+                                                              viewdetail_profile(
+                                                                  data:  projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()
+                                                              ), context);
+                                                        },
+                                                        child:  Container(
+                                                          height: SizeConfig
+                                                              .blockSizeVertical *
+                                                              8,
+                                                          width: SizeConfig
+                                                              .blockSizeVertical *
+                                                              8,
+                                                          alignment: Alignment.center,
+                                                          margin: EdgeInsets.only(
+                                                              top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                                  1,
+                                                              bottom: SizeConfig.blockSizeVertical * 1,
+                                                              right: SizeConfig.blockSizeHorizontal * 1,
+                                                              left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  2),
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                      projectdetailspojo
+                                                                          .commentsdata.projectpaymentdetails.elementAt(idex).profilePic),
+                                                                  fit: BoxFit.fill)),
+                                                        ),
+                                                      ),
                                                   Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -1867,7 +1952,8 @@ class OngoingProjectDetailsscreenState
                                                                   1,
                                                             ),
                                                             child: Text(
-                                                              "Life America",
+                                                              projectdetailspojo
+                                                                  .commentsdata.projectpaymentdetails.elementAt(idex).fullName,
                                                               style: TextStyle(
                                                                   letterSpacing:
                                                                       1.0,
@@ -1936,7 +2022,7 @@ class OngoingProjectDetailsscreenState
                                                                         .blockSizeHorizontal *
                                                                     2),
                                                             child: Text(
-                                                              "Contribute-\$120",
+                                                              "Contribute-\$"+projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toString(),
                                                               style: TextStyle(
                                                                   letterSpacing:
                                                                       1.0,
@@ -1950,6 +2036,7 @@ class OngoingProjectDetailsscreenState
                                                                       'Poppins-Regular'),
                                                             ),
                                                           ),
+                                                          projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status=="0"?
                                                           Container(
                                                             width: SizeConfig
                                                                     .blockSizeHorizontal *
@@ -1980,8 +2067,7 @@ class OngoingProjectDetailsscreenState
                                                                     color: AppColors
                                                                         .orange)),
                                                             child: Text(
-                                                              "Pending"
-                                                                  .toUpperCase(),
+                                                              "Pending".toUpperCase(),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -1997,6 +2083,100 @@ class OngoingProjectDetailsscreenState
                                                                   fontFamily:
                                                                       'Poppins-Regular'),
                                                             ),
+                                                          ):projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status=="1"?
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                20,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding: EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2,
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2,
+                                                                bottom: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2,
+                                                                top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    2),
+                                                            decoration: BoxDecoration(
+                                                                color: AppColors
+                                                                    .whiteColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                border: Border.all(
+                                                                    color: AppColors
+                                                                        .orange)),
+                                                            child: Text(
+                                                            "Done".toUpperCase(),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color: AppColors
+                                                                      .orange,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ):
+                                                          Container(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                20,
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            padding: EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    2,
+                                                                left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    2,
+                                                                bottom: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    2,
+                                                                top: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    2),
+                                                            decoration: BoxDecoration(
+                                                                color: AppColors
+                                                                    .whiteColor,
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    20),
+                                                                border: Border.all(
+                                                                    color: AppColors
+                                                                        .orange)),
+                                                            child: Text(
+                                                              "Pending".toUpperCase(),
+                                                              textAlign:
+                                                              TextAlign
+                                                                  .center,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                  1.0,
+                                                                  color: AppColors
+                                                                      .orange,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                                  fontFamily:
+                                                                  'Poppins-Regular'),
+                                                            ),
                                                           )
                                                         ],
                                                       ),
@@ -2011,7 +2191,7 @@ class OngoingProjectDetailsscreenState
                                       )),
                                 );
                               }),
-                        )*/
+                        ):Container()
 
                       ],
                     ),

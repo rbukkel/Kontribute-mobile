@@ -7,6 +7,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
@@ -62,6 +63,7 @@ class registerState extends State<register> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   User user;
+  String mobile, countrycode;
   String selecteddate = "Date of Birth";
   bool selected =false;
 
@@ -129,8 +131,10 @@ class registerState extends State<register> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    Pattern pattern =
+    Pattern pattern1 =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex1 = new RegExp(pattern1);
+    Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regex = new RegExp(pattern);
     return Scaffold(
       body: Container(
@@ -325,7 +329,8 @@ class registerState extends State<register> {
                           ),
                           color: Colors.transparent,
                         ),
-                        child: TextFormField(
+                        child:
+                        TextFormField(
                           autofocus: false,
                           focusNode: NickNameFocus,
                           controller: nicknameController,
@@ -446,7 +451,7 @@ class registerState extends State<register> {
                           validator: (val) {
                             if (val.length == 0)
                               return "Please enter email";
-                            else if (!regex.hasMatch(val))
+                            else if (!regex1.hasMatch(val))
                               return "Please enter valid email";
                             else
                               return null;
@@ -504,8 +509,8 @@ class registerState extends State<register> {
                           validator: (val) {
                             if (val.length == 0)
                               return "Please enter password";
-                            else if (val.length <= 4)
-                              return "Your password should be more then 5 char long";
+                            else if(regex.hasMatch(val))
+                              return "should contain at least one upper case, lower case, digit,Special character and Must be at least 8 characters in length";
                             else
                               return null;
                           },
@@ -535,7 +540,7 @@ class registerState extends State<register> {
                           ),
                         ),
                       ),
-                      Container(
+                    /*  Container(
                         width: SizeConfig.blockSizeHorizontal * 90,
                         margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 5,
@@ -592,6 +597,56 @@ class registerState extends State<register> {
                             hintText: StringConstant.mobile,
                           ),
                         ),
+                      ),*/
+                      Container(
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 5,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 3,
+                            right: SizeConfig.blockSizeVertical * 3,
+                          ),
+                          alignment: Alignment.topLeft,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                              color: Colors.white,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                          ),
+                          child:IntlPhoneField(
+
+                            decoration: InputDecoration( //decoration for Input Field
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 10,
+                                decoration: TextDecoration.none,
+                              ),
+                              hintText: StringConstant.mobile,
+                              focusedBorder: InputBorder.none,
+                            ),
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 10,
+                                color: Colors.white),
+                            initialCountryCode: 'NP', //default contry code, NP for Nepal
+                            onChanged: (phone) {
+                              mobile =phone.number;
+                              countrycode =phone.countryCode;
+                              //when phone number country code is changed
+                              print(phone.completeNumber); //get complete number
+                              print(phone.countryCode); // get country code only
+                              print(phone.number); // only phone number
+                            },
+                          )
                       ),
                       GestureDetector(
                         onTap: () {
@@ -822,17 +877,29 @@ class registerState extends State<register> {
                               });
                               Internet_check().check().then((intenet) {
                                 if (intenet != null && intenet) {
+                                  if(mobile!=null || mobile!="")
+                                    {
+                                      register(
+                                          emailController.text,
+                                          passwordController.text,
+                                          fullnameController.text,
+                                          nicknameController.text,
+                                          mobile,
+                                          _imageFile,
+                                          selecteddate,
+                                          countryname,
+                                          nationalityname);
+                                    }
+                                  else {
+                                    Fluttertoast.showToast(
+                                      msg: "Please enter mobile number",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
 
-                                  register(
-                                    emailController.text,
-                                    passwordController.text,
-                                    fullnameController.text,
-                                    nicknameController.text,
-                                    mobileController.text,
-                                    _imageFile,
-                                    selecteddate,
-                                    countryname,
-                                    nationalityname);
+
                                 } else {
                                   Fluttertoast.showToast(
                                     msg: "No Internet Connection",

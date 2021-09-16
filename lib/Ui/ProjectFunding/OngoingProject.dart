@@ -53,6 +53,9 @@ class OngoingProjectState extends State<OngoingProject> {
   int totalPage = 1;
   bool isLoading = false;
   static ScrollController _scrollController;
+  final AmountFocus = FocusNode();
+  final TextEditingController AmountController = new TextEditingController();
+  String _amount;
 
   void function() {
     print("scrolling");
@@ -676,12 +679,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                       ),
                                                     ),
 
-
-
-
-
-
-
                                                     Container(
                                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
                                                       alignment: Alignment.topRight,
@@ -723,23 +720,66 @@ class OngoingProjectState extends State<OngoingProject> {
                                                       onTap: ()
                                                       {
                                                         Widget cancelButton = FlatButton(
-                                                          child: Text("No"),
+                                                          child: Text("Cancel"),
                                                           onPressed: () {
                                                             Navigator.pop(context);
                                                           },
                                                         );
                                                         Widget continueButton = FlatButton(
-                                                          child: Text("Yes"),
+                                                          child: Text("Continue"),
                                                           onPressed: () async {
-                                                            Payamount(listing.projectData.elementAt(index).id,
-                                                                listing.projectData.elementAt(index).requiredAmount,
+                                                            Payamount(
+                                                                listing.projectData.elementAt(index).id,
+                                                                AmountController.text,
                                                                 userid);
                                                           },
                                                         );
                                                         // set up the AlertDialog
                                                         AlertDialog alert = AlertDialog(
                                                           title: Text("Pay now.."),
-                                                          content: Text("Are you sure you want to Pay this project?"),
+                                                         // content: Text("Are you sure you want to Pay this project?"),
+                                                          content: new Row(
+                                                            children: <Widget>[
+                                                              new Expanded(
+                                                                child: new  TextFormField(
+                                                                  autofocus: false,
+                                                                  focusNode: AmountFocus,
+                                                                  controller: AmountController,
+                                                                  textInputAction: TextInputAction.next,
+                                                                  keyboardType: TextInputType.number,
+                                                                  validator: (val) {
+                                                                    if (val.length == 0)
+                                                                      return "Please enter payment amount";
+                                                                    else
+                                                                      return null;
+                                                                  },
+                                                                  onFieldSubmitted: (v) {
+                                                                   AmountFocus.unfocus();
+                                                                  },
+                                                                  onSaved: (val) => _amount = val,
+                                                                  textAlign: TextAlign.left,
+                                                                  style: TextStyle(
+                                                                      letterSpacing: 1.0,
+                                                                      fontWeight: FontWeight.normal,
+                                                                      fontFamily: 'Poppins-Regular',
+                                                                      fontSize: 10,
+                                                                      color: Colors.black),
+                                                                  decoration: InputDecoration(
+                                                                   // border: InputBorder.none,
+                                                                   // focusedBorder: InputBorder.none,
+                                                                    hintStyle: TextStyle(
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.normal,
+                                                                      fontFamily: 'Poppins-Regular',
+                                                                      fontSize: 10,
+                                                                      decoration: TextDecoration.none,
+                                                                    ),
+                                                                    hintText:"Enter payment amount",
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                           actions: [
                                                             cancelButton,
                                                             continueButton,

@@ -594,7 +594,7 @@ class HistoryProjectState extends State<HistoryProject> {
                                           alignment: Alignment.topLeft,
 
                                           child: Text(
-                                            "\$"+listing.projectData.elementAt(index).requiredAmount,
+                                            "\$"+listing.projectData.elementAt(index).totalcollectedamount,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
