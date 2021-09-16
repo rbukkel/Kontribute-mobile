@@ -269,27 +269,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 ],
               ),
             )),
-     /*   PopupMenuItem(
-            value:3,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-               *//* callNext(
-                    ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);*//*
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
-*/
+
       ],
       elevation: 8.0,
     );
