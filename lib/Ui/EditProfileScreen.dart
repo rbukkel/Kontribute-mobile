@@ -39,6 +39,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   final EmailFocus = FocusNode();
   final DateofbirthFocus = FocusNode();
   final MobileFocus = FocusNode();
+  final CountryFocus = FocusNode();
   final CompanynameFocus = FocusNode();
   final NatinalityFocus = FocusNode();
   final CurrentCountryFocus = FocusNode();
@@ -47,6 +48,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   final TextEditingController nicknameController = new TextEditingController();
   final TextEditingController fullnameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
+  final TextEditingController CountryController = new TextEditingController();
   final TextEditingController dateofbirthController = new TextEditingController();
   final TextEditingController companynameController = new TextEditingController();
   final TextEditingController natinalityController = new TextEditingController();
@@ -62,6 +64,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   String _companyname;
   String _natinality;
   String _currentCountry;
+  String _Country;
   String userid;
   String data1;
   String countrycode;
@@ -235,10 +238,10 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             }
             if(loginResponse.resultPush.countryCode=="")
             {
-              countrycode = "";
+              CountryController.text = "";
             }
             else{
-              countrycode = loginResponse.resultPush.countryCode;
+              CountryController.text = loginResponse.resultPush.countryCode;
             }
 
             if( loginResponse.resultPush.dob=="")
@@ -686,7 +689,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 },
                                 onFieldSubmitted: (v)
                                 {
-                                  FocusScope.of(context).requestFocus(MobileFocus);
+                                  FocusScope.of(context).requestFocus(CountryFocus);
                                 },
                                 onSaved: (val) => _email = val,
                                 textAlign: TextAlign.left,
@@ -714,7 +717,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                           children: [
                             Container(
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 31,
+                              width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
                                 StringConstant.contrycode,
                                 style: TextStyle(
@@ -729,7 +732,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(
                                   right: SizeConfig.blockSizeHorizontal*2,
                                   top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal *62,
+                              width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               decoration: BoxDecoration(
                               //  borderRadius: BorderRadius.circular(30),
@@ -740,17 +743,29 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child:
-                              IntlPhoneField(
-                                decoration: InputDecoration( //decoration for Input Field
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    fontSize: 10,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: StringConstant.mobile,
+                              child:   TextFormField(
+                                autofocus: false,
+                                focusNode: CountryFocus,
+                                controller: CountryController,
+                                cursorColor: AppColors.selectedcolor,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.phone,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter country code";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v)
+                                {
+                                  FocusScope.of(context).requestFocus(MobileFocus);
+                                },
+                                onSaved: (val) => _Country = val,
+                                textAlign: TextAlign.left,
+                                style:
+                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
+                                decoration: InputDecoration(
                                   focusColor: AppColors.selectedcolor,
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: AppColors.light_grey),
@@ -762,23 +777,8 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                     borderSide: BorderSide(color: AppColors.selectedcolor),
                                   ),
                                 ),
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    fontSize: 10,
-                                    color: Colors.black),
-                                //initialCountryCode: 'NP',
-                                initialValue: countrycode,//default contry code, NP for Nepal
-                                onChanged: (phone) {
-                                  mobile =phone.number;
-                                  countrycode =phone.countryCode;
-                                  //when phone number country code is changed
-                                  print(phone.completeNumber); //get complete number
-                                  print(phone.countryCode); // get country code only
-                                  print(phone.number); // only phone number
-                                },
-                              )
+                              ),
+
                             )
                           ],
                         ),
@@ -1140,7 +1140,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 fullnameController.text,
                                 nicknameController.text,
                                 mobileController.text,
-                                countrycode,
+                                CountryController.text,
                                 selecteddate.toString(),
                                 natinalityController.text,
                                 currentCountryController.text,
@@ -1191,6 +1191,8 @@ class EditProfileScreenState extends State<EditProfileScreen>{
       ),
     );
   }
+
+
 
   void updateprofile(String user, String name, String nickname, String phone, String code,
       String dob, String nation, String country,String tken, File imageFile) async

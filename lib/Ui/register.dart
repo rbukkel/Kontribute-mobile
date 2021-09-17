@@ -628,7 +628,8 @@ class registerState extends State<register> {
                             ),
                             color: Colors.transparent,
                           ),
-                          child:IntlPhoneField(
+                          child:
+                          IntlPhoneField(
 
                             decoration: InputDecoration( //decoration for Input Field
                               border: InputBorder.none,

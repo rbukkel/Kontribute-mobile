@@ -1399,7 +1399,8 @@ class CreatepoolState extends State<Createpool> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-        } else {
+        }
+        else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             setState(()

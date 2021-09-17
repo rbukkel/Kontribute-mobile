@@ -223,7 +223,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     }
   }
 
-
   _showEditPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
@@ -278,9 +277,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
-        _tapDownPosition.dy,
-        overlay.size.width - _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx, _tapDownPosition.dy, overlay.size.width - _tapDownPosition.dx,
         overlay.size.height - _tapDownPosition.dy,),
       items: [
         PopupMenuItem(
@@ -320,12 +317,10 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 ],
               ),
             )),
-
       ],
       elevation: 8.0,
     );
   }
-
 
   bool _dialVisible = true;
   @override
@@ -336,8 +331,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
-              storelist_length != null
-                  ?
+              storelist_length != null ?
               Expanded(
                 child:
                 ListView.builder(
@@ -361,7 +355,9 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                             ),
                               child: Container(
                                 padding: EdgeInsets.all(5.0),
-                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical *2,
+                                    top: SizeConfig.blockSizeVertical *2),
                                 child:
                                 Column(
                                   mainAxisAlignment:
@@ -393,8 +389,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         listing.projectData.elementAt(index).profilePic== null ||
-                                            listing.projectData.elementAt(index).profilePic == ""
-                                            ?
+                                            listing.projectData.elementAt(index).profilePic == "" ?
                                         GestureDetector(
                                           onTap: () {
                                             callNext(
@@ -410,12 +405,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *2,
                                                   bottom: SizeConfig.blockSizeVertical *1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1),
+                                                  right: SizeConfig.blockSizeHorizontal * 1,
+                                                  left: SizeConfig.blockSizeHorizontal * 1),
                                               decoration: BoxDecoration(
                                                 image: new DecorationImage(
                                                   image: new AssetImage(
@@ -431,7 +422,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                 viewdetail_profile(
                                                     data: listing.projectData.elementAt(index).userId.toString()
                                                 ), context);
-
                                           },
                                           child: Container(
                                             height: SizeConfig.blockSizeVertical * 9,
@@ -440,12 +430,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *2,
                                                 bottom: SizeConfig.blockSizeVertical *1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1),
+                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                left: SizeConfig.blockSizeHorizontal * 1),
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
@@ -459,7 +445,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           children: [
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                               children: [
                                                 GestureDetector(
                                                   onTap: ()
@@ -491,18 +476,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *2,
                                                       left: SizeConfig.blockSizeHorizontal *1),
-
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      bottom: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
+                                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                                      bottom: SizeConfig.blockSizeHorizontal * 2,
                                                       top: SizeConfig
                                                           .blockSizeHorizontal *
                                                           2),

@@ -882,7 +882,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   GestureDetector(
                     onTap: () {
                       if (_formKey.currentState.validate()) {
-                        if (receiverid != null) {
+
                           setState(() {
                             isLoading = true;
                           });
@@ -890,14 +890,29 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             if (intenet != null && intenet) {
                               if(_imageFile!=null)
                               {
-                                requestIndivial(
-                                    notificationvalue,
-                                    requiredamountController.text,
-                                    DescriptionController.text,
-                                    myFormat.format(currentDate),
-                                    _imageFile,
-                                    receiverid
-                                );
+                                if (values==null || values=="")
+                                  {
+                                    Fluttertoast.showToast(
+                                      msg: "Please select contacts",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
+                                else
+                                  {
+                                    requestIndivial(
+                                        notificationvalue,
+                                        requiredamountController.text,
+                                        DescriptionController.text,
+                                        myFormat.format(currentDate),
+                                        _imageFile,
+                                        values.toString()
+                                    );
+                                  }
+
+
+
                               }
                               else {
                                 Fluttertoast.showToast(
@@ -916,14 +931,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               );
                             }
                           });
-                        } else {
-                          Fluttertoast.showToast(
-                            msg: "please select contact",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                          );
-                        }
+
+
                       }
                     },
                     child: Container(
@@ -959,7 +968,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
 
   void requestIndivial(String notification, String requiredamoun, String description,
-      String date,File Imge, int receiver) async {
+      String date,File Imge, String receiver) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift_request),);
@@ -979,9 +988,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
+      jsonData = json.decode(value);
       if (response.statusCode == 200) {
-        jsonData = json.decode(value);
-        if (jsonData["success"] == false) {
+        if (jsonData["status"] == false)
+        {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           Fluttertoast.showToast(
             msg: jsonData["message"],
@@ -1018,8 +1028,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           }
         }
       }
-      else if(response.statusCode == 500)
-      {
+      else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: "Internal server error",
@@ -1027,11 +1036,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-      }
-      else{
+      } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg:"Something went wrong",
+          msg: "Something went wrong",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -1039,6 +1047,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     });
   }
+
 
   Expandedview0() {
     return Container(
@@ -1096,6 +1105,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     values = catid.replaceAll(" ","");
     print(values);
     print("CatName: "+catname);
+    print("Catvalues: "+values);
   }
 
 
