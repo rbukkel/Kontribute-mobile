@@ -515,8 +515,6 @@ class HistoryProjectState extends State<HistoryProject> {
                                                 ),
                                               ],
                                             ),
-
-
                                           ],
                                         )
                                       ],

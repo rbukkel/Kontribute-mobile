@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
@@ -62,6 +64,8 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   String _currentCountry;
   String userid;
   String data1;
+  String countrycode;
+  String mobile;
   bool internet = false;
   int a;
   LoginResponse loginResponse;
@@ -71,8 +75,9 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   String image;
   String token;
   var storelist_length;
-
+  String selecteddate = "Date of Birth";
   bool isLoading = false;
+  bool selected = false;
 
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
@@ -122,6 +127,18 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     }
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900, 1),
+        lastDate: DateTime.now());
+    if (picked != null)
+      setState(() {
+        selecteddate = DateFormat('yyyy-MM-dd').format(picked);
+        print("onDate: " + selecteddate.toString());
+      });
+  }
 
   @override
   void initState() {
@@ -216,13 +233,20 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             else{
               mobileController.text = loginResponse.resultPush.mobile;
             }
+            if(loginResponse.resultPush.countryCode=="")
+            {
+              countrycode = "";
+            }
+            else{
+              countrycode = loginResponse.resultPush.countryCode;
+            }
 
             if( loginResponse.resultPush.dob=="")
             {
-              dateofbirthController.text = "";
+              selecteddate = "";
             }
             else{
-              dateofbirthController.text = loginResponse.resultPush.dob;
+              selecteddate = loginResponse.resultPush.dob;
             }
 
             if( loginResponse.resultPush.nationality=="")
@@ -472,7 +496,21 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 height: 120,
                                 child: ClipOval(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill,):Image.asset("assets/images/Group3.png",height: 120,width: 120,),),
                               ):
+                              loginResponse.resultPush.facebookId == ""?
                               Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*4),
+                                child: _loading? ClipOval(child:  CachedNetworkImage(
+                                  height: 120,width: 120,fit: BoxFit.fill ,
+                                  imageUrl:Network.BaseApiprofile+image,
+                                  placeholder: (context, url) => Container(
+                                      height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                      child: Center(child: new CircularProgressIndicator())),
+                                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                                ),): CircularProgressIndicator(
+                                  valueColor:
+                                  new AlwaysStoppedAnimation<Color>(Colors.grey),
+                                ),
+                              ):Container(
                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*4),
                                 child: _loading? ClipOval(child:  CachedNetworkImage(
                                   height: 120,width: 120,fit: BoxFit.fill ,
@@ -676,6 +714,79 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                           children: [
                             Container(
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
+                              width: SizeConfig.blockSizeHorizontal * 31,
+                              child: Text(
+                                StringConstant.contrycode,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: SizeConfig.blockSizeHorizontal*2,
+                                  top: SizeConfig.blockSizeVertical *2),
+                              width: SizeConfig.blockSizeHorizontal *62,
+                              alignment: Alignment.topLeft,
+                              decoration: BoxDecoration(
+                              //  borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child:
+                              IntlPhoneField(
+                                decoration: InputDecoration( //decoration for Input Field
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  hintText: StringConstant.mobile,
+                                  focusColor: AppColors.selectedcolor,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppColors.light_grey),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                                  ),
+                                ),
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                    color: Colors.black),
+                                //initialCountryCode: 'NP',
+                                initialValue: countrycode,//default contry code, NP for Nepal
+                                onChanged: (phone) {
+                                  mobile =phone.number;
+                                  countrycode =phone.countryCode;
+                                  //when phone number country code is changed
+                                  print(phone.completeNumber); //get complete number
+                                  print(phone.countryCode); // get country code only
+                                  print(phone.number); // only phone number
+                                },
+                              )
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
                                 StringConstant.mobileno,
@@ -688,7 +799,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
+                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,),
                               width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
                               decoration: BoxDecoration(
@@ -756,7 +867,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
-                            Container(
+                           /* Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
@@ -804,7 +915,40 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                   ),
                                 ),
                               ),
-                            )
+                            ),*/
+
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selected = true;
+                                });
+                                _selectDate(context);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
+                                width: SizeConfig.blockSizeHorizontal *58,
+                                alignment: Alignment.topLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                child: Text(
+                                  selecteddate,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      color: selected?Colors.black:Colors.black),
+                                ),
+                              ),
+                            ),
 
                           ],
                         ),
@@ -942,11 +1086,14 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
+
                             Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
-                              child: TextFormField(
+                              child:
+
+                              TextFormField(
                                 autofocus: false,
                                 focusNode: CurrentCountryFocus,
                                 controller: currentCountryController,
@@ -981,15 +1128,24 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                   ),
                                 ),
                               ),
+
                             )
 
                           ],
                         ),
                         GestureDetector(
                           onTap: () {
-                            updateprofile(userid,fullnameController.text,nicknameController.text,mobileController.text,
-                            dateofbirthController.text,natinalityController.text,currentCountryController.text,token,_imageFile);
-
+                            updateprofile(
+                                userid,
+                                fullnameController.text,
+                                nicknameController.text,
+                                mobileController.text,
+                                countrycode,
+                                selecteddate.toString(),
+                                natinalityController.text,
+                                currentCountryController.text,
+                                token,
+                                _imageFile);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -1036,7 +1192,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     );
   }
 
-  void updateprofile(String user, String name, String nickname, String phone,
+  void updateprofile(String user, String name, String nickname, String phone, String code,
       String dob, String nation, String country,String tken, File imageFile) async
   {
     var jsonData = null;
@@ -1051,6 +1207,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     request.fields["nationality"] = nation.toString();
     request.fields["current_country"] = country;
     request.fields["mobile_token"] = tken;
+    request.fields["country_code"] = code;
 
     print("Request: " + request.fields.toString());
 

@@ -896,6 +896,7 @@ class registerState extends State<register> {
                                           fullnameController.text,
                                           nicknameController.text,
                                           mobile,
+                                          countrycode,
                                           _imageFile,
                                           selecteddate,
                                           countryname,
@@ -974,6 +975,7 @@ class registerState extends State<register> {
       String fullname,
       String nickname,
       String mobile,
+      String code,
       File Imge,
       String selected,
       String country,
@@ -991,6 +993,7 @@ class registerState extends State<register> {
     request.fields["nationality"] = nationality;
     request.fields["country"] = country.toString();
     request.fields["mobile_token"] = token.toString();
+    request.fields["country_code"] = code.toString();
 
     print("Request: "+request.fields.toString());
 
@@ -1365,6 +1368,9 @@ class registerState extends State<register> {
         print("ProfileEmail" + profile['email'].toString());
         print("ProfileID: " + profile['id'].toString());
         print("ProfileName: " + profile['name'].toString());
+        /*print("ProfileBirthday: " + profile['birthday'].toString());
+        print("ProfileBirthday: " + profile['birthday'].toString());
+        print("ProfileHometown: " + profile['hometown'].toString());*/
         print(profile['picture']['data']['url']);
         onLoginStatusChanged(true, profileData: profile);
         SharedUtils.readloginData("login", true);

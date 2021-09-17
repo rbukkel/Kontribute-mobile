@@ -17,13 +17,12 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 
-class ProfileScreen extends StatefulWidget{
+class ProfileScreen extends StatefulWidget {
   @override
   ProfileScreenState createState() => ProfileScreenState();
-
 }
 
-class ProfileScreenState extends State<ProfileScreen>{
+class ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String userid;
   bool internet = false;
@@ -33,6 +32,7 @@ class ProfileScreenState extends State<ProfileScreen>{
   String nickname;
   String email;
   String mobile;
+  String countrycode;
   String dob;
   String nationality;
   String country;
@@ -69,14 +69,14 @@ class ProfileScreenState extends State<ProfileScreen>{
     });
   }
 
-
   void getData(String id) async {
     Map data = {
       'userid': id.toString(),
     };
     print("profile data: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.get_profiledata, body: data);
+    http.Response response =
+        await http.post(Network.BaseApi + Network.get_profiledata, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
@@ -94,67 +94,59 @@ class ProfileScreenState extends State<ProfileScreen>{
           print("response");
           setState(() {
             storelist_length = loginResponse.resultPush;
-            if(loginResponse.resultPush.fullName=="")
-              {
-                fullname = "";
-              }
-            else{
+            if (loginResponse.resultPush.fullName == "") {
+              fullname = "";
+            } else {
               fullname = loginResponse.resultPush.fullName;
             }
 
-            if(loginResponse.resultPush.nickName=="")
-              {
-                nickname = "";
-              }
-            else{
+            if (loginResponse.resultPush.nickName == "") {
+              nickname = "";
+            } else {
               nickname = loginResponse.resultPush.nickName;
             }
 
-            if(loginResponse.resultPush.email=="")
-              {
-                email = "";
-              }
-            else{
+            if (loginResponse.resultPush.email == "") {
+              email = "";
+            } else {
               email = loginResponse.resultPush.email;
             }
 
-            if(loginResponse.resultPush.mobile=="")
-            {
+            if (loginResponse.resultPush.mobile == "") {
               mobile = "";
-            }
-            else{
+            } else {
               mobile = loginResponse.resultPush.mobile;
             }
 
-            if( loginResponse.resultPush.dob=="")
-            {
-              dob = "";
+            if (loginResponse.resultPush.countryCode == "") {
+              countrycode = "";
+            } else {
+              countrycode = loginResponse.resultPush.countryCode;
             }
-            else{
+
+            if (loginResponse.resultPush.dob == "") {
+              dob = "";
+            } else {
               dob = loginResponse.resultPush.dob;
             }
 
-            if( loginResponse.resultPush.nationality=="")
-            {
+            if (loginResponse.resultPush.nationality == "") {
               nationality = "";
-            }
-            else{
+            } else {
               nationality = loginResponse.resultPush.nationality;
             }
 
-            if( loginResponse.resultPush.currentCountry=="")
-            {
+            if (loginResponse.resultPush.currentCountry == "") {
               country = "";
-            }
-            else{
+            } else {
               country = loginResponse.resultPush.currentCountry;
             }
 
-
-            if(loginResponse.resultPush.profilePic !=null || loginResponse.resultPush.profilePic !=""){
+            if (loginResponse.resultPush.profilePic != null ||
+                loginResponse.resultPush.profilePic != "") {
               setState(() {
                 image = loginResponse.resultPush.profilePic;
-                if(image.isNotEmpty){
+                if (image.isNotEmpty) {
                   imageUrl = true;
                   _loading = true;
                 }
@@ -180,12 +172,6 @@ class ProfileScreenState extends State<ProfileScreen>{
     }
   }
 
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -200,8 +186,7 @@ class ProfileScreenState extends State<ProfileScreen>{
       body: Container(
         height: double.infinity,
         color: AppColors.whiteColor,
-        child:
-        Column(
+        child: Column(
           children: [
             Container(
               height: SizeConfig.blockSizeVertical * 12,
@@ -239,7 +224,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                     width: SizeConfig.blockSizeHorizontal * 60,
                     alignment: Alignment.center,
                     margin:
-                    EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
                       "Profile",
@@ -262,33 +247,93 @@ class ProfileScreenState extends State<ProfileScreen>{
                 ],
               ),
             ),
-            storelist_length!=null?
-            Expanded(child: Column(
-              children: [
-                Stack(
-                  children: [
-                    imageUrl==false?
-                    Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                      width: 120,
-                      height: 120,
-                      child: ClipOval(child: Image.asset("assets/images/Group3.png",height: 120,width: 120,)),
-                    ):
-                    Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                      child: _loading? ClipOval(child:  CachedNetworkImage(
-                        height: 120,width: 120,fit: BoxFit.fill ,
-                        imageUrl:image,
-                        placeholder: (context, url) => Container(
-                            height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
-                            child: Center(child: new CircularProgressIndicator())),
-                        errorWidget: (context, url, error) => new Icon(Icons.error),
-                      ),): CircularProgressIndicator(
-                        valueColor:
-                        new AlwaysStoppedAnimation<Color>(Colors.grey),
-                      ),
-                    ),
-                    /* Container(
+            storelist_length != null
+                ? Expanded(
+                    child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          imageUrl == false
+                              ? Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: 120,
+                                  height: 120,
+                                  child: ClipOval(
+                                      child: Image.asset(
+                                    "assets/images/Group3.png",
+                                    height: 120,
+                                    width: 120,
+                                  )),
+                                )
+                              : loginResponse.resultPush.facebookId == ""
+                                  ? Container(
+                                      margin: EdgeInsets.only(
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
+                                      child: _loading
+                                          ? ClipOval(
+                                              child: CachedNetworkImage(
+                                                height: 120,
+                                                width: 120,
+                                                fit: BoxFit.fill,
+                                                imageUrl:
+                                                    Network.BaseApiprofile +
+                                                        image,
+                                                placeholder: (context, url) => Container(
+                                                    height: SizeConfig
+                                                            .blockSizeVertical *
+                                                        5,
+                                                    width: SizeConfig
+                                                            .blockSizeVertical *
+                                                        5,
+                                                    child: Center(
+                                                        child:
+                                                            new CircularProgressIndicator())),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        new Icon(Icons.error),
+                                              ),
+                                            )
+                                          : CircularProgressIndicator(
+                                              valueColor:
+                                                  new AlwaysStoppedAnimation<
+                                                      Color>(Colors.grey),
+                                            ),
+                                    )
+                                  : Container(
+                                      margin: EdgeInsets.only(
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
+                                      child: _loading
+                                          ? ClipOval(
+                                              child: CachedNetworkImage(
+                                                height: 120,
+                                                width: 120,
+                                                fit: BoxFit.fill,
+                                                imageUrl: image,
+                                                placeholder: (context, url) => Container(
+                                                    height: SizeConfig
+                                                            .blockSizeVertical *
+                                                        5,
+                                                    width: SizeConfig
+                                                            .blockSizeVertical *
+                                                        5,
+                                                    child: Center(
+                                                        child:
+                                                            new CircularProgressIndicator())),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        new Icon(Icons.error),
+                                              ),
+                                            )
+                                          : CircularProgressIndicator(
+                                              valueColor:
+                                                  new AlwaysStoppedAnimation<
+                                                      Color>(Colors.grey),
+                                            ),
+                                    ),
+                          /* Container(
 
                   alignment: Alignment.bottomRight,
                   height: 25,
@@ -299,165 +344,179 @@ class ProfileScreenState extends State<ProfileScreen>{
                     width: 25,
                   ),
                 ),*/
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3),
-                      alignment: Alignment.topCenter,
-                      width: SizeConfig.blockSizeHorizontal * 65,
-                      child: Text(
-                        fullname +"("+ nickname +")",
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Bold'),
+                        ],
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: ()
-                      {
-                        //  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EditProfileScreen()));
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3),
+                            alignment: Alignment.topCenter,
+                            width: SizeConfig.blockSizeHorizontal * 65,
+                            child: Text(
+                              fullname + "(" + nickname + ")",
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              //  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EditProfileScreen()));
 
-                        callNext(
-                            EditProfileScreen(
-                                data: userid.toString()
-                            ), context);
-
-                      },
-                      child:  Container(
-                        width: SizeConfig.blockSizeHorizontal *25,
-                        height: SizeConfig.blockSizeVertical *5,
-                        decoration: BoxDecoration(
-                          color: AppColors.yelowbg,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Edit".toUpperCase(),style: TextStyle(color: AppColors.whiteColor,fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular'),),
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                              child: Image.asset(
-                                "assets/images/edit.png",
-                                color: AppColors.whiteColor,
-                                width: 15,
-                                height: 15,
+                              callNext(
+                                  EditProfileScreen(data: userid.toString()),
+                                  context);
+                            },
+                            child: Container(
+                              width: SizeConfig.blockSizeHorizontal * 25,
+                              height: SizeConfig.blockSizeVertical * 5,
+                              decoration: BoxDecoration(
+                                color: AppColors.yelowbg,
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            )
-
-                          ],
-                        ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Edit".toUpperCase(),
+                                    style: TextStyle(
+                                        color: AppColors.whiteColor,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular'),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                    child: Image.asset(
+                                      "assets/images/edit.png",
+                                      color: AppColors.whiteColor,
+                                      width: 15,
+                                      height: 15,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-
-                  ],
-                ),
-                Divider(
-                  thickness: 1,
-                  color: Colors.black12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-                      width: SizeConfig.blockSizeHorizontal * 35,
-                      child: Text(
-                        StringConstant.emailid,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Bold'),
+                      Divider(
+                        thickness: 1,
+                        color: Colors.black12,
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-                      width: SizeConfig.blockSizeHorizontal *58,
-                      child: Text(
-                        email,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              StringConstant.emailid,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              email,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 35,
-                      child: Text(
-                        StringConstant.mobileno,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Bold'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              StringConstant.mobileno,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              countrycode+"-"+mobile,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 58,
-                      child: Text(
-                        mobile,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              StringConstant.dateofbirth,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              dob,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 35,
-                      child: Text(
-                        StringConstant.dateofbirth,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Bold'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          right: SizeConfig.blockSizeHorizontal*3,
-                          top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 58,
-                      child: Text(
-                        dob,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),
-                      ),
-                    ),
-                  ],
-                ),
-                /*  Row(
+                      /*  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
@@ -488,76 +547,85 @@ class ProfileScreenState extends State<ProfileScreen>{
                 ),
               ],
             ),*/
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 35,
-                      child: Text(
-                        StringConstant.nationality,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Bold'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              StringConstant.nationality,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              nationality,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              StringConstant.currentcountry,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              country,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ))
+                : Container(
+                    margin: EdgeInsets.only(top: 150),
+                    alignment: Alignment.center,
+                    child: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 58,
-                      child: Text(
-                        nationality,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 35,
-                      child: Text(
-                        StringConstant.currentcountry,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Bold'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *4),
-                      width: SizeConfig.blockSizeHorizontal * 58,
-                      child: Text(
-                        country,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular'),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            )) : Container(
-              margin: EdgeInsets.only(top: 150),
-              alignment: Alignment.center,
-              child:Center(
-                child: CircularProgressIndicator(),
-              ),
-            )
+                  )
           ],
         ),
       ),
