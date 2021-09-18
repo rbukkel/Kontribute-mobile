@@ -1257,7 +1257,8 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             );
           }
         }
-      } else if (response.statusCode == 500) {
+      }
+      else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: "Internal server error",

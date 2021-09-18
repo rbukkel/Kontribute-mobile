@@ -1532,7 +1532,8 @@ class CreatepoolState extends State<Createpool> {
           setState(() {
             isLoading = false;
           });
-        } else {
+        }
+        else {
           Fluttertoast.showToast(
             msg: checkgroupnames.message,
             toastLength: Toast.LENGTH_SHORT,

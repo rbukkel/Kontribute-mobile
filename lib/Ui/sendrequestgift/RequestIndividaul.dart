@@ -987,7 +987,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           filename: Imge.path));
     }
     var response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) {
+/*    response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
         if (jsonData["status"] == false)
@@ -1026,6 +1026,71 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               timeInSecForIosWeb: 1,
             );
           }
+        }
+      }
+      else if (response.statusCode == 500) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Something went wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });*/
+
+
+
+
+    response.stream.transform(utf8.decoder).listen((value) {
+      jsonData = json.decode(value);
+      if (response.statusCode == 200) {
+        if (jsonData["success"] == true) {
+
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+
+          }
+          else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+              //   isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+
+
+
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
         }
       }
       else if (response.statusCode == 500) {
