@@ -128,11 +128,26 @@ class OngoingProjectDetailsscreenState
   }
 */
 
-  void getPermission() async
+ /* void getPermission() async
   {
     print("getPermission");
     Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+  }*/
+
+  Future<PermissionStatus> getPermission() async {
+    print("getPermission");
+    final PermissionStatus permission = await Permission.storage.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus =
+      await [Permission.storage].request();
+      return permissionStatus[Permission.storage] ??
+          PermissionStatus.undetermined;
+    } else {
+      return permission;
+    }
   }
+
 
   @override
   void initState() {

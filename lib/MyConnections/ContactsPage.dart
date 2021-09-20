@@ -4,6 +4,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ContactsPage extends StatefulWidget {
+
   @override
   _ContactsPageState createState() => _ContactsPageState();
 }
@@ -12,14 +13,13 @@ class _ContactsPageState extends State<ContactsPage> {
   Iterable<Contact> _contacts;
 
   @override
-  void initState() {
+  void initState()
+  {
     checkper();
-
     super.initState();
   }
 
-
-  Future<PermissionStatus> _getPermission() async {
+ /* Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
     if (permission != PermissionStatus.granted &&
         permission != PermissionStatus.denied) {
@@ -30,11 +30,11 @@ class _ContactsPageState extends State<ContactsPage> {
     } else {
       return permission;
     }
-  }
+  }*/
 
   Future<void> getContacts() async {
-    //Make sure we already have permissions for contacts when we get to this
-    //page, so we can just retrieve it
+    //We already have permissions for contact when we get to this page, so we
+    // are now just retrieving it
     final Iterable<Contact> contacts = await ContactsService.getContacts();
     setState(() {
       _contacts = contacts;
@@ -66,36 +66,48 @@ class _ContactsPageState extends State<ContactsPage> {
               backgroundColor: Theme.of(context).accentColor,
             ),
             title: Text(contact.displayName ?? ''),
-            //This can be further expanded to showing contacts detail
-            // onPressed().
           );
         },
       )
           : Center(child: const CircularProgressIndicator()),
     );
   }
-
   void checkper() async {
 
-      final PermissionStatus permissionStatus = await _getPermission();
-      if (permissionStatus == PermissionStatus.granted) {
-        getContacts();
-      } else {
-        //If permissions have been denied show standard cupertino alert dialog
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text('Permissions error'),
-              content: Text('Please enable contacts access '
-                  'permission in system settings'),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  child: Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(),
-                )
-              ],
-            ));
-      }
+    final PermissionStatus permissionStatus = await _getPermission();
+    if (permissionStatus == PermissionStatus.granted) {
+      getContacts();
+    } else {
+      //If permissions have been denied show standard cupertino alert dialog
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+            title: Text('Permissions error'),
+            content: Text('Please enable contacts access '
+                'permission in system settings'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ));
+    }
 
   }
+
+
+  Future<PermissionStatus> _getPermission() async {
+    final PermissionStatus permission = await Permission.contacts.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus =
+      await [Permission.contacts].request();
+      return permissionStatus[Permission.contacts] ??
+          PermissionStatus.undetermined;
+    } else {
+      return permission;
+    }
+  }
+
 }

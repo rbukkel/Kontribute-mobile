@@ -29,7 +29,10 @@ class _AddContactState extends State<AddContact> {
   bool resultfollowvalue = true;
   bool internet = false;
   String val;
+  String reverid;
   String requestval;
+  String Follow = "Follow";
+  String updateval;
   String followval;
   var storelist_length;
   var followlist_length;
@@ -200,6 +203,7 @@ class _AddContactState extends State<AddContact> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int ind) {
+                      reverid =followlistpojo.data.elementAt(ind).id.toString();
                       return Container(
                           width: SizeConfig.blockSizeHorizontal * 60,
                           margin: EdgeInsets.only(
@@ -316,38 +320,52 @@ class _AddContactState extends State<AddContact> {
                                         'Poppins-Regular'),
                                   ),
                                 ),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      right: SizeConfig.blockSizeHorizontal * 2,
-                                      left: SizeConfig.blockSizeHorizontal * 2,
-                                      bottom: SizeConfig.blockSizeHorizontal * 2,
-                                      top: SizeConfig
-                                          .blockSizeHorizontal *
-                                          2),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.whiteColor,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: AppColors.purple)
-                                  ),
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig
-                                          .blockSizeHorizontal *
-                                          2,
-                                      left: SizeConfig
-                                          .blockSizeHorizontal *
-                                          2),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Follow",
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: AppColors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily:
-                                        'Poppins-Regular'),
-                                  ),
-                                )
+                                Follow ==""?Container( margin: EdgeInsets.only(
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        2,
+                                    left: SizeConfig
+                                        .blockSizeHorizontal *
+                                        2),):
+                               GestureDetector(
+                                 onTap: ()
+                                 {
+                                   followapi(userid, reverid);
+                                 },
+                                 child:  Container(
+                                   padding: EdgeInsets.only(
+                                       right: SizeConfig.blockSizeHorizontal * 2,
+                                       left: SizeConfig.blockSizeHorizontal * 2,
+                                       bottom: SizeConfig.blockSizeHorizontal * 2,
+                                       top: SizeConfig
+                                           .blockSizeHorizontal *
+                                           2),
+                                   decoration: BoxDecoration(
+                                       color: AppColors.whiteColor,
+                                       borderRadius: BorderRadius.circular(20),
+                                       border: Border.all(color: AppColors.purple)
+                                   ),
+                                   margin: EdgeInsets.only(
+                                       right: SizeConfig
+                                           .blockSizeHorizontal *
+                                           2,
+                                       left: SizeConfig
+                                           .blockSizeHorizontal *
+                                           2),
+                                   alignment: Alignment.centerLeft,
+                                   child: Text(
+                                     "Follow",
+                                     style: TextStyle(
+                                         letterSpacing: 1.0,
+                                         color: AppColors.black,
+                                         fontSize: 12,
+                                         fontWeight: FontWeight.normal,
+                                         fontFamily:
+                                         'Poppins-Regular'),
+                                   ),
+                                 ),
+                               )
+
 
                               ],
                             ),
@@ -369,6 +387,45 @@ class _AddContactState extends State<AddContact> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> followapi(String useid, String rece) async {
+    Map data = {
+      'sender_id': useid.toString(),
+      'receiver_id': rece.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.follow, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(updateval);
+      } else {
+        if (jsonResponse != null) {
+          showToast(updateval);
+          setState(() {
+            Follow = "";
+            getFollowing(userid);
+          });
+        } else {
+          showToast(updateval);
+        }
+      }
+    } else {
+      showToast(updateval);
+
+    }
+  }
+  void showToast(String updateval) {
+    Fluttertoast.showToast(
+      msg: jsonDecode(updateval)["message"],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
     );
   }
 
