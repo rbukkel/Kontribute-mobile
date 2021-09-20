@@ -364,6 +364,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                           ],
                         ),
                       ),
+                      loginResponse.data.nickName==null?
                       Container(
                         alignment: Alignment.centerLeft,
                         width: SizeConfig.blockSizeHorizontal *90,
@@ -372,7 +373,26 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                             left:SizeConfig.blockSizeHorizontal *5
                         ),
                         child: Text(
-                          loginResponse.data.fullName+" ("+loginResponse.data.nickName+")",
+                          loginResponse.data.fullName,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: AppColors.themecolor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular'),
+                        ),
+                      ):
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        width: SizeConfig.blockSizeHorizontal *90,
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical *1,
+                            left:SizeConfig.blockSizeHorizontal *5
+                        ),
+                        child: Text(
+                          loginResponse.data.fullName
+                              +" ("+loginResponse.data.nickName+")",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               letterSpacing: 1.0,
@@ -390,7 +410,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                             left:SizeConfig.blockSizeHorizontal *5
                         ),
                         child: Text(
-                          loginResponse.data.email,
+                          loginResponse.data.email==null?"":loginResponse.data.email,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               letterSpacing: 1.0,
@@ -411,7 +431,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                 left:SizeConfig.blockSizeHorizontal *5
                             ),
                             child: Text(
-                              loginResponse.data.nationality,
+                              loginResponse.data.nationality==null?"":loginResponse.data.nationality,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   letterSpacing: 1.0,

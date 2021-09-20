@@ -129,7 +129,14 @@ class Commentsdata {
         projectpaymentdetails.add(new Projectpaymentdetails.fromJson(v));
       });
     }
-    totalcollectedamount = json['totalcollectedamount'];
+    if(json['totalcollectedamount'] is int)
+      {
+        totalcollectedamount = json['totalcollectedamount'].toString();
+      }
+    else{
+      totalcollectedamount = json['totalcollectedamount'];
+    }
+
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
   }
