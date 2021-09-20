@@ -166,19 +166,19 @@ class _mynetworkState extends State<mynetwork> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      key: _scaffoldKey,
+     /* key: _scaffoldKey,
       drawer: Drawer(
         child: Container(
           color: Colors.white,
           child: Drawer_Screen(),
         ),
-      ),
+      ),*/
       body: Container(
         height: double.infinity,
         color: AppColors.whiteColor,
         child: Column(
           children: [
-            Container(
+           /* Container(
               height: SizeConfig.blockSizeVertical * 12,
               decoration: BoxDecoration(
                 image: new DecorationImage(
@@ -237,14 +237,13 @@ class _mynetworkState extends State<mynetwork> {
                   ),
                 ],
               ),
-            ),
+            ),*/
             Expanded(
                 child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *6),
                     color: AppColors.whiteColor,
                     height: SizeConfig.blockSizeVertical * 8,
                     child: Card(

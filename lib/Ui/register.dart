@@ -152,7 +152,8 @@ class registerState extends State<register> {
             margin: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical * 5,
                 bottom: SizeConfig.blockSizeVertical * 1),
-            child: Column(
+            child:
+            Column(
               children: [
                 Container(
                   child: Row(

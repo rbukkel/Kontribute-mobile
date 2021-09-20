@@ -83,6 +83,7 @@ class StringConstant {
   static const String send = "Send";
   static const String invite = "Invite";
   static const String reset = "Reset";
+  static const String sharelink = "Share Link";
   static const String exportto = "Export to";
   static const String createpoolname = "Create Pool Name";
   static const String dummynotification = "You have received an invitation for the job ' Lookking for Game Developer' for Android... Java Knowledge Must.";
@@ -133,6 +134,9 @@ class StringConstant {
   static const String createpool = "Create Pool";
   static const String ongoingproject = "Ongoing Projects";
   static const String historyproject = "History Projects";
+  static const String mynetwork = "My Network";
+  static const String addcontacts = "Add Contact";
+  static const String sendinvitations = "Send Invitations";
   static const String ongoingevents = "Ongoing Events";
   static const String historyevents = "Event History";
   static const String dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed Lorem ipsum dolor amet, consectetur adipiscing elit, sed";

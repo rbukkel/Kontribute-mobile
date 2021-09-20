@@ -236,11 +236,12 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             else{
               mobileController.text = loginResponse.resultPush.mobile;
             }
+
             if(loginResponse.resultPush.countryCode=="")
             {
               CountryController.text = "";
             }
-            else{
+            else {
               CountryController.text = loginResponse.resultPush.countryCode;
             }
 

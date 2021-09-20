@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
-import 'package:kontribute/Ui/dashboard.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';

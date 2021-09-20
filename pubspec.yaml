@@ -59,6 +59,7 @@ dependencies:
   youtube_player_flutter: ^7.0.0+7
   loadmore: ^1.0.4
   intl_phone_field: ^1.2.0
+  contacts_service: ^0.3.10
 
 dev_dependencies:
   flutter_test:

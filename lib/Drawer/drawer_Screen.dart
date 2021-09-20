@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:kontribute/MyConnections/Connections.dart';
 import 'package:kontribute/Ui/login.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
@@ -546,9 +547,8 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
         case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => mynetwork(),
-          ),
-        );
+      //  Navigator.push(context, MaterialPageRoute(builder: (context) => mynetwork(),),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Connections(),),);
         break;
 
       case 4:
