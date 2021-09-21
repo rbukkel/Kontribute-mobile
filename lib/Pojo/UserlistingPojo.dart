@@ -45,25 +45,27 @@ class Data {
   String mobileToken;
   String createdAt;
   String updatedAt;
+  String followed;
 
   Data(
       {this.id,
-      this.fullName,
-      this.email,
-      this.emailVerifiedAt,
-      this.nickName,
-      this.mobile,
-      this.dob,
-      this.nationality,
-      this.currentCountry,
-      this.countryCode,
-      this.facebookId,
-      this.profilePic,
-      this.userType,
-      this.status,
-      this.mobileToken,
-      this.createdAt,
-      this.updatedAt});
+        this.fullName,
+        this.email,
+        this.emailVerifiedAt,
+        this.nickName,
+        this.mobile,
+        this.dob,
+        this.nationality,
+        this.currentCountry,
+        this.countryCode,
+        this.facebookId,
+        this.profilePic,
+        this.userType,
+        this.status,
+        this.mobileToken,
+        this.createdAt,
+        this.updatedAt,
+        this.followed});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,6 +85,7 @@ class Data {
     mobileToken = json['mobile_token'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    followed = json['followed'];
   }
 
   Map<String, dynamic> toJson() {
@@ -104,6 +107,7 @@ class Data {
     data['mobile_token'] = this.mobileToken;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['followed'] = this.followed;
     return data;
   }
 }

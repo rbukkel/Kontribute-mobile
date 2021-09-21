@@ -17,6 +17,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:kontribute/MyConnections/ContactsPage.dart';
 
 class login extends StatefulWidget{
   @override
@@ -43,11 +44,13 @@ class loginState extends State<login>{
   final GoogleSignIn googleSignIn = GoogleSignIn();
   User user;
   String message;
+  FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
+
  /* final TwitterLogin twitterLogin = new TwitterLogin(
     consumerKey: 'VLHZDyBzZN4jCtWivu0gsrF5v',
     consumerSecret: 'giMJBSteIpjBr6SpD0O4KxLm3OXZX7EEjmNFt4xavaRBxrHXem',
   );*/
-  FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
+
 
 
   @override
@@ -578,11 +581,17 @@ class loginState extends State<login>{
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          Navigator.pushAndRemoveUntil(
+      /*    Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                   builder: (context) =>
                       selectlangauge()),
+                  (route) => false); */
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ContactsPage()),
                   (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -609,7 +618,6 @@ class loginState extends State<login>{
         timeInSecForIosWeb: 1,
       );
     }
-
   }
 
 
@@ -643,7 +651,7 @@ class loginState extends State<login>{
       };
     print("Data: "+data.toString());
     var jsonResponse = null;
-    var response = await http.post(Network.BaseApi+Network.login, body: data);
+    var response = await http.post(Network.BaseApi + Network.login, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse["success"] == false) {
@@ -679,7 +687,7 @@ class loginState extends State<login>{
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      selectlangauge()),
+                      ContactsPage()),
                   (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

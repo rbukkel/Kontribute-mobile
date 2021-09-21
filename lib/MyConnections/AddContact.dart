@@ -24,6 +24,7 @@ class AddContact extends StatefulWidget {
 
 class _AddContactState extends State<AddContact> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   String userid;
   bool resultvalue = true;
   bool resultfollowvalue = true;
@@ -113,17 +114,20 @@ class _AddContactState extends State<AddContact> {
   }
 
   void getFollowing(String user_id) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'userid': user_id.toString(),
     };
-    print("receiver_id: " + data.toString());
+    print("Useridlisting: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.username_listing, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
       followval = response.body;
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["success"] == false)
+      {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         setState(() {
           resultfollowvalue = false;
         });
@@ -133,12 +137,12 @@ class _AddContactState extends State<AddContact> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
       } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         followlistpojo = new UserlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(followlistpojo.data.isEmpty)
             {
               resultfollowvalue = false;
@@ -160,6 +164,7 @@ class _AddContactState extends State<AddContact> {
         }
       }
     } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonDecode(followval)["message"],
         toastLength: Toast.LENGTH_SHORT,
@@ -320,7 +325,7 @@ class _AddContactState extends State<AddContact> {
                                         'Poppins-Regular'),
                                   ),
                                 ),
-                                Follow ==""?Container( margin: EdgeInsets.only(
+                                followlistpojo.data.elementAt(ind).followed=="yes"?Container( margin: EdgeInsets.only(
                                     right: SizeConfig
                                         .blockSizeHorizontal *
                                         2,
@@ -404,11 +409,14 @@ class _AddContactState extends State<AddContact> {
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
         showToast(updateval);
+        setState(() {
+          getFollowing(userid);
+        });
+
       } else {
         if (jsonResponse != null) {
           showToast(updateval);
           setState(() {
-            Follow = "";
             getFollowing(userid);
           });
         } else {
