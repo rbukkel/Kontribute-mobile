@@ -173,7 +173,12 @@ class _ContactsPageState extends State<ContactsPage> {
             itemBuilder: (BuildContext context, int index) {
               Contact contact = _contacts?.elementAt(index);
               return Container(
-                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 5,
+                  left: SizeConfig.blockSizeHorizontal * 5,
+                  top: SizeConfig.blockSizeVertical *2,
+                  bottom: SizeConfig.blockSizeVertical *2,
+                ),
                   child: Row(
                       children: [
                         (contact.avatar != null && contact.avatar.isNotEmpty) ? CircleAvatar(
@@ -190,34 +195,40 @@ class _ContactsPageState extends State<ContactsPage> {
                           width: SizeConfig.blockSizeHorizontal *64,
                           child: Text(contact.displayName ??''),
                         ),
+                        _contacts.first.phones.toString()==followlistpojo.data.first.mobile.toString()?
                         Container(
                           padding: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical *2,
                               bottom:  SizeConfig.blockSizeVertical *2),
-                          height: SizeConfig
-                              .blockSizeVertical *
-                              6,
-                          width: SizeConfig
-                              .blockSizeVertical *
-                              6,
+                          height: SizeConfig.blockSizeVertical *5,
+                          width: SizeConfig.blockSizeVertical * 5,
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(
-                              bottom: SizeConfig
-                                  .blockSizeVertical *
-                                  1,
-                              top: SizeConfig
-                                  .blockSizeVertical *
-                                  1,
-                              right: SizeConfig
-                                  .blockSizeHorizontal *
-                                  5,
-                              left: SizeConfig
-                                  .blockSizeHorizontal *
-                                  1),
+                              bottom: SizeConfig.blockSizeVertical * 1,
+                              top: SizeConfig.blockSizeVertical * 1,
+                              left: SizeConfig.blockSizeHorizontal * 1),
                             decoration: BoxDecoration(
                               image: new DecorationImage(
                                 image: new AssetImage(
                                     "assets/images/appicon_circular.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                        ):                        Container(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical *2,
+                                bottom:  SizeConfig.blockSizeVertical *2),
+                            height: SizeConfig.blockSizeVertical * 5,
+                            width: SizeConfig.blockSizeVertical * 5,
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical * 1,
+                                top: SizeConfig.blockSizeVertical * 1,
+                                left: SizeConfig.blockSizeHorizontal * 1),
+                            decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                image: new AssetImage(
+                                    "assets/images/share.png"),
                                 fit: BoxFit.fill,
                               ),
                             )

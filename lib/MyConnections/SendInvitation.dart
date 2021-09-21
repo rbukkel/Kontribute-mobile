@@ -1,11 +1,19 @@
+import 'dart:convert';
+import 'package:kontribute/Pojo/sendinvitationpojo.dart';
+import 'package:kontribute/Pojo/sendinvitationListingpojo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:http/http.dart' as http;
 
 class SendInvitation extends StatefulWidget{
   @override
@@ -15,6 +23,7 @@ class SendInvitation extends StatefulWidget{
 class SendInvitationState extends State<SendInvitation>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   final NameFocus = FocusNode();
   final EmailFocus = FocusNode();
   final MobileFocus = FocusNode();
@@ -26,7 +35,87 @@ class SendInvitationState extends State<SendInvitation>{
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController descriptionController = new TextEditingController();
   String _email,_name,_mobile,_subject,_description;
+  sendinvitationpojo sendinvi;
+  sendinvitationListingpojo listpojo;
   bool showvalue = false;
+  bool resultinvitationvalue = true;
+  String followval;
+  var followlist_length;
+  String userid;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      getsendListing(userid);
+      print("Login userid: " + userid.toString());
+
+    });
+  }
+
+  void getsendListing(String user_id) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'userid': user_id.toString(),
+    };
+    print("Useridlisting: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.invitationListing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      followval = response.body;
+      if (jsonResponse["success"] == false)
+      {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        setState(() {
+          resultinvitationvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(followval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        listpojo = new sendinvitationListingpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listpojo.inviationdata.isEmpty)
+            {
+              resultinvitationvalue = false;
+            }
+            else
+            {
+              resultinvitationvalue = true;
+              print("SSSS");
+              followlist_length = listpojo.inviationdata;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listpojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonDecode(followval)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +196,7 @@ class SendInvitationState extends State<SendInvitation>{
                       validator: (val) {
                         if (val.length == 0)
                           return "Please enter mobile number";
-                        else if (val.length <= 10)
+                        else if (val.length < 10)
                           return "Your mobile number should be 10 char long";
                         else
                           return null;
@@ -225,10 +314,26 @@ class SendInvitationState extends State<SendInvitation>{
                   ),
                   GestureDetector(
                     onTap: () {
-                      /* Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => selectlangauge()),
-                                            (route) => false);*/
+                      if (_formKey.currentState.validate()) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        Internet_check().check().then((intenet) {
+                          if (intenet != null && intenet) {
+                            signIn(
+                                emailController.text, nameController.text,mobileController.text,descriptionController.text);
+                          } else {
+                            Fluttertoast.showToast(
+                              msg: "No Internet Connection",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                            );
+                          }
+                          // No-Internet Case
+                        });
+                      }
+
                     },
                     child: Container(
                         alignment: Alignment.center,
@@ -265,12 +370,14 @@ class SendInvitationState extends State<SendInvitation>{
                     ),
                   ),
 
-               //   paymentdetails_length!=null?
+                 followlist_length!=null?
                   Container(
                     alignment: Alignment.topLeft,
                     child: ListView.builder(
                         padding: EdgeInsets.zero,  // remove whitespace from top of listview
-                        itemCount: 8,
+                        itemCount: followlist_length.length == null
+                            ? 0
+                            : followlist_length.length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int idex) {
@@ -320,7 +427,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                             1,
                                                       ),
                                                       child: Text(
-                                                        "Sem",
+                                                        listpojo.inviationdata.elementAt(idex).name,
                                                         style: TextStyle(
                                                             letterSpacing:
                                                             1.0,
@@ -390,7 +497,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                               .blockSizeHorizontal *
                                                               2),
                                                       child: Text(
-                                                        "9878675645",
+                                                        listpojo.inviationdata.elementAt(idex).mobile,
                                                         style: TextStyle(
                                                             letterSpacing:
                                                             1.0,
@@ -404,7 +511,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                             'Poppins-Regular'),
                                                       ),
                                                     ),
-                                                    //projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status=="0"?
+                                                    listpojo.inviationdata.elementAt(idex).status=="0"?
                                                     Container(
                                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                       width: SizeConfig
@@ -453,7 +560,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                             'Poppins-Regular'),
                                                       ),
                                                     )
-                                                 /*       :projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status=="1"?
+                                                        : listpojo.inviationdata.elementAt(idex).status=="1"?
                                                     Container(
                                                       width: SizeConfig
                                                           .blockSizeHorizontal *
@@ -547,7 +654,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
-                                                    )*/
+                                                    )
                                                   ],
                                                 ),
                                                 Container(
@@ -564,7 +671,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                         1,
                                                   ),
                                                   child: Text(
-                                                    "sem@gmail.com",
+                                                    listpojo.inviationdata.elementAt(idex).email,
                                                     style: TextStyle(
                                                         letterSpacing:
                                                         1.0,
@@ -590,7 +697,7 @@ class SendInvitationState extends State<SendInvitation>{
                           );
                         }),
                   )
-                    /*  :Container()*/
+                      :Container()
 
 
                 ],
@@ -600,5 +707,78 @@ class SendInvitationState extends State<SendInvitation>{
       ),
     );
   }
+
+
+  signIn(String emal,String name,String mobile,String descr) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      "userid":userid.toString(),
+      "name":name,
+      "message":descr,
+      "email":emal,
+      "mobile":mobile,
+    };
+
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.invitation, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        sendinvi = new sendinvitationpojo.fromJson(jsonResponse);
+        String jsonProfile = jsonEncode(sendinvi);
+        print(jsonProfile);
+        SharedUtils.saveProfile(jsonProfile);
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+            emailController.text="";
+            nameController.text="";
+            mobileController.text="";
+            descriptionController.text="";
+          });
+          Fluttertoast.showToast(
+            msg: sendinvi.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Navigator.of(context).pop();
+            //   isLoading = false;
+          });
+          Fluttertoast.showToast(
+            msg: sendinvi.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
 }

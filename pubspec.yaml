@@ -178,6 +178,7 @@ flutter:
     - assets/images/next.png
     - assets/images/account_circle.png
     - assets/images/dummyplace.jpg
+    - assets/images/share.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

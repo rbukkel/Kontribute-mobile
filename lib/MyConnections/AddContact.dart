@@ -292,27 +292,18 @@ class _AddContactState extends State<AddContact> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                              Network.BaseApiprofile+followlistpojo.data.elementAt(ind).profilePic,
+                                              Network.BaseApiprofile + followlistpojo.data.elementAt(ind).profilePic,
                                             ),
                                             fit: BoxFit.fill)),
                                   ),
                                 ),
                                 Container(
-                                  width:
-                                  SizeConfig.blockSizeHorizontal *
-                                      45,
+                                  width: SizeConfig.blockSizeHorizontal * 45,
                                   padding: EdgeInsets.only(
-                                    top:
-                                    SizeConfig.blockSizeVertical *
-                                        1,
-                                  ),
+                                      top: SizeConfig.blockSizeVertical * 1),
                                   margin: EdgeInsets.only(
-                                      right: SizeConfig
-                                          .blockSizeHorizontal *
-                                          1,
-                                      left: SizeConfig
-                                          .blockSizeHorizontal *
-                                          2),
+                                      right: SizeConfig.blockSizeHorizontal * 1,
+                                      left: SizeConfig.blockSizeHorizontal * 2),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     followlistpojo.data.elementAt(ind).fullName,
@@ -326,37 +317,27 @@ class _AddContactState extends State<AddContact> {
                                   ),
                                 ),
                                 followlistpojo.data.elementAt(ind).followed=="yes"?Container( margin: EdgeInsets.only(
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        2,
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        2),):
+                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                    left: SizeConfig.blockSizeHorizontal * 2),):
                                GestureDetector(
                                  onTap: ()
                                  {
                                    followapi(userid, reverid);
                                  },
-                                 child:  Container(
+                                 child: Container(
                                    padding: EdgeInsets.only(
                                        right: SizeConfig.blockSizeHorizontal * 2,
                                        left: SizeConfig.blockSizeHorizontal * 2,
                                        bottom: SizeConfig.blockSizeHorizontal * 2,
-                                       top: SizeConfig
-                                           .blockSizeHorizontal *
-                                           2),
+                                       top: SizeConfig.blockSizeHorizontal * 2),
                                    decoration: BoxDecoration(
                                        color: AppColors.whiteColor,
                                        borderRadius: BorderRadius.circular(20),
                                        border: Border.all(color: AppColors.purple)
                                    ),
                                    margin: EdgeInsets.only(
-                                       right: SizeConfig
-                                           .blockSizeHorizontal *
-                                           2,
-                                       left: SizeConfig
-                                           .blockSizeHorizontal *
-                                           2),
+                                       right: SizeConfig.blockSizeHorizontal * 2,
+                                       left: SizeConfig.blockSizeHorizontal * 2),
                                    alignment: Alignment.centerLeft,
                                    child: Text(
                                      "Follow",
@@ -370,8 +351,6 @@ class _AddContactState extends State<AddContact> {
                                    ),
                                  ),
                                )
-
-
                               ],
                             ),
                           ));
@@ -425,9 +404,9 @@ class _AddContactState extends State<AddContact> {
       }
     } else {
       showToast(updateval);
-
     }
   }
+
   void showToast(String updateval) {
     Fluttertoast.showToast(
       msg: jsonDecode(updateval)["message"],
