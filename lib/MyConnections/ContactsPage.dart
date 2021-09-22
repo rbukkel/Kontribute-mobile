@@ -56,21 +56,9 @@ class _ContactsPageState extends State<ContactsPage> {
   }*/
 
   Future<void> getContacts() async {
-    //We already have permissions for contact when we get to this page, so we
-    // are now just retrieving it
     final Iterable<Contact> contacts = await ContactsService.getContacts();
     setState(() {
       _contacts = contacts;
-
-
-
-      List uniqueItemsList = _contacts
-          .toSet()
-          .where((x) => common.toSet().contains(x))
-          .toList();
-
-      print("Commom: "+uniqueItemsList.toString()); //[7, 99, 21]
-
     });
   }
 
@@ -100,7 +88,6 @@ class _ContactsPageState extends State<ContactsPage> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(followlistpojo.data.isEmpty)
             {
               resultfollowvalue = false;
@@ -148,7 +135,6 @@ class _ContactsPageState extends State<ContactsPage> {
           fit: BoxFit.cover,
         ),
       ),
-
       body: Column(
         children: [
           GestureDetector(
@@ -164,10 +150,16 @@ class _ContactsPageState extends State<ContactsPage> {
                 alignment: Alignment.topRight,
                 width: SizeConfig.blockSizeHorizontal * 90,
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                child: Text("Skip",textAlign:TextAlign.right,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Bold',
+                child: Text("Skip",
+                    textAlign:TextAlign.right,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins-Bold',
                   fontWeight: FontWeight.normal,
                   fontSize: 16,
-                  letterSpacing: 1.0,),)) ,
+                  letterSpacing: 1.0)
+                )
+            ),
           ),
           _contacts != null ?
           Expanded(child:
@@ -190,7 +182,6 @@ class _ContactsPageState extends State<ContactsPage> {
                           child: Text(contact.initials()),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
-
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal *2,
@@ -223,8 +214,7 @@ class _ContactsPageState extends State<ContactsPage> {
                             final RenderBox box1 = _globalKey.currentContext.findRenderObject();
                             Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
                                 subject: "Kontribute",
-                                sharePositionOrigin:
-                                box1.localToGlobal(Offset.zero) & box1.size);
+                                sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);
                           },
                           child:Container(
                               padding: EdgeInsets.only(
@@ -252,9 +242,7 @@ class _ContactsPageState extends State<ContactsPage> {
           ) : Center(child: const CircularProgressIndicator()),
                   ],
                 ),
-
               );
-
                /* ListTile(
                 contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
                 leading: (contact.avatar != null && contact.avatar.isNotEmpty) ? CircleAvatar(
@@ -267,7 +255,6 @@ class _ContactsPageState extends State<ContactsPage> {
 
 
               );*/
-
   }
 
   void checkper() async {
@@ -279,7 +266,8 @@ class _ContactsPageState extends State<ContactsPage> {
     else {
       showDialog(
           context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
+          builder: (BuildContext context) =>
+              CupertinoAlertDialog(
             title: Text('Permissions error'),
             content: Text('Please enable contacts access'
                 'permission in system settings'),
@@ -289,10 +277,10 @@ class _ContactsPageState extends State<ContactsPage> {
                 onPressed: () => Navigator.of(context).pop(),
               )
             ],
-          ));
+          )
+      );
     }
   }
-
 
   Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
@@ -306,7 +294,5 @@ class _ContactsPageState extends State<ContactsPage> {
       return permission;
     }
   }
-
-
 
 }

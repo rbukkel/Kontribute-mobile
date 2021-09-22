@@ -631,25 +631,16 @@ class SendInvitationState extends State<SendInvitation>{
                                                               .blockSizeHorizontal *
                                                               2),
                                                       decoration: BoxDecoration(
-                                                          color: AppColors
-                                                              .whiteColor,
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              20),
+                                                          color: AppColors.whiteColor,
+                                                          borderRadius: BorderRadius.circular(20),
                                                           border: Border.all(
-                                                              color: AppColors
-                                                                  .orange)),
+                                                              color: AppColors.orange)),
                                                       child: Text(
                                                         "Pending".toUpperCase(),
-                                                        textAlign:
-                                                        TextAlign
-                                                            .center,
+                                                        textAlign: TextAlign.center,
                                                         style: TextStyle(
-                                                            letterSpacing:
-                                                            1.0,
-                                                            color: AppColors
-                                                                .orange,
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.orange,
                                                             fontSize: 10,
                                                             fontWeight:
                                                             FontWeight
@@ -719,7 +710,6 @@ class SendInvitationState extends State<SendInvitation>{
       "email":emal,
       "mobile":mobile,
     };
-
     print("Data: "+data.toString());
     var jsonResponse = null;
     var response = await http.post(Network.BaseApi + Network.invitation, body: data);
@@ -749,7 +739,6 @@ class SendInvitationState extends State<SendInvitation>{
             descriptionController.text="";
             getsendListing(userid);
           });
-
           final RenderBox box1 = _formKey.currentContext.findRenderObject();
           Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
               subject: "Kontribute",
@@ -765,7 +754,7 @@ class SendInvitationState extends State<SendInvitation>{
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Navigator.of(context).pop();
-            //   isLoading = false;
+            //  isLoading = false;
           });
           Fluttertoast.showToast(
             msg: sendinvi.message,
@@ -786,6 +775,4 @@ class SendInvitationState extends State<SendInvitation>{
       );
     }
   }
-
-
 }

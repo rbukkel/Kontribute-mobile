@@ -28,15 +28,15 @@ class CreatepoolState extends State<Createpool> {
   ];
   static List<String> friendsList = [null];
   var categorylist;
-  var categolist;
+  var categoryfollowinglist;
   List _selecteCategorys = List();
-  List _selCategorys = List();
+  List _selecteFollowing = List();
   List _selecteName = List();
-  List _selName = List();
+  List _selecteFollowingName = List();
   var catid;
-  var catidpost;
+  var followingcatid;
   var values;
-  var valuespost;
+  var followingvalues;
   String val;
   var productlist_length;
   bool resultvalue = true;
@@ -75,7 +75,7 @@ class CreatepoolState extends State<Createpool> {
   bool image_value = false;
   bool imageUrl = false;
   var catname = null;
-  var catpostname = null;
+  var catFollowingname = null;
   String data;
   String userid;
   bool isLoading = false;
@@ -93,6 +93,7 @@ class CreatepoolState extends State<Createpool> {
       print("UserId: " + val);
       userid = val;
       getCategory(userid);
+      getData(userid);
       print("Login userid: " + userid.toString());
     });
     createpoolController.addListener(() {
@@ -197,7 +198,52 @@ class CreatepoolState extends State<Createpool> {
         {
           setState(() {
             categorylist = jsonResponse['result'];
-            categolist = jsonResponse['result'];
+            //get all the data from json string superheros
+            //  print(categorylist.length); // just printed length of data
+          });
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> getData(String a) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString()};
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null)
+        {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
             //get all the data from json string superheros
             //  print(categorylist.length); // just printed length of data
           });
@@ -734,48 +780,6 @@ class CreatepoolState extends State<Createpool> {
                           ),
                         ],
                       ),
-                      /* FormField<dynamic>(
-                    builder: (FormFieldState<dynamic> state) {
-                      return InputDecorator(
-                        decoration: InputDecoration.collapsed(hintText: ''),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<dynamic>(
-                            hint: Text("select contact",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold')),
-                            dropdownColor: Colors.white,
-                            value: currentSelectedValues,
-                            isDense: true,
-                            onChanged: (newValue) {
-                              setState(() {
-                                currentSelectedValues = newValue;
-                                userid = (newValue["id"]);
-                                userName = (newValue["full_name"]);
-                                print("User: " + userName.toString());
-                                print("Userid: " + userid.toString());
-                              });
-                            },
-                            items: categoryTypes.map((dynamic value) {
-                              return DropdownMenuItem<dynamic>(
-                                value: value,
-                                child: Text(value["full_name"],
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold')),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),*/
                     ),
                     Visibility(
                         maintainSize: true,
@@ -1169,97 +1173,6 @@ class CreatepoolState extends State<Createpool> {
                       ],
                     ),
                     currentSelectedValue.toString().toLowerCase()=="invite"?inviteView():Container(),
-
-                    /*Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            "",
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                            width: SizeConfig.blockSizeHorizontal * 42,
-                            height: SizeConfig.blockSizeVertical * 7,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeVertical * 1,
-                              right: SizeConfig.blockSizeVertical * 1,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.black26,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 30,
-                                    child: TextFormField(
-                                      autofocus: false,
-                                      focusNode: SearchPostFocus,
-                                      controller: searchpostController,
-                                      textInputAction: TextInputAction.done,
-                                      keyboardType: TextInputType.text,
-                                     */
-                    /* validator: (val) {
-                                        if (val.length == 0)
-                                          return "Please enter search post";
-                                        else
-                                          return null;
-                                      },*/
-                    /*
-                                      onFieldSubmitted: (v) {
-                                        FocusScope.of(context)
-                                            .requestFocus(TermsFocus);
-                                      },
-                                      onSaved: (val) => _searchpost = val,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Regular',
-                                          fontSize: 12,
-                                          color: Colors.black),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 5,
-                                    child: Icon(
-                                      Icons.search,
-                                      color: AppColors.greyColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ))
-                      ],
-                    ),*/
-
                     Container(
                       margin:
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
@@ -1541,35 +1454,36 @@ class CreatepoolState extends State<Createpool> {
       )
     );
   }
-  ExpandedInviteview0() {
+
+  ExpandedInvitationview0() {
     return Container(
-      alignment: Alignment.topLeft,
-      height: SizeConfig.blockSizeVertical * 30,
-      child:MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child:  ListView.builder(
-            itemCount: categolist == null ? 0 : categolist.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CheckboxListTile(
-                activeColor: AppColors.theme1color,
-                value: _selCategorys.contains(categolist[index]['sender_id']),
-                onChanged: (bool selected) {
-                  _onCategorySelected(selected, categolist[index]['sender_id'],
-                      categolist[index]['full_name']);
-                },
-                title: Text(
-                  categolist[index]['full_name'],
-                  style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
-              );
-            }),
-      )
+        alignment: Alignment.topLeft,
+        height: SizeConfig.blockSizeVertical * 30,
+        child:MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child:  ListView.builder(
+              itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CheckboxListTile(
+                  activeColor: AppColors.theme1color,
+                  value: _selecteFollowing.contains(categoryfollowinglist[index]['sender_id']),
+                  onChanged: (bool selected) {
+                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
+                        categoryfollowinglist[index]['full_name']);
+                  },
+                  title: Text(
+                    categoryfollowinglist[index]['full_name'],
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal * 3,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Montserrat-Bold'),
+                  ),
+                );
+              }),
+        )
     );
   }
 
@@ -1577,16 +1491,12 @@ class CreatepoolState extends State<Createpool> {
     if (selected == true) {
       setState(() {
         _selecteCategorys.add(category_id);
-        _selCategorys.add(category_id);
         _selecteName.add(category_name);
-        _selName.add(category_name);
       });
     } else {
       setState(() {
         _selecteCategorys.remove(category_id);
-        _selCategorys.remove(category_id);
         _selecteName.remove(category_name);
-        _selName.remove(category_name);
       });
     }
     final input = _selecteName.toString();
@@ -1594,29 +1504,41 @@ class CreatepoolState extends State<Createpool> {
     final parts = removedBrackets.split(',');
     catname = parts.map((parts) => "$parts").join(',').trim();
 
-
-    final inputname= _selName.toString();
-    final removedBracketsname = inputname.substring(1, inputname.length - 1);
-    final partsname = removedBracketsname.split(',');
-    catpostname = partsname.map((partsname) => "$partsname").join(',').trim();
-
-
     final input1 = _selecteCategorys.toString();
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');
     catid = parts1.map((part1) => "$part1").join(',').trim();
     values = catid.replaceAll(" ","");
 
-    final inputname2 = _selCategorys.toString();
-    final removedBracketsname2 = inputname2.substring(1, inputname2.length - 1);
-    final partsname2 = removedBracketsname2.split(',');
-    catidpost = partsname2.map((partname2) => "$partname2").join(',').trim();
-    valuespost = catidpost.replaceAll(" ","");
-
     print(values);
-    print(valuespost);
     print("CatName: "+catname);
-    print("CatNamepost: "+catpostname);
+  }
+
+  void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
+    if (selected == true) {
+      setState(() {
+        _selecteFollowing.add(category_id);
+        _selecteFollowingName.add(category_name);
+      });
+    } else {
+      setState(() {
+        _selecteFollowing.remove(category_id);
+
+        _selecteFollowingName.remove(category_name);
+      });
+    }
+    final input = _selecteFollowingName.toString();
+    final removedBrackets = input.substring(1, input.length - 1);
+    final parts = removedBrackets.split(',');
+    catFollowingname = parts.map((parts) => "$parts").join(',').trim();
+
+    final input1 = _selecteFollowing.toString();
+    final removedBrackets1 = input1.substring(1, input1.length - 1);
+    final parts1 = removedBrackets1.split(',');
+    followingcatid = parts1.map((part1) => "$part1").join(',').trim();
+    followingvalues = followingcatid.replaceAll(" ","");
+    print(followingvalues);
+    print("CatFollowName: "+catFollowingname);
   }
 
   void CheckGroupNames(String search) async {
@@ -1677,6 +1599,48 @@ class CreatepoolState extends State<Createpool> {
   inviteView() {
     return Column(
       children: [
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  top: SizeConfig.blockSizeVertical * 2),
+              width: SizeConfig.blockSizeHorizontal * 32,
+              child: Text(
+                StringConstant.searchcontact,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 45,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 3),
+              padding: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 3,
+              ),
+              child: Text(
+                //catname!=null?catname.toString():category_names.toString(),
+                catFollowingname != null
+                    ? catFollowingname.toString()
+                    : "please select contact",
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black38,
+                    fontSize: SizeConfig.blockSizeHorizontal * 3,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat-Bold'),
+              ),
+            )
+          ],
+        ),
         Container(
           height: SizeConfig.blockSizeVertical * 7,
           margin: EdgeInsets.only(
@@ -1746,55 +1710,13 @@ class CreatepoolState extends State<Createpool> {
               ),
             ],
           ),
-          /* FormField<dynamic>(
-                    builder: (FormFieldState<dynamic> state) {
-                      return InputDecorator(
-                        decoration: InputDecoration.collapsed(hintText: ''),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<dynamic>(
-                            hint: Text("select contact",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold')),
-                            dropdownColor: Colors.white,
-                            value: currentSelectedValues,
-                            isDense: true,
-                            onChanged: (newValue) {
-                              setState(() {
-                                currentSelectedValues = newValue;
-                                userid = (newValue["id"]);
-                                userName = (newValue["full_name"]);
-                                print("User: " + userName.toString());
-                                print("Userid: " + userid.toString());
-                              });
-                            },
-                            items: categoryTypes.map((dynamic value) {
-                              return DropdownMenuItem<dynamic>(
-                                value: value,
-                                child: Text(value["full_name"],
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold')),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),*/
         ),
         Visibility(
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
             child: Container()),
-        expandFlag0 == true ? ExpandedInviteview0() : Container(),
+        expandFlag0 == true ? ExpandedInvitationview0() : Container(),
       ],
     );
   }
