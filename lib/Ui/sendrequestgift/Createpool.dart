@@ -24,14 +24,19 @@ class CreatepoolState extends State<Createpool> {
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
-    "Group members"
+    "Invite"
   ];
   static List<String> friendsList = [null];
   var categorylist;
+  var categolist;
   List _selecteCategorys = List();
+  List _selCategorys = List();
   List _selecteName = List();
+  List _selName = List();
   var catid;
+  var catidpost;
   var values;
+  var valuespost;
   String val;
   var productlist_length;
   bool resultvalue = true;
@@ -70,6 +75,7 @@ class CreatepoolState extends State<Createpool> {
   bool image_value = false;
   bool imageUrl = false;
   var catname = null;
+  var catpostname = null;
   String data;
   String userid;
   bool isLoading = false;
@@ -86,7 +92,7 @@ class CreatepoolState extends State<Createpool> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      getData(userid);
+      getCategory(userid);
       print("Login userid: " + userid.toString());
     });
     createpoolController.addListener(() {
@@ -117,6 +123,7 @@ class CreatepoolState extends State<Createpool> {
     });
   }*/
 
+/*
   Future<void> getData(String a) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {'userid': a.toString()};
@@ -162,6 +169,56 @@ class CreatepoolState extends State<Createpool> {
       }
     }
   }
+*/
+
+
+  Future<void> getCategory(String a) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString()};
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null)
+        {
+          setState(() {
+            categorylist = jsonResponse['result'];
+            categolist = jsonResponse['result'];
+            //get all the data from json string superheros
+            //  print(categorylist.length); // just printed length of data
+          });
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
+  }
+
 
   DateView() async {
     final DateTime picked = await
@@ -1099,7 +1156,7 @@ class CreatepoolState extends State<Createpool> {
                                   }else if(currentSelectedValue=="Connections only")
                                   {
                                     currentid =2;
-                                  }else if(currentSelectedValue=="Group members")
+                                  }else if(currentSelectedValue=="Invite")
                                   {
                                     currentid =3;
                                   }
@@ -1111,6 +1168,8 @@ class CreatepoolState extends State<Createpool> {
                         )
                       ],
                     ),
+                    currentSelectedValue.toString().toLowerCase()=="invite"?inviteView():Container(),
+
                     /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1200,6 +1259,7 @@ class CreatepoolState extends State<Createpool> {
                             ))
                       ],
                     ),*/
+
                     Container(
                       margin:
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
@@ -1462,13 +1522,44 @@ class CreatepoolState extends State<Createpool> {
             itemBuilder: (BuildContext context, int index) {
               return CheckboxListTile(
                 activeColor: AppColors.theme1color,
-                value: _selecteCategorys.contains(categorylist[index]['id']),
+                value: _selecteCategorys.contains(categorylist[index]['sender_id']),
                 onChanged: (bool selected) {
-                  _onCategorySelected(selected, categorylist[index]['id'],
+                  _onCategorySelected(selected, categorylist[index]['sender_id'],
                       categorylist[index]['full_name']);
                 },
                 title: Text(
                   categorylist[index]['full_name'],
+                  style: TextStyle(
+                      letterSpacing: 1.0,
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat-Bold'),
+                ),
+              );
+            }),
+      )
+    );
+  }
+  ExpandedInviteview0() {
+    return Container(
+      alignment: Alignment.topLeft,
+      height: SizeConfig.blockSizeVertical * 30,
+      child:MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child:  ListView.builder(
+            itemCount: categolist == null ? 0 : categolist.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CheckboxListTile(
+                activeColor: AppColors.theme1color,
+                value: _selCategorys.contains(categolist[index]['sender_id']),
+                onChanged: (bool selected) {
+                  _onCategorySelected(selected, categolist[index]['sender_id'],
+                      categolist[index]['full_name']);
+                },
+                title: Text(
+                  categolist[index]['full_name'],
                   style: TextStyle(
                       letterSpacing: 1.0,
                       color: Colors.black,
@@ -1486,25 +1577,46 @@ class CreatepoolState extends State<Createpool> {
     if (selected == true) {
       setState(() {
         _selecteCategorys.add(category_id);
+        _selCategorys.add(category_id);
         _selecteName.add(category_name);
+        _selName.add(category_name);
       });
     } else {
       setState(() {
         _selecteCategorys.remove(category_id);
+        _selCategorys.remove(category_id);
         _selecteName.remove(category_name);
+        _selName.remove(category_name);
       });
     }
     final input = _selecteName.toString();
     final removedBrackets = input.substring(1, input.length - 1);
     final parts = removedBrackets.split(',');
-    catname = parts.map((part) => "$part").join(',').trim();
+    catname = parts.map((parts) => "$parts").join(',').trim();
+
+
+    final inputname= _selName.toString();
+    final removedBracketsname = inputname.substring(1, inputname.length - 1);
+    final partsname = removedBracketsname.split(',');
+    catpostname = partsname.map((partsname) => "$partsname").join(',').trim();
+
+
     final input1 = _selecteCategorys.toString();
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');
     catid = parts1.map((part1) => "$part1").join(',').trim();
     values = catid.replaceAll(" ","");
+
+    final inputname2 = _selCategorys.toString();
+    final removedBracketsname2 = inputname2.substring(1, inputname2.length - 1);
+    final partsname2 = removedBracketsname2.split(',');
+    catidpost = partsname2.map((partname2) => "$partname2").join(',').trim();
+    valuespost = catidpost.replaceAll(" ","");
+
     print(values);
+    print(valuespost);
     print("CatName: "+catname);
+    print("CatNamepost: "+catpostname);
   }
 
   void CheckGroupNames(String search) async {
@@ -1560,6 +1672,131 @@ class CreatepoolState extends State<Createpool> {
         timeInSecForIosWeb: 1,
       );
     }
+  }
+
+  inviteView() {
+    return Column(
+      children: [
+        Container(
+          height: SizeConfig.blockSizeVertical * 7,
+          margin: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 3,
+            right: SizeConfig.blockSizeHorizontal * 3,
+          ),
+          padding: EdgeInsets.only(
+              left: SizeConfig.blockSizeHorizontal * 2,
+              right: SizeConfig.blockSizeHorizontal * 2
+          ),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.black26,
+              style: BorderStyle.solid,
+              width: 1.0,
+            ),
+            color: Colors.transparent,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeHorizontal * 3,
+                ),
+                child:
+                Text(
+                  "Search contact",
+                  style:
+                  TextStyle(
+                      letterSpacing: 1.0,
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat-Bold'),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 2,
+                ),
+                child: IconButton(
+                    icon: new Container(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new Center(
+                        child:
+                        new Icon(
+                          expandFlag0
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          color: Colors.black87,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        expandFlag0 = !expandFlag0;
+                      });
+                    }),
+              ),
+            ],
+          ),
+          /* FormField<dynamic>(
+                    builder: (FormFieldState<dynamic> state) {
+                      return InputDecorator(
+                        decoration: InputDecoration.collapsed(hintText: ''),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<dynamic>(
+                            hint: Text("select contact",
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold')),
+                            dropdownColor: Colors.white,
+                            value: currentSelectedValues,
+                            isDense: true,
+                            onChanged: (newValue) {
+                              setState(() {
+                                currentSelectedValues = newValue;
+                                userid = (newValue["id"]);
+                                userName = (newValue["full_name"]);
+                                print("User: " + userName.toString());
+                                print("Userid: " + userid.toString());
+                              });
+                            },
+                            items: categoryTypes.map((dynamic value) {
+                              return DropdownMenuItem<dynamic>(
+                                value: value,
+                                child: Text(value["full_name"],
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold')),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),*/
+        ),
+        Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: Container()),
+        expandFlag0 == true ? ExpandedInviteview0() : Container(),
+      ],
+    );
   }
 
 }

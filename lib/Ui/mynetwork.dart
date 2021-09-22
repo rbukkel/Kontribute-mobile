@@ -365,7 +365,8 @@ class _mynetworkState extends State<mynetwork> {
                                       ),
                                     ):
                                     GestureDetector(
-                                      onTap: () {
+                                      onTap: ()
+                                      {
                                         // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                       },
                                       child: Container(
@@ -389,7 +390,7 @@ class _mynetworkState extends State<mynetwork> {
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                  Network.BaseApigift+requestpojo.result.elementAt(index).profilePic,
+                                                  Network.BaseApiprofile+requestpojo.result.elementAt(index).profilePic,
                                                 ),
                                                 fit: BoxFit.fill)),
                                       ),
@@ -708,7 +709,7 @@ class _mynetworkState extends State<mynetwork> {
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
                                                           image: NetworkImage(
-                                                            Network.BaseApigift+followlistpojo.result.elementAt(ind).profilePic,
+                                                            Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
                                                           ),
                                                           fit: BoxFit.fill)),
                                                 ),

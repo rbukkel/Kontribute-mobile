@@ -338,7 +338,7 @@ class _AddContactState extends State<AddContact> {
                                    margin: EdgeInsets.only(
                                        right: SizeConfig.blockSizeHorizontal * 2,
                                        left: SizeConfig.blockSizeHorizontal * 2),
-                                   alignment: Alignment.centerLeft,
+                                   alignment:Alignment.centerLeft,
                                    child: Text(
                                      "Follow",
                                      style: TextStyle(

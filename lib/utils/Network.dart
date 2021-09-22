@@ -5,7 +5,6 @@ class Network{
   static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
   static String BaseApiProject = "http://kontribute.knickglobal.com/uploads/project/";
   static String BaseApidonation = "http://kontribute.knickglobal.com/uploads/donation/";
-
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";
@@ -67,4 +66,5 @@ class Network{
   static String get_donation = "get_donation";
   static String invitation = "invitation";
   static String invitationListing = "invitationListing";
+  static String sharelink = "http://kontribute.knickglobal.com/signup";
 }

@@ -14,6 +14,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 
 class SendInvitation extends StatefulWidget{
   @override
@@ -130,7 +131,8 @@ class SendInvitationState extends State<SendInvitation>{
         Form(
           key:_formKey,
             child: SingleChildScrollView(
-              child:  Column(
+              child:
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -562,6 +564,7 @@ class SendInvitationState extends State<SendInvitation>{
                                                     )
                                                         : listpojo.inviationdata.elementAt(idex).status=="1"?
                                                     Container(
+                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                       width: SizeConfig
                                                           .blockSizeHorizontal *
                                                           20,
@@ -698,8 +701,6 @@ class SendInvitationState extends State<SendInvitation>{
                         }),
                   )
                       :Container()
-
-
                 ],
               ),
             ),
@@ -746,14 +747,20 @@ class SendInvitationState extends State<SendInvitation>{
             nameController.text="";
             mobileController.text="";
             descriptionController.text="";
+            getsendListing(userid);
           });
+
+          final RenderBox box1 = _formKey.currentContext.findRenderObject();
+          Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
+              subject: "Kontribute",
+              sharePositionOrigin:
+              box1.localToGlobal(Offset.zero) & box1.size);
           Fluttertoast.showToast(
             msg: sendinvi.message,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {

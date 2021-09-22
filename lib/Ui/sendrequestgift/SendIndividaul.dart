@@ -15,6 +15,7 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class SendIndividaul extends StatefulWidget{
+
   @override
   SendIndividaulState createState() => SendIndividaulState();
 
@@ -42,7 +43,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   final _formKey = GlobalKey<FormState>();
   String userName;
   String user;
-  int userid;
+  String userid;
   String val;
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
@@ -113,19 +114,17 @@ class SendIndividaulState extends State<SendIndividaul>{
     }
   }
 
-
-
   Future<void> getCategory(String a) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {'userid': a.toString()};
+    Map data = {'receiver_id': a.toString()};
     print("Data: "+data.toString());
     var jsonResponse = null;
-    var response = await http.post(Network.BaseApi + Network.username_listing, body: data);
+    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
       print("Json User" + jsonResponse.toString());
-      if (jsonResponse["status"] == false) {
+      if (jsonResponse["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonResponse["message"],
@@ -138,7 +137,7 @@ class SendIndividaulState extends State<SendIndividaul>{
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null) {
           final data = json.decode(response.body);
-          List<dynamic> data1 = data["data"];
+          List<dynamic> data1 = data["result"];
           setState(()
           {
             categoryTypes = data1;
@@ -160,7 +159,6 @@ class SendIndividaulState extends State<SendIndividaul>{
       }
     }
   }
-
 
   showAlert() {
     showDialog(
@@ -414,7 +412,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   onChanged: (newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      userid = (newValue["id"]);
+                                      userid = (newValue["sender_id"]);
                                       userName = (newValue["full_name"]);
                                       print("User: "+userName.toString());
                                       print("Userid: "+userid.toString());
@@ -747,7 +745,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     );
   }
 
-  void sendIndivial(String  notification, String requiredamoun, String description,File Imge, int userid) async {
+  void sendIndivial(String  notification, String requiredamoun, String description,File Imge, String userid) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift),);

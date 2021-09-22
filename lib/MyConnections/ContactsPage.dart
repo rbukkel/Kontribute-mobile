@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/UserlistingPojo.dart';
+import 'package:share/share.dart';
 
 class ContactsPage extends StatefulWidget {
 
@@ -25,6 +26,7 @@ class _ContactsPageState extends State<ContactsPage> {
   bool resultfollowvalue = true;
   var followlist_length;
   List common;
+  final GlobalKey _globalKey = GlobalKey();
 
 
   @override
@@ -134,6 +136,7 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -214,26 +217,35 @@ class _ContactsPageState extends State<ContactsPage> {
                                 fit: BoxFit.fill,
                               ),
                             )
-                        ):                        Container(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical *2,
-                                bottom:  SizeConfig.blockSizeVertical *2),
-                            height: SizeConfig.blockSizeVertical * 5,
-                            width: SizeConfig.blockSizeVertical * 5,
-                            alignment: Alignment.centerRight,
-                            margin: EdgeInsets.only(
-                                bottom: SizeConfig.blockSizeVertical * 1,
-                                top: SizeConfig.blockSizeVertical * 1,
-                                left: SizeConfig.blockSizeHorizontal * 1),
-                            decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                image: new AssetImage(
-                                    "assets/images/share.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                        ),
-
+                        ):InkWell(
+                          onTap: ()
+                          {
+                            final RenderBox box1 = _globalKey.currentContext.findRenderObject();
+                            Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
+                                subject: "Kontribute",
+                                sharePositionOrigin:
+                                box1.localToGlobal(Offset.zero) & box1.size);
+                          },
+                          child:Container(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical *2,
+                                  bottom:  SizeConfig.blockSizeVertical *2),
+                              height: SizeConfig.blockSizeVertical * 5,
+                              width: SizeConfig.blockSizeVertical * 5,
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  bottom: SizeConfig.blockSizeVertical * 1,
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                  left: SizeConfig.blockSizeHorizontal * 1),
+                              decoration: BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new AssetImage(
+                                      "assets/images/share.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              )
+                          ),
+                        )
                       ]
                   ));
             })
@@ -294,5 +306,7 @@ class _ContactsPageState extends State<ContactsPage> {
       return permission;
     }
   }
+
+
 
 }
