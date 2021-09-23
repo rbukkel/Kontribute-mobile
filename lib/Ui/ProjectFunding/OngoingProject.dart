@@ -1265,7 +1265,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily: 'Poppins-Regular'),
-                                          
                                         ),
                                         ),
                                        /* commentlist_length!=null?
@@ -1397,8 +1396,8 @@ class OngoingProjectState extends State<OngoingProject> {
             child: Icon(Icons.public),
             backgroundColor: AppColors.theme1color,
             label: 'Public',
-
-              onTap: () {
+              onTap: ()
+              {
                 tabValue="1";
                 getsortdata(userid, tabValue);
                 print('FIRST CHILD');
@@ -1408,7 +1407,8 @@ class OngoingProjectState extends State<OngoingProject> {
             child: Icon(Icons.privacy_tip),
             backgroundColor: AppColors.theme1color,
             label: 'Private',
-              onTap: () {
+              onTap: ()
+              {
                 tabValue="2";
                 getsortdata(userid, tabValue);
                 print('FIRST CHILD');
@@ -1418,7 +1418,8 @@ class OngoingProjectState extends State<OngoingProject> {
               child: Icon(Icons.all_inclusive),
               backgroundColor: AppColors.theme1color,
               label: 'All',
-              onTap: () {
+              onTap: ()
+              {
                 tabValue="0";
                 getsortdata(userid, tabValue);
                 print('Third CHILD');

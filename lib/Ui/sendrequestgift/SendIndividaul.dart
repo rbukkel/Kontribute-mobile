@@ -15,10 +15,8 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class SendIndividaul extends StatefulWidget{
-
   @override
   SendIndividaulState createState() => SendIndividaulState();
-
 }
 
 class SendIndividaulState extends State<SendIndividaul>{
@@ -55,7 +53,6 @@ class SendIndividaulState extends State<SendIndividaul>{
   @override
   void initState() {
     super.initState();
-
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       user = val;

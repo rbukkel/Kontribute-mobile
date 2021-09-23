@@ -1441,10 +1441,11 @@ class SearchbarProjectState extends State<SearchbarProject> {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
-        overlay.size.height - _tapDownPosition.dy,),
+        overlay.size.height - _tapDownPosition.dy),
       items: [
         PopupMenuItem(
             value: 1,
@@ -1535,7 +1536,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 ],
               ),
             )),
-        PopupMenuItem(
+      /*  PopupMenuItem(
             value:3,
             child: GestureDetector(
               onTap: () {
@@ -1555,7 +1556,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 ],
               ),
             )),
-
+*/
       ],
       elevation: 8.0,
     );

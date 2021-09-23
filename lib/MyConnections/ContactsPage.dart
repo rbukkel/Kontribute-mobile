@@ -13,7 +13,6 @@ import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:share/share.dart';
 
 class ContactsPage extends StatefulWidget {
-
   @override
   _ContactsPageState createState() => _ContactsPageState();
 }
@@ -27,7 +26,6 @@ class _ContactsPageState extends State<ContactsPage> {
   var followlist_length;
   List common;
   final GlobalKey _globalKey = GlobalKey();
-
 
   @override
   void initState()
@@ -139,12 +137,7 @@ class _ContactsPageState extends State<ContactsPage> {
         children: [
           GestureDetector(
             onTap: (){
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          selectlangauge()),
-                      (route) => false);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
             },
             child: Container(
                 alignment: Alignment.topRight,
@@ -208,7 +201,8 @@ class _ContactsPageState extends State<ContactsPage> {
                                 fit: BoxFit.fill,
                               ),
                             )
-                        ):InkWell(
+                        ):
+                        InkWell(
                           onTap: ()
                           {
                             final RenderBox box1 = _globalKey.currentContext.findRenderObject();
@@ -235,7 +229,7 @@ class _ContactsPageState extends State<ContactsPage> {
                                 ),
                               )
                           ),
-                        )
+                        ),
                       ]
                   ));
             })
@@ -284,12 +278,9 @@ class _ContactsPageState extends State<ContactsPage> {
 
   Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus =
-      await [Permission.contacts].request();
-      return permissionStatus[Permission.contacts] ??
-          PermissionStatus.undetermined;
+    if (permission != PermissionStatus.granted && permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus = await [Permission.contacts].request();
+      return permissionStatus[Permission.contacts] ?? PermissionStatus.undetermined;
     } else {
       return permission;
     }

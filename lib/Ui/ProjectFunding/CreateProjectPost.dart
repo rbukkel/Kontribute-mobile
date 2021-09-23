@@ -7,8 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
@@ -16,6 +18,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'package:share/share.dart';
 
 class CreateProjectPost extends StatefulWidget {
   @override
@@ -36,6 +39,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   var basename=null;
   var catname=null;
   var vidoname=null;
+  bool expandFlag0 = false;
+  final _formKey = GlobalKey<FormState>();
+  final _formmainKey = GlobalKey<FormState>();
   List<File> _imageList = [];
   List<File> _documentList = [];
   List _selecteName = List();
@@ -53,22 +59,16 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final VideoFocus = FocusNode();
   final TermsFocus = FocusNode();
   final TextEditingController TermsController = new TextEditingController();
-  final TextEditingController searchpostController =
-      new TextEditingController();
-  final TextEditingController ProjectNameController =
-      new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
+  final TextEditingController ProjectNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController LocationDetailsController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController EnterRequiredAmountController =
-      new TextEditingController();
-  final TextEditingController TotalBudgetController =
-      new TextEditingController();
+  final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  final TextEditingController TotalBudgetController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
   String _ProjectName;
@@ -85,11 +85,32 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   String _totalbudget;
   String _Video;
   String userid;
+  sendinvitationpojo sendinvi;
+  final NameFocus = FocusNode();
+  final EmailotherFocus = FocusNode();
+  final MobileFocus = FocusNode();
+  final SubjectFocus = FocusNode();
+  final MessageFocus = FocusNode();
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController mobileController = new TextEditingController();
+  final TextEditingController subjectController = new TextEditingController();
+  final TextEditingController messageController = new TextEditingController();
+  String _emailother,_name,_mobile,_subject,_descriptionother;
+
   bool isLoading = false;
+  var categoryfollowinglist;
+  List _selecteFollowing = List();
+  List _selecteFollowingName = List();
+  var followingcatid;
+  var followingvalues;
+  var catFollowingname = null;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final List<String> _dropdownCategoryValues = [
     "Anyone",
-    "Connections only"
+    "Connections only",
+    "Invite",
+    "Others"
   ];
   static List<String> videoList = [null];
   var file1;
@@ -105,6 +126,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   DateTime currentEndDate = DateTime.now();
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
+
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
       "assets/images/banner1.png",
@@ -177,8 +199,55 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+      getData(userid);
       print("Login userid: " + userid.toString());
     });
+  }
+
+
+  Future<void> getData(String a) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString()};
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null)
+        {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+
+          });
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
   }
 
   Future getPdfAndUpload() async {
@@ -466,6 +535,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                 child: Container(
                   child: SingleChildScrollView(
                       child: Form(
+                        key: _formmainKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -766,22 +836,17 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    DescriptionController.text =
-                                        DescriptionController.text + "#";
-                                    DescriptionController.selection =
-                                        TextSelection.fromPosition(TextPosition(
+                                    DescriptionController.text = DescriptionController.text + "#";
+                                    DescriptionController.selection = TextSelection.fromPosition(TextPosition(
                                             offset: DescriptionController
                                                 .text.length));
                                   },
                                   child: Container(
                                     alignment: Alignment.topLeft,
                                     margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 3,
-                                        right:
-                                            SizeConfig.blockSizeHorizontal * 3,
-                                        bottom:
-                                            SizeConfig.blockSizeVertical * 2,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 3,
+                                        bottom: SizeConfig.blockSizeVertical * 2,
                                         top: SizeConfig.blockSizeVertical * 2),
                                     child: Text(
                                       StringConstant.addhashtag,
@@ -807,13 +872,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     Container(
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
+                                          left: SizeConfig.blockSizeHorizontal * 3,
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeVertical * 2),
                                       child: Text(
                                         StringConstant.startdate,
                                         style: TextStyle(
@@ -828,14 +889,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         height:
                                             SizeConfig.blockSizeVertical * 8,
                                         margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1),
+                                            left: SizeConfig.blockSizeHorizontal * 3,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
+                                            top: SizeConfig.blockSizeVertical * 1),
                                         padding: EdgeInsets.only(
                                           left:
                                               SizeConfig.blockSizeVertical * 1,
@@ -860,13 +916,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           child: Row(
                                             children: [
                                               Container(
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    30,
+                                                width: SizeConfig.blockSizeHorizontal * 30,
                                                 padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        1),
+                                                    left: SizeConfig.blockSizeHorizontal *1),
                                                 child: Text(
                                                   myFormat.format(currentDate),
                                                   textAlign: TextAlign.left,
@@ -1524,22 +1576,21 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      print(currentSelectedValue
-                                          .toString()
-                                          .toLowerCase());
-                                      print(currentSelectedValue
-                                          .toString()
-                                          .toLowerCase());
-                                      if (currentSelectedValue == "Anyone") {
+                                      print(currentSelectedValue.toString().toLowerCase());
+                                      if (currentSelectedValue == "Anyone")
+                                      {
                                         currentid = 1;
-                                      } else if (currentSelectedValue ==
-                                          "Connections only") {
+                                      } else if (currentSelectedValue == "Connections only")
+                                      {
                                         currentid = 2;
+                                      }else if(currentSelectedValue=="Invite")
+                                      {
+                                        currentid =3;
+                                      }else if(currentSelectedValue=="Others")
+                                      {
+                                        currentid =4;
                                       }
-                                     /* else if (currentSelectedValue ==
-                                          "Group members") {
-                                        currentid = 3;
-                                      }*/
+
                                     });
                                   },
                                   isExpanded: true,
@@ -1548,96 +1599,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             )
                           ],
                         ),
-                      /*  Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                "",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeVertical * 1,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 30,
-                                        child: TextFormField(
-                                          autofocus: false,
-                                          focusNode: SearchPostFocus,
-                                          controller: searchpostController,
-                                          textInputAction: TextInputAction.done,
-                                          keyboardType: TextInputType.text,
-                                          */
-                      /*validator: (val) {
-                                            if (val.length == 0)
-                                              return "Please enter search post";
-                                            else
-                                              return null;
-                                          },*/
-                      /*
-                                          onFieldSubmitted: (v) {
-                                            SearchPostFocus.unfocus();
-                                          },
-                                          onSaved: (val) => _searchpost = val,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 12,
-                                              color: Colors.black),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 5,
-                                        child: Icon(
-                                          Icons.search,
-                                          color: AppColors.greyColor,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),*/
+                        currentSelectedValue.toString().toLowerCase()=="invite"?inviteView():
+                        currentSelectedValue.toString().toLowerCase()=="others"?otherOptionview()
+                            :Container(),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1729,25 +1693,52 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         GestureDetector(
                           onTap: () {
 
-                            final input2 = videoList.toString();
-                            final removedBrackets = input2.substring(1, input2.length - 1);
-                            final parts = removedBrackets.split(',');
-                            vidoname = parts.map((part) => "$part").join(',').trim();
-                            print("Vidoname: "+vidoname.toString());
+                            if (_formmainKey.currentState.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              Internet_check().check().then((intenet) {
+                                if (intenet != null && intenet) {
+                                  if(_imageList.isNotEmpty)
+                                  {
+                                    final input2 = videoList.toString();
+                                    final removedBrackets = input2.substring(1, input2.length - 1);
+                                    final parts = removedBrackets.split(',');
+                                    vidoname = parts.map((part) => "$part").join(',').trim();
+                                    print("Vidoname: "+vidoname.toString());
 
-                            createproject(
-                                context,
-                                ProjectNameController.text,
-                                DescriptionController.text,
-                                myFormat.format(currentDate),
-                                myFormat.format(currentEndDate),
-                                TermsController.text,
-                                EnterRequiredAmountController.text,
-                                TotalBudgetController.text,
-                                vidoname,
-                                _imageList,
-                               _documentList);
-
+                                    createproject(
+                                        context,
+                                        ProjectNameController.text,
+                                        DescriptionController.text,
+                                        myFormat.format(currentDate),
+                                        myFormat.format(currentEndDate),
+                                        TermsController.text,
+                                        EnterRequiredAmountController.text,
+                                        TotalBudgetController.text,
+                                        vidoname,
+                                        _imageList,
+                                        _documentList);
+                                  }
+                                  else {
+                                    Fluttertoast.showToast(
+                                      msg: "Please select project images",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "No Internet Connection",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                }
+                                // No-Internet Case
+                              });
+                            }
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1787,7 +1778,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
-  /// get firends text-fields
+  // get firends text-fields
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
 
@@ -1810,11 +1801,525 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             ),
           ));
         }
-
-
-
     return friendsTextFields;
   }
+
+  otherOptionview() {
+    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return  Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical *2,
+                left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+
+            child:
+               TextFormField(
+              autofocus: false,
+              focusNode: NameFocus,
+              controller: nameController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter name";
+                else if (val.length < 3)
+                  return "Name must be more than 2 charater";
+                else
+                  return null;
+              },
+              onSaved: (val) => _name= val,
+              onFieldSubmitted: (v) {
+                FocusScope.of(context).requestFocus(MobileFocus);
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Your Name*",
+                labelStyle:TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical *1,
+                left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+
+            child:  TextFormField(
+              autofocus: false,
+              focusNode: MobileFocus,
+              controller: mobileController,
+              keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter mobile number";
+                else if (val.length < 10)
+                  return "Your mobile number should be 10 char long";
+                else
+                  return null;
+              },
+              onSaved: (val) => _mobile= val,
+              onFieldSubmitted: (v) {
+                FocusScope.of(context).requestFocus(EmailotherFocus);
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Phone Number*",
+                labelStyle:TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical *1,
+                left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+
+            child:
+            TextFormField(
+              autofocus: false,
+              focusNode: EmailotherFocus,
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter email";
+                else if (!regex.hasMatch(val))
+                  return "Please enter valid email";
+                else
+                  return null;
+              },
+              onSaved: (val) => _emailother= val,
+              onFieldSubmitted: (v) {
+                FocusScope.of(context).requestFocus(MessageFocus);
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Your Email*",
+                labelStyle:TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical *2,
+                left: SizeConfig.blockSizeHorizontal*2,
+                right: SizeConfig.blockSizeHorizontal*2),
+
+            child:
+            TextFormField(
+              autofocus: false,
+              maxLines:6,
+              focusNode: MessageFocus,
+              controller: messageController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter message";
+                else if (val.length < 3)
+                  return "message must be more than 2 charater";
+                else
+                  return null;
+              },
+              onSaved: (val) => _descriptionother= val,
+              onFieldSubmitted: (v) {
+                MessageFocus.unfocus();
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Your Message",
+                labelStyle:TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              if (_formKey.currentState.validate()) {
+                setState(() {
+                  isLoading = true;
+                });
+                Internet_check().check().then((intenet) {
+                  if (intenet != null && intenet) {
+                    if(_imageFile!=null)
+                    {
+                      sendInvitation(emailController.text, nameController.text,mobileController.text,messageController.text);
+                    }
+                    else {
+                      Fluttertoast.showToast(
+                        msg: "Please select gift image",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                      );
+                    }
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "No Internet Connection",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                    );
+                  }
+                  // No-Internet Case
+                });
+              }
+            },
+            child: Container(
+                alignment: Alignment.center,
+                width: SizeConfig.blockSizeHorizontal * 38,
+                height: SizeConfig.blockSizeVertical * 7,
+                margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 5,
+                    bottom: SizeConfig.blockSizeVertical * 5,
+                    left: SizeConfig.blockSizeHorizontal *5,
+                    right: SizeConfig.blockSizeHorizontal *5
+
+                ),
+                decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/images/sendbutton.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(StringConstant.sharelink,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 15,
+                        )),
+                    Container(
+                      child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
+                    )
+                  ],
+                )
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  sendInvitation(String emal,String name,String mobile,String descr) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      "userid":userid.toString(),
+      "name":name,
+      "message":descr,
+      "email":emal,
+      "mobile":mobile,
+    };
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+
+    var response = await http.post(Network.BaseApi + Network.invitation, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        sendinvi = new sendinvitationpojo.fromJson(jsonResponse);
+        String jsonProfile = jsonEncode(sendinvi);
+        print(jsonProfile);
+        SharedUtils.saveProfile(jsonProfile);
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+            emailController.text="";
+            nameController.text="";
+            mobileController.text="";
+            messageController.text="";
+
+          });
+          final RenderBox box1 = _formKey.currentContext.findRenderObject();
+          Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
+              subject: "Kontribute",
+              sharePositionOrigin:
+              box1.localToGlobal(Offset.zero) & box1.size);
+          Fluttertoast.showToast(
+            msg: sendinvi.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Navigator.of(context).pop();
+            //   isLoading = false;
+          });
+          Fluttertoast.showToast(
+            msg: sendinvi.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+  inviteView() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  top: SizeConfig.blockSizeVertical * 2),
+              width: SizeConfig.blockSizeHorizontal * 32,
+              child: Text(
+                StringConstant.searchcontact,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 45,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 3),
+              padding: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 3,
+              ),
+              child: Text(
+                //catname!=null?catname.toString():category_names.toString(),
+                catFollowingname != null
+                    ? catFollowingname.toString()
+                    : "please select contact",
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black38,
+                    fontSize: SizeConfig.blockSizeHorizontal * 3,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat-Bold'),
+              ),
+            )
+          ],
+        ),
+        Container(
+          height: SizeConfig.blockSizeVertical * 7,
+          margin: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 3,
+            right: SizeConfig.blockSizeHorizontal * 3,
+          ),
+          padding: EdgeInsets.only(
+              left: SizeConfig.blockSizeHorizontal * 2,
+              right: SizeConfig.blockSizeHorizontal * 2
+          ),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.black26,
+              style: BorderStyle.solid,
+              width: 1.0,
+            ),
+            color: Colors.transparent,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeHorizontal * 3,
+                ),
+                child:
+                Text(
+                  "Search contact",
+                  style:
+                  TextStyle(
+                      letterSpacing: 1.0,
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat-Bold'),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 2,
+                ),
+                child: IconButton(
+                    icon: new Container(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new Center(
+                        child:
+                        new Icon(
+                          expandFlag0
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          color: Colors.black87,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        expandFlag0 = !expandFlag0;
+                      });
+                    }),
+              ),
+            ],
+          ),
+        ),
+        Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: Container()),
+        expandFlag0 == true ? ExpandedInvitationview0() : Container(),
+      ],
+    );
+  }
+
+  ExpandedInvitationview0() {
+    return Container(
+        alignment: Alignment.topLeft,
+        height: SizeConfig.blockSizeVertical * 30,
+        child:MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child:  ListView.builder(
+              itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CheckboxListTile(
+                  activeColor: AppColors.theme1color,
+                  value: _selecteFollowing.contains(categoryfollowinglist[index]['sender_id']),
+                  onChanged: (bool selected) {
+                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
+                        categoryfollowinglist[index]['full_name']);
+                  },
+                  title: Text(
+                    categoryfollowinglist[index]['full_name'],
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal * 3,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Montserrat-Bold'),
+                  ),
+                );
+              }),
+        )
+    );
+  }
+  void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
+    if (selected == true) {
+      setState(() {
+        _selecteFollowing.add(category_id);
+        _selecteFollowingName.add(category_name);
+      });
+    } else {
+      setState(() {
+        _selecteFollowing.remove(category_id);
+
+        _selecteFollowingName.remove(category_name);
+      });
+    }
+    final input = _selecteFollowingName.toString();
+    final removedBrackets = input.substring(1, input.length - 1);
+    final parts = removedBrackets.split(',');
+    catFollowingname = parts.map((parts) => "$parts").join(',').trim();
+
+    final input1 = _selecteFollowing.toString();
+    final removedBrackets1 = input1.substring(1, input1.length - 1);
+    final parts1 = removedBrackets1.split(',');
+    followingcatid = parts1.map((part1) => "$part1").join(',').trim();
+    followingvalues = followingcatid.replaceAll(" ","");
+    print(followingvalues);
+    print("CatFollowName: "+catFollowingname);
+  }
+
 
   // add remove button
   Widget _addRemoveButton(bool add, int index) {
@@ -1880,7 +2385,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         ),
       );
     }
-
     for (int i = 0; i < documentList.length; i++) {
       request.files.add(
         http.MultipartFile(

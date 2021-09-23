@@ -276,18 +276,10 @@ class _AddContactState extends State<AddContact> {
                                         10,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(
-                                        bottom: SizeConfig
-                                            .blockSizeVertical *
-                                            1,
-                                        top: SizeConfig
-                                            .blockSizeVertical *
-                                            1,
-                                        right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1,
-                                        left: SizeConfig
-                                            .blockSizeHorizontal *
-                                            5),
+                                        bottom: SizeConfig.blockSizeVertical * 1,
+                                        top: SizeConfig.blockSizeVertical * 1,
+                                        right: SizeConfig.blockSizeHorizontal * 1,
+                                        left: SizeConfig.blockSizeHorizontal * 5),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
@@ -422,7 +414,6 @@ class _AddContactState extends State<AddContact> {
       'id': id.toString(),
       'status': status.toString(),
     };
-
     print("user: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.follow_Request_update, body: data);
