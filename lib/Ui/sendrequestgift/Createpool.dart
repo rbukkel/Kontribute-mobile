@@ -1551,11 +1551,13 @@ class CreatepoolState extends State<Createpool> {
       } else {
         checkgroupnames = new Checkgroupnames.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
-        if (jsonResponse != null) {
+        if (jsonResponse != null)
+        {
           setState(() {
             isLoading = false;
           });
-        } else {
+        }
+        else {
           Fluttertoast.showToast(
             msg: checkgroupnames.message,
             toastLength: Toast.LENGTH_SHORT,
@@ -1564,7 +1566,9 @@ class CreatepoolState extends State<Createpool> {
           );
         }
       }
-    } else if (response.statusCode == 422) {
+    }
+    else if (response.statusCode == 422)
+    {
       val = response.body;
       if (jsonDecode(val)["status"] == false) {
         Fluttertoast.showToast(
@@ -1608,8 +1612,7 @@ class CreatepoolState extends State<Createpool> {
             Container(
               width: SizeConfig.blockSizeHorizontal * 45,
               alignment: Alignment.topLeft,
-              margin:
-                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
               padding: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical * 3,
               ),

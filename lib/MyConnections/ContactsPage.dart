@@ -13,8 +13,10 @@ import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:share/share.dart';
 
 class ContactsPage extends StatefulWidget {
+
   @override
   _ContactsPageState createState() => _ContactsPageState();
+
 }
 
 class _ContactsPageState extends State<ContactsPage> {
@@ -137,7 +139,10 @@ class _ContactsPageState extends State<ContactsPage> {
         children: [
           GestureDetector(
             onTap: (){
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
+              Navigator.pushAndRemoveUntil(context,
+                  MaterialPageRoute(builder:
+                      (context) => selectlangauge()),
+                      (route) => false);
             },
             child: Container(
                 alignment: Alignment.topRight,
@@ -170,15 +175,13 @@ class _ContactsPageState extends State<ContactsPage> {
                   child: Row(
                       children: [
                         (contact.avatar != null && contact.avatar.isNotEmpty) ? CircleAvatar(
-                          backgroundImage: MemoryImage(contact.avatar),
-                        ) : CircleAvatar(
+                          backgroundImage: MemoryImage(contact.avatar)) :
+                        CircleAvatar(
                           child: Text(contact.initials()),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
                         Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal *2,
-                              ),
+                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
                           width: SizeConfig.blockSizeHorizontal *64,
                           child: Text(contact.displayName ??''),
                         ),
@@ -237,18 +240,6 @@ class _ContactsPageState extends State<ContactsPage> {
                   ],
                 ),
               );
-               /* ListTile(
-                contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
-                leading: (contact.avatar != null && contact.avatar.isNotEmpty) ? CircleAvatar(
-                  backgroundImage: MemoryImage(contact.avatar),
-                ) : CircleAvatar(
-                  child: Text(contact.initials()),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                title: Text(contact.displayName ??''),
-
-
-              );*/
   }
 
   void checkper() async {
