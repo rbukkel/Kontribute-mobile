@@ -2293,6 +2293,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         )
     );
   }
+
   void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
     if (selected == true) {
       setState(() {

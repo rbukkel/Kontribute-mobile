@@ -1394,8 +1394,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
     };
     print("projectlikes: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.projectlikes, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.projectlikes, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       vallike = response.body; //store response as string
@@ -1563,9 +1562,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
   }
 
 
-
-
-
   Widget buildBar(BuildContext context) {
     return new AppBar(
         centerTitle: true,
@@ -1642,7 +1638,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["success"] == false)
+      {
         Fluttertoast.showToast(
             msg: jsonDecode(updateval)["message"],
             toastLength: Toast.LENGTH_SHORT,

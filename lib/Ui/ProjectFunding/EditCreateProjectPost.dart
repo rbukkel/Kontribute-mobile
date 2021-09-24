@@ -807,8 +807,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                                             height: 60,
                                                             child: Image.file(
                                                               _imageList
-                                                                  .elementAt(
-                                                                      index),
+                                                                  .elementAt(index),
                                                               fit: BoxFit.fill,
                                                               width: 60,
                                                               height: 60,
