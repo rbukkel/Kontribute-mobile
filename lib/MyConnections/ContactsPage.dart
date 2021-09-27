@@ -73,7 +73,7 @@ class _ContactsPageState extends State<ContactsPage> {
     {
       jsonResponse = json.decode(response.body);
       followval = response.body;
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         setState(() {
           resultfollowvalue = false;
         });

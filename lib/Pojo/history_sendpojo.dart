@@ -113,6 +113,7 @@ class Data {
   String updatedAt;
   String fullName;
   String profilePic;
+  String facebookId;
   String groupName;
   String groupAdmin;
   String specialTerms;
@@ -139,6 +140,7 @@ class Data {
         this.updatedAt,
         this.fullName,
         this.profilePic,
+        this.facebookId,
         this.groupName,
         this.groupAdmin,
         this.specialTerms});
@@ -165,6 +167,7 @@ class Data {
     updatedAt = json['updated_at'];
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
+    facebookId = json['facebook_id'];
     groupName = json['group_name'];
     groupAdmin = json['group_admin'];
     specialTerms = json['special_terms'];
@@ -193,6 +196,7 @@ class Data {
     data['updated_at'] = this.updatedAt;
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
+    data['facebook_id'] = this.facebookId;
     data['group_name'] = this.groupName;
     data['group_admin'] = this.groupAdmin;
     data['special_terms'] = this.specialTerms;

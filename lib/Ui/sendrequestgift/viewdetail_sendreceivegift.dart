@@ -184,9 +184,14 @@ class viewdetail_sendreceivegiftState
               print("false" + reverid);
               getfollowstatus(userid, reverid);
             }
-            if (senddetailsPojo.result.giftPicture != null) {
+            if (senddetailsPojo.result.receiverProfilePic == "") {
               setState(() {
-                image = senddetailsPojo.result.giftPicture;
+                image = senddetailsPojo.result.adminProfilePic;
+              });
+            }
+            else{
+              setState(() {
+                image = senddetailsPojo.result.receiverProfilePic;
               });
             }
           });
@@ -376,7 +381,12 @@ class viewdetail_sendreceivegiftState
                                               senddetailsPojo.result
                                                       .receiverProfilePic ==
                                                   ""
-                                          ? Container(
+                                          ?  senddetailsPojo.result.adminProfilePic ==
+                                          null ||
+                                          senddetailsPojo.result
+                                              .adminProfilePic ==
+                                              ""?
+                                      Container(
                                               height:
                                                   SizeConfig.blockSizeVertical *
                                                       18,
@@ -405,6 +415,34 @@ class viewdetail_sendreceivegiftState
                                                 ),
                                               ))
                                           : Container(
+                                          height:
+                                          SizeConfig.blockSizeVertical *
+                                              18,
+                                          width:
+                                          SizeConfig.blockSizeVertical *
+                                              17,
+                                          alignment: Alignment.center,
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig
+                                                  .blockSizeVertical *
+                                                  4,
+                                              bottom: SizeConfig
+                                                  .blockSizeVertical *
+                                                  1,
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  1,
+                                              left: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  4),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    senddetailsPojo.result
+                                                        .adminProfilePic),
+                                                fit: BoxFit.fill)),):
+                                      Container(
                                               height:
                                                   SizeConfig.blockSizeVertical *
                                                       18,

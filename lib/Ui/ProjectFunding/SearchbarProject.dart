@@ -205,15 +205,17 @@ class SearchbarProjectState extends State<SearchbarProject> {
         padding: new EdgeInsets.symmetric(vertical: 8.0),
         children: _IsSearching ? _buildSearchList() : _buildList(),
       ),*/
+
         body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column(
+          child:
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              storelist_length != null
-                  ? Expanded(
+              storelist_length != null?
+              Expanded(
                       child: ListView.builder(
                           itemCount: storelist_length.length == null
                               ? 0
@@ -222,13 +224,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
                             imageslist_length = listing.projectData
                                 .elementAt(index)
                                 .projectImages;
-                            double amount = double.parse(listing.projectData
-                                    .elementAt(index)
-                                    .requiredAmount) /
-                                double.parse(listing.projectData
-                                    .elementAt(index)
-                                    .budget) *
-                                100;
+                            double amount =
+                                double.parse(listing.projectData.elementAt(index).requiredAmount) /
+                                double.parse(listing.projectData.elementAt(index).budget) * 100;
                             amoun = amount.toInt();
                             return Container(
                               margin: EdgeInsets.only(
@@ -297,7 +295,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                 .toString()
                                                         ), context);
                                                   },
-
                                                     child: Container(
                                                       height: SizeConfig
                                                               .blockSizeVertical *

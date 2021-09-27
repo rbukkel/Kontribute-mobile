@@ -3,13 +3,14 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
-class AddScreen extends StatefulWidget{
+class AddScreen extends StatefulWidget
+{
   @override
   AddScreenState createState() => AddScreenState();
-  
 }
 
-class AddScreenState extends State<AddScreen>{
+class AddScreenState extends State<AddScreen>
+{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +28,6 @@ class AddScreenState extends State<AddScreen>{
                 ],
               ),
             ),
-
 
           ],
         ),

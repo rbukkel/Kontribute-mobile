@@ -78,17 +78,22 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
           timeInSecForIosWeb: 1,
         );
       } else {
-        senddetailsPojo =
-        new individualRequestDetailspojo.fromJson(jsonResponse);
+        senddetailsPojo = new individualRequestDetailspojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
             productlist_length = senddetailsPojo.result;
             storelist_length = senddetailsPojo.paymentdetails.data;
-            if (senddetailsPojo.result.giftPicture != null) {
+            if (senddetailsPojo.result.receiverProfilePic == "")
+            {
               setState(() {
-                image = senddetailsPojo.result.giftPicture;
+                image = senddetailsPojo.result.adminProfilePic;
+              });
+            } else
+            {
+              setState(() {
+                image = senddetailsPojo.result.receiverProfilePic;
               });
             }
           });
@@ -179,8 +184,8 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: senddetailsPojo.result.giftPicture !=
-                              null ||
+                          image: senddetailsPojo.result.giftPicture != null
+                              ||
                               senddetailsPojo.result.giftPicture != ""
                               ? NetworkImage(Network.BaseApigift +senddetailsPojo.result.giftPicture)
                               : new AssetImage(
@@ -190,8 +195,17 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                       )),
                   Row(
                     children: [
-                      senddetailsPojo.result.receiverProfilePic == null ||
-                          senddetailsPojo.result.receiverProfilePic == ""?Container(
+                      senddetailsPojo.result.receiverProfilePic ==
+                          null ||
+                          senddetailsPojo.result
+                              .receiverProfilePic ==
+                              ""
+                          ?  senddetailsPojo.result.adminProfilePic ==
+                          null ||
+                          senddetailsPojo.result
+                              .adminProfilePic ==
+                              ""?
+                      Container(
                           height:
                           SizeConfig.blockSizeVertical *
                               18,
@@ -200,8 +214,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                               17,
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical *6,
-                              bottom: SizeConfig.blockSizeVertical *1,
+                              top: SizeConfig
+                                  .blockSizeVertical *
+                                  4,
+                              bottom: SizeConfig
+                                  .blockSizeVertical *
+                                  1,
                               right: SizeConfig
                                   .blockSizeHorizontal *
                                   1,
@@ -210,12 +228,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                   4),
                           decoration: BoxDecoration(
                             image: new DecorationImage(
-                              image: new AssetImage("assets/images/account_circle.png"),
+                              image: new AssetImage(
+                                  "assets/images/account_circle.png"),
                               fit: BoxFit.fill,
                             ),
-                          )
-                      ):
-                      Container(
+                          ))
+                          : Container(
                         height:
                         SizeConfig.blockSizeVertical *
                             18,
@@ -224,8 +242,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                             17,
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical *6,
-                            bottom: SizeConfig.blockSizeVertical *1,
+                            top: SizeConfig
+                                .blockSizeVertical *
+                                4,
+                            bottom: SizeConfig
+                                .blockSizeVertical *
+                                1,
                             right: SizeConfig
                                 .blockSizeHorizontal *
                                 1,
@@ -235,8 +257,37 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(Network.BaseApiprofile +senddetailsPojo
-                                    .result.receiverProfilePic),
+                                image: NetworkImage(
+                                    senddetailsPojo.result
+                                        .adminProfilePic),
+                                fit: BoxFit.fill)),):
+                      Container(
+                        height:
+                        SizeConfig.blockSizeVertical *
+                            18,
+                        width:
+                        SizeConfig.blockSizeVertical *
+                            17,
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(
+                            top: SizeConfig
+                                .blockSizeVertical *
+                                4,
+                            bottom: SizeConfig
+                                .blockSizeVertical *
+                                1,
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                1,
+                            left: SizeConfig
+                                .blockSizeHorizontal *
+                                4),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    senddetailsPojo.result
+                                        .receiverProfilePic),
                                 fit: BoxFit.fill)),
                       ),
                       Column(

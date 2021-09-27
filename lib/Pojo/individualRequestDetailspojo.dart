@@ -279,6 +279,7 @@ class Paymentdetails {
   }
 }
 
+
 class Data {
   int id;
   String senderId;
@@ -347,13 +348,3 @@ class Data {
     return data;
   }
 }
-
-
-
-
-
-
-
-
-
-
