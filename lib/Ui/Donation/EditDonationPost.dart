@@ -2041,10 +2041,11 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     _documentList);
 
                                 */
-/* Navigator.pushAndRemoveUntil(
+                         /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
-                                            (route) => false);*/ /*
+                                            (route) => false);*/
+                         /*
 
                               },
                               child: Container(
@@ -2096,7 +2097,8 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         vidoname,
                                         _imageList,
                                         _documentList);
-                                  } else {
+                                  }
+                                  else {
                                     Fluttertoast.showToast(
                                       msg: "Please Select Images/documents",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -2170,7 +2172,6 @@ class EditDonationPostState extends State<EditDonationPost> {
         ),
       ));
     }
-
     return friendsTextFields;
   }
 
@@ -2214,8 +2215,7 @@ class EditDonationPostState extends State<EditDonationPost> {
       List documentList) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest(
-        "POST", Uri.parse(Network.BaseApi + Network.edit_donation));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.edit_donation));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["campaign_name"] = projectname.toString();
     request.fields["description"] = descrition.toString();
@@ -2258,7 +2258,8 @@ class EditDonationPostState extends State<EditDonationPost> {
           filename: documentPath));
     }*/
     var response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) {
+    response.stream.transform(utf8.decoder).listen((value)
+    {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
         if (jsonData["status"] == false) {

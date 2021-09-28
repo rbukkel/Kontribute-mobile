@@ -37,9 +37,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double percent = 0.0;
-
   String token = '';
-
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
 
   gettoken() {
