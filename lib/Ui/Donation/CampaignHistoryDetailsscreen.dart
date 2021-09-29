@@ -151,10 +151,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
             imageslist_length = projectdetailspojo.commentsdata.donationimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            double amount =
-                double.parse(projectdetailspojo.commentsdata.totalcollectedamount) /
-                    double.parse(projectdetailspojo.commentsdata.budget) *
-                    100;
+            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) / double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
           });
@@ -328,15 +325,15 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
               ),
             )
         ),
-        PopupMenuItem(
+   /*     PopupMenuItem(
             value: 3,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                /* callNext(
+                *//* callNext(
                     ProjectReport(
                         data: projectdetailspojo.commentsdata.id.toString()
-                    ), context);*/
+                    ), context);*//*
               },
               child: Row(
                 children: <Widget>[
@@ -350,7 +347,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                   )
                 ],
               ),
-            )),
+            )),*/
       ],
       elevation: 8.0,
     );
@@ -441,7 +438,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
+                      /*  GestureDetector(
                           onTapDown: (TapDownDetails details) {
                             _tapDownPosition = details.globalPosition;
                           },
@@ -457,7 +454,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                             child: Image.asset("assets/images/menudot.png",
                                 height: 15, width: 20),
                           ),
-                        ),
+                        ),*/
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -851,7 +848,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                               child: Text(
                                 "\$" +
                                     projectdetailspojo
-                                        .commentsdata.requiredAmount,
+                                        .commentsdata.totalcollectedamount,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,

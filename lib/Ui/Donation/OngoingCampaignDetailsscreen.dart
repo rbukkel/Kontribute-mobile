@@ -552,8 +552,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                           top: SizeConfig.blockSizeVertical * 1,
                                         ),
                                         child: Text(
-                                          projectdetailspojo
-                                              .commentsdata.fullName,
+                                          projectdetailspojo.commentsdata.fullName,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.themecolor,
@@ -570,14 +569,9 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                               3),
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              2,
-                                          bottom:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          left: SizeConfig.blockSizeHorizontal * 2,
+                                          bottom: SizeConfig.blockSizeHorizontal * 2,
                                           top: SizeConfig.blockSizeHorizontal *
                                               2),
                                       decoration: BoxDecoration(
@@ -670,8 +664,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                               'Poppins-Regular'),
                                         ),
                                       ),
-                                    ): Container(): Container()
-
+                                    ): Container()
+                                    : Container()
                                   ],
                                 ),
                                 Row(

@@ -202,8 +202,55 @@ class CreateDonationPostState extends State<CreateDonationPost> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+      getData(userid);
       print("Login userid: " + userid.toString());
     });
+  }
+
+
+  Future<void> getData(String a) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString()};
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null)
+        {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+
+          });
+        }
+        else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
   }
 
   Future getPdfAndUpload() async {

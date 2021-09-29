@@ -1,20 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kontribute/Common/fab_bottom_app_bar.dart';
-import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/Donation/CampaignHistory.dart';
 import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
-import 'package:kontribute/Ui/HomeScreen.dart';
-import 'package:kontribute/Ui/NotificationScreen.dart';
-import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
-import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
-import 'package:kontribute/Ui/SettingScreen.dart';
-import 'package:kontribute/Ui/WalletScreen.dart';
-import 'package:kontribute/Ui/sendrequestgift/Createpool.dart';
-import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
-import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
-import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
@@ -69,7 +57,6 @@ class donationState extends State<donation> {
                 child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
               ),
             ),
-
           ],
           flexibleSpace: Image(
             height: SizeConfig.blockSizeVertical * 12,
@@ -90,7 +77,6 @@ class donationState extends State<donation> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Text(StringConstant.ongoingcampaign.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
@@ -112,11 +98,9 @@ class donationState extends State<donation> {
                       ],
                     )),
               ),
-
             ],
           ),
         ),
-
           body: Container(
               height: double.infinity,
              color: AppColors.whiteColor,
@@ -127,14 +111,12 @@ class donationState extends State<donation> {
                   CampaignHistory(),
                 ],
               ),
-
             ) ,
         bottomNavigationBar: bottombar(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton:
         FloatingActionButton(
           //  backgroundColor: AppColors.whiteColor,
-
           child: new Icon(Icons.add_box),
           backgroundColor: AppColors.themecolor,
           /*  icon: Icon(
@@ -149,7 +131,7 @@ class donationState extends State<donation> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => CreateDonationPost()));
+                builder: (BuildContext context) => CreateDonationPost()));
           },
         ),
       ),

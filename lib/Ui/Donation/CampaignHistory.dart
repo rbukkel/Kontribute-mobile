@@ -403,7 +403,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                 ),
                                               ],
                                             ),
-
                                           ],
                                         )
                                       ],

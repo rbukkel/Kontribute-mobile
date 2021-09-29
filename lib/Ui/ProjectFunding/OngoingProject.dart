@@ -511,8 +511,8 @@ class OngoingProjectState extends State<OngoingProject> {
                          commentlist_length = listing.projectData.elementAt(index).comments;
                       double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount) /
                           double.parse(listing.projectData.elementAt(index).budget) * 100;
-                      amoun =amount.toInt();
-                         reverid = listing.projectData.elementAt(index).userId.toString();
+                      amoun = amount.toInt();
+                      reverid = listing.projectData.elementAt(index).userId.toString();
                       return
                         Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
@@ -523,8 +523,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                 width: 1,
                               ),
                             ),
-                            child:
-                                  Container(
+                            child: Container(
                                     padding: EdgeInsets.all(5.0),
                                     margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
                                     child:
@@ -540,7 +539,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                           },
                                           onTap: ()
                                           {
-                                            listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
+                                            listing.projectData.elementAt(index).userId == userid? _showEditPopupMenu(index):
                                             _showPopupMenu(index);
                                           },
                                           child:  Container(
@@ -680,7 +679,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     ),
 
                                                     Container(
-                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
+                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
+                                                          left: SizeConfig.blockSizeHorizontal *3),
                                                       alignment: Alignment.topRight,
                                                       padding: EdgeInsets.only(
                                                           right: SizeConfig
@@ -788,7 +788,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         // show the dialog
                                                         showDialog(
                                                           context: context,
-                                                          builder: (BuildContext context) {
+                                                          builder: (BuildContext context)
+                                                          {
                                                             return alert;
                                                           },
                                                         );

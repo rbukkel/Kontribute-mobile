@@ -39,12 +39,15 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   var commentlist_length;
   Offset _tapDownPosition;
   String userid;
+  String reverid;
   int currentPageValue = 0;
   bool resultvalue = true;
   donationlistingPojo listing;
   int amount;
+  String Follow = "Follow";
   int amoun;
   String updateval;
+  String updatefollowval;
   String tabValue ="1";
 
   final List<Widget> introWidgetsList = <Widget>[
@@ -102,6 +105,44 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     });
   }
 
+
+  Future<void> followapi(String useid, String rece) async {
+    Map data = {
+      'sender_id': useid.toString(),
+      'receiver_id': rece.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.follow, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updatefollowval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(updatefollowval);
+      } else {
+        if (jsonResponse != null) {
+          showToast(updatefollowval);
+          setState(() {
+            Follow = "";
+          });
+        } else {
+          showToast(updatefollowval);
+        }
+      }
+    } else {
+      showToast(updatefollowval);
+    }
+  }
+
+  void showToast(String updateval) {
+    Fluttertoast.showToast(
+      msg: jsonDecode(updateval)["message"],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+    );
+  }
 
   void getdata(String user_id) async {
     setState(() {
@@ -456,7 +497,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   },
                                                   child: Container(
                                                     margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                    width: SizeConfig.blockSizeHorizontal *38,
+                                                    width: SizeConfig.blockSizeHorizontal *31,
                                                     padding: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *1,
                                                     ),
@@ -472,10 +513,37 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   ) ,
                                                 ),
 
+                                                listing.projectData.elementAt(index).userId.toString()==userid?
+                                                Container():
+                                                GestureDetector(
+                                                  onTap: ()
+                                                  {
+                                                    followapi(userid, reverid);
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,
+                                                        left: SizeConfig.blockSizeHorizontal*2),
+                                                    padding: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *1,
+                                                    ),
+                                                    child: Text(
+                                                      Follow,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.darkgreen,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ),
+                                                ),
+
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *2,
-                                                      left: SizeConfig.blockSizeHorizontal *1),
+                                                      left: SizeConfig.blockSizeHorizontal *2),
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
                                                       right: SizeConfig.blockSizeHorizontal * 2,
@@ -502,8 +570,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
-
-
                                                 listing.projectData.elementAt(index).userId.toString()!=userid?
                                                 listing.projectData.elementAt(index).status=="pending"?
                                                 GestureDetector(
