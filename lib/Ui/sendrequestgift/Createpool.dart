@@ -1263,7 +1263,7 @@ class CreatepoolState extends State<Createpool> {
                                   DescriptionController.text,
                                   requiredamountController.text,
                                   collectionController.text,
-                                  currentid.toString(),
+                                  followingvalues.toString(),
                                   myFormat.format(currentDate),
                                   TermsController.text,
                                   _imageFile);
@@ -1328,8 +1328,7 @@ class CreatepoolState extends State<Createpool> {
       File imageFile) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest(
-        "POST", Uri.parse(Network.BaseApi + Network.create_group));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_group));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["group_members"] = values.toString() + "," + userid.toString();
     request.fields["pool_messages"] = description.toString();
@@ -1343,23 +1342,13 @@ class CreatepoolState extends State<Createpool> {
     print("Request: " + request.fields.toString());
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
-      request.files.add(await http.MultipartFile.fromPath(
-          "file", imageFile.path,
-          filename: imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath("file", imageFile.path, filename: imageFile.path));
     }
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
-        if (jsonData["status"] == false) {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        } else {
+        if (jsonData["success"] == true) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             setState(() {
@@ -1385,6 +1374,14 @@ class CreatepoolState extends State<Createpool> {
               timeInSecForIosWeb: 1,
             );
           }
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
         }
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1394,10 +1391,20 @@ class CreatepoolState extends State<Createpool> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-      } else {
+      }
+      else if (response.statusCode == 422) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg: "Something went wrong",
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonData["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -1520,7 +1527,6 @@ class CreatepoolState extends State<Createpool> {
     final removedBrackets = input.substring(1, input.length - 1);
     final parts = removedBrackets.split(',');
     catFollowingname = parts.map((parts) => "$parts").join(',').trim();
-
     final input1 = _selecteFollowing.toString();
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');
