@@ -10,6 +10,7 @@ class Network{
   static String nationality = "nationality";
   static String login = "login";
   static String socailLogin = "socailLogin";
+  static String loginrequest = "loginrequest";
   static String username_listing = "username_listing";
   static String send_gift_request = "send_gift_request";
   static String requestgiftlist = "requestgiftlist";

@@ -1395,7 +1395,7 @@ class CreatepoolState extends State<Createpool> {
       else if (response.statusCode == 422) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg: "Internal server error",
+          msg: jsonData["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -1444,7 +1444,8 @@ class CreatepoolState extends State<Createpool> {
                   ),
                 );
               }),
-        ));
+        )
+    );
   }
 
   ExpandedInvitationview0() {

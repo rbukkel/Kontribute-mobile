@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
-import 'package:kontribute/Pojo/loginotp.dart';
 
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
@@ -20,23 +19,25 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/MyConnections/ContactsPage.dart';
-import 'package:kontribute/Ui/loginOTPScreen.dart';
 
-class login extends StatefulWidget{
+class loginOTPScreen extends StatefulWidget{
   @override
-  loginState createState() => loginState();
+  loginOTPScreenState createState() => loginOTPScreenState();
 }
 
-class loginState extends State<login>{
+class loginOTPScreenState extends State<loginOTPScreen>{
   final _formKey = GlobalKey<FormState>();
   final EmailFocus = FocusNode();
   final PwdFocus = FocusNode();
+  final OTPFocus = FocusNode();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController OtpController = new TextEditingController();
   bool _showPassword = false;
   String _email;
   String _password;
+  String _otp;
   String token;
   var facebookLogin = FacebookLogin();
   bool isLoggedIn = false;
@@ -217,7 +218,7 @@ class loginState extends State<login>{
                       autofocus: false,
                       focusNode: PwdFocus,
                       controller: passwordController,
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,
                       validator: (val) {
                         if (val.length == 0)
@@ -250,6 +251,59 @@ class loginState extends State<login>{
                       ),
                     ),
                   ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 10,
+                      right: SizeConfig.blockSizeHorizontal * 10,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 3,
+                      right: SizeConfig.blockSizeVertical * 3,
+                    ),
+                    alignment: Alignment.topLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child: TextFormField(
+                      autofocus: false,
+                      focusNode: OTPFocus,
+                      controller: OtpController,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter otp";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v) {
+                        OTPFocus.unfocus();
+                      },
+                      onSaved: (val) => _otp = val,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',color: Colors.white),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.Otp,
+                      ),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
 
@@ -260,7 +314,7 @@ class loginState extends State<login>{
                         Internet_check().check().then((intenet) {
                           if (intenet != null && intenet) {
                             signIn(
-                                emailController.text, passwordController.text,token);
+                                emailController.text, passwordController.text,OtpController.text,token);
                           } else {
                             Fluttertoast.showToast(
                               msg: "No Internet Connection",
@@ -343,100 +397,7 @@ class loginState extends State<login>{
                       ],
                     ),
                   ),
-                  Container(
-                    margin:
-                    EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-                    width: 300,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                     Container(
-                       width:60,
-                       child:  Divider(
-                         color: Colors.grey,
-                         thickness: 1,
-                       ),
-                     ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: 10,
-                          right: 10,
-                        ),
-                        child: Text(StringConstant.or,
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',)),
-                      ),
-                      Container(
-                        width:60,
-                        child:  Divider(
-                          color: Colors.grey,
-                          thickness: 1,
-                        ),
-                      ),
-                    ]),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            child: Image.asset(
-                              "assets/images/facebook.png",
-                              height: 40,
-                              width: 40,
-                            ),
-                          ),
-                          onTap: ()
-                          {
-                            loginmethod();
-                          },
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left:SizeConfig.blockSizeHorizontal * 3,
-                                right: SizeConfig.blockSizeHorizontal * 3),
-                            child: Image.asset(
-                              "assets/images/gmail.png",
-                              height: 40,
-                              width: 40,
-                            ),
-                          ),
-                          onTap: () {
-                            signInWithGoogle();
-                          },
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            child: Image.asset(
-                              "assets/images/twitter.png",
-                              height: 40,
-                              width: 40,
-                            ),
-                          ),
-                          onTap: () {
-                           // signInWithTwitter();
-                          },
-                        ),
 
-
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),
@@ -446,49 +407,9 @@ class loginState extends State<login>{
     );
   }
 
-  Future<String> signInWithGoogle() async {
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-    await googleSignInAccount.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-    final UserCredential authResult =
-    await _auth.signInWithCredential(credential);
-    final User user = authResult.user;
-    if (user != null) {
-      assert(!user.isAnonymous);
-      assert(await user.getIdToken() != null);
-      final User currentUser = _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-      print('signInWithGoogle succeeded: $user');
-      setState(() {
-        SharedUtils.readloginData("login", true);
-        fetchData(user.displayName, user.email, user.uid, user.photoURL);
-        SharedUtils.writeloginId("login_type", "google");
-      });
-      return '$user';
-    } else {
-      print('Already Login: $user');
-    }
-    return null;
-  }
 
 
-  void loginmethod() {
-    Internet_check().check().then((intenet) async {
-      if (intenet != null && intenet) {
-        initiateFacebookLogin();
-      } else {
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
-    });
-  }
+
 
   void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
     setState(() {
@@ -497,63 +418,19 @@ class loginState extends State<login>{
     });
   }
 
-  void initiateFacebookLogin() async {
-    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'public_profile']);
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        print("Facebook error: ");
-        onLoginStatusChanged(false);
-        break;
-
-      case FacebookLoginStatus.cancelledByUser:
-        print("Facebook cancel");
-        onLoginStatusChanged(false);
-        break;
-
-      case FacebookLoginStatus.loggedIn:
-        var graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}');
-        var profile = json.decode(graphResponse.body);
-        print(profile.toString());
-        print("ProfileEmail" + profile['email'].toString());
-        print("ProfileID: " + profile['id'].toString());
-        print("ProfileName: " + profile['name'].toString());
-        print(profile['picture']['data']['url']);
-        onLoginStatusChanged(true, profileData: profile);
-        SharedUtils.readloginData("login", true);
-        fetchData(
-            profile['name'].toString(),
-            profile['email'].toString(),
-            profile['id'].toString(),
-            profile['picture']['data']['url'].toString(),
-            );
-        SharedUtils.writeloginId("login_type", "facebook");
-
-        // Navigator.of(context).pop();
-        break;
-    }
-  }
 
 
-  fetchData(String name, String email, String id, String photoURL) async {
-    print("email: " + email.toString());
-    print("name: " + name.toString());
-    print("id: " + id.toString());
-    print("photoURL: " + photoURL.toString());
+  signIn(String emal,String pass,String otp,String token) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
-      'email': email.toString(),
-      'full_name': name.toString(),
-      'mobile_token': token.toString(),
-      'facebook_id': id.toString(),
-      'profile_pic': photoURL.toString(),
-    };
-
-
-    print("Social: "+data.toString());
+      "email":emal,
+      "password":pass,
+      "mobile_token":token,
+      "otp":otp,
+      };
+    print("Data: "+data.toString());
     var jsonResponse = null;
-    var response =
-    await http.post(Network.BaseApi + Network.socailLogin, body: data);
+    var response = await http.post(Network.BaseApi + Network.login, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse["success"] == false) {
@@ -578,113 +455,18 @@ class loginState extends State<login>{
           SharedUtils.readloginData("login",true);
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
+
           Fluttertoast.showToast(
             msg: login.message,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-      /*    Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      selectlangauge()),
-                  (route) => false); */
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                   builder: (context) =>
                       ContactsPage()),
-                  (route) => false);
-        } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Navigator.of(context).pop();
-            //   isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    }
-    else {
-
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
-
-
- /* void signInWithTwitter() async {
-    final TwitterLoginResult result = await twitterLogin.authorize();
-    String newMessage;
-    if (result.status == TwitterLoginStatus.loggedIn) {
-     // _signInWithTwitter(result.session.token, result.session.secret);
-    } else if (result.status == TwitterLoginStatus.cancelledByUser) {
-      newMessage = 'Login cancelled by user.';
-    } else {
-      newMessage = result.errorMessage;
-    }
-    setState(() {
-      message = newMessage;
-    });
-  }*/
-
- /* void _signInWithTwitter(String token, String secret) async {
-    final AuthCredential credential = TwitterAuthProvider.getCredential(
-        authToken: token, authTokenSecret: secret);
-    await _authtwitter.signInWithCredential(credential);
-  }*/
-
-  signIn(String emal,String pass,String token) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {
-      "email":emal,
-      "password":pass,
-      "mobile_token":token,
-      };
-    print("Data: "+data.toString());
-    var jsonResponse = null;
-    var response = await http.post(Network.BaseApi + Network.loginrequest, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-      else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        loginotp login = new loginotp.fromJson(jsonResponse);
-        if (jsonResponse != null) {
-          setState(() {
-            isLoading = false;
-          });
-
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      loginOTPScreen()),
                   (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

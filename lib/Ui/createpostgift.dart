@@ -28,7 +28,7 @@ class createpostgiftState extends State<createpostgift> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -84,7 +84,7 @@ class createpostgiftState extends State<createpostgift> {
               Tab(
                 child: Container(
                     alignment: Alignment.center,
-                    width: SizeConfig.blockSizeHorizontal * 30,
+                    width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -103,7 +103,7 @@ class createpostgiftState extends State<createpostgift> {
               Tab(
                 child: Container(
                     alignment: Alignment.center,
-                    width: SizeConfig.blockSizeHorizontal * 30,
+                    width: SizeConfig.blockSizeHorizontal * 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -119,7 +119,7 @@ class createpostgiftState extends State<createpostgift> {
                       ],
                     )),
               ),
-              Tab(
+             /* Tab(
                 child: Container(
                   alignment: Alignment.center,
                     width: SizeConfig.blockSizeHorizontal * 30,
@@ -141,7 +141,7 @@ class createpostgiftState extends State<createpostgift> {
 
                       ],
                     )),
-              ),
+              ),*/
             ],
           ),
         ),
@@ -154,7 +154,7 @@ class createpostgiftState extends State<createpostgift> {
                 children:[
                   RequestIndividaul(),
                   SendIndividaul(),
-                  Createpool()
+                //  Createpool()
                 ],
               ),
 

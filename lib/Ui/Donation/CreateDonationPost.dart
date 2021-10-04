@@ -621,8 +621,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                 maintainAnimation: true,
                                 maintainState: true,
                                 child: Container()),
-                            _imageList.length != 0
-                                ? Container(
+                            _imageList.length != 0 ? Container(
                                 alignment: Alignment.topCenter,
                                 height: SizeConfig.blockSizeVertical * 10,
                                 margin: EdgeInsets.only(
