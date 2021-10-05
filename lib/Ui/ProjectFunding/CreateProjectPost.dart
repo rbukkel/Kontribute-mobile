@@ -85,6 +85,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   String _totalbudget;
   String _Video;
   String userid;
+  String username;
   sendinvitationpojo sendinvi;
   final NameFocus = FocusNode();
   final EmailotherFocus = FocusNode();
@@ -201,6 +202,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       userid = val;
       getData(userid);
       print("Login userid: " + userid.toString());
+    });
+    SharedUtils.readloginId("Usename").then((val) {
+      print("username: " + val);
+      username = val;
+      print("Login username: " + username.toString());
     });
   }
 
@@ -1585,12 +1591,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         currentid = 2;
                                       }else if(currentSelectedValue=="Invite")
                                       {
-                                        currentid =3;
-                                      }else if(currentSelectedValue=="Others")
-                                      {
-                                        currentid =4;
+                                        currentid = 3;
                                       }
-
+                                      else if(currentSelectedValue=="Others")
+                                      {
+                                        currentid = 4;
+                                      }
                                     });
                                   },
                                   isExpanded: true,
@@ -1599,7 +1605,21 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                             )
                           ],
                         ),
-                        currentSelectedValue.toString().toLowerCase()=="invite"?inviteView():
+                        currentSelectedValue.toString().toLowerCase()=="invite"?categoryfollowinglist!=null?inviteView():
+                        Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                            top: SizeConfig.blockSizeVertical * 2),child: Text(
+                          "No Connection available",
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Bold'),
+                        ),):
                         currentSelectedValue.toString().toLowerCase()=="others"?otherOptionview()
                             :Container(),
                         Container(
@@ -1706,19 +1726,35 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     final parts = removedBrackets.split(',');
                                     vidoname = parts.map((part) => "$part").join(',').trim();
                                     print("Vidoname: "+vidoname.toString());
+                                    if (followingvalues == null || followingvalues == "") {
+                                      Fluttertoast.showToast(
+                                        msg: "Please select contacts",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                      );
+                                    }
+                                    else
+                                      {
+                                        createproject(
+                                            context,
+                                            ProjectNameController.text,
+                                            DescriptionController.text,
+                                            myFormat.format(currentDate),
+                                            myFormat.format(currentEndDate),
+                                            TermsController.text,
+                                            EnterRequiredAmountController.text,
+                                            TotalBudgetController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            followingvalues.toString(),
+                                            vidoname,
+                                            _imageList,
+                                            _documentList);
+                                      }
 
-                                    createproject(
-                                        context,
-                                        ProjectNameController.text,
-                                        DescriptionController.text,
-                                        myFormat.format(currentDate),
-                                        myFormat.format(currentEndDate),
-                                        TermsController.text,
-                                        EnterRequiredAmountController.text,
-                                        TotalBudgetController.text,
-                                        vidoname,
-                                        _imageList,
-                                        _documentList);
                                   }
                                   else {
                                     Fluttertoast.showToast(
@@ -1990,7 +2026,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               ),
             ),
           ),
-          GestureDetector(
+      /*    GestureDetector(
             onTap: () {
               if (_formKey.currentState.validate()) {
                 setState(() {
@@ -2055,7 +2091,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                   ],
                 )
             ),
-          ),
+          ),*/
         ],
       ),
     );
@@ -2263,10 +2299,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 
   ExpandedInvitationview0() {
-    return Container(
+    return
+      Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
-        child:MediaQuery.removePadding(
+        child:
+        MediaQuery.removePadding(
           context: context,
           removeTop: true,
           child:  ListView.builder(
@@ -2294,7 +2332,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
-  void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
+  void _onCategoryFollowingSelected(bool selected, category_id, category_name)
+  {
     if (selected == true) {
       setState(() {
         _selecteFollowing.add(category_id);
@@ -2357,6 +2396,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       String terms,
       String enterrequiredamount,
       String totalbudget,
+      String email,
+      String name,
+      String mobile,
+      String message,
+      String connection,
       String video,
       List images, List documentList) async {
     var jsonData = null;
@@ -2373,7 +2417,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     request.fields["video_link"] = video;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
-
+    request.fields["name"] = name.toString();
+    request.fields["mobile"] = mobile.toString();
+    request.fields["email"] = email.toString();
+    request.fields["message"] = message.toString();
+    request.fields["sendername"] = username.toString();
+    request.fields["members"] = connection.toString();
 
     print("Request: "+request.fields.toString());
     for (int i = 0; i < images.length; i++) {
@@ -2417,7 +2466,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
-            setState(() {
+            setState(()
+            {
               isLoading = false;
             });
             Fluttertoast.showToast(

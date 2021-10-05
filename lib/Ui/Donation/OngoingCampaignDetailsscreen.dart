@@ -207,7 +207,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
       height: isActive ? 12 : 8,
       width: isActive ? 12 : 8,
       decoration: BoxDecoration(
-          color: isActive ? AppColors.whiteColor : AppColors.lightgrey,
+          color: isActive ? AppColors.themecolor : AppColors.lightthemecolor,
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
   }
@@ -851,7 +851,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 right: SizeConfig.blockSizeHorizontal * 1,
                               ),
                               child: Text(
-                                "\$" + projectdetailspojo.commentsdata.requiredAmount,
+                                "\$" + projectdetailspojo.commentsdata.totalcollectedamount,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -1709,7 +1709,6 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
           setState(() {
             CommentController.text ="";
           });
-
           getData(userid, a);
         } else {
           Fluttertoast.showToast(

@@ -530,6 +530,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
   Future<void> signOutGoogle(BuildContext context) async {
     SharedUtils.readloginData("login",false);
     SharedUtils.writeloginId("UserId", "");
+    SharedUtils.writeloginId("Usename", "");
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext)=>login()), (route) => false);
     print("User Signed Out");
   }

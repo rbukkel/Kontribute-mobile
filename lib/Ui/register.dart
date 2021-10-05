@@ -1030,7 +1030,7 @@ class registerState extends State<register> {
           SharedUtils.readloginData("login",true);
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
-
+          SharedUtils.writeloginId("Usename", login.resultPush.fullName);
           Fluttertoast.showToast(
             msg: login.message,
             toastLength: Toast.LENGTH_SHORT,
@@ -1103,7 +1103,7 @@ class registerState extends State<register> {
           SharedUtils.readloginData("login",true);
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
-
+          SharedUtils.writeloginId("Usename", login.resultPush.fullName);
           Fluttertoast.showToast(
             msg: login.message,
             toastLength: Toast.LENGTH_SHORT,

@@ -578,6 +578,7 @@ class loginState extends State<login>{
           SharedUtils.readloginData("login",true);
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
+          SharedUtils.writeloginId("Usename", login.resultPush.fullName);
           Fluttertoast.showToast(
             msg: login.message,
             toastLength: Toast.LENGTH_SHORT,
@@ -622,7 +623,6 @@ class loginState extends State<login>{
       );
     }
   }
-
 
  /* void signInWithTwitter() async {
     final TwitterLoginResult result = await twitterLogin.authorize();
@@ -702,7 +702,6 @@ class loginState extends State<login>{
       }
     }
     else {
-
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonResponse["message"],

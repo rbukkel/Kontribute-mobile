@@ -38,7 +38,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
       height: isActive ? 12 : 8,
       width: isActive ? 12 : 8,
       decoration: BoxDecoration(
-          color: isActive ? AppColors.whiteColor : AppColors.lightgrey,
+          color: isActive ? AppColors.themecolor : AppColors.lightthemecolor,
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
   }

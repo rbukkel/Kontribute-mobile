@@ -1569,7 +1569,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     ),
                                   )
 
-                                  /*   Container(
+                             /*   Container(
                               width: SizeConfig.blockSizeHorizontal * 65,
                               height: SizeConfig.blockSizeVertical *10,
                               margin: EdgeInsets.only(
@@ -1646,8 +1646,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 3,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 22,
                                     child: Text(
@@ -1661,13 +1660,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     ),
                                   ),
                                   Container(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 70,
+                                      width: SizeConfig.blockSizeHorizontal * 70,
                                       height: SizeConfig.blockSizeVertical * 10,
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 2,
-                                        right:
-                                            SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 3,
                                       ),
                                       alignment: Alignment.centerLeft,
                                       padding: EdgeInsets.only(
@@ -1688,13 +1685,9 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                         child: Row(
                                           children: [
                                             Container(
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    60,
+                                                width: SizeConfig.blockSizeHorizontal * 60,
                                                 child: Text(
-                                                  catname != null
-                                                      ? catname.toString()
-                                                      : "",
+                                                  catname != null ? catname.toString() : "",
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -1711,9 +1704,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                                 getPdfAndUpload();
                                               },
                                               child: Container(
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    5,
+                                                width: SizeConfig.blockSizeHorizontal * 5,
                                                 child: Icon(
                                                   Icons.attachment,
                                                   color: AppColors.greyColor,
@@ -1739,8 +1730,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 3,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
@@ -1831,15 +1821,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   )
                                 ],
                               ),
-                              currentSelectedValue.toString().toLowerCase() ==
-                                      "invite"
-                                  ? inviteView(context)
-                                  : currentSelectedValue
-                                              .toString()
-                                              .toLowerCase() ==
-                                          "others"
-                                      ? otherOptionview(context)
-                                      : Container(),
+                              currentSelectedValue.toString().toLowerCase() == "invite" ? inviteView(context)
+                                  : currentSelectedValue.toString().toLowerCase() == "others" ? otherOptionview(context) : Container(),
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
