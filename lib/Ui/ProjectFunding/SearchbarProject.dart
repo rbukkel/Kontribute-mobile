@@ -224,8 +224,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                             imageslist_length = listing.projectData
                                 .elementAt(index)
                                 .projectImages;
-                            double amount =
-                                double.parse(listing.projectData.elementAt(index).requiredAmount) /
+                            double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) /
                                 double.parse(listing.projectData.elementAt(index).budget) * 100;
                             amoun = amount.toInt();
                             return Container(
@@ -335,11 +334,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
 
                                                   },
                                                   child: Container(
-                                                    height: SizeConfig
-                                                            .blockSizeVertical *
-                                                        9,
-                                                    width: SizeConfig
-                                                            .blockSizeVertical *
+                                                    height: SizeConfig.blockSizeVertical * 9,
+                                                    width: SizeConfig.blockSizeVertical *
                                                         9,
                                                     alignment: Alignment.center,
                                                     margin: EdgeInsets.only(
@@ -349,9 +345,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                         bottom: SizeConfig
                                                                 .blockSizeVertical *
                                                             1,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
+                                                        right: SizeConfig.blockSizeHorizontal * 1,
                                                         left: SizeConfig
                                                                 .blockSizeHorizontal *
                                                             1),
@@ -359,10 +353,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                         shape: BoxShape.circle,
                                                         image: DecorationImage(
                                                             image: NetworkImage(
-                                                                listing
+                                                                     listing
                                                                     .projectData
-                                                                    .elementAt(
-                                                                        index)
+                                                                    .elementAt(index)
                                                                     .profilePic),
                                                             fit: BoxFit.fill)),
                                                   ),

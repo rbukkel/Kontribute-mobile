@@ -128,7 +128,6 @@ class EditCreatepoolState extends State<EditCreatepool> {
     });
   }
 
-
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed
@@ -175,7 +174,8 @@ class EditCreatepoolState extends State<EditCreatepool> {
   }
 
   DateView() async {
-    final DateTime picked = await showDatePicker(
+    final DateTime picked = await
+    showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1901, 1),
@@ -287,6 +287,7 @@ class EditCreatepoolState extends State<EditCreatepool> {
     );
   }
 
+
   void getData(String id) async {
     Map data = {
       'id': id.toString(),
@@ -335,8 +336,6 @@ class EditCreatepoolState extends State<EditCreatepool> {
             }
 
             currentid = int.parse(sendgift.data.canSee);
-
-
             if(currentid==1)
             {
               showpost ="Anyone";
@@ -367,7 +366,6 @@ class EditCreatepoolState extends State<EditCreatepool> {
     }
   }
 
-
   Future<void> captureImage(ImageSource imageSource) async
   {
     if (imageSource == ImageSource.camera)
@@ -378,8 +376,9 @@ class EditCreatepoolState extends State<EditCreatepool> {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists())
           {
-            setState(() {
-              print("Path: " + _imageFile.toString());
+            setState(()
+            {
+              print("Path: "+ _imageFile.toString());
               image_value = true;
               imageUrl = false;
             });
@@ -479,7 +478,6 @@ class EditCreatepoolState extends State<EditCreatepool> {
                                     ),
                                   ),
                                 ),*/
-
                                 image_value==false?Container(
                                     height: SizeConfig.blockSizeVertical * 25,
                                     width: SizeConfig.blockSizeHorizontal * 100,

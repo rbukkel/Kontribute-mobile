@@ -1726,7 +1726,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     final parts = removedBrackets.split(',');
                                     vidoname = parts.map((part) => "$part").join(',').trim();
                                     print("Vidoname: "+vidoname.toString());
-                                    if (followingvalues == null || followingvalues == "") {
+                                  /*  if (followingvalues == null || followingvalues == "") {
                                       Fluttertoast.showToast(
                                         msg: "Please select contacts",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -1736,24 +1736,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     }
                                     else
                                       {
-                                        createproject(
-                                            context,
-                                            ProjectNameController.text,
-                                            DescriptionController.text,
-                                            myFormat.format(currentDate),
-                                            myFormat.format(currentEndDate),
-                                            TermsController.text,
-                                            EnterRequiredAmountController.text,
-                                            TotalBudgetController.text,
-                                            emailController.text,
-                                            nameController.text,
-                                            mobileController.text,
-                                            messageController.text,
-                                            followingvalues.toString(),
-                                            vidoname,
-                                            _imageList,
-                                            _documentList);
-                                      }
+
+                                      }*/
+                                    createproject(
+                                        context,
+                                        ProjectNameController.text,
+                                        DescriptionController.text,
+                                        myFormat.format(currentDate),
+                                        myFormat.format(currentEndDate),
+                                        TermsController.text,
+                                        EnterRequiredAmountController.text,
+                                        TotalBudgetController.text,
+                                        emailController.text,
+                                        nameController.text,
+                                        mobileController.text,
+                                        messageController.text,
+                                        followingvalues.toString(),
+                                        vidoname,
+                                        _imageList,
+                                        _documentList);
 
                                   }
                                   else {

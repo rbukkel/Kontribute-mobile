@@ -1,14 +1,25 @@
 class get_createProjectPojo {
   bool success;
+  List<Invitationdata> invitationdata;
   ProjectData projectData;
   List<ProjectImagesdata> projectImagesdata;
   String message;
 
   get_createProjectPojo(
-      {this.success, this.projectData, this.projectImagesdata, this.message});
+      {this.success,
+        this.invitationdata,
+        this.projectData,
+        this.projectImagesdata,
+        this.message});
 
   get_createProjectPojo.fromJson(Map<String, dynamic> json) {
     success = json['success'];
+    if (json['invitationdata'] != null) {
+      invitationdata = new List<Invitationdata>();
+      json['invitationdata'].forEach((v) {
+        invitationdata.add(new Invitationdata.fromJson(v));
+      });
+    }
     projectData = json['project_data'] != null
         ? new ProjectData.fromJson(json['project_data'])
         : null;
@@ -24,6 +35,10 @@ class get_createProjectPojo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
+    if (this.invitationdata != null) {
+      data['invitationdata'] =
+          this.invitationdata.map((v) => v.toJson()).toList();
+    }
     if (this.projectData != null) {
       data['project_data'] = this.projectData.toJson();
     }
@@ -32,6 +47,63 @@ class get_createProjectPojo {
           this.projectImagesdata.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
+    return data;
+  }
+}
+
+class Invitationdata {
+  int id;
+  String name;
+  String email;
+  String mobile;
+  String message;
+  String status;
+  String senderid;
+  String projectId;
+  String donationId;
+  String createdAt;
+  String updatedAt;
+
+  Invitationdata(
+      {this.id,
+        this.name,
+        this.email,
+        this.mobile,
+        this.message,
+        this.status,
+        this.senderid,
+        this.projectId,
+        this.donationId,
+        this.createdAt,
+        this.updatedAt});
+
+  Invitationdata.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    mobile = json['mobile'];
+    message = json['message'];
+    status = json['status'];
+    senderid = json['senderid'];
+    projectId = json['project_id'];
+    donationId = json['donation_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['mobile'] = this.mobile;
+    data['message'] = this.message;
+    data['status'] = this.status;
+    data['senderid'] = this.senderid;
+    data['project_id'] = this.projectId;
+    data['donation_id'] = this.donationId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

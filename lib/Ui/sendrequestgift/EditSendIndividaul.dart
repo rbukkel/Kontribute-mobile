@@ -131,9 +131,6 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
             {
               showvalue = false;
             }
-
-
-
           });
         } else {
           Fluttertoast.showToast(
@@ -154,15 +151,10 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
     }
   }
 
-
-
-
   void getCategory() async {
-    var res =
-    await http.get(Uri.encodeFull(Network.BaseApi + Network.username_listing));
+    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.username_listing));
     final data = json.decode(res.body);
     List<dynamic> data1 = data["data"];
-
     setState(() {
       categoryTypes = data1;
     });
@@ -190,7 +182,8 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                child: Icon(
+                child:
+                Icon(
                   Icons.add_photo_alternate_rounded,
                   size: 120.0,
                   color: Colors.white,
@@ -279,7 +272,6 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
               image_value = true;
               imageUrl = false;
             });
-
           } else {
             Fluttertoast.showToast(
               msg: "Please Select Image ",

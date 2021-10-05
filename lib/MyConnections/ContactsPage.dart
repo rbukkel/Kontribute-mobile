@@ -13,10 +13,8 @@ import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:share/share.dart';
 
 class ContactsPage extends StatefulWidget {
-
   @override
   _ContactsPageState createState() => _ContactsPageState();
-
 }
 
 class _ContactsPageState extends State<ContactsPage> {
@@ -46,10 +44,8 @@ class _ContactsPageState extends State<ContactsPage> {
     final PermissionStatus permission = await Permission.contacts.status;
     if (permission != PermissionStatus.granted &&
         permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus =
-      await [Permission.contacts].request();
-      return permissionStatus[Permission.contacts] ??
-          PermissionStatus.undetermined;
+      final Map<Permission, PermissionStatus> permissionStatus = await [Permission.contacts].request();
+      return permissionStatus[Permission.contacts] ?? PermissionStatus.undetermined;
     } else {
       return permission;
     }
@@ -172,24 +168,26 @@ class _ContactsPageState extends State<ContactsPage> {
                   top: SizeConfig.blockSizeVertical *2,
                   bottom: SizeConfig.blockSizeVertical *2,
                 ),
-                  child: Row(
+                  child:
+                  Row(
                       children: [
-                        (contact.avatar != null && contact.avatar.isNotEmpty) ? CircleAvatar(
-                          backgroundImage: MemoryImage(contact.avatar)) :
+                        (contact.avatar != null && contact.avatar.isNotEmpty) ?
+                        CircleAvatar(backgroundImage: MemoryImage(contact.avatar)) :
                         CircleAvatar(
                           child: Text(contact.initials()),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal *2),
                           width: SizeConfig.blockSizeHorizontal *64,
                           child: Text(contact.displayName ??''),
                         ),
-                        _contacts.first.phones.toString()==followlistpojo.data.first.mobile.toString()?
+                        _contacts.first.phones.toString()== followlistpojo.data.first.mobile.toString()?
                         Container(
                           padding: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical *2,
-                              bottom:  SizeConfig.blockSizeVertical *2),
+                              bottom:SizeConfig.blockSizeVertical *2),
                           height: SizeConfig.blockSizeVertical *5,
                           width: SizeConfig.blockSizeVertical * 5,
                           alignment: Alignment.centerRight,
@@ -237,7 +235,7 @@ class _ContactsPageState extends State<ContactsPage> {
                   ));
             })
           ) : Center(child: const CircularProgressIndicator()),
-                  ],
+ ],
                 ),
               );
   }
