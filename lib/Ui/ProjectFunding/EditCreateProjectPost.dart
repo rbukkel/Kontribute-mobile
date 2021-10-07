@@ -88,7 +88,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   List _selecteFollowing = List();
   List _selecteFollowingName = List();
   var followingcatid;
-  var followingvalues;
+  var followingvalues=null;
   var catFollowingname = null;
   String _ProjectName;
   String _terms;
@@ -105,6 +105,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   String _totalbudget;
   String _Video;
   String userid;
+  String username;
   int a;
   bool internet = false;
   String val;
@@ -211,6 +212,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       userid = val;
       print("Login userid: " + userid.toString());
     });
+    SharedUtils.readloginId("Usename").then((val) {
+      print("username: " + val);
+      username = val;
+      print("Login username: " + username.toString());
+    });
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
@@ -268,8 +274,13 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                 sendgift.projectData.description.toString();
             formattedDate = sendgift.projectData.projectStartdate;
             formattedEndDate = sendgift.projectData.projectEnddate;
-            EnterRequiredAmountController.text =
-                sendgift.projectData.requiredAmount.toString();
+            EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
+            nameController.text = sendgift.invitationdata.name.toString();
+            emailController.text = sendgift.invitationdata.email.toString();
+            messageController.text = sendgift.invitationdata.message.toString();
+            mobileController.text = sendgift.invitationdata.mobile.toString();
+            EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
+            EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
             for (int i = 0; i < sendgift.projectData.videoLink.length; i++) {
               print(
@@ -278,6 +289,22 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
               print(": " + link);
               newvideoList.add(link);
             }
+            currentid = int.parse(sendgift.projectData.viewType);
+            if(currentid==1)
+            {
+              showpost ="Anyone";
+            }else if(currentid==2)
+            {
+              showpost ="Connections only";
+            }else if(currentid==3)
+            {
+              showpost ="Invite";
+            }else if(currentid==4)
+            {
+              showpost ="Others";
+            }
+
+
             videoList = [
               for (var i in newvideoList)
                 if (i != null) i
@@ -1821,8 +1848,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   )
                                 ],
                               ),
-                              currentSelectedValue.toString().toLowerCase() == "invite" ? inviteView(context)
-                                  : currentSelectedValue.toString().toLowerCase() == "others" ? otherOptionview(context) : Container(),
+                              currentSelectedValue.toString().toLowerCase() == "invite" ||showpost.toString().toLowerCase() == "invite" ? inviteView(context)
+                                  : currentSelectedValue.toString().toLowerCase() == "others" ||showpost.toString().toLowerCase() == "others"? otherOptionview(context) : Container(),
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
@@ -1924,19 +1951,47 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                         .join(',')
                                         .trim();
                                     print("Vidoname: " + vidoname.toString());
+                                    if(followingvalues==null)
+                                      {
+                                        createproject(
+                                            context,
+                                            ProjectNameController.text,
+                                            DescriptionController.text,
+                                            formattedDate,
+                                            formattedEndDate,
+                                            TermsController.text,
+                                            EnterRequiredAmountController.text,
+                                            TotalBudgetController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            "",
+                                            vidoname,
+                                            _imageList,
+                                            _documentList);
+                                      }
+                                    else{
+                                      createproject(
+                                          context,
+                                          ProjectNameController.text,
+                                          DescriptionController.text,
+                                          formattedDate,
+                                          formattedEndDate,
+                                          TermsController.text,
+                                          EnterRequiredAmountController.text,
+                                          TotalBudgetController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                          followingvalues.toString(),
+                                          vidoname,
+                                          _imageList,
+                                          _documentList);
+                                    }
 
-                                    createproject(
-                                        context,
-                                        ProjectNameController.text,
-                                        DescriptionController.text,
-                                        formattedDate,
-                                        formattedEndDate,
-                                        TermsController.text,
-                                        EnterRequiredAmountController.text,
-                                        TotalBudgetController.text,
-                                        vidoname,
-                                        _imageList,
-                                        _documentList);
+
                                   } else {
                                     Fluttertoast.showToast(
                                       msg: "Please Select Images/documents",
@@ -1945,7 +2000,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                       timeInSecForIosWeb: 1,
                                     );
                                   }
-
                                   /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1958,8 +2012,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 3,
                                       bottom: SizeConfig.blockSizeVertical * 3,
                                       left: SizeConfig.blockSizeHorizontal * 25,
-                                      right:
-                                          SizeConfig.blockSizeHorizontal * 25),
+                                      right: SizeConfig.blockSizeHorizontal * 25),
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage(
@@ -2192,77 +2245,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (_formKey.currentState.validate()) {
-                setState(() {
-                  isLoading = true;
-                });
-                Internet_check().check().then((intenet) {
-                  if (intenet != null && intenet) {
-                    if (_imageFile != null) {
-                      sendInvitation(
-                          context2,
-                          emailController.text,
-                          nameController.text,
-                          mobileController.text,
-                          messageController.text);
-                    } else {
-                      Fluttertoast.showToast(
-                        msg: "Please select gift image",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                      );
-                    }
-                  } else {
-                    Fluttertoast.showToast(
-                      msg: "No Internet Connection",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                    );
-                  }
-                  // No-Internet Case
-                });
-              }
-            },
-            child: Container(
-                alignment: Alignment.center,
-                width: SizeConfig.blockSizeHorizontal * 38,
-                height: SizeConfig.blockSizeVertical * 7,
-                margin: EdgeInsets.only(
-                    top: SizeConfig.blockSizeVertical * 5,
-                    bottom: SizeConfig.blockSizeVertical * 5,
-                    left: SizeConfig.blockSizeHorizontal * 5,
-                    right: SizeConfig.blockSizeHorizontal * 5),
-                decoration: BoxDecoration(
-                  image: new DecorationImage(
-                    image: new AssetImage("assets/images/sendbutton.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(StringConstant.sharelink,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 15,
-                        )),
-                    Container(
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: AppColors.whiteColor,
-                          ),
-                          onPressed: () {}),
-                    )
-                  ],
-                )),
-          ),
+
         ],
       ),
     );
@@ -2534,6 +2517,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       String terms,
       String enterrequiredamount,
       String totalbudget,
+      String email,
+      String name,
+      String mobile,
+      String message,
+      String connection,
       String video,
       List images,
       List documentList) async {
@@ -2552,7 +2540,14 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
     request.fields["video_link"] = video;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
+    request.fields["name"] = name.toString();
+    request.fields["mobile"] = mobile.toString();
+    request.fields["email"] = email.toString();
+    request.fields["message"] = message.toString();
+    request.fields["sendername"] = username.toString();
+    request.fields["members"] = connection.toString()==null?"":connection.toString();
     request.fields["id"] = a.toString();
+
 
     print("Request: " + request.fields.toString());
     for (int i = 0; i < images.length; i++) {

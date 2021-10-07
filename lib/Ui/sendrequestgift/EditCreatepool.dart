@@ -323,6 +323,7 @@ class EditCreatepoolState extends State<EditCreatepool> {
             DescriptionController.text = sendgift.data.message.toString();
             TermsController.text = sendgift.data.specialTerms.toString();
             createpoolController.text = sendgift.data.groupName.toString();
+            createpoolController.text = sendgift.data.groupName.toString();
             groupid = int.parse(sendgift.data.groupId);
             groupName = sendgift.data.groupName;
             formattedDate = sendgift.data.endDate;

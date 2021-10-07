@@ -1,6 +1,6 @@
 class get_createProjectPojo {
   bool success;
-  List<Invitationdata> invitationdata;
+  Invitationdata invitationdata;
   ProjectData projectData;
   List<ProjectImagesdata> projectImagesdata;
   String message;
@@ -14,12 +14,9 @@ class get_createProjectPojo {
 
   get_createProjectPojo.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    if (json['invitationdata'] != null) {
-      invitationdata = new List<Invitationdata>();
-      json['invitationdata'].forEach((v) {
-        invitationdata.add(new Invitationdata.fromJson(v));
-      });
-    }
+    invitationdata = json['invitationdata'] != null
+        ? new Invitationdata.fromJson(json['invitationdata'])
+        : null;
     projectData = json['project_data'] != null
         ? new ProjectData.fromJson(json['project_data'])
         : null;
@@ -36,8 +33,7 @@ class get_createProjectPojo {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
     if (this.invitationdata != null) {
-      data['invitationdata'] =
-          this.invitationdata.map((v) => v.toJson()).toList();
+      data['invitationdata'] = this.invitationdata.toJson();
     }
     if (this.projectData != null) {
       data['project_data'] = this.projectData.toJson();
