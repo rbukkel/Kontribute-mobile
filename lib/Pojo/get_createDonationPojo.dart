@@ -1,16 +1,24 @@
 class get_createDonationPojo {
   bool success;
   ProjectData projectData;
+  Invitationdata invitationdata;
   List<ProjectImagesdata> projectImagesdata;
   String message;
 
   get_createDonationPojo(
-      {this.success, this.projectData, this.projectImagesdata, this.message});
+      {this.success,
+        this.projectData,
+        this.invitationdata,
+        this.projectImagesdata,
+        this.message});
 
   get_createDonationPojo.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     projectData = json['project_data'] != null
         ? new ProjectData.fromJson(json['project_data'])
+        : null;
+    invitationdata = json['invitationdata'] != null
+        ? new Invitationdata.fromJson(json['invitationdata'])
         : null;
     if (json['project_imagesdata'] != null) {
       projectImagesdata = new List<ProjectImagesdata>();
@@ -26,6 +34,9 @@ class get_createDonationPojo {
     data['success'] = this.success;
     if (this.projectData != null) {
       data['project_data'] = this.projectData.toJson();
+    }
+    if (this.invitationdata != null) {
+      data['invitationdata'] = this.invitationdata.toJson();
     }
     if (this.projectImagesdata != null) {
       data['project_imagesdata'] =
@@ -55,32 +66,32 @@ class ProjectData {
   String status;
   String createdAt;
   String updatedAt;
-  Null facebookId;
+  String facebookId;
   String fullName;
   String profilePic;
 
   ProjectData(
       {this.id,
-      this.campaignName,
-      this.campaignStartdate,
-      this.campaignEnddate,
-      this.description,
-      this.tags,
-      this.userId,
-      this.budget,
-      this.requiredAmount,
-      this.videoLink,
-      this.documents,
-      this.viewType,
-      this.members,
-      this.termsAndCondition,
-      this.postedDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.facebookId,
-      this.fullName,
-      this.profilePic});
+        this.campaignName,
+        this.campaignStartdate,
+        this.campaignEnddate,
+        this.description,
+        this.tags,
+        this.userId,
+        this.budget,
+        this.requiredAmount,
+        this.videoLink,
+        this.documents,
+        this.viewType,
+        this.members,
+        this.termsAndCondition,
+        this.postedDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.facebookId,
+        this.fullName,
+        this.profilePic});
 
   ProjectData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -179,6 +190,63 @@ class Documents {
   }
 }
 
+class Invitationdata {
+  int id;
+  String name;
+  String email;
+  String mobile;
+  String message;
+  String status;
+  String senderid;
+  String projectId;
+  String donationId;
+  String createdAt;
+  String updatedAt;
+
+  Invitationdata(
+      {this.id,
+        this.name,
+        this.email,
+        this.mobile,
+        this.message,
+        this.status,
+        this.senderid,
+        this.projectId,
+        this.donationId,
+        this.createdAt,
+        this.updatedAt});
+
+  Invitationdata.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    mobile = json['mobile'];
+    message = json['message'];
+    status = json['status'];
+    senderid = json['senderid'];
+    projectId = json['project_id'];
+    donationId = json['donation_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['mobile'] = this.mobile;
+    data['message'] = this.message;
+    data['status'] = this.status;
+    data['senderid'] = this.senderid;
+    data['project_id'] = this.projectId;
+    data['donation_id'] = this.donationId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
 class ProjectImagesdata {
   int id;
   String donationId;
@@ -190,12 +258,12 @@ class ProjectImagesdata {
 
   ProjectImagesdata(
       {this.id,
-      this.donationId,
-      this.imagePath,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.donationId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   ProjectImagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];

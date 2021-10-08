@@ -1,23 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
+import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:dio/dio.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/PostDonationcommentPojo.dart';
-import 'package:kontribute/Pojo/PostcommentPojo.dart';
 import 'package:kontribute/Pojo/donationDetails.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/Donation/DonationReport.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -26,8 +23,6 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -154,10 +149,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
             imageslist_length = projectdetailspojo.commentsdata.donationimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            double amount =
-                double.parse(projectdetailspojo.commentsdata.totalcollectedamount) /
-                    double.parse(projectdetailspojo.commentsdata.budget) *
-                    100;
+            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) /
+                    double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
           });
@@ -306,17 +299,18 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                   )
                 ],
               ),
-            )),
+            )
+        ),
         PopupMenuItem(
             value: 2,
             child:
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
-                    EditCreateProjectPost(
+                callNext(
+                    EditDonationPost(
                         data:  projectdetailspojo.commentsdata.id.toString()
-                    ), context);*/
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -337,10 +331,12 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               *//* callNext(
+               */
+        /* callNext(
                     ProjectReport(
                         data: projectdetailspojo.commentsdata.id.toString()
-                    ), context);*//*
+                    ), context);*/
+        /*
               },
               child: Row(
                 children: <Widget>[
@@ -635,11 +631,8 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                             right: SizeConfig.blockSizeHorizontal *2,
                                             top: SizeConfig.blockSizeVertical *2),
                                         padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            left: SizeConfig.blockSizeHorizontal *
                                                 3,
                                             bottom: SizeConfig
                                                 .blockSizeHorizontal *
@@ -747,18 +740,15 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                       SizeConfig.blockSizeHorizontal * 40,
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
-                                        left:
-                                        SizeConfig.blockSizeHorizontal * 1,
-                                        right:
-                                        SizeConfig.blockSizeHorizontal * 2,
+                                        left: SizeConfig.blockSizeHorizontal * 1,
+                                        right: SizeConfig.blockSizeHorizontal * 2,
                                       ),
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1,
                                       ),
                                       child: Text(
                                         "End Date- " +
-                                            projectdetailspojo
-                                                .commentsdata.campaignEnddate,
+                                            projectdetailspojo.commentsdata.campaignEnddate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -1729,8 +1719,5 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
       );
     }
   }
-
-
-
 
 }

@@ -24,6 +24,8 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 
+
+
 class EditCreateProjectPost extends StatefulWidget {
   final String data;
 
@@ -78,10 +80,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController EnterRequiredAmountController =
-      new TextEditingController();
-  final TextEditingController TotalBudgetController =
-      new TextEditingController();
+  final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  final TextEditingController TotalBudgetController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
   var categoryfollowinglist;
@@ -283,8 +283,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
             for (int i = 0; i < sendgift.projectData.videoLink.length; i++) {
-              print(
-                  "link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
+              print("link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
               link = sendgift.projectData.videoLink.elementAt(i).vlink;
               print(": " + link);
               newvideoList.add(link);
@@ -1990,8 +1989,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                           _imageList,
                                           _documentList);
                                     }
-
-
                                   } else {
                                     Fluttertoast.showToast(
                                       msg: "Please Select Images/documents",

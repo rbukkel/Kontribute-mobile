@@ -87,6 +87,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   String _totalbudget;
   String _Video;
   String userid;
+  String username;
   bool isLoading = false;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final List<String> _dropdownCategoryValues = [
@@ -204,6 +205,11 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       userid = val;
       getData(userid);
       print("Login userid: " + userid.toString());
+    });
+    SharedUtils.readloginId("Usename").then((val) {
+      print("username: " + val);
+      username = val;
+      print("Login username: " + username.toString());
     });
   }
 
@@ -1735,6 +1741,11 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     TermsController.text,
                                     EnterRequiredAmountController.text,
                                     TotalBudgetController.text,
+                                    emailController.text,
+                                    nameController.text,
+                                    mobileController.text,
+                                    messageController.text,
+                                    followingvalues.toString(),
                                     vidoname,
                                     _imageList,
                                     _documentList);
@@ -1965,72 +1976,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (_formKey.currentState.validate()) {
-                setState(() {
-                  isLoading = true;
-                });
-                Internet_check().check().then((intenet) {
-                  if (intenet != null && intenet) {
-                    if(_imageFile!=null)
-                    {
-                      sendInvitation(emailController.text, nameController.text,mobileController.text,messageController.text);
-                    }
-                    else {
-                      Fluttertoast.showToast(
-                        msg: "Please select gift image",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                      );
-                    }
-                  } else {
-                    Fluttertoast.showToast(
-                      msg: "No Internet Connection",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                    );
-                  }
-                  // No-Internet Case
-                });
-              }
-            },
-            child: Container(
-                alignment: Alignment.center,
-                width: SizeConfig.blockSizeHorizontal * 38,
-                height: SizeConfig.blockSizeVertical * 7,
-                margin: EdgeInsets.only(
-                    top: SizeConfig.blockSizeVertical * 5,
-                    bottom: SizeConfig.blockSizeVertical * 5,
-                    left: SizeConfig.blockSizeHorizontal *5,
-                    right: SizeConfig.blockSizeHorizontal *5
 
-                ),
-                decoration: BoxDecoration(
-                  image: new DecorationImage(
-                    image: new AssetImage("assets/images/sendbutton.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(StringConstant.sharelink,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 15,
-                        )),
-                    Container(
-                      child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
-                    )
-                  ],
-                )
-            ),
-          ),
         ],
       ),
     );
@@ -2251,9 +2197,18 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                   value: _selecteFollowing.contains(categoryfollowinglist[index]['sender_id']),
                   onChanged: (bool selected) {
                     _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
-                        categoryfollowinglist[index]['full_name']);
+                        categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name']);
                   },
-                  title: Text(
+                  title:
+                  categoryfollowinglist[index]['full_name']==null?Text(
+                    "",
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal * 3,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Montserrat-Bold'),
+                  ):Text(
                     categoryfollowinglist[index]['full_name'],
                     style: TextStyle(
                         letterSpacing: 1.0,
@@ -2360,6 +2315,11 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       String terms,
       String enterrequiredamount,
       String totalbudget,
+      String email,
+      String name,
+      String mobile,
+      String message,
+      String connection,
       String video,
       List images, List documentList) async {
     var jsonData = null;
@@ -2376,6 +2336,13 @@ class CreateDonationPostState extends State<CreateDonationPost> {
     request.fields["video_link"] = video;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
+    request.fields["name"] = name.toString();
+    request.fields["mobile"] = mobile.toString();
+    request.fields["email"] = email.toString();
+    request.fields["message"] = message.toString();
+    request.fields["sendername"] = username.toString();
+    request.fields["members"] = connection.toString();
+
 
 
     print("Request: "+request.fields.toString());
@@ -2446,6 +2413,14 @@ class CreateDonationPostState extends State<CreateDonationPost> {
             );
           }
         }
+      }else if (response.statusCode == 422) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonData["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(

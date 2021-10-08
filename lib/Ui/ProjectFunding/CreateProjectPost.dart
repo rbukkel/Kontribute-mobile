@@ -1818,7 +1818,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   // get firends text-fields
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
-
         for (int i = 0; i < videoList.length; i++) {
           friendsTextFields.add(Container(
             height: SizeConfig.blockSizeVertical * 10,

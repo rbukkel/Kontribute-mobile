@@ -94,6 +94,7 @@ class EditDonationPostState extends State<EditDonationPost> {
   String _totalbudget;
   String _Video;
   String userid;
+  String username;
   bool isLoading = false;
   get_createDonationPojo sendgift;
 
@@ -226,6 +227,11 @@ class EditDonationPostState extends State<EditDonationPost> {
       userid = val;
       print("Login userid: " + userid.toString());
     });
+    SharedUtils.readloginId("Usename").then((val) {
+      print("username: " + val);
+      username = val;
+      print("Login username: " + username.toString());
+    });
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
@@ -331,16 +337,31 @@ class EditDonationPostState extends State<EditDonationPost> {
                 sendgift.projectData.description.toString();
             formattedDate = sendgift.projectData.campaignStartdate;
             formattedEndDate = sendgift.projectData.campaignEnddate;
-            EnterRequiredAmountController.text =
-                sendgift.projectData.requiredAmount.toString();
+            EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
-
+            nameController.text = sendgift.invitationdata.name.toString();
+            emailController.text = sendgift.invitationdata.email.toString();
+            messageController.text = sendgift.invitationdata.message.toString();
+            mobileController.text = sendgift.invitationdata.mobile.toString();
             for (int i = 0; i < sendgift.projectData.videoLink.length; i++) {
-              print(
-                  "link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
+              print("link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
               link = sendgift.projectData.videoLink.elementAt(i).vlink;
               print(": " + link);
               newvideoList.add(link);
+            }
+            currentid = int.parse(sendgift.projectData.viewType);
+            if(currentid==1)
+            {
+              showpost ="Anyone";
+            }else if(currentid==2)
+            {
+              showpost ="Connections only";
+            }else if(currentid==3)
+            {
+              showpost ="Invite";
+            }else if(currentid==4)
+            {
+              showpost ="Others";
             }
             videoList = [
               for (var i in newvideoList)
@@ -359,10 +380,8 @@ class EditDonationPostState extends State<EditDonationPost> {
             // VideoController.text = vidoname;
 
             for (int i = 0; i < sendgift.projectData.documents.length; i++) {
-              print("link: " +
-                  sendgift.projectData.documents.elementAt(i).documents);
-              linkdocuments =
-                  sendgift.projectData.documents.elementAt(i).documents;
+              print("link: " + sendgift.projectData.documents.elementAt(i).documents);
+              linkdocuments = sendgift.projectData.documents.elementAt(i).documents;
               docList.add(linkdocuments);
             }
             newdocList = [
@@ -1830,6 +1849,12 @@ class EditDonationPostState extends State<EditDonationPost> {
                                             } else if (currentSelectedValue ==
                                                 "Connections only") {
                                               currentid = 2;
+                                            } else if (currentSelectedValue ==
+                                                "Invite") {
+                                              currentid = 3;
+                                            } else if (currentSelectedValue ==
+                                                "Others") {
+                                              currentid = 4;
                                             }
                                           });
                                         },
@@ -1839,96 +1864,9 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   )
                                 ],
                               ),
-                              /*  Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                "",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeVertical * 1,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 30,
-                                        child: TextFormField(
-                                          autofocus: false,
-                                          focusNode: SearchPostFocus,
-                                          controller: searchpostController,
-                                          textInputAction: TextInputAction.done,
-                                          keyboardType: TextInputType.text,
-                                          */
-                              /*validator: (val) {
-                                            if (val.length == 0)
-                                              return "Please enter search post";
-                                            else
-                                              return null;
-                                          },*/
-                              /*
-                                          onFieldSubmitted: (v) {
-                                            SearchPostFocus.unfocus();
-                                          },
-                                          onSaved: (val) => _searchpost = val,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 12,
-                                              color: Colors.black),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 5,
-                                        child: Icon(
-                                          Icons.search,
-                                          color: AppColors.greyColor,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),*/
+                              currentSelectedValue.toString().toLowerCase() == "invite" ||showpost.toString().toLowerCase() == "invite" ? inviteView(context)
+                                  : currentSelectedValue.toString().toLowerCase() == "others" ||showpost.toString().toLowerCase() == "others"? otherOptionview(context) : Container(),
+
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
@@ -2085,18 +2023,47 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         .trim();
                                     print("Vidoname: " + vidoname.toString());
 
-                                    createproject(
-                                        context,
-                                        ProjectNameController.text,
-                                        DescriptionController.text,
-                                        formattedDate,
-                                        formattedEndDate,
-                                        TermsController.text,
-                                        EnterRequiredAmountController.text,
-                                        TotalBudgetController.text,
-                                        vidoname,
-                                        _imageList,
-                                        _documentList);
+                                    if(followingvalues==null)
+                                    {
+                                      createproject(
+                                          context,
+                                          ProjectNameController.text,
+                                          DescriptionController.text,
+                                          formattedDate,
+                                          formattedEndDate,
+                                          TermsController.text,
+                                          EnterRequiredAmountController.text,
+                                          TotalBudgetController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                         "",
+                                          vidoname,
+                                          _imageList,
+                                          _documentList);
+                                    }
+                                    else{
+                                      createproject(
+                                          context,
+                                          ProjectNameController.text,
+                                          DescriptionController.text,
+                                          formattedDate,
+                                          formattedEndDate,
+                                          TermsController.text,
+                                          EnterRequiredAmountController.text,
+                                          TotalBudgetController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                          followingvalues.toString(),
+                                          vidoname,
+                                          _imageList,
+                                          _documentList);
+                                    }
+
+
                                   }
                                   else {
                                     Fluttertoast.showToast(
@@ -2149,7 +2116,395 @@ class EditDonationPostState extends State<EditDonationPost> {
     );
   }
 
-  /// get firends text-fields
+  otherOptionview(BuildContext context2) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
+              autofocus: false,
+              focusNode: NameFocus,
+              controller: nameController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter name";
+                else if (val.length < 3)
+                  return "Name must be more than 2 charater";
+                else
+                  return null;
+              },
+              onSaved: (val) => _name = val,
+              onFieldSubmitted: (v) {
+                FocusScope.of(context2).requestFocus(MobileFocus);
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+              ),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Your Name*",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 1,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
+              autofocus: false,
+              focusNode: MobileFocus,
+              controller: mobileController,
+              keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter mobile number";
+                else if (val.length < 10)
+                  return "Your mobile number should be 10 char long";
+                else
+                  return null;
+              },
+              onSaved: (val) => _mobile = val,
+              onFieldSubmitted: (v) {
+                FocusScope.of(context2).requestFocus(EmailotherFocus);
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+              ),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Phone Number*",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 1,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
+              autofocus: false,
+              focusNode: EmailotherFocus,
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter email";
+                else if (!regex.hasMatch(val))
+                  return "Please enter valid email";
+                else
+                  return null;
+              },
+              onSaved: (val) => _emailother = val,
+              onFieldSubmitted: (v) {
+                FocusScope.of(context2).requestFocus(MessageFocus);
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+              ),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Your Email*",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
+              autofocus: false,
+              maxLines: 6,
+              focusNode: MessageFocus,
+              controller: messageController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
+              validator: (val) {
+                if (val.length == 0)
+                  return "Please enter message";
+                else if (val.length < 3)
+                  return "message must be more than 2 charater";
+                else
+                  return null;
+              },
+              onSaved: (val) => _descriptionother = val,
+              onFieldSubmitted: (v) {
+                MessageFocus.unfocus();
+              },
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+              ),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                labelText: "Your Message",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+
+
+  inviteView(BuildContext context1) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  top: SizeConfig.blockSizeVertical * 2),
+              width: SizeConfig.blockSizeHorizontal * 32,
+              child: Text(
+                StringConstant.searchcontact,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 45,
+              alignment: Alignment.topLeft,
+              margin:
+              EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
+              padding: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 3,
+              ),
+              child: Text(
+                //catname!=null?catname.toString():category_names.toString(),
+                catFollowingname != null
+                    ? catFollowingname.toString()
+                    : "please select contact",
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black38,
+                    fontSize: SizeConfig.blockSizeHorizontal * 3,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat-Bold'),
+              ),
+            )
+          ],
+        ),
+        Container(
+          height: SizeConfig.blockSizeVertical * 7,
+          margin: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 3,
+            right: SizeConfig.blockSizeHorizontal * 3,
+          ),
+          padding: EdgeInsets.only(
+              left: SizeConfig.blockSizeHorizontal * 2,
+              right: SizeConfig.blockSizeHorizontal * 2),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.black26,
+              style: BorderStyle.solid,
+              width: 1.0,
+            ),
+            color: Colors.transparent,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeHorizontal * 3,
+                ),
+                child: Text(
+                  "Search contact",
+                  style: TextStyle(
+                      letterSpacing: 1.0,
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat-Bold'),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 2,
+                ),
+                child: IconButton(
+                    icon: new Container(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new Center(
+                        child: new Icon(
+                          expandFlag0
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          color: Colors.black87,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        expandFlag0 = !expandFlag0;
+                      });
+                    }),
+              ),
+            ],
+          ),
+        ),
+        Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: Container()),
+        expandFlag0 == true ? ExpandedInvitationview0(context1) : Container(),
+      ],
+    );
+  }
+
+  ExpandedInvitationview0(BuildContext context) {
+    return Container(
+        alignment: Alignment.topLeft,
+        height: SizeConfig.blockSizeVertical * 30,
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: ListView.builder(
+              itemCount: categoryfollowinglist == null
+                  ? 0
+                  : categoryfollowinglist.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CheckboxListTile(
+                  activeColor: AppColors.theme1color,
+                  value: _selecteFollowing
+                      .contains(categoryfollowinglist[index]['sender_id']),
+                  onChanged: (bool selected) {
+                    _onCategoryFollowingSelected(
+                        selected,
+                        categoryfollowinglist[index]['sender_id'],
+                        categoryfollowinglist[index]['full_name']);
+                  },
+                  title: Text(
+                    categoryfollowinglist[index]['full_name'],
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal * 3,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Montserrat-Bold'),
+                  ),
+                );
+              }),
+        ));
+  }
+
+  void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
+    if (selected == true) {
+      setState(() {
+        _selecteFollowing.add(category_id);
+        _selecteFollowingName.add(category_name);
+      });
+    } else {
+      setState(() {
+        _selecteFollowing.remove(category_id);
+
+        _selecteFollowingName.remove(category_name);
+      });
+    }
+    final input = _selecteFollowingName.toString();
+    final removedBrackets = input.substring(1, input.length - 1);
+    final parts = removedBrackets.split(',');
+    catFollowingname = parts.map((parts) => "$parts").join(',').trim();
+
+    final input1 = _selecteFollowing.toString();
+    final removedBrackets1 = input1.substring(1, input1.length - 1);
+    final parts1 = removedBrackets1.split(',');
+    followingcatid = parts1.map((part1) => "$part1").join(',').trim();
+    followingvalues = followingcatid.replaceAll(" ", "");
+    print(followingvalues);
+    print("CatFollowName: " + catFollowingname);
+  }
+
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
 
@@ -2210,6 +2565,11 @@ class EditDonationPostState extends State<EditDonationPost> {
       String terms,
       String enterrequiredamount,
       String totalbudget,
+      String email,
+      String name,
+      String mobile,
+      String message,
+      String connection,
       String video,
       List images,
       List documentList) async {
@@ -2227,7 +2587,14 @@ class EditDonationPostState extends State<EditDonationPost> {
     request.fields["video_link"] = video;
     request.fields["special_terms_conditions"] = terms;
     request.fields["userid"] = userid.toString();
+    request.fields["name"] = name.toString();
+    request.fields["mobile"] = mobile.toString();
+    request.fields["email"] = email.toString();
+    request.fields["message"] = message.toString();
+    request.fields["sendername"] = username.toString();
+    request.fields["members"] = connection.toString()==null?"":connection.toString();
     request.fields["id"] = a.toString();
+
 
     print("Request: " + request.fields.toString());
     for (int i = 0; i < images.length; i++) {
