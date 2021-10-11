@@ -51,7 +51,8 @@ class ProjectReportState extends State<ProjectReport> {
       print("Login userid: " + userid.toString());
     });
     Internet_check().check().then((intenet) {
-      if (intenet != null && intenet) {
+      if (intenet != null && intenet)
+      {
         id = widget.data;
         print("ID: "+id);
         setState(() {
@@ -70,8 +71,6 @@ class ProjectReportState extends State<ProjectReport> {
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +94,13 @@ class ProjectReportState extends State<ProjectReport> {
                   ],
                 ),
               ),
-
               Expanded(
                 child: SingleChildScrollView(
                   child:Form(
                     key: _formKey,
                     child:  Column(
                       children: [
-                        Container(
+                       /* Container(
                           width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(
@@ -127,7 +125,7 @@ class ProjectReportState extends State<ProjectReport> {
                             thickness: 1,
                             color: Colors.black12,
                           ),
-                        ),
+                        ),*/
                         Container(
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 1,
@@ -172,7 +170,6 @@ class ProjectReportState extends State<ProjectReport> {
                             ),
                           ),
                         ),
-
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -184,7 +181,6 @@ class ProjectReportState extends State<ProjectReport> {
                         GestureDetector(
                           onTap: ()
                           {
-
                            addReport(CommentController.text);
                           },
                           child: Container(
@@ -210,13 +206,9 @@ class ProjectReportState extends State<ProjectReport> {
                     ),
                   ),
                 )
-
               )
-
-
             ],
           )
-
       ),
     );
   }
@@ -257,7 +249,6 @@ class ProjectReportState extends State<ProjectReport> {
           );
           CommentController.text =null;
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
-
         } else {
           Fluttertoast.showToast(
             msg: reportcommentPojo.message,

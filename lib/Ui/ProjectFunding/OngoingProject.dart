@@ -931,8 +931,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     ),
                                                   ],
                                                 ),
-
-
                                               ],
                                             )
                                           ],
@@ -1012,9 +1010,9 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      4),
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *1,
+                                                      right: SizeConfig.blockSizeHorizontal * 4),
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
                                                     "\$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
@@ -1374,7 +1372,6 @@ class OngoingProjectState extends State<OngoingProject> {
             ],
           )
          ),
-
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),

@@ -339,11 +339,23 @@ class EditDonationPostState extends State<EditDonationPost> {
             formattedEndDate = sendgift.projectData.campaignEnddate;
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
-            nameController.text = sendgift.invitationdata.name.toString();
-            emailController.text = sendgift.invitationdata.email.toString();
-            messageController.text = sendgift.invitationdata.message.toString();
-            mobileController.text = sendgift.invitationdata.mobile.toString();
-            for (int i = 0; i < sendgift.projectData.videoLink.length; i++) {
+            if(sendgift.invitationdata==null)
+              {
+                nameController.text = "";
+                emailController.text = "";
+                messageController.text = "";
+                mobileController.text = "";
+              }
+            else
+              {
+                nameController.text = sendgift.invitationdata.name.toString();
+                emailController.text = sendgift.invitationdata.email.toString();
+                messageController.text = sendgift.invitationdata.message.toString();
+                mobileController.text = sendgift.invitationdata.mobile.toString();
+              }
+
+            for (int i = 0; i < sendgift.projectData.videoLink.length; i++)
+            {
               print("link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
               link = sendgift.projectData.videoLink.elementAt(i).vlink;
               print(": " + link);
@@ -367,7 +379,6 @@ class EditDonationPostState extends State<EditDonationPost> {
               for (var i in newvideoList)
                 if (i != null) i
             ];
-
             // _selectlink.add(link);
 
             final input = videoList.toString();
@@ -376,9 +387,7 @@ class EditDonationPostState extends State<EditDonationPost> {
             vidoname = parts.map((part) => "$part").join(',').trim();
 
             print("videoname: " + vidoname.toString());
-
             // VideoController.text = vidoname;
-
             for (int i = 0; i < sendgift.projectData.documents.length; i++) {
               print("link: " + sendgift.projectData.documents.elementAt(i).documents);
               linkdocuments = sendgift.projectData.documents.elementAt(i).documents;
@@ -398,12 +407,11 @@ class EditDonationPostState extends State<EditDonationPost> {
 
             TermsController.text =
                 sendgift.projectData.termsAndCondition != null ||
-                        sendgift.projectData.termsAndCondition != ""
-                    ? sendgift.projectData.termsAndCondition.toString()
-                    : "";
+                        sendgift.projectData.termsAndCondition != "" ? sendgift.projectData.termsAndCondition.toString() : "";
             //  basename = sendgift.projectData.documents.toString();
             currentid = int.parse(sendgift.projectData.viewType);
-            if (currentid == 1) {
+            if (currentid == 1)
+            {
               showpost = "Anyone";
             } else if (currentid == 2) {
               showpost = "Connections only";
@@ -1956,63 +1964,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                 ),
                               ),
                               GestureDetector(
-/*
-                              onTap: () {
-
-                                final input2 = videoList.toString();
-                                final removedBrackets = input2.substring(1, input2.length - 1);
-                                final parts = removedBrackets.split(',');
-                                vidoname = parts.map((part) => "$part").join(',').trim();
-                                print("Vidoname: "+vidoname.toString());
-
-                                createproject(
-                                    context,
-                                    ProjectNameController.text,
-                                    DescriptionController.text,
-                                    myFormat.format(currentDate),
-                                    myFormat.format(currentEndDate),
-                                    TermsController.text,
-                                    EnterRequiredAmountController.text,
-                                    TotalBudgetController.text,
-                                    vidoname,
-                                    _imageList,
-                                    _documentList);
-
-                                */
-                         /* Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => selectlangauge()),
-                                            (route) => false);*/
-                         /*
-
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: SizeConfig.blockSizeVertical * 6,
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 3,
-                                    bottom: SizeConfig.blockSizeVertical * 3,
-                                    left: SizeConfig.blockSizeHorizontal * 25,
-                                    right: SizeConfig.blockSizeHorizontal * 25),
-                                decoration: BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new AssetImage(
-                                        "assets/images/sendbutton.png"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                child: Text(StringConstant.creat,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 15,
-                                    )),
-                              ),
-*/
                                 onTap: () {
-                                  if (_imageList != null &&
-                                      documentPath != null) {
                                     final input2 = videoList.toString();
                                     final removedBrackets =
                                         input2.substring(1, input2.length - 1);
@@ -2062,17 +2014,6 @@ class EditDonationPostState extends State<EditDonationPost> {
                                           _imageList,
                                           _documentList);
                                     }
-
-
-                                  }
-                                  else {
-                                    Fluttertoast.showToast(
-                                      msg: "Please Select Images/documents",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                    );
-                                  }
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

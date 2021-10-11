@@ -1826,17 +1826,13 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                             print(currentSelectedValue
                                                 .toString()
                                                 .toLowerCase());
-                                            if (currentSelectedValue ==
-                                                "Anyone") {
+                                            if (currentSelectedValue == "Anyone") {
                                               currentid = 1;
-                                            } else if (currentSelectedValue ==
-                                                "Connections only") {
+                                            } else if (currentSelectedValue == "Connections only") {
                                               currentid = 2;
-                                            } else if (currentSelectedValue ==
-                                                "Invite") {
+                                            } else if (currentSelectedValue == "Invite") {
                                               currentid = 3;
-                                            } else if (currentSelectedValue ==
-                                                "Others") {
+                                            } else if (currentSelectedValue == "Others") {
                                               currentid = 4;
                                             }
                                           });
@@ -1939,8 +1935,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  if (_imageList != null &&
-                                      documentPath != null) {
                                     final input2 = videoList.toString();
                                     final removedBrackets =
                                         input2.substring(1, input2.length - 1);
@@ -1989,18 +1983,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                           _imageList,
                                           _documentList);
                                     }
-                                  } else {
-                                    Fluttertoast.showToast(
-                                      msg: "Please Select Images/documents",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                    );
-                                  }
-                                  /* Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => selectlangauge()),
-                                            (route) => false);*/
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

@@ -485,8 +485,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                             right: SizeConfig.blockSizeHorizontal * 1,
                                           ),
                                           child: Text(
-                                            "\$" +
-                                                listing.projectData.elementAt(index).requiredAmount,
+                                            "\$" + listing.projectData.elementAt(index).requiredAmount,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -556,7 +555,8 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: <Widget>[
                                                       for (int i = 0; i < imageslist_length.length; i++)
-                                                        if (i == currentPageValue) ...[
+                                                        if (i == currentPageValue) ...
+                                                        [
                                                           circleBar(true)
                                                         ] else
                                                           circleBar(false),
@@ -573,8 +573,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                       onTap: () {
                                         callNext(
                                             CampaignHistoryDetailsscreen(
-                                                data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                data: listing.projectData.elementAt(index).id.toString()
                                             ), context);
                                       },
                                       child: Container(
@@ -622,7 +621,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                         ),
                                       ),
                                     ),
-
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                       child: Row(
@@ -658,13 +656,11 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                   Container(
                                                     child: Image.asset("assets/images/message.png",height: 20,width: 20),
                                                   ),
-
                                                 ],
                                               ),
                                               //child: Image.asset("assets/images/like.png"),
                                             ),
                                           ),
-
                                           Spacer(),
                                           /*InkWell(
                                             onTap: (){
@@ -712,7 +708,9 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                     Container(
                                       width: SizeConfig.blockSizeHorizontal *100,
                                       alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal *3,
+                                          right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1),
                                       child:  new Html(
                                         data: listing.projectData.elementAt(index).description,
@@ -722,9 +720,9 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                             fontSize: 10,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
-
                                       ),
                                     ),
+
                                  /*   Container(
 
                                       child:
@@ -935,10 +933,10 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                         ),
                                       ),
                                     )*/
+
                                   ],
                                 ),
                               ),
-
                         ),
                       );
                     }),
