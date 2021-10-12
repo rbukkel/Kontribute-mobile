@@ -385,7 +385,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listing.projectData.elementAt(index).projectImages;
                       commentlist_length = listing.projectData.elementAt(index).comments;
-                      double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) /
+                      double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                           double.parse(listing.projectData.elementAt(index).budget) * 100;
                       amoun =amount.toInt();
                       return Container(
@@ -801,7 +801,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         )
                                       ],
                                     ),
-                               /*     Row(
+                                    Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Row(
@@ -882,7 +882,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   4),
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "\$"+listing.projectData.elementAt(index).requiredAmount.toString(),
+                                                "\$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.lightBlueAccent,
@@ -896,7 +896,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           ],
                                         )
                                       ],
-                                    ),*/
+                                    ),
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {

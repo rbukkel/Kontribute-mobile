@@ -53,31 +53,33 @@ class ProjectData {
   String profilePic;
   List<ProjectImages> projectImages;
   List<Comments> comments;
+  int totalcollectedamount;
   String donationPath;
 
   ProjectData(
       {this.id,
-      this.campaignName,
-      this.campaignStartdate,
-      this.campaignEnddate,
-      this.description,
-      this.tags,
-      this.userId,
-      this.budget,
-      this.requiredAmount,
-      this.videoLink,
-      this.viewType,
-      this.members,
-      this.termsAndCondition,
-      this.postedDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.fullName,
-      this.profilePic,
-      this.projectImages,
-      this.comments,
-      this.donationPath});
+        this.campaignName,
+        this.campaignStartdate,
+        this.campaignEnddate,
+        this.description,
+        this.tags,
+        this.userId,
+        this.budget,
+        this.requiredAmount,
+        this.videoLink,
+        this.viewType,
+        this.members,
+        this.termsAndCondition,
+        this.postedDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.projectImages,
+        this.comments,
+        this.totalcollectedamount,
+        this.donationPath});
 
   ProjectData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -111,6 +113,7 @@ class ProjectData {
         comments.add(new Comments.fromJson(v));
       });
     }
+    totalcollectedamount = json['totalcollectedamount'];
     donationPath = json['donation_path'];
   }
 
@@ -142,50 +145,12 @@ class ProjectData {
     if (this.comments != null) {
       data['Comments'] = this.comments.map((v) => v.toJson()).toList();
     }
+    data['totalcollectedamount'] = this.totalcollectedamount;
     data['donation_path'] = this.donationPath;
     return data;
   }
 }
-class Comments {
-  int id;
-  String projectId;
-  String comment;
-  String userId;
-  String postedDate;
-  String createdAt;
-  String updatedAt;
 
-  Comments(
-      {this.id,
-        this.projectId,
-        this.comment,
-        this.userId,
-        this.postedDate,
-        this.createdAt,
-        this.updatedAt});
-
-  Comments.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    projectId = json['project_id'];
-    comment = json['comment'];
-    userId = json['user_id'];
-    postedDate = json['posted_date'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['project_id'] = this.projectId;
-    data['comment'] = this.comment;
-    data['user_id'] = this.userId;
-    data['posted_date'] = this.postedDate;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
 class ProjectImages {
   int id;
   String donationId;
@@ -197,12 +162,12 @@ class ProjectImages {
 
   ProjectImages(
       {this.id,
-      this.donationId,
-      this.imagePath,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.donationId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   ProjectImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -220,6 +185,51 @@ class ProjectImages {
     data['donation_id'] = this.donationId;
     data['image_path'] = this.imagePath;
     data['status'] = this.status;
+    data['posted_date'] = this.postedDate;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Comments {
+  int id;
+  String projectId;
+  String donationId;
+  String comment;
+  String userId;
+  String postedDate;
+  String createdAt;
+  String updatedAt;
+
+  Comments(
+      {this.id,
+        this.projectId,
+        this.donationId,
+        this.comment,
+        this.userId,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
+
+  Comments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    projectId = json['project_id'];
+    donationId = json['donation_id'];
+    comment = json['comment'];
+    userId = json['user_id'];
+    postedDate = json['posted_date'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['project_id'] = this.projectId;
+    data['donation_id'] = this.donationId;
+    data['comment'] = this.comment;
+    data['user_id'] = this.userId;
     data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

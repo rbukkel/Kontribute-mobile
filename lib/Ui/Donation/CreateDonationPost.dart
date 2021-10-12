@@ -2199,9 +2199,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                     _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
                         categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name']);
                   },
-                  title:
-                  categoryfollowinglist[index]['full_name']==null?Text(
-                    "",
+                  title: categoryfollowinglist[index]['full_name']==null?
+                  Text("",
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black,
@@ -2344,7 +2343,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
     request.fields["members"] = connection.toString();
 
 
-
     print("Request: "+request.fields.toString());
     for (int i = 0; i < images.length; i++) {
       request.files.add(
@@ -2354,9 +2352,9 @@ class CreateDonationPostState extends State<CreateDonationPost> {
           await images[i].length(),
           filename:path.basename(images[i].path),
         ),
+
       );
     }
-
     for (int i = 0; i < documentList.length; i++) {
       request.files.add(
         http.MultipartFile(
@@ -2465,10 +2463,10 @@ class _videoTextFieldsState extends State<videoTextFields> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text =
-          CreateDonationPostState.videoList[widget.index] ?? '';
+      _nameController.text = CreateDonationPostState.videoList[widget.index] ??'';
     });
 
     return TextFormField(
@@ -2488,7 +2486,8 @@ class _videoTextFieldsState extends State<videoTextFields> {
         fontSize: 10,
       )),
       validator: (v) {
-        if (v.trim().isEmpty) return 'Please enter something';
+        if (v.trim().isEmpty)
+          return 'Please enter something';
         return null;
       },
     );
