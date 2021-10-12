@@ -1843,7 +1843,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   )
                                 ],
                               ),
-                              currentSelectedValue.toString().toLowerCase() == "invite" ||showpost.toString().toLowerCase() == "invite" ? inviteView(context)
+                              currentSelectedValue.toString().toLowerCase() == "invite" || showpost.toString().toLowerCase() == "invite" ? inviteView(context)
                                   : currentSelectedValue.toString().toLowerCase() == "others" ||showpost.toString().toLowerCase() == "others"? otherOptionview(context) : Container(),
                               Container(
                                 margin: EdgeInsets.only(

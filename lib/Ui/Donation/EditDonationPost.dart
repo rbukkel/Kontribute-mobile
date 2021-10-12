@@ -62,22 +62,16 @@ class EditDonationPostState extends State<EditDonationPost> {
   final VideoFocus = FocusNode();
   final TermsFocus = FocusNode();
   final TextEditingController TermsController = new TextEditingController();
-  final TextEditingController searchpostController =
-      new TextEditingController();
-  final TextEditingController ProjectNameController =
-      new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
+  final TextEditingController ProjectNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController LocationDetailsController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController EnterRequiredAmountController =
-      new TextEditingController();
-  final TextEditingController TotalBudgetController =
-      new TextEditingController();
+  final TextEditingController EnterRequiredAmountController = new TextEditingController();
+  final TextEditingController TotalBudgetController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
   String _ProjectName;
@@ -405,8 +399,7 @@ class EditDonationPostState extends State<EditDonationPost> {
 
             print("Docname: " + catname.toString());
 
-            TermsController.text =
-                sendgift.projectData.termsAndCondition != null ||
+            TermsController.text = sendgift.projectData.termsAndCondition != null ||
                         sendgift.projectData.termsAndCondition != "" ? sendgift.projectData.termsAndCondition.toString() : "";
             //  basename = sendgift.projectData.documents.toString();
             currentid = int.parse(sendgift.projectData.viewType);
@@ -415,6 +408,13 @@ class EditDonationPostState extends State<EditDonationPost> {
               showpost = "Anyone";
             } else if (currentid == 2) {
               showpost = "Connections only";
+            }
+            else if(currentid==3)
+            {
+              showpost ="Invite";
+            }else if(currentid==4)
+            {
+              showpost ="Others";
             }
           });
         } else {
@@ -737,13 +737,8 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    for (int i = 0;
-                                                        i <
-                                                            imageslist_length
-                                                                .length;
-                                                        i++)
-                                                      if (i ==
-                                                          currentPageValue) ...[
+                                                    for (int i = 0; i < imageslist_length.length; i++)
+                                                      if (i == currentPageValue) ...[
                                                         circleBar(true)
                                                       ] else
                                                         circleBar(false),
@@ -782,8 +777,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   maintainAnimation: true,
                                   maintainState: true,
                                   child: Container()),
-                              _imageList.length != 0
-                                  ? Container(
+                              _imageList.length != 0 ? Container(
                                       alignment: Alignment.topCenter,
                                       height: SizeConfig.blockSizeVertical * 10,
                                       margin: EdgeInsets.only(
@@ -816,8 +810,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                       });
                                                     },
                                                     child: Container(
-                                                      alignment:
-                                                          Alignment.topCenter,
+                                                      alignment: Alignment.topCenter,
                                                       width: 60,
                                                       height: 60,
                                                       margin: EdgeInsets.only(
@@ -1845,23 +1838,18 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         onChanged: (String newValue) {
                                           setState(() {
                                             currentSelectedValue = newValue;
-                                            print(currentSelectedValue
-                                                .toString()
-                                                .toLowerCase());
-                                            print(currentSelectedValue
-                                                .toString()
-                                                .toLowerCase());
-                                            if (currentSelectedValue ==
-                                                "Anyone") {
+                                            print(currentSelectedValue.toString().toLowerCase());
+                                            if (currentSelectedValue == "Anyone")
+                                            {
                                               currentid = 1;
-                                            } else if (currentSelectedValue ==
-                                                "Connections only") {
+                                            } else if (currentSelectedValue == "Connections only")
+                                            {
                                               currentid = 2;
-                                            } else if (currentSelectedValue ==
-                                                "Invite") {
+                                            } else if (currentSelectedValue == "Invite")
+                                            {
                                               currentid = 3;
-                                            } else if (currentSelectedValue ==
-                                                "Others") {
+                                            } else if (currentSelectedValue == "Others")
+                                            {
                                               currentid = 4;
                                             }
                                           });
@@ -1872,15 +1860,13 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   )
                                 ],
                               ),
-                              currentSelectedValue.toString().toLowerCase() == "invite" ||showpost.toString().toLowerCase() == "invite" ? inviteView(context)
-                                  : currentSelectedValue.toString().toLowerCase() == "others" ||showpost.toString().toLowerCase() == "others"? otherOptionview(context) : Container(),
-
+                              currentSelectedValue.toString().toLowerCase() == "invite" || showpost.toString().toLowerCase() == "invite" ? inviteView(context)
+                              : currentSelectedValue.toString().toLowerCase() == "others" || showpost.toString().toLowerCase() == "others"? otherOptionview(context)
+                              : currentSelectedValue.toString().toLowerCase() == "anyone" || showpost.toString().toLowerCase() == "anyone"? emptybox(context) : Container(),
                               Container(
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 2),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                                 child: Divider(
-                                  thickness: 1,
-                                  color: Colors.black12,
+                                  thickness: 1, color: Colors.black12,
                                 ),
                               ),
                               Container(
@@ -2262,9 +2248,9 @@ class EditDonationPostState extends State<EditDonationPost> {
     );
   }
 
-
   inviteView(BuildContext context1) {
-    return Column(
+    return
+      Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2294,9 +2280,7 @@ class EditDonationPostState extends State<EditDonationPost> {
               ),
               child: Text(
                 //catname!=null?catname.toString():category_names.toString(),
-                catFollowingname != null
-                    ? catFollowingname.toString()
-                    : "please select contact",
+                catFollowingname != null ? catFollowingname.toString() : "please select contact",
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black38,
@@ -2383,6 +2367,16 @@ class EditDonationPostState extends State<EditDonationPost> {
     );
   }
 
+  emptybox(BuildContext context) {
+    return Container(  height: SizeConfig.blockSizeVertical * 30,
+    child:  Column(
+      children: [
+        Container(height: SizeConfig.blockSizeVertical * 1,
+          child: Text(""),)
+      ],
+    ));
+  }
+
   ExpandedInvitationview0(BuildContext context) {
     return Container(
         alignment: Alignment.topLeft,
@@ -2448,7 +2442,6 @@ class EditDonationPostState extends State<EditDonationPost> {
 
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
-
     for (int i = 0; i < videoList.length; i++) {
       friendsTextFields.add(Container(
         height: SizeConfig.blockSizeVertical * 10,
@@ -2628,6 +2621,9 @@ class EditDonationPostState extends State<EditDonationPost> {
       }
     });
   }
+
+
+
 }
 
 class videoTextFields extends StatefulWidget {
