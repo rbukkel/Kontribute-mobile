@@ -133,8 +133,6 @@ class CampaignHistoryState extends State<CampaignHistory> {
     }
   }
 
-
-
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -238,10 +236,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                         )
                                             : GestureDetector(
                                           onTap: () {
-                                            callNext(
-                                                viewdetail_profile(
-                                                    data: listing.projectData.elementAt(index).userId.toString()
-                                                ), context);
+                                            callNext(viewdetail_profile(data: listing.projectData.elementAt(index).userId.toString()), context);
                                           },
                                           child: Container(
                                             height: SizeConfig.blockSizeVertical * 9,
@@ -259,8 +254,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        listing.projectData.elementAt(index).profilePic),
+                                                    image: NetworkImage(listing.projectData.elementAt(index).profilePic),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),
@@ -301,18 +295,10 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                                       left: SizeConfig.blockSizeHorizontal *3),
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      bottom: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2),
+                                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                                      bottom: SizeConfig.blockSizeHorizontal * 2,
+                                                      top: SizeConfig.blockSizeHorizontal * 2),
                                                   decoration: BoxDecoration(
                                                       color: AppColors.whiteColor,
                                                       borderRadius: BorderRadius.circular(20),

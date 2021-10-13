@@ -1606,8 +1606,6 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
         }
-
-
       }
     } else {
       Fluttertoast.showToast(

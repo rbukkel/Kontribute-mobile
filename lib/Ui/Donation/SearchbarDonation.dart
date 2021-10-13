@@ -67,6 +67,9 @@ class SearchbarDonationState extends State<SearchbarDonation> {
   var imageslist_length;
   var commentlist_length;
   String vallike;
+  final AmountFocus = FocusNode();
+  final TextEditingController AmountController = new TextEditingController();
+  String _amount;
   projectlike prolike;
   int amoun;
   String updateval;
@@ -407,13 +410,13 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                 onTap: ()
                                                 {
                                                   Widget cancelButton = FlatButton(
-                                                    child: Text("No"),
+                                                    child: Text("Cancel"),
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                   );
                                                   Widget continueButton = FlatButton(
-                                                    child: Text("Yes"),
+                                                    child: Text("Continue"),
                                                     onPressed: () async {
                                                       Payamount(listing.projectData.elementAt(index).id,
                                                           listing.projectData.elementAt(index).requiredAmount,
@@ -423,7 +426,49 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                   // set up the AlertDialog
                                                   AlertDialog alert = AlertDialog(
                                                     title: Text("Pay now.."),
-                                                    content: Text("Are you sure you want to Pay this project?"),
+                                                    // content: Text("Are you sure you want to Pay this project?"),
+                                                    content: new Row(
+                                                      children: <Widget>[
+                                                        new Expanded(
+                                                          child: new  TextFormField(
+                                                            autofocus: false,
+                                                            focusNode: AmountFocus,
+                                                            controller: AmountController,
+                                                            textInputAction: TextInputAction.next,
+                                                            keyboardType: TextInputType.number,
+                                                            validator: (val) {
+                                                              if (val.length == 0)
+                                                                return "Please enter payment amount";
+                                                              else
+                                                                return null;
+                                                            },
+                                                            onFieldSubmitted: (v) {
+                                                              AmountFocus.unfocus();
+                                                            },
+                                                            onSaved: (val) => _amount = val,
+                                                            textAlign: TextAlign.left,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                fontWeight: FontWeight.normal,
+                                                                fontFamily: 'Poppins-Regular',
+                                                                fontSize: 10,
+                                                                color: Colors.black),
+                                                            decoration: InputDecoration(
+                                                              // border: InputBorder.none,
+                                                              // focusedBorder: InputBorder.none,
+                                                              hintStyle: TextStyle(
+                                                                color: Colors.grey,
+                                                                fontWeight: FontWeight.normal,
+                                                                fontFamily: 'Poppins-Regular',
+                                                                fontSize: 10,
+                                                                decoration: TextDecoration.none,
+                                                              ),
+                                                              hintText:"Enter payment amount",
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                     actions: [
                                                       cancelButton,
                                                       continueButton,
@@ -432,10 +477,14 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                   // show the dialog
                                                   showDialog(
                                                     context: context,
-                                                    builder: (BuildContext context) {
+                                                    builder: (BuildContext context)
+                                                    {
                                                       return alert;
                                                     },
                                                   );
+
+
+
                                                 },
                                                 child: Container(
                                                   margin: EdgeInsets.only(left:

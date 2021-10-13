@@ -1356,7 +1356,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 children: [..._getVideoLink()],
                               ),
                             )
-
                            /*   Container(
                               width: SizeConfig.blockSizeHorizontal * 65,
                               height: SizeConfig.blockSizeVertical *10,

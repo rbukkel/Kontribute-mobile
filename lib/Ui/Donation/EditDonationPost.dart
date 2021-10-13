@@ -2529,7 +2529,6 @@ class EditDonationPostState extends State<EditDonationPost> {
     request.fields["members"] = connection.toString()==null?"":connection.toString();
     request.fields["id"] = a.toString();
 
-
     print("Request: " + request.fields.toString());
     for (int i = 0; i < images.length; i++) {
       request.files.add(
@@ -2621,9 +2620,6 @@ class EditDonationPostState extends State<EditDonationPost> {
       }
     });
   }
-
-
-
 }
 
 class videoTextFields extends StatefulWidget {

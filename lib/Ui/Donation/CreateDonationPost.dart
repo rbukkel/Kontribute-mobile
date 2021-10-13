@@ -2253,7 +2253,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   /// get firends text-fields
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
-
     for (int i = 0; i < videoList.length; i++) {
       friendsTextFields.add(Container(
         height: SizeConfig.blockSizeVertical * 10,
@@ -2273,13 +2272,12 @@ class CreateDonationPostState extends State<CreateDonationPost> {
         ),
       ));
     }
-
-
-
     return friendsTextFields;
   }
 
   // add remove button
+
+
   Widget _addRemoveButton(bool add, int index) {
     return InkWell(
       onTap: () {
@@ -2304,6 +2302,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       ),
     );
   }
+
 
   void createproject(
       BuildContext context,
