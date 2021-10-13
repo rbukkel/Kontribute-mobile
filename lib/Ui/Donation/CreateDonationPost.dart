@@ -1749,7 +1749,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     vidoname,
                                     _imageList,
                                     _documentList);
-
                                 /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -2018,7 +2017,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
             nameController.text="";
             mobileController.text="";
             messageController.text="";
-
           });
           final RenderBox box1 = _formKey.currentContext.findRenderObject();
           Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
@@ -2276,7 +2274,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   }
 
   // add remove button
-
 
   Widget _addRemoveButton(bool add, int index) {
     return InkWell(

@@ -1460,7 +1460,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchbarDonation(data: data1)));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(
