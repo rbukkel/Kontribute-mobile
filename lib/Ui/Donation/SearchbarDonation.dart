@@ -310,7 +310,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                               viewdetail_profile(
                                                   data: listing.projectData.elementAt(index).userId.toString()
                                               ), context);
-
                                         },
                                         child: Container(
                                           height: SizeConfig.blockSizeVertical * 9,
@@ -338,7 +337,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                         children: [
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                             children: [
                                               GestureDetector(
                                                 onTap: ()
@@ -370,7 +368,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *2,
                                                     left: SizeConfig.blockSizeHorizontal *1),
-
                                                 alignment: Alignment.topRight,
                                                 padding: EdgeInsets.only(
                                                     right: SizeConfig
@@ -403,7 +400,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                       'Poppins-Regular'),
                                                 ),
                                               ),
-
                                               listing.projectData.elementAt(index).userId.toString()!=userid?
                                               listing.projectData.elementAt(index).status=="pending"?
                                               GestureDetector(
@@ -482,9 +478,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                       return alert;
                                                     },
                                                   );
-
-
-
                                                 },
                                                 child: Container(
                                                   margin: EdgeInsets.only(left:
@@ -492,18 +485,10 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                       right: SizeConfig.blockSizeHorizontal *2,
                                                       top: SizeConfig.blockSizeVertical *2),
                                                   padding: EdgeInsets.only(
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          3,
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          3,
-                                                      bottom: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1),
+                                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                                      left: SizeConfig.blockSizeHorizontal * 3,
+                                                      bottom: SizeConfig.blockSizeHorizontal * 1,
+                                                      top: SizeConfig.blockSizeHorizontal * 1),
                                                   decoration: BoxDecoration(
                                                     color: AppColors.darkgreen,
                                                     borderRadius: BorderRadius.circular(20),
@@ -522,8 +507,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                   ),
                                                 ),
                                               ): Container(): Container()
-
-
                                             ],
                                           ),
 
@@ -573,7 +556,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                       'Poppins-Regular'),
                                                 ),
                                               ),
-
                                             ],
                                           ),
                                           Row(

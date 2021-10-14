@@ -19,7 +19,8 @@ class StringConstant {
   static const String creat = "Create Now";
   static const String donation = "Donation";
   static const String eventname = "Event Name";
-  static const String eventtime = "Event Time";
+  static const String eventstarttime = "Event Start Time";
+  static const String eventendtime = "Event End Time";
   static const String location = "Location";
   static const String entryfees = "Entry Fees";
   static const String home = "Home";

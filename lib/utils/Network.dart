@@ -68,4 +68,5 @@ class Network{
   static String invitation = "invitation";
   static String invitationListing = "invitationListing";
   static String sharelink = "http://kontribute.knickglobal.com/signup";
+  static String create_events = "create_events";
 }

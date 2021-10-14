@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +17,8 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
+import 'package:path/path.dart' as path;
+import 'package:file_picker/file_picker.dart';
 
 class CreateEventPost extends StatefulWidget {
   @override
@@ -38,6 +40,8 @@ class CreateEventPostState extends State<CreateEventPost> {
   final CostofTicketFocus = FocusNode();
   final VideoFocus = FocusNode();
   final TermsFocus = FocusNode();
+  var vidoname=null;
+  List _selecteName = List();
   final TextEditingController TermsController = new TextEditingController();
   final TextEditingController searchpostController =
       new TextEditingController();
@@ -55,6 +59,8 @@ class CreateEventPostState extends State<CreateEventPost> {
   final TextEditingController MaximumNoofquantityController =
       new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
+  List<File> _imageList = [];
+  List<File> _documentList = [];
   String _eventName;
   String _terms;
   String _location;
@@ -76,6 +82,9 @@ class CreateEventPostState extends State<CreateEventPost> {
     "Invite",
     "Others"
   ];
+  FileType fileType;
+  var basename=null;
+  var catname=null;
   bool expandFlag0 = false;
   var categoryfollowinglist;
   List _selecteFollowing = List();
@@ -96,6 +105,9 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _emailother,_name,_mobile,_subject,_descriptionother;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   sendinvitationpojo sendinvi;
+  static List<String> videoList = [null];
+  var file1;
+  var documentPath;
   final List<String> _dropdownEventCategory = [
     "New year",
     "Valentine's Day",
@@ -136,32 +148,42 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _requiredamount;
   String _Maximumnoparticipant;
   String userid;
+  DateTime currentDate = DateTime.now();
+  var myFormat = DateFormat('yyyy-MM-dd');
 
-  DateView() async {
+  DateTime currentEndDate = DateTime.now();
+  var myFormatEndDate = DateFormat('yyyy-MM-dd');
+
+
+
+  DateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      Date = picked.toString();
-      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: " + formattedDate.toString());
-    });
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2050),
+    );
+
+    if (picked != null && picked != currentDate)
+      setState(() {
+        currentDate = picked;
+      });
   }
 
-  EndDateView() async {
+  EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    setState(() {
-      EndDate = picked.toString();
-      formattedEndDate = DateFormat('dd-MM-yyyy').format(picked);
-      print("onDate: " + formattedEndDate.toString());
-    });
+      context: context,
+      initialDate: currentEndDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2050),
+    );
+
+    if (picked != null && picked != currentEndDate)
+      setState(() {
+        currentEndDate = picked;
+      });
   }
+
 
   Future<void> _showTimePicker() async {
     final TimeOfDay picked = await showTimePicker(
@@ -413,17 +435,20 @@ class CreateEventPostState extends State<CreateEventPost> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
-        setState(() async {
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+        setState(() {
           _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
-              image_value = false;
-            });
-          } else {
+
+          if(_imageList.length<3)
+          {
+            _imageList.add(_imageFile);
+            for (int i = 0; i < _imageList.length; i++) {
+              print("ListImages:" + _imageList[i].toString());
+            }
+          }
+          else{
             Fluttertoast.showToast(
-              msg: "Please Select Image ",
+              msg: "upload upto 3 images",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -436,16 +461,19 @@ class CreateEventPostState extends State<CreateEventPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
-        setState(() async {
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+        setState(() {
           _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
-              image_value = false;
-            });
-          } else {
+          if(_imageList.length<3)
+          {
+            _imageList.add(_imageFile);
+            for (int i = 0; i < _imageList.length; i++) {
+              print("ListImages:" + _imageList[i].toString());
+            }
+          }
+          else{
             Fluttertoast.showToast(
-              msg: "Please Select Image ",
+              msg: "upload upto 3 images",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -795,80 +823,75 @@ class CreateEventPostState extends State<CreateEventPost> {
 
                               ],
                             )
-
                         ),
                         Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         // width: SizeConfig.blockSizeHorizontal * 50,
+                          child: Column(
                             children: [
                               Container(
-                                width: SizeConfig.blockSizeHorizontal * 50,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
-                                      child: Text(
-                                        StringConstant.eventlist,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),
-                                      ),
+                                alignment: Alignment.topLeft,
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal *
+                                        3,
+                                    right:
+                                    SizeConfig.blockSizeHorizontal *
+                                        2,
+                                    top:
+                                    SizeConfig.blockSizeVertical * 2),
+                                child: Text(
+                                  StringConstant.eventlist,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  _modalBottomSheetMenu();
+                                },
+                                child: Container(
+                                  height:
+                                  SizeConfig.blockSizeVertical * 8,
+                                  margin: EdgeInsets.only(
+                                      left:
+                                      SizeConfig.blockSizeHorizontal *
+                                          3,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      top: SizeConfig.blockSizeVertical *
+                                          1),
+                                  padding: EdgeInsets.only(
+                                    left:
+                                    SizeConfig.blockSizeVertical * 1,
+                                    right:
+                                    SizeConfig.blockSizeVertical * 1,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
                                     ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        _modalBottomSheetMenu();
-                                      },
-                                      child: Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 8,
-                                        margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1),
-                                        padding: EdgeInsets.only(
-                                          left:
-                                              SizeConfig.blockSizeVertical * 1,
-                                          right:
-                                              SizeConfig.blockSizeVertical * 1,
-                                        ),
-                                        alignment: Alignment.centerLeft,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: Colors.black26,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
-                                          ),
-                                          color: Colors.transparent,
-                                        ),
-                                        child: Text(
-                                          textHolder,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                        /*  child:
+                                    color: Colors.transparent,
+                                  ),
+                                  child: Text(
+                                    textHolder,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  /*  child:
                                       DropdownButtonHideUnderline(
                                         child: DropdownButton(
                                           hint: Text("please select",style: TextStyle(fontSize: 12),),
@@ -896,11 +919,15 @@ class CreateEventPostState extends State<CreateEventPost> {
                                           isExpanded: true,
                                         ),
                                       ),*/
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               Container(
                                   width: SizeConfig.blockSizeHorizontal * 50,
                                   child: Column(
@@ -908,16 +935,11 @@ class CreateEventPostState extends State<CreateEventPost> {
                                       Container(
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                            top: SizeConfig.blockSizeVertical *
-                                                2),
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            top: SizeConfig.blockSizeVertical * 2),
                                         child: Text(
-                                          StringConstant.eventtime,
+                                          StringConstant.eventstarttime,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -927,24 +949,100 @@ class CreateEventPostState extends State<CreateEventPost> {
                                         ),
                                       ),
                                       Container(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 8,
+                                          height: SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
                                           ),
-                                          padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
+                                          padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeVertical * 1,
+                                          ),
+                                          alignment: Alignment.topLeft,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: Colors.black26,
+                                              style: BorderStyle.solid,
+                                              width: 1.0,
+                                            ),
+                                            color: Colors.transparent,
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              _showTimePicker();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  alignment:
+                                                  Alignment.centerLeft,
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      33,
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1),
+                                                  child: Text(
+                                                    selectedTime == ""
+                                                        ? "10:00Am"
+                                                        : selectedTime,
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular',
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      5,
+                                                  child: Icon(
+                                                    Icons.alarm,
+                                                    color: AppColors.greyColor,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+                                    ],
+                                  )),
+                              Container(
+                                  width: SizeConfig.blockSizeHorizontal * 50,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            top: SizeConfig.blockSizeVertical * 2),
+                                        child: Text(
+                                          StringConstant.eventendtime,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ),
+                                      Container(
+                                          height: SizeConfig.blockSizeVertical * 8,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                          ),
+                                          padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeVertical * 1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
@@ -1064,7 +1162,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                         ),
                                         child: GestureDetector(
                                           onTap: () {
-                                            DateView();
+                                            DateView(context);
                                           },
                                           child: Row(
                                             children: [
@@ -1077,7 +1175,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                             .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
-                                                  formattedDate,
+                                                  myFormat.format(currentDate),
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -1163,7 +1261,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                           ),
                                           child: GestureDetector(
                                             onTap: () {
-                                              EndDateView();
+                                              EndDateView(context);
                                             },
                                             child: Row(
                                               children: [
@@ -1176,7 +1274,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    formattedEndDate,
+                                                    myFormatEndDate.format(currentEndDate),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1435,8 +1533,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 70,
-                              height: SizeConfig.blockSizeVertical * 7,
+                              width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 right: SizeConfig.blockSizeHorizontal * 3,
@@ -1455,42 +1552,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: VideoFocus,
-                                controller: MaximumNoofquantityController,
-                                textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.number,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter video url";
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v) {
-                                  VideoFocus.unfocus();
-                                },
-                                onSaved: (val) => _video = val,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular',
-                                  fontSize: 10,
-                                  color: AppColors.themecolor,
-                                ),
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                      color: AppColors.themecolor,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 10,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                    hintText:
-                                        "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
+                              child: Column(
+                                children: [..._getVideoLink()],
                               ),
                             )
                           ],
@@ -1523,7 +1586,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                             ),
                             Container(
                                 width: SizeConfig.blockSizeHorizontal * 70,
-                                height: SizeConfig.blockSizeVertical * 7,
+                                height: SizeConfig.blockSizeVertical * 10,
                                 margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2,
                                   right: SizeConfig.blockSizeHorizontal * 3,
@@ -1547,26 +1610,37 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   child: Row(
                                     children: [
                                       Container(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  60,
-                                          child: Text(
-                                            "",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 10,
-                                              color: AppColors.black,
-                                            ),
-                                          )),
-                                      Container(
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 5,
-                                        child: Icon(
-                                          Icons.attachment,
-                                          color: AppColors.greyColor,
+                                        SizeConfig.blockSizeHorizontal *
+                                            60,
+                                        child: Text(
+                                          catname != null
+                                              ? catname.toString()
+                                              : "",
+                                          maxLines: 5,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            color: AppColors.black,
+                                          ),
+                                        ),
+
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          getPdfAndUpload();
+                                        },
+                                        child: Container(
+                                          width:
+                                          SizeConfig.blockSizeHorizontal *
+                                              5,
+                                          child: Icon(
+                                            Icons.attachment,
+                                            color: AppColors.greyColor,
+                                          ),
                                         ),
                                       )
                                     ],
@@ -1763,6 +1837,31 @@ class CreateEventPostState extends State<CreateEventPost> {
                         ),
                         GestureDetector(
                           onTap: () {
+
+                            final input2 = videoList.toString();
+                            final removedBrackets = input2.substring(1, input2.length - 1);
+                            final parts = removedBrackets.split(',');
+                            vidoname = parts.map((part) => "$part").join(',').trim();
+                            print("Vidoname: "+vidoname.toString());
+
+                            createproject(
+                                context,
+                                EventNameController.text,
+                                DescriptionController.text,
+
+                                myFormat.format(currentDate),
+                                myFormat.format(currentEndDate),
+                                TermsController.text,
+                                EnterRequiredAmountController.text,
+                                .text,
+                                emailController.text,
+                                nameController.text,
+                                mobileController.text,
+                                messageController.text,
+                                followingvalues.toString(),
+                                vidoname,
+                                _imageList,
+                                _documentList);
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -1801,6 +1900,243 @@ class CreateEventPostState extends State<CreateEventPost> {
           )),
     );
   }
+  Future getPdfAndUpload() async {
+    File file = await FilePicker.getFile(
+      type: FileType.custom,
+      allowedExtensions: [
+        'pdf',
+        'docx'
+      ], //here you can add any of extention what you need to pick
+    );
+
+    if (file != null) {
+      setState(() {
+        file1 = file; //file1 is a global variable which i created
+        print("File Path: " + file1.toString());
+
+        if(_documentList.length<2)
+        {
+          _documentList.add(file1);
+          for (int i = 0; i < _documentList.length; i++) {
+            print("ListDoc:" + _documentList[i].toString());
+          }
+          documentPath = file.path.toString();
+          print("File Path1: " + file.path.toString());
+          basename = path.basename(file.path);
+          print("File basename: " + basename.toString());
+          _selecteName.add(basename);
+
+          final input = _selecteName.toString();
+          final removedBrackets = input.substring(1, input.length - 1);
+          final parts = removedBrackets.split(',');
+          catname = parts.map((part) => "$part").join(',').trim();
+          print("Docname: "+catname.toString());
+        }
+        else{
+          Fluttertoast.showToast(
+            msg: "upload upto 2 documents",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+
+      });
+      /* setState(() {
+        file1 = file;
+        _imageList.add(file1);
+        for (int i = 0; i < _imageList.length; i++) {
+          print("ListImages:" + _imageList[i].toString());
+        }
+      });*/
+    }
+  }
+
+  List<Widget> _getVideoLink() {
+    List<Widget> friendsTextFields = [];
+    for (int i = 0; i < videoList.length; i++) {
+      friendsTextFields.add(Container(
+        height: SizeConfig.blockSizeVertical * 10,
+        width: SizeConfig.blockSizeHorizontal * 70,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            children: [
+              Expanded(child: videoTextFields(i)),
+              SizedBox(
+                width: 16,
+              ),
+              // we need add button at last friends row
+              _addRemoveButton(i == videoList.length - 1, i),
+            ],
+          ),
+        ),
+      ));
+    }
+    return friendsTextFields;
+  }
+  Widget _addRemoveButton(bool add, int index) {
+    return InkWell(
+      onTap: () {
+        if (add) {
+          // add new text-fields at the top of all friends textfields
+          videoList.insert(0, null);
+        } else
+          videoList.removeAt(index);
+        setState(() {});
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: (add) ? Colors.green : Colors.red,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(
+          (add) ? Icons.add : Icons.remove,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+
+  void createproject(
+      BuildContext context,
+      String projectname,
+      String description,
+      String startdate,
+      String enddate,
+      String terms,
+      String enterrequiredamount,
+      String totalbudget,
+      String email,
+      String name,
+      String mobile,
+      String message,
+      String connection,
+      String video,
+      List images, List documentList) async {
+    var jsonData = null;
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_events));
+    request.headers["Content-Type"] = "multipart/form-data";
+    request.fields["event_name"] = projectname.toString();
+    request.fields["description"] = description.toString();
+    request.fields["event_startdate"] = startdate.toString();
+    request.fields["event_enddate"] = enddate;
+    request.fields["event_starttime"] = enterrequiredamount.toString();
+    request.fields["event_endtime"] = totalbudget.toString();
+    request.fields["category_id"] = currentid.toString();
+    request.fields["maximum_participant"] = video;
+    request.fields["entry_fee"] = terms;
+    request.fields["who_can_see"] = userid.toString();
+    request.fields["video_link"] = name.toString();
+    request.fields["special_terms_conditions"] = mobile.toString();
+    request.fields["userid"] = email.toString();
+    request.fields["members"] = email.toString();
+    request.fields["name"] = email.toString();
+    request.fields["email"] = email.toString();
+    request.fields["mobile"] = email.toString();
+    request.fields["message"] = email.toString();
+    request.fields["sendername"] = email.toString();
+
+    print("Request: "+request.fields.toString());
+    for (int i = 0; i < images.length; i++) {
+      request.files.add(
+        http.MultipartFile(
+          "fileimages[]",
+          http.ByteStream(DelegatingStream.typed(images[i].openRead())),
+          await images[i].length(),
+          filename:path.basename(images[i].path),
+        ),
+
+      );
+    }
+    for (int i = 0; i < documentList.length; i++) {
+      request.files.add(
+        http.MultipartFile(
+          "file[]",
+          http.ByteStream(DelegatingStream.typed(documentList[i].openRead())),
+          await documentList[i].length(),
+          filename:path.basename(documentList[i].path),
+        ),
+      );
+    }
+    /* if (documentPath != null) {
+      print("DocumentPATH: " + documentPath);
+      request.files.add(await http.MultipartFile.fromPath(
+          "file[]", documentPath,
+          filename: documentPath));
+    }*/
+    var response = await request.send();
+    response.stream.transform(utf8.decoder).listen((value) {
+      jsonData = json.decode(value);
+      if (response.statusCode == 200) {
+        if (jsonData["status"] == false) {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Fluttertoast.showToast(
+            msg: jsonData["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          if (jsonData != null) {
+            setState(() {
+              isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+            videoList.clear();
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => events()), (route) => false);
+          } else {
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            setState(() {
+              Navigator.of(context).pop();
+              //   isLoading = false;
+            });
+            Fluttertoast.showToast(
+              msg: jsonData["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+            );
+          }
+        }
+      }else if (response.statusCode == 422) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonData["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else if (response.statusCode == 500) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Internal server error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: "Something went wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
 
   otherOptionview() {
     Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -2379,3 +2715,57 @@ class ItemLists {
 
   ItemLists({this.title});
 }
+
+class videoTextFields extends StatefulWidget {
+  final int index;
+  videoTextFields(this.index);
+  @override
+  _videoTextFieldsState createState() => _videoTextFieldsState();
+}
+class _videoTextFieldsState extends State<videoTextFields> {
+  TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context)
+  {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _nameController.text = CreateEventPostState.videoList[widget.index] ??'';
+    });
+
+    return TextFormField(
+      controller: _nameController,
+      onChanged: (v) => CreateEventPostState.videoList[widget.index] = v,
+      style: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Poppins-Regular',
+        fontSize: 10,
+      ),
+      decoration: InputDecoration(
+          hintText: 'Enter video link',hintStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Poppins-Regular',
+        fontSize: 10,
+      )),
+      validator: (v) {
+        if (v.trim().isEmpty)
+          return 'Please enter something';
+        return null;
+      },
+    );
+  }
+}
+
