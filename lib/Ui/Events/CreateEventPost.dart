@@ -134,6 +134,7 @@ class CreateEventPostState extends State<CreateEventPost> {
 
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String selectedTime = "";
+  String selectedEndTime = "";
   String currentSelectedValue;
   int currentid = 0;
   String currentSelectedEventValue;
@@ -191,6 +192,16 @@ class CreateEventPostState extends State<CreateEventPost> {
     if (picked != null) {
       setState(() {
         selectedTime = picked.format(context);
+      });
+    }
+  }
+
+  Future<void> _showEndTimePicker() async {
+    final TimeOfDay picked = await showTimePicker(
+        context: context, initialTime: TimeOfDay(hour: 5, minute: 10));
+    if (picked != null) {
+      setState(() {
+        selectedEndTime = picked.format(context);
       });
     }
   }
@@ -1057,7 +1068,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                           ),
                                           child: GestureDetector(
                                             onTap: () {
-                                              _showTimePicker();
+                                              _showEndTimePicker();
                                             },
                                             child: Row(
                                               children: [
@@ -1072,9 +1083,9 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    selectedTime == ""
+                                                    selectedEndTime == ""
                                                         ? "10:00Am"
-                                                        : selectedTime,
+                                                        : selectedEndTime,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1848,12 +1859,13 @@ class CreateEventPostState extends State<CreateEventPost> {
                                 context,
                                 EventNameController.text,
                                 DescriptionController.text,
-
+                                selectedTime,
+                                selectedEndTime,
                                 myFormat.format(currentDate),
                                 myFormat.format(currentEndDate),
-                                TermsController.text,
                                 EnterRequiredAmountController.text,
-                                .text,
+                                Maximumnoparticipantcontroller.text,
+                                TermsController.text,
                                 emailController.text,
                                 nameController.text,
                                 mobileController.text,
@@ -2005,6 +2017,8 @@ class CreateEventPostState extends State<CreateEventPost> {
       BuildContext context,
       String projectname,
       String description,
+      String starttime,
+      String endtime,
       String startdate,
       String enddate,
       String terms,

@@ -1350,8 +1350,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
 
 
 
-
-
   Widget buildBar(BuildContext context) {
     return new AppBar(
         centerTitle: true,
