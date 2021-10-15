@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
+import 'package:kontribute/Pojo/EventCategoryPojo.dart';
 import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -73,6 +74,9 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _searchpost;
   String _costofTicket;
   String _video;
+  String val;
+  bool resultvalue = true;
+  var storelist_length;
   String textHolder = "Please Select";
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
@@ -135,6 +139,10 @@ class CreateEventPostState extends State<CreateEventPost> {
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String selectedTime = "";
   String selectedEndTime = "";
+  String _hour, _minute, _tim;
+  String _hourend, _minuteend, _timend;
+  TimeOfDay selecteTime = TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selecteEndTime = TimeOfDay(hour: 00, minute: 00);
   String currentSelectedValue;
   int currentid = 0;
   String currentSelectedEventValue;
@@ -149,11 +157,14 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _requiredamount;
   String _Maximumnoparticipant;
   String userid;
+  String username;
+  int catid;
+  EventCategoryPojo listing;
   DateTime currentDate = DateTime.now();
-  var myFormat = DateFormat('yyyy-MM-dd');
-
+  var myFormat = DateFormat('yyyy/MM/dd');
+  bool internet = false;
   DateTime currentEndDate = DateTime.now();
-  var myFormatEndDate = DateFormat('yyyy-MM-dd');
+  var myFormatEndDate = DateFormat('yyyy/MM/dd');
 
 
 
@@ -185,25 +196,92 @@ class CreateEventPostState extends State<CreateEventPost> {
       });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((vals) {
+      print("UserId: " + vals);
+      userid = vals;
+      getData(userid);
+      print("Login userid: " + userid.toString());
+    });
+    SharedUtils.readloginId("Usename").then((val) {
+      print("username: " + val);
+      username = val;
+      print("Login username: " + username.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+
+        getEventCategory();
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
 
   Future<void> _showTimePicker() async {
     final TimeOfDay picked = await showTimePicker(
-        context: context, initialTime: TimeOfDay(hour: 5, minute: 10));
-    if (picked != null) {
+        context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        child: child,
+      );
+    },);
+    /*if (picked != null) {
       setState(() {
-        selectedTime = picked.format(context);
+        selectedTime = picked;
       });
-    }
+    }*/
+    if (picked != null)
+      setState(() {
+        selecteTime = picked;
+        _hour = selecteTime.hour.toString();
+        _minute = selecteTime.minute.toString();
+        _tim = _hour + ':' + _minute;
+        selectedTime = _tim;
+
+      });
   }
 
   Future<void> _showEndTimePicker() async {
     final TimeOfDay picked = await showTimePicker(
-        context: context, initialTime: TimeOfDay(hour: 5, minute: 10));
-    if (picked != null) {
+        context: context, initialTime: TimeOfDay.now(),builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        child: child,
+      );
+    },);
+    /*if (picked != null) {
       setState(() {
         selectedEndTime = picked.format(context);
       });
-    }
+    }*/
+    if (picked != null)
+      setState(() {
+        selecteEndTime = picked;
+        _hourend = selecteEndTime.hour.toString();
+        _minuteend = selecteEndTime.minute.toString();
+        _timend = _hourend + ':' + _minuteend;
+        selectedEndTime = _timend;
+
+      });
   }
 
   void _modalBottomSheetMenu() {
@@ -263,14 +341,22 @@ class CreateEventPostState extends State<CreateEventPost> {
                         ]),
                     Expanded(
                       child: ListView.builder(
-                          itemCount: _dropdownEventCategory.length,
-                          itemBuilder: (BuildContext context, int index) {
+                          itemCount:  storelist_length.length == null
+                              ? 0 : storelist_length.length,
+                          itemBuilder: (BuildContext context, int index)
+                          {
                             return Container(
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                  changeText(_dropdownEventCategory
-                                      .elementAt(index)
+                                   catid = listing.resultPush
+                                      .elementAt(index).catId;
+                                  print("categoryid: "+catid.toString());
+                                  print("categoryname: "+listing.resultPush
+                                      .elementAt(index).categoryName
+                                      .toString());
+                                  changeText(listing.resultPush
+                                      .elementAt(index).categoryName
                                       .toString());
                                 },
                                 child: Container(
@@ -285,9 +371,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   ),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    _dropdownEventCategory
-                                        .elementAt(index)
-                                        .toString(),
+                                    listing.resultPush.elementAt(index).categoryName.toString(),
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.normal,
@@ -442,6 +526,59 @@ class CreateEventPostState extends State<CreateEventPost> {
       ),
     );
   }
+
+  void getEventCategory() async {
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
+    var jsonResponse = null;
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new EventCategoryPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.resultPush.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.resultPush;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
@@ -660,6 +797,78 @@ class CreateEventPostState extends State<CreateEventPost> {
                             ],
                           ),
                         ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        _imageList.length != 0
+                            ? Container(
+                            alignment: Alignment.topCenter,
+                            height: SizeConfig.blockSizeVertical * 10,
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 6,
+                                right: SizeConfig.blockSizeHorizontal * 6),
+                            child: _imageList.length == 0
+                                ? new Image.asset(
+                                'assets/images/orderListing.png')
+                                : ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: _imageList == null
+                                    ? 0
+                                    : _imageList.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                  return Dismissible(
+                                      key: Key(
+                                          _imageList[index].toString()),
+                                      direction:
+                                      DismissDirection.vertical,
+                                      onDismissed: (direction) {
+                                        setState(() {
+                                          _imageList.removeAt(index);
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.topCenter,
+                                        width: 60,
+                                        height: 60,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                2,
+                                            top: SizeConfig
+                                                .blockSizeVertical *
+                                                1,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                2),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              alignment:
+                                              Alignment.topCenter,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(20),
+                                              ),
+                                              width: 60,
+                                              height: 60,
+                                              child: Image.file(
+                                                _imageList
+                                                    .elementAt(index),
+                                                fit: BoxFit.fill,
+                                                width: 60,
+                                                height: 60,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                                }))
+                            : Container(),
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
@@ -830,8 +1039,6 @@ class CreateEventPostState extends State<CreateEventPost> {
                                     ),
                                   ),
                                 )
-
-
                               ],
                             )
                         ),
@@ -946,8 +1153,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                                       Container(
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            left: SizeConfig.blockSizeHorizontal * 3,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
                                             top: SizeConfig.blockSizeVertical * 2),
                                         child: Text(
                                           StringConstant.eventstarttime,
@@ -963,10 +1170,11 @@ class CreateEventPostState extends State<CreateEventPost> {
                                           height: SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical * 1,
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
+                                            left: SizeConfig.blockSizeHorizontal * 3,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
                                           ),
-                                          padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical * 1,
+                                          padding: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeVertical * 1,
                                             right: SizeConfig.blockSizeVertical * 1,
                                           ),
                                           alignment: Alignment.topLeft,
@@ -998,7 +1206,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                           1),
                                                   child: Text(
                                                     selectedTime == ""
-                                                        ? "10:00Am"
+                                                        ? "10:00AM"
                                                         : selectedTime,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
@@ -1022,9 +1230,11 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                 )
                                               ],
                                             ),
-                                          )),
+                                          )
+                                      ),
                                     ],
-                                  )),
+                                  )
+                              ),
                               Container(
                                   width: SizeConfig.blockSizeHorizontal * 50,
                                   child: Column(
@@ -1083,8 +1293,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    selectedEndTime == ""
-                                                        ? "10:00Am"
+                                                    selectedEndTime ==""
+                                                        ? "10:00AM"
                                                         : selectedEndTime,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
@@ -1098,9 +1308,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      5,
+                                                  width: SizeConfig.blockSizeHorizontal * 5,
                                                   child: Icon(
                                                     Icons.alarm,
                                                     color: AppColors.greyColor,
@@ -1178,13 +1386,9 @@ class CreateEventPostState extends State<CreateEventPost> {
                                           child: Row(
                                             children: [
                                               Container(
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    33,
+                                                width: SizeConfig.blockSizeHorizontal * 33,
                                                 padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        1),
+                                                    left: SizeConfig.blockSizeHorizontal * 1),
                                                 child: Text(
                                                   myFormat.format(currentDate),
                                                   textAlign: TextAlign.left,
@@ -1532,7 +1736,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 22,
+                              width: SizeConfig.blockSizeHorizontal * 15,
                               child: Text(
                                 StringConstant.video,
                                 style: TextStyle(
@@ -1617,17 +1821,16 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   color: Colors.transparent,
                                 ),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: ()
+                                  {
+
+                                  },
                                   child: Row(
                                     children: [
                                       Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal *
-                                            60,
+                                        width: SizeConfig.blockSizeHorizontal * 60,
                                         child: Text(
-                                          catname != null
-                                              ? catname.toString()
-                                              : "",
+                                          catname != null ? catname.toString() : "",
                                           maxLines: 5,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
@@ -1638,16 +1841,13 @@ class CreateEventPostState extends State<CreateEventPost> {
                                             color: AppColors.black,
                                           ),
                                         ),
-
                                       ),
                                       GestureDetector(
                                         onTap: () {
                                           getPdfAndUpload();
                                         },
                                         child: Container(
-                                          width:
-                                          SizeConfig.blockSizeHorizontal *
-                                              5,
+                                          width: SizeConfig.blockSizeHorizontal * 5,
                                           child: Icon(
                                             Icons.attachment,
                                             color: AppColors.greyColor,
@@ -1740,12 +1940,14 @@ class CreateEventPostState extends State<CreateEventPost> {
                                       } else if (currentSelectedValue == "Connections only")
                                       {
                                         currentid = 2;
+
                                       }else if(currentSelectedValue=="Invite")
                                       {
                                         currentid =3;
+
                                       }else if(currentSelectedValue=="Others")
                                       {
-                                        currentid =4;
+                                        currentid = 4;
                                       }
                                     });
                                   },
@@ -1855,25 +2057,53 @@ class CreateEventPostState extends State<CreateEventPost> {
                             vidoname = parts.map((part) => "$part").join(',').trim();
                             print("Vidoname: "+vidoname.toString());
 
-                            createproject(
-                                context,
-                                EventNameController.text,
-                                DescriptionController.text,
-                                selectedTime,
-                                selectedEndTime,
-                                myFormat.format(currentDate),
-                                myFormat.format(currentEndDate),
-                                EnterRequiredAmountController.text,
-                                Maximumnoparticipantcontroller.text,
-                                TermsController.text,
-                                emailController.text,
-                                nameController.text,
-                                mobileController.text,
-                                messageController.text,
-                                followingvalues.toString(),
-                                vidoname,
-                                _imageList,
-                                _documentList);
+                            if(followingvalues ==null)
+                              {
+                                createproject(
+                                    context,
+                                    EventNameController.text,
+                                    DescriptionController.text,
+                                    catid,
+                                    selectedTime,
+                                    selectedEndTime,
+                                    myFormat.format(currentDate),
+                                    myFormat.format(currentEndDate),
+                                    EnterRequiredAmountController.text,
+                                    Maximumnoparticipantcontroller.text,
+                                    TermsController.text,
+                                    emailController.text,
+                                    nameController.text,
+                                    mobileController.text,
+                                    messageController.text,
+                                   "",
+                                    vidoname,
+                                    _imageList,
+                                    _documentList);
+                              }
+                            else{
+                              createproject(
+                                  context,
+                                  EventNameController.text,
+                                  DescriptionController.text,
+                                  catid,
+                                  selectedTime,
+                                  selectedEndTime,
+                                  myFormat.format(currentDate),
+                                  myFormat.format(currentEndDate),
+                                  EnterRequiredAmountController.text,
+                                  Maximumnoparticipantcontroller.text,
+                                  TermsController.text,
+                                  emailController.text,
+                                  nameController.text,
+                                  mobileController.text,
+                                  messageController.text,
+                                  followingvalues.toString(),
+                                  vidoname,
+                                  _imageList,
+                                  _documentList);
+                            }
+
+
                             /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -2017,20 +2247,22 @@ class CreateEventPostState extends State<CreateEventPost> {
       BuildContext context,
       String projectname,
       String description,
+      int cate,
       String starttime,
       String endtime,
       String startdate,
       String enddate,
-      String terms,
       String enterrequiredamount,
-      String totalbudget,
+      String maxparti,
+      String terms,
       String email,
       String name,
       String mobile,
       String message,
       String connection,
       String video,
-      List images, List documentList) async {
+      List images,
+      List documentList) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_events));
@@ -2039,21 +2271,21 @@ class CreateEventPostState extends State<CreateEventPost> {
     request.fields["description"] = description.toString();
     request.fields["event_startdate"] = startdate.toString();
     request.fields["event_enddate"] = enddate;
-    request.fields["event_starttime"] = enterrequiredamount.toString();
-    request.fields["event_endtime"] = totalbudget.toString();
-    request.fields["category_id"] = currentid.toString();
-    request.fields["maximum_participant"] = video;
-    request.fields["entry_fee"] = terms;
-    request.fields["who_can_see"] = userid.toString();
-    request.fields["video_link"] = name.toString();
-    request.fields["special_terms_conditions"] = mobile.toString();
-    request.fields["userid"] = email.toString();
-    request.fields["members"] = email.toString();
-    request.fields["name"] = email.toString();
+    request.fields["event_starttime"] = starttime.toString();
+    request.fields["event_endtime"] = endtime.toString();
+    request.fields["category_id"] = cate.toString();
+    request.fields["maximum_participant"] = maxparti;
+    request.fields["entry_fee"] = enterrequiredamount;
+    request.fields["who_can_see"] = currentid.toString();
+    request.fields["video_link"] = video.toString();
+    request.fields["special_terms_conditions"] = terms.toString();
+    request.fields["userid"] = userid.toString();
+    request.fields["members"] = connection.toString();
+    request.fields["name"] = name.toString();
     request.fields["email"] = email.toString();
-    request.fields["mobile"] = email.toString();
-    request.fields["message"] = email.toString();
-    request.fields["sendername"] = email.toString();
+    request.fields["mobile"] = mobile.toString();
+    request.fields["message"] = message.toString();
+    request.fields["sendername"] = username.toString();
 
     print("Request: "+request.fields.toString());
     for (int i = 0; i < images.length; i++) {
@@ -2077,17 +2309,12 @@ class CreateEventPostState extends State<CreateEventPost> {
         ),
       );
     }
-    /* if (documentPath != null) {
-      print("DocumentPATH: " + documentPath);
-      request.files.add(await http.MultipartFile.fromPath(
-          "file[]", documentPath,
-          filename: documentPath));
-    }*/
+
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
-        if (jsonData["status"] == false) {
+        if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           Fluttertoast.showToast(
             msg: jsonData["message"],
@@ -2334,165 +2561,15 @@ class CreateEventPostState extends State<CreateEventPost> {
                   fontFamily: 'Poppins-Regular',
                   decoration: TextDecoration.none,
                 ),
-
               ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (_formKey.currentState.validate()) {
-                setState(() {
-                  isLoading = true;
-                });
-                Internet_check().check().then((intenet) {
-                  if (intenet != null && intenet) {
-                    if(_imageFile!=null)
-                    {
-                      sendInvitation(emailController.text, nameController.text,mobileController.text,messageController.text);
-                    }
-                    else {
-                      Fluttertoast.showToast(
-                        msg: "Please select gift image",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                      );
-                    }
-                  } else {
-                    Fluttertoast.showToast(
-                      msg: "No Internet Connection",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                    );
-                  }
-                  // No-Internet Case
-                });
-              }
-            },
-            child: Container(
-                alignment: Alignment.center,
-                width: SizeConfig.blockSizeHorizontal * 38,
-                height: SizeConfig.blockSizeVertical * 7,
-                margin: EdgeInsets.only(
-                    top: SizeConfig.blockSizeVertical * 5,
-                    bottom: SizeConfig.blockSizeVertical * 5,
-                    left: SizeConfig.blockSizeHorizontal *5,
-                    right: SizeConfig.blockSizeHorizontal *5
-
-                ),
-                decoration: BoxDecoration(
-                  image: new DecorationImage(
-                    image: new AssetImage("assets/images/sendbutton.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(StringConstant.sharelink,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 15,
-                        )),
-                    Container(
-                      child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
-                    )
-                  ],
-                )
             ),
           ),
         ],
       ),
     );
   }
-  sendInvitation(String emal,String name,String mobile,String descr) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {
-      "userid":userid.toString(),
-      "name":name,
-      "message":descr,
-      "email":emal,
-      "mobile":mobile,
-    };
-    print("Data: "+data.toString());
-    var jsonResponse = null;
 
-    var response = await http.post(Network.BaseApi + Network.invitation, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-      else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        sendinvi = new sendinvitationpojo.fromJson(jsonResponse);
-        String jsonProfile = jsonEncode(sendinvi);
-        print(jsonProfile);
-        SharedUtils.saveProfile(jsonProfile);
-        if (jsonResponse != null) {
-          setState(() {
-            isLoading = false;
-            emailController.text="";
-            nameController.text="";
-            mobileController.text="";
-            messageController.text="";
 
-          });
-          final RenderBox box1 = _formKey.currentContext.findRenderObject();
-          Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
-              subject: "Kontribute",
-              sharePositionOrigin:
-              box1.localToGlobal(Offset.zero) & box1.size);
-          Fluttertoast.showToast(
-            msg: sendinvi.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Navigator.of(context).pop();
-            //   isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: sendinvi.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    }
-    else {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
-  @override
-  void initState() {
-    super.initState();
-    SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
-      userid = val;
-      getData(userid);
-      print("Login userid: " + userid.toString());
-    });
-  }
   Future<void> getData(String a) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {'receiver_id': a.toString()};
@@ -2518,7 +2595,6 @@ class CreateEventPostState extends State<CreateEventPost> {
         {
           setState(() {
             categoryfollowinglist = jsonResponse['result'];
-
           });
         }
         else {

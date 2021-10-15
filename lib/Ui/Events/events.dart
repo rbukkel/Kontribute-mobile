@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Common/fab_bottom_app_bar.dart';
+import 'package:kontribute/Pojo/EventCategoryPojo.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
@@ -16,8 +20,11 @@ import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:http/http.dart' as http;
 import 'package:kontribute/utils/screen.dart';
 
 class events extends StatefulWidget {
@@ -51,6 +58,12 @@ class eventsState extends State<events> {
     "Graduation",
     "Other"
   ];
+  int catid;
+  EventCategoryPojo listing;
+  String val;
+  bool resultvalue = true;
+  var storelist_length;
+  bool  internet = false;
   String textHolder = "Please Select";
 
   changeText(String valu) {
@@ -64,6 +77,59 @@ class eventsState extends State<events> {
       );
     });
   }
+
+  void getEventCategory() async {
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
+    var jsonResponse = null;
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new EventCategoryPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.resultPush.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.resultPush;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   void _modalBottomSheetMenu() {
     showModalBottomSheet(
@@ -122,14 +188,21 @@ class eventsState extends State<events> {
                         ]),
                     Expanded(
                       child: ListView.builder(
-                          itemCount: _dropdownEventCategory.length,
+                          itemCount:  storelist_length.length == null
+                              ? 0 : storelist_length.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                  changeText(_dropdownEventCategory
-                                      .elementAt(index)
+                                  catid = listing.resultPush
+                                      .elementAt(index).catId;
+                                  print("categoryid: "+catid.toString());
+                                  print("categoryname: "+listing.resultPush
+                                      .elementAt(index).categoryName
+                                      .toString());
+                                  changeText(listing.resultPush
+                                      .elementAt(index).categoryName
                                       .toString());
                                 },
                                 child: Container(
@@ -144,9 +217,7 @@ class eventsState extends State<events> {
                                   ),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    _dropdownEventCategory
-                                        .elementAt(index)
-                                        .toString(),
+                                    listing.resultPush.elementAt(index).categoryName.toString(),
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.normal,
@@ -164,6 +235,33 @@ class eventsState extends State<events> {
           });
         });
   }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+
+        getEventCategory();
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -1471,13 +1471,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: Row(
                                     children: [
                                       Container(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  60,
+                                          width: SizeConfig.blockSizeHorizontal * 60,
                                             child: Text(
-                                              catname != null
-                                                  ? catname.toString()
-                                                  : "",
+                                              catname != null ? catname.toString() : "",
                                               maxLines: 5,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
@@ -1488,7 +1484,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 color: AppColors.black,
                                               ),
                                             ),
-
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -1872,14 +1867,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                 else
                   return null;
               },
-              onSaved: (val) => _name= val,
+              onSaved: (val) => _name = val,
+
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(MobileFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                  letterSpacing: 1.0,
+                  color: Colors.black,
+                  fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular'),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Name*",
@@ -2025,6 +2024,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               ),
             ),
           ),
+
       /*    GestureDetector(
             onTap: () {
               if (_formKey.currentState.validate()) {
@@ -2091,6 +2091,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                 )
             ),
           ),*/
+
         ],
       ),
     );
