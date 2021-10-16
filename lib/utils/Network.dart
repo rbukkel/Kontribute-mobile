@@ -70,4 +70,6 @@ class Network{
   static String sharelink = "http://kontribute.knickglobal.com/signup";
   static String create_events = "create_events";
   static String categorylisting = "categorylisting";
+  static String eventListing = "eventListing";
+  static String eventListing_history = "eventListing_history";
 }

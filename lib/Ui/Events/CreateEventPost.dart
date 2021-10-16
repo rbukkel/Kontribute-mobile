@@ -256,7 +256,6 @@ class CreateEventPostState extends State<CreateEventPost> {
         _minute = selecteTime.minute.toString();
         _tim = _hour + ':' + _minute;
         selectedTime = _tim;
-
       });
   }
 
@@ -280,7 +279,6 @@ class CreateEventPostState extends State<CreateEventPost> {
         _minuteend = selecteEndTime.minute.toString();
         _timend = _hourend + ':' + _minuteend;
         selectedEndTime = _timend;
-
       });
   }
 
@@ -298,8 +296,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                     image: new DecorationImage(
                   image: new AssetImage("assets/images/bg_img.png"),
                   fit: BoxFit.fill,
-                )), //could change this to Color(0xFF737373),
-
+                )
+                ), //could change this to Color(0xFF737373),
                 child: Column(
                   children: [
                     Row(
