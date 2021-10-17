@@ -588,7 +588,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-                                    projectdetailspojo.commentsdata.userId.toString()!=userid?
+                                   /* projectdetailspojo.commentsdata.userId.toString()!=userid?
                                     projectdetailspojo.commentsdata.status=="pending"?
                                     GestureDetector(
                                       onTap: ()
@@ -659,7 +659,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                               'Poppins-Regular'),
                                         ),
                                       ),
-                                    ): Container(): Container()
+                                    ): Container(): Container()*/
 
                                   ],
                                 ),
@@ -1255,77 +1255,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                             color: Colors.black12,
                           ),
                         ),
-                      /*  Container(
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2,
-                            right: SizeConfig.blockSizeHorizontal * 2,
-                          ),
-                          alignment: Alignment.centerLeft,
-                          child: TextFormField(
-                            autofocus: false,
-                            focusNode: CommentFocus,
-                            controller: CommentController,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.text,
-                            maxLines: 10,
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please enter comment";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v) {
-                              CommentFocus.unfocus();
-                            },
-                            onSaved: (val) => _Comment = val,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 12,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              // prefixIcon: Icon(Icons.tag_faces),
-                              focusedBorder: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 12,
-                                decoration: TextDecoration.none,
-                              ),
-                              hintText: "Add a comment...",
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 100,
-                          alignment: Alignment.topRight,
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 5,
-                              top: SizeConfig.blockSizeVertical * 1),
-                          child: Text(
-                            "Post",
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: AppColors.themecolor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular'),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),*/
+
                         videolist_length!=null?
                         Container(
                           height: SizeConfig.blockSizeVertical * 25,

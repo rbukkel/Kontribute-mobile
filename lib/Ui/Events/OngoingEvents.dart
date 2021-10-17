@@ -6,6 +6,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
+import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -14,6 +15,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_html/flutter_html.dart';
 import 'dart:convert';
 import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/utils/app.dart';
@@ -147,7 +149,7 @@ class OngoingEventsState extends State<OngoingEvents> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    DonationReport(
+                    EventReport(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },
@@ -206,7 +208,7 @@ class OngoingEventsState extends State<OngoingEvents> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.donationListing, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.eventListing, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
@@ -277,6 +279,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                       commentlist_length = listing.projectData.elementAt(index).comments;
                       double amount = listing.projectData.elementAt(index).balanceslot.toDouble() /
                           double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
+
                       amoun =amount.toInt();
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
@@ -528,7 +531,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Followers-255",
+                                                    "",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -620,10 +623,10 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 110.0,
+                                            width: 70.0,
                                             lineHeight: 14.0,
-                                            percent: 0.6,
-                                            center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                            percent: amoun/100,
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
@@ -669,11 +672,11 @@ class OngoingEventsState extends State<OngoingEvents> {
                                     GestureDetector(
                                       onTap: () {
 
-                                       /* callNext(
+                                        callNext(
                                             OngoingEventsDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                            ), context);
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -708,7 +711,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           color: Colors.transparent),
                                                       image: DecorationImage(
                                                           image: NetworkImage(
-                                                            Network.BaseApidonation +
+                                                              listing.projectData.elementAt(index).eventPath +
                                                                 listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                           ),
                                                           fit: BoxFit.fill)),
@@ -741,7 +744,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                                     GestureDetector(
                                       onTap: () {
                                         callNext(
-                                            OngoingCampaignDetailsscreen(
+                                        OngoingEventsDetailsscreen
+                                        (
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
                                             ), context);
@@ -791,7 +795,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         ),
                                       ),
                                     ),
-                                    Container(
+                                  /*  Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                       child: Row(
                                         children: [
@@ -873,26 +877,24 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           ),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                     Container(
                                       width: SizeConfig.blockSizeHorizontal *100,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                                        maxLines: 2,
-                                        style: TextStyle(
+                                      child: new Html(
+                                        data: listing.projectData.elementAt(index).description,
+                                        defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
                                             fontSize: 10,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular'),
+
                                       ),
                                     ),
-                                    GestureDetector(
+                                  /*  GestureDetector(
                                       onTap: ()
                                       {
                                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEventsDetailsscreen()));
@@ -969,7 +971,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                               ),

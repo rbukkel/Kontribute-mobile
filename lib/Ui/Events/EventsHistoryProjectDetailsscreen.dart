@@ -4,27 +4,174 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/Pojo/EventDetailsPojo.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
+import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/StringConstant.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:kontribute/utils/app.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/PostDonationcommentPojo.dart';
+import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:intl/intl.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class EventsHistoryProjectDetailsscreen extends StatefulWidget {
+  final String data;
+
+  const EventsHistoryProjectDetailsscreen({Key key, @required this.data})
+      : super(key: key);
   @override
   EventsHistoryProjectDetailsscreenState createState() => EventsHistoryProjectDetailsscreenState();
 }
 
 class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectDetailsscreen> {
+  Offset _tapDownPosition;
+  String data1;
+  String userid;
+  int a;
+  bool internet = false;
+  String val;
+  String vallike;
+  String valPost;
+  int amoun;
+  var productlist_length;
+  var storelist_length;
+  var imageslist_length;
+  var documentlist_length;
+  var videolist_length;
+  List<String> imagestore = [];
+  EventDetailsPojo projectdetailspojo;
+  projectlike prolike;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  bool downloading = false;
+  var progress = "";
+  var path = "No Data";
+  var platformVersion = "Unknown";
+  var _onPressed;
+  static final Random random = Random();
+  Directory externalDir;
+  String updateval;
+  var dio = Dio();
+  Future<PermissionStatus> getPermission() async {
+    print("getPermission");
+    final PermissionStatus permission = await Permission.storage.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus =
+      await [Permission.storage].request();
+      return permissionStatus[Permission.storage] ??
+          PermissionStatus.undetermined;
+    } else {
+      return permission;
+    }
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getPermission();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+        a = int.parse(data1);
+        print("receiverComing: " + a.toString());
+        getData(userid, a);
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
   }
+
+  void getData(String id, int projectid) async {
+    Map data = {
+      'userid': id.toString(),
+      'event_id': projectid.toString(),
+    };
+    print("receiver: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventDetails, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        projectdetailspojo = new EventDetailsPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            productlist_length = projectdetailspojo.commentsdata;
+            storelist_length = projectdetailspojo.commentsdata.commentslist;
+            imageslist_length = projectdetailspojo.commentsdata.eventimagesdata;
+            documentlist_length = projectdetailspojo.commentsdata.documents;
+            videolist_length = projectdetailspojo.commentsdata.videoLink;
+            double amount = double.parse(projectdetailspojo.commentsdata.balanceslot.toString()) /
+                double.parse(projectdetailspojo.commentsdata.totalslotamount.toString()) * 100;
+            amoun = amount.toInt();
+            print("Amountval: " + amoun.toString());
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: projectdetailspojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/chrimasevents.png",
@@ -114,6 +261,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                   ],
                 ),
               ),
+              productlist_length!=null?
               Expanded(
                 child: Container(
                   child:  SingleChildScrollView(
@@ -125,32 +273,65 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                              onTap: ()
-                              {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                            projectdetailspojo.commentsdata.profilePic == null || projectdetailspojo.commentsdata.profilePic == ""
+                                ? GestureDetector(
+                              onTap: () {
+                                callNext(
+                                    viewdetail_profile(
+                                        data: projectdetailspojo.commentsdata.userId.toString()
+                                    ), context);
                               },
                               child: Container(
-                                height:
-                                SizeConfig.blockSizeVertical *
-                                    9,
-                                width:
-                                SizeConfig.blockSizeVertical *
-                                    9,
+                                  height:
+                                  SizeConfig.blockSizeVertical * 9,
+                                  width: SizeConfig.blockSizeVertical * 9,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical *
+                                          2,
+                                      bottom:
+                                      SizeConfig.blockSizeVertical *
+                                          1,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          1,
+                                      left:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2),
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage(
+                                          "assets/images/account_circle.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )),
+                            )
+                                : GestureDetector(
+                              onTap: () {
+                                callNext(
+                                    viewdetail_profile(data: projectdetailspojo.commentsdata.userId.toString()
+                                    ), context);
+                              },
+                              child: Container(
+                                height: SizeConfig.blockSizeVertical * 9,
+                                width: SizeConfig.blockSizeVertical * 9,
                                 alignment: Alignment.center,
                                 margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical *2,
-                                    bottom: SizeConfig.blockSizeVertical *1,
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    bottom:
+                                    SizeConfig.blockSizeVertical * 1,
+                                    right:
+                                    SizeConfig.blockSizeHorizontal *
                                         1,
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1),
+                                    left: SizeConfig.blockSizeHorizontal *
+                                        2),
                                 decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image:new AssetImage("assets/images/userProfile.png"),
-                                      fit: BoxFit.fill,)),
+                                        image: NetworkImage(
+                                            projectdetailspojo
+                                                .commentsdata.profilePic),
+                                        fit: BoxFit.fill)),
                               ),
                             ),
                             Column(
@@ -160,44 +341,34 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                                   children: [
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *37,
-                                      padding: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *2,
-                                        bottom: SizeConfig.blockSizeVertical *1,
-                                      ),
-                                      child: Text(
-                                        "American Tourism",
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: AppColors.themecolor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular'),
-                                      ),
-                                    ),
                                     GestureDetector(
                                       onTap: ()
                                       {
+                                        callNext(
+                                            viewdetail_profile(
+                                                data: projectdetailspojo.commentsdata.userId.toString()
+                                            ), context);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal*1, top: SizeConfig.blockSizeVertical *2,
-                                          bottom: SizeConfig.blockSizeVertical *1,),
-
+                                            top: SizeConfig.blockSizeVertical * 2),
+                                        width: SizeConfig.blockSizeHorizontal * 39,
+                                        padding: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                        ),
                                         child: Text(
-                                          "@park plaza",
+                                          projectdetailspojo
+                                              .commentsdata.fullName,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
-                                              color: AppColors.black,
-                                              fontSize:8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
+                                              color: AppColors.themecolor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
                                         ),
                                       ),
                                     ),
+
                                     Container(
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2,
                                         top: SizeConfig.blockSizeVertical *2,
@@ -247,7 +418,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Event Name",
+                                        projectdetailspojo
+                                            .commentsdata.eventName,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
@@ -271,7 +443,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Event Date- 21/05/2021",
+                                        "Event Start Date- "+ projectdetailspojo
+                                            .commentsdata.eventStartdate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -295,7 +468,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        "Followers-255",
+                                        "",
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -320,7 +493,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        StringConstant.totalContribution+"- 20",
+                                        "Event End Date- "+ projectdetailspojo
+                                            .commentsdata.eventEnddate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -338,12 +512,185 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                             )
                           ],
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal *14,
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                  ),
+                                  child:
+                                  Text(
+                                    "Sold slots- ",
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black87,
+                                        fontSize: 8,
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontFamily:
+                                        'Poppins-Regular'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.only(
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        2,
+                                  ),
+                                  child: Text(
+                                    "\$"+projectdetailspojo
+                                        .commentsdata.totalslotamount.toString(),
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.lightBlueAccent,
+                                        fontSize: 8,
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontFamily:
+                                        'Poppins-Regular'),
+                                  ),
+                                ),
+                              ],
+                            ),
 
-                        Container(
+                            Container(
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                              child:  LinearPercentIndicator(
+                                width: 60.0,
+                                lineHeight: 14.0,
+                                percent: amoun/100,
+                                center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                backgroundColor: AppColors.lightgrey,
+                                progressColor:AppColors.themecolor,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerRight,
+
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                      left: SizeConfig
+                                          .blockSizeHorizontal *
+                                          1),
+                                  child: Text(
+                                    "Remaining slots-",
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black87,
+                                        fontSize: 8,
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontFamily:
+                                        'Poppins-Regular'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                      .blockSizeHorizontal *
+                                      3),
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "\$"+projectdetailspojo
+                                        .commentsdata.balanceslot.toString(),
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.lightBlueAccent,
+                                        fontSize: 8,
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontFamily:
+                                        'Poppins-Regular'),
+                                  ),
+                                )
+                              ],)
+                          ],
+                        ),
+                        imageslist_length != null
+                            ? Container(
+                          color:Colors.transparent,
+                          alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          height: SizeConfig.blockSizeVertical * 30,
+                          child: Stack(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            children: <Widget>[
+                              PageView.builder(
+                                physics: ClampingScrollPhysics(),
+                                itemCount:
+                                imageslist_length.length == null
+                                    ? 0
+                                    : imageslist_length.length,
+                                onPageChanged: (int page) {
+                                  getChangedPageAndMoveBar(page);
+                                },
+                                controller: PageController(
+                                    initialPage: currentPageValue,
+                                    keepPage: true,
+                                    viewportFraction: 1),
+                                itemBuilder: (context, ind) {
+                                  return Container(
+                                    width:
+                                    SizeConfig.blockSizeHorizontal *
+                                        80,
+                                    height:
+                                    SizeConfig.blockSizeVertical * 50,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.transparent),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              Network.BaseApievent +
+                                                  projectdetailspojo
+                                                      .commentsdata
+                                                      .eventimagesdata
+                                                      .elementAt(ind)
+                                                      .imagePath,
+                                            ),
+                                            fit: BoxFit.fill)),
+                                  );
+                                },
+                              ),
+                              Stack(
+                                alignment:
+                                AlignmentDirectional.bottomCenter,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: SizeConfig.blockSizeVertical * 2),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        for (int i = 0; i < imageslist_length.length; i++)
+                                          if (i == currentPageValue) ...[
+                                            circleBar(true)
+                                          ] else
+                                            circleBar(false),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                            : Container(
                           color: AppColors.themecolor,
                           alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                          height: SizeConfig.blockSizeVertical*30,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          height: SizeConfig.blockSizeVertical * 30,
                           child: Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: <Widget>[
@@ -362,15 +709,22 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                 },
                               ),
                               Stack(
-                                alignment: AlignmentDirectional.bottomCenter,
+                                alignment:
+                                AlignmentDirectional.bottomCenter,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                    margin: EdgeInsets.only(
+                                        bottom:
+                                        SizeConfig.blockSizeVertical *
+                                            2),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
                                       children: <Widget>[
-                                        for (int i = 0; i < introWidgetsList.length; i++)
+                                        for (int i = 0;
+                                        i < introWidgetsList.length;
+                                        i++)
                                           if (i == currentPageValue) ...[
                                             circleBar(true)
                                           ] else
@@ -436,7 +790,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                           child: Image.asset("assets/images/color_heart.png",color: Colors.black,height: 15,width: 25,)
                                       ),
                                       Container(
-                                        child: Text("1,555",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
+                                        child: Text(projectdetailspojo
+                                            .commentsdata.totalLike.toString(),style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
                                       )
                                     ],
                                   ),
@@ -456,7 +811,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                           child: Image.asset("assets/images/color_comment.png",color: Colors.black,height: 15,width: 25,)
                                       ),
                                       Container(
-                                        child: Text("22",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
+                                        child: Text(projectdetailspojo
+                                            .commentsdata.totalcomments.toString(),style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
                                       )
                                     ],
                                   ),
@@ -471,211 +827,148 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                               top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
+                          child: new Html(
+                            data: projectdetailspojo.commentsdata.description,
+                            defaultTextStyle: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black87,
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
+                          ),
+                        ),
+                        projectdetailspojo.commentsdata.termsAndCondition!=null?
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
+                            left: SizeConfig.blockSizeHorizontal *3,
+                            right: SizeConfig.blockSizeHorizontal * 3,),
+                          alignment: Alignment.topLeft,
                           child: Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                            maxLines: 2,
+                            "Terms and condition: ",
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins-Regular'),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: ()
-                          {
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EventsHistoryProjectDetailsscreen()));
-                          },
-                          child: Container(
-                            width: SizeConfig.blockSizeHorizontal *100,
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                top: SizeConfig.blockSizeVertical *1),
-                            child: Text(
-                              "View all 29 comments",
-                              maxLines: 2,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.black26,
-                                  fontSize: 8,
-                                  fontWeight:
-                                  FontWeight.normal,
-                                  fontFamily:
-                                  'Poppins-Regular'),
-                            ),
-                          ),
-                        ),
+                        ):Container(),
+
+                        projectdetailspojo.commentsdata.termsAndCondition!=null?
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                            left: SizeConfig.blockSizeHorizontal *3,
+                            right: SizeConfig.blockSizeHorizontal * 3,),
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
                           child: Text(
-                            "thekratos carry killed it🤑🤑🤣",
-                            maxLines: 2,
+                            projectdetailspojo.commentsdata.termsAndCondition,
+                            maxLines: 3,
                             style: TextStyle(
                                 letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'NotoEmoji'),
+                                color: Colors.black87,
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
-                        ),
+                        ):
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 90,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                            left: SizeConfig.blockSizeHorizontal *3,
+                            right: SizeConfig.blockSizeHorizontal * 3,),
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
                           child: Text(
-                            "itx_kamie_94🤑🤣🤣",
-                            maxLines: 2,
+                            "",
+                            maxLines: 3,
                             style: TextStyle(
                                 letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'NotoEmoji'),
+                                color: Colors.black87,
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
+                          width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *1),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
-                            "3 Hours ago".toUpperCase(),
+                            "View all " +
+                                (projectdetailspojo
+                                    .commentsdata.commentslist.length)
+                                    .toString() +
+                                " comments",
                             maxLines: 2,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black26,
                                 fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular'),
                           ),
                         ),
+                        storelist_length != null
+                            ?
                         Container(
-                          height: SizeConfig.blockSizeVertical *25,
+
                           child: ListView.builder(
-                              itemCount: 5,
+                              itemCount: storelist_length.length == null
+                                  ? 0
+                                  : storelist_length.length,
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,
-                                        left: SizeConfig.blockSizeHorizontal * 3,
-                                        right: SizeConfig.blockSizeHorizontal *1),
-                                    child:
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          height: SizeConfig.blockSizeVertical * 45,
-                                          width: SizeConfig.blockSizeHorizontal * 60,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            image: new DecorationImage(
-                                              image: new AssetImage("assets/images/events1.png"),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            // showAlert();
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            margin: EdgeInsets.only(
-                                                left: SizeConfig.blockSizeHorizontal * 25,right:  SizeConfig.blockSizeHorizontal * 25),
-                                            child: Image.asset(
-                                              "assets/images/play.png",
-                                              width: 50,
-                                              height: 50,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                );
-                              }),
-                        ),
-                        Container(
-                          height: SizeConfig.blockSizeVertical *20,
-                          child: ListView.builder(
-                              itemCount: 5,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *3,
-                                      left: SizeConfig.blockSizeHorizontal * 3,
-                                      right: SizeConfig.blockSizeHorizontal *1),
-                                  alignment: Alignment.center,
-                                  child: Column(
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (BuildContext context, int i) {
+                                return
+                                  Column(
                                     children: [
-                                      Image.asset("assets/images/files.png",height: SizeConfig.blockSizeVertical * 10,
-                                        width: SizeConfig.blockSizeHorizontal * 25,fit: BoxFit.fitHeight,),
                                       Container(
+
+                                        width: SizeConfig.blockSizeHorizontal *
+                                            100,
+                                        alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical *1,
+                                          bottom: SizeConfig.blockSizeVertical *1,
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                          SizeConfig.blockSizeHorizontal *
+                                              3,
                                         ),
-                                        width: SizeConfig.blockSizeHorizontal *20,
-                                        alignment: Alignment.center,
                                         child: Text(
-                                          "Abc.pdf",
-                                          maxLines: 2,
+                                          projectdetailspojo
+                                              .commentsdata.commentslist
+                                              .elementAt(i)
+                                              .comment,
+                                          maxLines: 10,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
-                                              color: AppColors.black,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
+                                              color: Colors.black,
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'NotoEmoji'),
                                         ),
                                       ),
                                       Container(
+                                        width:SizeConfig.blockSizeHorizontal * 30,
                                         margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical *1,
-                                        ),
-                                        width: SizeConfig.blockSizeHorizontal *20,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Download",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              decoration: TextDecoration.underline,
-                                              letterSpacing: 1.0,
-                                              color: Colors.blue,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
+                                            top: SizeConfig.blockSizeVertical * 1),
+                                        child: Divider(
+                                          thickness: 0.5,
+                                          color: Colors.black12,
                                         ),
                                       ),
                                     ],
-                                  ),
-
-                                  /* decoration: BoxDecoration(
-                                    image: new DecorationImage(
-                                      image: new AssetImage("assets/images/files.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),*/
-                                );
+                                  );
                               }),
-                        ),
-
+                        )
+                            : Container(),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -685,245 +978,239 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                           ),
                         ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
-                              child: Text(
-                                StringConstant.contribution, textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "Poppins-Regular",
-                                    color: Colors.black),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
-                                  top: SizeConfig.blockSizeVertical *2),
-                              child: Text(
-                                StringConstant.exportto, textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "Poppins-Regular",
-                                    color: Colors.black),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context, true);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*1,
-                                    top: SizeConfig.blockSizeVertical *2),
-                                child: Image.asset("assets/images/csv.png",width: 80,height: 40,),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context, true);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
-                                  top: SizeConfig.blockSizeVertical *2,right: SizeConfig.blockSizeHorizontal*4,),
-                                child: Image.asset("assets/images/pdf.png",width: 80,height: 40,),
-                              ),
-                            ),
-                          ],
-                        ),
+                        videolist_length!=null?
                         Container(
-
-                          child:
-                          ListView.builder(
-                              itemCount: 5,
-                              physics: NeverScrollableScrollPhysics(),
+                          height: SizeConfig.blockSizeVertical * 25,
+                          child: ListView.builder(
+                              itemCount:  videolist_length.length == null
+                                  ? 0
+                                  : videolist_length.length,
                               shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int indx) {
                                 return Container(
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          color: Colors.grey.withOpacity(0.2),
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child:
-                                      InkWell(
-                                        child: Container(
-                                          padding: EdgeInsets.all(5.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            children: [
-
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    height:
-                                                    SizeConfig.blockSizeVertical *
-                                                        8,
-                                                    width:
-                                                    SizeConfig.blockSizeVertical *
-                                                        8,
-                                                    alignment: Alignment.center,
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                        bottom: SizeConfig.blockSizeVertical *1,
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2),
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image:new AssetImage("assets/images/userProfile.png"),
-                                                          fit: BoxFit.fill,)),
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *45,
-                                                            alignment: Alignment.topLeft,
-                                                            padding: EdgeInsets.only(
-                                                              left: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  1,
-                                                            ),
-                                                            child: Text(
-                                                              "Jordan",
-                                                              style: TextStyle(
-                                                                  letterSpacing: 1.0,
-                                                                  color: Colors.black87,
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontFamily: 'Poppins-Regular'),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *29,
-                                                            margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *2),
-                                                            alignment: Alignment.topRight,
-
-                                                            child: Text(
-                                                              "Contributes- \$120",
-                                                              textAlign: TextAlign.right,
-                                                              style: TextStyle(
-                                                                  letterSpacing: 1.0,
-                                                                  color: AppColors.black,
-                                                                  fontSize:10,
-                                                                  fontWeight:
-                                                                  FontWeight.normal,
-                                                                  fontFamily:
-                                                                  'Poppins-Regular'),
-                                                            ),
-                                                          )
-
-                                                        ],
-                                                      ),
-
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *56,
-                                                            alignment: Alignment.topLeft,
-                                                            padding: EdgeInsets.only(
-                                                              right: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  1,
-                                                              left: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                                  1,
-                                                            ),
-                                                            child: Text(
-                                                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed..",
-                                                              maxLines: 2,
-                                                              style: TextStyle(
-                                                                  letterSpacing: 1.0,
-                                                                  color: Colors.black87,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                  FontWeight.normal,
-                                                                  fontFamily:
-                                                                  'Poppins-Regular'),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: SizeConfig.blockSizeHorizontal *18,
-                                                            alignment: Alignment.center,
-                                                            padding: EdgeInsets.only(
-                                                                right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    1,
-                                                                left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    1,
-                                                                bottom: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    2),
-                                                            decoration: BoxDecoration(
-                                                                color: AppColors.whiteColor,
-                                                                borderRadius: BorderRadius.circular(20),
-                                                                border: Border.all(color: AppColors.darkgreen)
-                                                            ),
-                                                            child: Text(
-                                                              "Follow",
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  letterSpacing: 1.0,
-                                                                  color:AppColors.darkgreen,
-                                                                  fontSize:10,
-                                                                  fontWeight:
-                                                                  FontWeight.normal,
-                                                                  fontFamily:
-                                                                  'Poppins-Regular'),
-                                                            ),
-                                                          )
-
-                                                        ],
-                                                      ),
-
-
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ],
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 2,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
+                                        right: SizeConfig.blockSizeHorizontal * 1),
+                                    child: Stack(
+                                      children: [
+                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==null||projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==""?
+                                        Container(
+                                          height:
+                                          SizeConfig.blockSizeVertical * 45,
+                                          width:
+                                          SizeConfig.blockSizeHorizontal *
+                                              60,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            image: new DecorationImage(
+                                              image: new AssetImage(
+                                                  "assets/images/events1.png"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ):
+                                        Container(
+                                          color: Colors.black12,
+                                          child: Container(
+                                            height:
+                                            SizeConfig.blockSizeVertical * 45,
+                                            width:
+                                            SizeConfig.blockSizeHorizontal *
+                                                60,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.black12),
+                                                shape: BoxShape.rectangle,
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
+                                                    fit: BoxFit.fill)
+                                            ),
                                           ),
                                         ),
-                                        onTap: () {
+                                        InkWell(
+                                          onTap: () {
+                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                                left: SizeConfig.blockSizeHorizontal * 25,
+                                                right: SizeConfig.blockSizeHorizontal * 25),
+                                            child: Image.asset(
+                                              "assets/images/play.png",
+                                              color: Colors.white,
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ));
+                              }),
+                        ):Container(),
+                        documentlist_length!=null?
+                        Container(
+                          height: SizeConfig.blockSizeVertical * 25,
+                          child: ListView.builder(
+                              itemCount:   documentlist_length.length == null
+                                  ? 0
+                                  : documentlist_length.length,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int inde) {
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 3,
+                                      left: SizeConfig.blockSizeHorizontal * 3,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal * 1),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () async {
+                                            String path =
+                                            await ExtStorage.getExternalStoragePublicDirectory(
+                                                ExtStorage.DIRECTORY_DOWNLOADS);
+                                            //String fullPath = tempDir.path + "/boo2.pdf'";
+                                            String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
+                                            print('full path ${fullPath}');
 
+                                            download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
+                                            // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                          },
+                                          child:  Image.asset(
+                                            "assets/images/files.png",
+                                            height:
+                                            SizeConfig.blockSizeVertical * 10,
+                                            width:
+                                            SizeConfig.blockSizeHorizontal * 25,
+                                            fit: BoxFit.fitHeight,
+                                          )),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 20,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          projectdetailspojo.commentsdata.documents.elementAt(inde).docName.toString(),
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: AppColors.black,
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: ()
+                                        async {
+                                          String path =
+                                          await ExtStorage.getExternalStoragePublicDirectory(
+                                              ExtStorage.DIRECTORY_DOWNLOADS);
+                                          //String fullPath = tempDir.path + "/boo2.pdf'";
+                                          String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
+                                          print('full path ${fullPath}');
+
+                                          download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
+                                          // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
                                         },
-                                      )
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                          ),
+                                          width:
+                                          SizeConfig.blockSizeHorizontal * 20,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Download",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                decoration:
+                                                TextDecoration.underline,
+                                                letterSpacing: 1.0,
+                                                color: Colors.blue,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
+
+                                  /*   decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
                                 );
                               }),
-
-                        )
+                        ):Container(),
                       ],
                     ),
                   ),
                 )
                ,
-              )
+              ):Container(
+                child: Center(
+                  child: internet == true?CircularProgressIndicator():SizedBox(),
+                ),
+              ),
             ],
           )
          ),
     );
+  }
+
+  Future download2(Dio dio, String url, String savePath) async {
+    try {
+      Response response = await dio.get(
+        url,
+        onReceiveProgress: showDownloadProgress,
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      print(response.headers);
+      File file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
+    }
+  }
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
+      Fluttertoast.showToast(
+        msg: "Downloading file "+(received / total * 100).toStringAsFixed(0) + "%",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+      if((received / total * 100).toStringAsFixed(0) + "%"=="100%")
+      {
+        Fluttertoast.showToast(
+          msg: "Saved in download folder",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    }
   }
 }

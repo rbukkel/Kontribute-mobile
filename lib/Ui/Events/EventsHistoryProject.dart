@@ -6,6 +6,16 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:kontribute/utils/app.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:http/http.dart' as http;
+import 'package:kontribute/Pojo/EventHistoryPojo.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 
@@ -15,11 +25,46 @@ class EventsHistoryProject extends StatefulWidget {
 }
 
 class EventsHistoryProjectState extends State<EventsHistoryProject> {
+ String userid;
+ bool internet = false;
+ bool resultvalue = true;
+ String val;
+ EventHistoryPojo listing;
+ var storelist_length;
+ var imageslist_length;
+ int amoun;
+ String vallike;
 
   @override
   void initState() {
     super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+
+    });
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getdata(userid);
+        setState(() {
+          internet = true;
+        });
+      }
+      else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
   }
+
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/chrimasevents.png",
@@ -47,6 +92,70 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
     currentPageValue = page;
     setState(() {});
   }
+
+  void getdata(String user_id) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+    };
+
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventListing_history, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new EventHistoryPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +164,17 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
           color: AppColors.whiteColor,
           child: Column(
             children: [
+              storelist_length != null ?
               Expanded(
                 child:
                 ListView.builder(
-                    itemCount: 8,
+                    itemCount: storelist_length.length == null
+                        ? 0
+                        : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
+                      imageslist_length = listing.projectData.elementAt(index).eventImages;
+                      double amount = double.parse(listing.projectData.elementAt(index).balanceslot.toString()) / double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
+                      amoun =amount.toInt();
                       return
                         Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
@@ -86,20 +201,47 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        GestureDetector(
-                                          onTap: ()
-                                          {
-                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                        listing.projectData.elementAt(index).profilePic== null ||
+                                            listing.projectData.elementAt(index).profilePic == ""
+                                            ? GestureDetector(
+                                          onTap: () {
+                                            callNext(
+                                                viewdetail_profile(
+                                                    data: listing.projectData.elementAt(index).userId.toString()
+                                                ), context);
                                           },
-                                          child:Container(
-                                            height:
-                                            SizeConfig.blockSizeVertical *
-                                                9,
-                                            width:
-                                            SizeConfig.blockSizeVertical *
-                                                9,
+                                          child: Container(
+                                              height:
+                                              SizeConfig.blockSizeVertical * 9,
+                                              width: SizeConfig.blockSizeVertical * 9,
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *2,
+                                                  bottom: SizeConfig.blockSizeVertical *1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1),
+                                              decoration: BoxDecoration(
+                                                image: new DecorationImage(
+                                                  image: new AssetImage(
+                                                      "assets/images/account_circle.png"),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              )),
+                                        )
+                                            : GestureDetector(
+                                          onTap: () {
+                                            callNext(viewdetail_profile(data: listing.projectData.elementAt(index).userId.toString()), context);
+                                          },
+                                          child: Container(
+                                            height: SizeConfig.blockSizeVertical * 9,
+                                            width: SizeConfig.blockSizeVertical * 9,
                                             alignment: Alignment.center,
                                             margin: EdgeInsets.only(
+                                                top: SizeConfig.blockSizeVertical *2,
                                                 bottom: SizeConfig.blockSizeVertical *1,
                                                 right: SizeConfig
                                                     .blockSizeHorizontal *
@@ -108,9 +250,10 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     .blockSizeHorizontal *
                                                     1),
                                             decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                  image:new AssetImage("assets/images/userProfile.png"),
-                                                  fit: BoxFit.fill,)),
+                                                    image: NetworkImage(listing.projectData.elementAt(index).profilePic),
+                                                    fit: BoxFit.fill)),
                                           ),
                                         ),
                                         Column(
@@ -126,7 +269,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "American Tourism",
+                                                    listing.projectData.elementAt(index).fullName,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
@@ -135,7 +278,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
-                                                GestureDetector(
+                                               /* GestureDetector(
                                                   onTap: ()
                                                   {
                                                   },
@@ -157,7 +300,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                           'Poppins-Regular'),
                                                     ),
                                                   ),
-                                                ),
+                                                ),*/
                                                 Container(
                                                   margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2,right:  SizeConfig.blockSizeHorizontal *1),
 
@@ -205,7 +348,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Event Name",
+                                                      listing.projectData.elementAt(index).eventName,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
@@ -229,7 +372,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Event Date- 21/05/2021",
+                                                    "Event Start Date- "+ listing.projectData.elementAt(index).eventStartdate,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -253,7 +396,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Followers-255",
+                                                    "",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -278,7 +421,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    StringConstant.totalContribution+"- 20",
+                                                    "Event End Date- "+ listing.projectData.elementAt(index).eventEnddate,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -290,6 +433,106 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      width: SizeConfig.blockSizeHorizontal *14,
+                                                      alignment: Alignment.topLeft,
+                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                        ),
+                                                      child:
+                                                      Text(
+                                                        "Sold slots- ",
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: Colors.black87,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                                      alignment: Alignment.topLeft,
+                                                      padding: EdgeInsets.only(
+                                                        right: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            2,
+                                                      ),
+                                                      child: Text(
+                                                        "\$"+listing.projectData.elementAt(index).totalslotamount.toString(),
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: Colors.lightBlueAccent,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                Container(
+                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                                  child:  LinearPercentIndicator(
+                                                    width: 60.0,
+                                                    lineHeight: 14.0,
+                                                    percent: amoun/100,
+                                                    center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                                    backgroundColor: AppColors.lightgrey,
+                                                    progressColor:AppColors.themecolor,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                  Container(
+                                                    alignment: Alignment.centerRight,
+
+                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                        left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1),
+                                                    child: Text(
+                                                      "Remaining slots-",
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.black87,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        3),
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      "\$"+listing.projectData.elementAt(index).balanceslot.toString(),
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.lightBlueAccent,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  )
+                                                ],)
                                               ],
                                             ),
                                           ],
@@ -382,10 +625,84 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                         )
                                       ],
                                     ),*/
+                                    imageslist_length!=null?
                                     GestureDetector(
-                                      onTap: ()
-                                      {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EventsHistoryProjectDetailsscreen()));
+                                      onTap: () {
+                                        callNext(
+                                            EventsHistoryProjectDetailsscreen(
+                                                data: listing.projectData.elementAt(index).id.toString()
+                                            ), context);
+                                      },
+                                      child: Container(
+                                        color: Colors.transparent,
+                                        alignment: Alignment.topCenter,
+                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                        height: SizeConfig.blockSizeVertical*30,
+                                        child: Stack(
+                                          alignment: AlignmentDirectional.bottomCenter,
+                                          children: <Widget>[
+                                            PageView.builder(
+                                              physics: ClampingScrollPhysics(),
+                                              itemCount:
+                                              imageslist_length.length == null
+                                                  ? 0
+                                                  : imageslist_length.length,
+                                              onPageChanged: (int page) {
+                                                getChangedPageAndMoveBar(page);
+                                              },
+                                              controller: PageController(
+                                                  initialPage: currentPageValue,
+                                                  keepPage: true,
+                                                  viewportFraction: 1),
+                                              itemBuilder: (context, ind) {
+                                                return Container(
+                                                  width:
+                                                  SizeConfig.blockSizeHorizontal *
+                                                      80,
+                                                  height:
+                                                  SizeConfig.blockSizeVertical * 50,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.transparent),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                            listing.projectData.elementAt(index).eventPath +
+                                                                listing.projectData.elementAt(index).eventImages.elementAt(ind).imagePath,
+                                                          ),
+                                                          fit: BoxFit.fill)),
+                                                );
+                                              },
+                                            ),
+                                            Stack(
+                                              alignment: AlignmentDirectional.bottomCenter,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      for (int i = 0; i < imageslist_length.length; i++)
+                                                        if (i == currentPageValue) ...
+                                                        [
+                                                          circleBar(true)
+                                                        ] else
+                                                          circleBar(false),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ):
+                                    GestureDetector(
+                                      onTap: () {
+                                        callNext(
+                                            EventsHistoryProjectDetailsscreen(
+                                                data: listing.projectData.elementAt(index).id.toString()
+                                            ), context);
                                       },
                                       child: Container(
                                         color: AppColors.themecolor,
@@ -474,7 +791,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                           ),
 
                                           Spacer(),
-                                          InkWell(
+                                        /*  InkWell(
                                             onTap: (){
 
                                             },
@@ -513,7 +830,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                               ),
                                               //child: Image.asset("assets/images/save.png"),
                                             ),
-                                          ),
+                                          ),*/
                                         ],
                                       ),
                                     ),
@@ -522,20 +839,17 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                                        maxLines: 2,
-                                        style: TextStyle(
+                                      child:  new Html(
+                                        data: listing.projectData.elementAt(index).description,
+                                        defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
                                             fontSize: 10,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-                                    GestureDetector(
+                                   /* GestureDetector(
                                       onTap: ()
                                       {
                                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EventsHistoryProjectDetailsscreen()));
@@ -612,7 +926,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -621,6 +935,18 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                         ),
                       );
                     }),
+              ): Container(
+                margin: EdgeInsets.only(top: 150),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Image.asset("assets/images/empty.png",
+                      height: SizeConfig.blockSizeVertical * 50,
+                      width: SizeConfig.blockSizeVertical * 50),
+                ),
               )
             ],
           )
