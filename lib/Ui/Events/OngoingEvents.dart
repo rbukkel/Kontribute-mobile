@@ -6,6 +6,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
+import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -100,7 +101,7 @@ class OngoingEventsState extends State<OngoingEvents> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    EditDonationPost(
+                    EditEventPost(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },

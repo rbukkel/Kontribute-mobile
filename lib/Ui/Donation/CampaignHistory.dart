@@ -607,7 +607,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                         ),
                                       ),
                                     ),
-                                    Container(
+                                   /* Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                       child: Row(
                                         children: [
@@ -648,7 +648,7 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                             ),
                                           ),
                                           Spacer(),
-                                          /*InkWell(
+                                          *//*InkWell(
                                             onTap: (){
 
                                             },
@@ -687,10 +687,10 @@ class CampaignHistoryState extends State<CampaignHistory> {
                                               ),
                                               //child: Image.asset("assets/images/save.png"),
                                             ),
-                                          ),*/
+                                          ),*//*
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                     Container(
                                       width: SizeConfig.blockSizeHorizontal *100,
                                       alignment: Alignment.topLeft,

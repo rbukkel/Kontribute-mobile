@@ -357,6 +357,58 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
 
+
+  void addlike() async {
+    Map data = {
+      'userid': userid.toString(),
+      'donation_id': a.toString(),
+    };
+    print("projectlikes: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationlikes, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      vallike = response.body; //store response as string
+      if (jsonDecode(vallike)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(vallike)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        prolike = new projectlike.fromJson(jsonResponse);
+        print("Json UserLike: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("responseLIke: ");
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          getData(userid, a);
+        } else {
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(vallike)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -990,7 +1042,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                               InkWell(
                                 onTap: () {
                                   print("LIke");
-                                  // addlike();
+                                 addlike();
                                 },
                                 child: Container(
                                   width: SizeConfig.blockSizeHorizontal * 7,
@@ -1050,7 +1102,8 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                       Container(
                                         child: Text(
                                           /* "1,555",*/
-                                          "",
+                                          projectdetailspojo
+                                              .commentsdata.totalLike.toString(),
                                           style: TextStyle(
                                               fontFamily: 'Montserrat-Bold',
                                               fontSize:
@@ -1081,7 +1134,8 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                           )),
                                       Container(
                                         child: Text(
-                                          "",
+                                          projectdetailspojo
+                                              .commentsdata.totalcomments.toString(),
                                           style: TextStyle(
                                               fontFamily: 'Montserrat-Bold',
                                               fontSize:

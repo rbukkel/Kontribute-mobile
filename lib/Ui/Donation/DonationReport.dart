@@ -32,7 +32,6 @@ class DonationReport extends StatefulWidget {
 }
 
 class DonationReportState extends State<DonationReport> {
-
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final _formKey = GlobalKey<FormState>();
   final CommentFocus = FocusNode();

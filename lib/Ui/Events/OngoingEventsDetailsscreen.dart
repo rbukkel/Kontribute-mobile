@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
@@ -304,10 +305,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-               /* callNext(
-                    EditDonationPost(
+                callNext(
+                    EditEventPost(
                         data:  projectdetailspojo.commentsdata.id.toString()
-                    ), context);*/
+                    ), context);
               },
               child: Row(
                 children: <Widget>[
@@ -1460,7 +1461,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                         Container(
                           height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
-                              itemCount:   documentlist_length.length == null
+                              itemCount: documentlist_length.length == null
                                   ? 0
                                   : documentlist_length.length,
                               shrinkWrap: true,
@@ -1522,7 +1523,6 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           //String fullPath = tempDir.path + "/boo2.pdf'";
                                           String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
                                           print('full path ${fullPath}');
-
                                           download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
                                           // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
                                         },

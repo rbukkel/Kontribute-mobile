@@ -75,4 +75,7 @@ class Network{
   static String eventListing_history = "eventListing_history";
   static String eventDetails = "eventDetails";
   static String eventlikes = "eventlikes";
+  static String get_event = "get_event";
+  static String edit_events = "edit_events";
+  static String reportevent = "reportevent";
 }

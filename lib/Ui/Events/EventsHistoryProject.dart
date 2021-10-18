@@ -435,106 +435,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                 ),
                                               ],
                                             ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      width: SizeConfig.blockSizeHorizontal *14,
-                                                      alignment: Alignment.topLeft,
-                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                                        ),
-                                                      child:
-                                                      Text(
-                                                        "Sold slots- ",
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: Colors.black87,
-                                                            fontSize: 8,
-                                                            fontWeight:
-                                                            FontWeight.normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                                      alignment: Alignment.topLeft,
-                                                      padding: EdgeInsets.only(
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            2,
-                                                      ),
-                                                      child: Text(
-                                                        "\$"+listing.projectData.elementAt(index).totalslotamount.toString(),
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: Colors.lightBlueAccent,
-                                                            fontSize: 8,
-                                                            fontWeight:
-                                                            FontWeight.normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
 
-                                                Container(
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                                  child:  LinearPercentIndicator(
-                                                    width: 60.0,
-                                                    lineHeight: 14.0,
-                                                    percent: amoun/100,
-                                                    center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
-                                                    backgroundColor: AppColors.lightgrey,
-                                                    progressColor:AppColors.themecolor,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  children: [
-                                                  Container(
-                                                    alignment: Alignment.centerRight,
-
-                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                                        left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1),
-                                                    child: Text(
-                                                      "Remaining slots-",
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black87,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3),
-                                                    alignment: Alignment.topLeft,
-                                                    child: Text(
-                                                      "\$"+listing.projectData.elementAt(index).balanceslot.toString(),
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.lightBlueAccent,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  )
-                                                ],)
-                                              ],
-                                            ),
                                           ],
                                         )
                                       ],
@@ -625,6 +526,107 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                         )
                                       ],
                                     ),*/
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: SizeConfig.blockSizeHorizontal *14,
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                left: SizeConfig.blockSizeHorizontal *1
+                                              ),
+                                              child:
+                                              Text(
+                                                "Sold slots- ",
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                              alignment: Alignment.topLeft,
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2,
+                                              ),
+                                              child: Text(
+                                                "\$"+listing.projectData.elementAt(index).totalslotamount.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+                                        Container(
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                          child:  LinearPercentIndicator(
+                                            width: 60.0,
+                                            lineHeight: 14.0,
+                                            percent: amoun/100,
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                            backgroundColor: AppColors.lightgrey,
+                                            progressColor:AppColors.themecolor,
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.centerRight,
+
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1),
+                                              child: Text(
+                                                "Remaining slots-",
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  3),
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "\$"+listing.projectData.elementAt(index).balanceslot.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            )
+                                          ],)
+                                      ],
+                                    ),
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {
@@ -749,7 +751,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                         ),
                                       ),
                                     ),
-                                    Container(
+                                  /*  Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                       child: Row(
                                         children: [
@@ -791,7 +793,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                           ),
 
                                           Spacer(),
-                                        /*  InkWell(
+                                        *//*  InkWell(
                                             onTap: (){
 
                                             },
@@ -830,10 +832,10 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                               ),
                                               //child: Image.asset("assets/images/save.png"),
                                             ),
-                                          ),*/
+                                          ),*//*
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                     Container(
                                       width: SizeConfig.blockSizeHorizontal *100,
                                       alignment: Alignment.topLeft,

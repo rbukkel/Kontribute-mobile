@@ -118,6 +118,57 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
     });
   }
 
+  void addlike() async {
+    Map data = {
+      'userid': userid.toString(),
+      'event_id': a.toString(),
+    };
+    print("projectlikes: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventlikes, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      vallike = response.body; //store response as string
+      if (jsonDecode(vallike)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(vallike)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        prolike = new projectlike.fromJson(jsonResponse);
+        print("Json UserLike: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("responseLIke: ");
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          getData(userid, a);
+        } else {
+          Fluttertoast.showToast(
+            msg: prolike.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(vallike)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
+
   void getData(String id, int projectid) async {
     Map data = {
       'userid': id.toString(),
@@ -742,7 +793,9 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                           child: Row(
                             children: [
                               InkWell(
-                                onTap: (){},
+                                onTap: (){
+                                  addlike();
+                                },
                                 child: Container(
                                   width: SizeConfig.blockSizeHorizontal*7,
                                   margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
@@ -1073,8 +1126,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                       GestureDetector(
                                           onTap: () async {
                                             String path =
-                                            await ExtStorage.getExternalStoragePublicDirectory(
-                                                ExtStorage.DIRECTORY_DOWNLOADS);
+                                            await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
                                             //String fullPath = tempDir.path + "/boo2.pdf'";
                                             String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
                                             print('full path ${fullPath}');

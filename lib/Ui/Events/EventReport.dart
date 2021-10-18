@@ -221,13 +221,14 @@ class EventReportState extends State<EventReport> {
   Future<void> addReport(String post) async {
     Map data = {
       'userid': userid.toString(),
-      'donation_id': id.toString(),
+      'event_id': id.toString(),
       'comment': post.toString(),
     };
+
     Dialogs.showLoadingDialog(context, _keyLoader);
     print("projectPOst: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.reportdonation, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.reportevent, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valPost = response.body; //store response as string
