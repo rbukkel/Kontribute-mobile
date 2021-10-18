@@ -12,6 +12,7 @@ import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/Pojo/EventDetailsPojo.dart';
+import 'package:kontribute/Pojo/EventCommentPojo.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -62,7 +63,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
   List<String> imagestore = [];
   EventDetailsPojo projectdetailspojo;
   projectlike prolike;
-  PostDonationcommentPojo postcom;
+  EventCommentPojo postcom;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   bool downloading = false;
   var progress = "";
@@ -631,44 +632,14 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           // content: Text("Are you sure you want to Pay this project?"),
                                           content: new Row(
                                             children: <Widget>[
-                                              new Expanded(
-                                                child: new  TextFormField(
-                                                  autofocus: false,
-                                                  focusNode: AmountFocus,
-                                                  controller: AmountController,
-                                                  textInputAction: TextInputAction.next,
-                                                  keyboardType: TextInputType.number,
-                                                  validator: (val) {
-                                                    if (val.length == 0)
-                                                      return "Please enter payment amount";
-                                                    else
-                                                      return null;
-                                                  },
-                                                  onFieldSubmitted: (v) {
-                                                    AmountFocus.unfocus();
-                                                  },
-                                                  onSaved: (val) => _amount = val,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily: 'Poppins-Regular',
-                                                      fontSize: 10,
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    // border: InputBorder.none,
-                                                    // focusedBorder: InputBorder.none,
-                                                    hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily: 'Poppins-Regular',
-                                                      fontSize: 10,
-                                                      decoration: TextDecoration.none,
-                                                    ),
-                                                    hintText:"Enter payment amount",
-                                                  ),
-                                                ),
-                                              )
+                                              new Text("Event entry fees \$"+projectdetailspojo
+                                                  .commentsdata.entryFee,
+                                                style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Regular',
+                                                  fontSize: 10,
+                                                  color: Colors.black),)
                                             ],
                                           ),
                                           actions: [
@@ -1579,13 +1550,13 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
   Future<void> addPost(String post) async {
     Map data = {
       'userid': userid.toString(),
-      'donation_id': a.toString(),
+      'event_id': a.toString(),
       'comment': post.toString(),
     };
     Dialogs.showLoadingDialog(context, _keyLoader);
     print("projectPOst: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.post_DonationComments, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.post_eventComments, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valPost = response.body; //store response as string
@@ -1599,7 +1570,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
         );
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        postcom = new PostDonationcommentPojo.fromJson(jsonResponse);
+        postcom = new EventCommentPojo.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("responseLIke: ");
@@ -1636,12 +1607,12 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
   Future<void> Payamount(String id, String requiredAmount, String userid) async {
     Map data = {
       'userid': userid.toString(),
-      'donation_id': id.toString(),
+      'event_pay': id.toString(),
       'amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.donation_pay, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.event_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1659,7 +1630,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

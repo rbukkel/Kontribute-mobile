@@ -1048,7 +1048,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         right: SizeConfig.blockSizeHorizontal * 1),
                                     child: Stack(
                                       children: [
-                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==null||projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==""?
+                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==null
+                                            ||projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==""?
                                         Container(
                                           height:
                                           SizeConfig.blockSizeVertical * 45,
@@ -1067,11 +1068,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         Container(
                                           color: Colors.black12,
                                           child: Container(
-                                            height:
-                                            SizeConfig.blockSizeVertical * 45,
-                                            width:
-                                            SizeConfig.blockSizeHorizontal *
-                                                60,
+                                            height: SizeConfig.blockSizeVertical * 45,
+                                            width: SizeConfig.blockSizeHorizontal * 60,
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                                 border: Border.all(color: Colors.black12),
@@ -1085,7 +1083,11 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                            callNext(
+                                                ProductVideoPlayerScreen(data:
+                                                projectdetailspojo.commentsdata.videoLink.elementAt(indx)
+                                                    .vlink.toString()
+                                                ), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
@@ -1102,15 +1104,15 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                         )
                                       ],
                                     ));
-                              }),
-                        ):Container(),
+                              }
+                              ),
+                        ):
+                        Container(),
                         documentlist_length!=null?
                         Container(
                           height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
-                              itemCount:   documentlist_length.length == null
-                                  ? 0
-                                  : documentlist_length.length,
+                              itemCount:  documentlist_length.length == null ? 0 : documentlist_length.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int inde) {
@@ -1118,36 +1120,31 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 3,
                                       left: SizeConfig.blockSizeHorizontal * 3,
-                                      right:
-                                      SizeConfig.blockSizeHorizontal * 1),
+                                      right: SizeConfig.blockSizeHorizontal * 1),
                                   alignment: Alignment.center,
                                   child: Column(
                                     children: [
                                       GestureDetector(
                                           onTap: () async {
-                                            String path =
-                                            await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
+                                            String path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
                                             //String fullPath = tempDir.path + "/boo2.pdf'";
                                             String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
                                             print('full path ${fullPath}');
 
                                             download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
-                                            // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                            // downloadFile(Network.BaseApiProject + projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
                                           },
-                                          child:  Image.asset(
+                                          child: Image.asset(
                                             "assets/images/files.png",
-                                            height:
-                                            SizeConfig.blockSizeVertical * 10,
-                                            width:
-                                            SizeConfig.blockSizeHorizontal * 25,
+                                            height: SizeConfig.blockSizeVertical * 10,
+                                            width: SizeConfig.blockSizeHorizontal * 25,
                                             fit: BoxFit.fitHeight,
                                           )),
                                       Container(
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
                                         ),
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 20,
+                                        width: SizeConfig.blockSizeHorizontal * 20,
                                         alignment: Alignment.center,
                                         child: Text(
                                           projectdetailspojo.commentsdata.documents.elementAt(inde).docName.toString(),
@@ -1205,7 +1202,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                   ),*/
                                 );
                               }),
-                        ):Container(),
+                        )
+                            :Container(),
                       ],
                     ),
                   ),

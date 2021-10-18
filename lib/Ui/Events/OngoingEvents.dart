@@ -18,6 +18,7 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_html/flutter_html.dart';
 import 'dart:convert';
+import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/Pojo/EventOngoingPojo.dart';
@@ -41,6 +42,7 @@ class OngoingEventsState extends State<OngoingEvents> {
   var storelist_length;
   var imageslist_length;
   var commentlist_length;
+  String updateval;
   int amoun;
   bool resultvalue = true;
   final List<Widget> introWidgetsList = <Widget>[
@@ -468,7 +470,89 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
+                                                listing.projectData.elementAt(index).userId.toString()!=userid?
+                                                listing.projectData.elementAt(index).status=="pending"?
+                                                GestureDetector(
+                                                  onTap: ()
+                                                  {
 
+                                                    Widget cancelButton = FlatButton(
+                                                      child: Text("Cancel"),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    );
+                                                    Widget continueButton = FlatButton(
+                                                      child: Text("Continue"),
+                                                      onPressed: () async {
+                                                        Payamount( listing.projectData.elementAt(index).id, listing.projectData.elementAt(index).entryFee,userid);
+                                                      },
+                                                    );
+                                                    // set up the AlertDialog
+                                                    AlertDialog alert = AlertDialog(
+                                                      title: Text("Pay now.."),
+                                                      // content: Text("Are you sure you want to Pay this project?"),
+                                                      content: new Row(
+                                                        children: <Widget>[
+                                                          new Text("Event entry fees \$"+listing.projectData.elementAt(index).entryFee,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                fontWeight: FontWeight.normal,
+                                                                fontFamily: 'Poppins-Regular',
+                                                                fontSize: 10,
+                                                                color: Colors.black),)
+                                                        ],
+                                                      ),
+                                                      actions: [
+                                                        cancelButton,
+                                                        continueButton,
+                                                      ],
+                                                    );
+                                                    // show the dialog
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context)
+                                                      {
+                                                        return alert;
+                                                      },
+                                                    );
+
+
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(left:
+                                                    SizeConfig.blockSizeHorizontal *2,
+                                                        right: SizeConfig.blockSizeHorizontal *2,
+                                                        top: SizeConfig.blockSizeVertical *2),
+                                                    padding: EdgeInsets.only(
+                                                        right: SizeConfig.blockSizeHorizontal * 4,
+                                                        left: SizeConfig.blockSizeHorizontal *
+                                                           4,
+                                                        bottom: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            1,
+                                                        top: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            1),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.darkgreen,
+                                                      borderRadius: BorderRadius.circular(20),
+
+                                                    ),
+                                                    child: Text(
+                                                      StringConstant.pay.toUpperCase(),
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.whiteColor,
+                                                          fontSize:12,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ),
+                                                ): Container()
+                                                    : Container()
 
 
                                               ],
@@ -1051,4 +1135,50 @@ class OngoingEventsState extends State<OngoingEvents> {
       ),
     );
   }
+
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'event_pay': id.toString(),
+      'amount': requiredAmount.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.event_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 }

@@ -78,4 +78,6 @@ class Network{
   static String get_event = "get_event";
   static String edit_events = "edit_events";
   static String reportevent = "reportevent";
+  static String post_eventComments = "post_eventComments";
+  static String event_pay = "event_pay";
 }
