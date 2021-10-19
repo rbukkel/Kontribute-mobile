@@ -317,14 +317,11 @@ class SearchProjectState extends State<SearchProject> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-
-
-                                            listing.projectData.elementAt(index).profilePic== null ||
-                                                listing.projectData.elementAt(index).profilePic == ""
-                                                ? GestureDetector(
+                                            listing.projectData.elementAt(index).profilePic== null || listing.projectData.elementAt(index).profilePic == ""
+                                                ?
+                                            GestureDetector(
                                               onTap: () {
                                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-
                                               },
                                               child: Container(
                                                   height:

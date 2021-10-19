@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:dio/dio.dart';
 import 'package:ext_storage/ext_storage.dart';
@@ -1028,27 +1029,18 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Row(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  print("LIke");
-                                  addlike();
-                                },
-                                child: Container(
-                                  width: SizeConfig.blockSizeHorizontal * 7,
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Image.asset(
-                                          "assets/images/heart.png",
-                                          height: 20,
-                                          width: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  //child: Image.asset("assets/images/flat.png"),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal*7,
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
+                                child: FavoriteButton(
+                                  iconSize:SizeConfig.blockSizeVertical*5,
+                                  isFavorite: false,
+                                  // iconDisabledColor: Colors.white,
+                                  valueChanged: (_isFavorite) {
+                                    print("LIke");
+
+                                    addlike();
+                                  },
                                 ),
                               ),
                               InkWell(

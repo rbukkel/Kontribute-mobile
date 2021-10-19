@@ -35,6 +35,7 @@ class OngoingEvents extends StatefulWidget {
 class OngoingEventsState extends State<OngoingEvents> {
   Offset _tapDownPosition;
   String userid;
+  String tabValue ="1";
   bool internet = false;
   int currentPageValue = 0;
   String val;
@@ -260,6 +261,67 @@ class OngoingEventsState extends State<OngoingEvents> {
       );
     }
   }
+
+  void getsortdata(String user_id,String sortval) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+      'sortby': sortval.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventListing, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new EventOngoingPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
 
   @override
@@ -1111,26 +1173,37 @@ class OngoingEventsState extends State<OngoingEvents> {
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-              child: Icon(Icons.request_page),
+              child: Icon(Icons.public),
               backgroundColor: AppColors.theme1color,
-              label: 'Request',
-
-              onTap: () => print('FIRST CHILD')
+              label: 'Public',
+              onTap: ()
+              {
+                tabValue="1";
+                getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
           ),
           SpeedDialChild(
-            child: Icon(Icons.public),
-            backgroundColor: AppColors.theme1color,
-            label: 'Public',
-
-            onTap: () => print('SECOND CHILD'),
+              child: Icon(Icons.privacy_tip),
+              backgroundColor: AppColors.theme1color,
+              label: 'Private',
+              onTap: ()
+              {
+                tabValue="2";
+                getsortdata(userid, tabValue);
+                print('FIRST CHILD');
+              }
           ),
           SpeedDialChild(
-            child: Icon(Icons.privacy_tip),
-            backgroundColor: AppColors.theme1color,
-            label: 'Private',
-
-            onTap: () => print('THIRD CHILD'),
-          ),
+              child: Icon(Icons.all_inclusive),
+              backgroundColor: AppColors.theme1color,
+              label: 'All',
+              onTap: ()
+              {
+                tabValue="0";
+                getsortdata(userid, tabValue);
+                print('Third CHILD');
+              }),
         ],
       ),
     );
@@ -1139,7 +1212,7 @@ class OngoingEventsState extends State<OngoingEvents> {
   Future<void> Payamount(String id, String requiredAmount, String userid) async {
     Map data = {
       'userid': userid.toString(),
-      'event_pay': id.toString(),
+      'event_id': id.toString(),
       'amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
@@ -1148,12 +1221,13 @@ class OngoingEventsState extends State<OngoingEvents> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         Fluttertoast.showToast(
             msg: jsonDecode(updateval)["message"],
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
       }
       else {
         if (jsonResponse != null) {

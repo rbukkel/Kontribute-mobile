@@ -9,6 +9,7 @@ import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/Events/EventsHistoryProject.dart';
+import 'package:kontribute/Ui/Events/SearchbarEvent.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
@@ -315,7 +316,7 @@ class eventsState extends State<events> {
             InkWell(
               onTap: (){
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+                    .push(MaterialPageRoute(builder: (context) => SearchbarEvent()));
 
               },
               child: Container(

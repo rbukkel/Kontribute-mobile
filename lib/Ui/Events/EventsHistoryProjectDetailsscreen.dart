@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -792,23 +793,21 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                           child: Row(
                             children: [
-                              InkWell(
-                                onTap: (){
-                                  addlike();
-                                },
-                                child: Container(
-                                  width: SizeConfig.blockSizeHorizontal*7,
-                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Image.asset("assets/images/heart.png",height: 20,width: 20,),
-                                      ),
-                                    ],
-                                  ),
-                                  //child: Image.asset("assets/images/flat.png"),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal*7,
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
+                                child: FavoriteButton(
+                                  iconSize:SizeConfig.blockSizeVertical*5,
+                                  isFavorite: false,
+                                  // iconDisabledColor: Colors.white,
+                                  valueChanged: (_isFavorite) {
+                                    print("LIke");
+
+                                    addlike();
+                                  },
                                 ),
                               ),
+
                               InkWell(
                                 onTap: (){
 

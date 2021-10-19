@@ -181,7 +181,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         setState(() {
           resultvalue = false;

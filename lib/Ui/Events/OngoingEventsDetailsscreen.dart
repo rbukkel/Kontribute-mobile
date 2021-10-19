@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -1031,9 +1032,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                           child: Row(
                             children: [
-                              GestureDetector(
+                             /* GestureDetector(
                                 onTap: (){
                                   print("LIke");
+
                                   addlike();
                                 },
                                 child: Container(
@@ -1047,6 +1049,21 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                     ],
                                   ),
                                   //child: Image.asset("assets/images/flat.png"),
+                                ),
+                              ),*/
+
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal*7,
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
+                                child: FavoriteButton(
+                                  iconSize:SizeConfig.blockSizeVertical*5,
+                                  isFavorite: false,
+                                  // iconDisabledColor: Colors.white,
+                                  valueChanged: (_isFavorite) {
+                                    print("LIke");
+
+                                    addlike();
+                                  },
                                 ),
                               ),
                               InkWell(
@@ -1448,14 +1465,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                   child: Column(
                                     children: [
                                       GestureDetector(
-                                          onTap: () async {
-                                            String path =
-                                            await ExtStorage.getExternalStoragePublicDirectory(
-                                                ExtStorage.DIRECTORY_DOWNLOADS);
-                                            //String fullPath = tempDir.path + "/boo2.pdf'";
+                                          onTap: ()async {
+                                            String path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
                                             String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
                                             print('full path ${fullPath}');
-
                                             download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
                                             // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
                                           },
@@ -1488,12 +1501,12 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       GestureDetector(
                                         onTap: ()
                                         async {
-                                          String path =
-                                          await ExtStorage.getExternalStoragePublicDirectory(
+                                          String path = await ExtStorage.getExternalStoragePublicDirectory(
                                               ExtStorage.DIRECTORY_DOWNLOADS);
                                           //String fullPath = tempDir.path + "/boo2.pdf'";
                                           String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
                                           print('full path ${fullPath}');
+
                                           download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
                                           // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
                                         },
@@ -1697,12 +1710,12 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
       );
     }
   }
+
   Future download2(Dio dio, String url, String savePath) async {
     try {
       Response response = await dio.get(
         url,
         onReceiveProgress: showDownloadProgress,
-        //Received data with List<int>
         options: Options(
             responseType: ResponseType.bytes,
             followRedirects: false,
@@ -1720,6 +1733,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
       print(e);
     }
   }
+
   void showDownloadProgress(received, total) {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");

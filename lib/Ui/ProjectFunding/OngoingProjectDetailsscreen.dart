@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:file_utils/file_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -1208,27 +1209,18 @@ class OngoingProjectDetailsscreenState
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Row(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  print("LIke");
-                                  addlike();
-                                },
-                                child: Container(
-                                  width: SizeConfig.blockSizeHorizontal * 7,
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Image.asset(
-                                          "assets/images/heart.png",
-                                          height: 20,
-                                          width: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  //child: Image.asset("assets/images/flat.png"),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal*7,
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
+                                child: FavoriteButton(
+                                  iconSize:SizeConfig.blockSizeVertical*5,
+                                  isFavorite: false,
+                                  // iconDisabledColor: Colors.white,
+                                  valueChanged: (_isFavorite) {
+                                    print("LIke");
+
+                                    addlike();
+                                  },
                                 ),
                               ),
                               InkWell(

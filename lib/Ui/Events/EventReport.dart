@@ -254,7 +254,6 @@ class EventReportState extends State<EventReport> {
           );
           CommentController.text =null;
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
-
         } else {
           Fluttertoast.showToast(
             msg: reportcommentPojo.message,

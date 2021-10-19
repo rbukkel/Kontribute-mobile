@@ -409,7 +409,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
         setState(() {
           _imageFile = imageFile;
 
@@ -435,7 +435,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
         setState(() {
           _imageFile = imageFile;
           if(_imageList.length<3)
