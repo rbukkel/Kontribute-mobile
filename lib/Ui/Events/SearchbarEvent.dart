@@ -213,9 +213,8 @@ class SearchbarEventState extends State<SearchbarEvent> {
         body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Expanded(
-
-              child: Column(
+          child:
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -1015,7 +1014,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                         }),
                   ):
                   Container(
-                    margin: EdgeInsets.only(top: 150),
+                    margin: EdgeInsets.only(top: 100),
                     alignment: Alignment.center,
                     child: resultvalue == true
                         ? Center(
@@ -1024,15 +1023,15 @@ class SearchbarEventState extends State<SearchbarEvent> {
                         :
                     Center(
                       child: Image.asset("assets/images/empty.png",
-                          height: SizeConfig.blockSizeVertical * 50,
-                          width: SizeConfig.blockSizeVertical * 50),
+                          height: SizeConfig.blockSizeVertical * 30,
+                          width: SizeConfig.blockSizeVertical * 30),
                     ),
                   ),
 
                 ],
               ),
 
-          )
+
         ));
   }
 

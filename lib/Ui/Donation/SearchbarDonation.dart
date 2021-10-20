@@ -172,7 +172,11 @@ class SearchbarDonationState extends State<SearchbarDonation> {
           setState(() {
             if(listing.projectData.isEmpty)
             {
-              resultvalue = false;
+
+              setState(() {
+                resultvalue = false;
+                storelist_length =null;
+              });
             }
             else
             {
@@ -1157,7 +1161,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                       }),
                 )
                     : Container(
-                  margin: EdgeInsets.only(top: 150),
+                  margin: EdgeInsets.only(top: 100),
                   alignment: Alignment.center,
                   child: resultvalue == true
                       ? Center(
@@ -1165,8 +1169,8 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                   )
                       : Center(
                     child: Image.asset("assets/images/empty.png",
-                        height: SizeConfig.blockSizeVertical * 50,
-                        width: SizeConfig.blockSizeVertical * 50),
+                        height: SizeConfig.blockSizeVertical * 30,
+                        width: SizeConfig.blockSizeVertical * 30),
                   ),
                 )
               ],
@@ -1174,55 +1178,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
         ));
   }
 
-  Future<void> addlike(String id) async {
-    Map data = {
-      'userid': userid.toString(),
-      'project_id': id.toString(),
-    };
-    print("projectlikes: " + data.toString());
-    var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.projectlikes, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      vallike = response.body; //store response as string
-      if (jsonDecode(vallike)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(vallike)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        prolike = new projectlike.fromJson(jsonResponse);
-        print("Json UserLike: " + jsonResponse.toString());
-        if (jsonResponse != null) {
-          print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          getdata(userid,"");
-        } else {
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(vallike)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
 
   _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();

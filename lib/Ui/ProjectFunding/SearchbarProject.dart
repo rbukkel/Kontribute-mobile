@@ -167,7 +167,11 @@ class SearchbarProjectState extends State<SearchbarProject> {
           setState(() {
             if(listing.projectData.isEmpty)
             {
-              resultvalue = false;
+
+              setState(() {
+                storelist_length =null;
+                resultvalue = false;
+              });
             }
             else
             {
@@ -1377,54 +1381,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
         ));
   }
 
-  Future<void> addlike(String id) async {
-    Map data = {
-      'userid': userid.toString(),
-      'project_id': id.toString(),
-    };
-    print("projectlikes: " + data.toString());
-    var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.projectlikes, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      vallike = response.body; //store response as string
-      if (jsonDecode(vallike)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(vallike)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        prolike = new projectlike.fromJson(jsonResponse);
-        print("Json UserLike: " + jsonResponse.toString());
-        if (jsonResponse != null) {
-          print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          getdata(userid,"");
-        } else {
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(vallike)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
 
   _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();

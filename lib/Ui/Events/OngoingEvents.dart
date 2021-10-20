@@ -323,7 +323,6 @@ class OngoingEventsState extends State<OngoingEvents> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -537,10 +536,10 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                 GestureDetector(
                                                   onTap: ()
                                                   {
-
                                                     Widget cancelButton = FlatButton(
                                                       child: Text("Cancel"),
-                                                      onPressed: () {
+                                                      onPressed: ()
+                                                      {
                                                         Navigator.pop(context);
                                                       },
                                                     );
@@ -562,10 +561,11 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                 fontWeight: FontWeight.normal,
                                                                 fontFamily: 'Poppins-Regular',
                                                                 fontSize: 10,
-                                                                color: Colors.black),)
+                                                                color: Colors.black))
                                                         ],
                                                       ),
-                                                      actions: [
+                                                      actions:
+                                                      [
                                                         cancelButton,
                                                         continueButton,
                                                       ],
@@ -578,28 +578,21 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         return alert;
                                                       },
                                                     );
-
-
                                                   },
                                                   child: Container(
-                                                    margin: EdgeInsets.only(left:
+                                                    margin: EdgeInsets.only(
+                                                        left:
                                                     SizeConfig.blockSizeHorizontal *2,
                                                         right: SizeConfig.blockSizeHorizontal *2,
                                                         top: SizeConfig.blockSizeVertical *2),
                                                     padding: EdgeInsets.only(
                                                         right: SizeConfig.blockSizeHorizontal * 4,
-                                                        left: SizeConfig.blockSizeHorizontal *
-                                                           4,
-                                                        bottom: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        top: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1),
+                                                        left: SizeConfig.blockSizeHorizontal * 4,
+                                                        bottom: SizeConfig.blockSizeHorizontal * 1,
+                                                        top: SizeConfig.blockSizeHorizontal * 1),
                                                     decoration: BoxDecoration(
                                                       color: AppColors.darkgreen,
                                                       borderRadius: BorderRadius.circular(20),
-
                                                     ),
                                                     child: Text(
                                                       StringConstant.pay.toUpperCase(),
@@ -609,14 +602,11 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           fontSize:12,
                                                           fontWeight:
                                                           FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
+                                                          fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ),
                                                 ): Container()
                                                     : Container()
-
-
                                               ],
                                             ),
                                             Row(
@@ -642,17 +632,14 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   width: SizeConfig.blockSizeHorizontal *38,
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
+                                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                                    right: SizeConfig.blockSizeHorizontal * 1,
                                                   ),
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
+                                                  child:
+                                                  Text(
                                                     "Start Date- "+listing.projectData.elementAt(index).eventStartdate,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
@@ -661,11 +648,9 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         fontSize:8,
                                                         fontWeight:
                                                         FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
+                                                        fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 )
-
                                               ],
                                             ),
                                             Row(
@@ -674,10 +659,9 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                 Container(
                                                   width: SizeConfig.blockSizeHorizontal *37,
                                                   alignment: Alignment.topLeft,
-                                                  margin: EdgeInsets.only(
-                                                    top: SizeConfig.blockSizeVertical *1,
-                                                  ),
-                                                  child: Text(
+                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                                  child:
+                                                  Text(
                                                     "",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
@@ -692,12 +676,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   width: SizeConfig.blockSizeHorizontal *38,
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
+                                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                                    right: SizeConfig.blockSizeHorizontal * 1,
                                                   ),
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -730,7 +710,10 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             Container(
                                               width: SizeConfig.blockSizeHorizontal *15,
                                               alignment: Alignment.topLeft,
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
+                                              margin:
+                                              EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *1,
+                                                  left: SizeConfig.blockSizeHorizontal * 2),
                                               child:
                                               Text(
                                                 "Sold slots- ",
@@ -748,9 +731,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                               alignment: Alignment.topLeft,
                                               padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    3,
+                                                right: SizeConfig.blockSizeHorizontal * 3,
                                               ),
                                               child: Text(
                                                 "\$"+listing.projectData.elementAt(index).totalslotamount.toString(),
@@ -766,7 +747,6 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             ),
                                           ],
                                         ),
-
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
@@ -778,7 +758,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             progressColor:AppColors.themecolor,
                                           ),
                                         ),
-                                        Row(children: [
+                                        Row(
+                                          children: [
                                           Container(
                                             alignment: Alignment.centerRight,
                                             width: SizeConfig.blockSizeHorizontal *26,
@@ -796,7 +777,9 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             ),
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig.blockSizeVertical *1,
+                                                right: SizeConfig
                                                 .blockSizeHorizontal *
                                                 3),
                                             alignment: Alignment.topLeft,
@@ -818,7 +801,6 @@ class OngoingEventsState extends State<OngoingEvents> {
                                     imageslist_length!=null?
                                     GestureDetector(
                                       onTap: () {
-
                                         callNext(
                                             OngoingEventsDetailsscreen(
                                                 data:
@@ -836,9 +818,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             PageView.builder(
                                               physics: ClampingScrollPhysics(),
                                               itemCount:
-                                              imageslist_length.length == null
-                                                  ? 0
-                                                  : imageslist_length.length,
+                                              imageslist_length.length == null ? 0 : imageslist_length.length,
                                               onPageChanged: (int page) {
                                                 getChangedPageAndMoveBar(page);
                                               },
@@ -893,8 +873,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         callNext(
                                         OngoingEventsDetailsscreen
                                         (
-                                                data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                data: listing.projectData.elementAt(index).id.toString()
                                             ), context);
                                       },
                                       child: Container(
