@@ -743,7 +743,11 @@ class NotificationScreenState extends State<NotificationScreen> {
                                               .result.data
                                               .elementAt(
                                               index)
-                                              .groupName,
+                                              .groupName!=null?listing
+                                              .result.data
+                                              .elementAt(
+                                              index)
+                                              .groupName:"",
                                           textAlign:
                                           TextAlign.left,
                                           style: TextStyle(
@@ -925,8 +929,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           decoration:
-                                          TextDecoration
-                                              .none,
+                                          TextDecoration.none,
                                           fontSize: 10,
                                           fontWeight:
                                           FontWeight.normal,
@@ -975,7 +978,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                             ],
                           ));
                     })
-
                   : Container(
                 margin: EdgeInsets.only(top: 150),
                 alignment: Alignment.center,
@@ -999,7 +1001,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      *//* Container(
+
+             Container(
                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
                             left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
 
@@ -1059,7 +1062,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                             ),
                           ],
                         ),
-                      ),*//*
+                      ),
+
                       Container(
                         margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 3,

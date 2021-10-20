@@ -266,12 +266,15 @@ class CreateEventPostState extends State<CreateEventPost> {
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
         child: child,
       );
-    },);
+    },
+    );
+
     /*if (picked != null) {
       setState(() {
         selectedEndTime = picked.format(context);
       });
     }*/
+
     if (picked != null)
       setState(() {
         selecteEndTime = picked;

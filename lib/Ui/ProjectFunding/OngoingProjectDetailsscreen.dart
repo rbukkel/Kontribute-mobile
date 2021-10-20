@@ -1382,7 +1382,6 @@ class OngoingProjectDetailsscreenState
                                 fontFamily: 'Poppins-Regular'),
                           ),
                         ),
-
                         /*Text(
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
                             maxLines: 8,

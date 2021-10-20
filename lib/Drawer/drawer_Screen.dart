@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/MyConnections/Connections.dart';
 import 'package:kontribute/Ui/login.dart';
@@ -18,6 +19,8 @@ import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/mynetwork.dart';
 import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class Drawer_Screen extends StatefulWidget {
@@ -32,39 +35,113 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
   String username="";
   String email;
   bool internet = false;
-  int userid;
-  LoginResponse loginres;
+  String userid;
+  String val;
+  var storelist_length;
+  LoginResponse loginResponse;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SharedUtils.readProfile().then((response) {
-      if (response != null) {
-        loginres = response;
-        userid = loginres.resultPush.userId;
-        if (loginres.resultPush.fullName != null || loginres.resultPush.fullName  != "") {
-          username = loginres.resultPush.fullName ;
-          print("user name: " + username.toString());
-        }
-        else {
-          username = "" ;
-          print("user name: " + username.toString());
-        }
 
-        if(loginres.resultPush.profilePic !=null){
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        SharedUtils.readloginId("UserId").then((val) {
+          print("UserId: " + val);
+          userid = val;
+          getData(userid);
+          print("Login userid: " + userid.toString());
+        });
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+
+  }
+
+
+  void getData(String id) async {
+    Map data = {
+      'userid': id.toString(),
+    };
+    print("profile data: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.get_profiledata, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
+        Fluttertoast.showToast(
+          msg: jsonDecode(val)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        loginResponse = new LoginResponse.fromJson(jsonResponse);
+        print("Json profile data: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
           setState(() {
-            image = loginres.resultPush.profilePic;
-            print("pic: "+image.toString());
-            if(image.isNotEmpty){
-              imageUrl = true;
+            storelist_length = loginResponse.resultPush;
+            if (loginResponse.resultPush.fullName == "") {
+              username = "";
+            } else {
+              username = loginResponse.resultPush.fullName;
+            }
+
+
+            if (loginResponse.resultPush.email == "") {
+              email = "";
+            } else {
+              email = loginResponse.resultPush.email;
+            }
+
+
+
+            if (loginResponse.resultPush.profilePic != null ||
+                loginResponse.resultPush.profilePic != "") {
+              setState(() {
+                image = loginResponse.resultPush.profilePic;
+                if (image.isNotEmpty) {
+                  imageUrl = true;
+                  _loading = true;
+                }
+              });
             }
           });
+        } else {
+          Fluttertoast.showToast(
+            msg: loginResponse.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
         }
-
-      } else {}
-    });
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +203,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.white,
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Poppins-Bold'),
                                   ),
@@ -208,7 +285,6 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           InkWell(
                             onTap: () {
                               drawer_function(3,context);
-
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
                             child: Container(

@@ -2173,7 +2173,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     }
   }
 
-
   inviteView() {
     return Column(
       children: [
@@ -2318,7 +2317,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(
-                    categoryfollowinglist[index]['full_name'],
+                    categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name'],
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black,

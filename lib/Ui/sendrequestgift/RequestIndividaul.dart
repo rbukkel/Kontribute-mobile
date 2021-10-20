@@ -174,7 +174,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -197,7 +197,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     } else if (imageSource == ImageSource.gallery) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -232,7 +232,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       getCategory(userid);
       print("Login userid: " +userid.toString());
     });
-
+    SharedUtils.readloginId("Usename").then((val) {
+      print("username: " + val);
+      userName = val;
+      print("Login username: " + userName.toString());
+    });
   }
 
   DateView() async {
@@ -671,7 +675,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                         categorylist[index]['full_name']);
                   },
                   title: Text(
-                    categorylist[index]['full_name'],
+                    categorylist[index]['full_name']==null?"":categorylist[index]['full_name'],
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black,
@@ -1504,14 +1508,16 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       "message":descr,
       "email":emal,
       "mobile":mobile,
+      "sendername":userName,
     };
 
     print("Data: "+data.toString());
     var jsonResponse = null;
     var response = await http.post(Network.BaseApi + Network.invitation, body: data);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200)
+    {
       jsonResponse = json.decode(response.body);
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonResponse["message"],
@@ -1529,15 +1535,13 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         if (jsonResponse != null) {
           setState(() {
             isLoading = false;
-            emailController.text="";
-            nameController.text="";
+            emailController.text = "";
+            nameController.text ="";
             mobileController.text="";
             messageController.text="";
-
           });
-
           final RenderBox box1 = _formKey.currentContext.findRenderObject();
-          Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
+          Share.share("Let's join on Kontribute! Get it at " +sendinvi.invitationlink,
               subject: "Kontribute",
               sharePositionOrigin:
               box1.localToGlobal(Offset.zero) & box1.size);
@@ -1551,7 +1555,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Navigator.of(context).pop();
-            //   isLoading = false;
           });
           Fluttertoast.showToast(
             msg: sendinvi.message,
@@ -1572,6 +1575,4 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       );
     }
   }
-
-
 }

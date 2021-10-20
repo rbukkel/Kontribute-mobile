@@ -259,7 +259,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -284,7 +284,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -410,7 +410,15 @@ class SendIndividaulState extends State<SendIndividaul>{
                                     setState(() {
                                       currentSelectedValue = newValue;
                                       userid = (newValue["sender_id"]);
-                                      userName = (newValue["full_name"]);
+                                      if(newValue["full_name"]==null)
+                                        {
+                                          userName="";
+                                        }
+                                      else
+                                        {
+                                          userName = (newValue["full_name"]);
+                                        }
+
                                       print("User: "+userName.toString());
                                       print("Userid: "+userid.toString());
                                     });
@@ -418,7 +426,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   items: categoryTypes.map((dynamic value) {
                                     return DropdownMenuItem<dynamic>(
                                       value: value,
-                                      child: Text(value["full_name"],
+                                      child: Text(value["full_name"]==null?"":value["full_name"],
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -460,7 +468,6 @@ class SendIndividaulState extends State<SendIndividaul>{
                             top: SizeConfig.blockSizeVertical * 2,
                             right: SizeConfig.blockSizeHorizontal * 3,
                           ),
-
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),

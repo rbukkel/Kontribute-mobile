@@ -275,10 +275,22 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             formattedDate = sendgift.projectData.projectStartdate;
             formattedEndDate = sendgift.projectData.projectEnddate;
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
-            nameController.text = sendgift.invitationdata.name.toString();
-            emailController.text = sendgift.invitationdata.email.toString();
-            messageController.text = sendgift.invitationdata.message.toString();
-            mobileController.text = sendgift.invitationdata.mobile.toString();
+
+            if(sendgift.invitationdata==null)
+            {
+              nameController.text = "";
+              emailController.text = "";
+              messageController.text = "";
+              mobileController.text = "";
+            }
+            else
+            {
+              nameController.text = sendgift.invitationdata.name.toString();
+              emailController.text = sendgift.invitationdata.email.toString();
+              messageController.text = sendgift.invitationdata.message.toString();
+              mobileController.text = sendgift.invitationdata.mobile.toString();
+            }
+
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
             TotalBudgetController.text = sendgift.projectData.budget.toString();
