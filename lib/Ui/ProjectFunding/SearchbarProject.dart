@@ -13,7 +13,6 @@ import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
-import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -59,6 +58,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
   var storelist_length;
   bool resultvalue = true;
   String searchvalue = "";
+
   searchsendreceivedpojo searchpojo;
   List<searchsendreceivedpojo> searchproductListing =
       new List<searchsendreceivedpojo>();
@@ -133,8 +133,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
     data1 = widget.data;
   }
 
-
-
   void getdata(String user_id,String search) async {
     setState(() {
       storelist_length =null;
@@ -152,6 +150,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
       val = response.body;
       if (jsonResponse["success"] == false) {
         setState(() {
+          storelist_length =null;
           resultvalue = false;
         });
         Fluttertoast.showToast(
@@ -209,7 +208,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
         padding: new EdgeInsets.symmetric(vertical: 8.0),
         children: _IsSearching ? _buildSearchList() : _buildList(),
       ),*/
-
         body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
@@ -766,7 +764,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                         .blockSizeVertical *
                                                     1),
                                             child: LinearPercentIndicator(
-                                              width: 70.0,
+                                              width: 60.0,
                                               lineHeight: 14.0,
                                               percent: amoun / 100,
                                               center: Text(
@@ -784,13 +782,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                           ),
                                           Container(
                                             alignment: Alignment.centerRight,
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    25,
+                                            width: SizeConfig.blockSizeHorizontal * 25,
                                             margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    1),
+                                                top: SizeConfig.blockSizeVertical * 1),
                                             child: Text(
                                               StringConstant.collectedamount +
                                                   "-",
@@ -836,7 +830,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                       imageslist_length != null
                                           ? GestureDetector(
                                               onTap: () {
-                                                //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
                                                 callNext(
                                                     OngoingProjectDetailsscreen(
                                                         data: listing
@@ -865,8 +858,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       physics:
                                                           ClampingScrollPhysics(),
                                                       itemCount:
-                                                          imageslist_length
-                                                                      .length ==
+                                                          imageslist_length.length ==
                                                                   null
                                                               ? 0
                                                               : imageslist_length
@@ -1364,7 +1356,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                           }),
                     )
                   : Container(
-                      margin: EdgeInsets.only(top: 150),
+                      margin: EdgeInsets.only(top: 100),
                       alignment: Alignment.center,
                       child: resultvalue == true
                           ? Center(
@@ -1372,8 +1364,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                             )
                           : Center(
                               child: Image.asset("assets/images/empty.png",
-                                  height: SizeConfig.blockSizeVertical * 50,
-                                  width: SizeConfig.blockSizeVertical * 50),
+                                  height: SizeConfig.blockSizeVertical * 30,
+                                  width: SizeConfig.blockSizeVertical * 30),
                             ),
                     )
             ],
@@ -1408,7 +1400,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 ],
               ),
             )),
-
         PopupMenuItem(
             value:2,
             child: GestureDetector(
@@ -1428,13 +1419,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
                   Text('Report',style: TextStyle(fontSize: 14),)
                 ],
               ),
-            )),
-
+            )
+        ),
       ],
       elevation: 8.0,
     );
   }
-
 
   _showEditPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();

@@ -154,13 +154,10 @@ class SearchbarEventState extends State<SearchbarEvent> {
       val = response.body;
       if (jsonResponse["success"] == false) {
         setState(() {
+          storelist_length =null;
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         listing = new EventOngoingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -168,15 +165,14 @@ class SearchbarEventState extends State<SearchbarEvent> {
           setState(() {
             if(listing.projectData.isEmpty)
             {
-              resultvalue = false;
               setState(() {
                 storelist_length =null;
+                resultvalue = false;
               });
             }
             else
             {
               resultvalue = true;
-
               storelist_length = listing.projectData;
             }
           });

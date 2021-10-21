@@ -30,7 +30,7 @@ class WalletScreenState extends State<WalletScreen> {
   final PaypalIdFocus = FocusNode();
   final AmountFocus = FocusNode();
   final TextEditingController AcholdernameController =
-      new TextEditingController();
+  new TextEditingController();
   final TextEditingController IFSCCodeController = new TextEditingController();
   final TextEditingController AmountBankController =
       new TextEditingController();

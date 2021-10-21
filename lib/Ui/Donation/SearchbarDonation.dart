@@ -157,13 +157,14 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       val = response.body;
       if (jsonResponse["success"] == false) {
         setState(() {
+          storelist_length =null;
           resultvalue = false;
         });
-        Fluttertoast.showToast(
+       /* Fluttertoast.showToast(
             msg: jsonDecode(val)["message"],
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+            timeInSecForIosWeb: 1);*/
       } else {
         listing = new donationlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -172,10 +173,9 @@ class SearchbarDonationState extends State<SearchbarDonation> {
           setState(() {
             if(listing.projectData.isEmpty)
             {
-
               setState(() {
-                resultvalue = false;
                 storelist_length =null;
+                resultvalue = false;
               });
             }
             else
