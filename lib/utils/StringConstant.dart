@@ -140,7 +140,9 @@ class StringConstant {
   static const String addcontacts = "Add Contact";
   static const String sendinvitations = "Send Invitations";
   static const String ongoingevents = "Ongoing Events";
+  static const String ongoingticket = "Ongoing Ticket";
   static const String historyevents = "Event History";
+  static const String historyticket = "Ticket History";
   static const String dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed Lorem ipsum dolor amet, consectetur adipiscing elit, sed";
   static const String receivebirthdaygift = "Receive Birthday Gifts in cash from Friends and also send Gifts them...";
   static const String collectcashtocollect = "Collect Cash to support entrepreneurs in their projects or ask for support in their own projects...";

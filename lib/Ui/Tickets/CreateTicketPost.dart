@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
@@ -16,13 +18,12 @@ import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:http/http.dart' as http;
 
-class CreateTicketPost extends StatefulWidget{
+class CreateTicketPost extends StatefulWidget {
   @override
   CreateTicketPostState createState() => CreateTicketPostState();
-
 }
 
-class CreateTicketPostState extends State<CreateTicketPost>{
+class CreateTicketPostState extends State<CreateTicketPost> {
   File _imageFile;
   bool image_value = false;
   final EventNameFocus = FocusNode();
@@ -38,21 +39,26 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   final CostofTicketFocus = FocusNode();
   final MaximumNoofquantityFocus = FocusNode();
   final VideoFocus = FocusNode();
-  final TextEditingController searchpostController = new TextEditingController();
+  final TextEditingController searchpostController =
+      new TextEditingController();
   final TextEditingController EventNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController = new TextEditingController();
-  final TextEditingController DescriptionController = new TextEditingController();
+  final TextEditingController LocationDetailsController =
+      new TextEditingController();
+  final TextEditingController DescriptionController =
+      new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController CostofTicketController = new TextEditingController();
-  final TextEditingController MaximumNoofquantityController = new TextEditingController();
+  final TextEditingController CostofTicketController =
+      new TextEditingController();
+  final TextEditingController MaximumNoofquantityController =
+      new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController TermsController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
-  String selectedTime="";
-  String selectedEndTime="";
+  String selectedTime = "";
+  String selectedEndTime = "";
   String dateTime;
   String _eventName;
   String _location;
@@ -73,15 +79,14 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     "Invite",
     "Others"
   ];
-  final List<String> _dropdownprivecyvalue = [
-    "Private",
-    "Public"
-  ];
+  final List<String> _dropdownprivecyvalue = ["Private", "Public"];
+
   changeText(String valu) {
     setState(() {
       textHolder = valu;
     });
   }
+
   String textHolder = "Please Select";
   final List<String> _dropdownEventCategory = [
     "New year",
@@ -101,7 +106,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   int currentid = 0;
   String currentSelectedValueprivacy;
   String userid;
-  String Date,EndDate;
+  String Date, EndDate;
   String formattedDate = "07-07-2021";
   String formattedEndDate = "07-07-2021";
   sendinvitationpojo sendinvi;
@@ -119,12 +124,14 @@ class CreateTicketPostState extends State<CreateTicketPost>{
   final MobileFocus = FocusNode();
   final SubjectFocus = FocusNode();
   final MessageFocus = FocusNode();
+  Position _currentPosition;
+  String _currentAddress;
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController messageController = new TextEditingController();
-  String _emailother,_name,_mobile,_subject,_descriptionother;
+  String _emailother, _name, _mobile, _subject, _descriptionother;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   DateView() async {
@@ -151,15 +158,14 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     });
   }
 
-
   Future<void> getData(String a) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {'receiver_id': a.toString()};
-    print("Data: "+data.toString());
+    print("Data: " + data.toString());
     var jsonResponse = null;
-    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
-    if (response.statusCode == 200)
-    {
+    var response =
+        await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
@@ -170,17 +176,13 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-      }
-      else {
+      } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        if (jsonResponse != null)
-        {
+        if (jsonResponse != null) {
           setState(() {
             categoryfollowinglist = jsonResponse['result'];
-
           });
-        }
-        else {
+        } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Fluttertoast.showToast(
@@ -197,6 +199,28 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     }
   }
 
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) {
+      setState(() async {
+        _currentPosition = position;
+        final coordinates = new Coordinates(_currentPosition.latitude,_currentPosition.longitude);
+        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        var first = addresses.first;
+        setState(() {
+          print("Locality: "+first.locality.toString()+ " subLocality:"+ first.subLocality.toString()+" addressLine:"+ first.addressLine.toString()
+              +" adminArea:"+ first.adminArea.toString()+" featureName:"+ first.featureName.toString()+" subAdminArea:"+ first.subAdminArea.toString());
+          _currentAddress = first.addressLine.toString();
+          LocationController.text = _currentAddress.toString();
+        });
+      });
+
+
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+
   EndDateView() async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -210,36 +234,46 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     });
   }
 
-
-  Future<void> _showTimePicker()async{
-    final TimeOfDay picked=await showTimePicker(context: context,initialTime: TimeOfDay(hour: 5,minute: 10));
-    if(picked != null)
-    {
+  Future<void> _showTimePicker() async {
+    final TimeOfDay picked = await showTimePicker(
+        context: context, initialTime: TimeOfDay(hour: 5, minute: 10));
+    if (picked != null) {
       setState(() {
-        selectedTime=picked.format(context);
+        selectedTime = picked.format(context);
       });
     }
   }
 
-  Future<void> _showEndTimePicker()async{
-    final TimeOfDay picked=await showTimePicker(context: context,initialTime: TimeOfDay(hour: 5,minute: 10));
-    if(picked != null)
-    {
+  Future<void> _showEndTimePicker() async {
+    final TimeOfDay picked = await showTimePicker(
+        context: context, initialTime: TimeOfDay(hour: 5, minute: 10));
+    if (picked != null) {
       setState(() {
-        selectedEndTime=picked.format(context);
+        selectedEndTime = picked.format(context);
       });
     }
   }
 
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner2.png",
-      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 25,width:SizeConfig.blockSizeHorizontal *100,fit: BoxFit.fitHeight,),
-
+    Image.asset(
+      "assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 25,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner2.png",
+      height: SizeConfig.blockSizeVertical * 25,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 25,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      fit: BoxFit.fitHeight,
+    ),
   ];
 
   Widget circleBar(bool isActive) {
@@ -252,106 +286,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           color: isActive ? AppColors.whiteColor : AppColors.lightgrey,
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
-  }
-
-  void _modalBottomSheetMenu() {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        context: context,
-        builder: (builder) {
-          return StatefulBuilder(builder: (context, setState) {
-            return Container(
-                height: MediaQuery.of(context).size.height * 80,
-                decoration: BoxDecoration(
-                    image: new DecorationImage(
-                      image: new AssetImage("assets/images/bg_img.png"),
-                      fit: BoxFit.fill,
-                    )), //could change this to Color(0xFF737373),
-
-                child: Column(
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 5,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                                top: SizeConfig.blockSizeVertical * 2),
-                            width: SizeConfig.blockSizeHorizontal * 45,
-                            child: Text(
-                              "Event Type",
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Poppins-Bold'),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Container(
-                              alignment: Alignment.centerRight,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 3,
-                                  bottom: SizeConfig.blockSizeVertical * 3,
-                                  right: SizeConfig.blockSizeHorizontal * 5),
-                              child: Image.asset(
-                                "assets/images/close.png",
-                                height: 30,
-                                width: 30,
-                              ),
-                            ),
-                          ),
-                        ]),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: _dropdownEventCategory.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  changeText(_dropdownEventCategory
-                                      .elementAt(index)
-                                      .toString());
-                                },
-                                child: Container(
-                                  width: SizeConfig.blockSizeHorizontal * 80,
-                                  padding: EdgeInsets.only(
-                                    bottom: SizeConfig.blockSizeVertical * 3,
-                                  ),
-                                  margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 1,
-                                    bottom: SizeConfig.blockSizeVertical * 1,
-                                    left: SizeConfig.blockSizeHorizontal * 5,
-                                  ),
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    _dropdownEventCategory
-                                        .elementAt(index)
-                                        .toString(),
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Lato-Bold',
-                                        color: AppColors.black,
-                                        fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    )
-                  ],
-                ));
-          });
-        });
   }
 
   void getChangedPageAndMoveBar(int page) {
@@ -401,7 +335,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'Camera',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -461,7 +395,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -483,7 +417,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -505,7 +439,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -516,43 +449,55 @@ class CreateTicketPostState extends State<CreateTicketPost>{
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
-
             children: [
               Container(
-                height: SizeConfig.blockSizeVertical *12,
+                height: SizeConfig.blockSizeVertical * 12,
                 decoration: BoxDecoration(
                   image: new DecorationImage(
                     image: new AssetImage("assets/images/appbar.png"),
                     fit: BoxFit.fill,
                   ),
                 ),
-                child:
-                Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: 20,height: 20,
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *2),
-                      child:
-                      InkWell(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 6,
+                          top: SizeConfig.blockSizeVertical * 2),
+                      child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      tickets()));
                         },
                         child: Container(
                           color: Colors.transparent,
-                          child: Image.asset("assets/images/back.png",color:AppColors.whiteColor,width: 20,height: 20,),
+                          child: Image.asset(
+                            "assets/images/back.png",
+                            color: AppColors.whiteColor,
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal *60,
+                      width: SizeConfig.blockSizeHorizontal * 60,
                       alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.createnewticket, textAlign: TextAlign.center,
+                        StringConstant.createnewticket,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
@@ -562,16 +507,18 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                       ),
                     ),
                     Container(
-                      width: 25,height: 25,
-                      margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*3,top: SizeConfig.blockSizeVertical *2),
-
+                      width: 25,
+                      height: 25,
+                      margin: EdgeInsets.only(
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical * 2),
                     ),
                   ],
                 ),
               ),
               Expanded(
                 child: Container(
-                  child:  SingleChildScrollView(
+                  child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -579,7 +526,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                         Container(
                           child: Stack(
                             children: [
-                             /* Container(
+                              /* Container(
                                 height: SizeConfig.blockSizeVertical * 25,
                                 width: SizeConfig.blockSizeHorizontal * 100,
                                 alignment: Alignment.center,
@@ -594,8 +541,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                               Container(
                                 color: AppColors.themecolor,
                                 alignment: Alignment.topCenter,
-                                height: SizeConfig.blockSizeVertical*25,
-                                width:SizeConfig.blockSizeHorizontal *100,
+                                height: SizeConfig.blockSizeVertical * 25,
+                                width: SizeConfig.blockSizeHorizontal * 100,
                                 child: Stack(
                                   alignment: AlignmentDirectional.bottomCenter,
                                   children: <Widget>[
@@ -614,15 +561,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       },
                                     ),
                                     Stack(
-                                      alignment: AlignmentDirectional.bottomCenter,
+                                      alignment:
+                                          AlignmentDirectional.bottomCenter,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  SizeConfig.blockSizeVertical *
+                                                      2),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
-                                              for (int i = 0; i < introWidgetsList.length; i++)
+                                              for (int i = 0;
+                                                  i < introWidgetsList.length;
+                                                  i++)
                                                 if (i == currentPageValue) ...[
                                                   circleBar(true)
                                                 ] else
@@ -635,19 +589,19 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   ],
                                 ),
                               ),
-
-
                               InkWell(
                                 onTap: () {
                                   showAlert();
                                 },
                                 child: Container(
                                   alignment: Alignment.topRight,
-                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3,
-                                      right: SizeConfig.blockSizeHorizontal*3),
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 3,
+                                      right:
+                                          SizeConfig.blockSizeHorizontal * 3),
                                   child: Image.asset(
                                     "assets/images/camera.png",
-                                    width:50,
+                                    width: 50,
                                     height: 50,
                                   ),
                                 ),
@@ -655,7 +609,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             ],
                           ),
                         ),
-
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
@@ -664,75 +617,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
                             StringConstant.eventname,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal *3,
-                          ),
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 1,
-                            right: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                          ),
-                          child: TextFormField(
-                            autofocus: false,
-                            focusNode: EventNameFocus,
-                            controller: EventNameController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.name,
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please enter event name";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v)
-                            {
-                              FocusScope.of(context).requestFocus(DescriptionFocus);
-                            },
-                            onSaved: (val) => _eventName = val,
-                            textAlign: TextAlign.left,
-                            style:
-                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.eventdescription,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -761,87 +645,167 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             ),
                             color: Colors.transparent,
                           ),
-                          child:
-                              Column(
-                                children: [
-                                  TextFormField(
-                                    autofocus: false,
-                                    maxLines: 4,
-                                    focusNode: DescriptionFocus,
-                                    controller: DescriptionController,
-                                    textInputAction: TextInputAction.next,
-                                    keyboardType: TextInputType.text,
-                                    validator: (val) {
-                                      if (val.length == 0)
-                                        return "Please enter event description";
-                                      else
-                                        return null;
-                                    },
-                                    onFieldSubmitted: (v)
-                                    {
-                                      FocusScope.of(context).requestFocus(DateFocus);
-                                    },
-                                    onSaved: (val) => _description = val,
-                                    textAlign: TextAlign.left,
-                                    style:
-                                    TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                        decoration: TextDecoration.none,
-                                      ),
+                          child: TextFormField(
+                            autofocus: false,
+                            focusNode: EventNameFocus,
+                            controller: EventNameController,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.name,
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please enter event name";
+                              else
+                                return null;
+                            },
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context)
+                                  .requestFocus(DescriptionFocus);
+                            },
+                            onSaved: (val) => _eventName = val,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
+                                color: Colors.black),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          width: SizeConfig.blockSizeHorizontal * 45,
+                          child: Text(
+                            StringConstant.eventdescription,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 1,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  autofocus: false,
+                                  maxLines: 4,
+                                  focusNode: DescriptionFocus,
+                                  controller: DescriptionController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.text,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter event description";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(DateFocus);
+                                  },
+                                  onSaved: (val) => _description = val,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: ()
-                                    {
-                                      DescriptionController.text=DescriptionController.text+"#";
-                                      DescriptionController.selection =
-                                          TextSelection.fromPosition(TextPosition(offset: DescriptionController.text.length));
-                                    },
-                                    child:  Container(
-                                      alignment:Alignment.topLeft,
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal *3,
-                                          bottom: SizeConfig.blockSizeVertical * 2,
-                                          top: SizeConfig.blockSizeVertical * 2),
-                                      child: Text(
-                                        StringConstant.addhashtag,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.lightBlue,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),
-                                      ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    DescriptionController.text =
+                                        DescriptionController.text + "#";
+                                    DescriptionController.selection =
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset: DescriptionController
+                                                .text.length));
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        bottom:
+                                            SizeConfig.blockSizeVertical * 2,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    child: Text(
+                                      StringConstant.addhashtag,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.lightBlue,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
                                     ),
-                                  )
-
-                                ],
-                              )
-
-                        ),
-
+                                  ),
+                                )
+                              ],
+                            )),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width:SizeConfig.blockSizeHorizontal * 50,
+                                width: SizeConfig.blockSizeHorizontal * 50,
                                 child: Column(
                                   children: [
                                     Container(
-                                      alignment:Alignment.topLeft,
+                                      alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical * 2),
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  3,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
                                       child: Text(
                                         StringConstant.startdate,
                                         style: TextStyle(
@@ -853,19 +817,27 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       ),
                                     ),
                                     Container(
-                                        height: SizeConfig.blockSizeVertical *8,
+                                        height:
+                                            SizeConfig.blockSizeVertical * 8,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 3,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                            top: SizeConfig.blockSizeVertical * 1
-                                        ),
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1),
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeVertical * 1,
-                                          right: SizeConfig.blockSizeVertical * 1,
+                                          left:
+                                              SizeConfig.blockSizeVertical * 1,
+                                          right:
+                                              SizeConfig.blockSizeVertical * 1,
                                         ),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           border: Border.all(
                                             color: Colors.black26,
                                             style: BorderStyle.solid,
@@ -873,29 +845,37 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                           ),
                                           color: Colors.transparent,
                                         ),
-                                        child:
-                                        GestureDetector(
+                                        child: GestureDetector(
                                           onTap: () {
                                             DateView();
                                           },
                                           child: Row(
                                             children: [
                                               Container(
-                                                width: SizeConfig.blockSizeHorizontal * 30,
-                                                padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    30,
+                                                padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        1),
                                                 child: Text(
                                                   formattedDate,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily: 'Poppins-Regular',
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontFamily:
+                                                          'Poppins-Regular',
                                                       fontSize: 12,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Container(
-                                                width: SizeConfig.blockSizeHorizontal * 5,
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    5,
                                                 child: Icon(
                                                   Icons.calendar_today_outlined,
                                                   color: AppColors.greyColor,
@@ -903,23 +883,25 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               )
                                             ],
                                           ),
-                                        )
-                                    ),
+                                        )),
                                   ],
                                 ),
                               ),
                               Container(
-                                  width:SizeConfig.blockSizeHorizontal * 50,
-                                  child:
-                                  Column(
+                                  width: SizeConfig.blockSizeHorizontal * 50,
+                                  child: Column(
                                     children: [
                                       Container(
-                                        alignment:Alignment.topLeft,
+                                        alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 5,
-                                            top: SizeConfig.blockSizeVertical * 2),
-
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    5,
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
                                         child: Text(
                                           StringConstant.enddate,
                                           style: TextStyle(
@@ -931,19 +913,29 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         ),
                                       ),
                                       Container(
-                                          height: SizeConfig.blockSizeVertical *8,
+                                          height:
+                                              SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical * 1,
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 5,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    5,
                                           ),
                                           padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical * 1,
-                                            right: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeVertical *
+                                                1,
+                                            right:
+                                                SizeConfig.blockSizeVertical *
+                                                    1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                               color: Colors.black26,
                                               style: BorderStyle.solid,
@@ -951,8 +943,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                             ),
                                             color: Colors.transparent,
                                           ),
-                                          child:
-                                          GestureDetector(
+                                          child: GestureDetector(
                                             onTap: () {
                                               EndDateView();
                                             },
@@ -960,30 +951,39 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               children: [
                                                 Container(
                                                   alignment: Alignment.center,
-                                                  width: SizeConfig.blockSizeHorizontal * 30,
-                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 1),
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      30,
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          1),
                                                   child: Text(
                                                     formattedEndDate,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular',
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontFamily:
+                                                            'Poppins-Regular',
                                                         fontSize: 12,
                                                         color: Colors.black),
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal * 5,
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      5,
                                                   child: Icon(
-                                                    Icons.calendar_today_outlined,
+                                                    Icons
+                                                        .calendar_today_outlined,
                                                     color: AppColors.greyColor,
                                                   ),
                                                 )
                                               ],
                                             ),
-                                          )
-                                      ),
+                                          )),
                                     ],
                                   ))
                             ],
@@ -1000,8 +1000,12 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       Container(
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 3,
-                                            right: SizeConfig.blockSizeHorizontal *3,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
@@ -1020,24 +1024,28 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         },
                                         child: Container(
                                           height:
-                                          SizeConfig.blockSizeVertical * 8,
+                                              SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 1,
-                                            left: SizeConfig.blockSizeHorizontal * 3,
-                                            right: SizeConfig.blockSizeHorizontal *3,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                           ),
                                           padding: EdgeInsets.only(
                                             left: SizeConfig.blockSizeVertical *
                                                 1,
                                             right:
-                                            SizeConfig.blockSizeVertical *
-                                                1,
+                                                SizeConfig.blockSizeVertical *
+                                                    1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                               color: Colors.black26,
                                               style: BorderStyle.solid,
@@ -1045,18 +1053,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                             ),
                                             color: Colors.transparent,
                                           ),
-                                          child:
-                                          Row(
+                                          child: Row(
                                             children: [
                                               Container(
-                                                alignment:
-                                                Alignment.centerLeft,
+                                                alignment: Alignment.centerLeft,
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     33,
                                                 padding: EdgeInsets.only(
                                                     left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
                                                   selectedTime == ""
@@ -1066,16 +1072,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular',
+                                                          'Poppins-Regular',
                                                       fontSize: 12,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Container(
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     5,
                                                 child: Icon(
                                                   Icons.alarm,
@@ -1084,10 +1090,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               )
                                             ],
                                           ),
-
                                         ),
                                       )
-
                                     ],
                                   )),
                               Container(
@@ -1098,11 +1102,11 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                2,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
@@ -1121,28 +1125,28 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         },
                                         child: Container(
                                           height:
-                                          SizeConfig.blockSizeVertical * 8,
+                                              SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 1,
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                2,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                           ),
                                           padding: EdgeInsets.only(
                                             left: SizeConfig.blockSizeVertical *
                                                 1,
                                             right:
-                                            SizeConfig.blockSizeVertical *
-                                                1,
+                                                SizeConfig.blockSizeVertical *
+                                                    1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                               color: Colors.black26,
                                               style: BorderStyle.solid,
@@ -1150,18 +1154,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                             ),
                                             color: Colors.transparent,
                                           ),
-                                          child:
-                                          Row(
+                                          child: Row(
                                             children: [
                                               Container(
-                                                alignment:
-                                                Alignment.centerLeft,
+                                                alignment: Alignment.centerLeft,
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     33,
                                                 padding: EdgeInsets.only(
                                                     left: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
                                                   selectedEndTime == ""
@@ -1171,16 +1173,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular',
+                                                          'Poppins-Regular',
                                                       fontSize: 12,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Container(
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     5,
                                                 child: Icon(
                                                   Icons.alarm,
@@ -1189,10 +1191,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               )
                                             ],
                                           ),
-
                                         ),
                                       )
-
                                     ],
                                   ))
                             ],
@@ -1206,20 +1206,206 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             color: Colors.black12,
                           ),
                         ),
+                        GestureDetector(
+                          onTap: (){
+                            _getCurrentLocation();
+                          },
+                          child: Container(
+                            // width: SizeConfig.blockSizeHorizontal * 50,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal *
+                                          3,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      top:
+                                      SizeConfig.blockSizeVertical * 2),
+                                  child: Text(
+                                    StringConstant.location,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal *
+                                          3,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      top:
+                                      SizeConfig.blockSizeVertical * 1),
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeVertical * 1,
+                                    right: SizeConfig.blockSizeVertical * 1,
+                                  ),
+                                  alignment: Alignment.topLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: LocationFocus,
+                                    controller: LocationController,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType:
+                                    TextInputType.streetAddress,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return "Please enter location";
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context).requestFocus(
+                                          LocationDetailsFocus);
+                                    },
+                                    onSaved: (val) => _location = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 15,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 15,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         Container(
-                          child:   Row(
+                           // width: SizeConfig.blockSizeHorizontal * 50,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          3,
+                                      top: SizeConfig.blockSizeVertical *
+                                          2),
+                                  child: Text(
+                                    StringConstant.locationdetails,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    left:
+                                    SizeConfig.blockSizeVertical * 1,
+                                    right:
+                                    SizeConfig.blockSizeVertical * 1,
+                                  ),
+                                  alignment: Alignment.topLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: LocationDetailsFocus,
+                                    controller: LocationDetailsController,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType:
+                                    TextInputType.streetAddress,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return "Please enter location details";
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context)
+                                          .requestFocus(ContactNoFocus);
+                                    },
+                                    onSaved: (val) =>
+                                    _locationdetails = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 15,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 15,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                       /* Container(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width:SizeConfig.blockSizeHorizontal * 50,
+                                width: SizeConfig.blockSizeHorizontal * 50,
                                 child: Column(
                                   children: [
                                     Container(
-                                      alignment:Alignment.topLeft,
+                                      alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 2),
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
                                       child: Text(
                                         StringConstant.location,
                                         style: TextStyle(
@@ -1232,10 +1418,13 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 1
-                                      ),
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 1),
                                       padding: EdgeInsets.only(
                                         left: SizeConfig.blockSizeVertical * 1,
                                         right: SizeConfig.blockSizeVertical * 1,
@@ -1250,35 +1439,39 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         ),
                                         color: Colors.transparent,
                                       ),
-                                      child:
-                                      TextFormField(
+                                      child: TextFormField(
                                         autofocus: false,
                                         focusNode: LocationFocus,
                                         controller: LocationController,
                                         textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.streetAddress,
+                                        keyboardType:
+                                            TextInputType.streetAddress,
                                         validator: (val) {
                                           if (val.length == 0)
                                             return "Please enter location";
                                           else
                                             return null;
                                         },
-                                        onFieldSubmitted: (v)
-                                        {
-                                          FocusScope.of(context).requestFocus(LocationDetailsFocus);
+                                        onFieldSubmitted: (v) {
+                                          FocusScope.of(context).requestFocus(
+                                              LocationDetailsFocus);
                                         },
                                         onSaved: (val) => _location = val,
                                         textAlign: TextAlign.left,
-                                        style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 15,
+                                            color: Colors.black),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 15,
                                             decoration: TextDecoration.none,
                                           ),
                                         ),
@@ -1288,17 +1481,20 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                 ),
                               ),
                               Container(
-                                  width:SizeConfig.blockSizeHorizontal * 50,
-                                  child:
-                                  Column(
+                                  width: SizeConfig.blockSizeHorizontal * 50,
+                                  child: Column(
                                     children: [
                                       Container(
-                                        alignment:Alignment.topLeft,
+                                        alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                            top: SizeConfig.blockSizeVertical * 2),
-
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
                                         child: Text(
                                           StringConstant.locationdetails,
                                           style: TextStyle(
@@ -1312,16 +1508,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       Container(
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
-                                          left: SizeConfig.blockSizeHorizontal * 2,
-                                          right: SizeConfig.blockSizeHorizontal * 3,
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              2,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  3,
                                         ),
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeVertical * 1,
-                                          right: SizeConfig.blockSizeVertical * 1,
+                                          left:
+                                              SizeConfig.blockSizeVertical * 1,
+                                          right:
+                                              SizeConfig.blockSizeVertical * 1,
                                         ),
                                         alignment: Alignment.topLeft,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           border: Border.all(
                                             color: Colors.black26,
                                             style: BorderStyle.solid,
@@ -1334,29 +1536,35 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                           focusNode: LocationDetailsFocus,
                                           controller: LocationDetailsController,
                                           textInputAction: TextInputAction.next,
-                                          keyboardType: TextInputType.streetAddress,
+                                          keyboardType:
+                                              TextInputType.streetAddress,
                                           validator: (val) {
                                             if (val.length == 0)
                                               return "Please enter location details";
                                             else
                                               return null;
                                           },
-                                          onFieldSubmitted: (v)
-                                          {
-                                            FocusScope.of(context).requestFocus(ContactNoFocus);
+                                          onFieldSubmitted: (v) {
+                                            FocusScope.of(context)
+                                                .requestFocus(ContactNoFocus);
                                           },
-                                          onSaved: (val) => _locationdetails = val,
+                                          onSaved: (val) =>
+                                              _locationdetails = val,
                                           textAlign: TextAlign.left,
-                                          style:
-                                          TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
+                                              color: Colors.black),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             focusedBorder: InputBorder.none,
                                             hintStyle: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
                                               decoration: TextDecoration.none,
                                             ),
                                           ),
@@ -1366,7 +1574,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   ))
                             ],
                           ),
-                        ),
+                        ),*/
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1376,19 +1584,23 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                           ),
                         ),
                         Container(
-                          child:   Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width:SizeConfig.blockSizeHorizontal * 50,
+                                width: SizeConfig.blockSizeHorizontal * 50,
                                 child: Column(
                                   children: [
                                     Container(
-                                      alignment:Alignment.topLeft,
+                                      alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 2),
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
                                       child: Text(
                                         StringConstant.contactno,
                                         style: TextStyle(
@@ -1401,10 +1613,13 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal * 3,
-                                          right: SizeConfig.blockSizeHorizontal * 2,
-                                          top: SizeConfig.blockSizeVertical * 1
-                                      ),
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 1),
                                       padding: EdgeInsets.only(
                                         left: SizeConfig.blockSizeVertical * 1,
                                         right: SizeConfig.blockSizeVertical * 1,
@@ -1433,22 +1648,26 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                           else
                                             return null;
                                         },
-                                        onFieldSubmitted: (v)
-                                        {
-                                          FocusScope.of(context).requestFocus(EmailFocus);
+                                        onFieldSubmitted: (v) {
+                                          FocusScope.of(context)
+                                              .requestFocus(EmailFocus);
                                         },
                                         onSaved: (val) => _contactno = val,
                                         textAlign: TextAlign.left,
-                                        style:
-                                        TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 15,
+                                            color: Colors.black),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           hintStyle: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 15,
                                             decoration: TextDecoration.none,
                                           ),
                                         ),
@@ -1458,17 +1677,20 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                 ),
                               ),
                               Container(
-                                  width:SizeConfig.blockSizeHorizontal * 50,
-                                  child:
-                                  Column(
+                                  width: SizeConfig.blockSizeHorizontal * 50,
+                                  child: Column(
                                     children: [
                                       Container(
-                                        alignment:Alignment.topLeft,
+                                        alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                            top: SizeConfig.blockSizeVertical * 2),
-
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
                                         child: Text(
                                           StringConstant.email,
                                           style: TextStyle(
@@ -1482,16 +1704,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                       Container(
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
-                                          left: SizeConfig.blockSizeHorizontal * 2,
-                                          right: SizeConfig.blockSizeHorizontal * 3,
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              2,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  3,
                                         ),
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeVertical * 1,
-                                          right: SizeConfig.blockSizeVertical * 1,
+                                          left:
+                                              SizeConfig.blockSizeVertical * 1,
+                                          right:
+                                              SizeConfig.blockSizeVertical * 1,
                                         ),
                                         alignment: Alignment.topLeft,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           border: Border.all(
                                             color: Colors.black26,
                                             style: BorderStyle.solid,
@@ -1504,7 +1732,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                           focusNode: EmailFocus,
                                           controller: EmailController,
                                           textInputAction: TextInputAction.next,
-                                          keyboardType: TextInputType.emailAddress,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
                                           validator: (val) {
                                             if (val.length == 0)
                                               return "Please enter email";
@@ -1513,22 +1742,25 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                             else
                                               return null;
                                           },
-                                          onFieldSubmitted: (v)
-                                          {
+                                          onFieldSubmitted: (v) {
                                             EmailFocus.unfocus();
                                           },
                                           onSaved: (val) => _email = val,
                                           textAlign: TextAlign.left,
-                                          style:
-                                          TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
+                                              color: Colors.black),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             focusedBorder: InputBorder.none,
                                             hintStyle: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
                                               decoration: TextDecoration.none,
                                             ),
                                           ),
@@ -1593,9 +1825,9 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   child: Row(
                                     children: [
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal * 30,
-                                        child:
-                                        Text(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 30,
+                                        child: Text(
                                           formattedDate,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
@@ -1607,7 +1839,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                         ),
                                       ),
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal * 5,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 5,
                                         child: Icon(
                                           Icons.calendar_today_outlined,
                                           color: AppColors.greyColor,
@@ -1662,14 +1895,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   color: Colors.transparent,
                                 ),
                                 child: GestureDetector(
-                                  onTap: () {
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal * 10,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 10,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8),
+                                              bottomLeft: Radius.circular(8)),
                                           border: Border.all(
                                             color: AppColors.theme1color,
                                             style: BorderStyle.solid,
@@ -1678,12 +1913,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                           color: AppColors.theme1color,
                                         ),
                                         padding: EdgeInsets.all(0.7),
-                                        child: Image.asset("assets/images/dollersign.png",width: 50,height: 50,),
+                                        child: Image.asset(
+                                          "assets/images/dollersign.png",
+                                          width: 50,
+                                          height: 50,
+                                        ),
                                       ),
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal * 30,
-                                        child:
-                                        TextFormField(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 30,
+                                        child: TextFormField(
                                           autofocus: false,
                                           focusNode: CostofTicketFocus,
                                           controller: CostofTicketController,
@@ -1695,9 +1934,9 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                             else
                                               return null;
                                           },
-                                          onFieldSubmitted: (v)
-                                          {
-                                            FocusScope.of(context).requestFocus(MaximumNoofquantityFocus);
+                                          onFieldSubmitted: (v) {
+                                            FocusScope.of(context).requestFocus(
+                                                MaximumNoofquantityFocus);
                                           },
                                           onSaved: (val) => _costofTicket = val,
                                           textAlign: TextAlign.left,
@@ -1713,13 +1952,13 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                             hintStyle: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
                                               decoration: TextDecoration.none,
                                             ),
                                           ),
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ))
@@ -1752,61 +1991,63 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                               ),
                             ),
                             Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                alignment: Alignment.centerLeft,
+                              width: SizeConfig.blockSizeHorizontal * 42,
+                              height: SizeConfig.blockSizeVertical * 7,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                              ),
+                              alignment: Alignment.centerLeft,
                               padding: EdgeInsets.only(
                                 left: SizeConfig.blockSizeVertical * 1,
                                 right: SizeConfig.blockSizeVertical * 1,
                               ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: Colors.transparent,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
                                 ),
-                                child: TextFormField(
-                                  autofocus: false,
-                                  focusNode: MaximumNoofquantityFocus,
-                                  controller: MaximumNoofquantityController,
-                                  textInputAction: TextInputAction.done,
-                                  keyboardType: TextInputType.number,
-                                  validator: (val) {
-                                    if (val.length == 0)
-                                      return "Please enter Muximum qty";
-                                    else
-                                      return null;
-                                  },
-                                  onFieldSubmitted: (v)
-                                  {
-                                    FocusScope.of(context).requestFocus(VideoFocus);
-                                  },
-                                  onSaved: (val) => _maximumNoofquantity = val,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 15,
-                                      color: Colors.black),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                      decoration: TextDecoration.none,
-                                    ),
+                                color: Colors.transparent,
+                              ),
+                              child: TextFormField(
+                                autofocus: false,
+                                focusNode: MaximumNoofquantityFocus,
+                                controller: MaximumNoofquantityController,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.number,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter Muximum qty";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  FocusScope.of(context)
+                                      .requestFocus(VideoFocus);
+                                },
+                                onSaved: (val) => _maximumNoofquantity = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                    decoration: TextDecoration.none,
                                   ),
-                                ),)
+                                ),
+                              ),
+                            )
                           ],
                         ),
                         Container(
@@ -1817,7 +2058,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             color: Colors.black12,
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1869,30 +2109,32 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   else
                                     return null;
                                 },
-                                onFieldSubmitted: (v)
-                                {
+                                onFieldSubmitted: (v) {
                                   VideoFocus.unfocus();
                                 },
                                 onSaved: (val) => _Video = val,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',
-                                    fontSize: 10,
-                                    color:AppColors.themecolor,),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: AppColors.themecolor,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 10,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 10,
+                                  color: AppColors.themecolor,
                                 ),
-                              ),)
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.themecolor,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    hintText:
+                                        "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
+                              ),
+                            )
                           ],
                         ),
                         Container(
@@ -1903,8 +2145,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             color: Colors.black12,
                           ),
                         ),
-
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1944,17 +2184,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                   ),
                                   color: Colors.transparent,
                                 ),
-                                child:
-                                GestureDetector(onTap: ()
-                                {
-
-                                },
+                                child: GestureDetector(
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Container(
                                           width:
-                                          SizeConfig.blockSizeHorizontal * 60,
-                                          child: Text("",
+                                              SizeConfig.blockSizeHorizontal *
+                                                  60,
+                                          child: Text(
+                                            "",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1964,20 +2203,17 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                               color: AppColors.black,
                                             ),
                                           )),
-
                                       Container(
                                         width:
-                                        SizeConfig.blockSizeHorizontal * 5,
+                                            SizeConfig.blockSizeHorizontal * 5,
                                         child: Icon(
                                           Icons.attachment,
                                           color: AppColors.greyColor,
                                         ),
                                       )
                                     ],
-                                  ),)
-
-
-                            )
+                                  ),
+                                ))
                           ],
                         ),
                         Container(
@@ -1988,7 +2224,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                             color: Colors.black12,
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -2028,55 +2263,61 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child:
-                              DropdownButtonHideUnderline(
+                              child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
-                                  hint: Text("please select",style: TextStyle(fontSize: 12),),
+                                  hint: Text(
+                                    "please select",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                   items: _dropdownCategoryValues
-                                      .map((String value) =>
-                                      DropdownMenuItem(
-                                        child: Text(value, style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),),
-                                        value: value,
-                                      ))
+                                      .map((String value) => DropdownMenuItem(
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                            value: value,
+                                          ))
                                       .toList(),
                                   value: currentSelectedValue,
                                   isDense: true,
                                   onChanged: (String newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      print(currentSelectedValue.toString()
+                                      print(currentSelectedValue
+                                          .toString()
                                           .toLowerCase());
-                                      if (currentSelectedValue == "Anyone")
-                                      {
+                                      if (currentSelectedValue == "Anyone") {
                                         currentid = 1;
-                                      } else if (currentSelectedValue == "Connections only")
-                                      {
+                                      } else if (currentSelectedValue ==
+                                          "Connections only") {
                                         currentid = 2;
-                                      }else if(currentSelectedValue=="Invite")
-                                      {
-                                        currentid =3;
-                                      }else if(currentSelectedValue=="Others")
-                                      {
-                                        currentid =4;
+                                      } else if (currentSelectedValue ==
+                                          "Invite") {
+                                        currentid = 3;
+                                      } else if (currentSelectedValue ==
+                                          "Others") {
+                                        currentid = 4;
                                       }
                                     });
                                   },
                                   isExpanded: true,
                                 ),
                               ),
-
-
                             )
                           ],
                         ),
-                        currentSelectedValue.toString().toLowerCase()=="invite"?inviteView():
-                        currentSelectedValue.toString().toLowerCase()=="others"?otherOptionview()
-                            :Container(),
+                        currentSelectedValue.toString().toLowerCase() ==
+                                "invite"
+                            ? inviteView()
+                            : currentSelectedValue.toString().toLowerCase() ==
+                                    "others"
+                                ? otherOptionview()
+                                : Container(),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -2087,7 +2328,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal *3,
+                              left: SizeConfig.blockSizeHorizontal * 3,
                               right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 80,
@@ -2133,22 +2374,25 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                               else
                                 return null;
                             },
-                            onFieldSubmitted: (v)
-                            {
+                            onFieldSubmitted: (v) {
                               TermsFocus.unfocus();
                             },
                             onSaved: (val) => _terms = val,
                             textAlign: TextAlign.left,
-                            style:
-                            TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
+                                color: Colors.black),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               hintStyle: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',  fontSize: 15,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 15,
                                 decoration: TextDecoration.none,
                               ),
                             ),
@@ -2171,7 +2415,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                           },
                           child: Container(
                             alignment: Alignment.center,
-
                             height: SizeConfig.blockSizeVertical * 6,
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 3,
@@ -2180,7 +2423,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                 right: SizeConfig.blockSizeHorizontal * 25),
                             decoration: BoxDecoration(
                               image: new DecorationImage(
-                                image: new AssetImage("assets/images/sendbutton.png"),
+                                image: new AssetImage(
+                                    "assets/images/sendbutton.png"),
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -2193,22 +2437,21 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                                 )),
                           ),
                         )
-
                       ],
                     ),
                   ),
                 ),
-
               )
             ],
-          )
-      ),
+          )),
     );
   }
+
   otherOptionview() {
-    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    return  Form(
+    return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -2216,15 +2459,14 @@ class CreateTicketPostState extends State<CreateTicketPost>{
         children: [
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *2,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:
-            TextFormField(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
               focusNode: NameFocus,
               controller: nameController,
@@ -2238,18 +2480,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                 else
                   return null;
               },
-              onSaved: (val) => _name= val,
+              onSaved: (val) => _name = val,
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(MobileFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Name*",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2260,14 +2506,14 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *1,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:  TextFormField(
+                top: SizeConfig.blockSizeVertical * 1,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
               focusNode: MobileFocus,
               controller: mobileController,
@@ -2281,18 +2527,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                 else
                   return null;
               },
-              onSaved: (val) => _mobile= val,
+              onSaved: (val) => _mobile = val,
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(EmailotherFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Phone Number*",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2303,15 +2553,14 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *1,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:
-            TextFormField(
+                top: SizeConfig.blockSizeVertical * 1,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
               focusNode: EmailotherFocus,
               controller: emailController,
@@ -2325,18 +2574,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                 else
                   return null;
               },
-              onSaved: (val) => _emailother= val,
+              onSaved: (val) => _emailother = val,
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(MessageFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Email*",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2348,17 +2601,15 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *2,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:
-            TextFormField(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
-              maxLines:6,
+              maxLines: 6,
               focusNode: MessageFocus,
               controller: messageController,
               keyboardType: TextInputType.text,
@@ -2371,23 +2622,27 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                 else
                   return null;
               },
-              onSaved: (val) => _descriptionother= val,
+              onSaved: (val) => _descriptionother = val,
               onFieldSubmitted: (v) {
                 MessageFocus.unfocus();
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Message",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
                   decoration: TextDecoration.none,
                 ),
-
               ),
             ),
           ),
@@ -2399,11 +2654,10 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                 });
                 Internet_check().check().then((intenet) {
                   if (intenet != null && intenet) {
-                    if(_imageFile!=null)
-                    {
-                      sendInvitation(emailController.text, nameController.text,mobileController.text,messageController.text);
-                    }
-                    else {
+                    if (_imageFile != null) {
+                      sendInvitation(emailController.text, nameController.text,
+                          mobileController.text, messageController.text);
+                    } else {
                       Fluttertoast.showToast(
                         msg: "Please select gift image",
                         toastLength: Toast.LENGTH_SHORT,
@@ -2430,10 +2684,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                 margin: EdgeInsets.only(
                     top: SizeConfig.blockSizeVertical * 5,
                     bottom: SizeConfig.blockSizeVertical * 5,
-                    left: SizeConfig.blockSizeHorizontal *5,
-                    right: SizeConfig.blockSizeHorizontal *5
-
-                ),
+                    left: SizeConfig.blockSizeHorizontal * 5,
+                    right: SizeConfig.blockSizeHorizontal * 5),
                 decoration: BoxDecoration(
                   image: new DecorationImage(
                     image: new AssetImage("assets/images/sendbutton.png"),
@@ -2451,30 +2703,35 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                           fontSize: 15,
                         )),
                     Container(
-                      child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: AppColors.whiteColor,
+                          ),
+                          onPressed: () {}),
                     )
                   ],
-                )
-            ),
+                )),
           ),
         ],
       ),
     );
   }
 
-  sendInvitation(String emal,String name,String mobile,String descr) async {
+  sendInvitation(String emal, String name, String mobile, String descr) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
-      "userid":userid.toString(),
-      "name":name,
-      "message":descr,
-      "email":emal,
-      "mobile":mobile,
+      "userid": userid.toString(),
+      "name": name,
+      "message": descr,
+      "email": emal,
+      "mobile": mobile,
     };
-    print("Data: "+data.toString());
+    print("Data: " + data.toString());
     var jsonResponse = null;
 
-    var response = await http.post(Network.BaseApi + Network.invitation, body: data);
+    var response =
+        await http.post(Network.BaseApi + Network.invitation, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse["success"] == false) {
@@ -2485,8 +2742,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-      }
-      else {
+      } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         sendinvi = new sendinvitationpojo.fromJson(jsonResponse);
         String jsonProfile = jsonEncode(sendinvi);
@@ -2495,17 +2751,16 @@ class CreateTicketPostState extends State<CreateTicketPost>{
         if (jsonResponse != null) {
           setState(() {
             isLoading = false;
-            emailController.text="";
-            nameController.text="";
-            mobileController.text="";
-            messageController.text="";
-
+            emailController.text = "";
+            nameController.text = "";
+            mobileController.text = "";
+            messageController.text = "";
           });
           final RenderBox box1 = _formKey.currentContext.findRenderObject();
-          Share.share("Let's join on Kontribute! Get it at "+sendinvi.invitationlink,
+          Share.share(
+              "Let's join on Kontribute! Get it at " + sendinvi.invitationlink,
               subject: "Kontribute",
-              sharePositionOrigin:
-              box1.localToGlobal(Offset.zero) & box1.size);
+              sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);
           Fluttertoast.showToast(
             msg: sendinvi.message,
             toastLength: Toast.LENGTH_SHORT,
@@ -2526,8 +2781,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           );
         }
       }
-    }
-    else {
+    } else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonResponse["message"],
@@ -2537,7 +2791,6 @@ class CreateTicketPostState extends State<CreateTicketPost>{
       );
     }
   }
-
 
   inviteView() {
     return Column(
@@ -2563,8 +2816,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
             Container(
               width: SizeConfig.blockSizeHorizontal * 45,
               alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(
-                  right: SizeConfig.blockSizeHorizontal * 3),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
               padding: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical * 3,
               ),
@@ -2592,8 +2845,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
           ),
           padding: EdgeInsets.only(
               left: SizeConfig.blockSizeHorizontal * 2,
-              right: SizeConfig.blockSizeHorizontal * 2
-          ),
+              right: SizeConfig.blockSizeHorizontal * 2),
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -2613,11 +2865,9 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                   left: SizeConfig.blockSizeHorizontal * 3,
                   right: SizeConfig.blockSizeHorizontal * 3,
                 ),
-                child:
-                Text(
+                child: Text(
                   "Search contact",
-                  style:
-                  TextStyle(
+                  style: TextStyle(
                       letterSpacing: 1.0,
                       color: Colors.black,
                       fontSize: SizeConfig.blockSizeHorizontal * 3,
@@ -2634,8 +2884,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                       height: 50.0,
                       width: 50.0,
                       child: new Center(
-                        child:
-                        new Icon(
+                        child: new Icon(
                           expandFlag0
                               ? Icons.arrow_drop_up
                               : Icons.arrow_drop_down,
@@ -2667,17 +2916,22 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     return Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
-        child:MediaQuery.removePadding(
+        child: MediaQuery.removePadding(
           context: context,
           removeTop: true,
-          child:  ListView.builder(
-              itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
+          child: ListView.builder(
+              itemCount: categoryfollowinglist == null
+                  ? 0
+                  : categoryfollowinglist.length,
               itemBuilder: (BuildContext context, int index) {
                 return CheckboxListTile(
                   activeColor: AppColors.theme1color,
-                  value: _selecteFollowing.contains(categoryfollowinglist[index]['sender_id']),
+                  value: _selecteFollowing
+                      .contains(categoryfollowinglist[index]['sender_id']),
                   onChanged: (bool selected) {
-                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
+                    _onCategoryFollowingSelected(
+                        selected,
+                        categoryfollowinglist[index]['sender_id'],
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(
@@ -2691,8 +2945,7 @@ class CreateTicketPostState extends State<CreateTicketPost>{
                   ),
                 );
               }),
-        )
-    );
+        ));
   }
 
   void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
@@ -2717,8 +2970,8 @@ class CreateTicketPostState extends State<CreateTicketPost>{
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');
     followingcatid = parts1.map((part1) => "$part1").join(',').trim();
-    followingvalues = followingcatid.replaceAll(" ","");
+    followingvalues = followingcatid.replaceAll(" ", "");
     print(followingvalues);
-    print("CatFollowName: "+catFollowingname);
+    print("CatFollowName: " + catFollowingname);
   }
 }
