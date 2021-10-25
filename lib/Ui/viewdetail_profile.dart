@@ -78,7 +78,6 @@ class viewdetail_profileState extends State<viewdetail_profile>{
     });
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
-
         data1 = widget.data;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());

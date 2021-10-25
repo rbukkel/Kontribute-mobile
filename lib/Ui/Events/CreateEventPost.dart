@@ -213,9 +213,7 @@ class CreateEventPostState extends State<CreateEventPost> {
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
-
         getEventCategory();
-
         setState(() {
           internet = true;
         });
@@ -2758,7 +2756,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(
-                    categoryfollowinglist[index]['full_name'],
+                    categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name'],
                     style: TextStyle(
                         letterSpacing: 1.0,
                         color: Colors.black,

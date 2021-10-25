@@ -21,12 +21,12 @@ import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 
-class CreateTicketPost extends StatefulWidget {
+class EditTicketPost extends StatefulWidget {
   @override
-  CreateTicketPostState createState() => CreateTicketPostState();
+  EditTicketPostState createState() => EditTicketPostState();
 }
 
-class CreateTicketPostState extends State<CreateTicketPost> {
+class EditTicketPostState extends State<EditTicketPost> {
   File _imageFile;
   bool image_value = false;
   final EventNameFocus = FocusNode();
@@ -784,7 +784,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.createnewticket,
+                        StringConstant.editnewticket,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -3426,12 +3426,12 @@ class _videoTextFieldsState extends State<videoTextFields> {
   Widget build(BuildContext context)
   {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text = CreateTicketPostState.videoList[widget.index] ??'';
+      _nameController.text = EditTicketPostState.videoList[widget.index] ??'';
     });
 
     return TextFormField(
       controller: _nameController,
-      onChanged: (v) => CreateTicketPostState.videoList[widget.index] = v,
+      onChanged: (v) => EditTicketPostState.videoList[widget.index] = v,
       style: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.normal,

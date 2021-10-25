@@ -80,4 +80,6 @@ class Network{
   static String reportevent = "reportevent";
   static String post_eventComments = "post_eventComments";
   static String event_pay = "event_pay";
+  static String create_ticket = "create_ticket";
+  static String edit_ticket = "edit_ticket";
 }

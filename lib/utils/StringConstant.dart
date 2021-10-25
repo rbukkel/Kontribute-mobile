@@ -55,6 +55,7 @@ class StringConstant {
   static const String eventdate = "Event Date";
   static const String totalamount = "Total Amount";
   static const String createnewticket = "Create New Ticket";
+  static const String editnewticket = "Edit Ticket";
   static const String createnewcampaign = "Create New Campaign";
   static const String createnewproject = "Create New Project";
   static const String editnewproject = "Edit Project";
