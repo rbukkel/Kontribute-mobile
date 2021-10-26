@@ -22,12 +22,7 @@ import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SearchbarProject extends StatefulWidget {
-  final String data;
 
-  const SearchbarProject({
-    Key key,
-    @required this.data,
-  }) : super(key: key);
 
   @override
   SearchbarProjectState createState() => SearchbarProjectState();
@@ -50,7 +45,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
   List<String> _list;
   bool _IsSearching;
   String _searchText = "";
-  String data1;
   bool search = true;
   bool internet = false;
   String val;
@@ -130,7 +124,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
-    data1 = widget.data;
   }
 
   void getdata(String user_id,String search) async {
@@ -1202,7 +1195,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                               ),
                                             ),
                                             Spacer(),
-                                            *//*    InkWell(
+                                            */
+                                     /*    InkWell(
                                                 onTap: (){
 
                                                 },
@@ -1363,7 +1357,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                               child: CircularProgressIndicator(),
                             )
                           : Center(
-                              child: Image.asset("assets/images/empty.png",
+                              child: Image.asset("assets/images/empty.pn--------g",
                                   height: SizeConfig.blockSizeVertical * 30,
                                   width: SizeConfig.blockSizeVertical * 30),
                             ),

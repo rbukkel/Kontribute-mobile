@@ -1654,14 +1654,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 Container(
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(
-                                      left:
-                                      SizeConfig.blockSizeHorizontal *
-                                          2,
-                                      right:
-                                      SizeConfig.blockSizeHorizontal *
-                                          3,
-                                      top: SizeConfig.blockSizeVertical *
-                                          2),
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                      top: SizeConfig.blockSizeVertical * 2),
                                   child: Text(
                                     StringConstant.locationdetails,
                                     style: TextStyle(
@@ -1710,8 +1705,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                         return null;
                                     },
                                     onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(ContactNoFocus);
+                                      FocusScope.of(context).requestFocus(ContactNoFocus);
                                     },
                                     onSaved: (val) =>
                                     _locationdetails = val,
@@ -1943,13 +1937,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     Container(
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
+                                          left: SizeConfig.blockSizeHorizontal * 3,
+                                          right:SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeVertical * 2),
                                       child: Text(
                                         StringConstant.contactno,
                                         style: TextStyle(
@@ -1962,13 +1952,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 1),
+                                          left: SizeConfig.blockSizeHorizontal * 3,
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeVertical * 1),
                                       padding: EdgeInsets.only(
                                         left: SizeConfig.blockSizeVertical * 1,
                                         right: SizeConfig.blockSizeVertical * 1,
@@ -1998,8 +1984,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             return null;
                                         },
                                         onFieldSubmitted: (v) {
-                                          FocusScope.of(context)
-                                              .requestFocus(EmailFocus);
+                                          FocusScope.of(context).requestFocus(EmailFocus);
                                         },
                                         onSaved: (val) => _contactno = val,
                                         textAlign: TextAlign.left,

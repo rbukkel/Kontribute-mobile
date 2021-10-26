@@ -10,6 +10,7 @@ import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
+import 'package:kontribute/Ui/Tickets/SearchbarTicket.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/Ui/Tickets/TicketsEventsHistoryProject.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
@@ -81,7 +82,7 @@ class ticketsState extends State<tickets> {
           actions: [
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchbarSendreceived()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchbarTicket()));
               },
               child: Container(
                 margin: EdgeInsets.only(

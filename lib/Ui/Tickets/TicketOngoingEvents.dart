@@ -9,6 +9,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/TicketOngoingListing.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/Tickets/TicketReport.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -114,7 +115,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.ticketeListing, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.ticketListing, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
@@ -212,7 +213,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.ticketeListing, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.ticketListing, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
@@ -342,7 +343,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    EditTicketPost(
+                    TicketReport(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },
@@ -373,13 +374,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
               Expanded(
                 child:
                 ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
+                    itemCount: storelist_length.length == null ? 0 : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listing.projectData.elementAt(index).ticketImages;
                       commentlist_length = listing.projectData.elementAt(index).comments;
-                      double amount = listing.projectData.elementAt(index).ticketsold.toDouble() /
+                      double amount = listing.projectData.elementAt(index).balanceQtySlot.toDouble() /
                           double.parse(listing.projectData.elementAt(index).maximumQtySold) * 100;
                       amoun =amount.toInt();
                       reverid = listing.projectData.elementAt(index).userId.toString();
@@ -392,11 +391,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                 width: 1,
                               ),
                             ),
-
-                              child:
-                              Container(
+                              child: Container(
                                 padding: EdgeInsets.all(5.0),
-                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical *2,
+                                    top: SizeConfig.blockSizeVertical *2),
                                 child:
                                 Column(
                                   mainAxisAlignment:
@@ -407,46 +406,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        GestureDetector(
-                                          onTap: ()
-                                          {
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(left:
-                                            SizeConfig.blockSizeHorizontal *1,
-                                                right: SizeConfig.blockSizeHorizontal *3,
-                                               ),
-                                            padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    7,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    7,
-                                                bottom: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2,
-                                                top: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    2),
-                                            decoration: BoxDecoration(
-                                              color: AppColors.darkgreen,
-                                              borderRadius: BorderRadius.circular(20),
-
-                                            ),
-                                            child: Text(
-                                              "BUY",
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: AppColors.whiteColor,
-                                                  fontSize:12,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          ),
-                                        ),
 
 
                                         listing.projectData.elementAt(index).userId.toString()!=userid?
@@ -767,7 +726,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Followers-255",
+                                                    "",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -811,14 +770,17 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                       ],
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: SizeConfig.blockSizeHorizontal *27,
                                           alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                              left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                3,),
                                           child: Text(
-                                            "No. of Tickets sold- ",
+                                            "No. of Tickets - "+ listing.projectData.elementAt(index).maximumQtySold.toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -829,7 +791,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 'Poppins-Regular'),
                                           ),
                                         ),
-                                        Container(
+                                        /*Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           alignment: Alignment.topLeft,
                                           padding: EdgeInsets.only(
@@ -848,7 +810,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
-                                        ),
+                                        ),*/
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
@@ -863,9 +825,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         Container(
                                           alignment: Alignment.centerRight,
                                           width: SizeConfig.blockSizeHorizontal *27,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              3),
                                           child: Text(
-                                            "Available Tickets-",
+                                            "Available Tickets- "+listing.projectData.elementAt(index).balanceQtySlot.toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -876,10 +840,10 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 'Poppins-Regular'),
                                           ),
                                         ),
-                                        Container(
+                                      /*  Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                               .blockSizeHorizontal *
-                                              1),
+                                              3),
                                           alignment: Alignment.topLeft,
                                           child: Text(
                                             listing.projectData.elementAt(index).balanceQtySlot.toString(),
@@ -892,7 +856,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
-                                        )
+                                        )*/
                                       ],
                                     ),
                                     imageslist_length!=null?

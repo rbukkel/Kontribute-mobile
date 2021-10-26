@@ -842,14 +842,14 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
                                       child:  new Html(
-                                        data: listing.projectData.elementAt(index).description,
-                                        defaultTextStyle: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black87,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular'),
-                                      ),
+                                      data: listing.projectData.elementAt(index).description,
+                                      defaultTextStyle: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black87,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
                                     ),
                                    /* GestureDetector(
                                       onTap: ()

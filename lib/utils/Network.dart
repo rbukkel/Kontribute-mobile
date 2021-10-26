@@ -5,7 +5,7 @@ class Network{
   static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
   static String BaseApiProject = "http://kontribute.knickglobal.com/uploads/project/";
   static String BaseApidonation = "http://kontribute.knickglobal.com/uploads/donation/";
-  static String BaseApiticket = "http://kontribute.knickglobal.com/uploads/ticket/";
+  static String BaseApiticket = "http://kontribute.knickglobal.com/uploads/tickets/";
   static String BaseApievent = "http://kontribute.knickglobal.com/uploads/events/";
   static String register = "register";
   static String countrylist = "countrylist";
@@ -83,5 +83,10 @@ class Network{
   static String event_pay = "event_pay";
   static String create_ticket = "create_ticket";
   static String edit_ticket = "edit_ticket";
-  static String ticketeListing = "ticketeListing";
+  static String ticketListing = "ticketListing";
+  static String ticketListing_history = "ticketListing_history";
+  static String reportticket = "reportticket";
+  static String ticketDetails = "ticketDetails";
+  static String ticketlikes = "ticketlikes";
+  static String ticketComments = "ticketComments";
 }

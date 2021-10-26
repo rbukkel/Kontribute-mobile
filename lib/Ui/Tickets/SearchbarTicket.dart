@@ -1,78 +1,94 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:kontribute/Ui/Tickets/TicketsEventsHistoryProjectDetailsscreen.dart';
-import 'package:kontribute/Ui/viewdetail_profile.dart';
-import 'package:kontribute/utils/AppColors.dart';
-import 'package:kontribute/utils/StringConstant.dart';
-import 'package:kontribute/utils/screen.dart';
-import 'package:kontribute/Pojo/TicketHistoryListing.dart';
-import 'package:intl/intl.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/utils/Network.dart';
-import 'package:http/http.dart' as http;
+import 'dart:math';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:http/http.dart' as http;
+import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/EventOngoingPojo.dart';
+import 'package:kontribute/Pojo/TicketOngoingListing.dart';
+import 'package:kontribute/Pojo/projectlike.dart';
+import 'package:kontribute/Pojo/projectlisting.dart';
+import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
+import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
+import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
+import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
+import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
+import 'package:kontribute/utils/screen.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class TicketsEventsHistoryProject extends StatefulWidget {
+class SearchbarTicket extends StatefulWidget {
+
+
   @override
-  TicketsEventsHistoryProjectState createState() => TicketsEventsHistoryProjectState();
+  SearchbarTicketState createState() => SearchbarTicketState();
 }
 
-class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject> {
-  String userid;
+class SearchbarTicketState extends State<SearchbarTicket> {
+  Widget appBarTitle = new Text(
+    "",
+    style: new TextStyle(color: Colors.white),
+  );
+
+  Icon actionIcon = new Icon(
+    Icons.search,
+    color: Colors.white,
+  );
+
+  Offset _tapDownPosition;
+  final key = new GlobalKey<ScaffoldState>();
+  final TextEditingController _searchQuery = new TextEditingController();
+  List<String> _list;
+  bool _IsSearching;
+  String _searchText = "";
+  bool search = true;
   bool internet = false;
-  bool resultvalue = true;
   String val;
-  TicketHistoryListing listing;
+  String userid;
   var storelist_length;
   var imageslist_length;
-  int amoun;
+  var commentlist_length;
+  bool resultvalue = true;
+  String searchvalue = "";
+  searchsendreceivedpojo searchpojo;
+  List<searchsendreceivedpojo> searchproductListing = new List<searchsendreceivedpojo>();
+  TicketOngoingListing listing;
+  final AmountFocus = FocusNode();
+  final TextEditingController AmountController = new TextEditingController();
+  String _amount;
   String vallike;
-
-  @override
-  void initState() {
-    super.initState();
-    SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
-      userid = val;
-      print("Login userid: " + userid.toString());
-
-    });
-    Internet_check().check().then((intenet) {
-      if (intenet != null && intenet) {
-        getdata(userid);
-        setState(() {
-          internet = true;
-        });
-      }
-      else {
-        setState(() {
-          internet = false;
-        });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-    });
-  }
-
-
+  projectlike prolike;
+  String updateval;
+  String updatefollowval;
+  String Follow = "Follow";
+  int amoun;
+  String reverid;
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner5.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-
+    Image.asset(
+      "assets/images/banner5.png",
+      height: SizeConfig.blockSizeVertical * 30,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner2.png",
+      height: SizeConfig.blockSizeVertical * 30,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner1.png",
+      height: SizeConfig.blockSizeVertical * 30,
+      fit: BoxFit.fitHeight,
+    ),
   ];
 
   Widget circleBar(bool isActive) {
@@ -91,17 +107,83 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
     currentPageValue = page;
     setState(() {});
   }
-  void getdata(String user_id) async {
+
+  SearchbarSendreceivedState() {
+    _searchQuery.addListener(() {
+      if (_searchQuery.text.isEmpty) {
+        setState(() {
+          _IsSearching = false;
+          _searchText = "";
+        });
+      } else {
+        setState(() {
+          _IsSearching = true;
+          _searchText = _searchQuery.text;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      getdata(userid,"");
+      print("Login userid: " + userid.toString());
+    });
+    _IsSearching = false;
+  }
+
+  Future<void> followapi(String useid, String rece) async {
+    Map data = {
+      'sender_id': useid.toString(),
+      'receiver_id': rece.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.follow, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updatefollowval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(updatefollowval);
+      } else {
+        if (jsonResponse != null) {
+          showToast(updatefollowval);
+          setState(() {
+            Follow = "";
+          });
+        } else {
+          showToast(updatefollowval);
+        }
+      }
+    } else {
+      showToast(updatefollowval);
+    }
+  }
+  void showToast(String updateval) {
+    Fluttertoast.showToast(
+      msg: jsonDecode(updateval)["message"],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+    );
+  }
+
+  void getdata(String user_id,String search) async {
     setState(() {
       storelist_length =null;
     });
     Map data = {
       'userid': user_id.toString(),
+      'search': search.toString(),
     };
-
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.ticketListing_history, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.ticketListing, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
@@ -116,12 +198,11 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
       } else {
-        listing = new TicketHistoryListing.fromJson(jsonResponse);
+        listing = new TicketOngoingListing.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(listing.projectData.isEmpty)
             {
               resultvalue = false;
@@ -152,42 +233,50 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return new Scaffold(
+        key: key,
+        appBar: buildBar(context),
+        /* body: new ListView(
+        padding: new EdgeInsets.symmetric(vertical: 8.0),
+        children: _IsSearching ? _buildSearchList() : _buildList(),
+      ),*/
+
+        body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
-          child: Column(
-            children: [
-              storelist_length != null ?
-              Expanded(
-                child:
-                ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      imageslist_length = listing.projectData.elementAt(index).ticketImages;
-                      double amount = listing.projectData.elementAt(index).balanceQtySlot.toDouble() /
-                          double.parse(listing.projectData.elementAt(index).maximumQtySold) * 100;
-                      amoun =amount.toInt();
-                      return
-                        Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Colors.grey.withOpacity(0.2),
-                                width: 1,
+          child:
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  storelist_length != null ?
+                  Expanded(
+                    child:
+                    ListView.builder(
+                        itemCount: storelist_length.length == null ? 0 : storelist_length.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          imageslist_length = listing.projectData.elementAt(index).ticketImages;
+                          commentlist_length = listing.projectData.elementAt(index).comments;
+                          double amount = listing.projectData.elementAt(index).balanceQtySlot.toDouble() /
+                              double.parse(listing.projectData.elementAt(index).maximumQtySold) * 100;
+                          amoun =amount.toInt();
+                          reverid = listing.projectData.elementAt(index).userId.toString();
+                          return Container(
+                            margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  width: 1,
+                                ),
                               ),
-                            ),
-
                               child: Container(
                                 padding: EdgeInsets.all(5.0),
-                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical *2,
+                                    top: SizeConfig.blockSizeVertical *2),
                                 child:
                                 Column(
                                   mainAxisAlignment:
@@ -195,14 +284,159 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
 
+
+                                        listing.projectData.elementAt(index).userId.toString()!=userid?
+                                        listing.projectData.elementAt(index).status=="pending"?
+                                        GestureDetector(
+                                          onTap: ()
+                                          {
+
+                                            Widget cancelButton = FlatButton(
+                                              child: Text("Cancel"),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                            Widget continueButton = FlatButton(
+                                              child: Text("Continue"),
+                                              onPressed: () async {
+                                                /*Payamount(listing.projectData.elementAt(index).id,
+                                                    AmountController.text,
+                                                    userid);*/
+                                              },
+                                            );
+                                            // set up the AlertDialog
+                                            AlertDialog alert = AlertDialog(
+                                              title: Text("Pay now.."),
+                                              // content: Text("Are you sure you want to Pay this project?"),
+                                              content: new Row(
+                                                children: <Widget>[
+                                                  new Expanded(
+                                                    child: new  TextFormField(
+                                                      autofocus: false,
+                                                      focusNode: AmountFocus,
+                                                      controller: AmountController,
+                                                      textInputAction: TextInputAction.next,
+                                                      keyboardType: TextInputType.number,
+                                                      validator: (val) {
+                                                        if (val.length == 0)
+                                                          return "Please enter payment amount";
+                                                        else
+                                                          return null;
+                                                      },
+                                                      onFieldSubmitted: (v) {
+                                                        AmountFocus.unfocus();
+                                                      },
+                                                      onSaved: (val) => _amount = val,
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: 'Poppins-Regular',
+                                                          fontSize: 10,
+                                                          color: Colors.black),
+                                                      decoration: InputDecoration(
+                                                        // border: InputBorder.none,
+                                                        // focusedBorder: InputBorder.none,
+                                                        hintStyle: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: 'Poppins-Regular',
+                                                          fontSize: 10,
+                                                          decoration: TextDecoration.none,
+                                                        ),
+                                                        hintText:"Enter payment amount",
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              actions: [
+                                                cancelButton,
+                                                continueButton,
+                                              ],
+                                            );
+                                            // show the dialog
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context)
+                                              {
+                                                return alert;
+                                              },
+                                            );
+
+
+                                          },
+                                          child:  Container(
+                                            margin: EdgeInsets.only(left:
+                                            SizeConfig.blockSizeHorizontal *1,
+                                              right: SizeConfig.blockSizeHorizontal *3,
+                                            ),
+                                            padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    7,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    7,
+                                                bottom: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2,
+                                                top: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    2),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.darkgreen,
+                                              borderRadius: BorderRadius.circular(20),
+
+                                            ),
+                                            child: Text(
+                                              "BUY",
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: AppColors.whiteColor,
+                                                  fontSize:12,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          ),
+                                        ): Container(): Container(),
+
+
+                                        GestureDetector(
+                                          onTapDown: (TapDownDetails details){
+                                            _tapDownPosition = details.globalPosition;
+                                          },
+                                          onTap: ()
+                                          {
+                                            listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
+                                            _showPopupMenu(index);
+                                          },
+                                          child:  Container(
+                                            alignment: Alignment.topRight,
+                                            margin: EdgeInsets.only(
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal * 2),
+                                            child: Image.asset(
+                                                "assets/images/menudot.png",
+                                                height: 15, width: 20),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         listing.projectData.elementAt(index).profilePic== null ||
-                                            listing.projectData.elementAt(index).profilePic == ""
-                                            ? GestureDetector(
+                                            listing.projectData.elementAt(index).profilePic == "" ?
+                                        GestureDetector(
                                           onTap: () {
                                             callNext(
                                                 viewdetail_profile(
@@ -217,12 +451,8 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *2,
                                                   bottom: SizeConfig.blockSizeVertical *1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1),
+                                                  right: SizeConfig.blockSizeHorizontal * 1,
+                                                  left: SizeConfig.blockSizeHorizontal * 1),
                                               decoration: BoxDecoration(
                                                 image: new DecorationImage(
                                                   image: new AssetImage(
@@ -231,9 +461,13 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                 ),
                                               )),
                                         )
-                                            : GestureDetector(
+                                            :
+                                        GestureDetector(
                                           onTap: () {
-                                            callNext(viewdetail_profile(data: listing.projectData.elementAt(index).userId.toString()), context);
+                                            callNext(
+                                                viewdetail_profile(
+                                                    data: listing.projectData.elementAt(index).userId.toString()
+                                                ), context);
                                           },
                                           child: Container(
                                             height: SizeConfig.blockSizeVertical * 9,
@@ -242,16 +476,13 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *2,
                                                 bottom: SizeConfig.blockSizeVertical *1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    1),
+                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                left: SizeConfig.blockSizeHorizontal * 1),
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(listing.projectData.elementAt(index).profilePic),
+                                                    image: NetworkImage(
+                                                        listing.projectData.elementAt(index).profilePic),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),
@@ -262,56 +493,59 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                                               children: [
-                                                Container(
-                                                  width: SizeConfig.blockSizeHorizontal *35,
-                                                  padding: EdgeInsets.only(
-                                                    top: SizeConfig.blockSizeVertical *1,
-                                                  ),
-                                                  child: Text(
-                                                    listing.projectData.elementAt(index).fullName,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.themecolor,
-                                                        fontSize: 13,
-                                                        fontWeight: FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
+                                                GestureDetector(
+                                                  onTap: ()
+                                                  {
+                                                    callNext(
+                                                        viewdetail_profile(
+                                                            data: listing.projectData.elementAt(index).userId.toString()
+                                                        ), context);
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
+                                                    width: SizeConfig.blockSizeHorizontal *37,
+                                                    padding: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *1,
+                                                    ),
+                                                    child: Text(
+                                                      listing.projectData.elementAt(index).fullName,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.themecolor,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.normal,
+                                                          fontFamily: 'Poppins-Regular'),
+                                                    ),
+                                                  ) ,
+                                                ),
+                                                listing.projectData.elementAt(index).userId.toString()==userid?
+                                                Container():
+                                                GestureDetector(
+                                                  onTap: ()
+                                                  {
+                                                    followapi(userid, reverid);
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,
+                                                        left: SizeConfig.blockSizeHorizontal*2),
+                                                    padding: EdgeInsets.only(
+                                                      top: SizeConfig.blockSizeVertical *1,
+                                                    ),
+                                                    child: Text(
+                                                      Follow,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.darkgreen,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
                                                   ),
                                                 ),
-                                                Container(
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
 
-                                                  alignment: Alignment.topRight,
-                                                  padding: EdgeInsets.only(
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      bottom: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2,
-                                                      top: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          2),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.whiteColor,
-                                                      borderRadius: BorderRadius.circular(20),
-                                                      border: Border.all(color: AppColors.purple)
-                                                  ),
-                                                  child: Text(
-                                                    "Completed".toUpperCase(),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color:AppColors.purple,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
-                                                ),
+
                                               ],
                                             ),
                                             Row(
@@ -324,7 +558,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                   listing.projectData.elementAt(index).ticketName,
+                                                    listing.projectData.elementAt(index).ticketName,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
@@ -348,7 +582,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    "Event Date- "+listing.projectData.elementAt(index).ticketEnddate,
+                                                    "Start Date- "+listing.projectData.elementAt(index).ticketStartdate,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -360,6 +594,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                         'Poppins-Regular'),
                                                   ),
                                                 )
+
                                               ],
                                             ),
                                             Row(
@@ -397,7 +632,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    StringConstant.totalContribution+" 20",
+                                                    "End Date- "+listing.projectData.elementAt(index).ticketEnddate,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -415,92 +650,6 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                         )
                                       ],
                                     ),
-                                    /* Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: SizeConfig.blockSizeHorizontal *27,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                                          child: Text(
-                                            "No. of Tickets sold- ",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,
-                                          ),
-                                          child: Text(
-                                            "85",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          child:  LinearPercentIndicator(
-                                            width: 90.0,
-                                            lineHeight: 14.0,
-                                            percent: 0.6,
-                                            center: Text("60%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
-                                            backgroundColor: AppColors.lightgrey,
-                                            progressColor:AppColors.themecolor,
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *27,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "Available Tickets-",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1),
-                                          alignment: Alignment.topLeft,
-
-                                          child: Text(
-                                            "150",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        )
-                                      ],
-                                    ),*/
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -595,7 +744,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                     GestureDetector(
                                       onTap: () {
                                         callNext(
-                                            TicketsEventsHistoryProjectDetailsscreen(
+                                            TicketOngoingEventsDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
                                             ), context);
@@ -666,7 +815,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                     GestureDetector(
                                       onTap: () {
                                         callNext(
-                                            TicketsEventsHistoryProjectDetailsscreen(
+                                            TicketOngoingEventsDetailsscreen(
                                                 data:
                                                 listing.projectData.elementAt(index).id.toString()
                                             ), context);
@@ -722,7 +871,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
-                                      child:  new Html(
+                                      child: new Html(
                                         data: listing.projectData.elementAt(index).description,
                                         defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
@@ -730,12 +879,13 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                             fontSize: 10,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
+
                                       ),
                                     ),
-                                 /*   GestureDetector(
+                                    /*  GestureDetector(
                                       onTap: ()
                                       {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketsEventsHistoryProjectDetailsscreen()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEventsDetailsscreen()));
                                       },
                                       child: Container(
                                         width: SizeConfig.blockSizeHorizontal *100,
@@ -809,30 +959,335 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
+                                    ),
+
+                                    Container(
+                                      width: SizeConfig.blockSizeHorizontal *100,
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                          top: SizeConfig.blockSizeVertical *1),
+                                      child: Text(
+                                        "No. of Persons joined- 80",
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black26,
+                                            fontSize: 8,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
                                     ),*/
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.centerRight,
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1, left: SizeConfig.blockSizeHorizontal *3),
+                                              child: Text(
+                                                "Ticket Price-",
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  1),
+                                              alignment: Alignment.topLeft,
+
+                                              child: Text(
+                                                "\$"+listing.projectData.elementAt(index).ticketCost.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
 
-                        ),
-                      );
-                    }),
-              ): Container(
-                margin: EdgeInsets.only(top: 150),
-                alignment: Alignment.center,
-                child: resultvalue == true
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : Center(
-                  child: Image.asset("assets/images/empty.png",
-                      height: SizeConfig.blockSizeVertical * 50,
-                      width: SizeConfig.blockSizeVertical * 50),
-                ),
-              )
-            ],
-          )
-      ),
+
+                            ),
+                          );
+                        }),
+                  ) :
+                  Container(
+                    margin: EdgeInsets.only(top: 100),
+                    alignment: Alignment.center,
+                    child: resultvalue == true
+                        ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                        :
+                    Center(
+                      child: Image.asset("assets/images/empty.png",
+                          height: SizeConfig.blockSizeVertical * 30,
+                          width: SizeConfig.blockSizeVertical * 30),
+                    ),
+                  ),
+
+                ],
+              ),
+
+
+        ));
+  }
+
+
+  _showPopupMenu(int index) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+        PopupMenuItem(
+            value:2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+      ],
+      elevation: 8.0,
     );
   }
+
+
+  _showEditPopupMenu(int index) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+        _tapDownPosition.dy,
+        overlay.size.width - _tapDownPosition.dx,
+        overlay.size.height - _tapDownPosition.dy,),
+      items: [
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.content_copy),
+                  ),
+                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+        PopupMenuItem(
+            value: 2,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    EditCreateProjectPost(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.edit),
+                  ),
+                  Text('Edit',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+      /*  PopupMenuItem(
+            value:3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(
+                    ProjectReport(
+                        data: listing.projectData.elementAt(index).id.toString()
+                    ), context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.report),
+                  ),
+                  Text('Report',style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+*/
+      ],
+      elevation: 8.0,
+    );
+  }
+
+
+  Widget buildBar(BuildContext context) {
+    return new AppBar(
+        centerTitle: true,
+        title: appBarTitle,
+        backgroundColor: Colors.white,
+        flexibleSpace: Image(
+          height: SizeConfig.blockSizeVertical * 13,
+          image: AssetImage('assets/images/appbar.png'),
+          fit: BoxFit.cover,
+        ),
+        actions: <Widget>[
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getdata(userid,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText: "Search here...",
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+              });
+            },
+          ),
+        ]);
+  }
+
+  void _handleSearchStart() {
+    setState(() {
+      _IsSearching = true;
+    });
+  }
+
+  void _handleSearchEnd() {
+    setState(() {
+      this.actionIcon = new Icon(
+        Icons.search,
+        color: Colors.white,
+      );
+      this.appBarTitle =
+          new Text("", style: new TextStyle(color: Colors.white));
+      _IsSearching = false;
+      _searchQuery.clear();
+    });
+  }
+
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'project_id': id.toString(),
+      'amount': requiredAmount.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false)
+      {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 }
