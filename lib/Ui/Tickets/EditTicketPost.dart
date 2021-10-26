@@ -22,6 +22,11 @@ import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 
 class EditTicketPost extends StatefulWidget {
+
+  final String data;
+
+  const EditTicketPost({Key key, @required this.data}) : super(key: key);
+
   @override
   EditTicketPostState createState() => EditTicketPostState();
 }
@@ -1261,24 +1266,15 @@ class EditTicketPostState extends State<EditTicketPost> {
                                         ),
                                       ),
                                       Container(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 8,
+                                          height: SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    5,
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 5,
                                           ),
                                           padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
+                                            left: SizeConfig.blockSizeVertical *1,
+                                            right: SizeConfig.blockSizeVertical * 1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
@@ -1371,14 +1367,10 @@ class EditTicketPostState extends State<EditTicketPost> {
                                           _showTimePicker();
                                         },
                                         child: Container(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 8,
+                                          height: SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 3,
                                             right:
                                                 SizeConfig.blockSizeHorizontal *
                                                     3,
@@ -1428,9 +1420,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                                 ),
                                               ),
                                               Container(
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    5,
+                                                width: SizeConfig.blockSizeHorizontal * 5,
                                                 child: Icon(
                                                   Icons.alarm,
                                                   color: AppColors.greyColor,

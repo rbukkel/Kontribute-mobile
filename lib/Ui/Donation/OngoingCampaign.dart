@@ -388,6 +388,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                       double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                           double.parse(listing.projectData.elementAt(index).budget) * 100;
                       amoun =amount.toInt();
+                      reverid = listing.projectData.elementAt(index).userId.toString();
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -1023,89 +1024,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         ),
                                       ),
                                     ),
-                                    /*Container(
-                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                      child: Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: (){},
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*7,
-                                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    child: Image.asset("assets/images/heart.png",height: 20,width: 20,),
-                                                  ),
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/flat.png"),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: (){
 
-                                            },
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*7,
-                                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                              // margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    child: Image.asset("assets/images/message.png",height: 20,width: 20),
-                                                  ),
-
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/like.png"),
-                                            ),
-                                          ),
-
-                                          Spacer(),
-                                          InkWell(
-                                            onTap: (){
-
-                                            },
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*15,
-                                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                      child: Image.asset("assets/images/color_heart.png",color: Colors.black,height: 15,width: 25,)
-                                                  ),
-                                                  Container(
-                                                    child: Text("1,555",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
-                                                  )
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/report.png"),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: (){
-
-                                            },
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*15,
-                                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                      child: Image.asset("assets/images/color_comment.png",color: Colors.black,height: 15,width: 25,)
-                                                  ),
-                                                  Container(
-                                                    child: Text("22",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
-                                                  )
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/save.png"),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),*/
                             Container(
                               width: SizeConfig.blockSizeHorizontal *100,
                               alignment: Alignment.topLeft,

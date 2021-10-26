@@ -16,6 +16,10 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class TicketOngoingEventsDetailsscreen extends StatefulWidget {
+  final String data;
+
+  const TicketOngoingEventsDetailsscreen({Key key, @required this.data})
+      : super(key: key);
   @override
   TicketOngoingEventsDetailsscreenState createState() => TicketOngoingEventsDetailsscreenState();
 }
