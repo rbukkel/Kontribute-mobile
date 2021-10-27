@@ -49,6 +49,18 @@ class EditTicketPostState extends State<EditTicketPost> {
   final MaximumNoofquantityFocus = FocusNode();
   final VideoFocus = FocusNode();
   var file1;
+  String link;
+  String linkdocuments;
+  static List<String> videoList = [null];
+  static List<String> newvideoList = [null];
+  static List<String> newdocList = [null];
+  static List<String> docList = [null];
+  String showpost;
+  List _selecteFollowing = List();
+  List _selecteFollowingName = List();
+  var followingcatid;
+  var followingvalues;
+  var catFollowingname = null;
   var documentPath;
   FileType fileType;
   var basename=null;
@@ -138,17 +150,14 @@ class EditTicketPostState extends State<EditTicketPost> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   bool expandFlag0 = false;
-  static List<String> videoList = [null];
+
   var vidoname=null;
   var myFormat = DateFormat('yyyy/MM/dd');
   var myFormatEndDate = DateFormat('yyyy/MM/dd');
   var myFormatTimeFrameDate = DateFormat('yyyy/MM/dd');
   var categoryfollowinglist;
-  List _selecteFollowing = List();
-  List _selecteFollowingName = List();
-  var followingcatid;
-  var followingvalues;
-  var catFollowingname = null;
+  int catid;
+
   final NameFocus = FocusNode();
   final EmailotherFocus = FocusNode();
   final MobileFocus = FocusNode();
@@ -270,8 +279,10 @@ class EditTicketPostState extends State<EditTicketPost> {
             selectedEndTime = sendgift.eventData.eventEndtime;
             formattedDate = sendgift.eventData.eventStartdate;
             formattedEndDate = sendgift.eventData.eventEnddate;
-            EnterRequiredAmountController.text = sendgift.eventData.entryFee.toString();
-            Maximumnoparticipantcontroller.text = sendgift.eventData.maximumParticipant.toString();
+            LocationController.text = sendgift.eventData.entryFee.toString();
+            LocationDetailsController.text = sendgift.eventData.maximumParticipant.toString();
+            ContactNoController.text = sendgift.eventData.maximumParticipant.toString();
+            EmailController.text = sendgift.eventData.maximumParticipant.toString();
             TermsController.text = sendgift.eventData.termsAndCondition.toString();
             textHolder = sendgift.eventData.categoryName;
             catid = int.parse(sendgift.eventData.categoryId);
