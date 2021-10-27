@@ -8,6 +8,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/get_EventCreate.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -162,22 +163,54 @@ class EditTicketPostState extends State<EditTicketPost> {
   final TextEditingController messageController = new TextEditingController();
   String _emailother, _name, _mobile, _subject, _descriptionother;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  String data1;
+  int a;
+  String val;
+  bool internet = false;
+  bool resultvalue = true;
+  var storelist_length;
+  get_EventCreate sendgift;
+  var productlist_length;
+  var imageslist_length;
 
 
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    //_getCurrentLocation();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      getData(userid);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
       print("username: " + val);
       username = val;
       print("Login username: " + username.toString());
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+
+        data1 = widget.data;
+        a = int.parse(data1);
+        print("receiverComing: " + a.toString());
+        getData(userid,a);
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
     });
   }
 
@@ -204,47 +237,144 @@ class EditTicketPostState extends State<EditTicketPost> {
     });
   }
 
-  Future<void> getData(String a) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {'receiver_id': a.toString()};
-    print("Data: " + data.toString());
+  void getData(String user,int id) async {
+    Map data = {
+      'userid': user.toString(),
+      'event_id': id.toString(),
+    };
+    print("receiver: " + data.toString());
     var jsonResponse = null;
-    var response =
-        await http.post(Network.BaseApi + Network.followlisting, body: data);
+    http.Response response =
+    await http.post(Network.BaseApi + Network.get_event, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      print("Json User" + jsonResponse.toString());
-      if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      val = response.body; //store response as string
+      if (jsonDecode(val)["success"] == false) {
         Fluttertoast.showToast(
-          msg: jsonResponse["message"],
+          msg: jsonDecode(val)["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
       } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        sendgift = new get_EventCreate.fromJson(jsonResponse);
+        print("Json User Details: " + jsonResponse.toString());
         if (jsonResponse != null) {
+          print("response");
           setState(() {
-            categoryfollowinglist = jsonResponse['result'];
+            productlist_length = sendgift.eventData;
+            imageslist_length = sendgift.eventImagesdata;
+            EventNameController.text = sendgift.eventData.eventName.toString();
+            DescriptionController.text = sendgift.eventData.description.toString();
+            selectedTime = sendgift.eventData.eventStarttime;
+            selectedEndTime = sendgift.eventData.eventEndtime;
+            formattedDate = sendgift.eventData.eventStartdate;
+            formattedEndDate = sendgift.eventData.eventEnddate;
+            EnterRequiredAmountController.text = sendgift.eventData.entryFee.toString();
+            Maximumnoparticipantcontroller.text = sendgift.eventData.maximumParticipant.toString();
+            TermsController.text = sendgift.eventData.termsAndCondition.toString();
+            textHolder = sendgift.eventData.categoryName;
+            catid = int.parse(sendgift.eventData.categoryId);
+            if(sendgift.invitationdata==null)
+            {
+              nameController.text = "";
+              emailController.text = "";
+              messageController.text = "";
+              mobileController.text = "";
+            }
+            else
+            {
+              nameController.text = sendgift.invitationdata.name.toString();
+              emailController.text = sendgift.invitationdata.email.toString();
+              messageController.text = sendgift.invitationdata.message.toString();
+              mobileController.text = sendgift.invitationdata.mobile.toString();
+            }
+
+            for (int i = 0; i < sendgift.eventData.videoLink.length; i++)
+            {
+              print("link: " + sendgift.eventData.videoLink.elementAt(i).vlink);
+              link = sendgift.eventData.videoLink.elementAt(i).vlink;
+              print(": " + link);
+              newvideoList.add(link);
+            }
+            currentid = int.parse(sendgift.eventData.viewType);
+            if(currentid==1)
+            {
+              showpost ="Anyone";
+            }else if(currentid==2)
+            {
+              showpost ="Connections only";
+            }else if(currentid==3)
+            {
+              showpost ="Invite";
+            }else if(currentid==4)
+            {
+              showpost ="Others";
+            }
+            videoList = [
+              for (var i in newvideoList)
+                if (i != null) i
+            ];
+            // _selectlink.add(link);
+
+            final input = videoList.toString();
+            final removedBrackets = input.substring(1, input.length - 1);
+            final parts = removedBrackets.split(',');
+            vidoname = parts.map((part) => "$part").join(',').trim();
+            print("videoname: " + vidoname.toString());
+            for (int i = 0; i < sendgift.eventData.documents.length; i++) {
+              print("link: " + sendgift.eventData.documents.elementAt(i).documents);
+              linkdocuments = sendgift.eventData.documents.elementAt(i).documents;
+              docList.add(linkdocuments);
+            }
+            newdocList = [
+              for (var i in docList)
+                if (i != null) i
+            ];
+
+            final input3 = newdocList.toString();
+            final removedBrackets3 = input3.substring(1, input3.length - 1);
+            final parts3 = removedBrackets3.split(',');
+            catname = parts3.map((part) => "$part").join(',').trim();
+
+            print("Docname: " + catname.toString());
+
+            TermsController.text = sendgift.eventData.termsAndCondition != null ||
+                sendgift.eventData.termsAndCondition != "" ? sendgift.eventData.termsAndCondition.toString() : "";
+            //  basename = sendgift.projectData.documents.toString();
+            currentid = int.parse(sendgift.eventData.viewType);
+            if (currentid == 1)
+            {
+              showpost = "Anyone";
+            } else if (currentid == 2) {
+              showpost = "Connections only";
+            }
+            else if(currentid==3)
+            {
+              showpost ="Invite";
+            }else if(currentid==4)
+            {
+              showpost ="Others";
+            }
           });
         } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
-          });
+          Fluttertoast.showToast(
+            msg: sendgift.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
         }
       }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
     }
   }
-
 
 
   DateView(BuildContext context) async {
