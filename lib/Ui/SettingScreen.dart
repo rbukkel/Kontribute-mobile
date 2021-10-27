@@ -107,8 +107,10 @@ class SettingScreenState extends State<SettingScreen>{
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => HomeScreen()));
+              });
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal *15,
@@ -136,8 +138,10 @@ class SettingScreenState extends State<SettingScreen>{
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => WalletScreen()));
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => WalletScreen()));
+              });
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal *15,
@@ -163,8 +167,10 @@ class SettingScreenState extends State<SettingScreen>{
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => NotificationScreen()));
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => NotificationScreen()));
+              });
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal *15,
@@ -189,8 +195,10 @@ class SettingScreenState extends State<SettingScreen>{
           ),
           GestureDetector(
             onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => SettingScreen()));
+            });
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal *15,

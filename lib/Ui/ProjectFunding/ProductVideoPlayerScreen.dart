@@ -5,7 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -15,10 +18,11 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ProductVideoPlayerScreen extends StatefulWidget {
   final String data;
+  final String comesfrom;
 
   const ProductVideoPlayerScreen({
     Key key,
-    @required this.data,
+    @required this.data, @required this.comesfrom,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
   bool _muted = false;
   bool _isPlayerReady = false;
   String urlLik;
+  String come;
 
  /* final List<String> _ids = [
     'nPt8bK2gbaU',
@@ -53,7 +58,9 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
   void initState() {
     super.initState();
     urlLik =widget.data;
+    come =widget.comesfrom;
     print("UrlLink: "+urlLik);
+    print("COMES: "+come);
 
     String videoId;
     videoId = YoutubePlayer.convertUrlToId(urlLik);
@@ -85,11 +92,37 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
       );
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  projectfunding()));
+      if(come=="Project")
+        {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      projectfunding()));
+        }
+      else if(come=="Ticket")
+      {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    tickets()));
+      } else if(come=="Event")
+      {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    events()));
+      }else if(come=="Donation")
+      {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    donation()));
+      }
+
     }
 
   }

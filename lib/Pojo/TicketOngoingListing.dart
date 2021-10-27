@@ -64,6 +64,7 @@ class ProjectData {
   int balanceslot;
   int ticketsold;
   int balanceQtySlot;
+  int totalcontributor;
   String eventPath;
 
   ProjectData(
@@ -99,6 +100,7 @@ class ProjectData {
         this.balanceslot,
         this.ticketsold,
         this.balanceQtySlot,
+        this.totalcontributor,
         this.eventPath});
 
   ProjectData.fromJson(Map<String, dynamic> json) {
@@ -144,6 +146,7 @@ class ProjectData {
     balanceslot = json['balanceslot'];
     ticketsold = json['ticketsold'];
     balanceQtySlot = json['balance_qty_slot'];
+    totalcontributor = json['totalcontributor'];
     eventPath = json['event_path'];
   }
 
@@ -185,6 +188,7 @@ class ProjectData {
     data['balanceslot'] = this.balanceslot;
     data['ticketsold'] = this.ticketsold;
     data['balance_qty_slot'] = this.balanceQtySlot;
+    data['totalcontributor'] = this.totalcontributor;
     data['event_path'] = this.eventPath;
     return data;
   }

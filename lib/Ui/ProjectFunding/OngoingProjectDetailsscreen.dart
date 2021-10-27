@@ -1637,7 +1637,8 @@ class OngoingProjectDetailsscreenState
                                           onTap: () {
                                             callNext(
                                                 ProductVideoPlayerScreen(
-                                                    data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                                    data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString(),
+                                                    comesfrom:"Project"), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,

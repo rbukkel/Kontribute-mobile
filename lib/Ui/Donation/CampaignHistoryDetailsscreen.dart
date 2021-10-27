@@ -1356,7 +1356,9 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                            callNext(ProductVideoPlayerScreen(
+                                                data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString(),
+                                            comesfrom:"Donation"), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,

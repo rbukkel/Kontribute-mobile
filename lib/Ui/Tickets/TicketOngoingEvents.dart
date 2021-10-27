@@ -1086,7 +1086,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1),
                                       child: Text(
-                                        "No. of Persons joined- 80",
+                                        "No. of Persons joined- "+listing.projectData.elementAt(index).totalcontributor.toString(),
                                         maxLines: 2,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -1098,6 +1098,24 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             'Poppins-Regular'),
                                       ),
                                     ),*/
+                                    Container(
+                                      width: SizeConfig.blockSizeHorizontal *100,
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                          top: SizeConfig.blockSizeVertical *1),
+                                      child: Text(
+                                        "No. of Persons joined- "+listing.projectData.elementAt(index).totalcontributor.toString(),
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black26,
+                                            fontSize: 8,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

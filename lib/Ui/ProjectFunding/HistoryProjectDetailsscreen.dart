@@ -1086,7 +1086,9 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                            callNext(ProductVideoPlayerScreen(
+                                                data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString(),
+                                                comesfrom:"Project"), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,

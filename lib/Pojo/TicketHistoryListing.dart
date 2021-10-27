@@ -64,42 +64,44 @@ class ProjectData {
   int balanceslot;
   int ticketsold;
   int balanceQtySlot;
+  int totalcontributor;
   String eventPath;
 
   ProjectData(
       {this.id,
-      this.ticketName,
-      this.ticketStartdate,
-      this.ticketEnddate,
-      this.ticketStarttime,
-      this.ticketEndtime,
-      this.description,
-      this.conatactNumber,
-      this.ticketEmail,
-      this.location,
-      this.locationDetails,
-      this.userId,
-      this.ticketCost,
-      this.maximumQtySold,
-      this.timeframeForSale,
-      this.videoLink,
-      this.viewType,
-      this.members,
-      this.termsAndCondition,
-      this.postedDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.fullName,
-      this.profilePic,
-      this.ticketImages,
-      this.comments,
-      this.totalslotamount,
-      this.totalcollectedamount,
-      this.balanceslot,
-      this.ticketsold,
-      this.balanceQtySlot,
-      this.eventPath});
+        this.ticketName,
+        this.ticketStartdate,
+        this.ticketEnddate,
+        this.ticketStarttime,
+        this.ticketEndtime,
+        this.description,
+        this.conatactNumber,
+        this.ticketEmail,
+        this.location,
+        this.locationDetails,
+        this.userId,
+        this.ticketCost,
+        this.maximumQtySold,
+        this.timeframeForSale,
+        this.videoLink,
+        this.viewType,
+        this.members,
+        this.termsAndCondition,
+        this.postedDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.ticketImages,
+        this.comments,
+        this.totalslotamount,
+        this.totalcollectedamount,
+        this.balanceslot,
+        this.ticketsold,
+        this.balanceQtySlot,
+        this.totalcontributor,
+        this.eventPath});
 
   ProjectData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -144,6 +146,7 @@ class ProjectData {
     balanceslot = json['balanceslot'];
     ticketsold = json['ticketsold'];
     balanceQtySlot = json['balance_qty_slot'];
+    totalcontributor = json['totalcontributor'];
     eventPath = json['event_path'];
   }
 
@@ -185,6 +188,7 @@ class ProjectData {
     data['balanceslot'] = this.balanceslot;
     data['ticketsold'] = this.ticketsold;
     data['balance_qty_slot'] = this.balanceQtySlot;
+    data['totalcontributor'] = this.totalcontributor;
     data['event_path'] = this.eventPath;
     return data;
   }
@@ -201,12 +205,12 @@ class TicketImages {
 
   TicketImages(
       {this.id,
-      this.ticketId,
-      this.imagePath,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.ticketId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   TicketImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -245,15 +249,15 @@ class Comments {
 
   Comments(
       {this.id,
-      this.projectId,
-      this.donationId,
-      this.eventId,
-      this.ticketId,
-      this.comment,
-      this.userId,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.projectId,
+        this.donationId,
+        this.eventId,
+        this.ticketId,
+        this.comment,
+        this.userId,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];

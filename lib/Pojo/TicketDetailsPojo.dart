@@ -49,6 +49,7 @@ class Commentsdata {
   String status;
   String createdAt;
   String updatedAt;
+  int totalcontributor;
   int totalLike;
   int totalcomments;
   List<Commentslist> commentslist;
@@ -63,40 +64,41 @@ class Commentsdata {
 
   Commentsdata(
       {this.id,
-      this.eventName,
-      this.eventStarttime,
-      this.eventStartdate,
-      this.eventEndtime,
-      this.eventEnddate,
-      this.description,
-      this.conatactNumber,
-      this.ticketEmail,
-      this.location,
-      this.locationDetails,
-      this.userId,
-      this.ticketCost,
-      this.maximumQtySold,
-      this.timeframeForSale,
-      this.videoLink,
-      this.documents,
-      this.viewType,
-      this.members,
-      this.termsAndCondition,
-      this.postedDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.totalLike,
-      this.totalcomments,
-      this.commentslist,
-      this.ticketimagesdata,
-      this.totalslotamount,
-      this.totalcollectedamount,
-      this.balanceslot,
-      this.ticketsold,
-      this.balanceQtySlot,
-      this.fullName,
-      this.profilePic});
+        this.eventName,
+        this.eventStarttime,
+        this.eventStartdate,
+        this.eventEndtime,
+        this.eventEnddate,
+        this.description,
+        this.conatactNumber,
+        this.ticketEmail,
+        this.location,
+        this.locationDetails,
+        this.userId,
+        this.ticketCost,
+        this.maximumQtySold,
+        this.timeframeForSale,
+        this.videoLink,
+        this.documents,
+        this.viewType,
+        this.members,
+        this.termsAndCondition,
+        this.postedDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.totalcontributor,
+        this.totalLike,
+        this.totalcomments,
+        this.commentslist,
+        this.ticketimagesdata,
+        this.totalslotamount,
+        this.totalcollectedamount,
+        this.balanceslot,
+        this.ticketsold,
+        this.balanceQtySlot,
+        this.fullName,
+        this.profilePic});
 
   Commentsdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -133,6 +135,7 @@ class Commentsdata {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    totalcontributor = json['totalcontributor'];
     totalLike = json['total_like'];
     totalcomments = json['totalcomments'];
     if (json['commentslist'] != null) {
@@ -186,6 +189,7 @@ class Commentsdata {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['totalcontributor'] = this.totalcontributor;
     data['total_like'] = this.totalLike;
     data['totalcomments'] = this.totalcomments;
     if (this.commentslist != null) {
@@ -258,15 +262,15 @@ class Commentslist {
 
   Commentslist(
       {this.id,
-      this.projectId,
-      this.donationId,
-      this.eventId,
-      this.ticketId,
-      this.comment,
-      this.userId,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.projectId,
+        this.donationId,
+        this.eventId,
+        this.ticketId,
+        this.comment,
+        this.userId,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   Commentslist.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -308,12 +312,12 @@ class Ticketimagesdata {
 
   Ticketimagesdata(
       {this.id,
-      this.ticketId,
-      this.imagePath,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.ticketId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   Ticketimagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];

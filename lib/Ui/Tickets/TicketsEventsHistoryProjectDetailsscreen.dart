@@ -341,7 +341,8 @@ class TicketsEventsHistoryProjectDetailsscreenState extends State<TicketsEventsH
                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.historyevents, textAlign: TextAlign.center,
+                        StringConstant.historyticket,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
@@ -590,7 +591,7 @@ class TicketsEventsHistoryProjectDetailsscreenState extends State<TicketsEventsH
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        StringConstant.totalContribution+" 20",
+                                        StringConstant.totalContribution+"- "+projectdetailspojo.commentsdata.totalcontributor.toString(),
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -1101,7 +1102,8 @@ class TicketsEventsHistoryProjectDetailsscreenState extends State<TicketsEventsH
                                             callNext(
                                                 ProductVideoPlayerScreen(data:
                                                 projectdetailspojo.commentsdata.videoLink.elementAt(indx)
-                                                    .vlink.toString()
+                                                    .vlink.toString(),
+                                                    comesfrom:"Ticket"
                                                 ), context);
                                           },
                                           child: Container(
@@ -1219,24 +1221,7 @@ class TicketsEventsHistoryProjectDetailsscreenState extends State<TicketsEventsH
                               }),
                         )
                             :Container(),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal *100,
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                              top: SizeConfig.blockSizeVertical *2),
-                          child: Text(
-                            "No. of Persons joined- 80",
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black26,
-                                fontSize: 8,
-                                fontWeight:
-                                FontWeight.normal,
-                                fontFamily:
-                                'Poppins-Regular'),
-                          ),
-                        ),
+
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

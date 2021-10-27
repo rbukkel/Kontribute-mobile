@@ -397,7 +397,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
                                                   child: Text(
-                                                    StringConstant.totalContribution+" 20",
+                                                    StringConstant.totalContribution+"- "+listing.projectData.elementAt(index).totalcontributor.toString(),
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,

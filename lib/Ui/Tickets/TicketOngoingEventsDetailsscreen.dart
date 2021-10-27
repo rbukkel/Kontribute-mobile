@@ -396,7 +396,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.ongoingevents, textAlign: TextAlign.center,
+                        StringConstant.ongoingticket, textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
@@ -1342,7 +1342,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            callNext(ProductVideoPlayerScreen(data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString()), context);
+                                            callNext(ProductVideoPlayerScreen(
+                                                data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString(),
+                                                comesfrom:"Ticket"), context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
@@ -1465,7 +1467,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                               top: SizeConfig.blockSizeVertical *2),
                           child: Text(
-                            "No. of Persons joined- 80",
+                            "No. of Persons joined- "+projectdetailspojo.commentsdata.totalcontributor.toString(),
                             maxLines: 2,
                             style: TextStyle(
                                 letterSpacing: 1.0,

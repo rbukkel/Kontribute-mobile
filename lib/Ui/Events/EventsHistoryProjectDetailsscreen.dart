@@ -1085,7 +1085,8 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                             callNext(
                                                 ProductVideoPlayerScreen(data:
                                                 projectdetailspojo.commentsdata.videoLink.elementAt(indx)
-                                                    .vlink.toString()
+                                                    .vlink.toString(),
+                                                    comesfrom:"Event"
                                                 ), context);
                                           },
                                           child: Container(
