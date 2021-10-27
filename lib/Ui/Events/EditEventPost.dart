@@ -2200,8 +2200,6 @@ class EditEventPostState extends State<EditEventPost> {
       allowedExtensions: [
         'pdf',
         'docx',
-        'png',
-        'txt'
       ], //here you can add any of extention what you need to pick
     );
 

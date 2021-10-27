@@ -824,7 +824,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         ),
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *27,
+                                          width: SizeConfig.blockSizeHorizontal *29,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                               .blockSizeHorizontal *
                                               3),

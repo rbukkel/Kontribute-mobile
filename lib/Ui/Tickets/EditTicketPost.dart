@@ -8,7 +8,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Pojo/get_EventCreate.dart';
+import 'package:kontribute/Pojo/getTicketPojo.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -146,6 +146,7 @@ class EditTicketPostState extends State<EditTicketPost> {
   String Date, EndDate;
   String formattedDate = "07-07-2021";
   String formattedEndDate = "07-07-2021";
+  String formattedTimeFrame = "07-07-2021";
   sendinvitationpojo sendinvi;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
@@ -178,7 +179,7 @@ class EditTicketPostState extends State<EditTicketPost> {
   bool internet = false;
   bool resultvalue = true;
   var storelist_length;
-  get_EventCreate sendgift;
+  getTicketPojo sendgift;
   var productlist_length;
   var imageslist_length;
 
@@ -249,12 +250,12 @@ class EditTicketPostState extends State<EditTicketPost> {
   void getData(String user,int id) async {
     Map data = {
       'userid': user.toString(),
-      'event_id': id.toString(),
+      'ticket_id': id.toString(),
     };
     print("receiver: " + data.toString());
     var jsonResponse = null;
     http.Response response =
-    await http.post(Network.BaseApi + Network.get_event, body: data);
+    await http.post(Network.BaseApi + Network.get_ticket, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
@@ -266,26 +267,28 @@ class EditTicketPostState extends State<EditTicketPost> {
           timeInSecForIosWeb: 1,
         );
       } else {
-        sendgift = new get_EventCreate.fromJson(jsonResponse);
+        sendgift = new getTicketPojo.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            productlist_length = sendgift.eventData;
-            imageslist_length = sendgift.eventImagesdata;
-            EventNameController.text = sendgift.eventData.eventName.toString();
-            DescriptionController.text = sendgift.eventData.description.toString();
-            selectedTime = sendgift.eventData.eventStarttime;
-            selectedEndTime = sendgift.eventData.eventEndtime;
-            formattedDate = sendgift.eventData.eventStartdate;
-            formattedEndDate = sendgift.eventData.eventEnddate;
-            LocationController.text = sendgift.eventData.entryFee.toString();
-            LocationDetailsController.text = sendgift.eventData.maximumParticipant.toString();
-            ContactNoController.text = sendgift.eventData.maximumParticipant.toString();
-            EmailController.text = sendgift.eventData.maximumParticipant.toString();
-            TermsController.text = sendgift.eventData.termsAndCondition.toString();
-            textHolder = sendgift.eventData.categoryName;
-            catid = int.parse(sendgift.eventData.categoryId);
+            productlist_length = sendgift.ticketData;
+            imageslist_length = sendgift.ticketImagesdata;
+            EventNameController.text = sendgift.ticketData.eventName.toString();
+            DescriptionController.text = sendgift.ticketData.description.toString();
+            selectedTime = sendgift.ticketData.eventStarttime;
+            selectedEndTime = sendgift.ticketData.eventEndtime;
+            formattedDate = sendgift.ticketData.eventStartdate;
+            formattedEndDate = sendgift.ticketData.eventEnddate;
+            formattedTimeFrame = sendgift.ticketData.timeframeForSale;
+            LocationController.text = sendgift.ticketData.location.toString();
+            LocationDetailsController.text = sendgift.ticketData.locationDetails.toString();
+            ContactNoController.text = sendgift.ticketData.conatactNumber.toString();
+            EmailController.text = sendgift.ticketData.ticketEmail.toString();
+            TermsController.text = sendgift.ticketData.termsAndCondition != null ||
+                sendgift.ticketData.termsAndCondition != "" ? sendgift.ticketData.termsAndCondition.toString() : "";
+            CostofTicketController.text = sendgift.ticketData.ticketCost.toString();
+            MaximumNoofquantityController.text = sendgift.ticketData.maximumQtySold.toString();
             if(sendgift.invitationdata==null)
             {
               nameController.text = "";
@@ -301,14 +304,14 @@ class EditTicketPostState extends State<EditTicketPost> {
               mobileController.text = sendgift.invitationdata.mobile.toString();
             }
 
-            for (int i = 0; i < sendgift.eventData.videoLink.length; i++)
+            for (int i = 0; i < sendgift.ticketData.videoLink.length; i++)
             {
-              print("link: " + sendgift.eventData.videoLink.elementAt(i).vlink);
-              link = sendgift.eventData.videoLink.elementAt(i).vlink;
+              print("link: " + sendgift.ticketData.videoLink.elementAt(i).vlink);
+              link = sendgift.ticketData.videoLink.elementAt(i).vlink;
               print(": " + link);
               newvideoList.add(link);
             }
-            currentid = int.parse(sendgift.eventData.viewType);
+            currentid = int.parse(sendgift.ticketData.viewType);
             if(currentid==1)
             {
               showpost ="Anyone";
@@ -333,9 +336,9 @@ class EditTicketPostState extends State<EditTicketPost> {
             final parts = removedBrackets.split(',');
             vidoname = parts.map((part) => "$part").join(',').trim();
             print("videoname: " + vidoname.toString());
-            for (int i = 0; i < sendgift.eventData.documents.length; i++) {
-              print("link: " + sendgift.eventData.documents.elementAt(i).documents);
-              linkdocuments = sendgift.eventData.documents.elementAt(i).documents;
+            for (int i = 0; i < sendgift.ticketData.documents.length; i++) {
+              print("link: " + sendgift.ticketData.documents.elementAt(i).documents);
+              linkdocuments = sendgift.ticketData.documents.elementAt(i).documents;
               docList.add(linkdocuments);
             }
             newdocList = [
@@ -350,23 +353,8 @@ class EditTicketPostState extends State<EditTicketPost> {
 
             print("Docname: " + catname.toString());
 
-            TermsController.text = sendgift.eventData.termsAndCondition != null ||
-                sendgift.eventData.termsAndCondition != "" ? sendgift.eventData.termsAndCondition.toString() : "";
+
             //  basename = sendgift.projectData.documents.toString();
-            currentid = int.parse(sendgift.eventData.viewType);
-            if (currentid == 1)
-            {
-              showpost = "Anyone";
-            } else if (currentid == 2) {
-              showpost = "Connections only";
-            }
-            else if(currentid==3)
-            {
-              showpost ="Invite";
-            }else if(currentid==4)
-            {
-              showpost ="Others";
-            }
           });
         } else {
           Fluttertoast.showToast(
@@ -399,6 +387,8 @@ class EditTicketPostState extends State<EditTicketPost> {
     if (picked != null && picked != currentDate)
       setState(() {
         currentDate = picked;
+        formattedDate = DateFormat('yyyy/MM/dd').format(currentDate);
+        print("onStartDate: " + formattedDate.toString());
       });
   }
 
@@ -413,9 +403,10 @@ class EditTicketPostState extends State<EditTicketPost> {
     if (picked != null && picked != currentEndDate)
       setState(() {
         currentEndDate = picked;
+        formattedEndDate = DateFormat('yyyy/MM/dd').format(currentEndDate);
+        print("onEndDate: " + formattedEndDate.toString());
       });
   }
-
 
 
   Timeframe(BuildContext context) async {
@@ -429,6 +420,8 @@ class EditTicketPostState extends State<EditTicketPost> {
     if (picked != null && picked != timeframedate)
       setState(() {
         timeframedate = picked;
+        formattedTimeFrame = DateFormat('yyyy/MM/dd').format(timeframedate);
+        print("onEndDate: " + formattedTimeFrame.toString());
       });
   }
 
@@ -523,7 +516,7 @@ class EditTicketPostState extends State<EditTicketPost> {
     setState(() {});
   }
 
-  showAlert() {
+  showAlert(BuildContext context)  {
     showDialog(
       context: context,
       child: Dialog(
@@ -964,13 +957,18 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 color: AppColors.themecolor,
                                 alignment: Alignment.topCenter,
                                 height: SizeConfig.blockSizeVertical * 25,
-                                width: SizeConfig.blockSizeHorizontal * 100,
+                                width:
+                                SizeConfig.blockSizeHorizontal * 100,
                                 child: Stack(
-                                  alignment: AlignmentDirectional.bottomCenter,
+                                  alignment:
+                                  AlignmentDirectional.bottomCenter,
                                   children: <Widget>[
                                     PageView.builder(
                                       physics: ClampingScrollPhysics(),
-                                      itemCount: introWidgetsList.length,
+                                      itemCount:
+                                      imageslist_length.length == null
+                                          ? 0
+                                          : imageslist_length.length,
                                       onPageChanged: (int page) {
                                         getChangedPageAndMoveBar(page);
                                       },
@@ -978,27 +976,47 @@ class EditTicketPostState extends State<EditTicketPost> {
                                           initialPage: currentPageValue,
                                           keepPage: true,
                                           viewportFraction: 1),
-                                      itemBuilder: (context, index) {
-                                        return introWidgetsList[index];
+                                      itemBuilder: (context, ind) {
+                                        return Container(
+                                          width: SizeConfig
+                                              .blockSizeHorizontal *
+                                              100,
+                                          height: SizeConfig
+                                              .blockSizeVertical *
+                                              25,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color:
+                                                  Colors.transparent),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    Network.BaseApiticket +
+                                                        sendgift
+                                                            .ticketImagesdata
+                                                            .elementAt(
+                                                            ind)
+                                                            .imagePath,
+                                                  ),
+                                                  fit: BoxFit.fill)),
+                                        );
                                       },
                                     ),
                                     Stack(
-                                      alignment:
-                                      AlignmentDirectional.bottomCenter,
+                                      alignment: AlignmentDirectional
+                                          .bottomCenter,
                                       children: <Widget>[
                                         Container(
                                           margin: EdgeInsets.only(
-                                              bottom:
-                                              SizeConfig.blockSizeVertical *
+                                              bottom: SizeConfig
+                                                  .blockSizeVertical *
                                                   2),
                                           child: Row(
-                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisSize:
+                                            MainAxisSize.min,
                                             mainAxisAlignment:
                                             MainAxisAlignment.center,
                                             children: <Widget>[
-                                              for (int i = 0;
-                                              i < introWidgetsList.length;
-                                              i++)
+                                              for (int i = 0; i < imageslist_length.length; i++)
                                                 if (i == currentPageValue) ...[
                                                   circleBar(true)
                                                 ] else
@@ -1013,14 +1031,16 @@ class EditTicketPostState extends State<EditTicketPost> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  showAlert();
+                                  showAlert(context);
                                 },
                                 child: Container(
                                   alignment: Alignment.topRight,
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 3,
+                                      top: SizeConfig.blockSizeVertical *
+                                          3,
                                       right:
-                                      SizeConfig.blockSizeHorizontal * 3),
+                                      SizeConfig.blockSizeHorizontal *
+                                          3),
                                   child: Image.asset(
                                     "assets/images/camera.png",
                                     width: 50,
@@ -1036,13 +1056,15 @@ class EditTicketPostState extends State<EditTicketPost> {
                             maintainAnimation: true,
                             maintainState: true,
                             child: Container()),
-                        _imageList.length != 0
-                            ? Container(
+                        _imageList.length != 0 ? Container(
                             alignment: Alignment.topCenter,
                             height: SizeConfig.blockSizeVertical * 10,
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 6,
-                                right: SizeConfig.blockSizeHorizontal * 6),
+                                left: SizeConfig.blockSizeHorizontal *
+                                    6,
+                                right:
+                                SizeConfig.blockSizeHorizontal *
+                                    6),
                             child: _imageList.length == 0
                                 ? new Image.asset(
                                 'assets/images/orderListing.png')
@@ -1053,15 +1075,17 @@ class EditTicketPostState extends State<EditTicketPost> {
                                     ? 0
                                     : _imageList.length,
                                 itemBuilder:
-                                    (BuildContext context, int index) {
+                                    (BuildContext context,
+                                    int index) {
                                   return Dismissible(
-                                      key: Key(
-                                          _imageList[index].toString()),
-                                      direction:
-                                      DismissDirection.vertical,
+                                      key: Key(_imageList[index]
+                                          .toString()),
+                                      direction: DismissDirection
+                                          .vertical,
                                       onDismissed: (direction) {
                                         setState(() {
-                                          _imageList.removeAt(index);
+                                          _imageList
+                                              .removeAt(index);
                                         });
                                       },
                                       child: Container(
@@ -1081,18 +1105,21 @@ class EditTicketPostState extends State<EditTicketPost> {
                                         child: Stack(
                                           children: [
                                             Container(
-                                              alignment:
-                                              Alignment.topCenter,
-                                              decoration: BoxDecoration(
+                                              alignment: Alignment
+                                                  .topCenter,
+                                              decoration:
+                                              BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius
-                                                    .circular(20),
+                                                    .circular(
+                                                    20),
                                               ),
                                               width: 60,
                                               height: 60,
                                               child: Image.file(
                                                 _imageList
-                                                    .elementAt(index),
+                                                    .elementAt(
+                                                    index),
                                                 fit: BoxFit.fill,
                                                 width: 60,
                                                 height: 60,
@@ -1139,6 +1166,13 @@ class EditTicketPostState extends State<EditTicketPost> {
                             ),
                             color: Colors.transparent,
                           ),
+
+
+
+
+
+
+
                           child: TextFormField(
                             autofocus: false,
                             focusNode: EventNameFocus,
@@ -1168,6 +1202,8 @@ class EditTicketPostState extends State<EditTicketPost> {
                               focusedBorder: InputBorder.none,
                               hintStyle: TextStyle(
                                 color: Colors.black,
+
+
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
                                 fontSize: 15,
@@ -1354,7 +1390,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                                             .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
-                                                    myFormat.format(currentDate),
+                                                    formattedDate,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -1444,7 +1480,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    myFormatEndDate.format(currentEndDate),
+                                                   formattedEndDate,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -2308,7 +2344,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                         width:
                                             SizeConfig.blockSizeHorizontal * 30,
                                         child: Text(
-                                          myFormatTimeFrameDate.format(timeframedate),
+                                          formattedTimeFrame,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -2718,7 +2754,9 @@ class EditTicketPostState extends State<EditTicketPost> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
                                   hint: Text(
-                                    "please select",
+                                    showpost == null
+                                        ? "please select"
+                                        : showpost,
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   items: _dropdownCategoryValues
@@ -2743,16 +2781,19 @@ class EditTicketPostState extends State<EditTicketPost> {
                                       print(currentSelectedValue
                                           .toString()
                                           .toLowerCase());
-                                      if (currentSelectedValue == "Anyone") {
+                                      if (currentSelectedValue == "Anyone")
+                                      {
                                         currentid = 1;
-                                      } else if (currentSelectedValue ==
-                                          "Connections only") {
+                                      } else if (currentSelectedValue == "Connections only")
+                                      {
                                         currentid = 2;
-                                      } else if (currentSelectedValue ==
-                                          "Invite") {
-                                        currentid = 3;
-                                      } else if (currentSelectedValue ==
-                                          "Others") {
+
+                                      }else if(currentSelectedValue=="Invite")
+                                      {
+                                        currentid =3;
+
+                                      }else if(currentSelectedValue=="Others")
+                                      {
                                         currentid = 4;
                                       }
                                     });
@@ -2763,13 +2804,10 @@ class EditTicketPostState extends State<EditTicketPost> {
                             )
                           ],
                         ),
-                        currentSelectedValue.toString().toLowerCase() ==
-                                "invite"
-                            ? inviteView()
-                            : currentSelectedValue.toString().toLowerCase() ==
-                                    "others"
-                                ? otherOptionview()
-                                : Container(),
+                        currentSelectedValue.toString().toLowerCase() == "invite" || showpost.toString().toLowerCase() == "invite" ? inviteView()
+                            : currentSelectedValue.toString().toLowerCase() == "others" || showpost.toString().toLowerCase() == "others"? otherOptionview()
+                            : currentSelectedValue.toString().toLowerCase() == "anyone" || showpost.toString().toLowerCase() == "anyone"? emptybox() : Container(),
+
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -2953,6 +2991,15 @@ class EditTicketPostState extends State<EditTicketPost> {
             ],
           )),
     );
+  }
+  emptybox() {
+    return Container(  height: SizeConfig.blockSizeVertical * 2,
+        child:  Column(
+          children: [
+            Container(height: SizeConfig.blockSizeVertical * 1,
+              child: Text(""),)
+          ],
+        ));
   }
 
   otherOptionview() {
