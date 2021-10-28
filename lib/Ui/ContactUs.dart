@@ -138,7 +138,6 @@ class ContactUsState extends State<ContactUs>{
                                     autofocus: false,
                                     focusNode: EmailFocus,
                                     controller: emailController,
-
                                     keyboardType: TextInputType.emailAddress,
                                     textInputAction: TextInputAction.next,
                                     validator: (val) {

@@ -91,6 +91,9 @@ class selectlangaugeState extends State<selectlangauge> {
                                   setState(() {
                                     sampleData.forEach((element) => element.isSelected = false);
                                     sampleData[index].isSelected = true;
+                                    print(sampleData[index].text);
+
+
                                   });
                                 },
                                 child:Row(

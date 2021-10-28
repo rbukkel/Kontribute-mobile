@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    gettoken();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -75,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Settings registered: $settings");
     });
     super.initState();
-    gettoken();
+
     SharedUtils.readToken("Token").then((val) {
       print("Token: " + val);
       token = val;

@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:share/share.dart';
+import 'package:sms_maintained/sms.dart';
 
 class ContactsPage extends StatefulWidget {
   @override
@@ -206,10 +207,28 @@ class _ContactsPageState extends State<ContactsPage> {
                         InkWell(
                           onTap: ()
                           {
-                            final RenderBox box1 = _globalKey.currentContext.findRenderObject();
+
+
+
+
+                            SmsSender sender = SmsSender();
+                            String address = "8950409624";
+
+                           /* SmsMessage message = SmsMessage(address, "Let's join on Kontribute! Get it at "+Network.sharelink);
+                            message.onStateChanged.listen((state) {
+                              if (state == SmsMessageState.Sent) {
+                                print("SMS is sent!");
+                              } else if (state == SmsMessageState.Delivered) {
+                                print("SMS is delivered!");
+                              }
+                            });
+                            sender.sendSms(message);*/
+                          sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
+
+                         /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
                             Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
                                 subject: "Kontribute",
-                                sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);
+                                sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);*/
                           },
                           child:Container(
                               padding: EdgeInsets.only(

@@ -224,7 +224,6 @@ class EditTicketPostState extends State<EditTicketPost> {
     });
   }
 
-
   _getCurrentLocation() {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) {
       setState(() async {

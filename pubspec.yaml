@@ -67,6 +67,8 @@ dependencies:
   geocoding: ^1.0.5
   geolocator: ^6.2.1
   geocoder: ^0.2.1
+  sms_maintained: ^0.2.5
+  get:
 
 dev_dependencies:
   flutter_test:

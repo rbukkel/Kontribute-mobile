@@ -556,7 +556,7 @@ class loginState extends State<login>{
     await http.post(Network.BaseApi + Network.socailLogin, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonResponse["message"],

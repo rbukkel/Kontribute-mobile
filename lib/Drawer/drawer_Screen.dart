@@ -22,6 +22,7 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class Drawer_Screen extends StatefulWidget {
   @override
@@ -237,7 +238,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Home",
+                                        "home".tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
