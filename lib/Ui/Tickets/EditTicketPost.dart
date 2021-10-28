@@ -1059,23 +1059,17 @@ class EditTicketPostState extends State<EditTicketPost> {
                             alignment: Alignment.topCenter,
                             height: SizeConfig.blockSizeVertical * 10,
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal *
-                                    6,
+                                left: SizeConfig.blockSizeHorizontal * 6,
                                 right:
                                 SizeConfig.blockSizeHorizontal *
                                     6),
                             child: _imageList.length == 0
-                                ? new Image.asset(
-                                'assets/images/orderListing.png')
+                                ? new Image.asset('assets/images/orderListing.png')
                                 : ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: _imageList == null
-                                    ? 0
-                                    : _imageList.length,
-                                itemBuilder:
-                                    (BuildContext context,
-                                    int index) {
+                                itemCount: _imageList == null ? 0 : _imageList.length,
+                                itemBuilder: (BuildContext context, int index) {
                                   return Dismissible(
                                       key: Key(_imageList[index]
                                           .toString()),
@@ -1092,12 +1086,8 @@ class EditTicketPostState extends State<EditTicketPost> {
                                         width: 60,
                                         height: 60,
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2,
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            top: SizeConfig.blockSizeVertical * 1,
                                             right: SizeConfig
                                                 .blockSizeHorizontal *
                                                 2),
@@ -1165,13 +1155,6 @@ class EditTicketPostState extends State<EditTicketPost> {
                             ),
                             color: Colors.transparent,
                           ),
-
-
-
-
-
-
-
                           child: TextFormField(
                             autofocus: false,
                             focusNode: EventNameFocus,
@@ -1201,8 +1184,6 @@ class EditTicketPostState extends State<EditTicketPost> {
                               focusedBorder: InputBorder.none,
                               hintStyle: TextStyle(
                                 color: Colors.black,
-
-
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
                                 fontSize: 15,
@@ -1297,8 +1278,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   child: Container(
                                     alignment: Alignment.topLeft,
                                     margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 3,
+                                        left: SizeConfig.blockSizeHorizontal * 3,
                                         right:
                                             SizeConfig.blockSizeHorizontal * 3,
                                         bottom:

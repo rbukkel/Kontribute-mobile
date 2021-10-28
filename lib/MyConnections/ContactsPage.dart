@@ -27,6 +27,8 @@ class _ContactsPageState extends State<ContactsPage> {
   var followlist_length;
   List common;
   final GlobalKey _globalKey = GlobalKey();
+  bool _firstSearch = true;
+  String _query = "";
 
   @override
   void initState()
@@ -117,6 +119,31 @@ class _ContactsPageState extends State<ContactsPage> {
     }
   }
 
+  Widget _createSearchView() {
+    return new Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
+            right: SizeConfig.blockSizeHorizontal *2),
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
+            left: SizeConfig.blockSizeHorizontal*5,
+            right: SizeConfig.blockSizeHorizontal*5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1.0)
+        ),
+        child: new
+        TextField(
+          onChanged: (value){
+            setState(() {
+             // getData(value);
+            });
+          },
+          decoration: new InputDecoration(
+              hintStyle: TextStyle(color: Colors.white), hintText: 'Search...'),
+        )
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,6 +183,8 @@ class _ContactsPageState extends State<ContactsPage> {
                 )
             ),
           ),
+          _createSearchView(),
+
           _contacts != null ?
           Expanded(child:
           ListView.builder(
@@ -212,9 +241,11 @@ class _ContactsPageState extends State<ContactsPage> {
 
 
                             SmsSender sender = SmsSender();
-                            String address = "8950409624";
+                           String address = contact.phones.first.value;
+                            print("no. "+address);
+                           // sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
 
-                           /* SmsMessage message = SmsMessage(address, "Let's join on Kontribute! Get it at "+Network.sharelink);
+                            SmsMessage message = SmsMessage(address, "Let's join on Kontribute! Get it at "+Network.sharelink);
                             message.onStateChanged.listen((state) {
                               if (state == SmsMessageState.Sent) {
                                 print("SMS is sent!");
@@ -222,8 +253,7 @@ class _ContactsPageState extends State<ContactsPage> {
                                 print("SMS is delivered!");
                               }
                             });
-                            sender.sendSms(message);*/
-                          sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
+                            sender.sendSms(message);
 
                          /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
                             Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
