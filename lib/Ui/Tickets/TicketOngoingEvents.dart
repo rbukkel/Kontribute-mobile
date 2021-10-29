@@ -442,10 +442,18 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             );
                                             // set up the AlertDialog
                                             AlertDialog alert = AlertDialog(
-                                              title: Text("Buy now.."),
+                                              title: Text("Buy now Ticket price \$"+listing.projectData.elementAt(index).ticketCost.toString(),style:
+                                              TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Poppins-Regular',
+                                                  fontSize: 14,
+                                                  color: Colors.black),),
                                               // content: Text("Are you sure you want to Pay this project?"),
-                                              content: new Row(
+                                              content:
+                                              new Row(
                                                 children: <Widget>[
+
                                                   new Expanded(
                                                     child: new  TextFormField(
                                                       autofocus: false,

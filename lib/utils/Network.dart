@@ -91,4 +91,5 @@ class Network{
   static String ticketComments = "ticketComments";
   static String get_ticket = "get_ticket";
   static String ticket_pay = "ticket_pay";
+  static String ticketQrlising_byid = "ticketQrlising_byid";
 }

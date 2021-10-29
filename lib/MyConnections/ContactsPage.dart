@@ -183,7 +183,7 @@ class _ContactsPageState extends State<ContactsPage> {
                 )
             ),
           ),
-          _createSearchView(),
+
 
           _contacts != null ?
           Expanded(child:
@@ -237,9 +237,6 @@ class _ContactsPageState extends State<ContactsPage> {
                           onTap: ()
                           {
 
-
-
-
                             SmsSender sender = SmsSender();
                            String address = contact.phones.first.value;
                             print("no. "+address);
@@ -249,8 +246,18 @@ class _ContactsPageState extends State<ContactsPage> {
                             message.onStateChanged.listen((state) {
                               if (state == SmsMessageState.Sent) {
                                 print("SMS is sent!");
+                                Fluttertoast.showToast(
+                                    msg: "Sms sent successfully",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1);
                               } else if (state == SmsMessageState.Delivered) {
                                 print("SMS is delivered!");
+                                Fluttertoast.showToast(
+                                    msg: "Sms delivered successfully",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1);
                               }
                             });
                             sender.sendSms(message);
