@@ -442,24 +442,67 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 Widget continueButton = FlatButton(
                                   child: Text("Continue"),
                                   onPressed: () async {
-                                   /* Payamount( projectdetailspojo
-                                        .commentsdata.id, projectdetailspojo
-                                        .commentsdata.entryFee,userid);*/
+                                    if(AmountController.text==null||AmountController.text=="")
+                                      {
+                                        Fluttertoast.showToast(
+                                            msg: "Please enter ticket qty",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1);
+                                      }
+                                    else
+                                      {
+                                        Payamount( projectdetailspojo
+                                            .commentsdata.id, projectdetailspojo
+                                            .commentsdata.ticketCost,AmountController.text,userid);
+                                      }
+
                                   },
                                 );
                                 // set up the AlertDialog
                                 AlertDialog alert = AlertDialog(
-                                  title: Text("Pay now.."),
+                                  title: Text("Buy now.."),
                                   // content: Text("Are you sure you want to Pay this project?"),
                                   content: new Row(
                                     children: <Widget>[
-                                      new Text("Event entry fees \$",
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 10,
-                                            color: Colors.black),)
+                                      new Expanded(
+                                        child: new  TextFormField(
+                                          autofocus: false,
+                                          focusNode: AmountFocus,
+                                          controller: AmountController,
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType: TextInputType.number,
+                                          validator: (val) {
+                                            if (val.length == 0)
+                                              return "Please enter ticket qty";
+                                            else
+                                              return null;
+                                          },
+                                          onFieldSubmitted: (v) {
+                                            AmountFocus.unfocus();
+                                          },
+                                          onSaved: (val) => _amount = val,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 10,
+                                              color: Colors.black),
+                                          decoration: InputDecoration(
+                                            // border: InputBorder.none,
+                                            // focusedBorder: InputBorder.none,
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 10,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                            hintText:"Enter Ticket Qty",
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   actions: [
@@ -475,8 +518,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     return alert;
                                   },
                                 );
-
-
                               },
                               child:Container(
                                 margin: EdgeInsets.only(
@@ -1656,7 +1697,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             ],
                           ),
                         ),
-                     /*   Container(
+                        Container(
                           child:
                           ListView.builder(
                               itemCount: 5,
@@ -1936,7 +1977,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     )
                                   );
                               }),
-                        )*/
+                        )
                       ],
                     ),
                   ),
@@ -2101,6 +2142,53 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
       }
     }
   }
+
+  Future<void> Payamount(String id, String requiredAmount,String qtyval, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'ticket_id': id.toString(),
+      'amount': requiredAmount.toString(),
+      'qty': qtyval.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.ticket_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["status"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 
 
 }

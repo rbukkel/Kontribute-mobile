@@ -59,6 +59,7 @@ class Commentsdata {
   int balanceslot;
   int ticketsold;
   int balanceQtySlot;
+  List<Tickerqrcode> tickerqrcode;
   String fullName;
   String profilePic;
 
@@ -97,6 +98,7 @@ class Commentsdata {
         this.balanceslot,
         this.ticketsold,
         this.balanceQtySlot,
+        this.tickerqrcode,
         this.fullName,
         this.profilePic});
 
@@ -155,6 +157,12 @@ class Commentsdata {
     balanceslot = json['balanceslot'];
     ticketsold = json['ticketsold'];
     balanceQtySlot = json['balance_qty_slot'];
+    if (json['tickerqrcode'] != null) {
+      tickerqrcode = new List<Tickerqrcode>();
+      json['tickerqrcode'].forEach((v) {
+        tickerqrcode.add(new Tickerqrcode.fromJson(v));
+      });
+    }
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
   }
@@ -204,6 +212,9 @@ class Commentsdata {
     data['balanceslot'] = this.balanceslot;
     data['ticketsold'] = this.ticketsold;
     data['balance_qty_slot'] = this.balanceQtySlot;
+    if (this.tickerqrcode != null) {
+      data['tickerqrcode'] = this.tickerqrcode.map((v) => v.toJson()).toList();
+    }
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
     return data;
@@ -338,6 +349,43 @@ class Ticketimagesdata {
     data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Tickerqrcode {
+  String ticketId;
+  String paymentId;
+  String ticketNo;
+  String status;
+  String imagePath;
+  String buyDate;
+
+  Tickerqrcode(
+      {this.ticketId,
+        this.paymentId,
+        this.ticketNo,
+        this.status,
+        this.imagePath,
+        this.buyDate});
+
+  Tickerqrcode.fromJson(Map<String, dynamic> json) {
+    ticketId = json['ticket_id'];
+    paymentId = json['payment_id'];
+    ticketNo = json['ticket_no'];
+    status = json['status'];
+    imagePath = json['image_path'];
+    buyDate = json['buy_date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ticket_id'] = this.ticketId;
+    data['payment_id'] = this.paymentId;
+    data['ticket_no'] = this.ticketNo;
+    data['status'] = this.status;
+    data['image_path'] = this.imagePath;
+    data['buy_date'] = this.buyDate;
     return data;
   }
 }

@@ -10,6 +10,7 @@ import 'package:kontribute/Pojo/TicketOngoingListing.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/Tickets/TicketReport.dart';
+import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -423,14 +424,25 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             Widget continueButton = FlatButton(
                                               child: Text("Continue"),
                                               onPressed: () async {
-                                                /*Payamount(listing.projectData.elementAt(index).id,
-                                                    AmountController.text,
-                                                    userid);*/
+                                                if(AmountController.text==null||AmountController.text=="")
+                                                {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Please enter ticket qty",
+                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      gravity: ToastGravity.BOTTOM,
+                                                      timeInSecForIosWeb: 1);
+                                                }
+                                                else
+                                                {
+                                                  Payamount( listing.projectData.elementAt(index).id,
+                                                      listing.projectData.elementAt(index).ticketCost,AmountController.text,userid);
+                                                }
+
                                               },
                                             );
                                             // set up the AlertDialog
                                             AlertDialog alert = AlertDialog(
-                                              title: Text("Pay now.."),
+                                              title: Text("Buy now.."),
                                               // content: Text("Are you sure you want to Pay this project?"),
                                               content: new Row(
                                                 children: <Widget>[
@@ -468,7 +480,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           fontSize: 10,
                                                           decoration: TextDecoration.none,
                                                         ),
-                                                        hintText:"Enter payment amount",
+                                                        hintText:"Enter Ticket Qty",
                                                       ),
                                                     ),
                                                   )
@@ -1235,4 +1247,51 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
       ),
     );
   }
+
+  Future<void> Payamount(String id, String requiredAmount,String qtyval, String userid) async {
+    Map data = {
+      'userid': userid.toString(),
+      'ticket_id': id.toString(),
+      'amount': requiredAmount.toString(),
+      'qty': qtyval.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.ticket_pay, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["status"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(updateval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+      else {
+        if (jsonResponse != null) {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+          // getpaymentlist(a);
+        } else {
+          Fluttertoast.showToast(
+              msg: jsonDecode(updateval)["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: jsonDecode(updateval)["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
 }

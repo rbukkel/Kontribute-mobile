@@ -14,7 +14,6 @@ import 'package:kontribute/utils/screen.dart';
 class HomeScreen extends StatefulWidget{
   @override
   HomeScreenState createState() => HomeScreenState();
-
 }
 
 class HomeScreenState extends State<HomeScreen>{
