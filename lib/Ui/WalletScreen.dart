@@ -7,6 +7,7 @@ import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class WalletScreen extends StatefulWidget {
   @override
@@ -422,7 +423,7 @@ class WalletScreenState extends State<WalletScreen> {
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Home",
+                        'home'.tr,
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),

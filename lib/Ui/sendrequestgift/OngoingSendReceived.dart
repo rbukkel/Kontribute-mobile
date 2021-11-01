@@ -380,10 +380,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                             Container(
                                                 height: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 width: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 alignment:
                                                 Alignment
                                                     .center,
@@ -410,10 +410,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                             Container(
                                                 height: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 width: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 alignment:
                                                 Alignment
                                                     .center,
@@ -444,10 +444,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                             Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
-                                                  14,
+                                                  10,
                                               width: SizeConfig
                                                   .blockSizeVertical *
-                                                  12,
+                                                  10,
                                               alignment:
                                               Alignment
                                                   .center,
@@ -475,10 +475,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                             Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
-                                                  14,
+                                                  10,
                                               width: SizeConfig
                                                   .blockSizeVertical *
-                                                  12,
+                                                  10,
                                               alignment:
                                               Alignment
                                                   .center,
@@ -868,10 +868,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                 ? Container(
                                                 height: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 width: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 alignment:
                                                 Alignment
                                                     .center,
@@ -898,10 +898,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                 : Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
-                                                  14,
+                                                  10,
                                               width: SizeConfig
                                                   .blockSizeVertical *
-                                                  12,
+                                                  10,
                                               alignment:
                                               Alignment
                                                   .center,
@@ -1306,10 +1306,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                             Container(
                                                 height: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 width: SizeConfig
                                                     .blockSizeVertical *
-                                                    12,
+                                                    10,
                                                 alignment: Alignment
                                                     .center,
                                                 margin: EdgeInsets.only(
@@ -1327,10 +1327,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                             Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
-                                                  12,
+                                                  10,
                                               width: SizeConfig
                                                   .blockSizeVertical *
-                                                  12,
+                                                  10,
                                               alignment: Alignment
                                                   .center,
                                               margin: EdgeInsets.only(

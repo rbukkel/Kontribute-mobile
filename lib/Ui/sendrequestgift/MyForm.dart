@@ -113,8 +113,6 @@ class _MyFormState extends State<MyForm> {
       ),
     );
   }
-
-
 }
 
 class FriendTextFields extends StatefulWidget {

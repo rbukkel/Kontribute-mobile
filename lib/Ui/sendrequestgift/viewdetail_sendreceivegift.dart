@@ -389,10 +389,10 @@ class viewdetail_sendreceivegiftState
                                       Container(
                                               height:
                                                   SizeConfig.blockSizeVertical *
-                                                      18,
+                                                      12,
                                               width:
                                                   SizeConfig.blockSizeVertical *
-                                                      17,
+                                                      12,
                                               alignment: Alignment.center,
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig
@@ -415,12 +415,12 @@ class viewdetail_sendreceivegiftState
                                                 ),
                                               ))
                                           : Container(
-                                          height:
-                                          SizeConfig.blockSizeVertical *
-                                              18,
-                                          width:
-                                          SizeConfig.blockSizeVertical *
-                                              17,
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
+                                        width:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
                                           alignment: Alignment.center,
                                           margin: EdgeInsets.only(
                                               top: SizeConfig
@@ -443,12 +443,12 @@ class viewdetail_sendreceivegiftState
                                                         .adminProfilePic),
                                                 fit: BoxFit.fill)),):
                                       Container(
-                                              height:
-                                                  SizeConfig.blockSizeVertical *
-                                                      18,
-                                              width:
-                                                  SizeConfig.blockSizeVertical *
-                                                      17,
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
+                                        width:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
                                               alignment: Alignment.center,
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig
@@ -644,13 +644,9 @@ class viewdetail_sendreceivegiftState
                             ),
                           ),*/
                                           Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    60,
+                                            width: SizeConfig.blockSizeHorizontal * 60,
                                             margin: EdgeInsets.only(
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3),
+                                                right: SizeConfig.blockSizeHorizontal * 3),
                                             alignment: Alignment.topRight,
                                             padding: EdgeInsets.only(
                                                 left: SizeConfig
@@ -737,7 +733,6 @@ class viewdetail_sendreceivegiftState
                                               )
                                             ],
                                           ),
-
                                           /*Row(
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,

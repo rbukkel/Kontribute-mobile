@@ -10,6 +10,7 @@ import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -185,7 +186,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.sendandreceivegift.toUpperCase(),
+                                         'sendandreceivegift'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,

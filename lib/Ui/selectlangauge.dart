@@ -3,6 +3,7 @@ import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class selectlangauge extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class selectlangauge extends StatefulWidget {
 
 class selectlangaugeState extends State<selectlangauge> {
   var languageselect = 1;
+  String lang;
 
   List<RadioModel> sampleData = new List<RadioModel>();
 
@@ -75,13 +77,13 @@ class selectlangaugeState extends State<selectlangauge> {
                   margin: EdgeInsets.only(
                     top: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child:  new ListView.builder(
+                  child: new ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: sampleData.length,
                     itemBuilder: (BuildContext context, int index) {
                       return new Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20),
                         //margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3,left: 30,right: 30),
                         child: Column(
                           children: [
@@ -89,32 +91,43 @@ class selectlangaugeState extends State<selectlangauge> {
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    sampleData.forEach((element) => element.isSelected = false);
+                                    sampleData.forEach((element) =>
+                                        element.isSelected = false);
                                     sampleData[index].isSelected = true;
                                     print(sampleData[index].text);
-
-
+                                    if (sampleData[index].text == "English") {
+                                      lang = 'English';
+                                      print("Langauge: "+lang.toString());
+                                    } else if (sampleData[index].text ==
+                                        "Arabic") {
+                                      lang = 'Arabic';
+                                      print("Langauge: "+lang.toString());
+                                    }
                                   });
                                 },
-                                child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        child: Text(sampleData[index].text,style: TextStyle(color: Colors.white, fontFamily: 'Poppins-Regular',fontSize: 18),
+                                        child: Text(
+                                          sampleData[index].text,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 18),
                                         ),
                                       ),
                                       Container(
-                                          child: new RadioItem(sampleData[index])
-                                      ),
-                                    ]
-                                ),
+                                          child:
+                                              new RadioItem(sampleData[index])),
+                                    ]),
                               ),
                             ),
                             Divider(
                               thickness: 2,
                               color: Colors.white,
                             )
-
                           ],
                         ),
                       );
@@ -123,7 +136,19 @@ class selectlangaugeState extends State<selectlangauge> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                    setState(() {
+                      if (lang == 'English') {
+                        var locale = Locale('en', 'US');
+                        Get.updateLocale(locale);
+                      } else if (lang == 'Arabic') {
+                        var locale = Locale('ar', 'SA');
+                        Get.updateLocale(locale);
+                      }
+                    });
+                    print("LangaugeHome: "+lang.toString());
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -160,7 +185,9 @@ class selectlangaugeState extends State<selectlangauge> {
 
 class RadioItem extends StatelessWidget {
   final RadioModel _item;
+
   RadioItem(this._item);
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -171,15 +198,17 @@ class RadioItem extends StatelessWidget {
           new Container(
             height: 30.0,
             width: 30.0,
-
             decoration: new BoxDecoration(
-              image: _item.isSelected? new DecorationImage(
-                image: new ExactAssetImage('assets/images/click_radio.png'),
-                fit: BoxFit.cover,
-              ):new DecorationImage(
-                image: new ExactAssetImage('assets/images/not_click.png'),
-                fit: BoxFit.cover,
-              ),
+              image: _item.isSelected
+                  ? new DecorationImage(
+                      image:
+                          new ExactAssetImage('assets/images/click_radio.png'),
+                      fit: BoxFit.cover,
+                    )
+                  : new DecorationImage(
+                      image: new ExactAssetImage('assets/images/not_click.png'),
+                      fit: BoxFit.cover,
+                    ),
               // color: _item.isSelected ? Colors.blueAccent : Colors.transparent,
               border: new Border.all(
                 width: 1.0,
@@ -189,12 +218,12 @@ class RadioItem extends StatelessWidget {
               borderRadius: const BorderRadius.all(const Radius.circular(30.0)),
             ),
           ),
-
         ],
       ),
     );
   }
 }
+
 class RadioModel {
   bool isSelected;
   final String text;
