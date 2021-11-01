@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -274,7 +273,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Profile",
+                                        'profile'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -309,7 +308,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "My Network",
+                                        'mynetwork'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -343,7 +342,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "My Transactions",
+                                        'mytransactions'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -378,7 +377,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Wallet",
+                                        'wallet'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -413,7 +412,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "FAQ",
+                                        'faq'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -425,7 +424,6 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           InkWell(
                             onTap: () {
                               drawer_function(7,context);
-
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
                             child: Container(
@@ -448,7 +446,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Terms & Conditions",
+                                        'termsconditions'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -483,7 +481,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Contact Us",
+                                        'contactus'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -495,7 +493,6 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           InkWell(
                             onTap: () {
                               drawer_function(9,context);
-
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
                             child: Container(
@@ -518,7 +515,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Share",
+                                        'share'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -555,7 +552,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        "Logout",
+                                        'logout'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),

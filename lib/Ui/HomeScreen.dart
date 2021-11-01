@@ -230,7 +230,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.projectfunding.toUpperCase(),
+                                          'projectfunding'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -288,7 +288,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.donations.toUpperCase(),
+                                          'donations'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -332,7 +332,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.events.toUpperCase(),
+                                          'events'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -390,7 +390,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.tickets.toUpperCase(),
+                                          'tickets'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -434,7 +434,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          StringConstant.notification.toUpperCase(),
+                                          'notification'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -456,13 +456,13 @@ class HomeScreenState extends State<HomeScreen>{
                     ],
                   ),
                 )
-
             )
           ],
         ),
       ),
     );
   }
+
   Widget circleBar(bool isActive) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
