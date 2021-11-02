@@ -261,7 +261,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                   height: 120,
                                   child: ClipOval(
                                       child: Image.asset(
-                                    "assets/images/Group3.png",
+                                    "assets/images/person.png",
                                     height: 120,
                                     width: 120,
                                   )),

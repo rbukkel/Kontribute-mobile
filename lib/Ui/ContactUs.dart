@@ -239,7 +239,7 @@ class ContactUsState extends State<ContactUs>{
                                     validator: (val) {
                                       if (val.length == 0)
                                         return "Please enter mobile number";
-                                      else if (val.length <= 10)
+                                      else if (val.length < 10)
                                         return "Your mobile number should be 10 char long";
                                       else
                                         return null;

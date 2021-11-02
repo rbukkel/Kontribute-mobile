@@ -428,7 +428,6 @@ class HomeScreenState extends State<HomeScreen>{
                                         child: Image.asset("assets/images/invitation.png", height: SizeConfig.blockSizeVertical *10, width: SizeConfig.blockSizeHorizontal * 15,
                                         ),
                                       ),
-
                                       Container(
                                         padding: EdgeInsets.all(2),
                                         margin: EdgeInsets.only(bottom: 5),
@@ -452,7 +451,6 @@ class HomeScreenState extends State<HomeScreen>{
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 )

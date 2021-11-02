@@ -3,6 +3,13 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Pojo/MyTransactionsPojo.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class mytranscation extends StatefulWidget {
   @override
@@ -11,9 +18,108 @@ class mytranscation extends StatefulWidget {
 
 class mytranscationState extends State<mytranscation> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String tabvalue ="Paid";
+  String tabvalue = "Paid";
   bool paid = true;
   bool receive = false;
+  bool internet = false;
+  String val;
+  String userid;
+  MyTransactionsPojo listing;
+  var transactions_received;
+  var paid_transaction;
+  bool resultvalue = true;
+  bool resultpaidvalue = true;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      userid = val;
+      print("Login userid: " + userid.toString());
+    });
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getdata(userid);
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+  }
+
+  void getdata(String user_id) async {
+    setState(() {
+      transactions_received = null;
+    });
+    Map data = {
+      'user_id': user_id.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+        await http.post(Network.BaseApi + Network.transactions, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new MyTransactionsPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if (listing.transactionsReceived.isEmpty) {
+              resultvalue = false;
+            } else {
+              resultvalue = true;
+              print("SSSS");
+              transactions_received = listing.transactionsReceived;
+            }
+
+            if (listing.paidTransaction.isEmpty) {
+              resultpaidvalue = false;
+            } else {
+              resultpaidvalue = true;
+              print("SSSS");
+              paid_transaction = listing.paidTransaction;
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,28 +196,26 @@ class mytranscationState extends State<mytranscation> {
                 ],
               ),
             ),
-
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: ()
-                  {
+                  onTap: () {
                     setState(() {
-                      tabvalue ="Paid";
+                      tabvalue = "Paid";
                       paid = true;
                       receive = false;
                     });
 
-                    print("Value: "+tabvalue);
+                    print("Value: " + tabvalue);
                   },
-                  child:  Container(
+                  child: Container(
                     margin: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal * 6,
                         top: SizeConfig.blockSizeVertical * 2),
                     child: Card(
-                        color: paid?AppColors.light_grey:AppColors.whiteColor,
+                        color:
+                            paid ? AppColors.light_grey : AppColors.whiteColor,
                         child: Container(
                           alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 40,
@@ -121,501 +225,396 @@ class mytranscationState extends State<mytranscation> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: ()
-                  {
+                  onTap: () {
                     setState(() {
-                      tabvalue ="Received";
+                      tabvalue = "Received";
                       paid = false;
                       receive = true;
-                      
                     });
 
-                    print("Value: "+tabvalue);
+                    print("Value: " + tabvalue);
                   },
                   child: Container(
                       margin: EdgeInsets.only(
                           right: SizeConfig.blockSizeHorizontal * 6,
                           top: SizeConfig.blockSizeVertical * 2),
                       child: Card(
-                          color: receive?AppColors.light_grey:AppColors.whiteColor,
+                          color: receive
+                              ? AppColors.light_grey
+                              : AppColors.whiteColor,
                           child: Container(
                             alignment: Alignment.center,
                             width: SizeConfig.blockSizeHorizontal * 40,
                             height: SizeConfig.blockSizeVertical * 5,
                             child: Text(StringConstant.amountreceive),
-                          ))) ,
+                          ))),
                 ),
               ],
             ),
-
-            tabvalue=="Received"?tabReceivedlist():tabPaidlist()
-
+            tabvalue == "Received" ?  transactions_received != null
+                ? Expanded(
+              child: ListView.builder(
+                  itemCount: transactions_received.length == null
+                      ? 0
+                      : transactions_received.length,
+                  itemBuilder: (BuildContext context, int idex) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Colors.grey.withOpacity(0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: InkWell(
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.only(
+                                  bottom: SizeConfig.blockSizeVertical * 2),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *
+                                                        1),
+                                                width:
+                                                SizeConfig.blockSizeHorizontal * 68,
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig.blockSizeHorizontal *
+                                                      1,
+                                                ),
+                                                child: Text(
+                                                  listing.transactionsReceived.elementAt(idex).paidfor,
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *
+                                                        1),
+                                                alignment: Alignment.topRight,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig.blockSizeHorizontal *
+                                                      1,
+                                                  right:
+                                                  SizeConfig.blockSizeHorizontal *
+                                                      3,
+                                                ),
+                                                child: Text(
+                                                  "Amount Received",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.black,
+                                                      fontSize: 8,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *
+                                                        1),
+                                                width:
+                                                SizeConfig.blockSizeHorizontal * 68,
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig.blockSizeHorizontal *
+                                                      1,
+                                                ),
+                                                child: Text(
+                                                  listing.transactionsReceived.elementAt(idex).paiddate,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 8,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                width:
+                                                SizeConfig.blockSizeHorizontal * 22,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *
+                                                        1),
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.only(
+                                                    right:
+                                                    SizeConfig.blockSizeHorizontal *
+                                                        2,
+                                                    left:
+                                                    SizeConfig.blockSizeHorizontal *
+                                                        2,
+                                                    bottom:
+                                                    SizeConfig.blockSizeHorizontal *
+                                                        1,
+                                                    top:
+                                                    SizeConfig.blockSizeHorizontal *
+                                                        1),
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.black,
+                                                    borderRadius:
+                                                    BorderRadius.circular(20),
+                                                    border: Border.all(width: 1.0)),
+                                                child: Text(
+                                                  "\$"+listing.transactionsReceived.elementAt(idex).amount.toString(),
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {},
+                          )),
+                    );
+                  }),
+            ) : Container(
+              margin: EdgeInsets.only(top: 150),
+              alignment: Alignment.center,
+              child: resultvalue == true
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : Center(
+                child: Image.asset("assets/images/empty.png",
+                    height: SizeConfig.blockSizeVertical * 50,
+                    width: SizeConfig.blockSizeVertical * 50),
+              ),
+            ) :   paid_transaction != null
+                ? Expanded(
+                child: ListView.builder(
+                    itemCount: paid_transaction.length == null
+                        ? 0
+                        : paid_transaction.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.only(
+                            bottom: SizeConfig.blockSizeVertical * 2),
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Colors.grey.withOpacity(0.2),
+                                width: 1,
+                              ),
+                            ),
+                            child: InkWell(
+                              child: Container(
+                                padding: EdgeInsets.all(5.0),
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical * 2),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1),
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      68,
+                                                  alignment: Alignment.topLeft,
+                                                  padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                  ),
+                                                  child: Text(
+                                                    listing.paidTransaction.elementAt(index).paidfor,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1),
+                                                  alignment: Alignment.topRight,
+                                                  padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        3,
+                                                  ),
+                                                  child: Text(
+                                                    "Amount Received",
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1),
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      68,
+                                                  alignment: Alignment.topLeft,
+                                                  padding: EdgeInsets.only(
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                  ),
+                                                  child: Text(
+                                                    listing.paidTransaction.elementAt(index).paiddate,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      22,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          1),
+                                                  alignment: Alignment.center,
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2,
+                                                      bottom: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      top: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors.black,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          20),
+                                                      border: Border.all(
+                                                          width: 1.0)),
+                                                  child: Text(
+                                                    "\$"+listing.paidTransaction.elementAt(index).amount.toString(),
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              onTap: () {},
+                            )),
+                      );
+                    }))
+                : Container(
+              margin: EdgeInsets.only(top: 150),
+              alignment: Alignment.center,
+              child: resultvalue == true
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : Center(
+                child: Image.asset("assets/images/empty.png",
+                    height: SizeConfig.blockSizeVertical * 50,
+                    width: SizeConfig.blockSizeVertical * 50),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  tabPaidlist() {
-    return Expanded(
-      child:
-      ListView.builder(
-          itemCount: 8,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Colors.grey.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: InkWell(
-                    child: Container(
-                      padding: EdgeInsets.all(5.0),
-                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                      child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                height:
-                                SizeConfig.blockSizeVertical *
-                                    12,
-                                width:
-                                SizeConfig.blockSizeVertical *
-                                    12,
-                                alignment: Alignment.center,
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical *1,
-                                    bottom: SizeConfig.blockSizeVertical *1,
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1,
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        2),
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image:new AssetImage("assets/images/userProfile.png"),
-                                      fit: BoxFit.fill,)),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        width: SizeConfig.blockSizeHorizontal *52,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                        ),
-                                        child: Text(
-                                          "Sam Miller",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Poppins-Regular'),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topRight,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3,
-                                        ),
-                                        child: Text(
-                                          "01-01-2020",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: AppColors.black,
-                                              fontSize:8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      )
-
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        width: SizeConfig.blockSizeHorizontal *50,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                        ),
-                                        child: Text(
-                                          "Project Name",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        alignment: Alignment.topRight,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3,
-                                        ),
-                                        child: Text(
-                                          "Amount Paid",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: AppColors.black,
-                                              fontSize:8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      )
-
-                                    ],
-                                  ),
-
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        width: SizeConfig.blockSizeHorizontal *47,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                        ),
-                                        child: Text(
-                                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize: 8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: SizeConfig.blockSizeHorizontal *20,
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2,
-                                            bottom: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            top: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.black,
-                                            borderRadius: BorderRadius.circular(20),
-                                            border: Border.all(width: 1.0)
-                                        ),
-                                        child: Text(
-                                          "\$200",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      )
-
-                                    ],
-                                  ),
-
-
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-
-                    },
-                  )
-              ),
-            );
-          }),
-    );
-  }
-  tabReceivedlist() {
-    return Expanded(
-      child:
-      ListView.builder(
-          itemCount: 8,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Colors.grey.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: InkWell(
-                    child: Container(
-                      padding: EdgeInsets.all(5.0),
-                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                      child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                height:
-                                SizeConfig.blockSizeVertical *
-                                    12,
-                                width:
-                                SizeConfig.blockSizeVertical *
-                                    12,
-                                alignment: Alignment.center,
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical *1,
-                                    bottom: SizeConfig.blockSizeVertical *1,
-                                    right: SizeConfig
-                                        .blockSizeHorizontal *
-                                        1,
-                                    left: SizeConfig
-                                        .blockSizeHorizontal *
-                                        2),
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image:new AssetImage("assets/images/userProfile.png"),
-                                      fit: BoxFit.fill,)),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        width: SizeConfig.blockSizeHorizontal *52,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                        ),
-                                        child: Text(
-                                          "Sam Miller",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Poppins-Regular'),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topRight,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3,
-                                        ),
-                                        child: Text(
-                                          "01-01-2020",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: AppColors.black,
-                                              fontSize:8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      )
-
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        width: SizeConfig.blockSizeHorizontal *45,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                        ),
-                                        child: Text(
-                                          "Project Name",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        alignment: Alignment.topRight,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3,
-                                        ),
-                                        child: Text(
-                                          "Amount Received",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: AppColors.black,
-                                              fontSize:8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      )
-
-                                    ],
-                                  ),
-
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        width: SizeConfig.blockSizeHorizontal *47,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                        ),
-                                        child: Text(
-                                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize: 8,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: SizeConfig.blockSizeHorizontal *20,
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2,
-                                            bottom: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            top: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.black,
-                                            borderRadius: BorderRadius.circular(20),
-                                            border: Border.all(width: 1.0)
-                                        ),
-                                        child: Text(
-                                          "\$200",
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      )
-
-                                    ],
-                                  ),
-
-
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-
-                    },
-                  )
-              ),
-            );
-          }),
-    );
-  }
 }

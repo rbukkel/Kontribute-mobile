@@ -489,7 +489,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                       children: [
                         Stack(
                           children: [
-                            GestureDetector(
+                         /*   GestureDetector(
                               onTap: () {
                                 showAlert();
                               },
@@ -498,7 +498,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                 width: 120,
                                 height: 120,
-                                child: ClipOval(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill,):Image.asset("assets/images/Group3.png",height: 120,width: 120,),),
+                                child: ClipOval(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill,):Image.asset("assets/images/person.png",height: 120,width: 120,),),
                               ):
                               loginResponse.resultPush.facebookId == ""?
                               Container(
@@ -528,9 +528,99 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                   new AlwaysStoppedAnimation<Color>(Colors.grey),
                                 ),
                               ),
+                            ),*/
+
+                            imageUrl==false?
+                            Container(
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                              width: 120,
+                              height: 120,
+                              child: ClipOval(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill,):Image.asset("assets/images/person.png",height: 120,width: 120,),),
+                            )
+                           :
+                            loginResponse.resultPush.facebookId == ""?
+                            Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                width: 80.0,
+                                height: 80.0,
+                                child:
+                                CachedNetworkImage(
+                                  fit: BoxFit.fill,
+                                  imageUrl: Network.BaseApiprofile+image,
+                                  imageBuilder:
+                                      (context, imageProvider) =>
+                                      Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                )
+                            ):
+                            Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                width: 80.0,
+                                height: 80.0,
+                                child:
+                                CachedNetworkImage(
+                                  fit: BoxFit.fill,
+                                  imageUrl: image,
+                                  imageBuilder:
+                                      (context, imageProvider) =>
+                                      Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                )
                             ),
                           ],
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal *40,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                showAlert();
+                              },
+                              child: Container(
+                                margin:EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 8),
+                                  width: SizeConfig.blockSizeHorizontal * 8,
+                                  height: SizeConfig.blockSizeVertical * 8,
+                                  decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      shape: BoxShape.circle
+                                  ),
+                                  child:Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/edit.png",
+                                      color: AppColors.whiteColor,
+                                      width: 15,
+                                      height: 15,
+                                    ),
+                                  )
+                              ),
+                            ),
+                          ],
+                        ),
+
                         Divider(
                           thickness: 1,
                           color: Colors.black12,
