@@ -3,6 +3,7 @@ import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'AppColors.dart';
 
@@ -272,7 +273,7 @@ bottombar(context) {
                 builder: (BuildContext context) => HomeScreen()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *15,
+              width: SizeConfig.blockSizeHorizontal *13,
               margin:
                   EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
@@ -298,24 +299,25 @@ bottombar(context) {
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => WalletScreen()));
+                builder: (BuildContext context) => mytranscation()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *15,
+              width: SizeConfig.blockSizeHorizontal *24,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                "assets/images/walleticon.png",
+                "assets/images/nav_mytranscaton.png",
                 height: 20,
                 width: 20,
+                color: AppColors.grey,
               ),
 
               Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                 child: Text(
-                  "Wallet",
+                  "My Transactions",
                   style: TextStyle(color: AppColors.greyColor, fontSize: 10),
                 ),
               )

@@ -151,17 +151,20 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     ));
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          image: new DecorationImage(
-            image: new AssetImage("assets/images/nav_bg.png"),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: SingleChildScrollView(
-          child:  Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
+        height: double.infinity,
+            color: AppColors.themecolor,
+            child:  Container(
+            decoration: BoxDecoration(
+              image: new DecorationImage(
+                image: new AssetImage("assets/images/nav_bg.png"),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: SingleChildScrollView(
+              child:  Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
 
                   Stack(
                     children: [
@@ -351,7 +354,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                               ),
                             ),
                           ),
-                          InkWell(
+                          /*    InkWell(
                             onTap: () {
                               drawer_function(5,context);
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
@@ -385,10 +388,10 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                 ],
                               ),
                             ),
-                          ),
+                          ),*/
                           InkWell(
                             onTap: () {
-                              drawer_function(6,context);
+                              drawer_function(5,context);
 
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
@@ -423,7 +426,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           ),
                           InkWell(
                             onTap: () {
-                              drawer_function(7,context);
+                              drawer_function(6,context);
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
                             child: Container(
@@ -457,7 +460,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           ),
                           InkWell(
                             onTap: () {
-                              drawer_function(8,context);
+                              drawer_function(7,context);
 
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
@@ -492,7 +495,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           ),
                           InkWell(
                             onTap: () {
-                              drawer_function(9,context);
+                              drawer_function(8,context);
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
                             child: Container(
@@ -526,7 +529,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           ),
                           InkWell(
                             onTap: () {
-                              drawer_function(10,context);
+                              drawer_function(9,context);
 
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
@@ -566,10 +569,11 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                     ],
                   )
 
-            ],
-          ),
-        ),
-      ),
+                ],
+              ),
+            ),
+          ),)
+
     );
   }
 
@@ -631,16 +635,16 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 5:
+     /* case 5:
         Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen(),
           ),
         );
-        break;
-      case 6:
+        break;*/
+      case 5:
         Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),),
         );
         break;
-      case 7:
+      case 6:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -648,7 +652,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-        case 8:
+        case 7:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -656,10 +660,10 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
           ),
         );
         break;
-      case 9:
+      case 8:
         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
-      case 10:
+      case 9:
         _showDialog();
         break;
     }

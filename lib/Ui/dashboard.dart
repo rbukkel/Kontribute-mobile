@@ -6,6 +6,7 @@ import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 
 class dashboard extends StatefulWidget{
@@ -31,7 +32,7 @@ class dashboardState extends State<dashboard>{
           HomeScreen();
         }else if(index==1)
       {
-        WalletScreen();
+        mytranscation();
       }else if(index==2)
       {
         NotificationScreen();

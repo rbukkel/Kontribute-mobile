@@ -4,6 +4,7 @@ import 'package:kontribute/Ui/AddScreen.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
@@ -140,7 +141,7 @@ class SettingScreenState extends State<SettingScreen>{
             onTap: () {
               Future.delayed(const Duration(milliseconds: 500), () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => WalletScreen()));
+                    builder: (BuildContext context) => mytranscation()));
               });
             },
             child: Container(
@@ -249,7 +250,7 @@ class SettingScreenState extends State<SettingScreen>{
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }else if(index==1)
       {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => mytranscation()));
       }else if(index==2)
       {
         Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));

@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),
-      locale: Locale('ar','SA'),
+      locale: Locale('en','US'),
       home: Container(
         height: double.infinity,
         width: double.infinity,

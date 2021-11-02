@@ -12,7 +12,7 @@ class selectlangauge extends StatefulWidget {
 
 class selectlangaugeState extends State<selectlangauge> {
   var languageselect = 1;
-  String lang;
+  String lang="English";
 
   List<RadioModel> sampleData = new List<RadioModel>();
 

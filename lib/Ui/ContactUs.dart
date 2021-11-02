@@ -1,8 +1,15 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Pojo/ContactusPojo.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -15,19 +22,19 @@ class ContactUs extends StatefulWidget{
 class ContactUsState extends State<ContactUs>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-
+  bool isLoading = false;
   final NameFocus = FocusNode();
   final EmailFocus = FocusNode();
   final MobileFocus = FocusNode();
   final SubjectFocus = FocusNode();
   final DescriptionFocus = FocusNode();
-
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController descriptionController = new TextEditingController();
-
+  ContactusPojo contactpojo;
   String _email,_name,_mobile,_subject,_description;
   bool showvalue = false;
   @override
@@ -394,6 +401,32 @@ class ContactUsState extends State<ContactUs>{
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    if (_formKey.currentState.validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      Internet_check().check().then((intenet) {
+                                        if (intenet != null && intenet) {
+                                          contactus(
+                                              emailController.text,
+                                              nameController.text,
+                                              mobileController.text,
+                                              subjectController.text,
+                                              descriptionController.text,
+                                          );
+                                        } else {
+                                          Fluttertoast.showToast(
+                                            msg: "No Internet Connection",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                          );
+                                        }
+                                        // No-Internet Case
+                                      });
+                                    }
+
+
                                    /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
@@ -429,14 +462,10 @@ class ContactUsState extends State<ContactUs>{
                                         Container(
                                           child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
                                         )
-
                                       ],
                                     )
-
-
                                   ),
                                 )
-
                               ],
                             ),
                           ),
@@ -453,5 +482,78 @@ class ContactUsState extends State<ContactUs>{
       ),
     );
   }
+
+
+
+  contactus(String emal,String name,String phone,String sub,String message) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      "email":emal,
+      "mobile":name,
+      "name":phone,
+      "subject":sub,
+      "message":message,
+    };
+
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.contactus, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        contactpojo = new ContactusPojo.fromJson(jsonResponse);
+        if (jsonResponse != null) {
+          setState(() {
+            isLoading = false;
+          });
+
+          Fluttertoast.showToast(
+            msg: contactpojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeScreen()),
+                  (route) => false);
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Navigator.of(context).pop();
+            //   isLoading = false;
+          });
+          Fluttertoast.showToast(
+            msg: contactpojo.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+        }
+      }
+    }
+    else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
 }
