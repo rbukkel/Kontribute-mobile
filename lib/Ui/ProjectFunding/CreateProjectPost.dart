@@ -1809,6 +1809,31 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     );
   }
 
+  // add remove button
+  Widget _addRemoveButton(bool add, int index) {
+    return InkWell(
+      onTap: () {
+        if (add) {
+          videoList.insert(0, null);
+        } else
+          videoList.removeAt(index);
+        setState(() {});
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: (add) ? Colors.green : Colors.red,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(
+          (add) ? Icons.add : Icons.remove,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
   // get firends text-fields
   List<Widget> _getVideoLink() {
     List<Widget> friendsTextFields = [];
@@ -2359,33 +2384,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     print("CatFollowName: "+catFollowingname);
   }
 
-
-  // add remove button
-  Widget _addRemoveButton(bool add, int index) {
-    return InkWell(
-      onTap: () {
-        if (add) {
-          // add new text-fields at the top of all friends textfields
-          videoList.insert(0, null);
-        } else
-          videoList.removeAt(index);
-        setState(() {});
-      },
-      child: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          color: (add) ? Colors.green : Colors.red,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Icon(
-          (add) ? Icons.add : Icons.remove,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-
   void createproject(
       BuildContext context,
       String projectname,
@@ -2541,7 +2539,6 @@ class _FriendTextFieldsState extends State<FriendTextFields>
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _nameController.text = CreateProjectPostState.videoList[widget.index] ?? '';
     });
-
     return TextFormField(
       controller: _nameController,
       onChanged: (v) => CreateProjectPostState.videoList[widget.index] = v,
