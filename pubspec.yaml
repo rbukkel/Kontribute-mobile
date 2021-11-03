@@ -36,6 +36,7 @@ dependencies:
   image_picker: ^0.6.7+4
   connectivity: ^0.4.2
   percent_indicator: ^2.1.7+2
+  dropdown_search: ^0.4.9
   gradient_widgets: ^0.5.2
   flappy_search_bar: ^1.7.2
   flutter_speed_dial: ^1.0.9

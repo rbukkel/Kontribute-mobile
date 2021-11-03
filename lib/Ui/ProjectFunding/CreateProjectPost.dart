@@ -113,7 +113,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     "Invite",
     "Others"
   ];
-  static List<String> videoList = [null];
+  static List<String> videoList = [''];
   var file1;
   var documentPath;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
@@ -1807,11 +1807,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             ],
           )),
     );
-  }
+}
 
   // get firends text-fields
   List<Widget> _getVideoLink() {
-    List<Widget> friendsTextFields = [];
+    List<Widget> friendsTextFields = new List<Widget>();
+    friendsTextFields.add(Container(
+      height: SizeConfig.blockSizeVertical * 10,
+      width: SizeConfig.blockSizeHorizontal * 70,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          children: [
+            Expanded(child: FriendTextFields(0)),
+            SizedBox(width: 16),
+            _addRemoveButton(0 == videoList.length - 1, 0),
+          ],
+        ),
+      ),
+    ));
         for (int i = 0; i < videoList.length; i++) {
           friendsTextFields.add(Container(
             height: SizeConfig.blockSizeVertical * 10,
@@ -1821,10 +1835,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               child: Row(
                 children: [
                   Expanded(child: FriendTextFields(i)),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  // we need add button at last friends row
+                  SizedBox(width: 16),
                   _addRemoveButton(i == videoList.length - 1, i),
                 ],
               ),
