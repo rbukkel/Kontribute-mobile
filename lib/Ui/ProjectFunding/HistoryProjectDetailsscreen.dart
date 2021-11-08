@@ -1207,6 +1207,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                             color: Colors.black12,
                           ),
                         ),
+                        paymentdetails_length!=null?
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1274,7 +1275,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                               ),
                             ),*/
                           ],
-                        ),
+                        ):Container(),
                         paymentdetails_length!=null?
                         Container(
                           child: ListView.builder(

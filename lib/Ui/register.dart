@@ -57,7 +57,7 @@ class registerState extends State<register> {
   String countryname;
   String nationalityname;
   List<dynamic> nationalityTypes = List();
-  List<String> currentcountryTypes = List();
+  List<dynamic> currentcountryTypes = List();
   var currentSelectedValue;
   bool showvalue = false;
   var currentSelectedCountry;
@@ -117,7 +117,7 @@ class registerState extends State<register> {
     var res =
         await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
     final data = json.decode(res.body);
-    List<String> data1 = data["result_push"];
+     List<dynamic> data1 = data["result_push"];
 
     setState(() {
       currentcountryTypes = data1;
@@ -775,120 +775,80 @@ class registerState extends State<register> {
                           },
                         ),
                       ),
-                      // Container(
-                      //   height: SizeConfig.blockSizeVertical * 7.5,
-                      //   width: SizeConfig.blockSizeHorizontal * 90,
-                      //   margin: EdgeInsets.only(
-                      //     top: SizeConfig.blockSizeVertical * 5,
-                      //   ),
-                      //   padding: EdgeInsets.only(
-                      //     left: SizeConfig.blockSizeVertical * 1,
-                      //     right: SizeConfig.blockSizeVertical * 1,
-                      //   ),
-                      //   alignment: Alignment.center,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(30),
-                      //     border: Border.all(
-                      //       color: Colors.white,
-                      //       style: BorderStyle.solid,
-                      //       width: 1.0,
-                      //     ),
-                      //     color: Colors.transparent,
-                      //   ),
-                      //   child:
-                      //   FormField<dynamic>(
-                      //     builder: (FormFieldState<dynamic> state) {
-                      //       return InputDecorator(
-                      //         decoration:
-                      //             InputDecoration.collapsed(hintText: ''),
-                      //         child: DropdownButtonHideUnderline(
-                      //           child: DropdownButton<dynamic>(
-                      //             hint: Text(
-                      //               "please select country",
-                      //               maxLines: 2,
-                      //               style: TextStyle(
-                      //                   letterSpacing: 1.0,
-                      //                   fontWeight: FontWeight.normal,
-                      //                   fontFamily: 'Poppins-Regular',
-                      //                   fontSize: 10,
-                      //                   color: Colors.grey),
-                      //             ),
-                      //             dropdownColor: Colors.blueGrey,
-                      //             value: currentSelectedCountry,
-                      //             isDense: true,
-                      //             onChanged: (newValue) {
-                      //               setState(() {
-                      //                 currentSelectedCountry = newValue;
-                      //                 currentcountryid = int.parse(newValue["num_code"]);
-                      //                 countryname = newValue["country"];
-                      //                 print("Country: "+countryname);
-                      //               });
-                      //             },
-                      //             items: currentcountryTypes.map((dynamic value) {
-                      //               return DropdownMenuItem<dynamic>(
-                      //                 value: value,
-                      //                 child: Text(
-                      //                   value["country"],
-                      //                   maxLines: 2,
-                      //                   textAlign: TextAlign.center,
-                      //                   style: TextStyle(
-                      //                       letterSpacing: 1.0,
-                      //                       fontWeight: FontWeight.normal,
-                      //                       fontFamily: 'Poppins-Regular',
-                      //                       fontSize: 9,
-                      //                       color: Colors.white),
-                      //                 ),
-                      //               );
-                      //             }).toList(),
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
-                      DropdownSearch<String>(
-                        //mode of dropdown
-                        mode: Mode.DIALOG,
-                        //to show search box
-                        showSearchBox: true,
-                        showSelectedItem: true,
-                        //list of dropdown items
-                        items: currentcountryTypes.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value["country"],
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular',
-                                  fontSize: 9,
-                                  color: Colors.white),
-                            ),
-                          );
-                        }).toList(),
-                        label: "Country",
-                        onChanged: (newValue) {
-                          setState(() {
-                            print("Country: "+newValue);
-                          });
-                        },
-                        //show selected item
+                      Container(
+                        height: SizeConfig.blockSizeVertical * 7.5,
+                        width: SizeConfig.blockSizeHorizontal * 90,
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 5,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeVertical * 1,
+                          right: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: Colors.white,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        child:
+                        FormField<dynamic>(
+                          builder: (FormFieldState<dynamic> state) {
+                            return InputDecorator(
+                              decoration:
+                                  InputDecoration.collapsed(hintText: ''),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<dynamic>(
+                                  hint: Text(
+                                    "please select country",
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 10,
+                                        color: Colors.grey),
+                                  ),
+                                  dropdownColor: Colors.blueGrey,
+                                  value: currentSelectedCountry,
+                                  isDense: true,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      currentSelectedCountry = newValue;
+                                      currentcountryid = int.parse(newValue["num_code"]);
+                                      countryname = newValue["country"];
+                                      print("Country: "+countryname);
+                                    });
+                                  },
+                                  items: currentcountryTypes.map((dynamic value) {
+                                    return DropdownMenuItem<dynamic>(
+                                      value: value,
+                                      child: Text(
+                                        value["country"],
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 9,
+                                            color: Colors.white),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    /*  FutureBuilder<List>(
-                        future: getServerData(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return getSearchableDropdown(snapshot.data);
-                          }
-                          else if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
-                          }
-                          return CircularProgressIndicator();
-                        },
-                      ),*/
+
+
+
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 90,
                         margin: EdgeInsets.only(
@@ -1018,7 +978,7 @@ class registerState extends State<register> {
     );
   }
 
-  Widget getSearchableDropdown(List<String> listData) {
+  Widget getSearchableDropdown(List<dynamic> listData) {
     List<DropdownMenuItem> items = [];
     for(int i=0; i < listData.length; i++) {
       items.add(new DropdownMenuItem(
@@ -1059,17 +1019,18 @@ class registerState extends State<register> {
       print(response.body);
       final data = json.decode(response.body);
       List<dynamic> responseBody = data["result_push"];
-      List<String> countries = new List();
+      List<dynamic> countries = new List();
       for(int i=0; i < responseBody.length; i++) {
         countries.add(responseBody[i]['country']);
       }
-      return countries;
+      return responseBody;
     }
     else {
       print("error from server : $response");
       throw Exception('Failed to load post');
     }
   }
+
 
   void register(
       String email,

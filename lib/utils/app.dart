@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
@@ -352,8 +353,7 @@ bottombar(context) {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => SettingScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ContactUs()));
           },
           child: Container(
               width: SizeConfig.blockSizeHorizontal *15,
@@ -364,14 +364,15 @@ bottombar(context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/images/settingicon.png",
+                    "assets/images/nav_contactus.png",
                     height: 20,
                     width: 20,
+                    color: AppColors.grey,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                     child: Text(
-                      "Setting",
+                      "Contact Us",
                       style: TextStyle(color: AppColors.greyColor, fontSize: 10),
                     ),
                   )

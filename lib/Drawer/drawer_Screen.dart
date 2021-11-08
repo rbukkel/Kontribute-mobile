@@ -626,7 +626,6 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
         case 3:
-      //  Navigator.push(context, MaterialPageRoute(builder: (context) => mynetwork(),),);
         Navigator.push(context, MaterialPageRoute(builder: (context) => Connections(),),);
         break;
 

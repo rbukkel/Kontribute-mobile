@@ -237,22 +237,23 @@ class _myinvitationState extends State<myinvitation> {
                                         // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                       },
                                       child: Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 9,
-                                        width: SizeConfig.blockSizeVertical * 9,
+                                        height: SizeConfig
+                                            .blockSizeVertical *
+                                            10,
+                                        width: SizeConfig
+                                            .blockSizeVertical *
+                                            10,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
-                                            bottom:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                            top: SizeConfig.blockSizeVertical *
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
                                                 1,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    5),
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                5),
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
@@ -262,32 +263,34 @@ class _myinvitationState extends State<myinvitation> {
                                                 fit: BoxFit.fill)),
                                       ),
                                     ):
+
                                     GestureDetector(
                                       onTap: () {
                                         // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                       },
                                       child: Container(
-                                        height:
-                                        SizeConfig.blockSizeVertical * 9,
-                                        width: SizeConfig.blockSizeVertical * 9,
+                                        height: SizeConfig
+                                            .blockSizeVertical *
+                                            10,
+                                        width: SizeConfig
+                                            .blockSizeVertical *
+                                            10,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
-                                            bottom:
-                                            SizeConfig.blockSizeVertical *
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
                                                 1,
-                                            top: SizeConfig.blockSizeVertical *
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
                                                 1,
-                                            right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1,
-                                            left:
-                                            SizeConfig.blockSizeHorizontal *
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
                                                 5),
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                  Network.BaseApigift+requestpojo.result.elementAt(index).profilePic,
+                                                  Network.BaseApiprofile+requestpojo.result.elementAt(index).profilePic,
                                                 ),
                                                 fit: BoxFit.fill)),
                                       ),
@@ -303,7 +306,7 @@ class _myinvitationState extends State<myinvitation> {
                                             Container(
                                               width: SizeConfig
                                                       .blockSizeHorizontal *
-                                                  45,
+                                                  43,
                                               padding: EdgeInsets.only(
                                                 top: SizeConfig
                                                         .blockSizeVertical *

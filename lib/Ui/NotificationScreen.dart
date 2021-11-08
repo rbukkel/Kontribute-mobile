@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/Notificationpojo.dart';
 import 'package:kontribute/Ui/AddScreen.dart';
+import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
@@ -73,6 +74,7 @@ class NotificationScreenState extends State<NotificationScreen> {
       });
     });
   }
+
   /*  super.initState();
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
@@ -1127,7 +1129,7 @@ class NotificationScreenState extends State<NotificationScreen> {
 
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 13,
                 margin:
                     EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                 child: Column(
@@ -1160,21 +1162,22 @@ class NotificationScreenState extends State<NotificationScreen> {
 
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal *24,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/images/walleticon.png",
+                      "assets/images/nav_mytranscaton.png",
                       height: 20,
                       width: 20,
+                      color: AppColors.grey,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Wallet",
+                        "My Transactions",
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -1218,7 +1221,7 @@ class NotificationScreenState extends State<NotificationScreen> {
             onTap: () {
     Future.delayed(const Duration(milliseconds: 500), () {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => SettingScreen()));
+          builder: (BuildContext context) => ContactUs()));
     });
             },
             child: Container(
@@ -1230,15 +1233,16 @@ class NotificationScreenState extends State<NotificationScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/images/settingicon.png",
+                      "assets/images/nav_contactus.png",
                       height: 20,
                       width: 20,
+                      color: AppColors.greyColor,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Setting",
+                        "Contact Us",
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -1354,14 +1358,15 @@ class NotificationScreenState extends State<NotificationScreen> {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null) {
           print(" if Item Deleted Successfully");
-          setState(() {
-            getdata(userid, pageNumber);
-          });
+
           Fluttertoast.showToast(
               msg: jsonDecode(deleteval)["message"],
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
+          setState(() {
+            getdata(userid, pageNumber);
+          });
         } else {
           print("if Item is not Deleted Successfully");
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Ui/ContactUs.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
+import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -614,7 +617,147 @@ class mytranscationState extends State<mytranscation> {
           ],
         ),
       ),
+      bottomNavigationBar: bottombar(context),
     );
   }
+  bottombar(context) {
+    return Container(
+      height: SizeConfig.blockSizeVertical * 8,
+      color: AppColors.whiteColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => HomeScreen()));
+              });
 
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 13,
+                margin:
+                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/homeicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "Home",
+                        style:
+                        TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => mytranscation()));
+              });
+
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal *24,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/nav_mytranscaton.png",
+                      height: 20,
+                      width: 20,
+                      color: AppColors.selectedcolor,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "My Transactions",
+                        style:
+                        TextStyle(color: AppColors.selectedcolor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => NotificationScreen()));
+              });
+
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 15,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/notificationicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "Notification",
+                        style: TextStyle(
+                            color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => ContactUs()));
+              });
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 15,
+                margin:
+                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/nav_contactus.png",
+                      height: 20,
+                      width: 20,
+                      color: AppColors.greyColor,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "Contact Us",
+                        style:
+                        TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          )
+        ],
+      ),
+    );
+  }
 }

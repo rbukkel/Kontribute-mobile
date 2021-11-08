@@ -7,9 +7,11 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/FollowRequestAcceptPojo.dart';
 import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:kontribute/Pojo/follow_Request_updatePojo.dart';
+import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/myinvitation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,11 +65,7 @@ class _mynetworkState extends State<mynetwork> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         requestpojo = new FollowRequestAcceptPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -297,7 +295,7 @@ class _mynetworkState extends State<mynetwork> {
                             Container(
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 2),
+                                  top: SizeConfig.blockSizeVertical * 4),
                               child: Text(
                                 "Invitations",
                                 style: TextStyle(
@@ -311,7 +309,7 @@ class _mynetworkState extends State<mynetwork> {
                             Container(
                               margin: EdgeInsets.only(
                                   right: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 2),
+                                  top: SizeConfig.blockSizeVertical * 4),
                               child: Image.asset(
                                 "assets/images/next.png",
                                 color: AppColors.black,
@@ -323,7 +321,12 @@ class _mynetworkState extends State<mynetwork> {
                         ):Container(),
                         storelist_length != null ?
                         Container(
-                          child: ListView.builder(
+                          child:
+                          MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
+                            child:
+                          ListView.builder(
                               itemCount:  storelist_length.length == null
                                   ? 0
                                   : storelist_length.length,
@@ -336,7 +339,10 @@ class _mynetworkState extends State<mynetwork> {
                                     requestpojo.result.elementAt(index).facebookId!=null?
                                     GestureDetector(
                                       onTap: () {
-                                        // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                        callNext(
+                                            viewdetail_profile(
+                                                data: requestpojo.result.elementAt(index).senderId.toString()
+                                            ), context);
                                       },
                                       child: Container(
                                         height:
@@ -364,10 +370,13 @@ class _mynetworkState extends State<mynetwork> {
                                                 fit: BoxFit.fill)),
                                       ),
                                     ):
-                                    GestureDetector(
+                                    requestpojo.result.elementAt(index).profilePic!=null?GestureDetector(
                                       onTap: ()
                                       {
-                                        // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                        callNext(
+                                            viewdetail_profile(
+                                                data: requestpojo.result.elementAt(index).senderId.toString()
+                                            ), context);
                                       },
                                       child: Container(
                                         height:
@@ -394,7 +403,40 @@ class _mynetworkState extends State<mynetwork> {
                                                 ),
                                                 fit: BoxFit.fill)),
                                       ),
-                                    ),
+                                    ):
+                                    GestureDetector(
+                                      onTap: ()
+                                      {
+                                        callNext(
+                                            viewdetail_profile(
+                                                data: requestpojo.result.elementAt(index).senderId.toString()
+                                            ), context);
+                                      },
+                                      child: Container(
+                                        height:
+                                        SizeConfig.blockSizeVertical * 9,
+                                        width: SizeConfig.blockSizeVertical * 9,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                            bottom:
+                                            SizeConfig.blockSizeVertical *
+                                                1,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1,
+                                            right:
+                                            SizeConfig.blockSizeHorizontal *
+                                                1,
+                                            left:
+                                            SizeConfig.blockSizeHorizontal *
+                                                5),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                            image: new AssetImage("assets/images/account_circle.png"),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),),
+                                      ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -413,7 +455,7 @@ class _mynetworkState extends State<mynetwork> {
                                                     1,
                                               ),
                                               child: Text(
-                                                requestpojo.result.elementAt(index).fullName,
+                                                requestpojo.result.elementAt(index).fullName!=null?requestpojo.result.elementAt(index).fullName:"",
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: AppColors.themecolor,
@@ -505,11 +547,7 @@ class _mynetworkState extends State<mynetwork> {
                                         ),
                                         GestureDetector(
                                           onTap:(){
-
-                                            followaccept(userid,
-                                                requestpojo.result.elementAt(index).id,
-                                                "1");
-
+                                            followaccept(userid, requestpojo.result.elementAt(index).id, "1");
                                           },
                                           child:   Container(
                                             margin: EdgeInsets.only(
@@ -532,7 +570,7 @@ class _mynetworkState extends State<mynetwork> {
                                     )
                                   ],
                                 ));
-                              }),
+                              })),
                         ): Container(
                           alignment: Alignment.center,
                           child: resultvalue == true
@@ -629,23 +667,29 @@ class _mynetworkState extends State<mynetwork> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            alignment: Alignment.topRight,
-                                            margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    1,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3,
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    1),
-                                            child: Image.asset(
-                                              "assets/images/error.png",
-                                              color: AppColors.black,
-                                              width: 20,
-                                              height: 20,
+                                          GestureDetector(
+                                            onTap: ()
+                                            {
+                                              followaccept(userid, followlistpojo.result.elementAt(ind).id, "2");
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.topRight,
+                                              margin: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      3,
+                                                  top: SizeConfig
+                                                      .blockSizeVertical *
+                                                      1),
+                                              child: Image.asset(
+                                                "assets/images/error.png",
+                                                color: AppColors.black,
+                                                width: 20,
+                                                height: 20,
+                                              ),
                                             ),
                                           ),
                                           Row(
@@ -654,8 +698,11 @@ class _mynetworkState extends State<mynetwork> {
                                             children: [
                                               followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
                                                 onTap: () {
-                                                  // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                },
+                                                  callNext(
+                                                      viewdetail_profile(
+                                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
+                                                      ), context);
+                                                  },
                                                 child: Container(
                                                   height: SizeConfig
                                                           .blockSizeVertical *
@@ -685,8 +732,11 @@ class _mynetworkState extends State<mynetwork> {
                                               ):
                                               GestureDetector(
                                                 onTap: () {
-                                                  // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                },
+                                                  callNext(
+                                                      viewdetail_profile(
+                                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
+                                                      ), context);
+                                                  },
                                                 child: Container(
                                                   height: SizeConfig
                                                       .blockSizeVertical *
@@ -717,13 +767,9 @@ class _mynetworkState extends State<mynetwork> {
                                             ],
                                           ),
                                           Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    55,
+                                            width: SizeConfig.blockSizeHorizontal * 55,
                                             padding: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1,
+                                              top: SizeConfig.blockSizeVertical * 1,
                                             ),
                                             alignment: Alignment.center,
                                             child: Text(
@@ -849,6 +895,7 @@ class _mynetworkState extends State<mynetwork> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
           setState(() {
+            getFollowing(userid);
             getdata(userid);
           });
         }

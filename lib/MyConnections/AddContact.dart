@@ -426,7 +426,7 @@ class _AddContactState extends State<AddContact> {
                           ),
                         ),
                         Container(
-                          width: SizeConfig.blockSizeHorizontal * 45,
+                          width: SizeConfig.blockSizeHorizontal * 43,
                           padding: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 1),
                           margin: EdgeInsets.only(
