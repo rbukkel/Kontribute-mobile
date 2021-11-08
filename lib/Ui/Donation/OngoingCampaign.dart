@@ -944,7 +944,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                             Network.BaseApidonation +
                                                                 listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          fit: BoxFit.scaleDown)),
                                                 );
                                               },
                                             ),

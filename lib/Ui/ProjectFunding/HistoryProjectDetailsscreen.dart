@@ -482,8 +482,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                         top: SizeConfig.blockSizeVertical *1,
                                       ),
                                       child: Text(
-                                        projectdetailspojo
-                                            .commentsdata.projectName,
+                                        projectdetailspojo.commentsdata.projectName,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
@@ -721,7 +720,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),

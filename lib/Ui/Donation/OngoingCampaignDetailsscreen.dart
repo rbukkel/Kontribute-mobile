@@ -943,7 +943,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),

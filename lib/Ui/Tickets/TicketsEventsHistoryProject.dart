@@ -636,7 +636,7 @@ class TicketsEventsHistoryProjectState extends State<TicketsEventsHistoryProject
                                                             Network.BaseApiticket +
                                                                 listing.projectData.elementAt(index).ticketImages.elementAt(ind).imagePath,
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          fit: BoxFit.scaleDown)),
                                                 );
                                               },
                                             ),

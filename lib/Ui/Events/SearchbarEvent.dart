@@ -25,12 +25,6 @@ import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SearchbarEvent extends StatefulWidget {
-  final String data;
-
-  const SearchbarEvent({
-    Key key,
-    @required this.data,
-  }) : super(key: key);
 
   @override
   SearchbarEventState createState() => SearchbarEventState();
@@ -53,7 +47,6 @@ class SearchbarEventState extends State<SearchbarEvent> {
   List<String> _list;
   bool _IsSearching;
   String _searchText = "";
-  String data1;
   bool search = true;
   bool internet = false;
   String val;
@@ -132,7 +125,6 @@ class SearchbarEventState extends State<SearchbarEvent> {
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
-    data1 = widget.data;
   }
 
 

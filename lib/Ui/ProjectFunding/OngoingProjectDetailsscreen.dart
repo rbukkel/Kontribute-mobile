@@ -80,6 +80,7 @@ class OngoingProjectDetailsscreenState
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
+
   /* Future<void> downloadFile(String imgUrl) async {
     Dio dio = Dio();
     bool checkPermission1 =
@@ -128,7 +129,6 @@ class OngoingProjectDetailsscreenState
     }
   }
 */
-
  /* void getPermission() async
   {
     print("getPermission");
@@ -148,7 +148,6 @@ class OngoingProjectDetailsscreenState
       return permission;
     }
   }
-
 
   @override
   void initState() {
@@ -1123,7 +1122,7 @@ class OngoingProjectDetailsscreenState
                                                             .elementAt(ind)
                                                             .imagePath,
                                                   ),
-                                                  fit: BoxFit.fill)),
+                                                  fit: BoxFit.scaleDown)),
                                         );
                                       },
                                     ),
@@ -1760,7 +1759,6 @@ class OngoingProjectDetailsscreenState
                                 );
                               }),
                         ):Container(),
-
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1769,6 +1767,7 @@ class OngoingProjectDetailsscreenState
                             color: Colors.black12,
                           ),
                         ),
+                        paymentdetails_length!=null?
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1836,7 +1835,7 @@ class OngoingProjectDetailsscreenState
                               ),
                             ),*/
                           ],
-                        ),
+                        ):Container(),
                         paymentdetails_length!=null?
                         Container(
                           child: ListView.builder(
@@ -2199,7 +2198,6 @@ class OngoingProjectDetailsscreenState
                                 );
                               }),
                         ):Container()
-
                       ],
                     ),
                   ),

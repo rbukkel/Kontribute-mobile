@@ -725,7 +725,7 @@ class TicketsEventsHistoryProjectDetailsscreenState extends State<TicketsEventsH
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),

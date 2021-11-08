@@ -929,7 +929,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),

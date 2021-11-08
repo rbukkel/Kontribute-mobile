@@ -708,7 +708,7 @@ class EventsHistoryProjectDetailsscreenState extends State<EventsHistoryProjectD
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),

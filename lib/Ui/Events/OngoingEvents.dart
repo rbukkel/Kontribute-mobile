@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Pojo/EventCategoryPojo.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
@@ -39,13 +40,18 @@ class OngoingEventsState extends State<OngoingEvents> {
   bool internet = false;
   int currentPageValue = 0;
   String val;
+  String valcat;
+  String catid;
   EventOngoingPojo listing;
+  EventCategoryPojo listingcate;
   var storelist_length;
   var imageslist_length;
   var commentlist_length;
   String updateval;
   int amoun;
+  var category_length;
   bool resultvalue = true;
+  bool resultcatvalue = true;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/chrimasevents.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
@@ -67,12 +73,22 @@ class OngoingEventsState extends State<OngoingEvents> {
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
   }
-
+  String textHolder = "Please Select";
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
   }
-
+  changeText(String valu) {
+    setState(() {
+      textHolder = valu;
+      Fluttertoast.showToast(
+        msg: textHolder,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    });
+  }
   _showEditPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
@@ -123,6 +139,7 @@ class OngoingEventsState extends State<OngoingEvents> {
       elevation: 8.0,
     );
   }
+
   _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
@@ -174,6 +191,57 @@ class OngoingEventsState extends State<OngoingEvents> {
 
   bool _dialVisible = true;
 
+  void getEventCategory() async {
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
+    var jsonResponse = null;
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      valcat = response.body;
+      if (jsonResponse["status"] == false) {
+        setState(() {
+          resultcatvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(valcat)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listingcate = new EventCategoryPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listingcate.resultPush.isEmpty)
+            {
+              resultcatvalue = false;
+            }
+            else
+            {
+              resultcatvalue = true;
+              print("SSSS");
+              category_length = listingcate.resultPush;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listingcate.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(valcat)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -185,6 +253,7 @@ class OngoingEventsState extends State<OngoingEvents> {
     });
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
+        getEventCategory();
         getdata(userid);
         setState(() {
           internet = true;
@@ -261,6 +330,68 @@ class OngoingEventsState extends State<OngoingEvents> {
       );
     }
   }
+
+
+  void getcategorydata(String user_id,String cateid) async {
+    setState(() {
+      storelist_length =null;
+    });
+    Map data = {
+      'userid': user_id.toString(),
+      'category_id': cateid.toString(),
+    };
+    print("user: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventListingbycatid, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        Fluttertoast.showToast(
+            msg: jsonDecode(val)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        listing = new EventOngoingPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(listing.projectData.isEmpty)
+            {
+              resultvalue = false;
+            }
+            else
+            {
+              resultvalue = true;
+              print("SSSS");
+              storelist_length = listing.projectData;
+            }
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: listing.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(val)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
 
   void getsortdata(String user_id,String sortval) async {
     setState(() {
@@ -841,7 +972,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                               listing.projectData.elementAt(index).eventPath +
                                                                 listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          fit: BoxFit.scaleDown)),
                                                 );
                                               },
                                             ),
@@ -1152,6 +1283,17 @@ class OngoingEventsState extends State<OngoingEvents> {
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
+              child: Icon(Icons.dashboard),
+              backgroundColor: AppColors.theme1color,
+              label: 'Category',
+              onTap: ()
+              {
+               // tabValue="1";
+                _modalBottomSheetMenu();
+                print('Category CHILD');
+              }
+          ),
+          SpeedDialChild(
               child: Icon(Icons.public),
               backgroundColor: AppColors.theme1color,
               label: 'Public',
@@ -1233,5 +1375,116 @@ class OngoingEventsState extends State<OngoingEvents> {
           timeInSecForIosWeb: 1);
     }
   }
+
+
+  void _modalBottomSheetMenu() {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Container(
+                height: MediaQuery.of(context).size.height * 80,
+                decoration: BoxDecoration(
+                    image: new DecorationImage(
+                      image: new AssetImage("assets/images/bg_img.png"),
+                      fit: BoxFit.fill,
+                    )), //could change this to Color(0xFF737373),
+
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 5,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2),
+                            width: SizeConfig.blockSizeHorizontal * 45,
+                            child: Text(
+                              "Event Type",
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 3,
+                                  bottom: SizeConfig.blockSizeVertical * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 5),
+                              child: Image.asset(
+                                "assets/images/close.png",
+                                height: 30,
+                                width: 30,
+                              ),
+                            ),
+                          ),
+                        ]),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount:  category_length.length == null
+                              ? 0 : category_length.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  catid = listingcate.resultPush
+                                      .elementAt(index).catId.toString();
+                                  setState(() {
+                                    getcategorydata(userid,catid);
+                                  });
+
+                                  print("categoryid: "+catid.toString());
+                                  print("categoryname: "+listingcate.resultPush
+                                      .elementAt(index).categoryName
+                                      .toString());
+                                  changeText(listingcate.resultPush
+                                      .elementAt(index).categoryName
+                                      .toString());
+                                },
+                                child: Container(
+                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                  padding: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical * 3,
+                                  ),
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 1,
+                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 5,
+                                  ),
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    listingcate.resultPush.elementAt(index).categoryName.toString(),
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Lato-Bold',
+                                        color: AppColors.black,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
+                  ],
+                ));
+          });
+        });
+  }
+
 
 }

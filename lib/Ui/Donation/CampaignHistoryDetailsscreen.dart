@@ -954,7 +954,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),

@@ -671,7 +671,7 @@ class EventsHistoryProjectState extends State<EventsHistoryProject> {
                                                             listing.projectData.elementAt(index).eventPath +
                                                                 listing.projectData.elementAt(index).eventImages.elementAt(ind).imagePath,
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          fit: BoxFit.scaleDown)),
                                                 );
                                               },
                                             ),

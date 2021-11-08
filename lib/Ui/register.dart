@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -799,8 +800,7 @@ class registerState extends State<register> {
                         FormField<dynamic>(
                           builder: (FormFieldState<dynamic> state) {
                             return InputDecorator(
-                              decoration:
-                                  InputDecoration.collapsed(hintText: ''),
+                              decoration: InputDecoration.collapsed(hintText: ''),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<dynamic>(
                                   hint: Text(
@@ -846,8 +846,6 @@ class registerState extends State<register> {
                           },
                         ),
                       ),
-
-
 
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 90,
@@ -921,8 +919,6 @@ class registerState extends State<register> {
                                       timeInSecForIosWeb: 1,
                                     );
                                   }
-
-
                                 } else {
                                   Fluttertoast.showToast(
                                     msg: "No Internet Connection",

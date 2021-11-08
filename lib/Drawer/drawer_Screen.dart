@@ -194,8 +194,9 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         child: Center(child: new CircularProgressIndicator())),
                                     errorWidget: (context, url, error) => new Icon(Icons.error),
                                   ),)
-                                      :Image.asset("assets/images/userProfile.png", height: 70,
-                                      width: 70),),
+                                      :Container(
+                                      height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                      child: Center(child: new CircularProgressIndicator())),),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(

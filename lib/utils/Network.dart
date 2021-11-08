@@ -73,6 +73,7 @@ class Network{
   static String create_events = "create_events";
   static String categorylisting = "categorylisting";
   static String eventListing = "eventListing";
+  static String eventListingbycatid = "eventListingbycatid";
   static String eventListing_history = "eventListing_history";
   static String eventDetails = "eventDetails";
   static String eventlikes = "eventlikes";

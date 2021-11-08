@@ -163,6 +163,13 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                               requestpojo.result.data
                                                   .elementAt(
                                                   index)
+                                                  .facebookId ==
+                                                  null?
+
+
+                                              requestpojo.result.data
+                                                  .elementAt(
+                                                  index)
                                                   .profilePic ==
                                                   null ||
                                                   requestpojo.result.data
@@ -269,7 +276,37 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         image: NetworkImage(
-                                                          Network.BaseApigift+requestpojo.result.data.elementAt(index).giftPicture,
+                                                          Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
+                                                        ),
+                                                        fit: BoxFit.fill)),
+                                              ): Container(
+                                                height: SizeConfig
+                                                    .blockSizeVertical *
+                                                    14,
+                                                width: SizeConfig
+                                                    .blockSizeVertical *
+                                                    12,
+                                                alignment:
+                                                Alignment
+                                                    .center,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    bottom: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                         requestpojo.result.data.elementAt(index).profilePic,
                                                         ),
                                                         fit: BoxFit.fill)),
                                               ),

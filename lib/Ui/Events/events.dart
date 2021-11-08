@@ -297,7 +297,7 @@ class eventsState extends State<events> {
             fit: BoxFit.cover,
           ),
           actions: [
-            InkWell(
+          /*  InkWell(
               onTap: () {
                 _modalBottomSheetMenu();
               },
@@ -312,7 +312,7 @@ class eventsState extends State<events> {
                   color: Colors.white,
                 ),
               ),
-            ),
+            ),*/
             InkWell(
               onTap: (){
                 Navigator.of(context)

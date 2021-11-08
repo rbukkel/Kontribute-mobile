@@ -947,7 +947,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                                       .elementAt(ind)
                                                       .imagePath,
                                             ),
-                                            fit: BoxFit.fill)),
+                                            fit: BoxFit.scaleDown)),
                                   );
                                 },
                               ),
