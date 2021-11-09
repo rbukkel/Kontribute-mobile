@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Pojo/CountrylistPojo.dart';
+import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -21,7 +21,6 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class register extends StatefulWidget {
@@ -74,6 +73,10 @@ class registerState extends State<register> {
   String selecteddate = "Date of Birth";
   bool selected =false;
   Map<String, String> selectedValueMap = Map();
+  AutoCompleteTextField searchTextField;
+
+  TextEditingController controller = new TextEditingController();
+
 
   @override
   void initState() {
@@ -115,14 +118,17 @@ class registerState extends State<register> {
   }
 
   void getCountryList() async {
-    var res =
-        await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
+    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
     final data = json.decode(res.body);
      List<dynamic> data1 = data["result_push"];
 
     setState(() {
       currentcountryTypes = data1;
     });
+
+
+
+
   }
 
   void getNationalList() async {
@@ -846,6 +852,8 @@ class registerState extends State<register> {
                           },
                         ),
                       ),
+
+
 
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 90,

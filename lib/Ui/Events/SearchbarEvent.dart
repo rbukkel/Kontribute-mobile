@@ -735,7 +735,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                             listing.projectData.elementAt(index).eventPath +
                                                                 listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          fit: BoxFit.scaleDown)),
                                                 );
                                               },
                                             ),

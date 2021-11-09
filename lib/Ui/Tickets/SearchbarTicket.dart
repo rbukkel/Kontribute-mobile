@@ -785,7 +785,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                             Network.BaseApiticket +
                                                                 listing.projectData.elementAt(index).ticketImages.elementAt(ind).imagePath,
                                                           ),
-                                                          fit: BoxFit.fill)),
+                                                          fit: BoxFit.scaleDown)),
                                                 );
                                               },
                                             ),

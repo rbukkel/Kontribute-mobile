@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -25,6 +26,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:share/share.dart';
 
 class OngoingProject extends StatefulWidget {
   @override
@@ -46,7 +48,7 @@ class OngoingProjectState extends State<OngoingProject> {
   int amoun;
   String vallike;
   projectlike prolike;
-  String tabValue ="1";
+  String tabValue = "1";
   String updateval;
   String Follow = "Follow";
   int pageNumber = 1;
@@ -56,6 +58,9 @@ class OngoingProjectState extends State<OngoingProject> {
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
+  String shortsharedlink = '';
+  String sharelink = "https://admin.kontirbute.com/api/sharedproduct/";
+  String product_id = '';
 
   void function() {
     print("scrolling");
@@ -63,8 +68,11 @@ class OngoingProjectState extends State<OngoingProject> {
 
   @override
   Future<void> initState() {
-    _scrollController = new ScrollController()..addListener(function);
+    _scrollController = new ScrollController()
+      ..addListener(function);
     super.initState();
+
+
     _loadID();
   }
 
@@ -79,7 +87,7 @@ class OngoingProjectState extends State<OngoingProject> {
       print("UserId: " + val);
       setState(() {
         userid = val;
-        print("PAge: "+pageNumber.toString());
+        print("PAge: " + pageNumber.toString());
         getdata(userid, pageNumber);
         print("Login userid: " + userid.toString());
         paginationApi();
@@ -99,7 +107,8 @@ class OngoingProjectState extends State<OngoingProject> {
 
   void paginationApi() {
     _scrollController.addListener(() {
-      if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
+      if (_scrollController.offset >=
+          _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber < listing.lastPage) {
@@ -108,8 +117,9 @@ class OngoingProjectState extends State<OngoingProject> {
           }
         });
       }
-      if (_scrollController.offset <= _scrollController.position.minScrollExtent && !_scrollController.position.outOfRange)
-      {
+      if (_scrollController.offset <=
+          _scrollController.position.minScrollExtent &&
+          !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber >= 1) {
             pageNumber = pageNumber - 1;
@@ -161,17 +171,18 @@ class OngoingProjectState extends State<OngoingProject> {
 */
   void getSUBdata(String user_id, int page) async {
     setState(() {
-      storelist_length =null;
+      storelist_length = null;
     });
     Map data = {
       'userid': user_id.toString(),
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    print("Sub link: "+Network.BaseApi + Network.projectListing + "?page=$page");
-    http.Response response = await http.post(Network.BaseApi + Network.projectListing + "?page=$page", body: data);
-    if (response.statusCode == 200)
-    {
+    print("Sub link: " + Network.BaseApi + Network.projectListing +
+        "?page=$page");
+    http.Response response = await http.post(
+        Network.BaseApi + Network.projectListing + "?page=$page", body: data);
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["success"] == false) {
@@ -189,12 +200,10 @@ class OngoingProjectState extends State<OngoingProject> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if(listing.projectData.isEmpty)
-            {
+            if (listing.projectData.isEmpty) {
               resultvalue = false;
             }
-            else
-            {
+            else {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
@@ -222,17 +231,18 @@ class OngoingProjectState extends State<OngoingProject> {
 
   void getdata(String user_id, int page) async {
     setState(() {
-      storelist_length =null;
+      storelist_length = null;
     });
     Map data = {
       'userid': user_id.toString(),
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    print("Add link: "+Network.BaseApi + Network.projectListing + "?page=$page");
-    http.Response response = await http.post(Network.BaseApi + Network.projectListing + "?page=$page", body: data);
-    if (response.statusCode == 200)
-    {
+    print("Add link: " + Network.BaseApi + Network.projectListing +
+        "?page=$page");
+    http.Response response = await http.post(
+        Network.BaseApi + Network.projectListing + "?page=$page", body: data);
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["success"] == false) {
@@ -250,12 +260,10 @@ class OngoingProjectState extends State<OngoingProject> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if(listing.projectData.isEmpty)
-            {
+            if (listing.projectData.isEmpty) {
               resultvalue = false;
             }
-            else
-            {
+            else {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
@@ -281,9 +289,9 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 
 
-  void getsortdata(String user_id,String sortval) async {
+  void getsortdata(String user_id, String sortval) async {
     setState(() {
-      storelist_length =null;
+      storelist_length = null;
     });
     Map data = {
       'userid': user_id.toString(),
@@ -291,9 +299,9 @@ class OngoingProjectState extends State<OngoingProject> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.projectListing, body: data);
-    if (response.statusCode == 200)
-    {
+    http.Response response = await http.post(
+        Network.BaseApi + Network.projectListing, body: data);
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["success"] == false) {
@@ -311,12 +319,10 @@ class OngoingProjectState extends State<OngoingProject> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if(listing.projectData.isEmpty)
-            {
+            if (listing.projectData.isEmpty) {
               resultvalue = false;
             }
-            else
-            {
+            else {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
@@ -343,10 +349,14 @@ class OngoingProjectState extends State<OngoingProject> {
 
 
   _showEditPopupMenu(int index) async {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    print("INDEX: "+index.toString());
+    final RenderBox overlay = Overlay
+        .of(context)
+        .context
+        .findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB(_tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
         overlay.size.height - _tapDownPosition.dy,),
@@ -355,7 +365,14 @@ class OngoingProjectState extends State<OngoingProject> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
+
               },
               child: Row(
                 children: <Widget>[
@@ -363,7 +380,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('Copy this post', style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -374,7 +391,10 @@ class OngoingProjectState extends State<OngoingProject> {
                 Navigator.of(context).pop();
                 callNext(
                     EditCreateProjectPost(
-                        data: listing.projectData.elementAt(index).id.toString()
+                        data: listing.projectData
+                            .elementAt(index)
+                            .id
+                            .toString()
                     ), context);
               },
               child: Row(
@@ -383,11 +403,11 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('Edit', style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
-       /* PopupMenuItem(
+        /* PopupMenuItem(
             value:3,
             child: GestureDetector(
               onTap: () {
@@ -412,11 +432,16 @@ class OngoingProjectState extends State<OngoingProject> {
       elevation: 8.0,
     );
   }
+
   _showPopupMenu(int index) async {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    print("INDEX: "+index.toString());
+    final RenderBox overlay = Overlay
+        .of(context)
+        .context
+        .findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB( _tapDownPosition.dx,
+      position: RelativeRect.fromLTRB(_tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
         overlay.size.height - _tapDownPosition.dy,),
@@ -425,7 +450,14 @@ class OngoingProjectState extends State<OngoingProject> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
+
               },
               child: Row(
                 children: <Widget>[
@@ -433,19 +465,22 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('Copy this post', style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
 
         PopupMenuItem(
-            value:2,
+            value: 2,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
                     ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
+                        data: listing.projectData
+                            .elementAt(index)
+                            .id
+                            .toString()
                     ), context);
               },
               child: Row(
@@ -454,7 +489,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('Report', style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -466,11 +501,11 @@ class OngoingProjectState extends State<OngoingProject> {
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 30, fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner2.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 30, fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 30, fit: BoxFit.fitHeight,),
   ];
 
   Widget circleBar(bool isActive) {
@@ -489,6 +524,7 @@ class OngoingProjectState extends State<OngoingProject> {
     currentPageValue = page;
     setState(() {});
   }
+
   bool _dialVisible = true;
 
   @override
@@ -507,16 +543,28 @@ class OngoingProjectState extends State<OngoingProject> {
                     itemCount: storelist_length.length == null
                         ? 0 : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
-                         imageslist_length = listing.projectData.elementAt(index).projectImages;
-                         commentlist_length = listing.projectData.elementAt(index).comments;
-                      double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount) /
-                          double.parse(listing.projectData.elementAt(index).budget) * 100;
+                      imageslist_length = listing.projectData
+                          .elementAt(index)
+                          .projectImages;
+                      commentlist_length = listing.projectData
+                          .elementAt(index)
+                          .comments;
+                      double amount = double.parse(listing.projectData
+                          .elementAt(index)
+                          .totalcollectedamount) /
+                          double.parse(listing.projectData
+                              .elementAt(index)
+                              .budget) * 100;
                       amoun = amount.toInt();
-                      reverid = listing.projectData.elementAt(index).userId.toString();
+                      reverid = listing.projectData
+                          .elementAt(index)
+                          .userId
+                          .toString();
                       return
                         Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                        child: Card(
+                          margin: EdgeInsets.only(
+                              bottom: SizeConfig.blockSizeVertical * 2),
+                          child: Card(
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                 color: Colors.grey.withOpacity(0.2),
@@ -524,645 +572,804 @@ class OngoingProjectState extends State<OngoingProject> {
                               ),
                             ),
                             child: Container(
-                                    padding: EdgeInsets.all(5.0),
-                                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
-                                    child:
-                                    Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTapDown: (TapDownDetails details){
-                                            _tapDownPosition = details.globalPosition;
-                                          },
-                                          onTap: ()
-                                          {
-                                            listing.projectData.elementAt(index).userId == userid? _showEditPopupMenu(index):
-                                            _showPopupMenu(index);
-                                          },
-                                          child:  Container(
-                                            alignment: Alignment.topRight,
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.only(bottom: SizeConfig
+                                  .blockSizeVertical * 2,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              child:
+                              Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTapDown: (TapDownDetails details) {
+                                      _tapDownPosition = details.globalPosition;
+                                    },
+                                    onTap: () {
+                                      setState(() {
+                                        print("index: "+index.toString());
+                                        listing.projectData.elementAt(index).userId == userid ? _showEditPopupMenu(index) : _showPopupMenu(index);
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.topRight,
+                                      margin: EdgeInsets.only(
+                                          right: SizeConfig
+                                              .blockSizeHorizontal * 2),
+                                      child: Image.asset(
+                                          "assets/images/menudot.png",
+                                          height: 15, width: 20),
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      listing.projectData
+                                          .elementAt(index)
+                                          .profilePic == null ||
+                                          listing.projectData
+                                              .elementAt(index)
+                                              .profilePic == ""
+                                          ?
+                                      GestureDetector(
+                                        onTap: () {
+                                          // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                          callNext(
+                                              viewdetail_profile(
+                                                  data: listing.projectData
+                                                      .elementAt(index)
+                                                      .userId
+                                                      .toString()
+                                              ), context);
+                                        },
+                                        child: Container(
+                                            height:
+                                            SizeConfig.blockSizeVertical * 9,
+                                            width: SizeConfig
+                                                .blockSizeVertical * 9,
+                                            alignment: Alignment.center,
                                             margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                    .blockSizeVertical * 2,
+                                                bottom: SizeConfig
+                                                    .blockSizeVertical * 1,
                                                 right: SizeConfig
-                                                    .blockSizeHorizontal * 2),
-                                            child: Image.asset(
-                                                "assets/images/menudot.png",
-                                                height: 15, width: 20),
-                                          ),
+                                                    .blockSizeHorizontal *
+                                                    1,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    1),
+                                            decoration: BoxDecoration(
+                                              image: new DecorationImage(
+                                                image: new AssetImage(
+                                                    "assets/images/account_circle.png"),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            )),
+                                      )
+                                          :
+                                      GestureDetector(
+                                        onTap: () {
+                                          callNext(
+                                              viewdetail_profile(
+                                                  data: listing.projectData
+                                                      .elementAt(index)
+                                                      .userId
+                                                      .toString()
+                                              ), context);
+                                        },
+                                        child: Container(
+                                          height: SizeConfig.blockSizeVertical *
+                                              9,
+                                          width: SizeConfig.blockSizeVertical *
+                                              9,
+                                          alignment: Alignment.center,
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig
+                                                  .blockSizeVertical * 2,
+                                              bottom: SizeConfig
+                                                  .blockSizeVertical * 1,
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  1,
+                                              left: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  1),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .profilePic),
+                                                  fit: BoxFit.fill)),
                                         ),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            listing.projectData.elementAt(index).profilePic== null ||
-                                                listing.projectData.elementAt(index).profilePic == ""
-                                                ?
-                                            GestureDetector(
-                                              onTap: () {
-                                               // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                callNext(
-                                                    viewdetail_profile(
-                                                        data: listing.projectData.elementAt(index).userId.toString()
-                                                    ), context);
-                                              },
-                                              child: Container(
-                                                  height:
-                                                  SizeConfig.blockSizeVertical * 9,
-                                                  width: SizeConfig.blockSizeVertical * 9,
-                                                  alignment: Alignment.center,
+                                      ),
+
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  callNext(
+                                                      viewdetail_profile(
+                                                          data: listing
+                                                              .projectData
+                                                              .elementAt(index)
+                                                              .userId
+                                                              .toString()
+                                                      ), context);
+                                                },
+                                                child: Container(
                                                   margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical *2,
-                                                      bottom: SizeConfig.blockSizeVertical *1,
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          2),
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal * 31,
+                                                  padding: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical * 1,
+                                                  ),
+                                                  child: Text(
+                                                    listing.projectData
+                                                        .elementAt(index)
+                                                        .fullName,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors
+                                                            .themecolor,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight
+                                                            .normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                              ),
+                                              listing.projectData
+                                                  .elementAt(index)
+                                                  .userId
+                                                  .toString() == userid ?
+                                              Container() :
+                                              GestureDetector(
+                                                onTap: () {
+                                                  followapi(userid, reverid);
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          2,
                                                       left: SizeConfig
                                                           .blockSizeHorizontal *
                                                           1),
-                                                  decoration: BoxDecoration(
-                                                    image: new DecorationImage(
-                                                      image: new AssetImage(
-                                                          "assets/images/account_circle.png"),
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  )),
-                                            )
-                                                :
-                                            GestureDetector(
-                                              onTap: () {
-                                                callNext(
-                                                    viewdetail_profile(
-                                                        data: listing.projectData.elementAt(index).userId.toString()
-                                                    ), context);
+                                                  padding: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical * 1,
+                                                  ),
+                                                  child: Text(
+                                                    Follow,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors
+                                                            .darkgreen,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
+                                              ),
 
-                                              },
-                                              child: Container(
-                                                height: SizeConfig.blockSizeVertical * 9,
-                                                width: SizeConfig.blockSizeVertical * 9,
-                                                alignment: Alignment.center,
+                                              Container(
                                                 margin: EdgeInsets.only(
-                                                    top: SizeConfig.blockSizeVertical *2,
-                                                    bottom: SizeConfig.blockSizeVertical *1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
+                                                    top: SizeConfig
+                                                        .blockSizeVertical * 2,
                                                     left: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        1),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            listing.projectData.elementAt(index).profilePic),
-                                                        fit: BoxFit.fill)),
-                                              ),
-                                            ),
-
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: ()
-                                                      {
-                                                        callNext(
-                                                            viewdetail_profile(
-                                                                data: listing.projectData.elementAt(index).userId.toString()
-                                                            ), context);
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
-                                                        width: SizeConfig.blockSizeHorizontal *31,
-                                                        padding: EdgeInsets.only(
-                                                          top: SizeConfig.blockSizeVertical *1,
-                                                        ),
-                                                        child: Text(
-                                                          listing.projectData.elementAt(index).fullName,
-                                                          style: TextStyle(
-                                                              letterSpacing: 1.0,
-                                                              color: AppColors.themecolor,
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontFamily: 'Poppins-Regular'),
-                                                        ),
-                                                      ) ,
-                                                    ),
-                                                    listing.projectData.elementAt(index).userId.toString()==userid?
-                                                        Container():
-                                                    GestureDetector(
-                                                      onTap: ()
-                                                      {
-                                                        followapi(userid, reverid);
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,
-                                                            left: SizeConfig.blockSizeHorizontal*1),
-                                                        padding: EdgeInsets.only(
-                                                          top: SizeConfig.blockSizeVertical *1,
-                                                        ),
-                                                        child: Text(
-                                                          Follow,
-                                                          style: TextStyle(
-                                                              letterSpacing: 1.0,
-                                                              color: AppColors.darkgreen,
-                                                              fontSize:8,
-                                                              fontWeight:
-                                                              FontWeight.normal,
-                                                              fontFamily:
-                                                              'Poppins-Regular'),
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                    Container(
-                                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
-                                                          left: SizeConfig.blockSizeHorizontal *3),
-                                                      alignment: Alignment.topRight,
-                                                      padding: EdgeInsets.only(
-                                                          right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2,
-                                                          left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              1,
-                                                          bottom: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2,
-                                                          top: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                              2),
-                                                      decoration: BoxDecoration(
-                                                          color: AppColors.whiteColor,
-                                                          borderRadius: BorderRadius.circular(20),
-                                                          border: Border.all(color: AppColors.purple)
-                                                      ),
-                                                      child: Text(
-                                                        StringConstant.ongoing.toUpperCase(),
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color:AppColors.purple,
-                                                            fontSize:8,
-                                                            fontWeight:
-                                                            FontWeight.normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-
-                                                    listing.projectData.elementAt(index).userId.toString()!=userid?
-                                                    listing.projectData.elementAt(index).status=="pending"?
-                                                   GestureDetector(
-                                                      onTap: ()
-                                                      {
-                                                        Widget cancelButton = FlatButton(
-                                                          child: Text("Cancel"),
-                                                          onPressed: () {
-                                                            Navigator.pop(context);
-                                                          },
-                                                        );
-                                                        Widget continueButton = FlatButton(
-                                                          child: Text("Continue"),
-                                                          onPressed: () async {
-                                                            Payamount(
-                                                                listing.projectData.elementAt(index).id,
-                                                                AmountController.text,
-                                                                userid);
-                                                          },
-                                                        );
-                                                        // set up the AlertDialog
-                                                        AlertDialog alert = AlertDialog(
-                                                          title: Text("Pay now.."),
-                                                         // content: Text("Are you sure you want to Pay this project?"),
-                                                          content: new Row(
-                                                            children: <Widget>[
-                                                              new Expanded(
-                                                                child: new  TextFormField(
-                                                                  autofocus: false,
-                                                                  focusNode: AmountFocus,
-                                                                  controller: AmountController,
-                                                                  textInputAction: TextInputAction.next,
-                                                                  keyboardType: TextInputType.number,
-                                                                  validator: (val) {
-                                                                    if (val.length == 0)
-                                                                      return "Please enter payment amount";
-                                                                    else
-                                                                      return null;
-                                                                  },
-                                                                  onFieldSubmitted: (v) {
-                                                                   AmountFocus.unfocus();
-                                                                  },
-                                                                  onSaved: (val) => _amount = val,
-                                                                  textAlign: TextAlign.left,
-                                                                  style: TextStyle(
-                                                                      letterSpacing: 1.0,
-                                                                      fontWeight: FontWeight.normal,
-                                                                      fontFamily: 'Poppins-Regular',
-                                                                      fontSize: 10,
-                                                                      color: Colors.black),
-                                                                  decoration: InputDecoration(
-                                                                   // border: InputBorder.none,
-                                                                   // focusedBorder: InputBorder.none,
-                                                                    hintStyle: TextStyle(
-                                                                      color: Colors.grey,
-                                                                      fontWeight: FontWeight.normal,
-                                                                      fontFamily: 'Poppins-Regular',
-                                                                      fontSize: 10,
-                                                                      decoration: TextDecoration.none,
-                                                                    ),
-                                                                    hintText:"Enter payment amount",
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          actions: [
-                                                            cancelButton,
-                                                            continueButton,
-                                                          ],
-                                                        );
-                                                        // show the dialog
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext context)
-                                                          {
-                                                            return alert;
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets.only(left:
-                                                        SizeConfig.blockSizeHorizontal *1,
-                                                            right: SizeConfig.blockSizeHorizontal *2,
-                                                            top: SizeConfig.blockSizeVertical *2),
-                                                        padding: EdgeInsets.only(
-                                                            right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                                3,
-                                                            left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                                3,
-                                                            bottom: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                                1,
-                                                            top: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                                1),
-                                                        decoration: BoxDecoration(
-                                                          color: AppColors.darkgreen,
-                                                          borderRadius: BorderRadius.circular(20),
-
-                                                        ),
-                                                        child: Text(
-                                                          StringConstant.pay.toUpperCase(),
-                                                          style: TextStyle(
-                                                              letterSpacing: 1.0,
-                                                              color: AppColors.whiteColor,
-                                                              fontSize:12,
-                                                              fontWeight:
-                                                              FontWeight.normal,
-                                                              fontFamily:
-                                                              'Poppins-Regular'),
-                                                        ),
-                                                      ),
-                                                    ): Container(): Container()
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      width: SizeConfig.blockSizeHorizontal *35,
-                                                      alignment: Alignment.topLeft,
-                                                      margin: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                      ),
-                                                      child: Text(
-                                                        listing.projectData.elementAt(index).projectName,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: Colors.black87,
-                                                            fontSize: 12,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontFamily: 'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: SizeConfig.blockSizeHorizontal *38,
-                                                      alignment: Alignment.topRight,
-                                                      padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                      ),
-                                                      margin: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                      ),
-                                                      child: Text(
-                                                        "Start Date- "+listing.projectData.elementAt(index).projectStartdate,
-                                                        textAlign: TextAlign.right,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: AppColors.black,
-                                                            fontSize:8,
-                                                            fontWeight:
-                                                            FontWeight.normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      width: SizeConfig.blockSizeHorizontal *35,
-                                                      alignment: Alignment.topLeft,
-                                                      margin: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                      ),
-                                                      child: Text(
-                                                        //StringConstant.totalContribution+"-20",
-                                                        "",
-                                                        textAlign: TextAlign.right,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: Colors.black87,
-                                                            fontSize:8,
-                                                            fontWeight: FontWeight.normal,
-                                                            fontFamily: 'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: SizeConfig.blockSizeHorizontal *38,
-                                                      alignment: Alignment.topRight,
-                                                      padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                        right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                      ),
-                                                      margin: EdgeInsets.only(
-                                                        top: SizeConfig.blockSizeVertical *1,
-                                                      ),
-                                                      child: Text(
-                                                        "End Date- "+listing.projectData.elementAt(index).projectEnddate,
-                                                        textAlign: TextAlign.right,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: AppColors.black,
-                                                            fontSize:8,
-                                                            fontWeight:
-                                                            FontWeight.normal,
-                                                            fontFamily:
-                                                            'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  alignment: Alignment.topLeft,
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                                                  child: Text(
-                                                    StringConstant.collectiontarget+"-",
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                                  alignment: Alignment.topLeft,
-                                                  padding: EdgeInsets.only(
+                                                        3),
+                                                alignment: Alignment.topRight,
+                                                padding: EdgeInsets.only(
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        3,
-                                                  ),
-                                                  child: Text(
-                                                    "\$"+listing.projectData.elementAt(index).budget,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.lightBlueAccent,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
+                                                        2,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    bottom: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2,
+                                                    top: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.whiteColor,
+                                                    borderRadius: BorderRadius
+                                                        .circular(20),
+                                                    border: Border.all(
+                                                        color: AppColors.purple)
                                                 ),
-                                              ],
-                                            ),
-
-                                            Container(
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                              child:  LinearPercentIndicator(
-                                                width: 70.0,
-                                                lineHeight: 14.0,
-                                                percent: amoun/100,
-                                                center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
-                                                backgroundColor: AppColors.lightgrey,
-                                                progressColor:AppColors.themecolor,
+                                                child: Text(
+                                                  StringConstant.ongoing
+                                                      .toUpperCase(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.purple,
+                                                      fontSize: 8,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
                                               ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  alignment: Alignment.centerRight,
-                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+
+                                              listing.projectData
+                                                  .elementAt(index)
+                                                  .userId
+                                                  .toString() != userid ?
+                                              listing.projectData
+                                                  .elementAt(index)
+                                                  .status == "pending" ?
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Widget cancelButton = FlatButton(
+                                                    child: Text("Cancel"),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  );
+                                                  Widget continueButton = FlatButton(
+                                                    child: Text("Continue"),
+                                                    onPressed: () async {
+                                                      Payamount(
+                                                          listing.projectData
+                                                              .elementAt(index)
+                                                              .id,
+                                                          AmountController.text,
+                                                          userid);
+                                                    },
+                                                  );
+                                                  // set up the AlertDialog
+                                                  AlertDialog alert = AlertDialog(
+                                                    title: Text("Pay now.."),
+                                                    // content: Text("Are you sure you want to Pay this project?"),
+                                                    content: new Row(
+                                                      children: <Widget>[
+                                                        new Expanded(
+                                                          child: new TextFormField(
+                                                            autofocus: false,
+                                                            focusNode: AmountFocus,
+                                                            controller: AmountController,
+                                                            textInputAction: TextInputAction
+                                                                .next,
+                                                            keyboardType: TextInputType
+                                                                .number,
+                                                            validator: (val) {
+                                                              if (val.length ==
+                                                                  0)
+                                                                return "Please enter payment amount";
+                                                              else
+                                                                return null;
+                                                            },
+                                                            onFieldSubmitted: (v) {
+                                                              AmountFocus.unfocus();
+                                                            },
+                                                            onSaved: (val) =>
+                                                            _amount = val,
+                                                            textAlign: TextAlign
+                                                                .left,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                fontWeight: FontWeight
+                                                                    .normal,
+                                                                fontFamily: 'Poppins-Regular',
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .black),
+                                                            decoration: InputDecoration(
+                                                              // border: InputBorder.none,
+                                                              // focusedBorder: InputBorder.none,
+                                                              hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey,
+                                                                fontWeight: FontWeight
+                                                                    .normal,
+                                                                fontFamily: 'Poppins-Regular',
+                                                                fontSize: 10,
+                                                                decoration: TextDecoration
+                                                                    .none,
+                                                              ),
+                                                              hintText: "Enter payment amount",
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    actions: [
+                                                      cancelButton,
+                                                      continueButton,
+                                                    ],
+                                                  );
+                                                  // show the dialog
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (
+                                                        BuildContext context) {
+                                                      return alert;
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(left:
+                                                  SizeConfig
+                                                      .blockSizeHorizontal * 1,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2,
+                                                      top: SizeConfig
+                                                          .blockSizeVertical *
+                                                          2),
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          3,
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          3,
+                                                      bottom: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      top: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1),
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.darkgreen,
+                                                    borderRadius: BorderRadius
+                                                        .circular(20),
+
+                                                  ),
                                                   child: Text(
-                                                    StringConstant.collectedamount+"-",
+                                                    StringConstant.pay
+                                                        .toUpperCase(),
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
+                                                        color: AppColors
+                                                            .whiteColor,
+                                                        fontSize: 12,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig.blockSizeVertical *1,
-                                                      right: SizeConfig.blockSizeHorizontal * 4),
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    "\$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.lightBlueAccent,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
-                                                )
-                                              ],
-                                            )
+                                              ) : Container() : Container()
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal * 35,
+                                                alignment: Alignment.topLeft,
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical * 1,
+                                                ),
+                                                child: Text(
+                                                  listing.projectData
+                                                      .elementAt(index)
+                                                      .projectName,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal * 38,
+                                                alignment: Alignment.topRight,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                ),
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical * 1,
+                                                ),
+                                                child: Text(
+                                                  "Start Date- " +
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .projectStartdate,
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.black,
+                                                      fontSize: 8,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              ),
 
-                                          ],
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal * 35,
+                                                alignment: Alignment.topLeft,
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical * 1,
+                                                ),
+                                                child: Text(
+                                                  //StringConstant.totalContribution+"-20",
+                                                  "",
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 8,
+                                                      fontWeight: FontWeight
+                                                          .normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal * 38,
+                                                alignment: Alignment.topRight,
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                ),
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical * 1,
+                                                ),
+                                                child: Text(
+                                                  "End Date- " +
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .projectEnddate,
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.black,
+                                                      fontSize: 8,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.topLeft,
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                    .blockSizeVertical * 1,
+                                                left: SizeConfig
+                                                    .blockSizeHorizontal * 2),
+                                            child: Text(
+                                              StringConstant.collectiontarget +
+                                                  "-",
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black87,
+                                                  fontSize: 8,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                    .blockSizeVertical * 1),
+                                            alignment: Alignment.topLeft,
+                                            padding: EdgeInsets.only(
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  3,
+                                            ),
+                                            child: Text(
+                                              "\$" + listing.projectData
+                                                  .elementAt(index)
+                                                  .budget,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.lightBlueAccent,
+                                                  fontSize: 8,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *
+                                                1),
+                                        child: LinearPercentIndicator(
+                                          width: 70.0,
+                                          lineHeight: 14.0,
+                                          percent: amoun / 100,
+                                          center: Text(amoun.toString() + "%",
+                                            style: TextStyle(fontSize: 8,
+                                                color: AppColors.whiteColor),),
+                                          backgroundColor: AppColors.lightgrey,
+                                          progressColor: AppColors.themecolor,
                                         ),
-                                        /* Container(
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .end,
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.centerRight,
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                    .blockSizeVertical * 1),
+                                            child: Text(
+                                              StringConstant.collectedamount +
+                                                  "-",
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black87,
+                                                  fontSize: 8,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                    .blockSizeVertical * 1,
+                                                right: SizeConfig
+                                                    .blockSizeHorizontal * 4),
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              "\$" + listing.projectData
+                                                  .elementAt(index)
+                                                  .totalcollectedamount
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.lightBlueAccent,
+                                                  fontSize: 8,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  'Poppins-Regular'),
+                                            ),
+                                          )
+                                        ],
+                                      )
+
+                                    ],
+                                  ),
+                                  /* Container(
                                       height: SizeConfig.blockSizeVertical*30,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                       child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),
                                     ),*/
-                                        imageslist_length!=null?
-                                        GestureDetector(
-                                          onTap: () {
-                                            //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                            callNext(
-                                                OngoingProjectDetailsscreen(
-                                                    data:
-                                                    listing.projectData.elementAt(index).id.toString()
-                                                ), context);
-                                          },
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            alignment: Alignment.topCenter,
-                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                            height: SizeConfig.blockSizeVertical*30,
-                                            child: Stack(
-                                              alignment: AlignmentDirectional.bottomCenter,
-                                              children: <Widget>[
-                                                PageView.builder(
-                                                  physics: ClampingScrollPhysics(),
-                                                  itemCount:
-                                                  imageslist_length.length == null
-                                                  ? 0
-                                                      : imageslist_length.length,
-                                                  onPageChanged: (int page) {
-                                                    getChangedPageAndMoveBar(page);
-                                                  },
-                                                  controller: PageController(
-                                                      initialPage: currentPageValue,
-                                                      keepPage: true,
-                                                      viewportFraction: 1),
-                                                  itemBuilder: (context, ind) {
-                                                    return Container(
-                                                      width:
-                                                      SizeConfig.blockSizeHorizontal *
-                                                          80,
-                                                      height:
-                                                      SizeConfig.blockSizeVertical * 50,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Colors.transparent),
-                                                          image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                Network.BaseApiProject +
-                                                                    listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
-                                                              ),
-                                                              fit: BoxFit.scaleDown)),
-                                                    );
-                                                  },
-                                                ),
-                                                Stack(
-                                                  alignment: AlignmentDirectional.bottomCenter,
+                                  imageslist_length != null ?
+                                  GestureDetector(
+                                    onTap: () {
+                                      //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                      callNext(
+                                          OngoingProjectDetailsscreen(
+                                              data:
+                                              listing.projectData
+                                                  .elementAt(index)
+                                                  .id
+                                                  .toString()
+                                          ), context);
+                                    },
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      alignment: Alignment.topCenter,
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical *
+                                              2),
+                                      height: SizeConfig.blockSizeVertical * 30,
+                                      child: Stack(
+                                        alignment: AlignmentDirectional
+                                            .bottomCenter,
+                                        children: <Widget>[
+                                          PageView.builder(
+                                            physics: ClampingScrollPhysics(),
+                                            itemCount:
+                                            imageslist_length.length == null
+                                                ? 0
+                                                : imageslist_length.length,
+                                            onPageChanged: (int page) {
+                                              getChangedPageAndMoveBar(page);
+                                            },
+                                            controller: PageController(
+                                                initialPage: currentPageValue,
+                                                keepPage: true,
+                                                viewportFraction: 1),
+                                            itemBuilder: (context, ind) {
+                                              return Container(
+                                                width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    80,
+                                                height:
+                                                SizeConfig.blockSizeVertical *
+                                                    50,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors
+                                                            .transparent),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          Network
+                                                              .BaseApiProject +
+                                                              listing
+                                                                  .projectData
+                                                                  .elementAt(
+                                                                  index)
+                                                                  .projectImages
+                                                                  .elementAt(
+                                                                  ind)
+                                                                  .imagePath,
+                                                        ),
+                                                        fit: BoxFit.scaleDown)),
+                                              );
+                                            },
+                                          ),
+                                          Stack(
+                                            alignment: AlignmentDirectional
+                                                .bottomCenter,
+                                            children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: SizeConfig
+                                                        .blockSizeVertical * 2),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize
+                                                      .min,
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .center,
                                                   children: <Widget>[
-                                                    Container(
-                                                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                                                      child: Row(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          for (int i = 0; i < imageslist_length.length; i++)
-                                                            if (i == currentPageValue) ...[
-                                                              circleBar(true)
-                                                            ] else
-                                                              circleBar(false),
-                                                        ],
-                                                      ),
-                                                    ),
+                                                    for (int i = 0; i <
+                                                        imageslist_length
+                                                            .length; i++)
+                                                      if (i ==
+                                                          currentPageValue) ...[
+                                                        circleBar(true)
+                                                      ] else
+                                                        circleBar(false),
                                                   ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ):
-                                        GestureDetector(
-                                          onTap: () {
-                                            //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                            callNext(
-                                                OngoingProjectDetailsscreen(
-                                                    data: listing.projectData.elementAt(index).id.toString()
-                                                ), context);
-                                          },
-                                          child: Container(
-                                            color: AppColors.themecolor,
-                                            alignment: Alignment.topCenter,
-                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                            height: SizeConfig.blockSizeVertical*30,
-                                            child: Stack(
-                                              alignment: AlignmentDirectional.bottomCenter,
-                                              children: <Widget>[
-                                                PageView.builder(
-                                                  physics: ClampingScrollPhysics(),
-                                                  itemCount: introWidgetsList.length,
-                                                  onPageChanged: (int page) {
-                                                    getChangedPageAndMoveBar(page);
-                                                  },
-                                                  controller: PageController(
-                                                      initialPage: currentPageValue,
-                                                      keepPage: true,
-                                                      viewportFraction: 1),
-                                                  itemBuilder: (context, index) {
-                                                    return introWidgetsList[index];
-                                                  },
-                                                ),
-                                                Stack(
-                                                  alignment: AlignmentDirectional.bottomCenter,
+                                        ],
+                                      ),
+                                    ),
+                                  ) :
+                                  GestureDetector(
+                                    onTap: () {
+                                      //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                      callNext(
+                                          OngoingProjectDetailsscreen(
+                                              data: listing.projectData
+                                                  .elementAt(index)
+                                                  .id
+                                                  .toString()
+                                          ), context);
+                                    },
+                                    child: Container(
+                                      color: AppColors.themecolor,
+                                      alignment: Alignment.topCenter,
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical *
+                                              2),
+                                      height: SizeConfig.blockSizeVertical * 30,
+                                      child: Stack(
+                                        alignment: AlignmentDirectional
+                                            .bottomCenter,
+                                        children: <Widget>[
+                                          PageView.builder(
+                                            physics: ClampingScrollPhysics(),
+                                            itemCount: introWidgetsList.length,
+                                            onPageChanged: (int page) {
+                                              getChangedPageAndMoveBar(page);
+                                            },
+                                            controller: PageController(
+                                                initialPage: currentPageValue,
+                                                keepPage: true,
+                                                viewportFraction: 1),
+                                            itemBuilder: (context, index) {
+                                              return introWidgetsList[index];
+                                            },
+                                          ),
+                                          Stack(
+                                            alignment: AlignmentDirectional
+                                                .bottomCenter,
+                                            children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: SizeConfig
+                                                        .blockSizeVertical * 2),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize
+                                                      .min,
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .center,
                                                   children: <Widget>[
-                                                    Container(
-                                                      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                                                      child: Row(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          for (int i = 0; i < introWidgetsList.length; i++)
-                                                            if (i == currentPageValue) ...[
-                                                              circleBar(true)
-                                                            ] else
-                                                              circleBar(false),
-                                                        ],
-                                                      ),
-                                                    ),
+                                                    for (int i = 0; i <
+                                                        introWidgetsList
+                                                            .length; i++)
+                                                      if (i ==
+                                                          currentPageValue) ...[
+                                                        circleBar(true)
+                                                      ] else
+                                                        circleBar(false),
                                                   ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                     /*   Container(
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  /*   Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                           child: Row(
                                             children: [
@@ -1207,7 +1414,7 @@ class OngoingProjectState extends State<OngoingProject> {
 
                                               Spacer(),
                                           */
-                                     /*    InkWell(
+                                  /*    InkWell(
                                                 onTap: (){
 
                                                 },
@@ -1247,26 +1454,32 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   //child: Image.asset("assets/images/save.png"),
                                                 ),
                                               ),*/
-                                     /*
+                                  /*
                                             ],
                                           ),
                                         ),*/
-                                        Container(
-                                          width: SizeConfig.blockSizeHorizontal *100,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                              top: SizeConfig.blockSizeVertical *1),
-                                          child: new Html(
-                                              data: listing.projectData.elementAt(index).description,
-                                              defaultTextStyle: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Regular'),
-                                        ),
-                                        ),
-                                       /* commentlist_length!=null?
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 100,
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeHorizontal *
+                                            3,
+                                        right: SizeConfig.blockSizeHorizontal *
+                                            3,
+                                        top: SizeConfig.blockSizeVertical * 1),
+                                    child: new Html(
+                                      data: listing.projectData
+                                          .elementAt(index)
+                                          .description,
+                                      defaultTextStyle: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black87,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ),
+                                  /* commentlist_length!=null?
                                             Column(
                                               children: [
                                                 GestureDetector(
@@ -1331,7 +1544,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 )
                                               ],
                                             ): Container()*/
-                                       /* Container(
+                                  /* Container(
                                           width: SizeConfig.blockSizeHorizontal *100,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
@@ -1349,11 +1562,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 'Poppins-Regular'),
                                           ),
                                         ),*/
-                                      ],
-                                    ),
-                                  ),
-                        ),
-                      );
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                     }),
               )
                   : Container(
@@ -1371,7 +1584,7 @@ class OngoingProjectState extends State<OngoingProject> {
               )
             ],
           )
-         ),
+      ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
@@ -1391,23 +1604,21 @@ class OngoingProjectState extends State<OngoingProject> {
         shape: CircleBorder(),
         children: [
           SpeedDialChild(
-            child: Icon(Icons.public),
-            backgroundColor: AppColors.theme1color,
-            label: 'Public',
-              onTap: ()
-              {
-                tabValue="1";
+              child: Icon(Icons.public),
+              backgroundColor: AppColors.theme1color,
+              label: 'Public',
+              onTap: () {
+                tabValue = "1";
                 getsortdata(userid, tabValue);
                 print('FIRST CHILD');
               }
           ),
           SpeedDialChild(
-            child: Icon(Icons.privacy_tip),
-            backgroundColor: AppColors.theme1color,
-            label: 'Private',
-              onTap: ()
-              {
-                tabValue="2";
+              child: Icon(Icons.privacy_tip),
+              backgroundColor: AppColors.theme1color,
+              label: 'Private',
+              onTap: () {
+                tabValue = "2";
                 getsortdata(userid, tabValue);
                 print('FIRST CHILD');
               }
@@ -1416,9 +1627,8 @@ class OngoingProjectState extends State<OngoingProject> {
               child: Icon(Icons.all_inclusive),
               backgroundColor: AppColors.theme1color,
               label: 'All',
-              onTap: ()
-              {
-                tabValue="0";
+              onTap: () {
+                tabValue = "0";
                 getsortdata(userid, tabValue);
                 print('Third CHILD');
               }),
@@ -1434,7 +1644,8 @@ class OngoingProjectState extends State<OngoingProject> {
     };
     print("projectlikes: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.projectlikes, body: data);
+    http.Response response = await http.post(
+        Network.BaseApi + Network.projectlikes, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       vallike = response.body; //store response as string
@@ -1477,7 +1688,8 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount,
+      String userid) async {
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
@@ -1485,7 +1697,8 @@ class OngoingProjectState extends State<OngoingProject> {
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
+    http.Response response = await http.post(
+        Network.BaseApi + Network.project_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1503,7 +1716,8 @@ class OngoingProjectState extends State<OngoingProject> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(
+              builder: (BuildContext context) => projectfunding()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(
@@ -1559,5 +1773,32 @@ class OngoingProjectState extends State<OngoingProject> {
       timeInSecForIosWeb: 1,
     );
   }
-}
 
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(sharelink + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+
+
+}

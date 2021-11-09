@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,9 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/Carousel.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/LocaleString.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'dart:async';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -41,7 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
   double percent = 0.0;
   String token = '';
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
-
+  String product_id;
+  bool isId=false;
   gettoken() {
     _firebaseMessaging.getToken().then((onValue) {
       setState(() {
@@ -102,9 +106,30 @@ class _MyHomePageState extends State<MyHomePage> {
       if(result!=null){
         if(result){
           print("trueValue");
+
+            initDynamicLinks();
+
+
           Future.delayed(Duration(seconds: 3),()
           {
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+
+
+            print('hereid'+isId.toString());
+
+
+                 if(isId){
+                   callNext(
+                       OngoingProjectDetailsscreen(
+                           data:
+                           product_id
+                               .toString()
+                       ), context);
+                 }
+                 else {
+                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                 }
+
+         //
           });
         }else{
           print("falseValue");
@@ -123,7 +148,63 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void initDynamicLinks() async {
+    print('new deep link onLink******');
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+          final Uri deepLink = dynamicLink.link;
+          if (deepLink != null) {
+            print('new deep link onLink******${deepLink}');
+            List<String> product_id_list = split(deepLink.toString(), "/");
 
+            setState(() {
+              product_id = product_id_list.elementAt(5);
+               isId=true;
+            print('product_id1'+product_id);
+            });
+          }
+        }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
+    if(data.link!=null)
+      {
+        final Uri deepLink = data.link;
+        if (deepLink != null) {
+          print('---new deep found************************************************');
+
+          List<String> product_id_list = split(deepLink.toString(), "/");
+          setState(() {
+            product_id = product_id_list.elementAt(5);
+            isId=true;
+            print('product_id2'+product_id);
+
+          });
+        }
+      }
+
+  }
+
+  List<String> split(String string, String separator, {int max = 0}) {
+    var result = List<String>();
+    if (separator.isEmpty) {
+      result.add(string);
+      return result;
+    }
+
+    while (true) {
+      var index = string.indexOf(separator, 0);
+      if (index == -1 || (max > 0 && result.length >= max)) {
+        result.add(string);
+        break;
+      }
+      result.add(string.substring(0, index));
+      string = string.substring(index + separator.length);
+    }
+    return result;
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

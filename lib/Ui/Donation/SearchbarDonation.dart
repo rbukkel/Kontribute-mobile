@@ -747,20 +747,16 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                 viewportFraction: 1),
                                             itemBuilder: (context, ind) {
                                               return Container(
-                                                width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    80,
-                                                height:
-                                                SizeConfig.blockSizeVertical * 50,
+                                                width: SizeConfig.blockSizeHorizontal * 80,
+                                                height: SizeConfig.blockSizeVertical * 50,
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
                                                         color: Colors.transparent),
                                                     image: DecorationImage(
                                                         image: NetworkImage(
-                                                          Network.BaseApidonation +
-                                                              listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
+                                                          Network.BaseApidonation + listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                         ),
-                                                        fit: BoxFit.fill)),
+                                                        fit: BoxFit.scaleDown)),
                                               );
                                             },
                                           ),

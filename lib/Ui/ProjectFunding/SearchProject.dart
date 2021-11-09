@@ -735,7 +735,7 @@ class SearchProjectState extends State<SearchProject> {
                                                                 Network.BaseApiProject +
                                                                     listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                               ),
-                                                              fit: BoxFit.fill)),
+                                                              fit: BoxFit.scaleDown)),
                                                     );
                                                   },
                                                 ),

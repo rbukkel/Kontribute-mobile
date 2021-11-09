@@ -57,8 +57,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final EnterRequiredAmountFocus = FocusNode();
   final TotalBudgetFocus = FocusNode();
   final VideoFocus = FocusNode();
+  final documentsFocus = FocusNode();
   final TermsFocus = FocusNode();
   final TextEditingController TermsController = new TextEditingController();
+  final TextEditingController documentsController = new TextEditingController();
   final TextEditingController searchpostController = new TextEditingController();
   final TextEditingController ProjectNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
@@ -84,6 +86,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   String _requiredamount;
   String _totalbudget;
   String _Video;
+  String _documents;
   String userid;
   String username;
   sendinvitationpojo sendinvi;
@@ -286,6 +289,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             final removedBrackets = input.substring(1, input.length - 1);
             final parts = removedBrackets.split(',');
             catname = parts.map((part) => "$part").join(',').trim();
+            documentsController.text =catname;
             print("Docname: "+catname.toString());
           }
         else{
@@ -1332,7 +1336,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
-                            Container(
+                            /*Container(
                               width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
@@ -1355,8 +1359,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               child: Column(
                                 children: [..._getVideoLink()],
                               ),
-                            )
-                           /*   Container(
+                            )*/
+                              Container(
                               width: SizeConfig.blockSizeHorizontal * 65,
                               height: SizeConfig.blockSizeVertical *10,
                               margin: EdgeInsets.only(
@@ -1383,7 +1387,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 autofocus: false,
                                 focusNode: VideoFocus,
                                 controller: VideoController,
-                                maxLines: 5,
+                                maxLines:6,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.url,
                                 validator: (val) {
@@ -1416,8 +1420,24 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     ),
                                     hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
-                            )*/
+                            )
                           ],
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          margin: EdgeInsets.only(
+                              right: SizeConfig.blockSizeHorizontal * 4,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Text(
+                           "videos link with comma(,) seprated, without space",
+                            maxLines: 4,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -1472,7 +1492,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     children: [
                                       Container(
                                           width: SizeConfig.blockSizeHorizontal * 60,
-                                            child: Text(
+                                            child:
+                                           /* Text(
                                               catname != null ? catname.toString() : "",
                                               maxLines: 5,
                                               textAlign: TextAlign.left,
@@ -1483,7 +1504,46 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 fontSize: 10,
                                                 color: AppColors.black,
                                               ),
+                                            ),*/
+
+                                            TextFormField(
+                                              autofocus: false,
+                                              focusNode: documentsFocus,
+                                              controller: documentsController,
+                                              maxLines:6,
+                                              textInputAction: TextInputAction.done,
+                                              keyboardType: TextInputType.url,
+                                              validator: (val) {
+                                                if (val.length == 0)
+                                                  return "Please enter video url";
+                                                else
+                                                  return null;
+                                              },
+                                              onFieldSubmitted: (v) {
+                                                documentsFocus.unfocus();
+                                              },
+                                              onSaved: (val) => _documents = val,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                color: AppColors.black,
+                                              ),
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  focusedBorder: InputBorder.none,
+                                                  hintStyle: TextStyle(
+                                                    color: AppColors.themecolor,
+                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily: 'Poppins-Regular',
+                                                    fontSize: 10,
+                                                    decoration: TextDecoration.none,
+                                                  ),
+                                                  hintText: ""),
                                             ),
+
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -1715,23 +1775,12 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 if (intenet != null && intenet) {
                                   if(_imageList.isNotEmpty)
                                   {
-                                    final input2 = videoList.toString();
+                                    /*final input2 = videoList.toString();
                                     final removedBrackets = input2.substring(1, input2.length - 1);
                                     final parts = removedBrackets.split(',');
                                     vidoname = parts.map((part) => "$part").join(',').trim();
                                     print("Vidoname: "+vidoname.toString());
-                                  /*  if (followingvalues == null || followingvalues == "") {
-                                      Fluttertoast.showToast(
-                                        msg: "Please select contacts",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                      );
-                                    }
-                                    else
-                                      {
 
-                                      }*/
                                     createproject(
                                         context,
                                         ProjectNameController.text,
@@ -1747,6 +1796,24 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         messageController.text,
                                         followingvalues.toString(),
                                         vidoname,
+                                        _imageList,
+                                        _documentList);
+                                    */
+                                    createproject(
+                                        context,
+                                        ProjectNameController.text,
+                                        DescriptionController.text,
+                                        myFormat.format(currentDate),
+                                        myFormat.format(currentEndDate),
+                                        TermsController.text,
+                                        EnterRequiredAmountController.text,
+                                        TotalBudgetController.text,
+                                        emailController.text,
+                                        nameController.text,
+                                        mobileController.text,
+                                        messageController.text,
+                                        followingvalues.toString(),
+                                        VideoController.text,
                                         _imageList,
                                         _documentList);
 

@@ -885,7 +885,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                         Network.BaseApiProject +
                                                                             listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
                                                                       ),
-                                                                      fit: BoxFit.fill)),
+                                                                      fit: BoxFit.scaleDown)),
                                                         );
                                                       },
                                                     ),

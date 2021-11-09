@@ -40,6 +40,11 @@ class CreateEventPostState extends State<CreateEventPost> {
   final SearchPostFocus = FocusNode();
   final CostofTicketFocus = FocusNode();
   final VideoFocus = FocusNode();
+  final documentsFocus = FocusNode();
+  final TextEditingController documentsController = new TextEditingController();
+  final TextEditingController VideoController = new TextEditingController();
+  String _Video;
+  String _documents;
   final TermsFocus = FocusNode();
   var vidoname=null;
   List _selecteName = List();
@@ -1746,7 +1751,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
-                            Container(
+                          /*  Container(
                               width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
@@ -1769,8 +1774,85 @@ class CreateEventPostState extends State<CreateEventPost> {
                               child: Column(
                                 children: [..._getVideoLink()],
                               ),
+                            )*/
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical *10,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 1,
+                                right: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child:
+
+                              TextFormField(
+                                autofocus: false,
+                                focusNode: VideoFocus,
+                                controller: VideoController,
+                                maxLines: 6,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.url,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter video url";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  VideoFocus.unfocus();
+                                },
+                                onSaved: (val) => _Video = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 10,
+                                  color: AppColors.themecolor,
+                                ),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.themecolor,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
+                              ),
                             )
                           ],
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          margin: EdgeInsets.only(
+                              right: SizeConfig.blockSizeHorizontal * 4,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Text(
+                            "videos link with comma(,) seprated, without space",
+                            maxLines: 4,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -1828,7 +1910,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                                     children: [
                                       Container(
                                         width: SizeConfig.blockSizeHorizontal * 60,
-                                        child: Text(
+                                        child:
+                                       /* Text(
                                           catname != null ? catname.toString() : "",
                                           maxLines: 5,
                                           textAlign: TextAlign.left,
@@ -1839,6 +1922,43 @@ class CreateEventPostState extends State<CreateEventPost> {
                                             fontSize: 10,
                                             color: AppColors.black,
                                           ),
+                                        ),*/
+                                        TextFormField(
+                                          autofocus: false,
+                                          focusNode: documentsFocus,
+                                          controller: documentsController,
+                                          maxLines:6,
+                                          textInputAction: TextInputAction.done,
+                                          keyboardType: TextInputType.url,
+                                          validator: (val) {
+                                            if (val.length == 0)
+                                              return "Please enter video url";
+                                            else
+                                              return null;
+                                          },
+                                          onFieldSubmitted: (v) {
+                                            documentsFocus.unfocus();
+                                          },
+                                          onSaved: (val) => _documents = val,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            color: AppColors.black,
+                                          ),
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              hintStyle: TextStyle(
+                                                color: AppColors.themecolor,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                decoration: TextDecoration.none,
+                                              ),
+                                              hintText: ""),
                                         ),
                                       ),
                                       GestureDetector(
@@ -2050,11 +2170,11 @@ class CreateEventPostState extends State<CreateEventPost> {
                         GestureDetector(
                           onTap: () {
 
-                            final input2 = videoList.toString();
+                          /*  final input2 = videoList.toString();
                             final removedBrackets = input2.substring(1, input2.length - 1);
                             final parts = removedBrackets.split(',');
                             vidoname = parts.map((part) => "$part").join(',').trim();
-                            print("Vidoname: "+vidoname.toString());
+                            print("Vidoname: "+vidoname.toString());*/
 
                             if(followingvalues ==null)
                               {
@@ -2075,7 +2195,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                     mobileController.text,
                                     messageController.text,
                                    "",
-                                    vidoname,
+                                    VideoController.text,
                                     _imageList,
                                     _documentList);
                               }
@@ -2097,7 +2217,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   mobileController.text,
                                   messageController.text,
                                   followingvalues.toString(),
-                                  vidoname,
+                                  VideoController.text,
                                   _imageList,
                                   _documentList);
                             }
@@ -2171,6 +2291,7 @@ class CreateEventPostState extends State<CreateEventPost> {
           final removedBrackets = input.substring(1, input.length - 1);
           final parts = removedBrackets.split(',');
           catname = parts.map((part) => "$part").join(',').trim();
+          documentsController.text =catname;
           print("Docname: "+catname.toString());
         }
         else{

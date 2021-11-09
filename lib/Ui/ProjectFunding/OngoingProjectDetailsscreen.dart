@@ -1767,7 +1767,7 @@ class OngoingProjectDetailsscreenState
                             color: Colors.black12,
                           ),
                         ),
-                        paymentdetails_length!=null?
+                        projectdetailspojo.commentsdata.projectpaymentdetails.isEmpty?Container():
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1835,7 +1835,7 @@ class OngoingProjectDetailsscreenState
                               ),
                             ),*/
                           ],
-                        ):Container(),
+                        ),
                         paymentdetails_length!=null?
                         Container(
                           child: ListView.builder(
@@ -1845,7 +1845,8 @@ class OngoingProjectDetailsscreenState
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int idex) {
-                                return Container(
+                                return
+                                  Container(
                                   child: Card(
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
