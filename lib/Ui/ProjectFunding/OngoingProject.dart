@@ -11,7 +11,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
-import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
@@ -59,7 +58,6 @@ class OngoingProjectState extends State<OngoingProject> {
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
   String shortsharedlink = '';
-  String sharelink = "https://admin.kontirbute.com/api/sharedproduct/";
   String product_id = '';
 
   void function() {
@@ -1778,7 +1776,7 @@ class OngoingProjectState extends State<OngoingProject> {
     print("Product: "+productid);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
         uriPrefix: 'https://kontribute.page.link',
-        link: Uri.parse(sharelink + productid),
+        link: Uri.parse(Network.sharelin + productid),
         androidParameters: AndroidParameters(
           packageName: 'com.kont.kontribute',
           minimumVersion: 1,

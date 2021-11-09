@@ -65,16 +65,18 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   var catname = null;
   String radioVal="1";
   final NameFocus = FocusNode();
+  final AmountFocus = FocusNode();
   final EmailFocus = FocusNode();
   final MobileFocus = FocusNode();
   final SubjectFocus = FocusNode();
   final MessageFocus = FocusNode();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
+  final TextEditingController amountController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController messageController = new TextEditingController();
-  String _email,_name,_mobile,_subject,_description;
+  String _email,_name,_mobile,_subject,_amount,_description;
 
 
 
@@ -1366,7 +1368,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             },
             onSaved: (val) => _email= val,
             onFieldSubmitted: (v) {
-              FocusScope.of(context).requestFocus(NameFocus);
+              FocusScope.of(context).requestFocus(AmountFocus);
             },
             textAlign: TextAlign.left,
             style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
@@ -1375,6 +1377,48 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(5),
               labelText: "Your Email*",
+              labelStyle:TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+              right: SizeConfig.blockSizeHorizontal*2),
+          margin: EdgeInsets.only(
+              top: SizeConfig.blockSizeVertical *2,
+              left: SizeConfig.blockSizeHorizontal*2,
+              right: SizeConfig.blockSizeHorizontal*2),
+
+          child:
+          TextFormField(
+            autofocus: false,
+            focusNode: AmountFocus,
+            controller: amountController,
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+            validator: (val) {
+              if (val.length == 0)
+                return "Please enter required amount";
+              else
+                return null;
+            },
+            onSaved: (val) => _amount= val,
+            onFieldSubmitted: (v) {
+              FocusScope.of(context).requestFocus(MessageFocus);
+            },
+            textAlign: TextAlign.left,
+            style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Poppins-Regular',),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(5),
+              labelText: "Required Amount*",
               labelStyle:TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.normal,

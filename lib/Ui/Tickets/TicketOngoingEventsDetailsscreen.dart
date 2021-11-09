@@ -22,6 +22,8 @@ import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'dart:math';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:share/share.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:ext_storage/ext_storage.dart';
@@ -57,6 +59,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
   var documentlist_length;
   var Ticketlist_length;
   var videolist_length;
+  String shortsharedlink = '';
+  String product_id = '';
   List<String> imagestore = [];
   TicketDetailsPojo projectdetailspojo;
   ticketpaymentdetailsPojo ticketpayment;
@@ -200,6 +204,10 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -243,6 +251,33 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
     );
   }
 
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+
+
   _showEditPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
@@ -259,6 +294,10 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -300,6 +339,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
               ),
             )
         ),
+
         /*PopupMenuItem(
             value: 3,
             child: GestureDetector(
@@ -325,6 +365,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                 ],
               ),
             )),*/
+
       ],
       elevation: 8.0,
     );
@@ -1023,7 +1064,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   // iconDisabledColor: Colors.white,
                                   valueChanged: (_isFavorite) {
                                     print("LIke");
-
                                     addlike();
                                   },
                                 ),
@@ -1574,7 +1614,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             color: Colors.black12,
                           ),
                         ),
-
+                        projectdetailspojo.commentsdata.ticketpayemtndetails.isEmpty?Container():
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1626,6 +1666,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             ),
                           ],
                         ),
+                        projectdetailspojo.commentsdata.ticketpayemtndetails.isEmpty?Container():
                         Container(
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                           color: AppColors.purplecolor,
@@ -1711,9 +1752,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                               itemBuilder: (BuildContext context, int ix) {
                                 return
                                   Container(
-
                                     child: Column(
-
                                       children: [
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1738,7 +1777,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               margin: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal*3),
                                               child: Text(
-                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).fullName, textAlign: TextAlign.center,
+                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).fullName,
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     decoration: TextDecoration.none,
                                                     fontSize: 12,
@@ -1843,8 +1883,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                       ],
                     ),
                   ),
-                )
-               ,
+                ),
               ):Container(
                 child: Center(
                   child: internet == true?CircularProgressIndicator():SizedBox(),

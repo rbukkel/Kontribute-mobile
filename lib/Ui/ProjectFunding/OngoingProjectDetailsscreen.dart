@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:dio/dio.dart';
+import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:file_utils/file_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,6 +79,8 @@ class OngoingProjectDetailsscreenState
   var dio = Dio();
   String reverid;
   final AmountFocus = FocusNode();
+  String shortsharedlink = '';
+  String product_id = '';
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
 
@@ -279,6 +282,33 @@ class OngoingProjectDetailsscreenState
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
 
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+
+
   _showPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
@@ -295,6 +325,11 @@ class OngoingProjectDetailsscreenState
             value: 1,
             child: GestureDetector(
               onTap: () {
+
+                setState(() {
+                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -354,6 +389,10 @@ class OngoingProjectDetailsscreenState
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -607,6 +646,7 @@ class OngoingProjectDetailsscreenState
                             _tapDownPosition = details.globalPosition;
                           },
                           onTap: () {
+
                             projectdetailspojo.commentsdata.userId==userid?
                             _showEditPopupMenu(): _showPopupMenu();
                           },

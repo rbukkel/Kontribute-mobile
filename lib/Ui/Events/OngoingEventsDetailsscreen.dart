@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
+  String shortsharedlink = '';
+  String product_id = '';
 
   Future<PermissionStatus> getPermission() async {
     print("getPermission");
@@ -226,6 +229,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -269,6 +276,33 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
     );
   }
 
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+
+
   _showEditPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
@@ -285,6 +319,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(

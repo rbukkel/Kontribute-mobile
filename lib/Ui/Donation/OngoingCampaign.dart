@@ -23,6 +23,8 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -49,6 +51,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   String updateval;
   String updatefollowval;
   String tabValue ="1";
+  String shortsharedlink = '';
+  String product_id = '';
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
@@ -108,6 +112,31 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     });
   }
 
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
 
   Future<void> followapi(String useid, String rece) async {
     Map data = {
@@ -280,6 +309,12 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -328,6 +363,12 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(

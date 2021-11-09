@@ -19,7 +19,8 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
-
+import 'package:share/share.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 class TicketOngoingEvents extends StatefulWidget {
   @override
@@ -29,6 +30,8 @@ class TicketOngoingEvents extends StatefulWidget {
 class TicketOngoingEventsState extends State<TicketOngoingEvents> {
   bool internet = false;
   String val;
+  String shortsharedlink = '';
+  String product_id = '';
   var storelist_length;
   var imageslist_length;
   var commentlist_length;
@@ -264,6 +267,33 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     }
   }
 
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+
+
   _showEditPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
@@ -277,6 +307,12 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -325,6 +361,12 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(

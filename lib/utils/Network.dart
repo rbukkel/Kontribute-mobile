@@ -7,6 +7,7 @@ class Network{
   static String BaseApidonation = "http://kontribute.knickglobal.com/uploads/donation/";
   static String BaseApiticket = "http://kontribute.knickglobal.com/uploads/tickets/";
   static String BaseApievent = "http://kontribute.knickglobal.com/uploads/events/";
+  static String sharelin = "https://admin.kontirbute.com/api/sharedproduct/";
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";

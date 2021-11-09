@@ -54,6 +54,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
   var storelist_length;
   var imageslist_length;
   var documentlist_length;
+  var paymentdetails_length;
   var videolist_length;
   List<String> imagestore = [];
   donationDetails projectdetailspojo;
@@ -151,6 +152,7 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
             storelist_length = projectdetailspojo.commentsdata.commentslist;
             imageslist_length = projectdetailspojo.commentsdata.donationimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
+            paymentdetails_length = projectdetailspojo.commentsdata.donationpaymentdetails;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
             double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) / double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
@@ -1480,6 +1482,446 @@ class CampaignHistoryDetailsscreenState extends State<CampaignHistoryDetailsscre
                                 );
                               }),
                         ):Container(),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        projectdetailspojo.commentsdata.donationpaymentdetails.isEmpty?Container():
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  left: SizeConfig.blockSizeHorizontal * 3),
+                              child: Text(
+                                StringConstant.contribution,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            /*  Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 5,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              child: Text(
+                                StringConstant.exportto,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Image.asset(
+                                  "assets/images/csv.png",
+                                  width: 80,
+                                  height: 40,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 2,
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 4,
+                                ),
+                                child: Image.asset(
+                                  "assets/images/pdf.png",
+                                  width: 80,
+                                  height: 40,
+                                ),
+                              ),
+                            ),*/
+                          ],
+                        ),
+                        paymentdetails_length!=null?
+                        Container(
+                          child: ListView.builder(
+                              itemCount:  paymentdetails_length.length == null
+                                  ? 0
+                                  : paymentdetails_length.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int idex) {
+                                return
+                                  Container(
+                                    child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: InkWell(
+                                          child: Container(
+                                            padding: EdgeInsets.all(5.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).facebookId==null?
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        callNext(
+                                                            viewdetail_profile(
+                                                                data:  projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).senderId.toString()
+                                                            ), context);
+                                                      },
+                                                      child: Container(
+                                                        height: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        width: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        alignment: Alignment.center,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig.blockSizeVertical * 1,
+                                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                                            left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                2),
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                    Network.BaseApiprofile+projectdetailspojo
+                                                                        .commentsdata.donationpaymentdetails.elementAt(idex).profilePic),
+                                                                fit: BoxFit.fill)),
+                                                      ),
+                                                    ) :
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        callNext(
+                                                            viewdetail_profile(
+                                                                data:  projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).senderId.toString()
+                                                            ), context);
+                                                      },
+                                                      child:  Container(
+                                                        height: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        width: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        alignment: Alignment.center,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig.blockSizeVertical * 1,
+                                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                                            left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                2),
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                    projectdetailspojo
+                                                                        .commentsdata.donationpaymentdetails.elementAt(idex).profilePic),
+                                                                fit: BoxFit.fill)),
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  55,
+                                                              alignment: Alignment
+                                                                  .topLeft,
+                                                              padding:
+                                                              EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    1,
+                                                              ),
+                                                              child: Text(
+                                                                projectdetailspojo
+                                                                    .commentsdata.donationpaymentdetails.elementAt(idex).fullName,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    fontSize: 14,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .topRight,
+                                                              padding:
+                                                              EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    1,
+                                                                right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    3,
+                                                              ),
+                                                              child: Text(
+                                                                "Status",
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .right,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color:
+                                                                    AppColors
+                                                                        .black,
+                                                                    fontSize: 12,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  55,
+                                                              alignment: Alignment
+                                                                  .topLeft,
+                                                              padding: EdgeInsets.only(
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      1,
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      3,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              child: Text(
+                                                                "Contribute-\$"+projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).amount.toString(),
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                            projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).status=="0"?
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .topRight,
+                                                              padding: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .orange)),
+                                                              child: Text(
+                                                                "Pending".toUpperCase(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: AppColors
+                                                                        .orange,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ):projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).status=="1"?
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .center,
+                                                              padding: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .orange)),
+                                                              child: Text(
+                                                                "Done".toUpperCase(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: AppColors
+                                                                        .orange,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ):
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .topRight,
+                                                              padding: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .orange)),
+                                                              child: Text(
+                                                                "Pending".toUpperCase(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: AppColors
+                                                                        .orange,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: () {},
+                                        )),
+                                  );
+                              }),
+                        ):Container()
                       ],
                     ),
                   ),
