@@ -55,32 +55,29 @@ class loginOTPScreenState extends State<loginOTPScreen>{
   User user;
   String data1;
   String pass1;
+  String emai;
+  String passwo;
   String message;
   bool internet = false;
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
 
- /* final TwitterLogin twitterLogin = new TwitterLogin(
-    consumerKey: 'VLHZDyBzZN4jCtWivu0gsrF5v',
-    consumerSecret: 'giMJBSteIpjBr6SpD0O4KxLm3OXZX7EEjmNFt4xavaRBxrHXem',
-  );*/
 
   @override
   void initState() {
     super.initState();
-    gettoken();
 
     SharedUtils.readToken("Token").then((val) {
       print("Token: " + val);
       token = val;
       print("Login token: " + token.toString());
     });
+
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
         pass1 = widget.pass;
         print("ID: "+data1.toString());
         print("Pass: "+pass1.toString());
-
         setState(() {
           internet = true;
         });
@@ -97,23 +94,6 @@ class loginOTPScreenState extends State<loginOTPScreen>{
       }
     });
 
-
-  }
-
-
-
-  gettoken() {
-    _firebaseMessaging.getToken().then((onValue) {
-      setState(() {
-        token = onValue;
-        SharedUtils.saveToken("Token", token);
-
-        print(token);
-      });
-    }).catchError((onError) {
-      token = onError.toString();
-      setState(() {});
-    });
   }
 
 

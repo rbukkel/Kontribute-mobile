@@ -683,12 +683,6 @@ class loginState extends State<login>{
 
           callNext(loginOTPScreen(data:emal.toString(),pass:pass.toString()), context);
 
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      loginOTPScreen()),
-                  (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {

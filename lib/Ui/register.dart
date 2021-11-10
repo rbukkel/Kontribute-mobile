@@ -12,7 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Pojo/CountrylistPojo.dart';
+import 'package:kontribute/Pojo/ResutPush.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -37,6 +37,7 @@ class registerState extends State<register> {
   final EmailFocus = FocusNode();
   final PwdFocus = FocusNode();
   final MobileFocus = FocusNode();
+  final String title = "AutoComplete Demo";
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
@@ -80,6 +81,43 @@ class registerState extends State<register> {
   final TextEditingController _typeAheadController = TextEditingController();
   TextEditingController controller = new TextEditingController();
 
+  AutoCompleteTextField searchTextFields;
+  GlobalKey<AutoCompleteTextFieldState<ResutPush>> key = new GlobalKey();
+  static List<ResutPush> users = new List<ResutPush>();
+  bool loading = true;
+
+  void getUsers() async {
+
+      var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
+      if (response.statusCode == 200){
+        final data = json.decode(response.body);
+        users = data["result_push"];
+        print('Users: ${users.length}');
+        setState(() {
+          loading = false;
+        });
+      } else {
+        print("Error getting users2.");
+      }
+
+  }
+
+
+  Widget row(ResutPush user) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          user.country,
+          style: TextStyle(fontSize: 16.0),
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+
+      ],
+    );
+  }
 
   @override
   void initState() {
@@ -92,6 +130,7 @@ class registerState extends State<register> {
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
+       // getUsers();
         getNationalList();
         getCountryList();
       } else {
@@ -855,6 +894,41 @@ class registerState extends State<register> {
                           },
                         ),
                       ),
+
+/*
+
+                      loading
+                          ? CircularProgressIndicator()
+                          : searchTextField = AutoCompleteTextField<ResutPush>(
+                        key: key,
+                        clearOnSubmit: false,
+                        suggestions: users,
+                        style: TextStyle(color: Colors.black, fontSize: 16.0),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                          hintText: "Search Name",
+                          hintStyle: TextStyle(color: Colors.black),
+                        ),
+                        itemFilter: (item, query) {
+                          return item.country
+                              .toLowerCase()
+                              .startsWith(query.toLowerCase());
+                        },
+                        itemSorter: (a, b) {
+                          return a.country.compareTo(b.country);
+                        },
+                        itemSubmitted: (item) {
+                          setState(() {
+                            searchTextField.textField.controller.text = item.country;
+                          });
+                        },
+                        itemBuilder: (context, item) {
+                          // ui for the autocompelete row
+                          return row(item);
+                        },
+                      ),
+*/
+
 
                      /* TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(

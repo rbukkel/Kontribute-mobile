@@ -1,14 +1,14 @@
 class EventDetailsPojo {
   bool success;
-  Commentsdata commentsdata;
+  Eventsdata eventsdata;
   String message;
 
-  EventDetailsPojo({this.success, this.commentsdata, this.message});
+  EventDetailsPojo({this.success, this.eventsdata, this.message});
 
   EventDetailsPojo.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    commentsdata = json['commentsdata'] != null
-        ? new Commentsdata.fromJson(json['commentsdata'])
+    eventsdata = json['eventsdata'] != null
+        ? new Eventsdata.fromJson(json['eventsdata'])
         : null;
     message = json['message'];
   }
@@ -16,15 +16,15 @@ class EventDetailsPojo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
-    if (this.commentsdata != null) {
-      data['commentsdata'] = this.commentsdata.toJson();
+    if (this.eventsdata != null) {
+      data['eventsdata'] = this.eventsdata.toJson();
     }
     data['message'] = this.message;
     return data;
   }
 }
 
-class Commentsdata {
+class Eventsdata {
   String id;
   String eventName;
   String eventStarttime;
@@ -47,46 +47,50 @@ class Commentsdata {
   String updatedAt;
   int totalLike;
   int totalcomments;
-  List<Comments> commentslist;
+  List<Commentslist> commentslist;
   List<Eventimagesdata> eventimagesdata;
   int totalslotamount;
   int totalcollectedamount;
   int balanceslot;
+  int totalcontribute;
+  List<ContributerList> contributerList;
   String fullName;
   String profilePic;
 
-  Commentsdata(
+  Eventsdata(
       {this.id,
-      this.eventName,
-      this.eventStarttime,
-      this.eventStartdate,
-      this.eventEndtime,
-      this.eventEnddate,
-      this.description,
-      this.categoryId,
-      this.userId,
-      this.entryFee,
-      this.maximumParticipant,
-      this.videoLink,
-      this.documents,
-      this.viewType,
-      this.members,
-      this.termsAndCondition,
-      this.postedDate,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.totalLike,
-      this.totalcomments,
-      this.commentslist,
-      this.eventimagesdata,
-      this.totalslotamount,
-      this.totalcollectedamount,
-      this.balanceslot,
-      this.fullName,
-      this.profilePic});
+        this.eventName,
+        this.eventStarttime,
+        this.eventStartdate,
+        this.eventEndtime,
+        this.eventEnddate,
+        this.description,
+        this.categoryId,
+        this.userId,
+        this.entryFee,
+        this.maximumParticipant,
+        this.videoLink,
+        this.documents,
+        this.viewType,
+        this.members,
+        this.termsAndCondition,
+        this.postedDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.totalLike,
+        this.totalcomments,
+        this.commentslist,
+        this.eventimagesdata,
+        this.totalslotamount,
+        this.totalcollectedamount,
+        this.balanceslot,
+        this.totalcontribute,
+        this.contributerList,
+        this.fullName,
+        this.profilePic});
 
-  Commentsdata.fromJson(Map<String, dynamic> json) {
+  Eventsdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     eventName = json['event_name'];
     eventStarttime = json['event_starttime'];
@@ -120,12 +124,11 @@ class Commentsdata {
     totalLike = json['total_like'];
     totalcomments = json['totalcomments'];
     if (json['commentslist'] != null) {
-      commentslist = new List<Comments>();
+      commentslist = new List<Commentslist>();
       json['commentslist'].forEach((v) {
-        commentslist.add(new Comments.fromJson(v));
+        commentslist.add(new Commentslist.fromJson(v));
       });
     }
-
     if (json['eventimagesdata'] != null) {
       eventimagesdata = new List<Eventimagesdata>();
       json['eventimagesdata'].forEach((v) {
@@ -135,6 +138,13 @@ class Commentsdata {
     totalslotamount = json['totalslotamount'];
     totalcollectedamount = json['totalcollectedamount'];
     balanceslot = json['balanceslot'];
+    totalcontribute = json['totalcontribute'];
+    if (json['contributer_list'] != null) {
+      contributerList = new List<ContributerList>();
+      json['contributer_list'].forEach((v) {
+        contributerList.add(new ContributerList.fromJson(v));
+      });
+    }
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
   }
@@ -177,6 +187,11 @@ class Commentsdata {
     data['totalslotamount'] = this.totalslotamount;
     data['totalcollectedamount'] = this.totalcollectedamount;
     data['balanceslot'] = this.balanceslot;
+    data['totalcontribute'] = this.totalcontribute;
+    if (this.contributerList != null) {
+      data['contributer_list'] =
+          this.contributerList.map((v) => v.toJson()).toList();
+    }
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
     return data;
@@ -201,50 +216,7 @@ class VideoLink {
     return data;
   }
 }
-class Comments {
-  int id;
-  String projectId;
-  String donationId;
-  String comment;
-  String userId;
-  String postedDate;
-  String createdAt;
-  String updatedAt;
 
-  Comments(
-      {this.id,
-        this.projectId,
-        this.donationId,
-        this.comment,
-        this.userId,
-        this.postedDate,
-        this.createdAt,
-        this.updatedAt});
-
-  Comments.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    projectId = json['project_id'];
-    donationId = json['donation_id'];
-    comment = json['comment'];
-    userId = json['user_id'];
-    postedDate = json['posted_date'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['project_id'] = this.projectId;
-    data['donation_id'] = this.donationId;
-    data['comment'] = this.comment;
-    data['user_id'] = this.userId;
-    data['posted_date'] = this.postedDate;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
 class Documents {
   String documentsUrl;
   String docName;
@@ -264,6 +236,59 @@ class Documents {
   }
 }
 
+class Commentslist {
+  int id;
+  String projectId;
+  String donationId;
+  String eventId;
+  String ticketId;
+  String comment;
+  String userId;
+  String postedDate;
+  String createdAt;
+  String updatedAt;
+
+  Commentslist(
+      {this.id,
+        this.projectId,
+        this.donationId,
+        this.eventId,
+        this.ticketId,
+        this.comment,
+        this.userId,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
+
+  Commentslist.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    projectId = json['project_id'];
+    donationId = json['donation_id'];
+    eventId = json['event_id'];
+    ticketId = json['ticket_id'];
+    comment = json['comment'];
+    userId = json['user_id'];
+    postedDate = json['posted_date'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['project_id'] = this.projectId;
+    data['donation_id'] = this.donationId;
+    data['event_id'] = this.eventId;
+    data['ticket_id'] = this.ticketId;
+    data['comment'] = this.comment;
+    data['user_id'] = this.userId;
+    data['posted_date'] = this.postedDate;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
 class Eventimagesdata {
   int id;
   String eventId;
@@ -275,12 +300,12 @@ class Eventimagesdata {
 
   Eventimagesdata(
       {this.id,
-      this.eventId,
-      this.imagePath,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt});
+        this.eventId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt});
 
   Eventimagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -301,6 +326,63 @@ class Eventimagesdata {
     data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class ContributerList {
+  String id;
+  String eventId;
+  String senderId;
+  String amount;
+  String status;
+  String paymentfor;
+  String createdAt;
+  String updatedAt;
+  String fullName;
+  String profilePic;
+  Null facebookId;
+
+  ContributerList(
+      {this.id,
+        this.eventId,
+        this.senderId,
+        this.amount,
+        this.status,
+        this.paymentfor,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.facebookId});
+
+  ContributerList.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    eventId = json['event_id'];
+    senderId = json['sender_id'];
+    amount = json['amount'];
+    status = json['status'];
+    paymentfor = json['paymentfor'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
+    facebookId = json['facebook_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['event_id'] = this.eventId;
+    data['sender_id'] = this.senderId;
+    data['amount'] = this.amount;
+    data['status'] = this.status;
+    data['paymentfor'] = this.paymentfor;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
+    data['facebook_id'] = this.facebookId;
     return data;
   }
 }

@@ -31,11 +31,14 @@ class SendInvitationState extends State<SendInvitation>{
   final SubjectFocus = FocusNode();
   final DescriptionFocus = FocusNode();
   final TextEditingController emailController = new TextEditingController();
+  final AmountFocus = FocusNode();
+  final TextEditingController amountController = new TextEditingController();
+
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController descriptionController = new TextEditingController();
-  String _email,_name,_mobile,_subject,_description;
+  String _email,_name,_mobile,_subject,_description,_amount;
   sendinvitationpojo sendinvi;
   sendinvitationListingpojo listpojo;
   bool showvalue = false;
@@ -269,6 +272,48 @@ class SendInvitationState extends State<SendInvitation>{
                     ),
                   ),
                   Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
+                        right: SizeConfig.blockSizeHorizontal*2),
+                    margin: EdgeInsets.only(
+                        top: SizeConfig.blockSizeVertical *2,
+                        left: SizeConfig.blockSizeHorizontal*2,
+                        right: SizeConfig.blockSizeHorizontal*2),
+
+                    child:
+                    TextFormField(
+                      autofocus: false,
+                      focusNode: AmountFocus,
+                      controller: amountController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter required amount";
+                        else
+                          return null;
+                      },
+                      onSaved: (val) => _amount= val,
+                      onFieldSubmitted: (v) {
+                        FocusScope.of(context).requestFocus(DescriptionFocus);
+                      },
+                      textAlign: TextAlign.left,
+                      style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular',),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(5),
+                        labelText: "Required Amount*",
+                        labelStyle:TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal*2,
@@ -323,7 +368,7 @@ class SendInvitationState extends State<SendInvitation>{
                         Internet_check().check().then((intenet) {
                           if (intenet != null && intenet) {
                             signIn(
-                                emailController.text, nameController.text,mobileController.text,descriptionController.text);
+                                emailController.text, nameController.text,mobileController.text,descriptionController.text,amountController.text,);
                           } else {
                             Fluttertoast.showToast(
                               msg: "No Internet Connection",
@@ -701,7 +746,7 @@ class SendInvitationState extends State<SendInvitation>{
   }
 
 
-  signIn(String emal,String name,String mobile,String descr) async {
+  signIn(String emal,String name,String mobile,String descr,String amount) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       "userid":userid.toString(),
@@ -709,6 +754,7 @@ class SendInvitationState extends State<SendInvitation>{
       "message":descr,
       "email":emal,
       "mobile":mobile,
+      "amount":amount,
     };
     print("Data: "+data.toString());
     var jsonResponse = null;
@@ -737,6 +783,7 @@ class SendInvitationState extends State<SendInvitation>{
             nameController.text="";
             mobileController.text="";
             descriptionController.text="";
+            amountController.text="";
             getsendListing(userid);
           });
           final RenderBox box1 = _formKey.currentContext.findRenderObject();

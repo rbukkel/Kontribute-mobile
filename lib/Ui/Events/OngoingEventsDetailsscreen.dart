@@ -62,6 +62,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
   var imageslist_length;
   var documentlist_length;
   var videolist_length;
+  var paymentdetails_length;
   List<String> imagestore = [];
   EventDetailsPojo projectdetailspojo;
   projectlike prolike;
@@ -154,13 +155,14 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            productlist_length = projectdetailspojo.commentsdata;
-            storelist_length = projectdetailspojo.commentsdata.commentslist;
-            imageslist_length = projectdetailspojo.commentsdata.eventimagesdata;
-            documentlist_length = projectdetailspojo.commentsdata.documents;
-            videolist_length = projectdetailspojo.commentsdata.videoLink;
-            double amount = double.parse(projectdetailspojo.commentsdata.balanceslot.toString()) /
-                double.parse(projectdetailspojo.commentsdata.totalslotamount.toString()) * 100;
+            productlist_length = projectdetailspojo.eventsdata;
+            storelist_length = projectdetailspojo.eventsdata.commentslist;
+            imageslist_length = projectdetailspojo.eventsdata.eventimagesdata;
+            documentlist_length = projectdetailspojo.eventsdata.documents;
+            videolist_length = projectdetailspojo.eventsdata.videoLink;
+            paymentdetails_length = projectdetailspojo.eventsdata.contributerList;
+            double amount = double.parse(projectdetailspojo.eventsdata.balanceslot.toString()) /
+                double.parse(projectdetailspojo.eventsdata.totalslotamount.toString()) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
           });
@@ -230,8 +232,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
-                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                  print("Copy: "+projectdetailspojo.eventsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.eventsdata.id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -255,7 +257,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                 Navigator.of(context).pop();
                 callNext(
                     EventReport(
-                        data: projectdetailspojo.commentsdata.id.toString()
+                        data: projectdetailspojo.eventsdata.id.toString()
                     ), context);
               },
               child: Row(
@@ -320,8 +322,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  print("Copy: "+projectdetailspojo.commentsdata.id.toString());
-                  _createDynamicLink(projectdetailspojo.commentsdata.id.toString());
+                  print("Copy: "+projectdetailspojo.eventsdata.id.toString());
+                  _createDynamicLink(projectdetailspojo.eventsdata.id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -347,7 +349,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                 Navigator.of(context).pop();
                 callNext(
                     EditEventPost(
-                        data:  projectdetailspojo.commentsdata.id.toString()
+                        data:  projectdetailspojo.eventsdata.id.toString()
                     ), context);
               },
               child: Row(
@@ -372,7 +374,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                */
         /* callNext(
                     ProjectReport(
-                        data: projectdetailspojo.commentsdata.id.toString()
+                        data: projectdetailspojo.eventsdata.id.toString()
                     ), context);*/
         /*
               },
@@ -470,7 +472,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           },
                           onTap: ()
                           {
-                            projectdetailspojo.commentsdata.userId==userid?
+                            projectdetailspojo.eventsdata.userId==userid?
                             _showEditPopupMenu(): _showPopupMenu();
                           },
                           child:  Container(
@@ -488,14 +490,14 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            projectdetailspojo.commentsdata.profilePic == null ||
-                                projectdetailspojo.commentsdata.profilePic == ""
+                            projectdetailspojo.eventsdata.profilePic == null ||
+                                projectdetailspojo.eventsdata.profilePic == ""
                                 ? GestureDetector(
                               onTap: ()
                               {
                                 callNext(
                                     viewdetail_profile(
-                                        data: projectdetailspojo.commentsdata.userId.toString()
+                                        data: projectdetailspojo.eventsdata.userId.toString()
                                     ), context);
                               },
                               child: Container(
@@ -527,7 +529,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                               onTap: () {
                                 callNext(
                                     viewdetail_profile(
-                                        data: projectdetailspojo.commentsdata.userId.toString()
+                                        data: projectdetailspojo.eventsdata.userId.toString()
                                     ), context);
                               },
                               child: Container(
@@ -547,7 +549,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                     image: DecorationImage(
                                         image: NetworkImage(
                                             projectdetailspojo
-                                                .commentsdata.profilePic),
+                                                .eventsdata.profilePic),
                                         fit: BoxFit.fill)),
                               ),
                             ),
@@ -563,7 +565,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       {
                                         callNext(
                                             viewdetail_profile(
-                                                data: projectdetailspojo.commentsdata.userId.toString()
+                                                data: projectdetailspojo.eventsdata.userId.toString()
                                             ), context);
                                       },
                                       child: Container(
@@ -574,7 +576,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           top: SizeConfig.blockSizeVertical * 1,
                                         ),
                                         child: Text(
-                                          projectdetailspojo.commentsdata.fullName,
+                                          projectdetailspojo.eventsdata.fullName,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.themecolor,
@@ -645,8 +647,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                     ),
 
                                     projectdetailspojo
-                                        .commentsdata.userId.toString()!=userid?
-                                    projectdetailspojo.commentsdata.status=="pending"?
+                                        .eventsdata.userId.toString()!=userid?
+                                    projectdetailspojo.eventsdata.status=="pending"?
                                     GestureDetector(
                                       onTap: ()
                                       {
@@ -661,8 +663,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           child: Text("Continue"),
                                           onPressed: () async {
                                             Payamount( projectdetailspojo
-                                                .commentsdata.id, projectdetailspojo
-                                                .commentsdata.entryFee,userid);
+                                                .eventsdata.id, projectdetailspojo
+                                                .eventsdata.entryFee,userid);
                                           },
                                         );
                                         // set up the AlertDialog
@@ -672,7 +674,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           content: new Row(
                                             children: <Widget>[
                                               new Text("Event entry fees \$"+projectdetailspojo
-                                                  .commentsdata.entryFee,
+                                                  .eventsdata.entryFee,
                                                 style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   fontWeight: FontWeight.normal,
@@ -745,7 +747,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       ),
                                       child: Text(
                                         projectdetailspojo
-                                            .commentsdata.eventName,
+                                            .eventsdata.eventName,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
@@ -771,7 +773,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       ),
                                       child: Text(
                                         "Start Date- "+projectdetailspojo
-                                            .commentsdata.eventStartdate,
+                                            .eventsdata.eventStartdate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -822,7 +824,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       ),
                                       child: Text(
                                         "End Date- "+projectdetailspojo
-                                            .commentsdata.eventEnddate,
+                                            .eventsdata.eventEnddate,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -876,7 +878,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                   ),
                                   child: Text(
                                     "\$"+projectdetailspojo
-                                        .commentsdata.totalslotamount.toString(),
+                                        .eventsdata.totalslotamount.toString(),
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.lightBlueAccent,
@@ -929,7 +931,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   "\$"+projectdetailspojo
-                                      .commentsdata.balanceslot.toString(),
+                                      .eventsdata.balanceslot.toString(),
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.lightBlueAccent,
@@ -980,7 +982,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                             image: NetworkImage(
                                               Network.BaseApievent +
                                                   projectdetailspojo
-                                                      .commentsdata
+                                                      .eventsdata
                                                       .eventimagesdata
                                                       .elementAt(ind)
                                                       .imagePath,
@@ -1139,7 +1141,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       ),
                                       Container(
                                         child: Text(projectdetailspojo
-                                            .commentsdata.totalLike
+                                            .eventsdata.totalLike
                                             .toString(),style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
                                       )
                                     ],
@@ -1162,7 +1164,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       ),
                                       Container(
                                         child: Text( projectdetailspojo
-                                            .commentsdata.totalcomments
+                                            .eventsdata.totalcomments
                                             .toString(),style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
                                       )
                                     ],
@@ -1179,7 +1181,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                               top: SizeConfig.blockSizeVertical *1),
                           child: new Html(
-                            data: projectdetailspojo.commentsdata.description,
+                            data: projectdetailspojo.eventsdata.description,
                             defaultTextStyle: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
@@ -1189,7 +1191,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           ),
                         ),
 
-                        projectdetailspojo.commentsdata.termsAndCondition!=null?
+                        projectdetailspojo.eventsdata.termsAndCondition!=null?
                         Container(
                           width: SizeConfig.blockSizeHorizontal * 90,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
@@ -1206,7 +1208,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                 fontFamily: 'Poppins-Regular'),
                           ),
                         ):Container(),
-                        projectdetailspojo.commentsdata.termsAndCondition!=null?
+                        projectdetailspojo.eventsdata.termsAndCondition!=null?
                         Container(
                           width: SizeConfig.blockSizeHorizontal * 90,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
@@ -1214,7 +1216,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                             right: SizeConfig.blockSizeHorizontal * 3,),
                           alignment: Alignment.topLeft,
                           child: Text(
-                            projectdetailspojo.commentsdata.termsAndCondition,
+                            projectdetailspojo.eventsdata.termsAndCondition,
                             maxLines: 3,
                             style: TextStyle(letterSpacing: 1.0,
                                 color: Colors.black87,
@@ -1250,7 +1252,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           child: Text(
                             "View all " +
                                 (projectdetailspojo
-                                    .commentsdata.commentslist.length)
+                                    .eventsdata.commentslist.length)
                                     .toString() +
                                 " comments",
                             maxLines: 2,
@@ -1293,7 +1295,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                         ),
                                         child: Text(
                                           projectdetailspojo
-                                              .commentsdata.commentslist
+                                              .eventsdata.commentslist
                                               .elementAt(i)
                                               .comment,
                                           maxLines: 10,
@@ -1327,7 +1329,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                             color: Colors.black12,
                           ),
                         ),
-                        projectdetailspojo.commentsdata.userId==userid?Container():
+                        projectdetailspojo.eventsdata.userId==userid?Container():
                         Column(
                           children: [
                             Container(
@@ -1427,7 +1429,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                         right: SizeConfig.blockSizeHorizontal * 1),
                                     child: Stack(
                                       children: [
-                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==null||projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail==""?
+                                        projectdetailspojo.eventsdata.videoLink.elementAt(indx).videoThumbnail==null||projectdetailspojo.eventsdata.videoLink.elementAt(indx).videoThumbnail==""?
                                         Container(
                                           height:
                                           SizeConfig.blockSizeVertical * 45,
@@ -1457,7 +1459,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                                 shape: BoxShape.rectangle,
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                        projectdetailspojo.commentsdata.videoLink.elementAt(indx).videoThumbnail),
+                                                        projectdetailspojo.eventsdata.videoLink.elementAt(indx).videoThumbnail),
                                                     fit: BoxFit.fill)
                                             ),
                                           ),
@@ -1465,7 +1467,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                         InkWell(
                                           onTap: () {
                                             callNext(ProductVideoPlayerScreen(
-                                                data: projectdetailspojo.commentsdata.videoLink.elementAt(indx).vlink.toString(),
+                                                data: projectdetailspojo.eventsdata.videoLink.elementAt(indx).vlink.toString(),
                                                 comesfrom:"Event"), context);
                                           },
                                           child: Container(
@@ -1482,7 +1484,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           ),
                                         )
                                       ],
-                                    ));
+                                    )
+                                );
                               }),
                         ):Container(),
                         documentlist_length!=null?
@@ -1507,10 +1510,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       GestureDetector(
                                           onTap: ()async {
                                             String path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
-                                            String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
+                                            String fullPath = "$path/"+projectdetailspojo.eventsdata.documents.elementAt(inde).docName;
                                             print('full path ${fullPath}');
-                                            download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
-                                            // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                            download2(dio,projectdetailspojo.eventsdata.documents.elementAt(inde).documentsUrl, fullPath);
+                                            // downloadFile(Network.BaseApiProject+projectdetailspojo.eventsdata.documents.elementAt(inde).documents);
                                           },
                                           child:  Image.asset(
                                             "assets/images/files.png",
@@ -1528,7 +1531,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                         SizeConfig.blockSizeHorizontal * 20,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          projectdetailspojo.commentsdata.documents.elementAt(inde).docName.toString(),
+                                          projectdetailspojo.eventsdata.documents.elementAt(inde).docName.toString(),
                                           maxLines: 2,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -1544,11 +1547,11 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                           String path = await ExtStorage.getExternalStoragePublicDirectory(
                                               ExtStorage.DIRECTORY_DOWNLOADS);
                                           //String fullPath = tempDir.path + "/boo2.pdf'";
-                                          String fullPath = "$path/"+projectdetailspojo.commentsdata.documents.elementAt(inde).docName;
+                                          String fullPath = "$path/"+projectdetailspojo.eventsdata.documents.elementAt(inde).docName;
                                           print('full path ${fullPath}');
 
-                                          download2(dio,projectdetailspojo.commentsdata.documents.elementAt(inde).documentsUrl, fullPath);
-                                          // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                          download2(dio,projectdetailspojo.eventsdata.documents.elementAt(inde).documentsUrl, fullPath);
+                                          // downloadFile(Network.BaseApiProject+projectdetailspojo.eventsdata.documents.elementAt(inde).documents);
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(
@@ -1583,7 +1586,446 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                 );
                               }),
                         ):Container(),
-
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black12,
+                          ),
+                        ),
+                        projectdetailspojo.eventsdata.contributerList.isEmpty?Container():
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  left: SizeConfig.blockSizeHorizontal * 3),
+                              child: Text(
+                                StringConstant.contribution,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            /*  Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 5,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              child: Text(
+                                StringConstant.exportto,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: "Poppins-Regular",
+                                    color: Colors.black),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Image.asset(
+                                  "assets/images/csv.png",
+                                  width: 80,
+                                  height: 40,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 2,
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 4,
+                                ),
+                                child: Image.asset(
+                                  "assets/images/pdf.png",
+                                  width: 80,
+                                  height: 40,
+                                ),
+                              ),
+                            ),*/
+                          ],
+                        ),
+                        paymentdetails_length!=null?
+                        Container(
+                          child: ListView.builder(
+                              itemCount:  paymentdetails_length.length == null
+                                  ? 0
+                                  : paymentdetails_length.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int idex) {
+                                return
+                                  Container(
+                                    child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: InkWell(
+                                          child: Container(
+                                            padding: EdgeInsets.all(5.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    projectdetailspojo.eventsdata.contributerList.elementAt(idex).facebookId==null?
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        callNext(
+                                                            viewdetail_profile(
+                                                                data:  projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()
+                                                            ), context);
+                                                      },
+                                                      child: Container(
+                                                        height: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        width: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        alignment: Alignment.center,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig.blockSizeVertical * 1,
+                                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                                            left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                2),
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                    Network.BaseApiprofile+projectdetailspojo
+                                                                        .eventsdata.contributerList.elementAt(idex).profilePic),
+                                                                fit: BoxFit.fill)),
+                                                      ),
+                                                    ) :
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        callNext(
+                                                            viewdetail_profile(
+                                                                data:  projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()
+                                                            ), context);
+                                                      },
+                                                      child:  Container(
+                                                        height: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        width: SizeConfig
+                                                            .blockSizeVertical *
+                                                            8,
+                                                        alignment: Alignment.center,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig.blockSizeVertical * 1,
+                                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                                            left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                2),
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                    projectdetailspojo
+                                                                        .eventsdata.contributerList.elementAt(idex).profilePic),
+                                                                fit: BoxFit.fill)),
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  55,
+                                                              alignment: Alignment
+                                                                  .topLeft,
+                                                              padding:
+                                                              EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    1,
+                                                              ),
+                                                              child: Text(
+                                                                projectdetailspojo
+                                                                    .eventsdata.contributerList.elementAt(idex).fullName,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    fontSize: 14,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .topRight,
+                                                              padding:
+                                                              EdgeInsets.only(
+                                                                left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    1,
+                                                                right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    3,
+                                                              ),
+                                                              child: Text(
+                                                                "Status",
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .right,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color:
+                                                                    AppColors
+                                                                        .black,
+                                                                    fontSize: 12,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  55,
+                                                              alignment: Alignment
+                                                                  .topLeft,
+                                                              padding: EdgeInsets.only(
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      1,
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      3,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              child: Text(
+                                                                "Contribute-\$"+projectdetailspojo.eventsdata.contributerList.elementAt(idex).amount.toString(),
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                            projectdetailspojo.eventsdata.contributerList.elementAt(idex).status=="0"?
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .topRight,
+                                                              padding: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .orange)),
+                                                              child: Text(
+                                                                "Pending".toUpperCase(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: AppColors
+                                                                        .orange,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ):projectdetailspojo.eventsdata.contributerList.elementAt(idex).status=="1"?
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .center,
+                                                              padding: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .orange)),
+                                                              child: Text(
+                                                                "Done".toUpperCase(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: AppColors
+                                                                        .orange,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ):
+                                                            Container(
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment: Alignment
+                                                                  .topRight,
+                                                              padding: EdgeInsets.only(
+                                                                  right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  bottom: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2,
+                                                                  top: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      2),
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .orange)),
+                                                              child: Text(
+                                                                "Pending".toUpperCase(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color: AppColors
+                                                                        .orange,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: () {},
+                                        )),
+                                  );
+                              }),
+                        ):Container()
                       ],
                     ),
                   ),

@@ -2056,7 +2056,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       ),
     );
   }
-  sendInvitation(String emal,String name,String mobile,String descr) async {
+  sendInvitation(String emal,String name,String mobile,String descr,String amount) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       "userid":userid.toString(),
@@ -2064,6 +2064,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       "message":descr,
       "email":emal,
       "mobile":mobile,
+      "amount":amount,
     };
     print("Data: "+data.toString());
     var jsonResponse = null;

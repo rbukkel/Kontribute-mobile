@@ -1485,7 +1485,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   if(_imageFile!=null)
                     {
                       sendInvitation(
-                          emailController.text, nameController.text,mobileController.text,messageController.text);
+                          emailController.text,
+                          nameController.text,
+                          mobileController.text,
+                          messageController.text,
+                          amountController.text);
                     }
                   else {
                     Fluttertoast.showToast(
@@ -1544,7 +1548,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       ],
     );
   }
-  sendInvitation(String emal,String name,String mobile,String descr) async {
+  sendInvitation(String emal,String name,String mobile,String descr,String amoun) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       "userid":userid.toString(),
@@ -1553,6 +1557,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       "email":emal,
       "mobile":mobile,
       "sendername":userName,
+      "amount":amoun.toString(),
     };
 
     print("Data: "+data.toString());
@@ -1583,8 +1588,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             nameController.text ="";
             mobileController.text="";
             messageController.text="";
+            amountController.text="";
           });
           final RenderBox box1 = _formKey.currentContext.findRenderObject();
+          if(sendinvi.invitationlink!=null)
           Share.share("Let's join on Kontribute! Get it at " +sendinvi.invitationlink,
               subject: "Kontribute",
               sharePositionOrigin:
@@ -1595,6 +1602,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {

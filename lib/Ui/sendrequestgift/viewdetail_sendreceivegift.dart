@@ -371,22 +371,17 @@ class viewdetail_sendreceivegiftState
                                                           .result.giftPicture)
                                               : new AssetImage(
                                                   "assets/images/viewdetailsbg.png"),
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.scaleDown,
                                         ),
                                       )),
                                   Row(
                                     children: [
-                                      senddetailsPojo.result.receiverProfilePic ==
+                                      senddetailsPojo.result.profilePic ==
                                                   null ||
                                               senddetailsPojo.result
-                                                      .receiverProfilePic ==
+                                                      .profilePic ==
                                                   ""
-                                          ?  senddetailsPojo.result.adminProfilePic ==
-                                          null ||
-                                          senddetailsPojo.result
-                                              .adminProfilePic ==
-                                              ""?
-                                      Container(
+                                          ? Container(
                                               height:
                                                   SizeConfig.blockSizeVertical *
                                                       12,
@@ -414,34 +409,7 @@ class viewdetail_sendreceivegiftState
                                                   fit: BoxFit.fill,
                                                 ),
                                               ))
-                                          : Container(
-                                        height:
-                                        SizeConfig.blockSizeVertical *
-                                            12,
-                                        width:
-                                        SizeConfig.blockSizeVertical *
-                                            12,
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(
-                                              top: SizeConfig
-                                                  .blockSizeVertical *
-                                                  4,
-                                              bottom: SizeConfig
-                                                  .blockSizeVertical *
-                                                  1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  4),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    senddetailsPojo.result
-                                                        .adminProfilePic),
-                                                fit: BoxFit.fill)),):
+                                          :
                                       Container(
                                         height:
                                         SizeConfig.blockSizeVertical *
@@ -466,9 +434,9 @@ class viewdetail_sendreceivegiftState
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
-                                                      image: NetworkImage(
+                                                      image: NetworkImage(Network.BaseApiprofile+
                                                           senddetailsPojo.result
-                                                              .receiverProfilePic),
+                                                              .profilePic),
                                                       fit: BoxFit.fill)),
                                             ),
                                       Column(
