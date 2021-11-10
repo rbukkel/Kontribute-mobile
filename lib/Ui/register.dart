@@ -87,11 +87,10 @@ class registerState extends State<register> {
   bool loading = true;
 
   void getUsers() async {
-
       var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
       if (response.statusCode == 200){
-        final data = json.decode(response.body);
-        users = data["result_push"];
+       // final data = json.decode(response.body);
+        users = loadUsers(response.body);
         print('Users: ${users.length}');
         setState(() {
           loading = false;
@@ -102,6 +101,10 @@ class registerState extends State<register> {
 
   }
 
+  static List<ResutPush> loadUsers(String jsonString) {
+    final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
+    return parsed.map<ResutPush>((json) => ResutPush.fromJson(json)).toList();
+  }
 
   Widget row(ResutPush user) {
     return Row(
