@@ -54,7 +54,7 @@ class _mynetworkState extends State<mynetwork> {
       'receiver_id': user_id.toString(),
     };
 
-    print("user: " + data.toString());
+    print("follow_Request: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.follow_Request, body: data);
     if (response.statusCode == 200)
@@ -104,10 +104,13 @@ class _mynetworkState extends State<mynetwork> {
   }
 
   void getFollowing(String user_id) async {
+    setState(() {
+      followlist_length =null;
+    });
     Map data = {
       'receiver_id': user_id.toString(),
     };
-    print("receiver_id: " + data.toString());
+    print("followlisting: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.followlisting, body: data);
     if (response.statusCode == 200)
@@ -525,12 +528,9 @@ class _mynetworkState extends State<mynetwork> {
                                     Row(
                                       children: [
                                         GestureDetector(
-                                          onTap:(){
-
-                                           followaccept(userid,
-                                               requestpojo.result.elementAt(index).id,
-                                           "2");
-
+                                          onTap:()
+                                          {
+                                           followaccept(userid, requestpojo.result.elementAt(index).id, "2");
                                            },
                                           child: Container(
                                             margin: EdgeInsets.only(
@@ -871,7 +871,7 @@ class _mynetworkState extends State<mynetwork> {
       'status': status.toString(),
     };
 
-    print("user: " + data.toString());
+    print("follow_Request_update: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.follow_Request_update, body: data);
     if (response.statusCode == 200)

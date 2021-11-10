@@ -371,78 +371,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                         ),
                                         Row(
                                           children: [
-                                            requestpojo.result.data
-                                                .elementAt(
-                                                index)
-                                                .profilePic ==
-                                                null || requestpojo.result.data.elementAt(index).profilePic ==
-                                                    ""?  requestpojo.result.data
-                                                .elementAt(
-                                                index).giftPicture==null?
-                                            Container(
-                                                height: SizeConfig
-                                                    .blockSizeVertical *
-                                                    10,
-                                                width: SizeConfig
-                                                    .blockSizeVertical *
-                                                    10,
-                                                alignment:
-                                                Alignment
-                                                    .center,
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    bottom: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                                decoration: BoxDecoration(
-                                                  image: new DecorationImage(
-                                                    image: new AssetImage("assets/images/account_circle.png"),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                )
-                                            ):
-                                            Container(
-                                                height: SizeConfig
-                                                    .blockSizeVertical *
-                                                    10,
-                                                width: SizeConfig
-                                                    .blockSizeVertical *
-                                                    10,
-                                                alignment:
-                                                Alignment
-                                                    .center,
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    bottom: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        Network.BaseApigift+requestpojo.result.data.elementAt(index).giftPicture,
-                                                      ),
-                                                      fit: BoxFit.fill)),
-                                            )
-                                          :  requestpojo.result.data
-                                                .elementAt(
-                                                index).facebookId==null?
+                                            requestpojo.result.data.elementAt(index).facebookId==null?
+                                            requestpojo.result.data.elementAt(index).profilePic !=
+                                                null || requestpojo.result.data.elementAt(index).profilePic != ""?
                                             Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
@@ -475,6 +406,36 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                       fit: BoxFit.fill)),
                                             ):
                                             Container(
+                                                height: SizeConfig
+                                                    .blockSizeVertical *
+                                                    10,
+                                                width: SizeConfig
+                                                    .blockSizeVertical *
+                                                    10,
+                                                alignment:
+                                                Alignment
+                                                    .center,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    bottom: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        2),
+                                                decoration: BoxDecoration(
+                                                  image: new DecorationImage(
+                                                    image: new AssetImage("assets/images/account_circle.png"),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                )
+                                            ):
+                                            Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
                                                   10,
@@ -501,7 +462,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                       requestpojo.result.data.elementAt(index).profilePic,
+                                                        requestpojo.result.data.elementAt(index).profilePic,
                                                       ),
                                                       fit: BoxFit.fill)),
                                             ),
@@ -723,7 +684,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                     ),
                                   ),
                                   onTap: () {},
-                                )),
+                                )
+                            ),
                           )
                         ],
                       );
@@ -857,17 +819,42 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                         ),
                                         Row(
                                           children: [
-                                            requestpojo.result.data
-                                                .elementAt(
-                                                index)
-                                                .profilePic ==
-                                                null ||
-                                                requestpojo.result.data
-                                                    .elementAt(
-                                                    index)
-                                                    .profilePic ==
-                                                    ""
-                                                ? Container(
+                                            requestpojo.result.data.elementAt(index).facebookId==null?
+                                            requestpojo.result.data.elementAt(index).profilePic !=
+                                                null || requestpojo.result.data.elementAt(index).profilePic !=
+                                                ""?
+                                            Container(
+                                              height: SizeConfig
+                                                  .blockSizeVertical *
+                                                  10,
+                                              width: SizeConfig
+                                                  .blockSizeVertical *
+                                                  10,
+                                              alignment:
+                                              Alignment
+                                                  .center,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical *
+                                                      1,
+                                                  bottom: SizeConfig
+                                                      .blockSizeVertical *
+                                                      1,
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      1,
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      2),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
+                                                      ),
+                                                      fit: BoxFit.fill)),
+                                            ):
+                                            Container(
                                                 height: SizeConfig
                                                     .blockSizeVertical *
                                                     10,
@@ -896,8 +883,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                     fit: BoxFit.fill,
                                                   ),
                                                 )
-                                            )
-                                                : Container(
+                                            ):
+                                            Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
                                                   10,
@@ -924,7 +911,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                        Network.BaseApiprofile+requestpojo.result.data.elementAt(index).profilePic,
+                                                        requestpojo.result.data.elementAt(index).profilePic,
                                                       ),
                                                       fit: BoxFit.fill)),
                                             ),

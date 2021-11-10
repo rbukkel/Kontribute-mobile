@@ -1140,7 +1140,7 @@ class viewdetail_sendreceivegiftState
                                                                     .memberlist
                                                                     .elementAt(
                                                                         index)
-                                                                    .minCashByParticipant
+                                                                    .amountPaid
                                                                     .toString(),
                                                             style: TextStyle(
                                                                 letterSpacing:
@@ -1155,16 +1155,8 @@ class viewdetail_sendreceivegiftState
                                                                     'Poppins-Regular'),
                                                           ),
                                                         ),
-                                                        senddetailsPojo
-                                                                    .memberlist
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .id ==
-                                                                userid
-                                                            ?senddetailsPojo
-                                                            .memberlist
-                                                            .elementAt(
-                                                            index).paymentStatus==0?
+                                                        senddetailsPojo.memberlist.elementAt(index).id ==
+                                                                userid ?senddetailsPojo.memberlist.elementAt(index).paymentStatus==0?
                                                         GestureDetector(
                                                                 onTap: () {
                                                                   payamount();
@@ -1189,12 +1181,8 @@ class viewdetail_sendreceivegiftState
                                                                 },
                                                                 child:
                                                                     Container(
-                                                                  width: SizeConfig
-                                                                          .blockSizeHorizontal *
-                                                                      20,
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
+                                                                  width: SizeConfig.blockSizeHorizontal * 20,
+                                                                  alignment: Alignment.center,
                                                                   margin: EdgeInsets.only(
                                                                       top: SizeConfig
                                                                               .blockSizeHorizontal *

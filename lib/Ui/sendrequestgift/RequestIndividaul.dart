@@ -176,7 +176,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 8);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -199,7 +199,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     } else if (imageSource == ImageSource.gallery) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 8);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -344,7 +344,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.center,
                           child:ClipRect(child:  image_value?
-                          Image.file(_imageFile, fit: BoxFit.fill, height: SizeConfig.blockSizeVertical * 45,
+                          Image.file(_imageFile, fit: BoxFit.scaleDown, height: SizeConfig.blockSizeVertical * 45,
                             width: SizeConfig.blockSizeHorizontal * 100,)
                               :new Image.asset("assets/images/banner1.png", height: SizeConfig.blockSizeVertical * 45,
                             width: SizeConfig.blockSizeHorizontal * 100,fit: BoxFit.fill,),),

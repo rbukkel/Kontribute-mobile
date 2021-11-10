@@ -680,6 +680,9 @@ class loginState extends State<login>{
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
+
+          callNext(loginOTPScreen(data:emal.toString(),pass:pass.toString()), context);
+
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(

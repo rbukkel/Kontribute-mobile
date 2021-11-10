@@ -21,6 +21,12 @@ import 'package:http/http.dart' as http;
 import 'package:kontribute/MyConnections/ContactsPage.dart';
 
 class loginOTPScreen extends StatefulWidget{
+  final String data;
+  final String pass;
+
+  const loginOTPScreen({Key key, @required this.data, @required this.pass})
+      : super(key: key);
+
   @override
   loginOTPScreenState createState() => loginOTPScreenState();
 }
@@ -47,15 +53,16 @@ class loginOTPScreenState extends State<loginOTPScreen>{
   FirebaseAuth _authtwitter = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   User user;
+  String data1;
+  String pass1;
   String message;
+  bool internet = false;
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
 
  /* final TwitterLogin twitterLogin = new TwitterLogin(
     consumerKey: 'VLHZDyBzZN4jCtWivu0gsrF5v',
     consumerSecret: 'giMJBSteIpjBr6SpD0O4KxLm3OXZX7EEjmNFt4xavaRBxrHXem',
   );*/
-
-
 
   @override
   void initState() {
@@ -67,7 +74,33 @@ class loginOTPScreenState extends State<loginOTPScreen>{
       token = val;
       print("Login token: " + token.toString());
     });
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        data1 = widget.data;
+        pass1 = widget.pass;
+        print("ID: "+data1.toString());
+        print("Pass: "+pass1.toString());
+
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      }
+    });
+
+
   }
+
+
 
   gettoken() {
     _firebaseMessaging.getToken().then((onValue) {
@@ -138,7 +171,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                           fontSize: 20),
                     ),
                   ),
-                  Container(
+              /*    Container(
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 7,
                       left: SizeConfig.blockSizeHorizontal * 10,
@@ -250,10 +283,10 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                         hintText: StringConstant.password,
                       ),
                     ),
-                  ),
+                  ),*/
                   Container(
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 5,
+                      top: SizeConfig.blockSizeVertical * 7,
                       left: SizeConfig.blockSizeHorizontal * 10,
                       right: SizeConfig.blockSizeHorizontal * 10,
                     ),
@@ -313,8 +346,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                         });
                         Internet_check().check().then((intenet) {
                           if (intenet != null && intenet) {
-                            signIn(
-                                emailController.text, passwordController.text,OtpController.text,token);
+                            signIn(OtpController.text,token);
                           } else {
                             Fluttertoast.showToast(
                               msg: "No Internet Connection",
@@ -420,11 +452,11 @@ class loginOTPScreenState extends State<loginOTPScreen>{
 
 
 
-  signIn(String emal,String pass,String otp,String token) async {
+  signIn(String otp,String token) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
-      "email":emal,
-      "password":pass,
+      "email":widget.data.toString(),
+      "password":widget.pass.toString(),
       "mobile_token":token,
       "otp":otp,
       };
