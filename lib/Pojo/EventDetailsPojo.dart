@@ -341,7 +341,7 @@ class ContributerList {
   String updatedAt;
   String fullName;
   String profilePic;
-  Null facebookId;
+  String facebookId;
 
   ContributerList(
       {this.id,

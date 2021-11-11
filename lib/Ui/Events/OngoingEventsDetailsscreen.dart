@@ -2102,7 +2102,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
   Future<void> Payamount(String id, String requiredAmount, String userid) async {
     Map data = {
       'userid': userid.toString(),
-      'event_pay': id.toString(),
+      'event_id': id.toString(),
       'amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());

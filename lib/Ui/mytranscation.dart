@@ -410,7 +410,7 @@ class mytranscationState extends State<mytranscation> {
                     );
                   }),
             ) : Container(
-              margin: EdgeInsets.only(top: 150),
+              margin: EdgeInsets.only(top: 100),
               alignment: Alignment.center,
               child: resultvalue == true
                   ? Center(
@@ -418,8 +418,8 @@ class mytranscationState extends State<mytranscation> {
               )
                   : Center(
                 child: Image.asset("assets/images/empty.png",
-                    height: SizeConfig.blockSizeVertical * 50,
-                    width: SizeConfig.blockSizeVertical * 50),
+                    height: SizeConfig.blockSizeVertical * 30,
+                    width: SizeConfig.blockSizeVertical * 30),
               ),
             ) :   paid_transaction != null
                 ? Expanded(
@@ -502,7 +502,7 @@ class mytranscationState extends State<mytranscation> {
                                                         3,
                                                   ),
                                                   child: Text(
-                                                    "Amount Received",
+                                                    "Amount Paid",
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
@@ -602,7 +602,7 @@ class mytranscationState extends State<mytranscation> {
                       );
                     }))
                 : Container(
-              margin: EdgeInsets.only(top: 150),
+              margin: EdgeInsets.only(top: 100),
               alignment: Alignment.center,
               child: resultvalue == true
                   ? Center(
@@ -610,8 +610,8 @@ class mytranscationState extends State<mytranscation> {
               )
                   : Center(
                 child: Image.asset("assets/images/empty.png",
-                    height: SizeConfig.blockSizeVertical * 50,
-                    width: SizeConfig.blockSizeVertical * 50),
+                    height: SizeConfig.blockSizeVertical * 30,
+                    width: SizeConfig.blockSizeVertical * 30),
               ),
             )
           ],

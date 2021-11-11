@@ -1527,6 +1527,4 @@ class OngoingEventsState extends State<OngoingEvents> {
           });
         });
   }
-
-
 }

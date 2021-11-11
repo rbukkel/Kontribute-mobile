@@ -175,12 +175,12 @@ class viewdetail_sendreceivegiftState
           setState(() {
             productlist_length = senddetailsPojo.result;
             storelist_length = senddetailsPojo.memberlist;
-            if (senddetailsPojo.result.receiverId == null) {
+            if (senddetailsPojo.result.senderId == null) {
               reverid = senddetailsPojo.result.groupAdmin.toString();
               print("TRue" + reverid);
               getfollowstatus(userid, reverid);
             } else {
-              reverid = senddetailsPojo.result.receiverId.toString();
+              reverid = senddetailsPojo.result.senderId.toString();
               print("false" + reverid);
               getfollowstatus(userid, reverid);
             }
@@ -352,36 +352,44 @@ class viewdetail_sendreceivegiftState
                               // color: Colors.black12,
                               child: Stack(
                                 children: [
-                                  Container(
-                                      height: SizeConfig.blockSizeVertical * 19,
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 100,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: senddetailsPojo
-                                                          .result.giftPicture !=
-                                                      null ||
-                                                  senddetailsPojo
-                                                          .result.giftPicture !=
-                                                      ""
-                                              ? NetworkImage(
-                                                  Network.BaseApigift +
-                                                      senddetailsPojo
-                                                          .result.giftPicture)
-                                              : new AssetImage(
-                                                  "assets/images/viewdetailsbg.png"),
-                                          fit: BoxFit.scaleDown,
-                                        ),
-                                      )),
+
+                                  Container
+                                    (
+                                    color: Colors.black12,
+                                    child:  Container(
+                                        height: SizeConfig.blockSizeVertical * 19,
+                                        width:
+                                        SizeConfig.blockSizeHorizontal * 100,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: senddetailsPojo
+                                                .result.giftPicture !=
+                                                null ||
+                                                senddetailsPojo
+                                                    .result.giftPicture !=
+                                                    ""
+                                                ? NetworkImage(
+                                                Network.BaseApigift +
+                                                    senddetailsPojo
+                                                        .result.giftPicture)
+                                                : new AssetImage(
+                                                "assets/images/viewdetailsbg.png"),
+                                            fit: BoxFit.scaleDown,
+                                          ),
+                                        )),
+                                  ),
+
                                   Row(
                                     children: [
+                                      senddetailsPojo.result.facebookId==null?
                                       senddetailsPojo.result.profilePic ==
                                                   null ||
                                               senddetailsPojo.result
                                                       .profilePic ==
                                                   ""
-                                          ? Container(
+                                          ?
+                                      Container(
                                               height:
                                                   SizeConfig.blockSizeVertical *
                                                       12,
@@ -438,7 +446,27 @@ class viewdetail_sendreceivegiftState
                                                           senddetailsPojo.result
                                                               .profilePic),
                                                       fit: BoxFit.fill)),
-                                            ),
+                                            ):Container(
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
+                                        width:
+                                        SizeConfig.blockSizeVertical *
+                                            12,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical * 4,
+                                            bottom: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 4),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    senddetailsPojo.result
+                                                        .profilePic),
+                                                fit: BoxFit.fill)),
+                                      ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -460,15 +488,14 @@ class viewdetail_sendreceivegiftState
                                                         7),
                                                 child: Text(
                                                   senddetailsPojo.result
-                                                                  .receiverName ==
+                                                                  .fullName ==
                                                               null ||
                                                           senddetailsPojo.result
-                                                                  .receiverName ==
+                                                                  .fullName ==
                                                               ""
-                                                      ? senddetailsPojo
-                                                          .result.groupName
+                                                      ? ""
                                                       : senddetailsPojo
-                                                          .result.receiverName,
+                                                          .result.fullName,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.white,

@@ -409,7 +409,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   onChanged: (newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      userid = (newValue["sender_id"]);
+                                      userid = (newValue["connection_id"]);
                                       if(newValue["full_name"]==null)
                                         {
                                           userName="";

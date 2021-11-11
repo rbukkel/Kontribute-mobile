@@ -671,9 +671,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               itemBuilder: (BuildContext context, int index) {
                 return CheckboxListTile(
                   activeColor: AppColors.theme1color,
-                  value: _selecteCategorys.contains(categorylist[index]['sender_id']),
+                  value: _selecteCategorys.contains(categorylist[index]['connection_id']),
                   onChanged: (bool selected) {
-                    _onCategorySelected(selected, categorylist[index]['sender_id'],
+                    _onCategorySelected(selected, categorylist[index]['connection_id'],
                         categorylist[index]['full_name']);
                   },
                   title: Text(

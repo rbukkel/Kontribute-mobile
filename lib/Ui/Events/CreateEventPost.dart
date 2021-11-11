@@ -1908,10 +1908,10 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   },
                                   child: Row(
                                     children: [
-                                      Container(
+                                    /*  Container(
                                         width: SizeConfig.blockSizeHorizontal * 60,
                                         child:
-                                       /* Text(
+                                       *//* Text(
                                           catname != null ? catname.toString() : "",
                                           maxLines: 5,
                                           textAlign: TextAlign.left,
@@ -1922,7 +1922,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                             fontSize: 10,
                                             color: AppColors.black,
                                           ),
-                                        ),*/
+                                        ),*//*
                                         TextFormField(
                                           autofocus: false,
                                           focusNode: documentsFocus,
@@ -1960,6 +1960,83 @@ class CreateEventPostState extends State<CreateEventPost> {
                                               ),
                                               hintText: ""),
                                         ),
+                                      ),*/
+                                      Container(
+                                        height: SizeConfig.blockSizeVertical * 25,
+                                        width: SizeConfig.blockSizeHorizontal * 59,
+                                        child: ListView.builder(
+                                            itemCount: _documentList.length == null
+                                                ? 0
+                                                : _documentList.length,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context, int inde) {
+                                              return Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical * 3,
+                                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                                    right:
+                                                    SizeConfig.blockSizeHorizontal * 1),
+                                                alignment: Alignment.center,
+                                                child: Column(
+                                                  children: [
+
+                                                    Container(
+                                                      width:
+                                                      SizeConfig.blockSizeHorizontal * 25,
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        _documentList.elementAt(inde).toString(),
+                                                        maxLines: 2,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize: 8,
+                                                            fontWeight: FontWeight.normal,
+                                                            fontFamily: 'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        setState(() {
+                                                          _documentList.removeAt(inde);
+                                                          print(inde.toString());
+                                                          print("Docname: "+_documentList.length.toString());
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                          top: SizeConfig.blockSizeVertical * 1,
+                                                        ),
+                                                        width:
+                                                        SizeConfig.blockSizeHorizontal * 20,
+                                                        alignment: Alignment.center,
+                                                        child: Text(
+                                                          "Remove",
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                              decoration:
+                                                              TextDecoration.underline,
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.blue,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular'),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                /*   decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
+                                              );
+                                            }),
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -2871,9 +2948,9 @@ class CreateEventPostState extends State<CreateEventPost> {
               itemBuilder: (BuildContext context, int index) {
                 return CheckboxListTile(
                   activeColor: AppColors.theme1color,
-                  value: _selecteFollowing.contains(categoryfollowinglist[index]['sender_id']),
+                  value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id']),
                   onChanged: (bool selected) {
-                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
+                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'],
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(

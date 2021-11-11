@@ -159,6 +159,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
+
         data1 = widget.data;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
@@ -274,7 +275,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
               setState(() {
                 image = loginResponse.resultPush.profilePic;
                 if(image.isNotEmpty){
-                  imageUrl = true;
+                  image_value = true;
                   _loading = true;
                 }
               });
@@ -530,14 +531,23 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               ),
                             ),*/
 
-                            imageUrl==false?
-                            Container(
+
+                            image_value == false
+                                ? Container(
+                              alignment: Alignment.center,
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                              width: 120,
-                              height: 120,
-                              child: ClipOval(child:  image_value?Image.file(_imageFile, fit: BoxFit.fill,):Image.asset("assets/images/person.png",height: 120,width: 120,),),
-                            )
-                           :
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: _imageFile != null
+                                        ? FileImage(_imageFile)
+                                        : AssetImage(
+                                        "assets/images/person.png")),
+                              ),
+                            ) :
                             loginResponse.resultPush.facebookId == ""?
                             Container(
                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
