@@ -961,18 +961,7 @@ class registerState extends State<register> {
                         },
                         onSaved: (value) => this._selectedCity = value,
                       ),*/
-                      SizedBox(height: 10.0,),
-                      RaisedButton(
-                        child: Text('Submit'),
-                        onPressed: () {
-                          if (this._formKey.currentState.validate()) {
-                            this._formKey.currentState.save();
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text('Your Favorite City is ${this._selectedCity}')
-                            ));
-                          }
-                        },
-                      ),
+
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 90,
                         margin: EdgeInsets.only(

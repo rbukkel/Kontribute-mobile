@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/ScanQR.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -1613,6 +1614,53 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             thickness: 1,
                             color: Colors.black12,
                           ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: ()
+                              {
+
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScanQR()));
+                              },
+                              child: Container(
+                                width: SizeConfig.blockSizeHorizontal *30,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal *3,
+                                    top: SizeConfig.blockSizeVertical *2),
+                                padding: EdgeInsets.only(
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        2,
+                                    left: SizeConfig
+                                        .blockSizeHorizontal *
+                                        2,
+                                    bottom: SizeConfig
+                                        .blockSizeHorizontal *
+                                        3,
+                                    top: SizeConfig
+                                        .blockSizeHorizontal *
+                                        3),
+                                decoration: BoxDecoration(
+                                  color: AppColors.yelowbg,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  "Validate Ticket",
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: AppColors.whiteColor,
+                                      fontSize:10,
+                                      fontWeight:
+                                      FontWeight.normal,
+                                      fontFamily:
+                                      'Poppins-Regular'),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                         projectdetailspojo.commentsdata.ticketpayemtndetails.isEmpty?Container():
                         Row(
