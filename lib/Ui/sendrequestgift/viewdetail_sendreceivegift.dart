@@ -383,24 +383,15 @@ class viewdetail_sendreceivegiftState
                                   Row(
                                     children: [
                                       senddetailsPojo.result.facebookId==null?
-                                      senddetailsPojo.result.profilePic ==
-                                                  null ||
-                                              senddetailsPojo.result
-                                                      .profilePic ==
-                                                  ""
-                                          ?
+                                      senddetailsPojo.result.profilePic == null || senddetailsPojo.result.profilePic == "" ?
                                       Container(
-                                              height:
-                                                  SizeConfig.blockSizeVertical *
-                                                      12,
-                                              width:
-                                                  SizeConfig.blockSizeVertical *
-                                                      12,
+                                              height: SizeConfig.blockSizeVertical * 12,
+                                              width: SizeConfig.blockSizeVertical * 12,
                                               alignment: Alignment.center,
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig
                                                           .blockSizeVertical *
-                                                      4,
+                                                     12,
                                                   bottom: SizeConfig
                                                           .blockSizeVertical *
                                                       1,
@@ -429,7 +420,7 @@ class viewdetail_sendreceivegiftState
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig
                                                           .blockSizeVertical *
-                                                      4,
+                                                      12,
                                                   bottom: SizeConfig
                                                           .blockSizeVertical *
                                                       1,
@@ -446,16 +437,13 @@ class viewdetail_sendreceivegiftState
                                                           senddetailsPojo.result
                                                               .profilePic),
                                                       fit: BoxFit.fill)),
-                                            ):Container(
-                                        height:
-                                        SizeConfig.blockSizeVertical *
-                                            12,
-                                        width:
-                                        SizeConfig.blockSizeVertical *
-                                            12,
+                                            ):
+                                      Container(
+                                        height: SizeConfig.blockSizeVertical * 12,
+                                        width: SizeConfig.blockSizeVertical * 12,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical * 4,
+                                            top: SizeConfig.blockSizeVertical *12,
                                             bottom: SizeConfig.blockSizeVertical * 1,
                                             right: SizeConfig.blockSizeHorizontal * 1,
                                             left: SizeConfig.blockSizeHorizontal * 4),
@@ -487,15 +475,7 @@ class viewdetail_sendreceivegiftState
                                                             .blockSizeVertical *
                                                         7),
                                                 child: Text(
-                                                  senddetailsPojo.result
-                                                                  .fullName ==
-                                                              null ||
-                                                          senddetailsPojo.result
-                                                                  .fullName ==
-                                                              ""
-                                                      ? ""
-                                                      : senddetailsPojo
-                                                          .result.fullName,
+                                                 "",
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.white,
@@ -527,7 +507,7 @@ class viewdetail_sendreceivegiftState
                                                               2,
                                                         ),
                                                         child: Text(
-                                                          Follow,
+                                                          "",
                                                           style: TextStyle(
                                                               letterSpacing:
                                                                   1.0,
@@ -563,7 +543,7 @@ class viewdetail_sendreceivegiftState
                                                         2,
                                                   ),
                                                   child: Text(
-                                                    Follow,
+                                                    "",
                                                     style: TextStyle(
                                                         letterSpacing:
                                                         1.0,
@@ -657,12 +637,7 @@ class viewdetail_sendreceivegiftState
                                                         .blockSizeHorizontal *
                                                     1),
                                             child: Text(
-                                              senddetailsPojo.result.endDate !=
-                                                      null
-                                                  ? "Closing Date-" +
-                                                      senddetailsPojo
-                                                          .result.endDate
-                                                  : "",
+                                              "",
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.white,
@@ -679,55 +654,21 @@ class viewdetail_sendreceivegiftState
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig
                                                             .blockSizeVertical *
-                                                        6),
+                                                       2),
                                                 child: Text(
-                                                  "Collection Target- ",
+                                                  senddetailsPojo.result.message,
+                                                  maxLines: 3,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
                                                       fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          'Poppins-Regular'),
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .blockSizeVertical *
-                                                        6),
-                                                alignment: Alignment.topLeft,
-                                                padding: EdgeInsets.only(
-                                                  right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      3,
-                                                ),
-                                                child: Text(
-                                                  senddetailsPojo
-                                                              .result.price !=
-                                                          null
-                                                      ? "\$" +
-                                                          senddetailsPojo
-                                                              .result.price
-                                                              .toString()
-                                                      : "\$" +
-                                                          senddetailsPojo.result
-                                                              .collectionTarget
-                                                              .toString(),
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          'Poppins-Regular'),
-                                                ),
-                                              )
                                             ],
                                           ),
+
                                           /*Row(
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
@@ -785,16 +726,7 @@ class viewdetail_sendreceivegiftState
                               )
                             ],
                           ),*/
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    2),
-                                            child: Divider(
-                                              thickness: 1,
-                                              color: Colors.black12,
-                                            ),
-                                          ),
+
                                         ],
                                       )
                                     ],
@@ -802,7 +734,320 @@ class viewdetail_sendreceivegiftState
                                 ],
                               ),
                             ),
-                            Container(
+                            Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment:
+                              MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: SizeConfig
+                                          .blockSizeHorizontal *
+                                          62,
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(
+                                        left: SizeConfig
+                                            .blockSizeHorizontal *
+                                            3,
+                                        top: SizeConfig
+                                            .blockSizeVertical *
+                                            1,
+                                      ),
+                                      child: Text(
+                                        senddetailsPojo.result.fullName == null ||
+                                            senddetailsPojo.result.fullName == ""
+                                            ? "" : senddetailsPojo.result.fullName,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ),
+                                    coming1 == "Ongoing"
+                                        ?
+                                    GestureDetector(
+                                      onTap: () {
+                                        followapi(userid, reverid);
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            right: SizeConfig.blockSizeHorizontal * 3),
+                                        alignment: Alignment.topRight,
+                                        padding:
+                                        EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                          left: SizeConfig.blockSizeHorizontal * 1,
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                        ),
+                                        child: Text(
+                                          Follow,
+                                          style: TextStyle(
+                                              letterSpacing:
+                                              1.0,
+                                              color: AppColors
+                                                  .themecolor,
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight
+                                                  .bold,
+                                              fontFamily:
+                                              'Poppins-Regular'),
+                                        ),
+                                      ),
+                                    ): coming1 == "Search"
+                                        ?
+
+                                    GestureDetector(
+                                      onTap: () {
+                                        followapi(
+                                            userid, reverid);
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            right: SizeConfig.blockSizeHorizontal * 3),
+                                        alignment: Alignment.topRight,
+                                        padding:
+                                        EdgeInsets.only(
+                                          top: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              2,
+                                        ),
+                                        child: Text(
+                                          Follow,
+                                          style: TextStyle(
+                                              letterSpacing:
+                                              1.0,
+                                              color: AppColors
+                                                  .themecolor,
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight
+                                                  .bold,
+                                              fontFamily:
+                                              'Poppins-Regular'),
+                                        ),
+                                      ),
+                                    )
+                                        : Container()
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width:
+                                      SizeConfig.blockSizeHorizontal *
+                                         50,
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              3),
+                                      alignment: Alignment.topRight,
+
+                                      child: Text(
+                                        /* StringConstant.totalContribution+"-25 ",*/
+                                        "",
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ),
+                                    /* Container(
+                            width: SizeConfig.blockSizeHorizontal *64,
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.only(
+                                left: SizeConfig
+                                    .blockSizeHorizontal *
+                                    1,
+                                right: SizeConfig
+                                    .blockSizeHorizontal *
+                                    2,
+                                top: SizeConfig
+                                    .blockSizeHorizontal *
+                                    1),
+                            child: Text(
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+                              maxLines: 2,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.white,
+                                  fontSize: 8,
+                                  fontWeight:
+                                  FontWeight.normal,
+                                  fontFamily:
+                                  'Poppins-Regular'),
+                            ),
+                          ),*/
+                                    Container (
+                                      margin: EdgeInsets.only(
+                                          right: SizeConfig.blockSizeHorizontal * 3),
+                                      alignment: Alignment.topRight,
+                                      padding: EdgeInsets.only(
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              2,
+                                          bottom: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                          top: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1),
+                                      child: Text(
+                                        senddetailsPojo.result.endDate !=
+                                            null
+                                            ? "Closing Date-" +
+                                            senddetailsPojo
+                                                .result.endDate
+                                            : "",
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3),
+                                      child: Text(
+                                        "Collection Target- ",
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black87,
+                                            fontSize: 10,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      padding: EdgeInsets.only(
+                                        right: SizeConfig
+                                            .blockSizeHorizontal *
+                                            3,
+                                      ),
+                                      child: Text(
+                                        senddetailsPojo.result.price != null
+                                            ? "\$" +
+                                            senddetailsPojo.result.price.toString()
+                                            : "\$" +
+                                            senddetailsPojo.result
+                                                .collectionTarget
+                                                .toString(),
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors
+                                                .lightBlueAccent,
+                                            fontSize: 10,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                /*Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width:
+                                SizeConfig.blockSizeHorizontal * 40,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  payamount();
+                                },
+                                child: Container(
+                                  alignment: Alignment.bottomRight,
+                                  margin: EdgeInsets.only(
+                                      left:
+                                      SizeConfig.blockSizeHorizontal *
+                                          1,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      bottom:
+                                      SizeConfig.blockSizeVertical *
+                                          2,
+                                      top: SizeConfig.blockSizeVertical *
+                                          2),
+                                  padding: EdgeInsets.only(
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          5,
+                                      left:
+                                      SizeConfig.blockSizeHorizontal *
+                                          5,
+                                      bottom:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      top:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.darkgreen,
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    StringConstant.pay.toUpperCase(),
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: AppColors.whiteColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular'),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),*/
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig
+                                          .blockSizeVertical *
+                                          2),
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Colors.black12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                           /* Container(
                               width: SizeConfig.blockSizeHorizontal * 90,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 1,
@@ -820,7 +1065,7 @@ class viewdetail_sendreceivegiftState
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Poppins-Regular'),
                               ),
-                            ),
+                            ),*/
                             senddetailsPojo.result.specialTerms != null
                                 ? Container(
                                     width: SizeConfig.blockSizeHorizontal * 90,

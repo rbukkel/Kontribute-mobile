@@ -1141,6 +1141,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                       padding:
                                                                           EdgeInsets
                                                                               .only(
+                                                                            top : SizeConfig.blockSizeVertical *
+                                                                            1,
+                                                                            bottom : SizeConfig.blockSizeVertical *
+                                                                                1,
                                                                         left: SizeConfig.blockSizeHorizontal *
                                                                             1,
                                                                         right:

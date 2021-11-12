@@ -47,21 +47,16 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   FileType fileType;
   var basename=null;
   var catname=null;
-  final TextEditingController searchpostController =
-      new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
   final TextEditingController EventNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController LocationDetailsController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController CostofTicketController =
-      new TextEditingController();
-  final TextEditingController MaximumNoofquantityController =
-      new TextEditingController();
+  final TextEditingController CostofTicketController = new TextEditingController();
+  final TextEditingController MaximumNoofquantityController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController TermsController = new TextEditingController();
   final documentsFocus = FocusNode();
@@ -310,7 +305,15 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         _hour = selecteTime.hour.toString();
         _minute = selecteTime.minute.toString();
         _tim = _hour + ':' + _minute;
-        selectedTime = _tim;
+        if(selectedTime=="")
+          {
+            selectedTime = TimeOfDay.now().toString().substring(10, 15);
+          }
+        else
+          {
+            selectedTime = _tim;
+          }
+
       });
   }
 
@@ -336,7 +339,16 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         _hourend = selecteEndTime.hour.toString();
         _minuteend = selecteEndTime.minute.toString();
         _timend = _hourend + ':' + _minuteend;
-        selectedEndTime = _timend;
+
+
+        if(selectedEndTime=="")
+        {
+          selectedEndTime = TimeOfDay.now().toString().substring(10, 15);
+        }
+        else
+        {
+          selectedEndTime = _timend;
+        }
       });
   }
 
@@ -1418,7 +1430,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                         1),
                                                 child: Text(
                                                   selectedTime == ""
-                                                      ? "10:00AM"
+                                                      ? TimeOfDay.now().toString().substring(10, 15)
                                                       : selectedTime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
@@ -1479,21 +1491,13 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           height:
                                               SizeConfig.blockSizeVertical * 8,
                                           margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
+                                            top: SizeConfig.blockSizeVertical * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 3,
                                           ),
                                           padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
+                                            left: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeVertical * 1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
@@ -1519,7 +1523,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                         1),
                                                 child: Text(
                                                   selectedEndTime ==""
-                                                      ? "10:00AM"
+                                                      ? TimeOfDay.now().toString().substring(10, 15)
                                                       : selectedEndTime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(

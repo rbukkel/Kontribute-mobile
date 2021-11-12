@@ -383,7 +383,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                 ],
               ),
             ),
-            Container(
+           /* Container(
               alignment: Alignment.centerLeft,
               margin:
               EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2,left: SizeConfig.blockSizeHorizontal * 5),
@@ -398,7 +398,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                     fontFamily: 'Poppins-Regular',
                     color: Colors.black),
               ),
-            ),
+            ),*/
             Expanded(
               child: storelist_length != null ?
                 ListView.builder(
@@ -414,16 +414,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                         right: SizeConfig.blockSizeHorizontal *5),
                           child: Column(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: SizeConfig
-                                        .blockSizeVertical *
-                                        1),
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Colors.black12,
-                                ),
-                              ),
+
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment
@@ -462,9 +453,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                             right: SizeConfig
                                                 .blockSizeHorizontal *
                                                 1,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
+                                           ),
                                         decoration:
                                         BoxDecoration(
                                           image:
@@ -510,9 +499,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           right: SizeConfig
                                               .blockSizeHorizontal *
                                               1,
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1),
+                                         ),
                                       decoration: BoxDecoration(
                                           shape: BoxShape
                                               .circle,
@@ -545,9 +532,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           right: SizeConfig
                                               .blockSizeHorizontal *
                                               1,
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1),
+                                         ),
                                       decoration: BoxDecoration(
                                           shape: BoxShape
                                               .circle,
@@ -952,7 +937,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       100,
                                   alignment: Alignment.center,
                                   child: CachedNetworkImage(
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.scaleDown,
                                     imageUrl: Network
                                         .BaseApigift +
                                         listing.result.data
@@ -970,7 +955,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: imageProvider,
-                                                fit: BoxFit.cover),
+                                                fit: BoxFit.scaleDown),
                                           ),
                                         ),
                                     placeholder: (context,
@@ -978,6 +963,18 @@ class NotificationScreenState extends State<NotificationScreen> {
                                     new Image.asset(
                                         'assets/images/dummyplace.jpg')
                                   )),
+                              Container(
+                                margin: EdgeInsets.only(top: SizeConfig
+                                    .blockSizeVertical *
+                                    1,
+                                    bottom: SizeConfig
+                                        .blockSizeVertical *
+                                        1),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
                             ],
                           ));
                     })

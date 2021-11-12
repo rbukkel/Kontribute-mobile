@@ -258,7 +258,15 @@ class CreateEventPostState extends State<CreateEventPost> {
         _hour = selecteTime.hour.toString();
         _minute = selecteTime.minute.toString();
         _tim = _hour + ':' + _minute;
-        selectedTime = _tim;
+
+        if(selectedTime=="")
+        {
+          selectedTime = TimeOfDay.now().toString().substring(10, 15);
+        }
+        else
+        {
+          selectedTime = _tim;
+        }
       });
   }
 
@@ -284,7 +292,15 @@ class CreateEventPostState extends State<CreateEventPost> {
         _hourend = selecteEndTime.hour.toString();
         _minuteend = selecteEndTime.minute.toString();
         _timend = _hourend + ':' + _minuteend;
-        selectedEndTime = _timend;
+
+        if(selectedEndTime=="")
+        {
+          selectedEndTime = TimeOfDay.now().toString().substring(10, 15);
+        }
+        else
+        {
+          selectedEndTime = _timend;
+        }
       });
   }
 
@@ -1210,7 +1226,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                           1),
                                                   child: Text(
                                                     selectedTime == ""
-                                                        ? "10:00AM"
+                                                        ? TimeOfDay.now().toString().substring(10, 15)
                                                         : selectedTime,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
@@ -1298,7 +1314,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                           1),
                                                   child: Text(
                                                     selectedEndTime ==""
-                                                        ? "10:00AM"
+                                                        ? TimeOfDay.now().toString().substring(10, 15)
                                                         : selectedEndTime,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
