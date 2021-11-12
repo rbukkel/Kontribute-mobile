@@ -1047,6 +1047,7 @@ class viewdetail_sendreceivegiftState
                                 ),
                               ],
                             ),
+
                            /* Container(
                               width: SizeConfig.blockSizeHorizontal * 90,
                               margin: EdgeInsets.only(
@@ -1066,6 +1067,7 @@ class viewdetail_sendreceivegiftState
                                     fontFamily: 'Poppins-Regular'),
                               ),
                             ),*/
+
                             senddetailsPojo.result.specialTerms != null
                                 ? Container(
                                     width: SizeConfig.blockSizeHorizontal * 90,

@@ -1621,8 +1621,11 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             GestureDetector(
                               onTap: ()
                               {
+                                callNext(
+                                    ScanQR(
+                                        data: projectdetailspojo.commentsdata.userId.toString()),
+                                    context);
 
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScanQR()));
                               },
                               child: Container(
                                 width: SizeConfig.blockSizeHorizontal *30,
@@ -2158,7 +2161,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
             timeInSecForIosWeb: 1,
           );
         } else {
-
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           ticketpayment = new ticketpaymentdetailsPojo.fromJson(jsonResponse);
           print("Json User" + jsonResponse.toString());
@@ -2300,9 +2302,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                       color: Colors.black),
                                                 ),
                                               ),
-
-
-
                                             ],
                                           )
                                       );
