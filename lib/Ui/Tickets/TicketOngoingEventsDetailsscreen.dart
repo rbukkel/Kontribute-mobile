@@ -1618,14 +1618,11 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            userid == projectdetailspojo.commentsdata.userId.toString()?
                             GestureDetector(
                               onTap: ()
                               {
-                                callNext(
-                                    ScanQR(
-                                        data: projectdetailspojo.commentsdata.userId.toString()),
-                                    context);
-
+                                callNext(ScanQR(data: projectdetailspojo.commentsdata.userId.toString()), context);
                               },
                               child: Container(
                                 width: SizeConfig.blockSizeHorizontal *30,
@@ -1662,7 +1659,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       'Poppins-Regular'),
                                 ),
                               ),
-                            )
+                            ):Container()
                           ],
                         ),
                         projectdetailspojo.commentsdata.ticketpayemtndetails.isEmpty?Container():
@@ -1700,13 +1697,15 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 Navigator.pop(context, true);
                               },
                               child: Container(
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*1,
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal*1,
                                     top: SizeConfig.blockSizeVertical *2),
                                 child: Image.asset("assets/images/csv.png",width: 70,height: 40,),
                               ),
                             ),
                             InkWell(
-                              onTap: () {
+                              onTap: ()
+                              {
                                 Navigator.pop(context, true);
                               },
                               child: Container(
@@ -1742,11 +1741,11 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                               Container(
                                 alignment: Alignment.center,
                                 width: SizeConfig.blockSizeHorizontal *38,
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal*3,
-                                    ),
+                                margin:
+                                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3),
                                 child: Text(
-                                  StringConstant.names, textAlign: TextAlign.center,
+                                  StringConstant.names,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       decoration: TextDecoration.none,
                                       fontSize: 12,
@@ -1762,7 +1761,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     left: SizeConfig.blockSizeHorizontal*3,
                                     ),
                                 child: Text(
-                                  StringConstant.noofticket, textAlign: TextAlign.center,
+                                  StringConstant.noofticket,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       decoration: TextDecoration.none,
                                       fontSize: 12,
@@ -1778,7 +1778,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     left: SizeConfig.blockSizeHorizontal*3,
                                     ),
                                 child: Text(
-                                  StringConstant.totalamount, textAlign: TextAlign.center,
+                                  StringConstant.totalamount,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       decoration: TextDecoration.none,
                                       fontSize: 12,
@@ -1787,7 +1788,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       color: Colors.white),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -1844,7 +1844,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               margin: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal*3),
                                               child: Text(
-                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).qty.toString(), textAlign: TextAlign.center,
+                                                projectdetailspojo.commentsdata.ticketpayemtndetails
+                                                    .elementAt(ix).qty.toString(),
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     decoration: TextDecoration.none,
                                                     fontSize: 12,
@@ -1859,7 +1861,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               margin: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal*3),
                                               child: Text(
-                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).amount.toString(), textAlign: TextAlign.center,
+                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).amount.toString(),
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     decoration: TextDecoration.none,
                                                     fontSize: 12,
@@ -1868,7 +1871,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                     color: Colors.black),
                                               ),
                                             ),
-
                                           ],
                                         ),
                                         Row(
@@ -1878,7 +1880,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               onTap: ()
                                               {
                                                 TicketDetails(projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).id);
-
                                               },
                                               child: Container(
                                                 width: SizeConfig.blockSizeHorizontal *20,

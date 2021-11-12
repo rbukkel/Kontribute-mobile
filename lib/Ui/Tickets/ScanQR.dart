@@ -35,14 +35,13 @@ class ScanQRState extends State<ScanQR> {
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
-
         print("receiverComing: " + data1.toString());
-
         setState(() {
           internet = true;
         });
       } else {
-        setState(() {
+        setState(()
+        {
           internet = false;
         });
         Fluttertoast.showToast(
@@ -54,7 +53,6 @@ class ScanQRState extends State<ScanQR> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +83,6 @@ class ScanQRState extends State<ScanQR> {
             SizedBox(
               height: 20.0,
             ),
-            //Button to scan QR code
             FlatButton(
               padding: EdgeInsets.all(15),
               onPressed: () async {
@@ -95,24 +92,21 @@ class ScanQRState extends State<ScanQR> {
                   print("Result: "+qrCodeResult.toString());
                 });
               },
-              child: Text("Open Scanner",style: TextStyle(color: AppColors.themecolor),
-              ),
+              child: Text("Open Scanner",style: TextStyle(color: AppColors.themecolor)),
               //Button having rounded rectangle border
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: AppColors.themecolor),
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
-
+          qrCodeResult=="Not Yet Scanned"?Container():
             Container(
               margin: EdgeInsets.only(
                   top: SizeConfig.blockSizeVertical * 3),
               child: FlatButton(
                 padding: EdgeInsets.all(15),
-                minWidth: SizeConfig.blockSizeHorizontal * 30,
                 onPressed: () async {
                   setState(() {
-
                     validate(qrCodeResult.toString());
                   });
                 },
@@ -124,7 +118,6 @@ class ScanQRState extends State<ScanQR> {
                 ),
               ),
             )
-
           ],
         ),
       ),
@@ -134,11 +127,9 @@ class ScanQRState extends State<ScanQR> {
   Future<void> validate(String tickt) async {
     Map data = {
       'ticket_no': tickt.toString(),
-      'user_id': data1.toString(),
     };
-
     Dialogs.showLoadingDialog(context, _keyLoader);
-    print("projectPOst: " + data.toString());
+    print("projectPost: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.ticket_authenticate, body: data);
     if (response.statusCode == 200) {
@@ -164,7 +155,6 @@ class ScanQRState extends State<ScanQR> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-
         } else {
           Fluttertoast.showToast(
             msg: postcom.message,
@@ -184,6 +174,4 @@ class ScanQRState extends State<ScanQR> {
       );
     }
   }
-
-
 }

@@ -1142,7 +1142,6 @@ class registerState extends State<register> {
     }
   }
 
-
   void register(
       String email,
       String password,
