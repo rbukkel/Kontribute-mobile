@@ -124,8 +124,10 @@ class _mynetworkState extends State<mynetwork> {
       followval = response.body;
       if (jsonResponse["success"] == false) {
         setState(() {
+          followlist_length =null;
           resultfollowvalue = false;
         });
+
         Fluttertoast.showToast(
             msg: jsonDecode(followval)["message"],
             toastLength: Toast.LENGTH_SHORT,

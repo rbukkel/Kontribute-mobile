@@ -42,7 +42,6 @@ class _AddContactState extends State<AddContact> {
   follow_Request_updatePojo followupdatepojo;
   String searchvalue="";
 
-
   @override
   void initState() {
     super.initState();

@@ -1655,8 +1655,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
-                                  top: SizeConfig.blockSizeVertical *2),
+                              margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal*5,
+                              top: SizeConfig.blockSizeVertical *2),
                               child: Text(
                                 StringConstant.exportto, textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -1717,7 +1718,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 alignment: Alignment.center,
                                 width: SizeConfig.blockSizeHorizontal *38,
                                 margin:
-                                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3),
+                                EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal*3),
                                 child: Text(
                                   StringConstant.names,
                                   textAlign: TextAlign.center,
@@ -1819,8 +1821,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               margin: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal*3),
                                               child: Text(
-                                                projectdetailspojo.commentsdata.ticketpayemtndetails
-                                                    .elementAt(ix).qty.toString(),
+                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).qty.toString(),
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     decoration: TextDecoration.none,
@@ -1863,18 +1864,10 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                 right: SizeConfig.blockSizeHorizontal *3,
                                                 top: SizeConfig.blockSizeVertical *2),
                                                 padding: EdgeInsets.only(
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2,
-                                                    bottom: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3,
-                                                    top: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3),
+                                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                                    left: SizeConfig.blockSizeHorizontal * 2,
+                                                    bottom: SizeConfig.blockSizeHorizontal * 3,
+                                                    top: SizeConfig.blockSizeHorizontal * 3),
                                                 decoration: BoxDecoration(
                                                   color: AppColors.yelowbg,
                                                   borderRadius: BorderRadius.circular(5),
@@ -1896,7 +1889,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical * 2, bottom: SizeConfig.blockSizeVertical * 2),
+                                              top: SizeConfig.blockSizeVertical * 2,
+                                              bottom: SizeConfig.blockSizeVertical * 2),
                                           child: Divider(
                                             thickness: 1,
                                             color: Colors.black12,
@@ -1927,13 +1921,14 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
       'userid': userid.toString(),
       'ticket_id': a.toString(),
     };
-    print("projectlikes: " + data.toString());
+    print("projectlikes: "+data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.ticketlikes, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       vallike = response.body; //store response as string
-      if (jsonDecode(vallike)["success"] == false) {
+      if (jsonDecode(vallike)["success"] == false)
+      {
         Fluttertoast.showToast(
           msg: jsonDecode(vallike)["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -2027,6 +2022,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
       );
     }
   }
+
   Future download2(Dio dio, String url, String savePath) async {
     try {
       Response response = await dio.get(

@@ -42,7 +42,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
   UserlistingPojo followlistpojo;
   follow_Request_updatePojo followupdatepojo;
   String searchvalue="";
-
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -184,6 +184,18 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      key: _globalKey,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: (Text('People You May Know')),
+        flexibleSpace: Image(
+          height: SizeConfig.blockSizeVertical * 12,
+          image: AssetImage('assets/images/appbar.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
      /* key: _scaffoldKey,
       drawer: Drawer(
         child: Container(
@@ -230,7 +242,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
     return new Container(
         padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
             right: SizeConfig.blockSizeHorizontal *2),
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *20,
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
             left: SizeConfig.blockSizeHorizontal*5,
             right: SizeConfig.blockSizeHorizontal*5),
         decoration: BoxDecoration(
