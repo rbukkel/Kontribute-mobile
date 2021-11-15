@@ -378,7 +378,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post', style: TextStyle(fontSize: 14),)
+                  Text('Share via', style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -463,7 +463,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post', style: TextStyle(fontSize: 14),)
+                  Text('Share via', style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),

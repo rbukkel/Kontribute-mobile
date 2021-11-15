@@ -9,6 +9,7 @@ import 'package:kontribute/Pojo/FollowRequestAcceptPojo.dart';
 import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:kontribute/Pojo/follow_Request_updatePojo.dart';
+import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/myinvitation.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -17,12 +18,12 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 
-class AddContact extends StatefulWidget {
+class PeopleYouMay extends StatefulWidget {
   @override
-  _AddContactState createState() => _AddContactState();
+  _PeopleYouMayState createState() => _PeopleYouMayState();
 }
 
-class _AddContactState extends State<AddContact> {
+class _PeopleYouMayState extends State<PeopleYouMay> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   String userid;
@@ -195,6 +196,28 @@ class _AddContactState extends State<AddContact> {
         color: AppColors.whiteColor,
         child: Column(
           children: [
+            GestureDetector(
+              onTap: (){
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder:
+                        (context) => selectlangauge()),
+                        (route) => false);
+              },
+              child: Container(
+                  alignment: Alignment.topRight,
+                  width: SizeConfig.blockSizeHorizontal * 90,
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                  child: Text("Skip",
+                      textAlign:TextAlign.right,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins-Bold',
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                          letterSpacing: 1.0)
+                  )
+              ),
+            ),
             _createSearchView(),
             SearchView()
           ],
@@ -345,7 +368,6 @@ class _AddContactState extends State<AddContact> {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int ind) {
               reverid =followlistpojo.data.elementAt(ind).id.toString();
-
               return Container(
                   width: SizeConfig.blockSizeHorizontal * 60,
                   margin: EdgeInsets.only(
@@ -451,8 +473,7 @@ class _AddContactState extends State<AddContact> {
                         GestureDetector(
                           onTap: ()
                           {
-                            print("IDR: "+followlistpojo.data.elementAt(ind).id.toString());
-                            followapi(userid, followlistpojo.data.elementAt(ind).id.toString());
+                            followapi(userid, reverid);
                           },
                           child: Container(
                             padding: EdgeInsets.only(

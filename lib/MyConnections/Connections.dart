@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/MyConnections/AddContact.dart';
+import 'package:kontribute/MyConnections/ReceivedRequest.dart';
 import 'package:kontribute/MyConnections/SendInvitation.dart';
+import 'package:kontribute/MyConnections/SendRequest.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
@@ -36,7 +38,7 @@ class ConnectionsState extends State<Connections> {
         ),
       ),
       body:  DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           backgroundColor: AppColors.whiteColor,
           extendBodyBehindAppBar: true,
@@ -103,9 +105,9 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.mynetwork.toUpperCase(),
+                          Text(StringConstant.myconnections.toUpperCase(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
+                              style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],
                       )),
                 ),
@@ -117,9 +119,24 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.addcontacts.toUpperCase(),
+                          Text(StringConstant.receiverequest.toUpperCase(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
+                              style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
+                        ],
+                      )),
+                ),
+
+                Tab(
+                  child: Container(
+                      alignment: Alignment.center,
+                      width: SizeConfig.blockSizeHorizontal * 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(StringConstant.sendrequest.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],
                       )),
                 ),
@@ -131,9 +148,9 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.sendinvitations.toUpperCase(),
+                          Text(StringConstant.peopleyouknow.toUpperCase(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
+                              style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],
                       )),
                 ),
@@ -147,34 +164,14 @@ class ConnectionsState extends State<Connections> {
             TabBarView(
               children:[
                 mynetwork(),
+                ReceivedRequest(),
+                SendRequest(),
                 AddContact(),
-                SendInvitation(),
               ],
             ),
-          ) ,
+          ),
           bottomNavigationBar: bottombar(context),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          floatingActionButton:
-          FloatingActionButton(
-            //  backgroundColor: AppColors.whiteColor,
-            child: new Icon(Icons.add_box),
-            backgroundColor: AppColors.themecolor,
-            /*  icon: Icon(
-            Icons.edit,
-            color: AppColors.selectedcolor,
-          ),
-          label: Text(
-            'Create Post',
-            style: TextStyle(color: AppColors.selectedcolor),
-          ),*/
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => CreateProjectPost()));
-            },
-          ),
-        ),
+        )
       )
     );
 

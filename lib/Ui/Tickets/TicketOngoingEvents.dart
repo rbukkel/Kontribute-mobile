@@ -321,7 +321,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('Share via',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -375,11 +375,10 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('Share via',style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
-
         PopupMenuItem(
             value:2,
             child: GestureDetector(
@@ -449,14 +448,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-
-
                                         listing.projectData.elementAt(index).userId.toString()!=userid?
                                         listing.projectData.elementAt(index).status=="pending"?
                                         GestureDetector(
                                           onTap: ()
                                           {
-
                                             Widget cancelButton = FlatButton(
                                               child: Text("Cancel"),
                                               onPressed: () {
@@ -479,7 +475,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   Payamount( listing.projectData.elementAt(index).id,
                                                       listing.projectData.elementAt(index).ticketCost,AmountController.text,userid);
                                                 }
-
                                               },
                                             );
                                             // set up the AlertDialog
@@ -495,7 +490,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                               content:
                                               new Row(
                                                 children: <Widget>[
-
                                                   new Expanded(
                                                     child: new  TextFormField(
                                                       autofocus: false,
@@ -549,8 +543,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 return alert;
                                               },
                                             );
-
-
                                           },
                                           child:  Container(
                                             margin: EdgeInsets.only(left:
@@ -588,8 +580,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             ),
                                           ),
                                         ): Container(): Container(),
-
-
                                         GestureDetector(
                                           onTapDown: (TapDownDetails details){
                                             _tapDownPosition = details.globalPosition;

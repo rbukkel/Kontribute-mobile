@@ -244,7 +244,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Copy this post',
+                    'Share via',
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -300,14 +300,12 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
     Share.share(shortsharedlink,
         subject: "Kontribute",
         sharePositionOrigin:
-        box.localToGlobal(Offset.zero) &
-        box.size);
+        box.localToGlobal(Offset.zero) & box.size);
   }
 
 
   _showEditPopupMenu() async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
-
     await showMenu(
       context: context,
       position: RelativeRect.fromLTRB(
@@ -334,7 +332,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Copy this post',
+                    'Share via',
                     style: TextStyle(fontSize: 14),
                   )
                 ],

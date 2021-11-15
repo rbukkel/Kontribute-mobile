@@ -171,4 +171,9 @@ class StringConstant {
 
   static const String pastcampaign="Past Campaign";
 
+  static const String peopleyouknow="People you may know";
+  static const String receiverequest="Receive Request";
+  static const String sendrequest="Send Request";
+  static const String myconnections="My Connections";
+
 }

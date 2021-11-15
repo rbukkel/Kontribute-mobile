@@ -12,6 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/MyConnections/ContactsPage.dart';
 import 'package:kontribute/Pojo/ResutPush.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
@@ -898,7 +899,7 @@ class registerState extends State<register> {
                         ),
                       ),
 
-/*
+                     /*
 
                       loading
                           ? CircularProgressIndicator()
@@ -931,8 +932,6 @@ class registerState extends State<register> {
                         },
                       ),
 */
-
-
                      /* TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
                             controller: this._typeAheadController,
@@ -1212,8 +1211,9 @@ class registerState extends State<register> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      selectlangauge()),
+                      ContactsPage()),
                   (route) => false);
+
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {

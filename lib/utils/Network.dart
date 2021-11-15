@@ -97,4 +97,5 @@ class Network{
   static String contactus = "contactus";
   static String transactions = "transactions";
   static String ticket_authenticate = "ticket_authenticate";
+  static String sendfollow_Requestlisting = "sendfollow_Requestlisting";
 }

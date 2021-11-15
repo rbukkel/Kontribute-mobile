@@ -275,7 +275,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Copy this post',
+                    'Share via',
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -338,7 +338,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Copy this post',
+                    'Share via',
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -370,31 +370,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
               ),
             )
         ),
-        /*PopupMenuItem(
-            value: 3,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-               */
-        /* callNext(
-                    ProjectReport(
-                        data: projectdetailspojo.commentsdata.id.toString()
-                    ), context);*/
-        /*
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text(
-                    'Report',
-                    style: TextStyle(fontSize: 14),
-                  )
-                ],
-              ),
-            )),*/
+
       ],
       elevation: 8.0,
     );

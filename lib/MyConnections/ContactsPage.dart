@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:kontribute/MyConnections/PeopleYouMay.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -165,7 +166,7 @@ class _ContactsPageState extends State<ContactsPage> {
             onTap: (){
               Navigator.pushAndRemoveUntil(context,
                   MaterialPageRoute(builder:
-                      (context) => selectlangauge()),
+                      (context) => PeopleYouMay()),
                       (route) => false);
             },
             child: Container(

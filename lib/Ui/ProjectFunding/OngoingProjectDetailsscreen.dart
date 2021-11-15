@@ -339,7 +339,7 @@ class OngoingProjectDetailsscreenState
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Copy this post',
+                    'Share via',
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -402,7 +402,7 @@ class OngoingProjectDetailsscreenState
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Copy this post',
+                    'Share via',
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -558,7 +558,6 @@ class OngoingProjectDetailsscreenState
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

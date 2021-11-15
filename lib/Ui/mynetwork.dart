@@ -31,9 +31,13 @@ class _mynetworkState extends State<mynetwork> {
   String followval;
   var storelist_length;
   var followlist_length;
+  num countValue = 2;
+  num aspectWidth = 2;
+  num aspectHeight = 2;
   FollowRequestAcceptPojo requestpojo;
   FollowinglistPojo followlistpojo;
   follow_Request_updatePojo followupdatepojo;
+  String searchvalue="";
 
   @override
   void initState() {
@@ -43,7 +47,7 @@ class _mynetworkState extends State<mynetwork> {
       userid = val;
       print("Login userid: " + userid.toString());
       getdata(userid);
-      getFollowing(userid);
+      getFollowing(userid,searchvalue);
     });
   }
   void getdata(String user_id) async {
@@ -103,12 +107,13 @@ class _mynetworkState extends State<mynetwork> {
     }
   }
 
-  void getFollowing(String user_id) async {
+  void getFollowing(String user_id,String search) async {
     setState(() {
       followlist_length =null;
     });
     Map data = {
       'receiver_id': user_id.toString(),
+      'search': search.toString(),
     };
     print("followlisting: " + data.toString());
     var jsonResponse = null;
@@ -167,623 +172,190 @@ class _mynetworkState extends State<mynetwork> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-     /* key: _scaffoldKey,
-      drawer: Drawer(
-        child: Container(
-          color: Colors.white,
-          child: Drawer_Screen(),
-        ),
-      ),*/
       body: Container(
         height: double.infinity,
         color: AppColors.whiteColor,
         child: Column(
           children: [
-           /* Container(
-              height: SizeConfig.blockSizeVertical * 12,
-              decoration: BoxDecoration(
-                image: new DecorationImage(
-                  image: new AssetImage("assets/images/appbar.png"),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 20,
-                    height: 20,
-                    margin: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 6,
-                        top: SizeConfig.blockSizeVertical * 2),
-                    child: InkWell(
-                      onTap: () {
-                        _scaffoldKey.currentState.openDrawer();
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/menu.png",
-                          color: AppColors.whiteColor,
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: SizeConfig.blockSizeHorizontal * 60,
-                    alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                    // margin: EdgeInsets.only(top: 10, left: 40),
-                    child: Text(
-                      "My Network",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: "Poppins-Regular",
-                          color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    width: 25,
-                    height: 25,
-                    margin: EdgeInsets.only(
-                        right: SizeConfig.blockSizeHorizontal * 3,
-                        top: SizeConfig.blockSizeVertical * 2),
-                  ),
-                ],
-              ),
-            ),*/
-            Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *6),
-                    color: AppColors.whiteColor,
-                    height: SizeConfig.blockSizeVertical * 8,
-                    child: Card(
-                      child:
-                      followlist_length!=null?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 5),
-                            child: Text(
-                              "Connections",
-                              style: TextStyle(
-                                  decoration: TextDecoration.none,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: "Poppins-Regular",
-                                  color: Colors.black),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                right: SizeConfig.blockSizeHorizontal * 5),
-                            child: Text(
-                              followlist_length.length!=null?followlist_length.length.toString():"",
-                              style: TextStyle(
-                                  decoration: TextDecoration.none,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: "Poppins-Regular",
-                                  color: Colors.black),
-                            ),
-                          )
-                        ],
-                      ):Container(),
-                    ),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                    color: AppColors.whiteColor,
-                    // height: SizeConfig.blockSizeVertical *8,
-                    child: Card(
-                        child: Column(
-                      children: [
-                        storelist_length != null ?
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 4),
-                              child: Text(
-                                "Invitations",
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "Poppins-Regular",
-                                    color: AppColors.theme1color),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 4),
-                              child: Image.asset(
-                                "assets/images/next.png",
-                                color: AppColors.black,
-                                width: 15,
-                                height: 15,
-                              ),
-                            )
-                          ],
-                        ):Container(),
-                        storelist_length != null ?
-                        Container(
-                          child:
-                          MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child:
-                          ListView.builder(
-                              itemCount:  storelist_length.length == null
-                                  ? 0
-                                  : storelist_length.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                    child: Row(
-                                  children: [
-                                    requestpojo.result.elementAt(index).facebookId!=null?
-                                    GestureDetector(
-                                      onTap: () {
-                                        callNext(
-                                            viewdetail_profile(
-                                                data: requestpojo.result.elementAt(index).senderId.toString()
-                                            ), context);
-                                      },
-                                      child: Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 9,
-                                        width: SizeConfig.blockSizeVertical * 9,
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(
-                                            bottom:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    5),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                  requestpojo.result.elementAt(index).profilePic,
-                                                ),
-                                                fit: BoxFit.fill)),
-                                      ),
-                                    ):
-                                    requestpojo.result.elementAt(index).profilePic!=null?GestureDetector(
-                                      onTap: ()
-                                      {
-                                        callNext(
-                                            viewdetail_profile(
-                                                data: requestpojo.result.elementAt(index).senderId.toString()
-                                            ), context);
-                                      },
-                                      child: Container(
-                                        height:
-                                        SizeConfig.blockSizeVertical * 9,
-                                        width: SizeConfig.blockSizeVertical * 9,
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(
-                                            bottom:
-                                            SizeConfig.blockSizeVertical *
-                                                1,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1,
-                                            left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                5),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                  Network.BaseApiprofile+requestpojo.result.elementAt(index).profilePic,
-                                                ),
-                                                fit: BoxFit.fill)),
-                                      ),
-                                    ):
-                                    GestureDetector(
-                                      onTap: ()
-                                      {
-                                        callNext(
-                                            viewdetail_profile(
-                                                data: requestpojo.result.elementAt(index).senderId.toString()
-                                            ), context);
-                                      },
-                                      child: Container(
-                                        height:
-                                        SizeConfig.blockSizeVertical * 9,
-                                        width: SizeConfig.blockSizeVertical * 9,
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(
-                                            bottom:
-                                            SizeConfig.blockSizeVertical *
-                                                1,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1,
-                                            left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                5),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: new DecorationImage(
-                                            image: new AssetImage("assets/images/account_circle.png"),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),),
-                                      ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  45,
-                                              padding: EdgeInsets.only(
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    1,
-                                              ),
-                                              child: Text(
-                                                requestpojo.result.elementAt(index).fullName!=null?requestpojo.result.elementAt(index).fullName:"",
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.themecolor,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontFamily:
-                                                        'Poppins-Regular'),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      /*  Container(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  45,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                          ),
-                                          child: Text(
-                                            "android,iOS,Laravel,PHP",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular'),
-                                          ),
-                                        ),
-                                        Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    45,
-                                            alignment: Alignment.topLeft,
-                                            margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                new Icon(
-                                                  Icons.all_inclusive,
-                                                  color: Colors.black87,
-                                                  size: 10.0,
-                                                ),
-                                                Text(
-                                                  " 53 mutual connections",
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.black87,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          'Poppins-Regular'),
-                                                ),
-                                              ],
-                                            )),*/
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap:()
-                                          {
-                                           followaccept(userid, requestpojo.result.elementAt(index).id, "2");
-                                           },
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                left: SizeConfig.blockSizeHorizontal * 1,
-                                                right: SizeConfig.blockSizeHorizontal *3,
-                                                top: SizeConfig.blockSizeVertical * 1),
-                                            child: Image.asset(
-                                              "assets/images/error.png",
-                                              color: AppColors.black,
-                                              width: 38,
-                                              height: 38,
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap:(){
-                                            followaccept(userid, requestpojo.result.elementAt(index).id, "1");
-                                          },
-                                          child:   Container(
-                                            margin: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    5,
-                                                top:
-                                                SizeConfig.blockSizeVertical *
-                                                    1),
-                                            child: Image.asset(
-                                              "assets/images/check.png",
-                                              color: AppColors.theme1color,
-                                              width: 38,
-                                              height: 38,
-                                            ),
-                                          ),
-                                        )
+            _createSearchView(),
+            SearchView()
+          ],
+        ),
+      ),
+    );
+  }
 
-                                      ],
-                                    )
-                                  ],
-                                ));
-                              })),
-                        ): Container(
-                          alignment: Alignment.center,
-                          child: resultvalue == true
-                              ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                              : Center(
-                            child: Container()
+
+  Widget _createSearchView() {
+    return new Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
+            right: SizeConfig.blockSizeHorizontal *2),
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *20,
+            left: SizeConfig.blockSizeHorizontal*5,
+            right: SizeConfig.blockSizeHorizontal*5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1.0)
+        ),
+        child: new
+        TextField(
+          onChanged: (value){
+            setState(() {
+              getFollowing(userid,value);
+            });
+          },
+          decoration: new InputDecoration(
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.black), hintText: 'Search...'),
+        )
+    );
+  }
+
+  SearchView() {
+    return Expanded(
+      child: followlist_length != null ?
+      Container(
+        alignment: Alignment.centerLeft,
+        //height: SizeConfig.blockSizeVertical * 30,
+        margin: EdgeInsets.only(
+            bottom: SizeConfig.blockSizeVertical * 4,
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 2,
+            right: SizeConfig.blockSizeHorizontal * 2),
+        child:  MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child:
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: countValue,
+            childAspectRatio: (aspectWidth / aspectHeight),
+            children: List.generate(followlist_length.length == null ? 0 : followlist_length.length, (ind) {
+              return
+                Container(
+                    width: SizeConfig.blockSizeHorizontal * 60,
+                    child: Card(
+                      child: Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: ()
+                            {
+                              followaccept(userid, followlistpojo.result.elementAt(ind).id, "2");
+                            },
+                            child: Container(
+                              alignment: Alignment.topRight,
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig
+                                      .blockSizeHorizontal *
+                                      1,
+                                  right: SizeConfig
+                                      .blockSizeHorizontal *
+                                      3,
+                                  top: SizeConfig
+                                      .blockSizeVertical *
+                                      1),
+                              child: Image.asset(
+                                "assets/images/error.png",
+                                color: AppColors.black,
+                                width: 20,
+                                height: 20,
+                              ),
+                            ),
                           ),
-                        ),
-                        storelist_length != null ?
-                            GestureDetector(
-                              onTap: ()
-                              {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => myinvitation()));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 2,
-                                    bottom: SizeConfig.blockSizeVertical * 2),
-                                child: Text(
-                                  "Show more",
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: "Poppins-Regular",
-                                      color: AppColors.theme1color),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
+                                onTap: () {
+                                  callNext(
+                                      viewdetail_profile(
+                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
+                                      ), context);
+                                },
+                                child: Container(
+                                  height: SizeConfig
+                                      .blockSizeVertical *
+                                      12,
+                                  width: SizeConfig
+                                      .blockSizeVertical *
+                                      12,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      bottom: SizeConfig
+                                          .blockSizeVertical *
+                                          1,
+                                      right: SizeConfig
+                                          .blockSizeHorizontal *
+                                          1,
+                                      left: SizeConfig
+                                          .blockSizeHorizontal *
+                                          5),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            followlistpojo.result.elementAt(ind).profilePic,
+                                          ),
+                                          fit: BoxFit.fill)),
+                                ),
+                              ):
+                              GestureDetector(
+                                onTap: () {
+                                  callNext(
+                                      viewdetail_profile(
+                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
+                                      ), context);
+                                },
+                                child: Container(
+                                  height: SizeConfig
+                                      .blockSizeVertical *
+                                      12,
+                                  width: SizeConfig
+                                      .blockSizeVertical *
+                                      12,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      bottom: SizeConfig
+                                          .blockSizeVertical *
+                                          1,
+                                      right: SizeConfig
+                                          .blockSizeHorizontal *
+                                          1,
+                                      left: SizeConfig
+                                          .blockSizeHorizontal *
+                                          5),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
+                                          ),
+                                          fit: BoxFit.fill)),
                                 ),
                               ),
-                            )
-                        :Container()
-                      ],
-                    )),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                    color: AppColors.whiteColor,
-                    // height: SizeConfig.blockSizeVertical *8,
-                    child: Card(
-                        child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              child: Text(
-                                "Connections",
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "Poppins-Regular",
-                                    color: AppColors.theme1color),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              child: Image.asset(
-                                "assets/images/next.png",
-                                color: AppColors.black,
-                                width: 15,
-                                height: 15,
-                              ),
-                            )
-                          ],
-                        ),
-                        followlist_length != null ?
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          height: SizeConfig.blockSizeVertical * 30,
-                          margin: EdgeInsets.only(
+                            ],
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 55,
+                            padding: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 1,
-                              bottom: SizeConfig.blockSizeVertical * 2,
-                              left: SizeConfig.blockSizeHorizontal * 2,
-                              right: SizeConfig.blockSizeHorizontal * 2),
-                          child: ListView.builder(
-                              itemCount: followlist_length.length == null
-                                  ? 0
-                                  : followlist_length.length,
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int ind) {
-                                return Container(
-                                    width: SizeConfig.blockSizeHorizontal * 60,
-                                    child: Card(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: ()
-                                            {
-                                              followaccept(userid, followlistpojo.result.elementAt(ind).id, "2");
-                                            },
-                                            child: Container(
-                                              alignment: Alignment.topRight,
-                                              margin: EdgeInsets.only(
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      3,
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1),
-                                              child: Image.asset(
-                                                "assets/images/error.png",
-                                                color: AppColors.black,
-                                                width: 20,
-                                                height: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
-                                                onTap: () {
-                                                  callNext(
-                                                      viewdetail_profile(
-                                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
-                                                      ), context);
-                                                  },
-                                                child: Container(
-                                                  height: SizeConfig
-                                                          .blockSizeVertical *
-                                                      12,
-                                                  width: SizeConfig
-                                                          .blockSizeVertical *
-                                                      12,
-                                                  alignment: Alignment.center,
-                                                  margin: EdgeInsets.only(
-                                                      bottom: SizeConfig
-                                                              .blockSizeVertical *
-                                                          1,
-                                                      right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          1,
-                                                      left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                           followlistpojo.result.elementAt(ind).profilePic,
-                                                          ),
-                                                          fit: BoxFit.fill)),
-                                                ),
-                                              ):
-                                              GestureDetector(
-                                                onTap: () {
-                                                  callNext(
-                                                      viewdetail_profile(
-                                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
-                                                      ), context);
-                                                  },
-                                                child: Container(
-                                                  height: SizeConfig
-                                                      .blockSizeVertical *
-                                                      12,
-                                                  width: SizeConfig
-                                                      .blockSizeVertical *
-                                                      12,
-                                                  alignment: Alignment.center,
-                                                  margin: EdgeInsets.only(
-                                                      bottom: SizeConfig
-                                                          .blockSizeVertical *
-                                                          1,
-                                                      right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1,
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                            Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
-                                                          ),
-                                                          fit: BoxFit.fill)),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            width: SizeConfig.blockSizeHorizontal * 55,
-                                            padding: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical * 1,
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              followlistpojo.result.elementAt(ind).fullName,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: AppColors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
-                                                      'Poppins-Regular'),
-                                            ),
-                                          ),
-                                      /*    Container(
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              followlistpojo.result.elementAt(ind).fullName,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: AppColors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily:
+                                  'Poppins-Regular'),
+                            ),
+                          ),
+                          /*    Container(
                                             width:
                                                 SizeConfig.blockSizeHorizontal *
                                                     55,
@@ -836,33 +408,27 @@ class _mynetworkState extends State<mynetwork> {
                                                   ),
                                                 ],
                                               ))*/
-                                        ],
-                                      ),
-                                    ));
-                              }),
-                        ):
-                        Container(
-                          margin: EdgeInsets.only(top: 150),
-                          alignment: Alignment.center,
-                          child: resultfollowvalue == true
-                              ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                              : Center(
-                              child: Container()
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
-                ],
-              ),
-            ))
-          ],
+                        ],
+                      ),
+                    ));}
+            ),
+          ),),
+      ):
+      Container(
+        margin: EdgeInsets.only(top: 100),
+        alignment: Alignment.center,
+        child: resultfollowvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+            child: Container()
         ),
       ),
     );
   }
+
+
 
   Future<void> followaccept(String userid, String id, String status) async {
     Map data = {
@@ -895,7 +461,7 @@ class _mynetworkState extends State<mynetwork> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
           setState(() {
-            getFollowing(userid);
+            getFollowing(userid,searchvalue);
             getdata(userid);
           });
         }
