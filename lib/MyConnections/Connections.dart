@@ -174,8 +174,8 @@ class ConnectionsState extends State<Connections> {
         )
       )
     );
-
   }
+
   Widget backgroundBGContainer() {
     return Container(
       color: AppColors.whiteColor,

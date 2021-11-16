@@ -548,8 +548,6 @@ class loginState extends State<login>{
       'facebook_id': id.toString(),
       'profile_pic': photoURL.toString(),
     };
-
-
     print("Social: "+data.toString());
     var jsonResponse = null;
     var response =
@@ -585,18 +583,18 @@ class loginState extends State<login>{
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-      /*    Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      selectlangauge()),
-                  (route) => false); */
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ContactsPage()),
+                      selectlangauge()),
                   (route) => false);
+          /*Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ContactsPage()),
+                  (route) => false);*/
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {

@@ -15,6 +15,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/MyConnections/ContactsPage.dart';
 import 'package:kontribute/Pojo/ResutPush.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Ui/ContactFromKontribute.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -1211,7 +1212,7 @@ class registerState extends State<register> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ContactsPage()),
+                      ContactFromKontribute()),
                   (route) => false);
 
         } else {
@@ -1285,7 +1286,7 @@ class registerState extends State<register> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      selectlangauge()),
+                      ContactFromKontribute()),
                   (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1303,7 +1304,6 @@ class registerState extends State<register> {
       }
     }
     else {
-
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonResponse["message"],
@@ -1312,7 +1312,6 @@ class registerState extends State<register> {
         timeInSecForIosWeb: 1,
       );
     }
-
   }
 
 

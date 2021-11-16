@@ -422,15 +422,12 @@ class _mynetworkState extends State<mynetwork> {
         child: resultfollowvalue == true
             ? Center(
           child: CircularProgressIndicator(),
-        )
-            : Center(
+        ) : Center(
             child: Container()
         ),
       ),
     );
   }
-
-
 
   Future<void> followaccept(String userid, String id, String status) async {
     Map data = {

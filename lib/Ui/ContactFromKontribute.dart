@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:kontribute/MyConnections/ContactsPage.dart';
 import 'package:kontribute/MyConnections/PeopleYouMay.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,12 +13,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:sms_maintained/sms.dart';
 
-class ContactsPage extends StatefulWidget {
+class ContactFromKontribute extends StatefulWidget {
   @override
-  _ContactsPageState createState() => _ContactsPageState();
+  _ContactFromKontributeState createState() => _ContactFromKontributeState();
 }
 
-class _ContactsPageState extends State<ContactsPage> {
+class _ContactFromKontributeState extends State<ContactFromKontribute> {
   Iterable<Contact> _contacts;
   String userid;
   UserlistingPojo followlistpojo;
@@ -42,7 +43,7 @@ class _ContactsPageState extends State<ContactsPage> {
     super.initState();
   }
 
- /* Future<PermissionStatus> _getPermission() async {
+  /* Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
     if (permission != PermissionStatus.granted &&
         permission != PermissionStatus.denied) {
@@ -133,7 +134,7 @@ class _ContactsPageState extends State<ContactsPage> {
         TextField(
           onChanged: (value){
             setState(() {
-             // getData(value);
+              // getData(value);
             });
           },
           decoration: new InputDecoration(
@@ -164,7 +165,7 @@ class _ContactsPageState extends State<ContactsPage> {
             onTap: (){
               Navigator.pushAndRemoveUntil(context,
                   MaterialPageRoute(builder:
-                      (context) => PeopleYouMay()),
+                      (context) => ContactsPage()),
                       (route) => false);
             },
             child: Container(
@@ -176,9 +177,9 @@ class _ContactsPageState extends State<ContactsPage> {
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Poppins-Bold',
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                  letterSpacing: 1.0)
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
+                        letterSpacing: 1.0)
                 )
             ),
           ),
@@ -187,90 +188,40 @@ class _ContactsPageState extends State<ContactsPage> {
           _contacts != null ?
           Expanded(child:
           ListView.builder(
-            itemCount: _contacts?.length ?? 0,
-            itemBuilder: (BuildContext context, int index) {
-              Contact contact = _contacts?.elementAt(index);
-              return Container(
-                margin: EdgeInsets.only(
-                  right: SizeConfig.blockSizeHorizontal * 5,
-                  left: SizeConfig.blockSizeHorizontal * 5,
-                  top: SizeConfig.blockSizeVertical *2,
-                  bottom: SizeConfig.blockSizeVertical *2,
-                ),
-                  child:
-                  Row(
-                      children: [
-                        (contact.avatar != null && contact.avatar.isNotEmpty) ?
-                        CircleAvatar(backgroundImage: MemoryImage(contact.avatar)) :
-                        CircleAvatar(
-                          child: Text(contact.initials()),
-                          backgroundColor: Theme.of(context).accentColor,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal *2),
-                          width: SizeConfig.blockSizeHorizontal *64,
-                          child: Text(contact.displayName ??''),
-                        ),
-                        _contacts.first.phones.toString()== followlistpojo.data.first.mobile.toString()?
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical *2,
-                              bottom:SizeConfig.blockSizeVertical *2),
-                          height: SizeConfig.blockSizeVertical *5,
-                          width: SizeConfig.blockSizeVertical * 5,
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(
-                              bottom: SizeConfig.blockSizeVertical * 1,
-                              top: SizeConfig.blockSizeVertical * 1,
-                              left: SizeConfig.blockSizeHorizontal * 1),
-                            decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                image: new AssetImage(
-                                    "assets/images/appicon_circular.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                        ):
-                        InkWell(
-                          onTap: ()
-                          {
-
-                            SmsSender sender = SmsSender();
-                           String address = contact.phones.first.value;
-                            print("no. "+address);
-                           // sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
-
-                            SmsMessage message = SmsMessage(address, "Let's join on Kontribute! Get it at "+Network.sharelink);
-                            message.onStateChanged.listen((state) {
-                              if (state == SmsMessageState.Sent) {
-                                print("SMS is sent!");
-                                Fluttertoast.showToast(
-                                    msg: "Sms sent successfully",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1);
-                              } else if (state == SmsMessageState.Delivered) {
-                                print("SMS is delivered!");
-                                Fluttertoast.showToast(
-                                    msg: "Sms delivered successfully",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1);
-                              }
-                            });
-                            sender.sendSms(message);
-
-                         /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
-                            Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
-                                subject: "Kontribute",
-                                sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);*/
-                          },
-                          child:Container(
+              itemCount: _contacts?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                Contact contact = _contacts?.elementAt(index);
+                print("Phones: "+_contacts?.elementAt(index).phones.toString());
+                print("Phonescall: "+followlistpojo.data.elementAt(index).mobile.toString());
+                return Container(
+                    margin: EdgeInsets.only(
+                      right: SizeConfig.blockSizeHorizontal * 5,
+                      left: SizeConfig.blockSizeHorizontal * 5,
+                      top: SizeConfig.blockSizeVertical *2,
+                      bottom: SizeConfig.blockSizeVertical *2,
+                    ),
+                    child:
+                    _contacts?.elementAt(index).phones== followlistpojo.data.elementAt(index).mobile?
+                    Row(
+                        children: [
+                          (contact.avatar != null && contact.avatar.isNotEmpty) ?
+                          CircleAvatar(backgroundImage: MemoryImage(contact.avatar)) :
+                          CircleAvatar(
+                            child: Text(contact.initials()),
+                            backgroundColor: Theme.of(context).accentColor,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal *2),
+                            width: SizeConfig.blockSizeHorizontal *64,
+                            child: Text(contact.displayName ??''),
+                          ),
+                          _contacts.first.phones.toString()== followlistpojo.data.first.mobile.toString()?
+                          Container(
                               padding: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical *2,
-                                  bottom:  SizeConfig.blockSizeVertical *2),
-                              height: SizeConfig.blockSizeVertical * 5,
+                                  bottom:SizeConfig.blockSizeVertical *2),
+                              height: SizeConfig.blockSizeVertical *5,
                               width: SizeConfig.blockSizeVertical * 5,
                               alignment: Alignment.centerRight,
                               margin: EdgeInsets.only(
@@ -280,19 +231,72 @@ class _ContactsPageState extends State<ContactsPage> {
                               decoration: BoxDecoration(
                                 image: new DecorationImage(
                                   image: new AssetImage(
-                                      "assets/images/share.png"),
+                                      "assets/images/appicon_circular.png"),
                                   fit: BoxFit.fill,
                                 ),
                               )
+                          ):
+                          InkWell(
+                            onTap: ()
+                            {
+
+                              SmsSender sender = SmsSender();
+                              String address = contact.phones.first.value;
+                              print("no. "+address);
+                              // sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
+                              SmsMessage message = SmsMessage(address, "Let's join on Kontribute! Get it at "+Network.sharelink);
+                              message.onStateChanged.listen((state) {
+                                if (state == SmsMessageState.Sent) {
+                                  print("SMS is sent!");
+                                  Fluttertoast.showToast(
+                                      msg: "Sms sent successfully",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1);
+                                } else if (state == SmsMessageState.Delivered) {
+                                  print("SMS is delivered!");
+                                  Fluttertoast.showToast(
+                                      msg: "Sms delivered successfully",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1);
+                                }
+                              });
+                              sender.sendSms(message);
+
+                              /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
+                            Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
+                                subject: "Kontribute",
+                                sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);*/
+                            },
+                            child:Container(
+                                padding: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical *2,
+                                    bottom:  SizeConfig.blockSizeVertical *2),
+                                height: SizeConfig.blockSizeVertical * 5,
+                                width: SizeConfig.blockSizeVertical * 5,
+                                alignment: Alignment.centerRight,
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                    top: SizeConfig.blockSizeVertical * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 1),
+                                decoration: BoxDecoration(
+                                  image: new DecorationImage(
+                                    image: new AssetImage(
+                                        "assets/images/share.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                            ),
                           ),
-                        ),
-                      ]
-                  ));
-            })
+                        ]
+                    ):Container()
+                );
+              })
           ) : Center(child: const CircularProgressIndicator()),
- ],
-                ),
-              );
+        ],
+      ),
+    );
   }
 
   void checkper() async {
@@ -306,16 +310,16 @@ class _ContactsPageState extends State<ContactsPage> {
           context: context,
           builder: (BuildContext context) =>
               CupertinoAlertDialog(
-            title: Text('Permissions error'),
-            content: Text('Please enable contacts access'
-                'permission in system settings'),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text('OK'),
-                onPressed: () => Navigator.of(context).pop(),
+                title: Text('Permissions error'),
+                content: Text('Please enable contacts access'
+                    'permission in system settings'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                ],
               )
-            ],
-          )
       );
     }
   }

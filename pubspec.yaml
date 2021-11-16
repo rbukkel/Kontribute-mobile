@@ -75,6 +75,8 @@ dependencies:
   autocomplete_textfield: ^1.6.4
   qr_flutter: ^3.2.0
   barcode_scan_fix: ^1.0.2
+  flutter_app_badger: ^1.1.2
+  share_plus: ^1.2.0
 
 dev_dependencies:
   flutter_test:

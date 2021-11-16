@@ -22,6 +22,7 @@ import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Drawer_Screen extends StatefulWidget {
   @override
@@ -109,19 +110,33 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
             } else {
               email = loginResponse.resultPush.email;
             }
-
-
-
-            if (loginResponse.resultPush.profilePic != null ||
-                loginResponse.resultPush.profilePic != "") {
-              setState(() {
-                image = loginResponse.resultPush.profilePic;
-                if (image.isNotEmpty) {
-                  imageUrl = true;
-                  _loading = true;
-                }
-              });
+          if(loginResponse.resultPush.facebookId==null || loginResponse.resultPush.facebookId=="")
+            {
+              if (loginResponse.resultPush.profilePic != null || loginResponse.resultPush.profilePic != "") {
+                setState(() {
+                  image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    imageUrl = true;
+                    _loading = true;
+                  }
+                });
+              }
             }
+          else
+            {
+              if (loginResponse.resultPush.profilePic != null || loginResponse.resultPush.profilePic != "") {
+                setState(() {
+                  image = loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    imageUrl = true;
+                    _loading = true;
+                  }
+                });
+              }
+            }
+
+
+
           });
         } else {
           Fluttertoast.showToast(
@@ -661,7 +676,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
       case 8:
-        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()));
+        Share.share('hey! check out this new app https://play.google.com/store/apps/details?id=com.kont.kontribute');
         break;
       case 9:
         _showDialog();
@@ -704,7 +719,5 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
       },
     );
   }
-
-
 
 }

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/Notificationpojo.dart';
@@ -52,6 +54,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   @override
   Future<void> initState() {
     _scrollController = new ScrollController()..addListener(function);
+
     super.initState();
     _loadID();
   }
@@ -230,7 +233,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     paginationApi();
   }
 
-/*
+  /*
   @override
   void initState() {
     super.initState();
@@ -371,8 +374,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                           color: Colors.white),
                     ),
                   ),
-
-
                   Container(
                     width: 25,
                     height: 25,

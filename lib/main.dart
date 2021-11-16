@@ -3,11 +3,13 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/Carousel.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/LocaleString.dart';
+import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/app.dart';
@@ -46,6 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
   String product_id;
   bool isId=false;
+  String _appBadgeSupported = 'Unknown';
+
   gettoken() {
     _firebaseMessaging.getToken().then((onValue) {
       setState(() {
@@ -58,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       token = onError.toString();
       setState(() {});
     });
+   // FlutterAppBadger.updateBadgeCount(1);
   }
 
   @override
@@ -66,12 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        FlutterAppBadger.updateBadgeCount(1);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
+        FlutterAppBadger.removeBadge();
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>NotificationScreen()), (route) => false);
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -88,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
       token = val;
       print("token: " + token.toString());
     });
+    initPlatformState();
     Timer timer;
     timer = Timer.periodic(Duration(seconds: 3), (_) {
       setState(() {
@@ -101,6 +110,30 @@ class _MyHomePageState extends State<MyHomePage> {
     //callSharedData();
   }
 
+  initPlatformState() async {
+    String appBadgeSupported;
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        appBadgeSupported = 'Supported';
+      } else {
+        appBadgeSupported = 'Not supported';
+      }
+    } on PlatformException {
+      appBadgeSupported = 'Failed to get badge support.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _appBadgeSupported = appBadgeSupported;
+    });
+  }
+
+
   void nextScreen() {
     SharedUtils.writeloginData("login").then((result){
       if(result!=null){
@@ -112,11 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Future.delayed(Duration(seconds: 3),()
           {
-
-
             print('hereid'+isId.toString());
-
-
                  if(isId){
                    callNext(
                        OngoingProjectDetailsscreen(

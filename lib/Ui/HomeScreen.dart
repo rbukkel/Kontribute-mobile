@@ -425,7 +425,10 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(top: 5),
                                         padding: EdgeInsets.all(5),
                                         alignment: Alignment.center,
-                                        child: Image.asset("assets/images/invitation.png", height: SizeConfig.blockSizeVertical *10, width: SizeConfig.blockSizeHorizontal * 15,
+                                        child: Image.asset(
+                                          "assets/images/invitation.png",
+                                          height: SizeConfig.blockSizeVertical *10,
+                                          width: SizeConfig.blockSizeHorizontal * 15,
                                         ),
                                       ),
                                       Container(
