@@ -19,6 +19,7 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   Iterable<Contact> _contacts;
+  Iterable<Contact> _userList;
   String userid;
   UserlistingPojo followlistpojo;
   String followval;
@@ -42,7 +43,7 @@ class _ContactsPageState extends State<ContactsPage> {
     super.initState();
   }
 
- /* Future<PermissionStatus> _getPermission() async {
+  Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
     if (permission != PermissionStatus.granted &&
         permission != PermissionStatus.denied) {
@@ -51,7 +52,7 @@ class _ContactsPageState extends State<ContactsPage> {
     } else {
       return permission;
     }
-  }*/
+  }
 
   Future<void> getContacts() async {
     final Iterable<Contact> contacts = await ContactsService.getContacts();
@@ -59,6 +60,32 @@ class _ContactsPageState extends State<ContactsPage> {
       _contacts = contacts;
     });
   }
+
+
+/*
+  Future<void> getContacts (BuildContext context) async {
+    Iterable<Contact> contacts = await ContactsService.getContacts();
+    var iter = 0;
+
+    contacts.forEach((contact) async {
+      var mobilenum = contact.phones.toList();
+
+      if (mobilenum.length != 0) {
+        var userContact = UserContactItem(
+            contactName: contact.displayName,
+            number: mobilenum[0],
+            imageUrl: contact.avatar);
+        _userList.add(userContact);
+        iter++;
+      } else {
+        iter++;
+      }
+    }
+        }
+*/
+
+
+
 
   void getUseLIst(String user_id) async {
     Map data = {
@@ -186,7 +213,7 @@ class _ContactsPageState extends State<ContactsPage> {
 
           _contacts != null ?
           Expanded(child:
-          ListView.builder(
+         ListView.builder(
             itemCount: _contacts?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               Contact contact = _contacts?.elementAt(index);
@@ -261,7 +288,7 @@ class _ContactsPageState extends State<ContactsPage> {
                             });
                             sender.sendSms(message);
 
-                         /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
+                        /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
                             Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
                                 subject: "Kontribute",
                                 sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);*/
@@ -289,6 +316,27 @@ class _ContactsPageState extends State<ContactsPage> {
                       ]
                   ));
             })
+      /*    ListView.builder(
+            itemCount: _userList.length,
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, contactIndex) {
+              return ListTile(
+                leading: !_userList[contactIndex].imageUrl.isEmpty
+                    ? CircleAvatar(
+                  backgroundImage:MemoryImage(_userList[contactIndex].imageUrl),
+                )
+                    : CircleAvatar(
+                  child: Icon(Icons.add),
+                ),
+                onTap: () {
+                  print(_userList[contactIndex].contactName);
+                },
+                title: Text(_userList[contactIndex].contactName),
+                subtitle: Text(_userList[contactIndex].number),
+              );
+            },
+          )*/
           ) : Center(child: const CircularProgressIndicator()),
  ],
                 ),
@@ -320,14 +368,6 @@ class _ContactsPageState extends State<ContactsPage> {
     }
   }
 
-  Future<PermissionStatus> _getPermission() async {
-    final PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted && permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus = await [Permission.contacts].request();
-      return permissionStatus[Permission.contacts] ?? PermissionStatus.undetermined;
-    } else {
-      return permission;
-    }
-  }
+
 
 }

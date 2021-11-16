@@ -187,7 +187,6 @@ class _mynetworkState extends State<mynetwork> {
     );
   }
 
-
   Widget _createSearchView() {
     return new Container(
         padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
