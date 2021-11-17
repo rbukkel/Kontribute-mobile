@@ -14,6 +14,7 @@ class ContactFromKontribute extends StatelessWidget {
 
   ContactFromKontribute({Key key, this.contacts, this.reloadContacts})
       : super(key: key);
+
   Iterable<Contact> _contacts;
   String userid;
   UserlistingPojo followlistpojo;
@@ -24,6 +25,7 @@ class ContactFromKontribute extends StatelessWidget {
   final GlobalKey _globalKey = GlobalKey();
   bool _firstSearch = true;
   String _query = "";
+
 
 
   @override

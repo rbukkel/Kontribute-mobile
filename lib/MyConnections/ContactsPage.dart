@@ -16,12 +16,11 @@ class ContactsPage extends StatefulWidget {
 
   @override
   _ContactsPageState createState() => _ContactsPageState();
-
 }
 
 class _ContactsPageState extends State<ContactsPage> {
   Iterable<Contact> _contacts;
-  Iterable<Contact> _userList;
+  var result;
   String userid;
   UserlistingPojo followlistpojo;
   String followval;
@@ -32,7 +31,7 @@ class _ContactsPageState extends State<ContactsPage> {
   bool _firstSearch = true;
   String _query = "";
   List<String> commonlisting = new List<String>();
-  bool isAnimated =false;
+  List<String> commlisting = new List<String>();
   String mobil;
 
   @override
@@ -44,6 +43,7 @@ class _ContactsPageState extends State<ContactsPage> {
       userid = val;
       print("Login userid: " + userid.toString());
       getUseLIst(userid);
+
     });
     super.initState();
   }
@@ -64,7 +64,10 @@ class _ContactsPageState extends State<ContactsPage> {
     setState(() {
       _contacts = contacts;
     });
-
+    result= _contacts.firstWhere((filteredKeywordMap) => followlist_length.any((field) =>
+    field.contactno==filteredKeywordMap.phones));
+    commonlisting.add(result);
+    print("List: "+commonlisting.length.toString());
   }
 
 /*
@@ -124,14 +127,20 @@ class _ContactsPageState extends State<ContactsPage> {
               resultfollowvalue = true;
               print("SSSS");
               followlist_length = followlistpojo.data;
+
               for(int i =0;i<followlistpojo.data.length-1;i++)
                 {
-                  mobil= followlistpojo.data.elementAt(i).mobile;
-                }
-              commonlisting.add(mobil);
+               //   mobil= followlistpojo.data.elementAt(i).mobile;
 
-              common = followlistpojo.data;
-              print("List: "+common.toString());
+
+
+                }
+
+
+
+
+
+              print("Result>: "+result.toString());
             }
           });
         }
@@ -217,10 +226,8 @@ class _ContactsPageState extends State<ContactsPage> {
                 )
             ),
           ),
-
-
           _contacts != null ?
-          Expanded(child:
+        Expanded(child:
          ListView.builder(
             itemCount: _contacts?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
@@ -324,27 +331,7 @@ class _ContactsPageState extends State<ContactsPage> {
                       ]
                   ));
             })
-      /*    ListView.builder(
-            itemCount: _userList.length,
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, contactIndex) {
-              return ListTile(
-                leading: !_userList[contactIndex].imageUrl.isEmpty
-                    ? CircleAvatar(
-                  backgroundImage:MemoryImage(_userList[contactIndex].imageUrl),
-                )
-                    : CircleAvatar(
-                  child: Icon(Icons.add),
-                ),
-                onTap: () {
-                  print(_userList[contactIndex].contactName);
-                },
-                title: Text(_userList[contactIndex].contactName),
-                subtitle: Text(_userList[contactIndex].number),
-              );
-            },
-          )*/
+
           ) : Center(child: const CircularProgressIndicator()),
  ],
                 ),
