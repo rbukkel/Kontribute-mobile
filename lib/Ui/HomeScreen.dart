@@ -86,13 +86,19 @@ class HomeScreenState extends State<HomeScreen>{
                 // margin: EdgeInsets.only(top: 10, left: 40),
               // child: Image.asset("assets/images/appicon_circular.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
               ),
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
-                // margin: EdgeInsets.only(top: 10, left: 40),
-                child: Image.asset("assets/images/appicon_circular.png",
-                  width:SizeConfig.blockSizeHorizontal *20,
-                  height: SizeConfig.blockSizeVertical *5,),
+              GestureDetector(
+                onTap: ()
+                {
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
+                  // margin: EdgeInsets.only(top: 10, left: 40),
+                  child: Image.asset("assets/images/appicon_circular.png",
+                    width:SizeConfig.blockSizeHorizontal *20,
+                    height: SizeConfig.blockSizeVertical *5,),
+                ),
               ),
             ],
           ),
@@ -407,7 +413,7 @@ class HomeScreenState extends State<HomeScreen>{
                             ),
                             InkWell(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
+                               // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
@@ -436,7 +442,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          'notification'.tr,
+                                          'My Activity'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,

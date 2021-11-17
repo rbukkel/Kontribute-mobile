@@ -620,6 +620,8 @@ class mytranscationState extends State<mytranscation> {
       bottomNavigationBar: bottombar(context),
     );
   }
+
+
   bottombar(context) {
     return Container(
       height: SizeConfig.blockSizeVertical * 8,
@@ -698,7 +700,6 @@ class mytranscationState extends State<mytranscation> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => NotificationScreen()));
               });
-
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal * 15,

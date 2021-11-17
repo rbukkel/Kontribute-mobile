@@ -13,8 +13,10 @@ import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:sms_maintained/sms.dart';
 
 class ContactsPage extends StatefulWidget {
+
   @override
   _ContactsPageState createState() => _ContactsPageState();
+
 }
 
 class _ContactsPageState extends State<ContactsPage> {
@@ -29,6 +31,9 @@ class _ContactsPageState extends State<ContactsPage> {
   final GlobalKey _globalKey = GlobalKey();
   bool _firstSearch = true;
   String _query = "";
+  List<String> commonlisting = new List<String>();
+  bool isAnimated =false;
+  String mobil;
 
   @override
   void initState()
@@ -59,8 +64,8 @@ class _ContactsPageState extends State<ContactsPage> {
     setState(() {
       _contacts = contacts;
     });
-  }
 
+  }
 
 /*
   Future<void> getContacts (BuildContext context) async {
@@ -83,9 +88,6 @@ class _ContactsPageState extends State<ContactsPage> {
     }
         }
 */
-
-
-
 
   void getUseLIst(String user_id) async {
     Map data = {
@@ -122,6 +124,12 @@ class _ContactsPageState extends State<ContactsPage> {
               resultfollowvalue = true;
               print("SSSS");
               followlist_length = followlistpojo.data;
+              for(int i =0;i<followlistpojo.data.length-1;i++)
+                {
+                  mobil= followlistpojo.data.elementAt(i).mobile;
+                }
+              commonlisting.add(mobil);
+
               common = followlistpojo.data;
               print("List: "+common.toString());
             }

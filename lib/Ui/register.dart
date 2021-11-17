@@ -16,6 +16,7 @@ import 'package:kontribute/MyConnections/ContactsPage.dart';
 import 'package:kontribute/Pojo/ResutPush.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/ContactFromKontribute.dart';
+import 'package:kontribute/Ui/Contactlis.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -1286,7 +1287,7 @@ class registerState extends State<register> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ContactFromKontribute()),
+                      Contactlis()),
                   (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

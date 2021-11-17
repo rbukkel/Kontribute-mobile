@@ -8,7 +8,6 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/ContactusPojo.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
-import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
