@@ -54,9 +54,6 @@ class _ContactlisState extends State<Contactlis>
   }
 
   getAllContacts() async {
-
-
-
     List colors = [
       Colors.green,
       Colors.indigo,
@@ -176,7 +173,8 @@ class _ContactlisState extends State<Contactlis>
               getAllContacts();
             },
             contacts: isSearching == true ? contactsFiltered : contacts,
-          ) : Container(
+          ) :
+          Container(
               padding: EdgeInsets.only(top: 40),
               child: Text(
                 isSearching ?'No search results to show' : 'No contacts exist',

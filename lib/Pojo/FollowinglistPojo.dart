@@ -1,7 +1,7 @@
 class FollowinglistPojo {
   bool success;
   String message;
-  List<Result> result;
+  List<Results> result;
 
   FollowinglistPojo({this.success, this.message, this.result});
 
@@ -9,9 +9,9 @@ class FollowinglistPojo {
     success = json['success'];
     message = json['message'];
     if (json['result'] != null) {
-      result = new List<Result>();
+      result = new List<Results>();
       json['result'].forEach((v) {
-        result.add(new Result.fromJson(v));
+        result.add(new Results.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class FollowinglistPojo {
   }
 }
 
-class Result {
+class Results {
   String id;
   String senderId;
   String receiverId;
@@ -38,20 +38,22 @@ class Result {
   String fullName;
   String profilePic;
   String facebookId;
+  String connectionId;
 
-  Result(
+  Results(
       {this.id,
-      this.senderId,
-      this.receiverId,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt,
-      this.fullName,
-      this.profilePic,
-      this.facebookId});
+        this.senderId,
+        this.receiverId,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.facebookId,
+        this.connectionId});
 
-  Result.fromJson(Map<String, dynamic> json) {
+  Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     senderId = json['sender_id'];
     receiverId = json['receiver_id'];
@@ -62,6 +64,7 @@ class Result {
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
     facebookId = json['facebook_id'];
+    connectionId = json['connection_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +79,7 @@ class Result {
     data['full_name'] = this.fullName;
     data['profile_pic'] = this.profilePic;
     data['facebook_id'] = this.facebookId;
+    data['connection_id'] = this.connectionId;
     return data;
   }
 }

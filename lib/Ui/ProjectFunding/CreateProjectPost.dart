@@ -16,6 +16,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:share/share.dart';
@@ -110,6 +111,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   var followingvalues;
   var catFollowingname = null;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  FollowinglistPojo followlistpojo;
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
@@ -130,6 +132,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   DateTime currentEndDate = DateTime.now();
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
+  final allowNotifications = Results(fullName: 'Select All',connectionId:);
 
 
 
@@ -242,6 +245,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         );
       }
       else {
+        followlistpojo = new FollowinglistPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null)
         {

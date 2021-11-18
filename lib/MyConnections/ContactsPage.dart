@@ -21,7 +21,7 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   List<AppContacts> _contacts;
-  Iterable<Contact> newlist;
+  List<AppContacts>  newlist;
   bool contactsLoaded = false;
   var result;
   String userid;
@@ -40,6 +40,8 @@ class _ContactsPageState extends State<ContactsPage> {
   List<dynamic> values = new List<dynamic>();
   String mobil;
   var phonecontactlisting;
+
+  TextEditingController searchController = new TextEditingController();
 
   @override
   void initState()
@@ -71,49 +73,40 @@ class _ContactsPageState extends State<ContactsPage> {
     List<AppContacts> contacts = (await ContactsService.getContacts()).map((contact) {
       return new AppContacts(info: contact);
     }).toList();
+
     setState(() {
       _contacts = contacts;
       contactsLoaded = true;
-
-
     });
 
      for(int i=0;i<followlistpojo.data.length;i++)
     {
       for(int j=0;j<_contacts.length;j++)
       {
-
         // name compare
-
-
-       /* print("POhone1: "+_contacts[j].info.displayName);
-        print("POhone3: "+followlistpojo.data[i].fullName.toString());
+        print("POhoneNmae: "+_contacts[j].info.displayName);
+        print("POhoneNmae3: "+followlistpojo.data[i].fullName.toString());
 
         if(followlistpojo.data[i].fullName.toString()==_contacts[j].info.displayName.toString())
         {
-          print("Api Mobile: "+followlistpojo.data[i].fullName.toString());
-
+          print("Api Name: "+followlistpojo.data[i].fullName.toString());
+         // newlist.add(_contacts[j].info.displayName);
         }
         else{
-          print("Contct Mobile: "+_contacts[j].info.displayName);
-        }*/
-
+          print("Contct Name: "+_contacts[j].info.displayName);
+        }
 
        // number compare
-
         print("POhone1: "+_contacts[j].info.phones.elementAt(j).value);
         print("POhone3: "+followlistpojo.data[i].mobile.toString());
         if(followlistpojo.data[i].mobile==_contacts[j].info.phones.elementAt(j).value)
         {
           print("Api Mobile: "+followlistpojo.data[i].mobile.toString());
-
         }
         else{
           print("Contct Mobile: "+_contacts[j].info.phones.elementAt(j).value.toString());
         }
       }
-
-
 
    /* List<AppContact>  contacts = await ContactsService.getContacts();
     setState(() {
@@ -123,58 +116,10 @@ class _ContactsPageState extends State<ContactsPage> {
       newlist.
       phonecontactlisting =_contacts;
     });*/
-   /*  for(int i=0;i<followlistpojo.data.length;i++)
-    {
-      print("POhone1: "+followlistpojo.data.length.toString());
-      for(int j=0;j<phonecontactlisting.length;j++)
-      {
-        print("POhone2: "+phonecontactlisting.length.toString());
-       // print("POhone3: "+phonecontactlisting[0].displayName.toString());
-        print("POhone4: "+followlistpojo.data[0].fullName.toString());
 
-        print("POhone3: "+phonecontactlisting.toString());
-
-       */
-  /* if(phonecontactlisting[j].displayName.toString()==followlistpojo.data[i].fullName.toString())
-        {
-          print(followlistpojo.data[i].fullName.toString());
-
-        }
-        else{
-          print(phonecontactlisting[j].displayName.toString());
-        }*/
-  /*
-      }*/
     }
-
-    /* result= _contacts.firstWhere((filteredKeywordMap) => followlist_length.any((field) =>
-    field.contactno==filteredKeywordMap.phones));
-    commonlisting.add(result);
-*/
-
   }
 
-/*
-  Future<void> getContacts (BuildContext context) async {
-    Iterable<Contact> contacts = await ContactsService.getContacts();
-    var iter = 0;
-
-    contacts.forEach((contact) async {
-      var mobilenum = contact.phones.toList();
-
-      if (mobilenum.length != 0) {
-        var userContact = UserContactItem(
-            contactName: contact.displayName,
-            number: mobilenum[0],
-            imageUrl: contact.avatar);
-        _userList.add(userContact);
-        iter++;
-      } else {
-        iter++;
-      }
-    }
-        }
-*/
 
   void getUseLIst(String user_id) async {
     Map data = {
@@ -329,26 +274,6 @@ class _ContactsPageState extends State<ContactsPage> {
                           width: SizeConfig.blockSizeHorizontal *64,
                           child: Text(contact.info.displayName ??''),
                         ),
-                        _contacts.first.info.phones.toString()== followlistpojo.data.elementAt(index).mobile.toString()?
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical *2,
-                              bottom:SizeConfig.blockSizeVertical *2),
-                          height: SizeConfig.blockSizeVertical *5,
-                          width: SizeConfig.blockSizeVertical * 5,
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(
-                              bottom: SizeConfig.blockSizeVertical * 1,
-                              top: SizeConfig.blockSizeVertical * 1,
-                              left: SizeConfig.blockSizeHorizontal * 1),
-                            decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                image: new AssetImage(
-                                    "assets/images/appicon_circular.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                        ):
                         InkWell(
                           onTap: ()
                           {
@@ -357,7 +282,6 @@ class _ContactsPageState extends State<ContactsPage> {
                            String address = contact.info.phones.first.value;
                             print("no. "+address);
                            // sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
-
                             SmsMessage message = SmsMessage(address, "Let's join on Kontribute! Get it at "+Network.sharelink);
                             message.onStateChanged.listen((state) {
                               if (state == SmsMessageState.Sent) {
