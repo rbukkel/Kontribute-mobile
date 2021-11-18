@@ -80,24 +80,36 @@ class _ContactsPageState extends State<ContactsPage> {
 
      for(int i=0;i<followlistpojo.data.length;i++)
     {
-      print("POhone1: "+followlistpojo.data.length.toString());
       for(int j=0;j<_contacts.length;j++)
       {
-       /* print("POhone3: "+_contacts[j].info.displayName.toString());
-        print("POhone4: "+followlistpojo.data[i].fullName.toString());
 
-        print("POhone5: "+_contacts.length.toString());*/
+        // name compare
 
-        print("POhone4: "+_contacts[j].info.phones.toString());
-        print("POhone5: "+followlistpojo.data[i].mobile.toString());
 
-       if(_contacts[j].info.phones.toString()==followlistpojo.data[i].mobile.toString())
+       /* print("POhone1: "+_contacts[j].info.displayName);
+        print("POhone3: "+followlistpojo.data[i].fullName.toString());
+
+        if(followlistpojo.data[i].fullName.toString()==_contacts[j].info.displayName.toString())
+        {
+          print("Api Mobile: "+followlistpojo.data[i].fullName.toString());
+
+        }
+        else{
+          print("Contct Mobile: "+_contacts[j].info.displayName);
+        }*/
+
+
+       // number compare
+
+        print("POhone1: "+_contacts[j].info.phones.elementAt(j).value);
+        print("POhone3: "+followlistpojo.data[i].mobile.toString());
+        if(followlistpojo.data[i].mobile==_contacts[j].info.phones.elementAt(j).value)
         {
           print("Api Mobile: "+followlistpojo.data[i].mobile.toString());
 
         }
         else{
-          print("Contct Mobile: "+_contacts[0].info.phones.toString());
+          print("Contct Mobile: "+_contacts[j].info.phones.elementAt(j).value.toString());
         }
       }
 
@@ -111,9 +123,7 @@ class _ContactsPageState extends State<ContactsPage> {
       newlist.
       phonecontactlisting =_contacts;
     });*/
-
-
-  /*  for(int i=0;i<followlistpojo.data.length;i++)
+   /*  for(int i=0;i<followlistpojo.data.length;i++)
     {
       print("POhone1: "+followlistpojo.data.length.toString());
       for(int j=0;j<phonecontactlisting.length;j++)
@@ -124,14 +134,16 @@ class _ContactsPageState extends State<ContactsPage> {
 
         print("POhone3: "+phonecontactlisting.toString());
 
-       *//* if(phonecontactlisting[j].displayName.toString()==followlistpojo.data[i].fullName.toString())
+       */
+  /* if(phonecontactlisting[j].displayName.toString()==followlistpojo.data[i].fullName.toString())
         {
           print(followlistpojo.data[i].fullName.toString());
 
         }
         else{
           print(phonecontactlisting[j].displayName.toString());
-        }*//*
+        }*/
+  /*
       }*/
     }
 
