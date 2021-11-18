@@ -43,6 +43,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   final MaximumNoofquantityFocus = FocusNode();
   final VideoFocus = FocusNode();
   var file1;
+  String searchvalue="";
   var documentPath;
   FileType fileType;
   var basename=null;
@@ -164,7 +165,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      getData(userid);
+      getData(userid,searchvalue);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -197,9 +198,12 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     });
   }
 
-  Future<void> getData(String a) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {'receiver_id': a.toString()};
+  Future<void> getData(String a,String search) async {
+    setState(() {
+      categoryfollowinglist =null;
+    });
+   // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString(), 'search': search.toString(),};
     print("Data: " + data.toString());
     var jsonResponse = null;
     var response =
@@ -208,7 +212,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
       jsonResponse = json.decode(response.body);
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonResponse["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -216,13 +220,13 @@ class CreateTicketPostState extends State<CreateTicketPost> {
           timeInSecForIosWeb: 1,
         );
       } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null) {
           setState(() {
             categoryfollowinglist = jsonResponse['result'];
           });
         } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Fluttertoast.showToast(
               msg: jsonResponse["message"],
@@ -3423,21 +3427,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                child: Text(
-                  "Search contact",
-                  style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
-              ),
+                  width: SizeConfig.blockSizeHorizontal * 50,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        getData(userid, value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                        hintText: "Search..."),
+                  )),
               Container(
                 padding: EdgeInsets.only(
                   right: SizeConfig.blockSizeHorizontal * 2,

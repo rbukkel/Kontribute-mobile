@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/UserlistingPojo.dart';
 import 'package:sms_maintained/sms.dart';
+import 'package:kontribute/MyConnections/app-contacts.class.dart';
 
 class ContactsPage extends StatefulWidget {
 
@@ -19,7 +20,9 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
-  Iterable<Contact> _contacts;
+  List<AppContacts> _contacts;
+  Iterable<Contact> newlist;
+  bool contactsLoaded = false;
   var result;
   String userid;
   UserlistingPojo followlistpojo;
@@ -32,7 +35,11 @@ class _ContactsPageState extends State<ContactsPage> {
   String _query = "";
   List<String> commonlisting = new List<String>();
   List<String> commlisting = new List<String>();
+ // List<String> phonecontactlisting = new List<String>();
+  List<String> userlisting = new List<String>();
+  List<dynamic> values = new List<dynamic>();
   String mobil;
+  var phonecontactlisting;
 
   @override
   void initState()
@@ -43,8 +50,9 @@ class _ContactsPageState extends State<ContactsPage> {
       userid = val;
       print("Login userid: " + userid.toString());
       getUseLIst(userid);
-
     });
+
+   // comparelidst();
     super.initState();
   }
 
@@ -60,14 +68,78 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   Future<void> getContacts() async {
-    final Iterable<Contact> contacts = await ContactsService.getContacts();
+    List<AppContacts> contacts = (await ContactsService.getContacts()).map((contact) {
+      return new AppContacts(info: contact);
+    }).toList();
     setState(() {
       _contacts = contacts;
+      contactsLoaded = true;
+
+
     });
-    result= _contacts.firstWhere((filteredKeywordMap) => followlist_length.any((field) =>
+
+     for(int i=0;i<followlistpojo.data.length;i++)
+    {
+      print("POhone1: "+followlistpojo.data.length.toString());
+      for(int j=0;j<_contacts.length;j++)
+      {
+       /* print("POhone3: "+_contacts[j].info.displayName.toString());
+        print("POhone4: "+followlistpojo.data[i].fullName.toString());
+
+        print("POhone5: "+_contacts.length.toString());*/
+
+        print("POhone4: "+_contacts[j].info.phones.toString());
+        print("POhone5: "+followlistpojo.data[i].mobile.toString());
+
+       if(_contacts[j].info.phones.toString()==followlistpojo.data[i].mobile.toString())
+        {
+          print("Api Mobile: "+followlistpojo.data[i].mobile.toString());
+
+        }
+        else{
+          print("Contct Mobile: "+_contacts[0].info.phones.toString());
+        }
+      }
+
+
+
+   /* List<AppContact>  contacts = await ContactsService.getContacts();
+    setState(() {
+      _contacts = contacts;
+      _contacts.first.phones.forEach((phone) => print("${phone.label}: ${phone.value}"));
+
+      newlist.
+      phonecontactlisting =_contacts;
+    });*/
+
+
+  /*  for(int i=0;i<followlistpojo.data.length;i++)
+    {
+      print("POhone1: "+followlistpojo.data.length.toString());
+      for(int j=0;j<phonecontactlisting.length;j++)
+      {
+        print("POhone2: "+phonecontactlisting.length.toString());
+       // print("POhone3: "+phonecontactlisting[0].displayName.toString());
+        print("POhone4: "+followlistpojo.data[0].fullName.toString());
+
+        print("POhone3: "+phonecontactlisting.toString());
+
+       *//* if(phonecontactlisting[j].displayName.toString()==followlistpojo.data[i].fullName.toString())
+        {
+          print(followlistpojo.data[i].fullName.toString());
+
+        }
+        else{
+          print(phonecontactlisting[j].displayName.toString());
+        }*//*
+      }*/
+    }
+
+    /* result= _contacts.firstWhere((filteredKeywordMap) => followlist_length.any((field) =>
     field.contactno==filteredKeywordMap.phones));
     commonlisting.add(result);
-    print("List: "+commonlisting.length.toString());
+*/
+
   }
 
 /*
@@ -127,17 +199,8 @@ class _ContactsPageState extends State<ContactsPage> {
               resultfollowvalue = true;
               print("SSSS");
               followlist_length = followlistpojo.data;
-
-              for(int i =0;i<followlistpojo.data.length-1;i++)
-                {
-               //   mobil= followlistpojo.data.elementAt(i).mobile;
-
-
-
-                }
-
-
-
+              values = followlistpojo.data;
+              print("PrintResult: "+values.length.toString());
 
 
               print("Result>: "+result.toString());
@@ -186,7 +249,6 @@ class _ContactsPageState extends State<ContactsPage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,7 +293,8 @@ class _ContactsPageState extends State<ContactsPage> {
          ListView.builder(
             itemCount: _contacts?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
-              Contact contact = _contacts?.elementAt(index);
+
+              AppContacts contact = _contacts[index];
               return Container(
                 margin: EdgeInsets.only(
                   right: SizeConfig.blockSizeHorizontal * 5,
@@ -242,19 +305,19 @@ class _ContactsPageState extends State<ContactsPage> {
                   child:
                   Row(
                       children: [
-                        (contact.avatar != null && contact.avatar.isNotEmpty) ?
-                        CircleAvatar(backgroundImage: MemoryImage(contact.avatar)) :
+                        (contact.info.avatar != null && contact.info.avatar.isNotEmpty) ?
+                        CircleAvatar(backgroundImage: MemoryImage(contact.info.avatar)) :
                         CircleAvatar(
-                          child: Text(contact.initials()),
+                          child: Text(contact.info.initials()),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal *2),
                           width: SizeConfig.blockSizeHorizontal *64,
-                          child: Text(contact.displayName ??''),
+                          child: Text(contact.info.displayName ??''),
                         ),
-                        _contacts.first.phones.toString()== followlistpojo.data.first.mobile.toString()?
+                        _contacts.first.info.phones.toString()== followlistpojo.data.elementAt(index).mobile.toString()?
                         Container(
                           padding: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical *2,
@@ -279,7 +342,7 @@ class _ContactsPageState extends State<ContactsPage> {
                           {
 
                             SmsSender sender = SmsSender();
-                           String address = contact.phones.first.value;
+                           String address = contact.info.phones.first.value;
                             print("no. "+address);
                            // sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
 
@@ -361,6 +424,9 @@ class _ContactsPageState extends State<ContactsPage> {
           )
       );
     }
+  }
+
+  void comparelidst() {
   }
 
 

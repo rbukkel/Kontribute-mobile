@@ -49,6 +49,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   String val;
   String userName;
   String userid;
+  String searchvalue="";
   int receiverid;
   bool isLoading = false;
   TextEditingController controller = new TextEditingController();
@@ -232,7 +233,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: "+val);
       userid = val;
-      getCategory(userid);
+      getCategory(userid,searchvalue);
       print("Login userid: " +userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -277,9 +278,12 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
 
 
-  Future<void> getCategory(String a) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {'receiver_id': a.toString()};
+  Future<void> getCategory(String a,String search) async {
+    setState(() {
+      categorylist =null;
+    });
+  //  Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString(), 'search': search.toString()};
     print("Data: "+data.toString());
     var jsonResponse = null;
     var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
@@ -288,7 +292,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       jsonResponse = json.decode(response.body);
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonResponse["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -297,7 +301,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         );
       }
       else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null)
         {
           setState(() {
@@ -307,7 +311,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           });
         }
         else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+         // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Fluttertoast.showToast(
               msg: jsonResponse["message"],
@@ -322,7 +326,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     }
   }
-
 
 
 
@@ -577,23 +580,28 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-                          child:
-                          Text(
-                            "Search contact",
-                            style:
-                            TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: SizeConfig.blockSizeHorizontal * 3,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Montserrat-Bold'),
-                          ),
-                        ),
+                            width: SizeConfig.blockSizeHorizontal * 50,
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  getCategory(userid, value);
+                                });
+                              },
+                              decoration: new InputDecoration(
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Montserrat-Bold'),
+                                  hintText: "Search..."),
+                            )),
                         Container(
                           padding: EdgeInsets.only(
                             right: SizeConfig.blockSizeHorizontal * 2,

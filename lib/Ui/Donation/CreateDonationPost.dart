@@ -90,6 +90,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   String _requiredamount;
   String _totalbudget;
   String userid;
+  String searchvalue="";
   String username;
   bool isLoading = false;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
@@ -206,7 +207,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
-      getData(userid);
+      getData(userid,searchvalue);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -217,9 +218,13 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   }
 
 
-  Future<void> getData(String a) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {'receiver_id': a.toString()};
+  Future<void> getData(String a,String search) async {
+    setState(() {
+      categoryfollowinglist =null;
+    });
+   // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString(),
+      'search': search.toString(),};
     print("Data: "+data.toString());
     var jsonResponse = null;
     var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
@@ -228,7 +233,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       jsonResponse = json.decode(response.body);
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonResponse["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -237,7 +242,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
         );
       }
       else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null)
         {
           setState(() {
@@ -246,7 +251,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
           });
         }
         else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             Fluttertoast.showToast(
               msg: jsonResponse["message"],
@@ -2280,22 +2285,28 @@ class CreateDonationPostState extends State<CreateDonationPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                child:
-                Text(
-                  "Search contact",
-                  style:
-                  TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
+                  width: SizeConfig.blockSizeHorizontal * 50,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  child:
+                  TextField(
+                    onChanged: (value){
+                      setState(() {
+                        getData(userid,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle:  TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),hintText: "Search..."),
+                  )
               ),
               Container(
                 padding: EdgeInsets.only(

@@ -54,6 +54,9 @@ class _ContactlisState extends State<Contactlis>
   }
 
   getAllContacts() async {
+
+
+
     List colors = [
       Colors.green,
       Colors.indigo,
