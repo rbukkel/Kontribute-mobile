@@ -132,7 +132,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   DateTime currentEndDate = DateTime.now();
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
-  final allowNotifications = Results(fullName: 'Select All',connectionId:);
 
 
 
