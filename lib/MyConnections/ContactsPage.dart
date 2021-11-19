@@ -40,7 +40,7 @@ class _ContactsPageState extends State<ContactsPage> {
   List<dynamic> values = new List<dynamic>();
   String mobil;
   var phonecontactlisting;
-
+  AppContacts contact;
   TextEditingController searchController = new TextEditingController();
 
   @override
@@ -83,10 +83,13 @@ class _ContactsPageState extends State<ContactsPage> {
     {
       for(int j=0;j<_contacts.length;j++)
       {
-        AppContacts contact = _contacts[j];
-        print(contact.info.phones.length > 0
+         contact = _contacts[j];
+
+
+
+        /*print(contact.info.phones.length > 0
             ? contact.info.phones.elementAt(0).value.toString()
-            : '');
+            : '');*/
 
      /*   // name compare
         print("POhoneNmae: "+_contacts[j].info.displayName);
@@ -113,8 +116,12 @@ class _ContactsPageState extends State<ContactsPage> {
 
 
 
-        print("POhone9: "+(followlistpojo.data[i].mobile));
-        print("POhone6: "+(contact.info.phones.elementAt(0).value.toString().replaceAll("-", "").replaceAll("+", "").replaceAll(" ", "")));
+
+
+
+
+
+   //     print("POhone6: "+contact.info.phones.elementAt(0).value.toString().replaceAll("-", "").replaceAll("+", "").replaceAll(" ", ""));
 
 
 
@@ -129,6 +136,20 @@ class _ContactsPageState extends State<ContactsPage> {
           print("Api Mobile: ");
         }*/
       }
+
+
+      if(followlistpojo.data[i].mobile!=null) {
+        print("POhone9: " + followlistpojo.data[i].mobile);
+
+        if(followlistpojo.data[i].mobile!= contact.info.phones.elementAt(0).value.toString().replaceAll("-", "").replaceAll("+", "").replaceAll(" ", ""))
+        {
+          print("Contct Mobile: ");
+        }
+        else{
+          print("Api Mobile: ");
+        }
+      }
+
 
       /* List<AppContact>  contacts = await ContactsService.getContacts();
     setState(() {
