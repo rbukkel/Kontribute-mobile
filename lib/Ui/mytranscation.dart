@@ -604,7 +604,7 @@ class mytranscationState extends State<mytranscation> {
                 : Container(
               margin: EdgeInsets.only(top: 100),
               alignment: Alignment.center,
-              child: resultvalue == true
+              child: resultpaidvalue == true
                   ? Center(
                 child: CircularProgressIndicator(),
               )

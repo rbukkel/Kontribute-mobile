@@ -430,8 +430,6 @@ class loginOTPScreenState extends State<loginOTPScreen>{
     });
   }
 
-
-
   signIn(String otp,String token) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
@@ -463,7 +461,6 @@ class loginOTPScreenState extends State<loginOTPScreen>{
         if (jsonResponse != null) {
           setState(() {
             isLoading = false;
-
           });
           SharedUtils.readloginData("login",true);
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
@@ -497,7 +494,6 @@ class loginOTPScreenState extends State<loginOTPScreen>{
       }
     }
     else {
-
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonResponse["message"],

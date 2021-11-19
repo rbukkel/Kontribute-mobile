@@ -118,7 +118,7 @@ class _ContactlisState extends State<Contactlis>
         centerTitle: true,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        title: (Text('Kontribute Users')),
+        title: (Text('Contacts')),
         flexibleSpace: Image(
           height: SizeConfig.blockSizeVertical * 12,
           image: AssetImage('assets/images/appbar.png'),
@@ -131,7 +131,7 @@ class _ContactlisState extends State<Contactlis>
             onTap: () {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => ContactsPage()), (route) => false);
+                  MaterialPageRoute(builder: (context) => PeopleYouMay()), (route) => false);
             },
             child: Container(
                 alignment: Alignment.topRight,
@@ -153,16 +153,17 @@ class _ContactlisState extends State<Contactlis>
             child: TextField(
               controller: searchController,
               decoration: InputDecoration(
-                  labelText: 'Search',
+                  labelText: 'Search...',
                   border: new OutlineInputBorder(
                       borderSide: new BorderSide(
-                          color: AppColors.themecolor
+                          color: AppColors.black
                       )
                   ),
+
                   prefixIcon: Icon(
                       Icons.search,
-                      color: AppColors.themecolor
-                  )
+                      color: AppColors.black
+                  ),
               ),
             ),
           ),

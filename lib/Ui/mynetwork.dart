@@ -220,7 +220,6 @@ class _mynetworkState extends State<mynetwork> {
         //height: SizeConfig.blockSizeVertical * 30,
         margin: EdgeInsets.only(
             bottom: SizeConfig.blockSizeVertical * 4,
-            top: SizeConfig.blockSizeVertical * 2,
             left: SizeConfig.blockSizeHorizontal * 2,
             right: SizeConfig.blockSizeHorizontal * 2),
         child:  MediaQuery.removePadding(

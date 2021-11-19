@@ -1857,7 +1857,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               {
                                                 TicketDetails(projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).id);
                                               },
-                                              child: Container(
+                                              child: 
+                                              Container(
                                                 width: SizeConfig.blockSizeHorizontal *20,
                                                 alignment: Alignment.bottomRight,
                                                  margin: EdgeInsets.only(

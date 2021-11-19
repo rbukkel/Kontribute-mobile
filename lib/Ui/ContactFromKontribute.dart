@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kontribute/utils/AppColors.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:kontribute/MyConnections/app-contact.class.dart';
 import 'package:kontribute/MyConnections/contact-avatar.dart';
@@ -69,7 +70,35 @@ class ContactFromKontribute extends StatelessWidget {
                 ? contact.info.phones.elementAt(0).value
                 : ''),
             leading: ContactAvatar(contact, 36),
-            trailing: Icon(Icons.share),
+            trailing:  Container(
+              width: SizeConfig.blockSizeHorizontal *20,
+              height:  SizeConfig.blockSizeVertical *5,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal *2,
+              ),
+              padding: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 2,
+                  left: SizeConfig.blockSizeHorizontal * 2,
+                  bottom: SizeConfig.blockSizeHorizontal * 1,
+                  top: SizeConfig.blockSizeHorizontal * 1),
+              decoration: BoxDecoration(
+               // color: AppColors.whiteColor,
+                  border: Border.all(color: AppColors.themecolor),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                "Invite",
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: AppColors.themecolor,
+                    fontSize:12,
+                    fontWeight:
+                    FontWeight.normal,
+                    fontFamily:
+                    'Poppins-Regular'),
+              ),
+            ),
           );
         },
       ),
