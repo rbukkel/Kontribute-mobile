@@ -285,13 +285,9 @@ class _SendRequestState extends State<SendRequest> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    width: SizeConfig
-                                        .blockSizeHorizontal *
-                                        45,
+                                    width: SizeConfig.blockSizeHorizontal * 45,
                                     padding: EdgeInsets.only(
-                                      top: SizeConfig
-                                          .blockSizeVertical *
-                                          1,
+                                      top: SizeConfig.blockSizeVertical * 1,
                                     ),
                                     child: Text(
                                       requestpojo.result.elementAt(index).fullName!=null?requestpojo.result.elementAt(index).fullName:"",
@@ -307,7 +303,6 @@ class _SendRequestState extends State<SendRequest> {
                                   ),
                                 ],
                               ),
-
                             ],
                           ),
 
@@ -316,14 +311,21 @@ class _SendRequestState extends State<SendRequest> {
                 })),
       ):
       Container(
-        margin: EdgeInsets.only(top: 150),
+        margin: EdgeInsets.only(top: 60),
         alignment: Alignment.center,
         child: resultvalue == true
             ? Center(
           child: CircularProgressIndicator(),
         )
             : Center(
-            child: Container()
+          child: Text("No Records Found",style: TextStyle(
+              letterSpacing: 1.0,
+              color: AppColors.black,
+              fontSize: 16,
+              fontWeight:
+              FontWeight.normal,
+              fontFamily:
+              'Poppins-Regular')),
         ),
       ),
     );

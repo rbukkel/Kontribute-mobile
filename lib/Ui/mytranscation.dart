@@ -417,9 +417,14 @@ class mytranscationState extends State<mytranscation> {
                 child: CircularProgressIndicator(),
               )
                   : Center(
-                child: Image.asset("assets/images/empty.png",
-                    height: SizeConfig.blockSizeVertical * 30,
-                    width: SizeConfig.blockSizeVertical * 30),
+                child: Text("No Records Found",style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: AppColors.black,
+                    fontSize: 16,
+                    fontWeight:
+                    FontWeight.normal,
+                    fontFamily:
+                    'Poppins-Regular')),
               ),
             ) :   paid_transaction != null
                 ? Expanded(
@@ -609,9 +614,14 @@ class mytranscationState extends State<mytranscation> {
                 child: CircularProgressIndicator(),
               )
                   : Center(
-                child: Image.asset("assets/images/empty.png",
-                    height: SizeConfig.blockSizeVertical * 30,
-                    width: SizeConfig.blockSizeVertical * 30),
+                child:Text("No Records Found",style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: AppColors.black,
+                    fontSize: 16,
+                    fontWeight:
+                    FontWeight.normal,
+                    fontFamily:
+                    'Poppins-Regular')),
               ),
             )
           ],

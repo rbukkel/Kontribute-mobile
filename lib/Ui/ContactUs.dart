@@ -418,12 +418,8 @@ class ContactUsState extends State<ContactUs>{
                                               descriptionController.text,
                                           );
                                         } else {
-                                          Fluttertoast.showToast(
-                                            msg: "No Internet Connection",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIosWeb: 1,
-                                          );
+                                          errorDialog("No Internet Connection");
+
                                         }
                                         // No-Internet Case
                                       });
@@ -625,6 +621,68 @@ class ContactUsState extends State<ContactUs>{
     );
   }
 
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
   contactus(String emal,String name,String phone,String sub,String message) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
@@ -634,7 +692,6 @@ class ContactUsState extends State<ContactUs>{
       "subject":sub,
       "message":message,
     };
-
     print("Data: "+data.toString());
     var jsonResponse = null;
     var response = await http.post(Network.BaseApi + Network.contactus, body: data);
@@ -642,38 +699,22 @@ class ContactUsState extends State<ContactUs>{
       jsonResponse = json.decode(response.body);
       if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonResponse["message"]);
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         contactpojo = new ContactusPojo.fromJson(jsonResponse);
-        if (jsonResponse != null) {
+        if (jsonResponse != null)
+        {
           setState(() {
             isLoading = false;
           });
-
-          Fluttertoast.showToast(
-            msg: contactpojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomeScreen()),
-                  (route) => false);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
+          setState(()
+          {
             Navigator.of(context).pop();
-            //   isLoading = false;
           });
           Fluttertoast.showToast(
             msg: contactpojo.message,

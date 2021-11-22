@@ -987,14 +987,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Image.asset(
-                      "assets/images/empty.png",
-                      height: SizeConfig
-                          .blockSizeVertical *
-                          50,
-                      width: SizeConfig
-                          .blockSizeVertical *
-                          50),
+                  child: Text("No Records Found",style: TextStyle(
+                      letterSpacing: 1.0,
+                      color: AppColors.black,
+                      fontSize: 16,
+                      fontWeight:
+                      FontWeight.normal,
+                      fontFamily:
+                      'Poppins-Regular')),
                 ),
               )
             /*  Container(

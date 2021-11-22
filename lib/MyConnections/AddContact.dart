@@ -75,11 +75,7 @@ class _AddContactState extends State<AddContact> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         requestpojo = new FollowRequestAcceptPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -138,11 +134,7 @@ class _AddContactState extends State<AddContact> {
           followlist_length =null;
           resultfollowvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(followval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         followlistpojo = new UserlistingPojo.fromJson(jsonResponse);
@@ -493,7 +485,14 @@ class _AddContactState extends State<AddContact> {
           child: CircularProgressIndicator(),
         )
             : Center(
-            child: Container()
+            child: Text("No Records Found",style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight:
+                FontWeight.normal,
+                fontFamily:
+                'Poppins-Regular')),
         ),
       ),
     );

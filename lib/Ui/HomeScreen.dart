@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
@@ -413,7 +414,7 @@ class HomeScreenState extends State<HomeScreen>{
                             ),
                             InkWell(
                               onTap: (){
-                               // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyActivities()));
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,

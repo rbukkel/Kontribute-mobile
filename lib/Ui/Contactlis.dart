@@ -159,7 +159,6 @@ class _ContactlisState extends State<Contactlis>
                           color: AppColors.black
                       )
                   ),
-
                   prefixIcon: Icon(
                       Icons.search,
                       color: AppColors.black
@@ -170,7 +169,8 @@ class _ContactlisState extends State<Contactlis>
           contactsLoaded == true ?  // if the contacts have not been loaded yet
           listItemsExist == true ?  // if we have contacts to show
           ContactFromKontribute(
-            reloadContacts: () {
+            reloadContacts: ()
+            {
               getAllContacts();
             },
             contacts: isSearching == true ? contactsFiltered : contacts,

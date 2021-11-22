@@ -47,6 +47,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _documents;
   final TermsFocus = FocusNode();
   var vidoname = null;
+  final _formmainKey = GlobalKey<FormState>();
   List _selecteName = List();
   final TextEditingController TermsController = new TextEditingController();
   final TextEditingController searchpostController =
@@ -732,7 +733,11 @@ class CreateEventPostState extends State<CreateEventPost> {
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
-                    child: Column(
+                    child:
+                    Form(
+                      key: _formmainKey,
+                    child:
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -2321,54 +2326,74 @@ class CreateEventPostState extends State<CreateEventPost> {
                             vidoname = parts.map((part) => "$part").join(',').trim();
                             print("Vidoname: "+vidoname.toString());*/
 
-                            if (followingvalues == null) {
-                              createproject(
-                                  context,
-                                  EventNameController.text,
-                                  DescriptionController.text,
-                                  catid,
-                                  selectedTime,
-                                  selectedEndTime,
-                                  myFormat.format(currentDate),
-                                  myFormat.format(currentEndDate),
-                                  EnterRequiredAmountController.text,
-                                  Maximumnoparticipantcontroller.text,
-                                  TermsController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  "",
-                                  VideoController.text,
-                                  _imageList,
-                                  _documentList);
-                            } else {
-                              createproject(
-                                  context,
-                                  EventNameController.text,
-                                  DescriptionController.text,
-                                  catid,
-                                  selectedTime,
-                                  selectedEndTime,
-                                  myFormat.format(currentDate),
-                                  myFormat.format(currentEndDate),
-                                  EnterRequiredAmountController.text,
-                                  Maximumnoparticipantcontroller.text,
-                                  TermsController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  followingvalues.toString(),
-                                  VideoController.text,
-                                  _imageList,
-                                  _documentList);
+                            if (_formmainKey.currentState.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              Internet_check().check().then((intenet) {
+                                if (intenet != null && intenet) {
+                                  if(_imageList.isNotEmpty)
+                                  {
+                                    if (followingvalues == null) {
+                                      createproject(
+                                          context,
+                                          EventNameController.text,
+                                          DescriptionController.text,
+                                          catid,
+                                          selectedTime,
+                                          selectedEndTime,
+                                          myFormat.format(currentDate),
+                                          myFormat.format(currentEndDate),
+                                          EnterRequiredAmountController.text,
+                                          Maximumnoparticipantcontroller.text,
+                                          TermsController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                          "",
+                                          VideoController.text,
+                                          _imageList,
+                                          _documentList);
+                                    }
+                                    else {
+                                      createproject(
+                                          context,
+                                          EventNameController.text,
+                                          DescriptionController.text,
+                                          catid,
+                                          selectedTime,
+                                          selectedEndTime,
+                                          myFormat.format(currentDate),
+                                          myFormat.format(currentEndDate),
+                                          EnterRequiredAmountController.text,
+                                          Maximumnoparticipantcontroller.text,
+                                          TermsController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                          followingvalues.toString(),
+                                          VideoController.text,
+                                          _imageList,
+                                          _documentList);
+                                    }
+                                  }
+                                  else {
+                                    errorDialog("Please Select Event Images");
+                                  }
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "No Internet Connection",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                }
+                                // No-Internet Case
+                              });
                             }
 
-                            /* Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => selectlangauge()),
-                                            (route) => false);*/
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -2395,7 +2420,9 @@ class CreateEventPostState extends State<CreateEventPost> {
                           ),
                         )
                       ],
+                    )
                     ),
+
                   ),
                 ),
               )
@@ -2403,6 +2430,69 @@ class CreateEventPostState extends State<CreateEventPost> {
           )),
     );
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+  }
+
 
   Future getPdfAndUpload() async {
     File file = await FilePicker.getFile(
@@ -2576,24 +2666,21 @@ class CreateEventPostState extends State<CreateEventPost> {
       if (response.statusCode == 200) {
         if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
+
+          errorDialog(jsonData["message"]);
+        /*  Fluttertoast.showToast(
             msg: jsonData["message"],
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-          );
+          );*/
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+
             videoList.clear();
             Navigator.pushAndRemoveUntil(
                 context,

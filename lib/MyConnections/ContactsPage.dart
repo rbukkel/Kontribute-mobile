@@ -164,6 +164,10 @@ class _ContactsPageState extends State<ContactsPage> {
 
 
   void getUseLIst(String user_id) async {
+
+
+
+
     Map data = {
       'userid': user_id.toString(),
     };
@@ -319,7 +323,6 @@ class _ContactsPageState extends State<ContactsPage> {
                           InkWell(
                             onTap: ()
                             {
-
                               SmsSender sender = SmsSender();
                               String address = contact.info.phones.first.value;
                               print("no. "+address);
@@ -343,7 +346,6 @@ class _ContactsPageState extends State<ContactsPage> {
                                 }
                               });
                               sender.sendSms(message);
-
                               /*   final RenderBox box1 = _globalKey.currentContext.findRenderObject();
                             Share.share("Let's join on Kontribute! Get it at "+Network.sharelink,
                                 subject: "Kontribute",
@@ -372,8 +374,8 @@ class _ContactsPageState extends State<ContactsPage> {
                         ]
                     ));
               })
-
-          ) : Center(child: const CircularProgressIndicator()),
+          ) : Center(child: const CircularProgressIndicator()
+          ),
         ],
       ),
     );
@@ -403,10 +405,4 @@ class _ContactsPageState extends State<ContactsPage> {
       );
     }
   }
-
-  void comparelidst() {
-  }
-
-
-
 }

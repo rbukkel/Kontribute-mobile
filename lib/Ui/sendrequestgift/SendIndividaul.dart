@@ -690,30 +690,17 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 );
                               }
                               else {
-                                Fluttertoast.showToast(
-                                  msg: "Please select gift image",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                );
+                                errorDialog("Please select gift image");
                               }
 
                             } else {
-                              Fluttertoast.showToast(
-                                msg: "No Internet Connection",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                              );
+                              errorDialog("No Internet Connection");
+
                             }
                           });
                         } else {
-                          Fluttertoast.showToast(
-                            msg: "please select contact",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                          );
+                          errorDialog("please select contact");
+
                         }
                       }
 
@@ -749,6 +736,69 @@ class SendIndividaulState extends State<SendIndividaul>{
     );
   }
 
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+  }
+
+
   void sendIndivial(String  notification, String requiredamoun, String description,File Imge, String userid) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
@@ -772,12 +822,7 @@ class SendIndividaulState extends State<SendIndividaul>{
 
       if (jsonData["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonData != null) {

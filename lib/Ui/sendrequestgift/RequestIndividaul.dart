@@ -969,7 +969,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   GestureDetector(
                     onTap: () {
                       if (_formKey.currentState.validate()) {
-
                         setState(() {
                           isLoading = true;
                         });
@@ -979,12 +978,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             {
                               if (values==null || values=="")
                               {
-                                Fluttertoast.showToast(
-                                  msg: "Please select contacts",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                );
+                                errorDialog("Please select contacts");
                               }
                               else
                               {
@@ -999,20 +993,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               }
                             }
                             else {
-                              Fluttertoast.showToast(
-                                msg: "Please select gift image",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                              );
+                              errorDialog("Please select gift image");
                             }
                           } else {
-                            Fluttertoast.showToast(
-                              msg: "No Internet Connection",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                            );
+                            errorDialog("No Internet Connection");
+
                           }
                         });
                       }
@@ -1069,65 +1054,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           filename: Imge.path));
     }
     var response = await request.send();
-/*    response.stream.transform(utf8.decoder).listen((value) {
-      jsonData = json.decode(value);
-      if (response.statusCode == 200) {
-        if (jsonData["status"] == false)
-        {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-        else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          if (jsonData != null) {
-            setState(() {
-              isLoading = false;
-            });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
-          }
-          else {
-            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-            setState(() {
-              Navigator.of(context).pop();
-            });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
-          }
-        }
-      }
-      else if (response.statusCode == 500) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-    });*/
 
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
@@ -1159,12 +1085,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           }
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(jsonData["message"]);
+
         }
       }
       else if (response.statusCode == 500) {
@@ -1185,6 +1107,67 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         );
       }
     });
+  }
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
   }
 
   Expandedview0() {

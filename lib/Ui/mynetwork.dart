@@ -128,11 +128,7 @@ class _mynetworkState extends State<mynetwork> {
           resultfollowvalue = false;
         });
 
-        Fluttertoast.showToast(
-            msg: jsonDecode(followval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         followlistpojo = new FollowinglistPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -421,7 +417,14 @@ class _mynetworkState extends State<mynetwork> {
             ? Center(
           child: CircularProgressIndicator(),
         ) : Center(
-            child: Container()
+            child: Text("No Records Found",style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight:
+                FontWeight.normal,
+                fontFamily:
+                'Poppins-Regular')),
         ),
       ),
     );

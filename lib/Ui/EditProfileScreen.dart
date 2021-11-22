@@ -81,6 +81,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   String selecteddate = "Date of Birth";
   bool isLoading = false;
   bool selected = false;
+  final _formmainKey = GlobalKey<FormState>();
 
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
@@ -300,8 +301,6 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     }
   }
 
-
-
   showAlert() {
     showDialog(
       context: context,
@@ -400,8 +399,6 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -484,6 +481,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             Expanded(
               child: SingleChildScrollView(
                 child: Form(
+                  key: _formmainKey,
                   child: Container(
                     margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *1,right: SizeConfig.blockSizeHorizontal *1),
                     child: Column(
@@ -1236,17 +1234,32 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                         ),
                         GestureDetector(
                           onTap: () {
-                            updateprofile(
-                                userid,
-                                fullnameController.text,
-                                nicknameController.text,
-                                mobileController.text,
-                                CountryController.text,
-                                selecteddate.toString(),
-                                natinalityController.text,
-                                currentCountryController.text,
-                                token,
-                                _imageFile);
+
+                            if (_formmainKey.currentState.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              Internet_check().check().then((intenet) {
+                                if (intenet != null && intenet) {
+                                  updateprofile(
+                                      userid,
+                                      fullnameController.text,
+                                      nicknameController.text,
+                                      mobileController.text,
+                                      CountryController.text,
+                                      selecteddate.toString(),
+                                      natinalityController.text,
+                                      currentCountryController.text,
+                                      token,
+                                      _imageFile);
+                                } else {
+                                  errorDialog("No Internet Connection");
+
+                                }
+                                // No-Internet Case
+                              });
+                            }
+
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -1293,10 +1306,70 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     );
   }
 
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 
-  void updateprofile(String user, String name, String nickname, String phone, String code,
-      String dob, String nation, String country,String tken, File imageFile) async
+  void updateprofile(String user, String name, String nickname, String phone, String code, String dob, String nation,
+      String country,String tken, File imageFile) async
   {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
@@ -1311,44 +1384,36 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     request.fields["current_country"] = country;
     request.fields["mobile_token"] = tken;
     request.fields["country_code"] = code;
-
     print("Request: " + request.fields.toString());
-
 
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
       request.files.add(await http.MultipartFile.fromPath("profile_pic", imageFile.path, filename: imageFile.path));
     }
     var response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) {
+    response.stream.transform(utf8.decoder).listen((value)
+    {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
-        if (jsonData["success"] == false) {
+        if (jsonData["success"] == false)
+        {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        } else {
+          errorDialog(jsonData["message"]);
+        } else
+          {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
-
             Fluttertoast.showToast(
               msg: jsonData["message"],
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
-            Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
-                    (route) => false);
+            Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => ProfileScreen()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
               Navigator.of(context).pop();
-              //   isLoading = false;
             });
             Fluttertoast.showToast(
               msg: jsonData["message"],
@@ -1361,12 +1426,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
       }
       else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog("Internal server error");
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
@@ -1378,6 +1438,5 @@ class EditProfileScreenState extends State<EditProfileScreen>{
       }
     });
   }
-
 
 }

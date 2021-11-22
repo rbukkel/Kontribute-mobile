@@ -558,9 +558,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
-                      child: Form(
+                      child:
+                      Form(
                         key: _formmainKey,
-                    child: Column(
+                        child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1510,7 +1511,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
 
 
 
-                                           *//* Text(
+                                           */
+                                     /* Text(
                                               catname != null ? catname.toString() : "",
                                               maxLines: 5,
                                               textAlign: TextAlign.left,
@@ -1522,7 +1524,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 color: AppColors.black,
                                               ),
                                             ),*/
-                                      /*
+                                     /*
 
                                             TextFormField(
                                               autofocus: false,
@@ -1563,8 +1565,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                             ),
 
                                       ),*/
-
-
                                       Container(
                                         height: SizeConfig.blockSizeVertical * 25,
                                         width: SizeConfig.blockSizeHorizontal * 59,
@@ -1720,7 +1720,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   items: _dropdownCategoryValues
-                                      .map((String value) => DropdownMenuItem(
+                                      .map((String value) =>
+                                      DropdownMenuItem(
                                             child: Text(
                                               value,
                                               style: TextStyle(
@@ -1877,30 +1878,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 if (intenet != null && intenet) {
                                   if(_imageList.isNotEmpty)
                                   {
-                                    /*final input2 = videoList.toString();
-                                    final removedBrackets = input2.substring(1, input2.length - 1);
-                                    final parts = removedBrackets.split(',');
-                                    vidoname = parts.map((part) => "$part").join(',').trim();
-                                    print("Vidoname: "+vidoname.toString());
 
-                                    createproject(
-                                        context,
-                                        ProjectNameController.text,
-                                        DescriptionController.text,
-                                        myFormat.format(currentDate),
-                                        myFormat.format(currentEndDate),
-                                        TermsController.text,
-                                        EnterRequiredAmountController.text,
-                                        TotalBudgetController.text,
-                                        emailController.text,
-                                        nameController.text,
-                                        mobileController.text,
-                                        messageController.text,
-                                        followingvalues.toString(),
-                                        vidoname,
-                                        _imageList,
-                                        _documentList);
-                                    */
                                     createproject(
                                         context,
                                         ProjectNameController.text,
@@ -1918,15 +1896,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         VideoController.text,
                                         _imageList,
                                         _documentList);
-
                                   }
                                   else {
-                                    Fluttertoast.showToast(
-                                      msg: "Please select project images",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                    );
+                                    errorDialog("Please Select Project Images");
                                   }
                                 } else {
                                   Fluttertoast.showToast(
@@ -1970,7 +1942,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         )
                       ],
                     ),
-                  )),
+                  )
+                  ),
                 ),
               )
             ],
@@ -2640,12 +2613,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       if (response.statusCode == 200) {
         if (jsonData["status"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
+
+
+          errorDialog(jsonData["message"]);
+
+
+
+         /* Fluttertoast.showToast(
             msg: jsonData["message"],
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-          );
+          );*/
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
@@ -2653,12 +2632,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             {
               isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+
             videoList.clear();
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => projectfunding()), (route) => false);
           } else {
@@ -2693,6 +2667,68 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         );
       }
     });
+  }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
   }
 }
 

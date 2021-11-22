@@ -535,16 +535,21 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                       }),
                 )
                     : Container(
-                  margin: EdgeInsets.only(top: 150),
+                  margin: EdgeInsets.only(top: 180),
                   alignment: Alignment.center,
                   child: resultvalue == true
                       ? Center(
                     child: CircularProgressIndicator(),
                   )
                       : Center(
-                    child: Image.asset("assets/images/empty.png",
-                        height: SizeConfig.blockSizeVertical * 50,
-                        width: SizeConfig.blockSizeVertical * 50),
+                    child: Text("No Records Found",style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: AppColors.black,
+                        fontSize: 16,
+                        fontWeight:
+                        FontWeight.normal,
+                        fontFamily:
+                        'Poppins-Regular')),
                   ),
                 )
                     :
@@ -983,16 +988,21 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                       }),
                 )
                     : Container(
-                  margin: EdgeInsets.only(top: 150),
+                  margin: EdgeInsets.only(top: 8),
                   alignment: Alignment.center,
                   child: resultvalue == true
                       ? Center(
                     child: CircularProgressIndicator(),
                   )
                       : Center(
-                    child: Image.asset("assets/images/empty.png",
-                        height: SizeConfig.blockSizeVertical * 50,
-                        width: SizeConfig.blockSizeVertical * 50),
+                    child: Text("No Records Found",style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: AppColors.black,
+                        fontSize: 16,
+                        fontWeight:
+                        FontWeight.normal,
+                        fontFamily:
+                        'Poppins-Regular')),
                   ),
                 ):
                 Container()

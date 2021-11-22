@@ -528,7 +528,14 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
           child: CircularProgressIndicator(),
         )
             : Center(
-            child: Container()
+            child: Text("No Records Found",style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight:
+                FontWeight.normal,
+                fontFamily:
+                'Poppins-Regular')),
         ),
       ),
     );

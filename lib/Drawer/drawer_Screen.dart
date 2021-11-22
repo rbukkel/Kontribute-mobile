@@ -198,11 +198,11 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                   margin: EdgeInsets.only(
                                       bottom: SizeConfig.blockSizeVertical * 1,
                                       left: SizeConfig.blockSizeHorizontal * 1),
-                                  height: 70,
-                                  width: 70,
+                                  height: 68,
+                                  width: 68,
                                   child: ClipOval(child:  imageUrl?
                                   ClipOval(child:  CachedNetworkImage(
-                                    height: 70,width: 70,fit: BoxFit.fill ,
+                                    height: 68,width: 68,fit: BoxFit.fill ,
                                     imageUrl:image,
                                     placeholder: (context, url) => Container(
                                         height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
@@ -215,8 +215,8 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 53,
+                                      left: SizeConfig.blockSizeVertical * 1),
+                                  width: SizeConfig.blockSizeHorizontal * 51,
                                   child: Text(
                                     username,
                                     style: TextStyle(
