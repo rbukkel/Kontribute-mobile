@@ -15,6 +15,7 @@ import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -718,11 +719,12 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                   GestureDetector(
                                     onTap: () {
 
-                                      /* callNext(
+                                       callNext(
                                             OngoingCampaignDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"searchdonation"
+                                            ), context);
                                     },
                                     child: Container(
                                       color: Colors.transparent,
@@ -785,11 +787,12 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                   ):
                                   GestureDetector(
                                     onTap: () {
-                                      /* callNext(
+                                       callNext(
                                             OngoingCampaignDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
-                                            ), context);*/
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"searchdonation"
+                                            ), context);
                                     },
                                     child: Container(
                                       color: AppColors.themecolor,

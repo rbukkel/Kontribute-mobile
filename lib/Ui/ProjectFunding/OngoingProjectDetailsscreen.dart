@@ -16,9 +16,11 @@ import 'package:kontribute/Pojo/Projectdetailspojo.dart';
 import 'package:kontribute/Pojo/followstatus.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
+import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/SearchbarProject.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -34,8 +36,9 @@ import 'dart:io';
 
 class OngoingProjectDetailsscreen extends StatefulWidget {
   final String data;
+  final String coming;
 
-  const OngoingProjectDetailsscreen({Key key, @required this.data})
+  const OngoingProjectDetailsscreen({Key key, @required this.data, @required this.coming})
       : super(key: key);
 
   @override
@@ -47,6 +50,7 @@ class OngoingProjectDetailsscreenState
     extends State<OngoingProjectDetailsscreen> {
   Offset _tapDownPosition;
   String data1;
+  String coming1;
   String userid;
   int a;
   bool internet = false;
@@ -165,8 +169,10 @@ class OngoingProjectDetailsscreenState
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
+        coming1 = widget.coming;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
+        print("rececome: " + coming1.toString());
         getData(userid, a);
 
         setState(() {
@@ -588,11 +594,39 @@ class OngoingProjectDetailsscreenState
                           top: SizeConfig.blockSizeVertical * 2),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      projectfunding()));
+                          if(coming1.toString()=="myactivity")
+                            {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MyActivities()));
+                            }
+                          else if(coming1.toString()=="project")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        projectfunding()));
+                          }
+                          else if(coming1.toString()=="searchproject")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        projectfunding()));
+                          }
+                          else if(coming1.toString()=="viewprofileproject")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        viewdetail_profile()));
+                          }
+
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -1070,7 +1104,7 @@ class OngoingProjectDetailsscreenState
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 1),
                               child: LinearPercentIndicator(
-                                width: 100.0,
+                                width: 65.0,
                                 lineHeight: 14.0,
                                 percent: amoun / 100,
                                 center: Text(

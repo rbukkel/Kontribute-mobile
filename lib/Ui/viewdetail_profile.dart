@@ -962,7 +962,8 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                               callNext(
                                   OngoingProjectDetailsscreen(
                                       data:
-                                      loginResponse.data.copleteProjects.elementAt(indx).id.toString()
+                                      loginResponse.data.copleteProjects.elementAt(indx).id.toString(),
+                                      coming:"viewprofileproject"
                                   ), context);
                             },
                             child: Container(
@@ -1033,7 +1034,8 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                               //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
                               callNext(
                                   OngoingProjectDetailsscreen(
-                                      data: loginResponse.data.copleteProjects.elementAt(indx).id.toString()
+                                      data: loginResponse.data.copleteProjects.elementAt(indx).id.toString(),
+                                      coming:"viewprofileproject"
                                   ), context);
                             },
                             child: Container(

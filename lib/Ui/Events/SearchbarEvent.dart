@@ -696,7 +696,8 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                         callNext(
                                             OngoingEventsDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"searchevent"
                                             ), context);
                                       },
                                       child: Container(
@@ -768,7 +769,8 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                             OngoingEventsDetailsscreen
                                               (
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"searchevent"
                                             ), context);
                                       },
                                       child: Container(

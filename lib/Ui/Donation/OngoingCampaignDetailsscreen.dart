@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
@@ -17,6 +18,7 @@ import 'package:kontribute/Pojo/donationDetails.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/Donation/DonationReport.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -31,8 +33,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 class OngoingCampaignDetailsscreen extends StatefulWidget {
   final String data;
+  final String coming;
 
-  const OngoingCampaignDetailsscreen({Key key, @required this.data})
+  const OngoingCampaignDetailsscreen({Key key, @required this.data, @required this.coming})
       : super(key: key);
 
   @override
@@ -42,6 +45,7 @@ class OngoingCampaignDetailsscreen extends StatefulWidget {
 class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscreen> {
   Offset _tapDownPosition;
   String data1;
+  String coming1;
   String userid;
   int a;
   bool internet = false;
@@ -108,8 +112,10 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
+        coming1 = widget.coming;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
+        print("rececome: " + coming1.toString());
         getData(userid, a);
 
         setState(() {
@@ -409,11 +415,33 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                           top: SizeConfig.blockSizeVertical * 2),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      donation()));
+                          if(coming1.toString()=="myactivity")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MyActivities()));
+                          }
+                          else if(coming1.toString()=="searchdonation")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        donation()));
+                          }
+                            else if(coming1.toString()=="donation")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        donation()));
+                          }
+
+
+
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -1701,7 +1729,9 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                                         decoration: BoxDecoration(
                                                             shape: BoxShape.circle,
                                                             image: DecorationImage(
-                                                                image: NetworkImage(
+                                                                image: projectdetailspojo
+                                                                    .commentsdata.donationpaymentdetails.elementAt(idex).profilePic==null?new AssetImage(
+                                                                    "assets/images/account_circle.png"): NetworkImage(
                                                                     Network.BaseApiprofile+projectdetailspojo
                                                                         .commentsdata.donationpaymentdetails.elementAt(idex).profilePic),
                                                                 fit: BoxFit.fill)),
@@ -1735,7 +1765,9 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                                         decoration: BoxDecoration(
                                                             shape: BoxShape.circle,
                                                             image: DecorationImage(
-                                                                image: NetworkImage(
+                                                                image:projectdetailspojo
+                                                                    .commentsdata.donationpaymentdetails.elementAt(idex).profilePic==null?new AssetImage(
+                                                                    "assets/images/account_circle.png"): NetworkImage(
                                                                     projectdetailspojo
                                                                         .commentsdata.donationpaymentdetails.elementAt(idex).profilePic),
                                                                 fit: BoxFit.fill)),
@@ -1767,6 +1799,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                                               ),
                                                               child: Text(
                                                                 projectdetailspojo
+                                                                    .commentsdata.donationpaymentdetails.elementAt(idex).fullName==null?"":projectdetailspojo
                                                                     .commentsdata.donationpaymentdetails.elementAt(idex).fullName,
                                                                 style: TextStyle(
                                                                     letterSpacing:

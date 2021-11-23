@@ -946,7 +946,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         callNext(
                                             OngoingCampaignDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                              listing.projectData.elementAt(index).id.toString(),
+                                              coming: "donation",
                                             ), context);
                                       },
                                       child: Container(
@@ -1017,7 +1018,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         callNext(
                                             OngoingCampaignDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                              coming: "donation",
                                             ), context);
                                       },
                                       child: Container(

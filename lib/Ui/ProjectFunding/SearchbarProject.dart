@@ -829,7 +829,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             .projectData
                                                             .elementAt(index)
                                                             .id
-                                                            .toString()),
+                                                            .toString(),
+                                                        coming:"searchproject"),
                                                     context);
                                               },
                                               child: Container(
@@ -934,12 +935,11 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                     //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
                                                     callNext(
                                                         OngoingProjectDetailsscreen(
-                                                            data: listing
+                                                            data:listing
                                                                 .projectData
-                                                                .elementAt(
-                                                                    index)
-                                                                .id
-                                                                .toString()),
+                                                                .elementAt(index).id
+                                                                .toString(),
+                                                            coming:"searchproject"),
                                                         context);
                                                   },
                                                   child: Container(
@@ -1052,7 +1052,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                 .elementAt(
                                                                     index)
                                                                 .id
-                                                                .toString()),
+                                                                .toString(),
+                                                            coming:"searchproject"),
                                                         context);
                                                   },
                                                   child: Container(
@@ -1235,7 +1236,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                   ),
                                                   //child: Image.asset("assets/images/save.png"),
                                                 ),
-                                              ),*//*
+                                              ),*/
+                                     /*
                                           ],
                                         ),
                                       ),*/

@@ -1213,7 +1213,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                               listing.projectData
                                                   .elementAt(index)
                                                   .id
-                                                  .toString()
+                                                  .toString(),
+                                              coming:"project"
                                           ), context);
                                     },
                                     child: Container(
@@ -1308,7 +1309,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                               data: listing.projectData
                                                   .elementAt(index)
                                                   .id
-                                                  .toString()
+                                                  .toString(),
+                                              coming:"project"
                                           ), context);
                                     },
                                     child: Container(

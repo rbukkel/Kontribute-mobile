@@ -977,7 +977,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         callNext(
                                             OngoingEventsDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"event"
                                             ), context);
                                       },
                                       child: Container(
@@ -1046,7 +1047,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         callNext(
                                         OngoingEventsDetailsscreen
                                         (
-                                                data: listing.projectData.elementAt(index).id.toString()
+                                            data: listing.projectData.elementAt(index).id.toString(),
+                                            coming:"event"
                                             ), context);
                                       },
                                       child: Container(

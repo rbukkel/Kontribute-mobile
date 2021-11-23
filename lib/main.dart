@@ -151,7 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
                        OngoingProjectDetailsscreen(
                            data:
                            product_id
-                               .toString()
+                               .toString(),
+                           coming:"main"
                        ), context);
                  }
                  else {

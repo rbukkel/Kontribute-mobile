@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/Events/EditEventPost.dart';
+import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
@@ -39,8 +40,9 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingEventsDetailsscreen extends StatefulWidget {
   final String data;
+  final String coming;
 
-  const OngoingEventsDetailsscreen({Key key, @required this.data})
+  const OngoingEventsDetailsscreen({Key key, @required this.data,  @required this.coming})
       : super(key: key);
   @override
   OngoingEventsDetailsscreenState createState() => OngoingEventsDetailsscreenState();
@@ -50,6 +52,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
 
   Offset _tapDownPosition;
   String data1;
+  String coming1;
   String userid;
   int a;
   bool internet = false;
@@ -110,8 +113,10 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         data1 = widget.data;
+        coming1 = widget.coming;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
+        print("recCome: " + coming1.toString());
         getData(userid, a);
 
         setState(() {
@@ -184,8 +189,6 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
       );
     }
   }
-
-
 
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
@@ -425,7 +428,24 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                       child:
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+
+
+                          if(coming1.toString()=="myactivity")
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MyActivities()));
+                          }
+                          else if(coming1.toString()=="searchevent")
+                          {
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+                          }
+                          else if(coming1.toString()=="event")
+                          {
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+                          }
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -2053,7 +2073,8 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valPost = response.body; //store response as string
-      if (jsonDecode(valPost)["success"] == false) {
+      if (jsonDecode(valPost)["success"] == false)
+      {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonDecode(valPost)["message"],
