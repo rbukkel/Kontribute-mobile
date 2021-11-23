@@ -618,14 +618,7 @@ class OngoingProjectDetailsscreenState
                                     builder: (BuildContext context) =>
                                         projectfunding()));
                           }
-                          else if(coming1.toString()=="viewprofileproject")
-                          {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        viewdetail_profile()));
-                          }
+
 
                         },
                         child: Container(

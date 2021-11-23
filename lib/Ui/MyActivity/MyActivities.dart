@@ -36,6 +36,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
 
 class MyActivities extends StatefulWidget {
+
   @override
   MyActivitiesState createState() => MyActivitiesState();
 }
@@ -74,7 +75,6 @@ class MyActivitiesState extends State<MyActivities> {
 
   @override
   Future<void> initState() {
-
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
@@ -86,7 +86,6 @@ class MyActivitiesState extends State<MyActivities> {
     });
   }
 
-
   void getsortdata(String user_id, String sortval) async {
     setState(() {
       storelist_length = null;
@@ -95,7 +94,6 @@ class MyActivitiesState extends State<MyActivities> {
       'user_id': user_id.toString(),
       'sortvalue': sortval.toString(),
     };
-
     if (sortval.toString() == "ticket") {
       receivefrom = "ticket";
     } else if (sortval.toString() == "event") {
@@ -3680,15 +3678,11 @@ class MyActivitiesState extends State<MyActivities> {
                                       children: [
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                           children: [
                                             GestureDetector(
                                               onTap: ()
                                               {
-                                                callNext(
-                                                    viewdetail_profile(
-                                                        data: listingticket.result.elementAt(index).userId.toString()
-                                                    ), context);
+                                                callNext(viewdetail_profile(data: listingticket.result.elementAt(index).userId.toString()), context);
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2),
@@ -3733,8 +3727,6 @@ class MyActivitiesState extends State<MyActivities> {
                                                 ),
                                               ),
                                             ),
-
-
                                           ],
                                         ),
                                         Row(
@@ -3783,7 +3775,6 @@ class MyActivitiesState extends State<MyActivities> {
                                                     'Poppins-Regular'),
                                               ),
                                             )
-
                                           ],
                                         ),
                                         Row(
@@ -3935,7 +3926,8 @@ class MyActivitiesState extends State<MyActivities> {
                                     callNext(
                                         TicketOngoingEventsDetailsscreen(
                                             data:
-                                            listingticket.result.elementAt(index).id.toString()
+                                            listingticket.result.elementAt(index).id.toString(),
+                                            coming:"myactivity"
                                         ), context);
                                   },
                                   child: Container(
@@ -4006,7 +3998,8 @@ class MyActivitiesState extends State<MyActivities> {
                                     callNext(
                                         TicketOngoingEventsDetailsscreen(
                                             data:
-                                            listingticket.result.elementAt(index).id.toString()
+                                            listingticket.result.elementAt(index).id.toString(),
+                                            coming:"myactivity"
                                         ), context);
                                   },
                                   child: Container(

@@ -29,6 +29,7 @@ class CreateProjectPost extends StatefulWidget {
 class CreateProjectPostState extends State<CreateProjectPost> {
   File _imageFile;
   bool image_value = false;
+  bool selectall = false;
   bool fileTyp = false;
   String fileName;
   String pth;
@@ -118,6 +119,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     "Invite",
     "Others"
   ];
+
+
+  var selectedIndexes = [];
+
   static List<String> videoList = [''];
   var file1;
   var documentPath;
@@ -591,14 +596,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       },
                                     ),
                                     Stack(
-                                      alignment:
-                                          AlignmentDirectional.bottomCenter,
+                                      alignment: AlignmentDirectional.bottomCenter,
                                       children: <Widget>[
                                         Container(
                                           margin: EdgeInsets.only(
-                                              bottom:
-                                                  SizeConfig.blockSizeVertical *
-                                                      2),
+                                              bottom: SizeConfig.blockSizeVertical * 2),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             mainAxisAlignment:
@@ -2488,31 +2490,77 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         height: SizeConfig.blockSizeVertical * 30,
         child:
         MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child:  ListView.builder(
-              itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
-              itemBuilder: (BuildContext context, int index) {
-                return CheckboxListTile(
-                  activeColor: AppColors.theme1color,
-                  value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id']),
-                  onChanged: (bool selected) {
-                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'],
-                        categoryfollowinglist[index]['full_name']);
-                  },
-                  title: Text(
-                    categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name'],
-                    style: TextStyle(
-                        letterSpacing: 1.0,
-                        color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal * 3,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: 'Montserrat-Bold'),
-                  ),
-                );
-              }),
-        )
+              context: context,
+              removeTop: true,
+              child:
+
+
+              ListView.builder(
+                  itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        CheckboxListTile(
+                          title: Text("Select all"),
+                          value: selectall,
+                          onChanged: (bool selected) {
+                            _onCategorySelected(selected, categoryfollowinglist[index]['connection_id'],
+                                categoryfollowinglist[index]['full_name']);
+                          },
+                        ),
+
+                        CheckboxListTile(
+                          activeColor: AppColors.theme1color,
+                          value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id']),
+                          onChanged: (bool selected) {
+                            _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'],
+                                categoryfollowinglist[index]['full_name']);
+                          },
+                          title: Text(
+                            categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name'],
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: SizeConfig.blockSizeHorizontal * 3,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Montserrat-Bold'),
+                          ),
+                        )
+                      ],
+                    );
+                  }),
+            )
+
+
     );
+  }
+
+  void _onCategorySelected(bool selected, category_id, category_name) {
+    if (selected == true) {
+      setState(() {
+        _selecteFollowing.addAll(category_id);
+        _selecteFollowingName.addAll(category_name);
+
+      });
+    } else {
+      setState(() {
+        _selecteFollowing.clear();
+        _selecteFollowingName.clear();
+
+      });
+    }
+    final input = _selecteFollowingName.toString();
+    final removedBrackets = input.substring(1, input.length - 1);
+    final parts = removedBrackets.split(',');
+    catFollowingname = parts.map((parts) => "$parts").join(',').trim();
+
+    final input1 = _selecteFollowing.toString();
+    final removedBrackets1 = input1.substring(1, input1.length - 1);
+    final parts1 = removedBrackets1.split(',');
+    followingcatid = parts1.map((part1) => "$part1").join(',').trim();
+    followingvalues = followingcatid.replaceAll(" ","");
+    print(followingvalues);
+    print("CatFollowName: "+catFollowingname);
   }
 
   void _onCategoryFollowingSelected(bool selected, category_id, category_name)

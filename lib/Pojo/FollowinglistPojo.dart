@@ -39,9 +39,11 @@ class Results {
   String profilePic;
   String facebookId;
   String connectionId;
+  bool selectall;
 
   Results(
-      {this.id,
+      {
+        this.id,
         this.senderId,
         this.receiverId,
         this.status,
@@ -51,7 +53,8 @@ class Results {
         this.fullName,
         this.profilePic,
         this.facebookId,
-        this.connectionId});
+        this.connectionId,
+        this.selectall});
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];

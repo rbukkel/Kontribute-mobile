@@ -746,7 +746,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         callNext(
                                             TicketOngoingEventsDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"searchticket"
                                             ), context);
                                       },
                                       child: Container(
@@ -817,7 +818,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         callNext(
                                             TicketOngoingEventsDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"searchticket"
                                             ), context);
                                       },
                                       child: Container(

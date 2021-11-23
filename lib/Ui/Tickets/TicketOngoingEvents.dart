@@ -917,7 +917,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         callNext(
                                             TicketOngoingEventsDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"ticket"
                                             ), context);
                                       },
                                       child: Container(
@@ -988,7 +989,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         callNext(
                                             TicketOngoingEventsDetailsscreen(
                                                 data:
-                                                listing.projectData.elementAt(index).id.toString()
+                                                listing.projectData.elementAt(index).id.toString(),
+                                                coming:"ticket"
                                             ), context);
                                       },
                                       child: Container(
