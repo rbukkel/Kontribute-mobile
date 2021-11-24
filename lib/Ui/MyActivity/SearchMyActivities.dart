@@ -23,7 +23,6 @@ import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
-import 'package:kontribute/Ui/MyActivity/SearchMyActivities.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
@@ -45,13 +44,13 @@ import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
 
-class MyActivities extends StatefulWidget {
+class SearchMyActivities extends StatefulWidget {
 
   @override
-  MyActivitiesState createState() => MyActivitiesState();
+  SearchMyActivitiesState createState() => SearchMyActivitiesState();
 }
 
-class MyActivitiesState extends State<MyActivities> {
+class SearchMyActivitiesState extends State<SearchMyActivities> {
   Offset _tapDownPosition;
   String userid;
   String reverid;
@@ -77,6 +76,8 @@ class MyActivitiesState extends State<MyActivities> {
   int pageNumber = 1;
   int totalPage = 1;
   bool isLoading = false;
+  bool _IsSearching;
+  String _searchText = "";
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
@@ -84,6 +85,21 @@ class MyActivitiesState extends State<MyActivities> {
   String product_id = '';
   bool _dialVisible = true;
   int currentPageValue = 0;
+  bool search = true;
+  String searchvalue = "";
+  Widget appBarTitle = new Text(
+    "",
+    style: new TextStyle(color: Colors.white),
+  );
+
+  Icon actionIcon = new Icon(
+    Icons.search,
+    color: Colors.white,
+  );
+
+  final key = new GlobalKey<ScaffoldState>();
+  final TextEditingController _searchQuery = new TextEditingController();
+
 
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
@@ -106,6 +122,22 @@ class MyActivitiesState extends State<MyActivities> {
     );
   }
 
+  SearchMyActivitiesState() {
+    _searchQuery.addListener(() {
+      if (_searchQuery.text.isEmpty) {
+        setState(() {
+          _IsSearching = false;
+          _searchText = "";
+        });
+      } else {
+        setState(() {
+          _IsSearching = true;
+          _searchText = _searchQuery.text;
+        });
+      }
+    });
+  }
+
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
@@ -118,19 +150,20 @@ class MyActivitiesState extends State<MyActivities> {
       print("UserId: " + val);
       setState(() {
         userid = val;
-        getsortdata(userid,tabValue);
+        getsortdata(userid,tabValue,"");
         print("Login userid: " + userid.toString());
       });
     });
   }
 
-  void getsortdata(String user_id, String sortval) async {
+  void getsortdata(String user_id, String sortval,String search) async {
     setState(() {
       storelist_length = null;
     });
     Map data = {
       'user_id': user_id.toString(),
       'sortvalue': sortval.toString(),
+      'search': search.toString(),
     };
     if (sortval.toString() == "ticket") {
       receivefrom = "ticket";
@@ -825,52 +858,130 @@ class MyActivitiesState extends State<MyActivities> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
+  Widget buildBar(BuildContext context) {
+    return new AppBar(
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        title: appBarTitle,
         backgroundColor: Colors.white,
-        toolbarHeight: SizeConfig.blockSizeVertical *8,
-        title: Container(
-          child: Text(
-            "My Activity",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                decoration: TextDecoration.none,
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-                fontFamily: "Poppins-Regular",
-                color: Colors.white),
-          ),
-        ),
-        //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
-        actions: [
-          InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchMyActivities()));
-            },
-            child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
-              child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
-            ),
-          ),
-        ],
         flexibleSpace: Image(
-          height: SizeConfig.blockSizeVertical * 12,
+          height: SizeConfig.blockSizeVertical * 13,
           image: AssetImage('assets/images/appbar.png'),
           fit: BoxFit.cover,
         ),
+        actions: <Widget>[
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getsortdata(userid,tabValue,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText: "Search here...",
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+              });
+            },
+          ),
+        ]);
+  }
 
-      ),
+  void _handleSearchStart() {
+    setState(() {
+      _IsSearching = true;
+    });
+  }
+
+  void _handleSearchEnd() {
+    setState(() {
+      this.actionIcon = new Icon(
+        Icons.search,
+        color: Colors.white,
+      );
+      this.appBarTitle =
+      new Text("", style: new TextStyle(color: Colors.white));
+      _IsSearching = false;
+      _searchQuery.clear();
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: key,
+      appBar: buildBar(context),
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
           child: Column(
             children: [
-
+           /*   Container(
+                height: SizeConfig.blockSizeVertical * 12,
+                decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/images/appbar.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 6,
+                          top: SizeConfig.blockSizeVertical * 2),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(),
+                      ),
+                    ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal * 60,
+                      alignment: Alignment.center,
+                      margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                      // margin: EdgeInsets.only(top: 10, left: 40),
+                      child: Text(
+                        "My Activity",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Poppins-Regular',
+                            color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      width: 25,
+                      height: 25,
+                      margin: EdgeInsets.only(
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical * 2),
+                    ),
+                  ],
+                ),
+              ),*/
               receivefrom == "project"?
               storelist_length != null ?
               Expanded(
@@ -4639,7 +4750,7 @@ class MyActivitiesState extends State<MyActivities> {
               label: 'Tickets',
               onTap: () {
                 tabValue = "ticket";
-                getsortdata(userid, tabValue);
+                getsortdata(userid, tabValue,"");
                 print('Fiveth CHILD');
               }
           ),
@@ -4649,7 +4760,7 @@ class MyActivitiesState extends State<MyActivities> {
               label: 'Events',
               onTap: () {
                 tabValue = "event";
-                getsortdata(userid, tabValue);
+                getsortdata(userid, tabValue,"");
                 print('Fourth CHILD');
               }
           ),
@@ -4659,7 +4770,7 @@ class MyActivitiesState extends State<MyActivities> {
               label: 'Donations',
               onTap: () {
                 tabValue = "donation";
-                getsortdata(userid, tabValue);
+                getsortdata(userid, tabValue,"");
                 print('Third CHILD');
               }
           ),
@@ -4669,7 +4780,7 @@ class MyActivitiesState extends State<MyActivities> {
               label: 'Project Funding',
               onTap: () {
                 tabValue = "project";
-                getsortdata(userid, tabValue);
+                getsortdata(userid, tabValue,"");
                 print('Second CHILD');
               }
           ),
@@ -4679,7 +4790,7 @@ class MyActivitiesState extends State<MyActivities> {
               label: 'Send/Receive Gifts',
               onTap: () {
                 tabValue = "gift";
-                getsortdata(userid, tabValue);
+                getsortdata(userid, tabValue,"");
                 print('FIRST CHILD');
               }),
         ],
@@ -4715,7 +4826,7 @@ class MyActivitiesState extends State<MyActivities> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyActivities()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchMyActivities()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(
@@ -4733,7 +4844,6 @@ class MyActivitiesState extends State<MyActivities> {
           timeInSecForIosWeb: 1);
     }
   }
-
 
   Future<void> Payamount(String id, String requiredAmount,
       String userid) async {
@@ -4814,7 +4924,7 @@ class MyActivitiesState extends State<MyActivities> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          getsortdata(userid,tabValue);
+          getsortdata(userid,tabValue,"");
         } else {
           Fluttertoast.showToast(
             msg: prolike.message,
@@ -4833,7 +4943,6 @@ class MyActivitiesState extends State<MyActivities> {
       );
     }
   }
-
 
   Future<void> PayEventamount(String id, String requiredAmount,
       String userid) async {
@@ -4973,7 +5082,7 @@ class MyActivitiesState extends State<MyActivities> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyActivities()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchMyActivities()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

@@ -33,10 +33,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
   var storelist_length;
 
   // String receivefrom ="all";
-  String receivefrom = "request";
+  String receivefrom = "all";
 
 //  String tabValue ="all";
-  String tabValue = "request";
+  String tabValue = "all";
   request_sendpojo requestpojo;
   String headline;
 
@@ -294,41 +294,16 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Container(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            72,
+                                                        width: SizeConfig.blockSizeHorizontal * 72,
                                                         margin: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                2),
+                                                            left: SizeConfig.blockSizeHorizontal * 2),
                                                         child: Text(
-                                                          requestpojo.result
-                                                                      .data
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .status ==
-                                                                  "request"
-                                                              ? "Request Received from:"
-                                                              : requestpojo
-                                                                          .result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .status ==
-                                                                      "sent"
-                                                                  ? "Send to:"
-                                                                  : requestpojo
-                                                                              .result
-                                                                              .data
-                                                                              .elementAt(index)
-                                                                              .status ==
-                                                                          "group"
-                                                                      ? "Group Request:"
+                                                          requestpojo.result.data.elementAt(index).status == "request" ? "Request Received from:"
+                                                              : requestpojo.result.data.elementAt(index).status == "sent" ? "Send to:"
+                                                                  : requestpojo.result.data.elementAt(index).status == "group" ? "Group Request:"
                                                                       : "",
                                                           style: TextStyle(
                                                               color:
@@ -367,6 +342,8 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                               fontSize: 8),
                                                         ),
                                                       ),
+
+                                                      userid == requestpojo.result.data.elementAt(index).senderId?
                                                       GestureDetector(
                                                         onTapDown:
                                                             (TapDownDetails
@@ -405,7 +382,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                               height: 15,
                                                               width: 20),
                                                         ),
-                                                      )
+                                                      ): Container()
                                                     ],
                                                   ),
                                                   Divider(
@@ -414,49 +391,18 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                   ),
                                                   Row(
                                                     children: [
-                                                      requestpojo.result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .facebookId ==
-                                                              null
-
-                                                          ?
-                                                      requestpojo.result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .profilePic !=
-                                                                      null ||
-                                                                  requestpojo
-                                                                          .result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .profilePic !=
-                                                                      ""
+                                                      requestpojo.result.data.elementAt(index).facebookId == null ?
+                                                      requestpojo.result.data.elementAt(index).profilePic != null ||
+                                                                  requestpojo.result.data.elementAt(index).profilePic != ""
                                                               ? Container(
-                                                                  height: SizeConfig
-                                                                          .blockSizeVertical *
-                                                                      10,
-                                                                  width: SizeConfig
-                                                                          .blockSizeVertical *
-                                                                      10,
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
+                                                                  height: SizeConfig.blockSizeVertical * 10,
+                                                                  width: SizeConfig.blockSizeVertical * 10,
+                                                                  alignment: Alignment.center,
                                                                   margin: EdgeInsets.only(
-                                                                      top: SizeConfig
-                                                                              .blockSizeVertical *
-                                                                          1,
-                                                                      bottom:
-                                                                          SizeConfig.blockSizeVertical *
-                                                                              1,
-                                                                      right:
-                                                                          SizeConfig.blockSizeHorizontal *
-                                                                              1,
-                                                                      left: SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                          2),
+                                                                      top: SizeConfig.blockSizeVertical * 1,
+                                                                      bottom: SizeConfig.blockSizeVertical * 1,
+                                                                      right: SizeConfig.blockSizeHorizontal * 1,
+                                                                      left: SizeConfig.blockSizeHorizontal * 2),
                                                                   decoration: BoxDecoration(
                                                                       shape: BoxShape.circle,
                                                                       image: DecorationImage(
@@ -956,6 +902,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                   fontSize: 8),
                                                             ),
                                                           ),
+                                                          userid == requestpojo.result.data.elementAt(index).senderId?
                                                           GestureDetector(
                                                             onTapDown:
                                                                 (TapDownDetails
@@ -979,7 +926,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                   height: 15,
                                                                   width: 20),
                                                             ),
-                                                          )
+                                                          ):Container()
                                                         ],
                                                       ),
                                                       Divider(

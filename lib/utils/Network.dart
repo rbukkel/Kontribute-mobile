@@ -98,5 +98,6 @@ class Network{
   static String transactions = "transactions";
   static String ticket_authenticate = "ticket_authenticate";
   static String sendfollow_Requestlisting = "sendfollow_Requestlisting";
+  static String remove_sendrequest = "remove_sendrequest";
   static String myactivities = "myactivities";
 }

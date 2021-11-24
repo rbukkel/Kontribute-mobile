@@ -110,7 +110,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
     setState(() {});
   }
 
-  SearchbarSendreceivedState() {
+  SearchbarDonationState() {
     _searchQuery.addListener(() {
       if (_searchQuery.text.isEmpty) {
         setState(() {

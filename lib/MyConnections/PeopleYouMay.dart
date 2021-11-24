@@ -494,7 +494,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                               decoration: BoxDecoration(
                                   color: AppColors.whiteColor,
                                   borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: AppColors.purple)
+                                  border: Border.all(color: AppColors.themecolor)
                               ),
                               margin: EdgeInsets.only(
                                   right: SizeConfig.blockSizeHorizontal * 2,
@@ -517,7 +517,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                     ));}
             ),
           ),
-
         ),
       ):
       Container(

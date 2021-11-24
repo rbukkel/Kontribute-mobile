@@ -7,6 +7,7 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/FollowRequestAcceptPojo.dart';
 import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:kontribute/Pojo/follow_Request_updatePojo.dart';
+import 'package:kontribute/Pojo/removerequestpojo.dart';
 import 'package:kontribute/Pojo/sendfollow_RequestlistingPojo.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/myinvitation.dart';
@@ -28,9 +29,11 @@ class _SendRequestState extends State<SendRequest> {
   bool resultvalue = true;
   bool internet = false;
   String val;
+  String requestval;
   var storelist_length;
   sendfollow_RequestlistingPojo requestpojo;
   String searchvalue="";
+  removerequestpojo removePojo;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _SendRequestState extends State<SendRequest> {
 
     });
   }
+
   void getdata(String user_id,String search) async {
     setState(() {
       storelist_length=null;
@@ -286,14 +290,12 @@ class _SendRequestState extends State<SendRequest> {
                                 children: [
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal * 45,
-                                    padding: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 1,
-                                    ),
                                     child: Text(
                                       requestpojo.result.elementAt(index).fullName!=null?requestpojo.result.elementAt(index).fullName:"",
+                                      maxLines: 2,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
-                                          color: AppColors.themecolor,
+                                          color: AppColors.black,
                                           fontSize: 14,
                                           fontWeight:
                                           FontWeight.normal,
@@ -301,11 +303,43 @@ class _SendRequestState extends State<SendRequest> {
                                           'Poppins-Regular'),
                                     ),
                                   ),
+                                  GestureDetector(
+                                    onTap: ()
+                                    {
+                                     Removefromlisting(requestpojo.result.elementAt(index).id);
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: SizeConfig.blockSizeHorizontal *23,
+                                      padding: EdgeInsets.only(
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          left: SizeConfig.blockSizeHorizontal * 2,
+                                          bottom: SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeHorizontal * 2),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.whiteColor,
+                                          borderRadius: BorderRadius.circular(20),
+                                          border: Border.all(color: AppColors.themecolor)
+                                      ),
+                                      margin: EdgeInsets.only(
+                                          right: SizeConfig.blockSizeHorizontal * 2,
+                                          left: SizeConfig.blockSizeHorizontal * 2),
+                                      child: Text(
+                                        "Remove",
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: AppColors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
                           ),
-
                         ],
                       ));
                 })),
@@ -329,6 +363,56 @@ class _SendRequestState extends State<SendRequest> {
         ),
       ),
     );
+  }
+
+  Future<void>  Removefromlisting(String id) async{
+    Map data = {
+      'id': id.toString(),
+    };
+
+    print("REmove id: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.remove_sendrequest, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      requestval = response.body;
+      if (jsonResponse["success"] == false) {
+        Fluttertoast.showToast(
+            msg: jsonDecode(requestval)["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      } else {
+        removePojo = new removerequestpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          Fluttertoast.showToast(
+              msg: removePojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          setState(() {
+            getdata(userid,searchvalue);
+          });
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: removePojo.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+        }
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: jsonDecode(requestval)["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
   }
 
 }

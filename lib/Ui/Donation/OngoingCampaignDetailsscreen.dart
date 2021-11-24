@@ -652,8 +652,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                           child: Text("Continue"),
                                           onPressed: () async {
                                             Payamount( projectdetailspojo
-                                                .commentsdata.id, projectdetailspojo
-                                                .commentsdata.requiredAmount,userid);
+                                                .commentsdata.id, AmountController.text,userid);
                                           },
                                         );
                                         // set up the AlertDialog

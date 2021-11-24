@@ -347,16 +347,11 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                     width: SizeConfig
                                         .blockSizeHorizontal *
                                         45,
-                                    padding: EdgeInsets.only(
-                                      top: SizeConfig
-                                          .blockSizeVertical *
-                                          1,
-                                    ),
                                     child: Text(
                                       requestpojo.result.elementAt(index).fullName!=null?requestpojo.result.elementAt(index).fullName:"",
                                       style: TextStyle(
                                           letterSpacing: 1.0,
-                                          color: AppColors.themecolor,
+                                          color: AppColors.black,
                                           fontSize: 14,
                                           fontWeight:
                                           FontWeight.normal,
@@ -380,7 +375,7 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 1,
                                       right: SizeConfig.blockSizeHorizontal *3,
-                                      top: SizeConfig.blockSizeVertical * 1),
+                                   ),
                                   child: Image.asset(
                                     "assets/images/error.png",
                                     color: AppColors.black,
@@ -398,9 +393,7 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                       right: SizeConfig
                                           .blockSizeHorizontal *
                                           5,
-                                      top:
-                                      SizeConfig.blockSizeVertical *
-                                          1),
+                                  ),
                                   child: Image.asset(
                                     "assets/images/check.png",
                                     color: AppColors.theme1color,

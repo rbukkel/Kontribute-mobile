@@ -692,7 +692,6 @@ class registerState extends State<register> {
                           ),
                           child:
                           IntlPhoneField(
-
                             decoration: InputDecoration( //decoration for Input Field
                               border: InputBorder.none,
                               hintStyle: TextStyle(

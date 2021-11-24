@@ -450,7 +450,7 @@ class _AddContactState extends State<AddContact> {
                               decoration: BoxDecoration(
                                   color: AppColors.whiteColor,
                                   borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: AppColors.purple)
+                                  border: Border.all(color: AppColors.themecolor)
                               ),
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2,

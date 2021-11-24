@@ -942,6 +942,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                   ],
                 ),
               ),
+              productlist_length!=null?
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
@@ -2966,11 +2967,19 @@ class EditTicketPostState extends State<EditTicketPost> {
                     ),
                   ),
                 ),
-              )
+              ):
+              Container(
+                child: Center(
+                  child: internet == true
+                      ? CircularProgressIndicator()
+                      : SizedBox(),
+                ),
+              ),
             ],
           )),
     );
   }
+
   emptybox() {
     return Container(  height: SizeConfig.blockSizeVertical * 2,
         child:  Column(
