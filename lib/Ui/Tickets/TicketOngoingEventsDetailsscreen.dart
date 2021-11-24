@@ -1536,7 +1536,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       ),
                                     ],
                                   ),
-
                                   /*   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage("assets/images/files.png"),

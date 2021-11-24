@@ -1,22 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Pojo/MyActivitiesPojo.dart';
 import 'package:kontribute/Pojo/myactivitiesdonationpojo.dart';
 import 'package:kontribute/Pojo/myactivitieseventpojo.dart';
 import 'package:kontribute/Pojo/myactivitiesgiftpojo.dart';
 import 'package:kontribute/Pojo/myactivitiesprojectpojo.dart';
 import 'package:kontribute/Pojo/myactivitiesticketpojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
-import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Ui/Donation/DonationReport.dart';
 import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
@@ -48,6 +43,7 @@ class SearchMyActivities extends StatefulWidget {
 
   @override
   SearchMyActivitiesState createState() => SearchMyActivitiesState();
+
 }
 
 class SearchMyActivitiesState extends State<SearchMyActivities> {

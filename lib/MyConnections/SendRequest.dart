@@ -1,16 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Drawer/drawer_Screen.dart';
-import 'package:kontribute/Pojo/FollowRequestAcceptPojo.dart';
-import 'package:kontribute/Pojo/FollowinglistPojo.dart';
-import 'package:kontribute/Pojo/follow_Request_updatePojo.dart';
 import 'package:kontribute/Pojo/removerequestpojo.dart';
 import 'package:kontribute/Pojo/sendfollow_RequestlistingPojo.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
-import 'package:kontribute/myinvitation.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/app.dart';
@@ -23,7 +17,6 @@ class SendRequest extends StatefulWidget {
 }
 
 class _SendRequestState extends State<SendRequest> {
-
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String userid;
   bool resultvalue = true;
@@ -55,7 +48,6 @@ class _SendRequestState extends State<SendRequest> {
       'sender_id': user_id.toString(),
       'search': search.toString(),
     };
-
     print("follow_Request: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.sendfollow_Requestlisting, body: data);
@@ -63,18 +55,17 @@ class _SendRequestState extends State<SendRequest> {
     {
       jsonResponse = json.decode(response.body);
       val = response.body;
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["success"] == false)
+      {
         setState(() {
           resultvalue = false;
         });
-
       } else {
         requestpojo = new sendfollow_RequestlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(requestpojo.result.isEmpty)
             {
               resultvalue = false;
@@ -88,7 +79,7 @@ class _SendRequestState extends State<SendRequest> {
           });
         }
         else {
-          Fluttertoast.showToast(
+              Fluttertoast.showToast(
               msg: requestpojo.message,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
@@ -369,8 +360,7 @@ class _SendRequestState extends State<SendRequest> {
     Map data = {
       'id': id.toString(),
     };
-
-    print("REmove id: " + data.toString());
+    print("Remove id: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.remove_sendrequest, body: data);
     if (response.statusCode == 200)
