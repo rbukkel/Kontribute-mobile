@@ -499,6 +499,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                               margin: EdgeInsets.only(
                                   right: SizeConfig.blockSizeHorizontal * 2,
                                   top: SizeConfig.blockSizeVertical * 2,
+                                  bottom: SizeConfig.blockSizeVertical * 2,
                                   left: SizeConfig.blockSizeHorizontal * 2),
                               child: Text(
                                 "Follow",

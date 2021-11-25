@@ -27,7 +27,7 @@ import 'package:kontribute/Ui/MyActivity/SearchMyActivities.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/Tickets/TicketReport.dart';
@@ -441,6 +441,7 @@ class MyActivitiesState extends State<MyActivities> {
       elevation: 8.0,
     );
   }
+
   _showProjectPopupMenu(int index) async {
     print("INDEX: "+index.toString());
     final RenderBox overlay = Overlay
@@ -4764,7 +4765,7 @@ class MyActivitiesState extends State<MyActivities> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => projectfunding()));
+              builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(
@@ -4864,7 +4865,7 @@ class MyActivitiesState extends State<MyActivities> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => projectfunding()));
+              builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

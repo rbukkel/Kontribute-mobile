@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/get_createProjectPojo.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -621,7 +621,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      projectfunding()));
+                                      OngoingProject()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -2588,7 +2588,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             videoList.clear();
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => projectfunding()),
+                MaterialPageRoute(builder: (context) => OngoingProject()),
                 (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

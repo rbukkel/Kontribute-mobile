@@ -10,7 +10,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/ReportcommentPojo.dart';
 import 'package:kontribute/Pojo/UserListResponse.dart';
 import 'package:kontribute/Pojo/get_send_gift_request.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -248,7 +248,7 @@ class ProjectReportState extends State<ProjectReport> {
             timeInSecForIosWeb: 1,
           );
           CommentController.text =null;
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
         } else {
           Fluttertoast.showToast(
             msg: reportcommentPojo.message,

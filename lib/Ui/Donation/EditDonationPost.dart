@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
-import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -622,7 +622,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      donation()));
+                                      OngoingCampaign()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -2585,7 +2585,7 @@ class EditDonationPostState extends State<EditDonationPost> {
             videoList.clear();
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => donation()),
+                MaterialPageRoute(builder: (context) => OngoingCampaign()),
                 (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

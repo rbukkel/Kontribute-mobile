@@ -476,8 +476,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-
-
                             projectdetailspojo
                                 .commentsdata.userId.toString()!=userid?
                             projectdetailspojo.commentsdata.status=="pending"?
@@ -2257,13 +2255,12 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                               ],
                             ),
                             ticketpaymentlist_length!=null?
-                            Container(
+                            Expanded(
                               child:
                               ListView.builder(
                                   itemCount: ticketpaymentlist_length.length == null
                                       ? 0
                                       : ticketpaymentlist_length.length,
-                                  physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemBuilder: (BuildContext context, int iex) {
                                     return Container(

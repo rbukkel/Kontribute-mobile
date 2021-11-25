@@ -17,6 +17,7 @@ import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -1273,7 +1274,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

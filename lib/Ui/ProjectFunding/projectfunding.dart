@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
-import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/SearchbarProject.dart';
-import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class projectfunding extends StatefulWidget {
+
   @override
   projectfundingState createState() => projectfundingState();
 }
@@ -24,7 +23,7 @@ class projectfundingState extends State<projectfunding> {
     SizeConfig().init(context);
     return
       DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         backgroundColor: AppColors.whiteColor,
         extendBodyBehindAppBar: true,
@@ -32,7 +31,7 @@ class projectfundingState extends State<projectfunding> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-          toolbarHeight: SizeConfig.blockSizeVertical *15,
+          toolbarHeight: SizeConfig.blockSizeVertical *10,
           title: Container(
             child: Text(
               StringConstant.projectfunding,
@@ -45,9 +44,11 @@ class projectfundingState extends State<projectfunding> {
                   color: Colors.white),
             ),
           ),
+
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+
           flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 12,
+            height: SizeConfig.blockSizeVertical * 10,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
@@ -55,8 +56,7 @@ class projectfundingState extends State<projectfunding> {
             InkWell(
               onTap: ()
               {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => SearchbarProject()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchbarProject()));
               },
               child: Container(
                 margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
@@ -66,7 +66,7 @@ class projectfundingState extends State<projectfunding> {
           ],
           bottom: TabBar(
             labelColor: Colors.white,
-            indicatorColor: AppColors.theme1color,
+            indicatorColor: AppColors.whiteColor,
             isScrollable: true,
             indicatorWeight: 3,
             tabs: <Widget>[
@@ -78,26 +78,13 @@ class projectfundingState extends State<projectfunding> {
                       mainAxisAlignment: MainAxisAlignment.center,
                        crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(StringConstant.ongoingproject.toUpperCase(),
+                        Text("",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
                       ],
                     )),
               ),
-              Tab(
-                child: Container(
-                    alignment: Alignment.center,
-                    width: SizeConfig.blockSizeHorizontal * 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(StringConstant.historyproject.toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black, fontSize: 12,letterSpacing: 1.0))
-                      ],
-                    )),
-              ),
+
             ],
           ),
         ),
@@ -108,7 +95,7 @@ class projectfundingState extends State<projectfunding> {
               TabBarView(
                 children:[
                   OngoingProject(),
-                  HistoryProject(),
+                //  HistoryProject(),
                 ],
               ),
             ) ,
@@ -137,6 +124,7 @@ class projectfundingState extends State<projectfunding> {
       ),
     );
   }
+
   Widget backgroundBGContainer() {
     return Container(
       color: AppColors.whiteColor,

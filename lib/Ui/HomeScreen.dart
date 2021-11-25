@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
-import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
-import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +18,7 @@ class HomeScreen extends StatefulWidget{
 }
 
 class HomeScreenState extends State<HomeScreen>{
+
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int currentPageValue = 0;
    final List<Widget> introWidgetsList = <Widget>[
@@ -210,7 +210,7 @@ class HomeScreenState extends State<HomeScreen>{
                             ),
                             InkWell(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
@@ -265,7 +265,7 @@ class HomeScreenState extends State<HomeScreen>{
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,

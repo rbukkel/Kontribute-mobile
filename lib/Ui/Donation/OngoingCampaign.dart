@@ -13,7 +13,8 @@ import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
 import 'package:kontribute/Ui/Donation/DonationReport.dart';
 import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
-import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
+import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -408,9 +409,57 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   }
 
   bool _dialVisible = true;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        toolbarHeight: SizeConfig.blockSizeVertical * 8,
+        title: Container(
+          child: Text(
+            StringConstant.projectfunding,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                decoration: TextDecoration.none,
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                fontFamily: "Poppins-Regular",
+                color: Colors.white),
+          ),
+        ),
+        //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+        flexibleSpace: Image(
+          height: SizeConfig.blockSizeVertical * 12,
+          image: AssetImage('assets/images/appbar.png'),
+          fit: BoxFit.cover,
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchbarDonation()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                right: SizeConfig.blockSizeHorizontal * 4,
+              ),
+              child: Image.asset(
+                "assets/images/search.png",
+                height: 25,
+                width: 25,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
@@ -1322,68 +1371,83 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             ],
           )
          ),
-    /*  floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.whiteColor,
-        shape: RoundedRectangleBorder(
 
-            borderRadius: BorderRadius.all(Radius.circular(30.0))
-        ),
-        icon: Icon(Icons.edit,color: AppColors.selectedcolor,),
-        label: Text('Create Post',style: TextStyle(color:AppColors.selectedcolor ),),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateDonationPost()));
-        },
-      ),*/
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22.0),
-        // this is ignored if animatedIcon is non null
-        // child: Icon(Icons.add),
-        visible: _dialVisible,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        onOpen: () => print('OPENING DIAL'),
-        onClose: () => print('DIAL CLOSED'),
-        tooltip: 'Speed Dial',
-        heroTag: null,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 8.0,
-        shape: CircleBorder(),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.public),
-              backgroundColor: AppColors.theme1color,
-              label: 'Public',
+      bottomNavigationBar: bottombar(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+          child: Stack(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateDonationPost()));
+                  },
+                  child: new Icon(Icons.add_box),
+                  backgroundColor: AppColors.themecolor,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom:45.0),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child:
+                  SpeedDial(
+                    animatedIcon: AnimatedIcons.menu_close,
+                    animatedIconTheme: IconThemeData(size: 22.0),
+                    // this is ignored if animatedIcon is non null
+                    // child: Icon(Icons.add),
+                    visible: _dialVisible,
+                    curve: Curves.bounceIn,
+                    overlayColor: Colors.black,
+                    overlayOpacity: 0.5,
+                    onOpen: () => print('OPENING DIAL'),
+                    onClose: () => print('DIAL CLOSED'),
+                    tooltip: 'Speed Dial',
+                    heroTag: null,
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    elevation: 8.0,
+                    shape: CircleBorder(),
+                    children: [
+                      SpeedDialChild(
+                          child: Icon(Icons.public),
+                          backgroundColor: AppColors.theme1color,
+                          label: 'Public',
 
-              onTap: () {
-                tabValue="1";
-              getsortdata(userid, tabValue);
-                print('FIRST CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.privacy_tip),
-              backgroundColor: AppColors.theme1color,
-              label: 'Private',
-              onTap: () {
-                tabValue="2";
-              getsortdata(userid, tabValue);
-                print('FIRST CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.all_inclusive),
-              backgroundColor: AppColors.theme1color,
-              label: 'All',
-              onTap: () {
-                tabValue="0";
-                getsortdata(userid, tabValue);
-                print('Third CHILD');
-              }),
-        ],
-      ),
+                          onTap: () {
+                            tabValue="1";
+                            getsortdata(userid, tabValue);
+                            print('FIRST CHILD');
+                          }
+                      ),
+                      SpeedDialChild(
+                          child: Icon(Icons.privacy_tip),
+                          backgroundColor: AppColors.theme1color,
+                          label: 'Private',
+                          onTap: () {
+                            tabValue="2";
+                            getsortdata(userid, tabValue);
+                            print('FIRST CHILD');
+                          }
+                      ),
+                      SpeedDialChild(
+                          child: Icon(Icons.all_inclusive),
+                          backgroundColor: AppColors.theme1color,
+                          label: 'All',
+                          onTap: () {
+                            tabValue="0";
+                            getsortdata(userid, tabValue);
+                            print('Third CHILD');
+                          }),
+                    ],
+                  )
+                ),)
+            ],
+          )
+      )
     );
   }
 
@@ -1413,7 +1477,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Events/events.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -98,7 +98,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      projectfunding()));
+                      OngoingProject()));
         }
       else if(come=="Ticket")
       {
@@ -120,7 +120,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    donation()));
+                    OngoingCampaign()));
       }
 
     }

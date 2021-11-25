@@ -176,182 +176,149 @@ class _mynetworkState extends State<mynetwork> {
         child: Column(
           children: [
             _createSearchView(),
-            SearchView()
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _createSearchView() {
-    return new Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
-            right: SizeConfig.blockSizeHorizontal *2),
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *20,
-            left: SizeConfig.blockSizeHorizontal*5,
-            right: SizeConfig.blockSizeHorizontal*5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1.0)
-        ),
-        child: new
-        TextField(
-          onChanged: (value){
-            setState(() {
-              getFollowing(userid,value);
-            });
-          },
-          decoration: new InputDecoration(
-              border: InputBorder.none,
-              hintStyle: TextStyle(color: Colors.black), hintText: 'Search...'),
-        )
-    );
-  }
-
-  SearchView() {
-    return Expanded(
-      child: followlist_length != null ?
-      Container(
-        alignment: Alignment.centerLeft,
-        //height: SizeConfig.blockSizeVertical * 30,
-        margin: EdgeInsets.only(
-            bottom: SizeConfig.blockSizeVertical * 4,
-            left: SizeConfig.blockSizeHorizontal * 2,
-            right: SizeConfig.blockSizeHorizontal * 2),
-        child:  MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child:
-          GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: countValue,
-            childAspectRatio: (aspectWidth / aspectHeight),
-            children: List.generate(followlist_length.length == null ? 0 : followlist_length.length, (ind) {
-              return
-                Container(
-                    width: SizeConfig.blockSizeHorizontal * 60,
-                    child: Card(
-                      child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: ()
-                            {
-                              followaccept(userid, followlistpojo.result.elementAt(ind).id, "2");
-                            },
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig
-                                      .blockSizeHorizontal *
-                                      1,
-                                  right: SizeConfig
-                                      .blockSizeHorizontal *
-                                      3,
-                                  top: SizeConfig
-                                      .blockSizeVertical *
-                                      1),
-                              child: Image.asset(
-                                "assets/images/error.png",
-                                color: AppColors.black,
-                                width: 20,
-                                height: 20,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+        Expanded(
+          child: followlist_length != null ?
+          Container(
+            alignment: Alignment.centerLeft,
+            //height: SizeConfig.blockSizeVertical * 30,
+            margin: EdgeInsets.only(
+                bottom: SizeConfig.blockSizeVertical * 4,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child:  MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child:
+              GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: countValue,
+                childAspectRatio: (aspectWidth / aspectHeight),
+                children: List.generate(followlist_length.length == null ? 0 : followlist_length.length, (ind) {
+                  return
+                    Container(
+                        width: SizeConfig.blockSizeHorizontal * 60,
+                        child: Card(
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.center,
                             children: [
-                              followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
-                                onTap: () {
-                                  callNext(
-                                      viewdetail_profile(
-                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
-                                      ), context);
-                                },
-                                child: Container(
-                                  height: SizeConfig
-                                      .blockSizeVertical *
-                                      12,
-                                  width: SizeConfig
-                                      .blockSizeVertical *
-                                      12,
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                      bottom: SizeConfig
-                                          .blockSizeVertical *
-                                          1,
-                                      right: SizeConfig
-                                          .blockSizeHorizontal *
-                                          1,
-                                      left: SizeConfig
-                                          .blockSizeHorizontal *
-                                          5),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            followlistpojo.result.elementAt(ind).profilePic,
-                                          ),
-                                          fit: BoxFit.fill)),
-                                ),
-                              ):
                               GestureDetector(
-                                onTap: () {
-                                  callNext(
-                                      viewdetail_profile(
-                                          data: followlistpojo.result.elementAt(ind).senderId.toString()
-                                      ), context);
+                                onTap: ()
+                                {
+                                  followaccept(userid, followlistpojo.result.elementAt(ind).id, "2");
                                 },
                                 child: Container(
-                                  height: SizeConfig
-                                      .blockSizeVertical *
-                                      12,
-                                  width: SizeConfig
-                                      .blockSizeVertical *
-                                      12,
-                                  alignment: Alignment.center,
+                                  alignment: Alignment.topRight,
                                   margin: EdgeInsets.only(
-                                      bottom: SizeConfig
-                                          .blockSizeVertical *
+                                      left: SizeConfig
+                                          .blockSizeHorizontal *
                                           1,
                                       right: SizeConfig
                                           .blockSizeHorizontal *
-                                          1,
-                                      left: SizeConfig
-                                          .blockSizeHorizontal *
-                                          5),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
-                                          ),
-                                          fit: BoxFit.fill)),
+                                          3,
+                                      top: SizeConfig
+                                          .blockSizeVertical *
+                                          1),
+                                  child: Image.asset(
+                                    "assets/images/error.png",
+                                    color: AppColors.black,
+                                    width: 20,
+                                    height: 20,
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 55,
-                            padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 1,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              followlistpojo.result.elementAt(ind).fullName,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: AppColors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily:
-                                  'Poppins-Regular'),
-                            ),
-                          ),
-                          /*    Container(
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: [
+                                  followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
+                                    onTap: () {
+                                      callNext(
+                                          viewdetail_profile(
+                                              data: followlistpojo.result.elementAt(ind).senderId.toString()
+                                          ), context);
+                                    },
+                                    child: Container(
+                                      height: SizeConfig
+                                          .blockSizeVertical *
+                                          12,
+                                      width: SizeConfig
+                                          .blockSizeVertical *
+                                          12,
+                                      alignment: Alignment.center,
+                                      margin: EdgeInsets.only(
+                                          bottom: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1,
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              5),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                followlistpojo.result.elementAt(ind).profilePic,
+                                              ),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                  ):
+                                  GestureDetector(
+                                    onTap: () {
+                                      callNext(
+                                          viewdetail_profile(
+                                              data: followlistpojo.result.elementAt(ind).senderId.toString()
+                                          ), context);
+                                    },
+                                    child: Container(
+                                      height: SizeConfig
+                                          .blockSizeVertical *
+                                          12,
+                                      width: SizeConfig
+                                          .blockSizeVertical *
+                                          12,
+                                      alignment: Alignment.center,
+                                      margin: EdgeInsets.only(
+                                          bottom: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                          right: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1,
+                                          left: SizeConfig
+                                              .blockSizeHorizontal *
+                                              5),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
+                                              ),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 55,
+                                padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  followlistpojo.result.elementAt(ind).fullName,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: AppColors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily:
+                                      'Poppins-Regular'),
+                                ),
+                              ),
+                              /*    Container(
                                             width:
                                                 SizeConfig.blockSizeHorizontal *
                                                     55,
@@ -404,31 +371,62 @@ class _mynetworkState extends State<mynetwork> {
                                                   ),
                                                 ],
                                               ))*/
-                        ],
-                      ),
-                    ));}
+                            ],
+                          ),
+                        ));}
+                ),
+              ),),
+          ):
+          Container(
+            margin: EdgeInsets.only(top: 100),
+            alignment: Alignment.center,
+            child: resultfollowvalue == true
+                ? Center(
+              child: CircularProgressIndicator(),
+            ) : Center(
+              child: Text("No Records Found",style: TextStyle(
+                  letterSpacing: 1.0,
+                  color: AppColors.black,
+                  fontSize: 16,
+                  fontWeight:
+                  FontWeight.normal,
+                  fontFamily:
+                  'Poppins-Regular')),
             ),
-          ),),
-      ):
-      Container(
-        margin: EdgeInsets.only(top: 100),
-        alignment: Alignment.center,
-        child: resultfollowvalue == true
-            ? Center(
-          child: CircularProgressIndicator(),
-        ) : Center(
-            child: Text("No Records Found",style: TextStyle(
-                letterSpacing: 1.0,
-                color: AppColors.black,
-                fontSize: 16,
-                fontWeight:
-                FontWeight.normal,
-                fontFamily:
-                'Poppins-Regular')),
+          ),
+        )
+          ],
         ),
       ),
     );
   }
+
+  Widget _createSearchView() {
+    return new Container(
+        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
+            right: SizeConfig.blockSizeHorizontal *2),
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *20,
+            left: SizeConfig.blockSizeHorizontal*5,
+            right: SizeConfig.blockSizeHorizontal*5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1.0)
+        ),
+        child: new
+        TextField(
+          onChanged: (value){
+            setState(() {
+              getFollowing(userid,value);
+            });
+          },
+          decoration: new InputDecoration(
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.black), hintText: 'Search...'),
+        )
+    );
+  }
+
+
 
   Future<void> followaccept(String userid, String id, String status) async {
     Map data = {

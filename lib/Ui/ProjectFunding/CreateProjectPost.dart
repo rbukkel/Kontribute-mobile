@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -520,7 +520,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      projectfunding()));
+                                      OngoingProject()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -2493,40 +2493,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               context: context,
               removeTop: true,
               child:
-
-
               ListView.builder(
                   itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: [
-                        CheckboxListTile(
-                          title: Text("Select all"),
-                          value: selectall,
-                          onChanged: (bool selected) {
-                            _onCategorySelected(selected, categoryfollowinglist[index]['connection_id'],
-                                categoryfollowinglist[index]['full_name']);
-                          },
-                        ),
-
-                        CheckboxListTile(
-                          activeColor: AppColors.theme1color,
-                          value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id']),
-                          onChanged: (bool selected) {
-                            _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'],
-                                categoryfollowinglist[index]['full_name']);
-                          },
-                          title: Text(
-                            categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name'],
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: SizeConfig.blockSizeHorizontal * 3,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Montserrat-Bold'),
-                          ),
-                        )
-                      ],
+                    return CheckboxListTile(
+                      activeColor: AppColors.theme1color,
+                      value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id']),
+                      onChanged: (bool selected) {
+                        _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'],
+                            categoryfollowinglist[index]['full_name']);
+                      },
+                      title: Text(
+                        categoryfollowinglist[index]['full_name']==null?"":categoryfollowinglist[index]['full_name'],
+                        style: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                      ),
                     );
                   }),
             )
@@ -2682,7 +2667,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             });
 
             videoList.clear();
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => projectfunding()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingProject()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {

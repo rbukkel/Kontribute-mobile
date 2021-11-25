@@ -17,7 +17,7 @@ import 'package:kontribute/Pojo/PostDonationcommentPojo.dart';
 import 'package:kontribute/Pojo/donationDetails.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/Donation/DonationReport.dart';
-import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -429,7 +429,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        donation()));
+                                        OngoingCampaign()));
                           }
                             else if(coming1.toString()=="donation")
                           {
@@ -437,7 +437,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        donation()));
+                                        OngoingCampaign()));
                           }
 
 
@@ -2079,7 +2079,7 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

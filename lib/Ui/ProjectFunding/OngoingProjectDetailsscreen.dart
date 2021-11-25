@@ -19,7 +19,7 @@ import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/ProjectFunding/SearchbarProject.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -608,7 +608,7 @@ class OngoingProjectDetailsscreenState
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        projectfunding()));
+                                        OngoingProject()));
                           }
                           else if(coming1.toString()=="searchproject")
                           {
@@ -616,7 +616,7 @@ class OngoingProjectDetailsscreenState
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        projectfunding()));
+                                        OngoingProject()));
                           }
 
 
@@ -2306,7 +2306,7 @@ class OngoingProjectDetailsscreenState
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

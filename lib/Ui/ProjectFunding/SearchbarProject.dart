@@ -12,7 +12,7 @@ import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -1585,7 +1585,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

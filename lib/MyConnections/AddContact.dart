@@ -454,6 +454,7 @@ class _AddContactState extends State<AddContact> {
                               ),
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2,
+                                  bottom: SizeConfig.blockSizeHorizontal * 2,
                                   right: SizeConfig.blockSizeHorizontal * 2,
                                   left: SizeConfig.blockSizeHorizontal * 2),
                               alignment:Alignment.center,

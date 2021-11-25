@@ -21,7 +21,7 @@ import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/Tickets/TicketReport.dart';
@@ -4870,7 +4870,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => projectfunding()));
+              builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(
@@ -4969,7 +4969,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => projectfunding()));
+              builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

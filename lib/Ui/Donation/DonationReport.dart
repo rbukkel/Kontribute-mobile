@@ -11,7 +11,7 @@ import 'package:kontribute/Pojo/ReportDonationPojo.dart';
 import 'package:kontribute/Pojo/ReportcommentPojo.dart';
 import 'package:kontribute/Pojo/UserListResponse.dart';
 import 'package:kontribute/Pojo/get_send_gift_request.dart';
-import 'package:kontribute/Ui/Donation/donation.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -251,7 +251,7 @@ class DonationReportState extends State<DonationReport> {
             timeInSecForIosWeb: 1,
           );
           CommentController.text =null;
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => donation()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
 
         } else {
           Fluttertoast.showToast(

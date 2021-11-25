@@ -11,6 +11,7 @@ import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/Events/events.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
@@ -1243,7 +1244,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => projectfunding()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(
