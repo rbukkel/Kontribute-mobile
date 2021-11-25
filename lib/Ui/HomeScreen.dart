@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
-import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -312,7 +312,7 @@ class HomeScreenState extends State<HomeScreen>{
                             ),
                             InkWell(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
@@ -367,7 +367,7 @@ class HomeScreenState extends State<HomeScreen>{
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,

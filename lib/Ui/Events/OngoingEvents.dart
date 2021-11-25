@@ -1,26 +1,21 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Pojo/EventCategoryPojo.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
+import 'package:kontribute/Ui/Events/SearchbarEvent.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:intl/intl.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_html/flutter_html.dart';
 import 'dart:convert';
-import 'package:kontribute/Ui/Events/events.dart';
-import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/Pojo/EventOngoingPojo.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -499,6 +494,51 @@ class OngoingEventsState extends State<OngoingEvents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          toolbarHeight: SizeConfig.blockSizeVertical * 8,
+          title: Container(
+            child: Text(
+              "Events",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  decoration: TextDecoration.none,
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: "Poppins-Regular",
+                  color: Colors.white),
+            ),
+          ),
+          //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+          flexibleSpace: Image(
+            height: SizeConfig.blockSizeVertical * 12,
+            image: AssetImage('assets/images/appbar.png'),
+            fit: BoxFit.cover,
+          ),
+          actions: [
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SearchbarEvent()));
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 4,
+                ),
+                child: Image.asset(
+                  "assets/images/search.png",
+                  height: 25,
+                  width: 25,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
@@ -1313,69 +1353,98 @@ class OngoingEventsState extends State<OngoingEvents> {
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateEventPost()));
         },
       ),*/
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22.0),
-        // this is ignored if animatedIcon is non null
-        // child: Icon(Icons.add),
-        visible: _dialVisible,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        onOpen: () => print('OPENING DIAL'),
-        onClose: () => print('DIAL CLOSED'),
-        tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 8.0,
-        shape: CircleBorder(),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.dashboard),
-              backgroundColor: AppColors.theme1color,
-              label: 'Category',
-              onTap: ()
-              {
-               // tabValue="1";
-                _modalBottomSheetMenu();
-                print('Category CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.public),
-              backgroundColor: AppColors.theme1color,
-              label: 'Public',
-              onTap: ()
-              {
-                tabValue="1";
-                getsortdata(userid, tabValue);
-                print('FIRST CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.privacy_tip),
-              backgroundColor: AppColors.theme1color,
-              label: 'Private',
-              onTap: ()
-              {
-                tabValue="2";
-                getsortdata(userid, tabValue);
-                print('FIRST CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.all_inclusive),
-              backgroundColor: AppColors.theme1color,
-              label: 'All',
-              onTap: ()
-              {
-                tabValue="0";
-                getsortdata(userid, tabValue);
-                print('Third CHILD');
-              }),
-        ],
-      ),
+
+      bottomNavigationBar: bottombar(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+          child: Stack(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateEventPost()));
+                  },
+                  child: new Icon(Icons.add_box),
+                  backgroundColor: AppColors.themecolor,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom:45.0),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child:
+                    SpeedDial(
+                      animatedIcon: AnimatedIcons.menu_close,
+                      animatedIconTheme: IconThemeData(size: 22.0),
+                      // this is ignored if animatedIcon is non null
+                      // child: Icon(Icons.add),
+                      visible: _dialVisible,
+                      curve: Curves.bounceIn,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.5,
+                      onOpen: () => print('OPENING DIAL'),
+                      onClose: () => print('DIAL CLOSED'),
+                      tooltip: 'Speed Dial',
+                      heroTag: 'speed-dial-hero-tag',
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      elevation: 8.0,
+                      shape: CircleBorder(),
+                      children: [
+                        SpeedDialChild(
+                            child: Icon(Icons.dashboard),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Category',
+                            onTap: ()
+                            {
+                              // tabValue="1";
+                              _modalBottomSheetMenu();
+                              print('Category CHILD');
+                            }
+                        ),
+                        SpeedDialChild(
+                            child: Icon(Icons.public),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Public',
+                            onTap: ()
+                            {
+                              tabValue="1";
+                              getsortdata(userid, tabValue);
+                              print('FIRST CHILD');
+                            }
+                        ),
+                        SpeedDialChild(
+                            child: Icon(Icons.privacy_tip),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Private',
+                            onTap: ()
+                            {
+                              tabValue="2";
+                              getsortdata(userid, tabValue);
+                              print('FIRST CHILD');
+                            }
+                        ),
+                        SpeedDialChild(
+                            child: Icon(Icons.all_inclusive),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'All',
+                            onTap: ()
+                            {
+                              tabValue="0";
+                              getsortdata(userid, tabValue);
+                              print('Third CHILD');
+                            }),
+                      ],
+                    ),
+                ),)
+            ],
+          )
+      )
+
+
     );
   }
 
@@ -1397,7 +1466,7 @@ class OngoingEventsState extends State<OngoingEvents> {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
       }
       else {
         if (jsonResponse != null) {
@@ -1406,7 +1475,7 @@ class OngoingEventsState extends State<OngoingEvents> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

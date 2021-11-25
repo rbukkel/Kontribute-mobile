@@ -423,7 +423,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
         toolbarHeight: SizeConfig.blockSizeVertical * 8,
         title: Container(
           child: Text(
-            StringConstant.projectfunding,
+            "Donation",
             textAlign: TextAlign.center,
             style: TextStyle(
                 decoration: TextDecoration.none,

@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/getTicketPojo.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -821,7 +821,7 @@ class EditTicketPostState extends State<EditTicketPost> {
               timeInSecForIosWeb: 1,
             );
             videoList.clear();
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => tickets()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => TicketOngoingEvents()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
@@ -902,7 +902,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      tickets()));
+                                      TicketOngoingEvents()));
                         },
                         child: Container(
                           color: Colors.transparent,

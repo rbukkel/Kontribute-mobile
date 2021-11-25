@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/ReportTicketPojo.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -64,7 +64,6 @@ class TicketReportState extends State<TicketReport> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +244,7 @@ class TicketReportState extends State<TicketReport> {
             timeInSecForIosWeb: 1,
           );
           CommentController.text =null;
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
         } else {
           Fluttertoast.showToast(
             msg: reportcommentPojo.message,

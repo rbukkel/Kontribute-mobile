@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Pojo/EventCategoryPojo.dart';
-import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -690,7 +690,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => events()));
+                                  builder: (BuildContext context) => OngoingEvents()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -2684,7 +2684,7 @@ class CreateEventPostState extends State<CreateEventPost> {
             videoList.clear();
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => events()),
+                MaterialPageRoute(builder: (context) => OngoingEvents()),
                 (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

@@ -25,12 +25,6 @@ import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SearchbarDonation extends StatefulWidget {
-  final String data;
-
-  const SearchbarDonation({
-    Key key,
-    @required this.data,
-  }) : super(key: key);
 
   @override
   SearchbarDonationState createState() => SearchbarDonationState();
@@ -53,7 +47,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
   List<String> _list;
   bool _IsSearching;
   String _searchText = "";
-  String data1;
   bool search = true;
   bool internet = false;
   String val;
@@ -136,7 +129,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
-    data1 = widget.data;
+
   }
 
 
@@ -1394,7 +1387,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchbarDonation(data: data1)));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchbarDonation()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

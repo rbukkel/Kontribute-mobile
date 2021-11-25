@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
-import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -440,11 +440,11 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                           }
                           else if(coming1.toString()=="searchevent")
                           {
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
                           }
                           else if(coming1.toString()=="event")
                           {
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
                           }
                         },
                         child: Container(
@@ -2144,7 +2144,7 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => events()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

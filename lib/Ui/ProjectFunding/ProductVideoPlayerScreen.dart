@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
-import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -106,14 +106,14 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    tickets()));
+                    TicketOngoingEvents()));
       } else if(come=="Event")
       {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    events()));
+                    OngoingEvents()));
       }else if(come=="Donation")
       {
         Navigator.push(

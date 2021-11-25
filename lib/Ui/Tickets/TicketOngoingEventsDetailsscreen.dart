@@ -6,7 +6,7 @@ import 'package:kontribute/utils/app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/Ui/Tickets/ScanQR.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -423,7 +423,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        tickets()));
+                                        TicketOngoingEvents()));
                           }
                           else if(coming1.toString()=="searchticket")
                           {
@@ -431,7 +431,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        tickets()));
+                                        TicketOngoingEvents()));
                           }
 
 
@@ -2123,7 +2123,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

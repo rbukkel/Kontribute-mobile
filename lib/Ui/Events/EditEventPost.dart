@@ -8,7 +8,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/get_EventCreate.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Pojo/EventCategoryPojo.dart';
-import 'package:kontribute/Ui/Events/events.dart';
+import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -686,7 +686,7 @@ class EditEventPostState extends State<EditEventPost> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => events()));
+                                  builder: (BuildContext context) => OngoingEvents()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -2388,7 +2388,7 @@ class EditEventPostState extends State<EditEventPost> {
               timeInSecForIosWeb: 1,
             );
             videoList.clear();
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => events()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingEvents()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {

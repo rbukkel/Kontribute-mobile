@@ -10,7 +10,9 @@ import 'package:kontribute/Pojo/TicketOngoingListing.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/Tickets/TicketReport.dart';
+import 'package:kontribute/Ui/Tickets/SearchbarTicket.dart';
 import 'package:kontribute/Ui/Tickets/tickets.dart';
+import 'package:kontribute/Ui/Tickets/CreateTicketPost.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -407,6 +409,50 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        toolbarHeight: SizeConfig.blockSizeVertical * 8,
+        title: Container(
+          child: Text(
+            "Tickets",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                decoration: TextDecoration.none,
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                fontFamily: "Poppins-Regular",
+                color: Colors.white),
+          ),
+        ),
+        //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+        flexibleSpace: Image(
+          height: SizeConfig.blockSizeVertical * 12,
+          image: AssetImage('assets/images/appbar.png'),
+          fit: BoxFit.cover,
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchbarTicket()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                right: SizeConfig.blockSizeHorizontal * 4,
+              ),
+              child: Image.asset(
+                "assets/images/search.png",
+                height: 25,
+                width: 25,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
@@ -1242,56 +1288,82 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
             ],
           )
       ),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22.0),
-        // this is ignored if animatedIcon is non null
-        // child: Icon(Icons.add),
-        visible: _dialVisible,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        onOpen: () => print('OPENING DIAL'),
-        onClose: () => print('DIAL CLOSED'),
-        tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 8.0,
-        shape: CircleBorder(),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.public),
-              backgroundColor: AppColors.theme1color,
-              label: 'Public',
+        bottomNavigationBar: bottombar(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateTicketPost()));
+                    },
+                    child: new Icon(Icons.add_box),
+                    backgroundColor: AppColors.themecolor,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom:45.0),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child:
+                    SpeedDial(
+                      animatedIcon: AnimatedIcons.menu_close,
+                      animatedIconTheme: IconThemeData(size: 22.0),
+                      // this is ignored if animatedIcon is non null
+                      // child: Icon(Icons.add),
+                      visible: _dialVisible,
+                      curve: Curves.bounceIn,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.5,
+                      onOpen: () => print('OPENING DIAL'),
+                      onClose: () => print('DIAL CLOSED'),
+                      tooltip: 'Speed Dial',
+                      heroTag: 'speed-dial-hero-tag',
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      elevation: 8.0,
+                      shape: CircleBorder(),
+                      children: [
+                        SpeedDialChild(
+                            child: Icon(Icons.public),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Public',
 
-              onTap: () {
-                tabValue="1";
-                getsortdata(userid, tabValue);
-                print('FIRST CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.privacy_tip),
-              backgroundColor: AppColors.theme1color,
-              label: 'Private',
-              onTap: () {
-                tabValue="2";
-                getsortdata(userid, tabValue);
-                print('FIRST CHILD');
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.all_inclusive),
-              backgroundColor: AppColors.theme1color,
-              label: 'All',
-              onTap: () {
-                tabValue="0";
-                getsortdata(userid, tabValue);
-                print('Third CHILD');
-              }),
-        ],
-      ),
+                            onTap: () {
+                              tabValue="1";
+                              getsortdata(userid, tabValue);
+                              print('FIRST CHILD');
+                            }
+                        ),
+                        SpeedDialChild(
+                            child: Icon(Icons.privacy_tip),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Private',
+                            onTap: () {
+                              tabValue="2";
+                              getsortdata(userid, tabValue);
+                              print('FIRST CHILD');
+                            }
+                        ),
+                        SpeedDialChild(
+                            child: Icon(Icons.all_inclusive),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'All',
+                            onTap: () {
+                              tabValue="0";
+                              getsortdata(userid, tabValue);
+                              print('Third CHILD');
+                            }),
+                      ],
+                    )
+                  ),)
+              ],
+            )
+        )
     );
   }
 
@@ -1322,7 +1394,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => tickets()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
           // getpaymentlist(a);
         } else {
           Fluttertoast.showToast(

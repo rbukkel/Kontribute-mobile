@@ -326,7 +326,6 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     }
   }
 
-
   _showGiftPopupMenu(int index, String valu) async {
     print("Index: " + index.toString());
     print("VALues: " + valu.toString());
@@ -411,7 +410,6 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                   _createDynamicLink(listing.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
-
               },
               child: Row(
                 children: <Widget>[
@@ -441,7 +439,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit', style: TextStyle(fontSize: 14),)
+                  Text('Edit', style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -504,18 +503,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                 ],
               ),
             )),
-
         PopupMenuItem(
             value: 2,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    ProjectReport(
-                        data: listing.result.elementAt(index)
-                            .id
-                            .toString()
-                    ), context);
+                    ProjectReport(data: listing.result.elementAt(index).id.toString()), context);
               },
               child: Row(
                 children: <Widget>[
