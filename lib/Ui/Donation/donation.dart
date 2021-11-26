@@ -9,6 +9,7 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class donation extends StatefulWidget {
+
   @override
   donationState createState() => donationState();
 }
@@ -50,11 +51,13 @@ class donationState extends State<donation> {
               onTap: (){
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => SearchbarDonation()));
-
               },
               child: Container(
                 margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*4,),
-                child:Image.asset("assets/images/search.png",height: 25,width: 25,color: Colors.white,) ,
+                child:Image.asset("assets/images/search.png",
+                  height: 25,
+                  width: 25,
+                  color: Colors.white,) ,
               ),
             ),
           ],

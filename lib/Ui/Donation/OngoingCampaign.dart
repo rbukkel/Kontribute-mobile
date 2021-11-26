@@ -1,19 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/donationlistingPojo.dart';
 import 'package:kontribute/Ui/Donation/CreateDonationPost.dart';
 import 'package:kontribute/Ui/Donation/DonationReport.dart';
 import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
-import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -22,14 +18,13 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OngoingCampaign extends StatefulWidget {
+
   @override
   OngoingCampaignState createState() => OngoingCampaignState();
 }
@@ -414,7 +409,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
@@ -543,6 +537,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   right: SizeConfig.blockSizeHorizontal * 1,
                                                   left: SizeConfig.blockSizeHorizontal * 1),
                                               decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 1,
+                                                  color: AppColors.themecolor,
+                                                  style: BorderStyle.solid,
+                                                ),
                                                 image: new DecorationImage(
                                                   image: new AssetImage(
                                                       "assets/images/account_circle.png"),
@@ -568,6 +567,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                 right: SizeConfig.blockSizeHorizontal * 1,
                                                 left: SizeConfig.blockSizeHorizontal * 1),
                                             decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 1,
+                                                  color: AppColors.themecolor,
+                                                  style: BorderStyle.solid,
+                                                ),
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     image: NetworkImage(

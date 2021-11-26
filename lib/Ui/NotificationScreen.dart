@@ -457,6 +457,12 @@ class NotificationScreenState extends State<NotificationScreen> {
                                            ),
                                         decoration:
                                         BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           image:
                                           new DecorationImage(
                                             image: new AssetImage(
@@ -502,6 +508,12 @@ class NotificationScreenState extends State<NotificationScreen> {
                                               1,
                                          ),
                                       decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           shape: BoxShape
                                               .circle,
                                           image: DecorationImage(
@@ -535,6 +547,12 @@ class NotificationScreenState extends State<NotificationScreen> {
                                               1,
                                          ),
                                       decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           shape: BoxShape
                                               .circle,
                                           image: DecorationImage(

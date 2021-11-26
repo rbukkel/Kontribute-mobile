@@ -703,18 +703,17 @@ class OngoingProjectDetailsscreenState
                                         width: SizeConfig.blockSizeVertical * 9,
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                2,
-                                            bottom:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2),
+                                            top: SizeConfig.blockSizeVertical * 2,
+                                            bottom: SizeConfig.blockSizeVertical * 1,
+                                            right: SizeConfig.blockSizeHorizontal * 1,
+                                            left: SizeConfig.blockSizeHorizontal * 2),
                                         decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           image: new DecorationImage(
                                             image: new AssetImage(
                                                 "assets/images/account_circle.png"),
@@ -743,6 +742,12 @@ class OngoingProjectDetailsscreenState
                                           left: SizeConfig.blockSizeHorizontal *
                                               2),
                                       decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(

@@ -312,6 +312,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                   .blockSizeHorizontal *
                                                               1),
                                                       decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          width: 1,
+                                                          color: AppColors
+                                                              .themecolor,
+                                                          style: BorderStyle.solid,
+                                                        ),
                                                         image:
                                                             new DecorationImage(
                                                           image: new AssetImage(
@@ -346,6 +352,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             1),
                                                     decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          width: 1,
+                                                          color: AppColors
+                                                              .themecolor,
+                                                          style: BorderStyle.solid,
+                                                        ),
                                                         image: DecorationImage(
                                                             image: NetworkImage(
                                                                      listing

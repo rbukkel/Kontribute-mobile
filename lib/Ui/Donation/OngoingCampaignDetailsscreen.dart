@@ -538,6 +538,12 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                       SizeConfig.blockSizeHorizontal *
                                           2),
                                   decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppColors
+                                          .themecolor,
+                                      style: BorderStyle.solid,
+                                    ),
                                     image: new DecorationImage(
                                       image: new AssetImage(
                                           "assets/images/account_circle.png"),
@@ -565,6 +571,12 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                     left: SizeConfig.blockSizeHorizontal *
                                         2),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppColors
+                                          .themecolor,
+                                      style: BorderStyle.solid,
+                                    ),
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: NetworkImage(

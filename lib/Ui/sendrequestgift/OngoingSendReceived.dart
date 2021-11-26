@@ -965,6 +965,12 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                               2),
                                                                       decoration: BoxDecoration(
                                                                           shape: BoxShape.circle,
+                                                                          border: Border.all(
+                                                                            width: 1,
+                                                                            color: AppColors
+                                                                                .themecolor,
+                                                                            style: BorderStyle.solid,
+                                                                          ),
                                                                           image: DecorationImage(
                                                                               image: NetworkImage(
                                                                                 Network.BaseApiprofile + requestpojo.result.data.elementAt(index).profilePic,
@@ -991,6 +997,12 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                               2),
                                                                       decoration:
                                                                           BoxDecoration(
+                                                                            border: Border.all(
+                                                                              width: 1,
+                                                                              color: AppColors
+                                                                                  .themecolor,
+                                                                              style: BorderStyle.solid,
+                                                                            ),
                                                                         image:
                                                                             new DecorationImage(
                                                                           image:
@@ -1023,6 +1035,12 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                               .blockSizeHorizontal *
                                                                           2),
                                                                   decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                        width: 1,
+                                                                        color: AppColors
+                                                                            .themecolor,
+                                                                        style: BorderStyle.solid,
+                                                                      ),
                                                                       shape: BoxShape.circle,
                                                                       image: DecorationImage(
                                                                           image: NetworkImage(

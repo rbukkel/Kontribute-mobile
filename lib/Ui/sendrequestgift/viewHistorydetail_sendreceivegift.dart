@@ -227,6 +227,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                   .blockSizeHorizontal *
                                   4),
                           decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: AppColors
+                                  .themecolor,
+                              style: BorderStyle.solid,
+                            ),
                             image: new DecorationImage(
                               image: new AssetImage(
                                   "assets/images/account_circle.png"),
@@ -256,6 +262,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 4),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            border: Border.all(
+                              width: 1,
+                              color: AppColors
+                                  .themecolor,
+                              style: BorderStyle.solid,
+                            ),
                             image: DecorationImage(
                                 image: NetworkImage(
                                     senddetailsPojo.result
@@ -283,6 +295,12 @@ class viewHistorydetail_sendreceivegiftState extends State<viewHistorydetail_sen
                                 .blockSizeHorizontal *
                                 4),
                         decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: AppColors
+                                  .themecolor,
+                              style: BorderStyle.solid,
+                            ),
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(

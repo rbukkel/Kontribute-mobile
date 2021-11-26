@@ -536,6 +536,12 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                       SizeConfig.blockSizeHorizontal *
                                           2),
                                   decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppColors
+                                          .themecolor,
+                                      style: BorderStyle.solid,
+                                    ),
                                     image: new DecorationImage(
                                       image: new AssetImage(
                                           "assets/images/account_circle.png"),
@@ -563,6 +569,12 @@ class OngoingEventsDetailsscreenState extends State<OngoingEventsDetailsscreen> 
                                     left: SizeConfig.blockSizeHorizontal *
                                         2),
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppColors
+                                          .themecolor,
+                                      style: BorderStyle.solid,
+                                    ),
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: NetworkImage(

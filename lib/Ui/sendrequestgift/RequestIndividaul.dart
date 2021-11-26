@@ -178,7 +178,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 8);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -201,7 +201,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     } else if (imageSource == ImageSource.gallery) {
       try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 8);
+        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {

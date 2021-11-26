@@ -212,6 +212,12 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                           .blockSizeHorizontal *
                                                           2),
                                                   decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: AppColors
+                                                          .themecolor,
+                                                      style: BorderStyle.solid,
+                                                    ),
                                                     image: new DecorationImage(
                                                       image: new AssetImage("assets/images/account_circle.png"),
                                                       fit: BoxFit.fill,
@@ -242,6 +248,12 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                         .blockSizeHorizontal *
                                                         2),
                                                 decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: AppColors
+                                                          .themecolor,
+                                                      style: BorderStyle.solid,
+                                                    ),
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         image: NetworkImage(
@@ -273,6 +285,12 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                         .blockSizeHorizontal *
                                                         2),
                                                 decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: AppColors
+                                                          .themecolor,
+                                                      style: BorderStyle.solid,
+                                                    ),
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         image: NetworkImage(
@@ -303,6 +321,12 @@ class HistorySendReceivedState extends State<HistorySendReceived> {
                                                         .blockSizeHorizontal *
                                                         2),
                                                 decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: AppColors
+                                                          .themecolor,
+                                                      style: BorderStyle.solid,
+                                                    ),
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         image: NetworkImage(

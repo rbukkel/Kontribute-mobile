@@ -263,7 +263,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -287,7 +287,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {

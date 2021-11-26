@@ -259,7 +259,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -284,7 +284,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {

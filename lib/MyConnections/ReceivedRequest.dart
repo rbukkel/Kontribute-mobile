@@ -261,6 +261,12 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                       5),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 1,
+                                    color: AppColors
+                                        .themecolor,
+                                    style: BorderStyle.solid,
+                                  ),
                                   image: DecorationImage(
                                       image: NetworkImage(
                                         requestpojo.result.elementAt(index).profilePic,
@@ -295,6 +301,12 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                       5),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 1,
+                                    color: AppColors
+                                        .themecolor,
+                                    style: BorderStyle.solid,
+                                  ),
                                   image: DecorationImage(
                                       image: NetworkImage(
                                         Network.BaseApiprofile+requestpojo.result.elementAt(index).profilePic,
@@ -328,6 +340,12 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                   SizeConfig.blockSizeHorizontal *
                                       5),
                               decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: AppColors
+                                      .themecolor,
+                                  style: BorderStyle.solid,
+                                ),
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
                                   image: new AssetImage("assets/images/account_circle.png"),

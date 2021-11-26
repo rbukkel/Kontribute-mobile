@@ -197,7 +197,14 @@ class _SendRequestState extends State<SendRequest> {
                                       5),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 1,
+                                    color: AppColors
+                                        .themecolor,
+                                    style: BorderStyle.solid,
+                                  ),
                                   image: DecorationImage(
+
                                       image: NetworkImage(
                                         requestpojo.result.elementAt(index).profilePic,
                                       ),
@@ -230,6 +237,12 @@ class _SendRequestState extends State<SendRequest> {
                                   SizeConfig.blockSizeHorizontal *
                                       5),
                               decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: AppColors
+                                        .themecolor,
+                                    style: BorderStyle.solid,
+                                  ),
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       image: NetworkImage(
@@ -264,6 +277,12 @@ class _SendRequestState extends State<SendRequest> {
                                   SizeConfig.blockSizeHorizontal *
                                       5),
                               decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: AppColors
+                                      .themecolor,
+                                  style: BorderStyle.solid,
+                                ),
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
                                   image: new AssetImage("assets/images/account_circle.png"),

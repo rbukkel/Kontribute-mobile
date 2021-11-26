@@ -431,6 +431,12 @@ class viewdetail_sendreceivegiftState
                                                           .blockSizeHorizontal *
                                                       4),
                                               decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: AppColors
+                                                        .themecolor,
+                                                    style: BorderStyle.solid,
+                                                  ),
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(Network.BaseApiprofile+
@@ -448,6 +454,12 @@ class viewdetail_sendreceivegiftState
                                             right: SizeConfig.blockSizeHorizontal * 1,
                                             left: SizeConfig.blockSizeHorizontal * 4),
                                         decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: AppColors
+                                                  .themecolor,
+                                              style: BorderStyle.solid,
+                                            ),
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                                 image: NetworkImage(

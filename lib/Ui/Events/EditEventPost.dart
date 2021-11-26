@@ -597,7 +597,7 @@ class EditEventPostState extends State<EditEventPost> {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() {
           _imageFile = imageFile;
 
@@ -621,7 +621,7 @@ class EditEventPostState extends State<EditEventPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 5);
+        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() {
           _imageFile = imageFile;
           if (_imageList.length < 3) {

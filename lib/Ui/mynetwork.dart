@@ -127,15 +127,12 @@ class _mynetworkState extends State<mynetwork> {
           followlist_length =null;
           resultfollowvalue = false;
         });
-
-
       } else {
         followlistpojo = new FollowinglistPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-
             if(followlistpojo.result.isEmpty)
             {
               resultfollowvalue = false;
@@ -257,6 +254,12 @@ class _mynetworkState extends State<mynetwork> {
                                               .blockSizeHorizontal *
                                               5),
                                       decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
@@ -291,6 +294,12 @@ class _mynetworkState extends State<mynetwork> {
                                               .blockSizeHorizontal *
                                               5),
                                       decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
