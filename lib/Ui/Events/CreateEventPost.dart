@@ -90,7 +90,6 @@ class CreateEventPostState extends State<CreateEventPost> {
     "Anyone",
     "Connections only",
     "Invite",
-    "Others"
   ];
   FileType fileType;
   var basename = null;
@@ -191,8 +190,8 @@ class CreateEventPostState extends State<CreateEventPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate,
-      firstDate: DateTime.now(),
+      initialDate: currentEndDate.add(Duration(days: 1)),
+      firstDate: currentEndDate.add(Duration(days: 1)),
       lastDate: DateTime(2050),
     );
 
@@ -1539,7 +1538,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                           1),
                                                   child: Text(
                                                     myFormatEndDate
-                                                        .format(currentEndDate),
+                                                        .format(currentEndDate.add(Duration(days: 1))),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -2211,10 +2210,10 @@ class CreateEventPostState extends State<CreateEventPost> {
                                       } else if (currentSelectedValue ==
                                           "Invite") {
                                         currentid = 3;
-                                      } else if (currentSelectedValue ==
+                                      } /*else if (currentSelectedValue ==
                                           "Others") {
                                         currentid = 4;
-                                      }
+                                      }*/
                                     });
                                   },
                                   isExpanded: true,

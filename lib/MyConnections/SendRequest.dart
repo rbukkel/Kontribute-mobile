@@ -174,8 +174,7 @@ class _SendRequestState extends State<SendRequest> {
                           GestureDetector(
                             onTap: () {
                               callNext(
-                                  viewdetail_profile(
-                                      data: requestpojo.result.elementAt(index).senderId.toString()
+                                  viewdetail_profile(data: requestpojo.result.elementAt(index).senderId.toString()
                                   ), context);
                             },
                             child: Container(
@@ -216,7 +215,7 @@ class _SendRequestState extends State<SendRequest> {
                             {
                               callNext(
                                   viewdetail_profile(
-                                      data: requestpojo.result.elementAt(index).senderId.toString()
+                                      data: requestpojo.result.elementAt(index).receiverId.toString()
                                   ), context);
                             },
                             child: Container(

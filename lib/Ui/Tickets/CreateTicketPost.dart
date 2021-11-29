@@ -94,7 +94,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     "Anyone",
     "Connections only",
     "Invite",
-    "Others"
   ];
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
 
@@ -157,8 +156,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   final TextEditingController messageController = new TextEditingController();
   String _emailother, _name, _mobile, _subject, _descriptionother;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-
-
   @override
   void initState() {
     super.initState();
@@ -323,8 +320,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate,
-      firstDate: DateTime.now(),
+      initialDate: currentEndDate.add(Duration(days: 1)),
+      firstDate: currentEndDate.add(Duration(days: 1)),
       lastDate: DateTime(2050),
     );
 
@@ -1380,7 +1377,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    myFormatEndDate.format(currentEndDate),
+                                                    myFormatEndDate.format(currentEndDate.add(Duration(days: 1))),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1395,6 +1392,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 Container(
                                                   width: SizeConfig
                                                           .blockSizeHorizontal *
+
+
                                                       5,
                                                   child: Icon(
                                                     Icons
@@ -2863,10 +2862,10 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       } else if (currentSelectedValue ==
                                           "Invite") {
                                         currentid = 3;
-                                      } else if (currentSelectedValue ==
+                                      } /*else if (currentSelectedValue ==
                                           "Others") {
                                         currentid = 4;
-                                      }
+                                      }*/
                                     });
                                   },
                                   isExpanded: true,
@@ -2989,6 +2988,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   {
                                     if(followingvalues ==null)
                                     {
+
                                       createproject(
                                           context,
                                           EventNameController.text,

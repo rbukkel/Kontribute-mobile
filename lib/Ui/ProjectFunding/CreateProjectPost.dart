@@ -117,7 +117,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     "Anyone",
     "Connections only",
     "Invite",
-    "Others"
   ];
 
 
@@ -195,8 +194,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate,
-      firstDate: DateTime.now(),
+      initialDate: currentEndDate.add(Duration(days: 1)),
+      firstDate: currentEndDate.add(Duration(days: 1)),
       lastDate: DateTime(2050),
     );
 
@@ -1046,7 +1045,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                           1),
                                                   child: Text(
                                                     myFormat
-                                                        .format(currentEndDate),
+                                                        .format(currentEndDate.add(Duration(days: 1))),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1290,11 +1289,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 TextInputAction.done,
                                             keyboardType: TextInputType.number,
                                             validator: (val) {
-                                              if (val.length == 0)
-                                                return "Please enter total budget";
-                                              else
-                                                return null;
+                                              return costValidation(val);
+
                                             },
+
+
                                             onFieldSubmitted: (v) {
                                               TotalBudgetFocus.unfocus();
                                             },
@@ -1752,10 +1751,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       {
                                         currentid = 3;
                                       }
-                                      else if(currentSelectedValue=="Others")
+                                      /*else if(currentSelectedValue=="Others")
                                       {
                                         currentid = 4;
-                                      }
+                                      }*/
                                     });
                                   },
                                   isExpanded: true,
@@ -2762,6 +2761,17 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       ),
     );
 
+  }
+
+   costValidation(String val) {
+     if (val.length == 0) {
+       return "Please enter total budget";
+     }
+     else if(int.parse(EnterRequiredAmountController.text) > (int.parse(TotalBudgetController.text))){
+       errorDialog('Required Amount should be less than Total Budget');
+     }
+     else
+       return null;
   }
 }
 

@@ -99,7 +99,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
     "Anyone",
     "Connections only",
     "Invite",
-    "Others"
   ];
   sendinvitationpojo sendinvi;
   final _formKey = GlobalKey<FormState>();
@@ -191,8 +190,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate,
-      firstDate: DateTime.now(),
+      initialDate: currentEndDate.add(Duration(days: 1)),
+      firstDate: currentEndDate.add(Duration(days: 1)),
       lastDate: DateTime(2050),
     );
 
@@ -1118,8 +1117,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                                               .blockSizeHorizontal *
                                                               1),
                                                       child: Text(
-                                                        myFormat
-                                                            .format(currentEndDate),
+                                                        myFormatEndDate
+                                                            .format(currentEndDate.add(Duration(days: 1))),
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -1363,10 +1362,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                                 TextInputAction.done,
                                                 keyboardType: TextInputType.number,
                                                 validator: (val) {
-                                                  if (val.length == 0)
-                                                    return "Please enter total budget";
-                                                  else
-                                                    return null;
+                                                  return costValidation(val);
                                                 },
                                                 onFieldSubmitted: (v) {
                                                   TotalBudgetFocus.unfocus();
@@ -1823,10 +1819,10 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                           }else if(currentSelectedValue=="Invite")
                                           {
                                             currentid =3;
-                                          }else if(currentSelectedValue=="Others")
+                                          }/*else if(currentSelectedValue=="Others")
                                           {
                                             currentid =4;
-                                          }
+                                          }*/
                                           /* else if (currentSelectedValue ==
                                           "Group members") {
                                         currentid = 3;
@@ -2708,7 +2704,17 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       }
     });
   }
-}
+
+  costValidation(String val) {
+    if (val.length == 0) {
+      return "Please enter total budget";
+    }
+    else if(int.parse(EnterRequiredAmountController.text) > (int.parse(TotalBudgetController.text))){
+      errorDialog('Required Amount should be less than Total Budget');
+    }
+    else
+      return null;
+  }}
 
 class videoTextFields extends StatefulWidget {
   final int index;

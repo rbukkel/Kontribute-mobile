@@ -400,9 +400,7 @@ class _AddContactState extends State<AddContact> {
                                         GestureDetector(
                                           onTap: () {
                                             callNext(
-                                                viewdetail_profile(
-                                                    data: followlistpojo.data.elementAt(ind).id.toString()
-                                                ), context);
+                                                viewdetail_profile(data: followlistpojo.data.elementAt(ind).id.toString()), context);
                                           },
 
                                           child: Container(

@@ -66,7 +66,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       'receiver_id': user_id.toString(),
     };
 
-    print("user: " + data.toString());
+    print("user data : " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.follow_Request, body: data);
     if (response.statusCode == 200)
@@ -272,7 +272,11 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       'sender_id': useid.toString(),
       'receiver_id': rece.toString(),
     };
+
+
+
     print("DATA: " + data.toString());
+
     var jsonResponse = null;
     http.Response response =
     await http.post(Network.BaseApi + Network.follow, body: data);
@@ -381,8 +385,11 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                    shrinkWrap: true,
                    crossAxisCount: countValue,
                    childAspectRatio: (aspectWidth / aspectHeight),
-                   children: List.generate(followlist_length.length == null ? 0 : followlist_length.length, (ind) {
+                   children: List.generate(followlist_length.length == null ? 0 :
+                   followlist_length.length, (ind) {
+
                      reverid =followlistpojo.data.elementAt(ind).id.toString();
+
                      return
                        Container(
                            width: SizeConfig.blockSizeHorizontal * 60,
@@ -497,7 +504,8 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                  GestureDetector(
                                    onTap: ()
                                    {
-                                     followapi(userid, reverid);
+                                          print('recieverid'+followlistpojo.data.elementAt(ind).id.toString());
+                                     followapi(userid, followlistpojo.data.elementAt(ind).id.toString());
                                    },
                                    child: Container(
                                      alignment: Alignment.center,

@@ -7,6 +7,7 @@ import 'package:kontribute/MyConnections/contact-avatar.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/UserlistingPojo.dart';
+import 'package:share/share.dart';
 import 'package:sms_maintained/sms.dart';
 
 class ContactFromKontribute extends StatelessWidget {
@@ -40,7 +41,8 @@ class ContactFromKontribute extends StatelessWidget {
           AppContact contact = contacts[index];
           return ListTile(
             onTap: () {
-              SmsSender sender = SmsSender();
+              Share.share( "Let's join on Kontribute! Get it at http://kontribute.knickglobal.com/signup");
+              /* SmsSender sender = SmsSender();
               String address = contact.info.phones.first.value.toString();
               print("no. "+ address);
               // sender.sendSms(new SmsMessage("8950409624", "Let's join on Kontribute! Get it at "+Network.sharelink));
@@ -63,7 +65,7 @@ class ContactFromKontribute extends StatelessWidget {
                       timeInSecForIosWeb: 1);
                 }
               });
-              sender.sendSms(message);
+              sender.sendSms(message);*/
             },
             title: Text(contact.info.displayName),
             subtitle: Text(contact.info.phones.length > 0
