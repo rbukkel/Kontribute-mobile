@@ -25,9 +25,9 @@ class sendreceivedgifts extends StatefulWidget {
 }
 
 class sendreceivedgiftsState extends State<sendreceivedgifts> {
-  String tabvalue = "Ongoing";
+ /* String tabvalue = "Ongoing";
   bool ongoing = false;
-  bool history = false;
+  bool history = false;*/
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,11 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
       DefaultTabController(
         length: 2,
         child: Scaffold(
-
           backgroundColor: AppColors.whiteColor,
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             centerTitle: true,
-            toolbarHeight: SizeConfig.blockSizeVertical *15,
+            toolbarHeight: SizeConfig.blockSizeVertical *8,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             title: Container(
@@ -76,7 +75,8 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
               ),
 
             ],
-            bottom: TabBar(
+
+        /* bottom: TabBar(
               labelColor: Colors.white,
               indicatorColor: AppColors.theme1color,
               isScrollable: true,
@@ -113,19 +113,19 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
                 ),
 
               ],
-            ),
-          ),
+            ),*/
+        ),
 
           body: Container(
             height: double.infinity,
             color: AppColors.whiteColor,
-            child:
-            TabBarView(
+            child: OngoingSendReceived(),
+           /* TabBarView(
               children:[
                 OngoingSendReceived(),
                 HistorySendReceived(),
               ],
-            ),
+            ),*/
 
           ) ,
 

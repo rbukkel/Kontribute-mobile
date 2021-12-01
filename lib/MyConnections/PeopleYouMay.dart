@@ -504,10 +504,11 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                  GestureDetector(
                                    onTap: ()
                                    {
-                                          print('recieverid'+followlistpojo.data.elementAt(ind).id.toString());
+                                     print('recieverid'+followlistpojo.data.elementAt(ind).id.toString());
                                      followapi(userid, followlistpojo.data.elementAt(ind).id.toString());
                                    },
-                                   child: Container(
+                                   child:
+                                   Container(
                                      alignment: Alignment.center,
                                      width: SizeConfig.blockSizeHorizontal *30,
                                      padding: EdgeInsets.only(

@@ -197,7 +197,18 @@ class CreateDonationPostState extends State<CreateDonationPost> {
 
     if (picked != null && picked != currentEndDate)
       setState(() {
-        currentEndDate = picked;
+        if(currentDate.compareTo(currentEndDate)>0)
+        {
+          print('date is befor');
+          //peform logic here.....
+          errorDialog('End Date Should be after Start Date');
+
+        }
+        else {
+          currentEndDate = picked;
+          print('date is after');
+        }
+        // currentEndDate = picked;
       });
   }
 
@@ -1118,7 +1129,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                                               1),
                                                       child: Text(
                                                         myFormatEndDate
-                                                            .format(currentEndDate.add(Duration(days: 1))),
+                                                            .format(currentDate.add(Duration(days: 1))),
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -1476,12 +1487,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                 maxLines: 6,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.url,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter video url";
-                                  else
-                                    return null;
-                                },
+
                                 onFieldSubmitted: (v) {
                                   VideoFocus.unfocus();
                                 },

@@ -54,7 +54,6 @@ class NotificationScreenState extends State<NotificationScreen> {
   @override
   Future<void> initState() {
     _scrollController = new ScrollController()..addListener(function);
-
     super.initState();
     _loadID();
   }
@@ -380,6 +379,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                     margin: EdgeInsets.only(
                         right: SizeConfig.blockSizeHorizontal * 3,
                         top: SizeConfig.blockSizeVertical * 2),
+
+
                   ),
                 ],
               ),
@@ -947,6 +948,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   )
                                 ],
                               ),
+
+
+
+
+                              listing.result.data
+                                  .elementAt(index)
+                                  .giftPicture==''  ?  Container()  :
+
                               Container(
                                   height: SizeConfig
                                       .blockSizeVertical *
@@ -956,33 +965,34 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       100,
                                   alignment: Alignment.center,
                                   child: CachedNetworkImage(
-                                    fit: BoxFit.scaleDown,
-                                    imageUrl: Network
-                                        .BaseApigift +
-                                        listing.result.data
-                                            .elementAt(index)
-                                            .giftPicture,
-                                    imageBuilder: (context,
-                                        imageProvider) =>
-                                        Container(
-                                          height: SizeConfig
-                                              .blockSizeVertical *
-                                              25,
-                                          width: SizeConfig
-                                              .blockSizeHorizontal *
-                                              100,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.scaleDown),
+                                      fit: BoxFit.scaleDown,
+                                      imageUrl: Network
+                                          .BaseApigift +
+                                          listing.result.data
+                                              .elementAt(index)
+                                              .giftPicture,
+                                      imageBuilder: (context,
+                                          imageProvider) =>
+                                          Container(
+                                            height: SizeConfig
+                                                .blockSizeVertical *
+                                                25,
+                                            width: SizeConfig
+                                                .blockSizeHorizontal *
+                                                100,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.scaleDown),
+                                            ),
                                           ),
-                                        ),
-                                    placeholder: (context,
-                                        url) =>
-                                    new Image.asset(
-                                        'assets/images/dummyplace.jpg')
+                                      placeholder: (context,
+                                          url) =>
+                                      new Image.asset(
+                                          'assets/images/dummyplace.jpg')
                                   )),
-                              Container(
+
+                                 Container(
                                 margin: EdgeInsets.only(top: SizeConfig
                                     .blockSizeVertical *
                                     1,
