@@ -100,4 +100,5 @@ class Network{
   static String sendfollow_Requestlisting = "sendfollow_Requestlisting";
   static String remove_sendrequest = "remove_sendrequest";
   static String myactivities = "myactivities";
+  static String unfollow_request = "unfollow_request";
 }

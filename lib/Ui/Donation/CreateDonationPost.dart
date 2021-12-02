@@ -195,18 +195,18 @@ class CreateDonationPostState extends State<CreateDonationPost> {
       lastDate: DateTime(2050),
     );
 
+
     if (picked != null && picked != currentEndDate)
       setState(() {
         if(currentDate.compareTo(currentEndDate)>0)
         {
           print('date is befor');
-          //peform logic here.....
-          errorDialog('End Date Should be after Start Date');
-
+            //peform logic here.....
+            errorDialog('End Date Should be after Start Date');
         }
         else {
           currentEndDate = picked;
-          print('date is after');
+            print('date is after');
         }
         // currentEndDate = picked;
       });
@@ -1016,7 +1016,10 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                             ),
                                             child: GestureDetector(
                                               onTap: () {
-                                                DateView(context);
+                                                setState(() {
+                                                  DateView(context);
+                                                });
+
                                               },
                                               child: Row(
                                                 children: [
@@ -1114,7 +1117,9 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  EndDateView(context);
+                                                  setState(() {
+                                                    EndDateView(context);
+                                                  });
                                                 },
                                                 child: Row(
                                                   children: [

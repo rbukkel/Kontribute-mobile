@@ -34,6 +34,7 @@ class _AddContactState extends State<AddContact> {
   String requestval;
   String Follow = "Follow";
   String updateval;
+  String unfollowval;
   String followval;
   var storelist_length;
   var followlist_length;
@@ -256,6 +257,40 @@ class _AddContactState extends State<AddContact> {
     }
   }
 
+
+  Future<void> Unfollowapi(String useid, String rece) async {
+    Map data = {
+      'senderid': useid.toString(),
+      'receiverid': rece.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.unfollow_request, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      unfollowval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(unfollowval);
+        setState(() {
+          getFollowing(userid,searchvalue);
+        });
+
+      } else {
+        if (jsonResponse != null) {
+          showToast(unfollowval);
+          setState(() {
+            getFollowing(userid,searchvalue);
+          });
+        } else {
+          showToast(unfollowval);
+        }
+      }
+    } else {
+      showToast(unfollowval);
+    }
+  }
+
   void showToast(String updateval) {
     Fluttertoast.showToast(
       msg: jsonDecode(updateval)["message"],
@@ -341,7 +376,6 @@ class _AddContactState extends State<AddContact> {
                           reverid =followlistpojo.data.elementAt(ind).id.toString();
                           return
                             Container(
-
                                 width: SizeConfig.blockSizeHorizontal * 60,
                                 margin: EdgeInsets.only(
                                   bottom: SizeConfig.blockSizeVertical * 2,
@@ -450,22 +484,86 @@ class _AddContactState extends State<AddContact> {
                                                 'Poppins-Regular'),
                                           ),
                                         ),
-                                        followlistpojo.data.elementAt(ind).followed=="yes"?Container( margin: EdgeInsets.only(
-                                            right: SizeConfig.blockSizeHorizontal * 2,
-                                            left: SizeConfig.blockSizeHorizontal * 2),):
+                                        followlistpojo.data.elementAt(ind).followed=="yes"?
+                                            GestureDetector(
+                                              onTap:()
+                                              {
+                                                Unfollowapi(userid, followlistpojo.data.elementAt(ind).id.toString());
+                                              },
+                                              child:  Container(
+                                                width: SizeConfig.blockSizeHorizontal * 30,
+                                                padding: EdgeInsets.only(
+                                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                                    left: SizeConfig.blockSizeHorizontal * 2,
+                                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                                    top: SizeConfig.blockSizeVertical * 1),
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.whiteColor,
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    border: Border.all(color: AppColors.themecolor)
+                                                ),
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical * 2,
+                                                    bottom: SizeConfig.blockSizeHorizontal * 2,
+                                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                                    left: SizeConfig.blockSizeHorizontal * 2),
+                                                alignment:Alignment.center,
+                                                child: Text(
+                                                  "UnFollow",
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: AppColors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              ),
+                                            ) :
+                                        followlistpojo.data.elementAt(ind).followed=="pending"?
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal * 30,
+                                          padding: EdgeInsets.only(
+                                              right: SizeConfig.blockSizeHorizontal * 2,
+                                              left: SizeConfig.blockSizeHorizontal * 2,
+                                              bottom: SizeConfig.blockSizeVertical * 1,
+                                              top: SizeConfig.blockSizeVertical * 1),
+                                          decoration: BoxDecoration(
+                                              color: AppColors.whiteColor,
+                                              borderRadius: BorderRadius.circular(20),
+                                              border: Border.all(color: AppColors.themecolor)
+                                          ),
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical * 2,
+                                              bottom: SizeConfig.blockSizeHorizontal * 2,
+                                              right: SizeConfig.blockSizeHorizontal * 2,
+                                              left: SizeConfig.blockSizeHorizontal * 2),
+                                          alignment:Alignment.center,
+                                          child: Text(
+                                            "Pending",
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: AppColors.black,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                        ):
                                         GestureDetector(
                                           onTap: ()
                                           {
                                             print("IDR: "+followlistpojo.data.elementAt(ind).id.toString());
                                             followapi(userid, followlistpojo.data.elementAt(ind).id.toString());
                                           },
-                                          child: Container(
+                                          child:
+                                          Container(
                                             width: SizeConfig.blockSizeHorizontal * 30,
                                             padding: EdgeInsets.only(
                                                 right: SizeConfig.blockSizeHorizontal * 2,
                                                 left: SizeConfig.blockSizeHorizontal * 2,
-                                                bottom: SizeConfig.blockSizeHorizontal * 2,
-                                                top: SizeConfig.blockSizeHorizontal * 1),
+                                                bottom: SizeConfig.blockSizeVertical * 1,
+                                                top: SizeConfig.blockSizeVertical * 1),
                                             decoration: BoxDecoration(
                                                 color: AppColors.whiteColor,
                                                 borderRadius: BorderRadius.circular(20),

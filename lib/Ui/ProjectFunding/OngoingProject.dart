@@ -1800,7 +1800,8 @@ class OngoingProjectState extends State<OngoingProject> {
                               );
                             }),
                       )
-                    : Container(
+                    :
+                Container(
                         margin: EdgeInsets.only(top: 180),
                         alignment: Alignment.center,
                         child: resultvalue == true

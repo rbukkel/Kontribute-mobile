@@ -21,7 +21,6 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   List<AppContacts> _contacts;
-  List<AppContacts>  newlist;
   bool contactsLoaded = false;
   var result;
   String userid;
@@ -374,7 +373,8 @@ class _ContactsPageState extends State<ContactsPage> {
                         ]
                     ));
               })
-          ) : Center(child: const CircularProgressIndicator()
+          ) :
+          Center(child: const CircularProgressIndicator()
           ),
         ],
       ),

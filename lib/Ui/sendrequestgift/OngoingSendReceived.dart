@@ -6,10 +6,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/request_sendpojo.dart';
+import 'package:kontribute/Ui/createpostgift.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditCreatepool.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditRequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/EditSendIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/MyForm.dart';
+import 'package:kontribute/Ui/sendrequestgift/SearchbarSendreceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -248,6 +250,50 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          toolbarHeight: SizeConfig.blockSizeVertical * 8,
+          title: Container(
+            child: Text(
+              StringConstant.sendandreceivegift,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  decoration: TextDecoration.none,
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: "Poppins-Regular",
+                  color: Colors.white),
+            ),
+          ),
+          //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
+          flexibleSpace: Image(
+            height: SizeConfig.blockSizeVertical * 12,
+            image: AssetImage('assets/images/appbar.png'),
+            fit: BoxFit.cover,
+          ),
+          actions: [
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SearchbarSendreceived()));
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 4,
+                ),
+                child: Image.asset(
+                  "assets/images/search.png",
+                  height: 25,
+                  width: 25,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       body: Container(
           height: double.infinity,
           color: AppColors.whiteColor,
@@ -770,7 +816,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                               }),
                         )
                       : Container(
-                          margin: EdgeInsets.only(top: 80),
+                          margin: EdgeInsets.only(top: 180),
                           alignment: Alignment.center,
                           child: resultvalue == true
                               ? Center(
@@ -1830,6 +1876,82 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
               }),
         ],
       ),*/
+        bottomNavigationBar: bottombar(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  createpostgift()));
+                    },
+                    child: new Icon(Icons.add_box),
+                    backgroundColor: AppColors.themecolor,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom:45.0),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: SpeedDial(
+                      animatedIcon: AnimatedIcons.menu_close,
+                      animatedIconTheme: IconThemeData(size: 22.0),
+                      // this is ignored if animatedIcon is non null
+                      // child: Icon(Icons.add),
+                      visible: _dialVisible,
+                      curve: Curves.bounceIn,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.5,
+                      onOpen: () => print('OPENING DIAL'),
+                      onClose: () => print('DIAL CLOSED'),
+                      tooltip: 'Speed Dial',
+                      heroTag: null,
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      elevation: 8.0,
+                      shape: CircleBorder(),
+                      children: [
+                        SpeedDialChild(
+                            child: Icon(Icons.request_page),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Request',
+                            onTap: () {
+                              tabValue="request";
+                              getdata(userid, tabValue);
+                              print('FIRST CHILD');
+                            }),
+                        SpeedDialChild(
+                            child: Icon(Icons.people_rounded),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'Pool',
+                            onTap: () {
+                              tabValue="pool";
+                              getdata(userid, tabValue);
+                              print('SEcond CHILD');
+                            }),
+                        SpeedDialChild(
+                            child: Icon(Icons.all_inclusive),
+                            backgroundColor: AppColors.theme1color,
+                            label: 'All',
+                            onTap: () {
+                              tabValue="all";
+                              getdata(userid, tabValue);
+                              print('Third CHILD');
+                            }),
+                      ],
+                    ),
+                  ),)
+
+              ],
+            ))
     );
   }
 }

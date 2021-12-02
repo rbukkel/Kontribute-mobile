@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/MyConnections/app-contacts.class.dart';
 import 'package:kontribute/Pojo/UserListResponse.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
+import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -16,6 +19,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 
 class RequestIndividaul extends StatefulWidget {
@@ -36,6 +40,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   String _requiredamount;
   String _Description;
   bool showvalue = false;
+  List<AppContacts> _contacts;
   String notificationvalue="off";
   DateTime currentDate = DateTime.now();
   String Date;
@@ -59,12 +64,17 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   bool rememberMe = false;
   var categorylist;
   List _selecteCategorys = List();
+  List _selecteContact= List();
   List _selecteName = List();
+  List _seleName = List();
   var catid;
+  var contactid;
   var values;
+  var contactvalues;
   var myFormat = DateFormat('yyyy-MM-dd');
   bool expandFlag0 = false;
   var catname = null;
+  var contactname = null;
   String radioVal="1";
   final NameFocus = FocusNode();
   final AmountFocus = FocusNode();
@@ -79,7 +89,55 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController messageController = new TextEditingController();
   String _email,_name,_mobile,_subject,_amount,_description;
+  bool contactsLoaded = false;
 
+  Future<PermissionStatus> _getPermission() async {
+    final PermissionStatus permission = await Permission.contacts.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus = await [Permission.contacts].request();
+      return permissionStatus[Permission.contacts] ?? PermissionStatus.undetermined;
+    } else {
+      return permission;
+    }
+  }
+
+  Future<void> getContacts() async {
+    List<AppContacts> contacts = (await ContactsService.getContacts()).map((contact) {
+      return new AppContacts(info: contact);
+    }).toList();
+
+    setState(() {
+      _contacts = contacts;
+      contactsLoaded = true;
+    });
+
+  }
+
+  void checkper() async {
+    final PermissionStatus permissionStatus = await _getPermission();
+    if (permissionStatus == PermissionStatus.granted)
+    {
+      getContacts();
+    }
+    else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              CupertinoAlertDialog(
+                title: Text('Permissions error'),
+                content: Text('Please enable contacts access'
+                    'permission in system settings'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                ],
+              )
+      );
+    }
+  }
 
 
   showAlert() {
@@ -230,6 +288,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   @override
   void initState() {
     super.initState();
+    checkper();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: "+val);
       userid = val;
@@ -373,7 +432,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       ],
                     ),
                   ),
-                /*  Row(
+
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
@@ -382,7 +442,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 32,
                         child: Text(
-                          StringConstant.searchcontact,
+                          "Find in",
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -391,75 +451,45 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               fontFamily: 'Poppins-Bold'),
                         ),
                       ),
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 60,
-                        height: SizeConfig.blockSizeVertical * 8,
+                      radioVal=="1"? Container(
+                        width: SizeConfig.blockSizeHorizontal * 45,
+                        alignment: Alignment.topLeft,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 2,
-                          right: SizeConfig.blockSizeHorizontal * 3,
-                        ),
+                            right: SizeConfig.blockSizeHorizontal * 3),
                         padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2,
-                            right: SizeConfig.blockSizeHorizontal * 2),
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.black26,
-                            style: BorderStyle.solid,
-                            width: 1.0,
-                          ),
-                          color: Colors.transparent,
+                          top: SizeConfig.blockSizeVertical * 3,
                         ),
-                        child: FormField<dynamic>(
-                          builder: (FormFieldState<dynamic> state) {
-                            return InputDecorator(
-                              decoration:
-                              InputDecoration.collapsed(hintText:''),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<dynamic>(
-                                  hint: Text("select contact",
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Bold')),
-                                  dropdownColor: Colors.white,
-                                  value: currentSelectedValue,
-                                  isDense: true,
-                                  onChanged: (newValue)
-                                  {
-                                    setState(() {
-                                      currentSelectedValue = newValue;
-                                      receiverid = (newValue["id"]);
-                                      userName = (newValue["full_name"]);
-                                      print("User: "+userName.toString());
-                                      print("Userid: "+receiverid.toString());
-                                    });
-                                  },
-                                  items: categoryTypes.map((dynamic value) {
-                                    return DropdownMenuItem<dynamic>(
-                                      value: value,
-                                      child: Text(value["full_name"],
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold')),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            );
-                          },
+                        child: Text(
+                          catname != null ? catname.toString() : "please select contact",
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black38,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat-Bold'),
                         ),
-                      )
-                    ],
-                  ),*/
+                      ):radioVal=="0"?Container(
+                        width: SizeConfig.blockSizeHorizontal * 45,
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(
+                            right: SizeConfig.blockSizeHorizontal * 3),
+                        padding: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 3,
+                        ),
+                        child: Text(
+                         contactname!=null?contactname.toString(): "please select contact",
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black38,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat-Bold'),
+                        ),
+                      ):Container(),
 
-                /*  Row(
+                    ],
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
@@ -496,7 +526,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               ? false
                               : true,
                           title: Text(
-                            'Other option',
+                            'Phonebook',
                             textAlign: TextAlign.left,
                             style:
                             TextStyle(fontSize: 12),
@@ -512,172 +542,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       )
                     ],
                   ),
-                  radioVal=="1"? mynetworkview():radioVal=="0"?otherOptionview():Container()*/
+                  radioVal=="1"? mynetworkview():radioVal=="0"?otherOptionview():Container(),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            top: SizeConfig.blockSizeVertical * 2),
-                        width: SizeConfig.blockSizeHorizontal * 32,
-                        child: Text(
-                          StringConstant.searchcontact,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
-                        ),
-                      ),
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(
-                            right: SizeConfig.blockSizeHorizontal * 3),
-                        padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 3,
-                        ),
-                        child: Text(
-                          //catname!=null?catname.toString():category_names.toString(),
-                          catname != null
-                              ? catname.toString()
-                              : "please select contact",
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black38,
-                              fontSize: SizeConfig.blockSizeHorizontal * 3,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Montserrat-Bold'),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    height: SizeConfig.blockSizeVertical * 7,
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2,
-                      left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeHorizontal * 3,
-                    ),
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2,
-                        right: SizeConfig.blockSizeHorizontal * 2
-                    ),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black26,
-                        style: BorderStyle.solid,
-                        width: 1.0,
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            width: SizeConfig.blockSizeHorizontal * 50,
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            child: TextField(
-                              onChanged: (value) {
-                                setState(() {
-                                  getCategory(userid, value);
-                                });
-                              },
-                              decoration: new InputDecoration(
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                      letterSpacing: 1.0,
-                                      color: Colors.black,
-                                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Montserrat-Bold'),
-                                  hintText: "Search..."),
-                            )),
-                        Container(
-                          padding: EdgeInsets.only(
-                            right: SizeConfig.blockSizeHorizontal * 2,
-                          ),
-                          child: IconButton(
-                              icon: new Container(
-                                height: 50.0,
-                                width: 50.0,
-                                child: new Center(
-                                  child:
-                                  new Icon(
-                                    expandFlag0
-                                        ? Icons.arrow_drop_up
-                                        : Icons.arrow_drop_down,
-                                    color: Colors.black87,
-                                    size: 30.0,
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  expandFlag0 = !expandFlag0;
-                                });
-                              }),
-                        ),
-                      ],
-                    ),
-                    /* FormField<dynamic>(
-                    builder: (FormFieldState<dynamic> state) {
-                      return InputDecorator(
-                        decoration: InputDecoration.collapsed(hintText: ''),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<dynamic>(
-                            hint: Text("select contact",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold')),
-                            dropdownColor: Colors.white,
-                            value: currentSelectedValues,
-                            isDense: true,
-                            onChanged: (newValue) {
-                              setState(() {
-                                currentSelectedValues = newValue;
-                                userid = (newValue["id"]);
-                                userName = (newValue["full_name"]);
-                                print("User: " + userName.toString());
-                                print("Userid: " + userid.toString());
-                              });
-                            },
-                            items: categoryTypes.map((dynamic value) {
-                              return DropdownMenuItem<dynamic>(
-                                value: value,
-                                child: Text(value["full_name"],
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold')),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),*/
-                  ),
-                  Visibility(
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      child: Container()),
-                  expandFlag0 == true ? Expandedview0() : Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -752,6 +618,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                   validator: (val) {
                                     if (val.length == 0)
                                       return "Please enter required amount";
+                                    else if(val.toString() =="0")
+                                      return "more than 0 amount";
                                     else
                                       return null;
                                   },
@@ -1069,7 +937,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
             );
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
           }
           else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1108,6 +976,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     });
   }
+
   void errorDialog(String text) {
     showDialog(
       context: context,
@@ -1167,38 +1036,50 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         ),
       ),
     );
-
   }
+
+  Expandedview05() {
+    return Column(
+      children: [
+        Container(
+            alignment: Alignment.topLeft,
+            height: SizeConfig.blockSizeVertical * 30,
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child:  ListView.builder(
+                  itemCount:_contacts == null ? 0 : _contacts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    AppContacts contact = _contacts[index];
+                    return CheckboxListTile(
+                      activeColor: AppColors.theme1color,
+                      value: _selecteContact.contains(contact.info.phones.length==null || contact.info.phones.length==0?"":contact.info.phones.first.value),
+                      onChanged: (bool selected) {
+                        _onCateSelected(selected, contact.info.phones.first.value==null?"":contact.info.phones.first.value,
+                            contact.info.displayName??'');
+                      },
+                      title: Text(
+                        contact.info.displayName ??'',
+                        style: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                      ),
+                    );
+                  }),
+            )
+        )
+      ],
+    );
+  }
+
+
 
   Expandedview0() {
     return Column(
       children: [
-   /*   Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 4,),
-          child: Text("Select All",style: TextStyle(
-              letterSpacing: 1.0,
-              color: Colors.black,
-              fontSize: SizeConfig.blockSizeHorizontal * 3,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Montserrat-Bold'),),
-        ),
-        Container(
-          margin: EdgeInsets.only(right:  SizeConfig.blockSizeHorizontal * 4),
-          child:  Checkbox(
-
-            value: rememberMe,
-            onChanged: (bool selected) {
-              // _onCategorySelected(selected, userList[item]);
-              _onCategorySelected(selected, categorylist[index]['connection_id'],
-                  categorylist[index]['full_name']);
-            },
-          ),
-        )
-      ],
-    ),*/
       Container(
       alignment: Alignment.topLeft,
       height: SizeConfig.blockSizeVertical * 30,
@@ -1236,6 +1117,34 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   }
 
 
+  void _onCateSelected(bool selected, category_id, category_name) {
+    if (selected == true) {
+      setState(() {
+        _selecteContact.add(category_id);
+        _seleName.add(category_name);
+      });
+    } else {
+      setState(() {
+        _selecteContact.remove(category_id);
+        _seleName.remove(category_name);
+      });
+    }
+    final input = _seleName.toString();
+    final removedBrackets = input.substring(1, input.length - 1);
+    final parts = removedBrackets.split(',');
+    contactname = parts.map((part) => "$part").join(',').trim();
+    final input1 = _selecteContact.toString();
+    final removedBrackets1 = input1.substring(1, input1.length - 1);
+    final parts1 = removedBrackets1.split(',');
+    contactid = parts1.map((part1) => "$part1").join(',').trim();
+    contactvalues = contactid.replaceAll(" ","");
+    print(contactvalues);
+    print("CatNa: "+contactname);
+    print("Catva: "+contactvalues);
+  }
+
+
+
   void _onCategorySelected(bool selected, category_id, category_name) {
     if (selected == true) {
       setState(() {
@@ -1265,47 +1174,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   mynetworkview() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  top: SizeConfig.blockSizeVertical * 2),
-              width: SizeConfig.blockSizeHorizontal * 32,
-              child: Text(
-                StringConstant.searchcontact,
-                style: TextStyle(
-                    letterSpacing: 1.0,
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Poppins-Bold'),
-              ),
-            ),
-            Container(
-              width: SizeConfig.blockSizeHorizontal * 45,
-              alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(
-                  right: SizeConfig.blockSizeHorizontal * 3),
-              padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 3,
-              ),
-              child: Text(
-                //catname!=null?catname.toString():category_names.toString(),
-                catname != null
-                    ? catname.toString()
-                    : "please select contact",
-                style: TextStyle(
-                    letterSpacing: 1.0,
-                    color: Colors.black38,
-                    fontSize: SizeConfig.blockSizeHorizontal * 3,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Montserrat-Bold'),
-              ),
-            )
-          ],
-        ),
         Container(
           height: SizeConfig.blockSizeVertical * 7,
           margin: EdgeInsets.only(
@@ -1375,48 +1243,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               ),
             ],
           ),
-          /* FormField<dynamic>(
-                    builder: (FormFieldState<dynamic> state) {
-                      return InputDecorator(
-                        decoration: InputDecoration.collapsed(hintText: ''),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<dynamic>(
-                            hint: Text("select contact",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold')),
-                            dropdownColor: Colors.white,
-                            value: currentSelectedValues,
-                            isDense: true,
-                            onChanged: (newValue) {
-                              setState(() {
-                                currentSelectedValues = newValue;
-                                userid = (newValue["id"]);
-                                userName = (newValue["full_name"]);
-                                print("User: " + userName.toString());
-                                print("Userid: " + userid.toString());
-                              });
-                            },
-                            items: categoryTypes.map((dynamic value) {
-                              return DropdownMenuItem<dynamic>(
-                                value: value,
-                                child: Text(value["full_name"],
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold')),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),*/
         ),
         Visibility(
             maintainSize: true,
@@ -1424,369 +1250,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             maintainState: true,
             child: Container()),
         expandFlag0 == true ? Expandedview0() : Container(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin:
-              EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  top: SizeConfig.blockSizeVertical * 2),
-              width: SizeConfig.blockSizeHorizontal * 45,
-              child: Text(
-                StringConstant.enterrequiredamount,
-                style: TextStyle(
-                    letterSpacing: 1.0,
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Poppins-Bold'),
-              ),
-            ),
-            Container(
-                width: SizeConfig.blockSizeHorizontal * 42,
-                height: SizeConfig.blockSizeVertical * 7,
-                margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 2,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.black26,
-                    style: BorderStyle.solid,
-                    width: 1.0,
-                  ),
-                  color: Colors.transparent,
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: SizeConfig.blockSizeVertical * 7,
-                      width: SizeConfig.blockSizeHorizontal * 10,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomLeft: Radius.circular(8)),
-                        border: Border.all(
-                          color: AppColors.theme1color,
-                          style: BorderStyle.solid,
-                          width: 1.0,
-                        ),
-                        color: AppColors.theme1color,
-                      ),
-                      padding: EdgeInsets.all(0.7),
-                      child: Image.asset(
-                        "assets/images/dollersign.png",
-                        width: 50,
-                        height: 50,
-                      ),
-                    ),
-                    Container(
-                      width: SizeConfig.blockSizeHorizontal * 30,
-                      padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 1,
-                          right: SizeConfig.blockSizeHorizontal * 1),
-                      child: TextFormField(
-                        autofocus: false,
-                        focusNode: requiredamountFocus,
-                        controller: requiredamountController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        validator: (val) {
-                          if (val.length == 0)
-                            return "Please enter required amount";
-                          else
-                            return null;
-                        },
-                        onFieldSubmitted: (v) {
-                          requiredamountFocus.unfocus();
-                        },
-                        onSaved: (val) => _requiredamount = val,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                        ),
-                      ),
-                    )
-                  ],
-                )
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  top: SizeConfig.blockSizeVertical * 2),
-              width: SizeConfig.blockSizeHorizontal * 45,
-              child: Text(
-                StringConstant.timeframeforcollection,
-                style: TextStyle(
-                    letterSpacing: 1.0,
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Poppins-Bold'),
-              ),
-            ),
-            Container(
-                width: SizeConfig.blockSizeHorizontal * 42,
-                height: SizeConfig.blockSizeVertical * 7,
-                margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 2,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeVertical * 1,
-                  right: SizeConfig.blockSizeVertical * 1,
-                ),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.black26,
-                    style: BorderStyle.solid,
-                    width: 1.0,
-                  ),
-                  color: Colors.transparent,
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    DateView();
-                  },
-                  child: Row(
-                    children: [
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 30,
-                        child: Text(
-                          myFormat.format(currentDate),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 12,
-                              color: Colors.black),
-                        ),
-                      ),
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 5,
-                        child: Icon(
-                          Icons.calendar_today_outlined,
-                          color: AppColors.greyColor,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-            )
-          ],
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 3,
-              top: SizeConfig.blockSizeVertical * 2),
-          child: Text(
-            StringConstant.message,
-            style: TextStyle(
-                letterSpacing: 1.0,
-                color: Colors.black,
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Bold'),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 2,
-            left: SizeConfig.blockSizeHorizontal * 3,
-            right: SizeConfig.blockSizeHorizontal * 3,
-          ),
-          padding: EdgeInsets.only(
-            left: SizeConfig.blockSizeVertical * 1,
-            right: SizeConfig.blockSizeVertical * 1,
-          ),
-          alignment: Alignment.topLeft,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: Colors.black26,
-              style: BorderStyle.solid,
-              width: 1.0,
-            ),
-            color: Colors.transparent,
-          ),
-          child: TextFormField(
-            autofocus: false,
-            focusNode: DescriptionFocus,
-            maxLines: 4,
-            controller: DescriptionController,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.text,
-            validator: (val) {
-              if (val.length == 0)
-                return "Please enter message";
-              else
-                return null;
-            },
-            onFieldSubmitted: (v) {
-              DescriptionFocus.unfocus();
-            },
-            onSaved: (val) => _Description = val,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                letterSpacing: 1.0,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                fontSize: 15,
-                color: Colors.black),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              hintStyle: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                decoration: TextDecoration.none,
-              ),
-              hintText: "Type here message...",
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 2,
-              right: SizeConfig.blockSizeHorizontal * 2),
-          margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 2,
-              left: SizeConfig.blockSizeHorizontal * 3,
-              right: SizeConfig.blockSizeHorizontal * 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 15,
-                width: 15,
-                color: Colors.white,
-                child: Checkbox(
-                  value: showvalue,
-                  onChanged: (bool value) {
-                    setState(() {
-                      showvalue = value;
-                      if(showvalue == true)
-                      {
-                        notificationvalue = "on";
-                      }
-                      else{
-                        notificationvalue = "off";
-                      }
-                    });
-                  },
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: Text(StringConstant.receivenotification,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Poppins-Regular',
-                    )
-                ),
-              ),
-            ],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            if (_formKey.currentState.validate()) {
-
-              setState(() {
-                isLoading = true;
-              });
-              Internet_check().check().then((intenet) {
-                if (intenet != null && intenet) {
-                  if(_imageFile!=null)
-                  {
-                    if (values==null || values=="")
-                    {
-                      Fluttertoast.showToast(
-                        msg: "Please select contacts",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                      );
-                    }
-                    else
-                    {
-                      requestIndivial(
-                          notificationvalue,
-                          requiredamountController.text,
-                          DescriptionController.text,
-                          myFormat.format(currentDate),
-                          _imageFile,
-                          values.toString()
-                      );
-                    }
-                  }
-                  else {
-                    Fluttertoast.showToast(
-                      msg: "Please select gift image",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                    );
-                  }
-                } else {
-                  Fluttertoast.showToast(
-                    msg: "No Internet Connection",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                  );
-                }
-              });
-            }
-          },
-          child: Container(
-            alignment: Alignment.center,
-            width: SizeConfig.blockSizeHorizontal * 40,
-            height: SizeConfig.blockSizeVertical * 6,
-            margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 3,
-                bottom: SizeConfig.blockSizeVertical * 3,
-                left: SizeConfig.blockSizeHorizontal * 5,
-                right: SizeConfig.blockSizeHorizontal * 5),
-            decoration: BoxDecoration(
-              image: new DecorationImage(
-                image: new AssetImage("assets/images/sendbutton.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Text(StringConstant.invite,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 15,
-                )),
-          ),
-        )
       ],
     );
   }
@@ -1799,292 +1262,81 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
+          height: SizeConfig.blockSizeVertical * 7,
           margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical *2,
-              left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-
-          child:
-          TextFormField(
-            autofocus: false,
-            focusNode: NameFocus,
-            controller: nameController,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            validator: (val) {
-              if (val.length == 0)
-                return "Please enter name";
-              else if (val.length < 3)
-                return "Name must be more than 2 charater";
-              else
-                return null;
-            },
-            onSaved: (val) => _name= val,
-            onFieldSubmitted: (v) {
-              FocusScope.of(context).requestFocus(MobileFocus);
-            },
-            textAlign: TextAlign.left,
-            style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Poppins-Regular',),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(5),
-              labelText: "Your Name*",
-              labelStyle:TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                decoration: TextDecoration.none,
-              ),
-            ),
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 3,
+            right: SizeConfig.blockSizeHorizontal * 3,
           ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical *1,
-              left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-
-          child:  TextFormField(
-            autofocus: false,
-            focusNode: MobileFocus,
-            controller: mobileController,
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.next,
-            validator: (val) {
-              if (val.length == 0)
-                return "Please enter mobile number";
-              else if (val.length < 10)
-                return "Your mobile number should be 10 char long";
-              else
-                return null;
-            },
-            onSaved: (val) => _mobile= val,
-            onFieldSubmitted: (v) {
-              FocusScope.of(context).requestFocus(SubjectFocus);
-            },
-            textAlign: TextAlign.left,
-            style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Poppins-Regular',),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(5),
-              labelText: "Phone Number*",
-              labelStyle:TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical *1,
-              left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          child:
-          TextFormField(
-            autofocus: false,
-            focusNode: EmailFocus,
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            validator: (val) {
-              if (val.length == 0)
-                return "Please enter email";
-              else if (!regex.hasMatch(val))
-                return "Please enter valid email";
-              else
-                return null;
-            },
-            onSaved: (val) => _email= val,
-            onFieldSubmitted: (v) {
-              FocusScope.of(context).requestFocus(AmountFocus);
-            },
-            textAlign: TextAlign.left,
-            style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Poppins-Regular',),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(5),
-              labelText: "Your Email*",
-              labelStyle:TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical *2,
-              left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          child:
-          TextFormField(
-            autofocus: false,
-            focusNode: AmountFocus,
-            controller: amountController,
-            keyboardType: TextInputType.number,
-            textInputAction: TextInputAction.next,
-            validator: (val) {
-              if (val.length == 0)
-                return "Please enter required amount";
-              else
-                return null;
-            },
-            onSaved: (val) => _amount= val,
-            onFieldSubmitted: (v) {
-              FocusScope.of(context).requestFocus(MessageFocus);
-            },
-            textAlign: TextAlign.left,
-            style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Poppins-Regular',),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(5),
-              labelText: "Required Amount*",
-              labelStyle:TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.topLeft,
           padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical *2,
-              left: SizeConfig.blockSizeHorizontal*2,
-              right: SizeConfig.blockSizeHorizontal*2),
-          child:
-          TextFormField(
-            autofocus: false,
-            maxLines:6,
-            focusNode: MessageFocus,
-            controller: messageController,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            validator: (val) {
-              if (val.length == 0)
-                return "Please enter message";
-              else if (val.length < 3)
-                return "message must be more than 2 charater";
-              else
-                return null;
-            },
-            onSaved: (val) => _description= val,
-            onFieldSubmitted: (v) {
-              MessageFocus.unfocus();
-            },
-            textAlign: TextAlign.left,
-            style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,fontWeight: FontWeight.normal,
-              fontFamily: 'Poppins-Regular',),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(5),
-              labelText: "Your Message",
-              labelStyle:TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',
-                decoration: TextDecoration.none,
-              ),
-
-            ),
+              left: SizeConfig.blockSizeHorizontal * 2,
+              right: SizeConfig.blockSizeHorizontal * 2
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            if (_formKey.currentState.validate()) {
-              setState(() {
-                isLoading = true;
-              });
-              Internet_check().check().then((intenet) {
-                if (intenet != null && intenet) {
-                  if(_imageFile!=null)
-                    {
-                      sendInvitation(
-                          emailController.text,
-                          nameController.text,
-                          mobileController.text,
-                          messageController.text,
-                          amountController.text);
-                    }
-                  else {
-                    Fluttertoast.showToast(
-                      msg: "Please select gift image",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                    );
-                  }
-                } else {
-                  Fluttertoast.showToast(
-                    msg: "No Internet Connection",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                  );
-                }
-                // No-Internet Case
-              });
-            }
-          },
-          child: Container(
-              alignment: Alignment.center,
-              width: SizeConfig.blockSizeHorizontal * 38,
-              height: SizeConfig.blockSizeVertical * 7,
-              margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 5,
-                  bottom: SizeConfig.blockSizeVertical * 5,
-                  left: SizeConfig.blockSizeHorizontal *5,
-                  right: SizeConfig.blockSizeHorizontal *5
-
-              ),
-              decoration: BoxDecoration(
-                image: new DecorationImage(
-                  image: new AssetImage("assets/images/sendbutton.png"),
-                  fit: BoxFit.fill,
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.black26,
+              style: BorderStyle.solid,
+              width: 1.0,
+            ),
+            color: Colors.transparent,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeHorizontal * 3,
+                ),
+                child:
+                Text(
+                  "Search contact",
+                  style:
+                  TextStyle(
+                      letterSpacing: 1.0,
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat-Bold'),
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(StringConstant.sharelink,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: 'Poppins-Regular',
-                        fontSize: 15,
-                      )),
-                  Container(
-                    child:IconButton(icon: Icon(Icons.arrow_forward,color: AppColors.whiteColor,), onPressed: () {}),
-                  )
-                ],
-              )
+              Container(
+                padding: EdgeInsets.only(
+                  right: SizeConfig.blockSizeHorizontal * 2,
+                ),
+                child: IconButton(
+                    icon: new Container(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new Center(
+                        child:
+                        new Icon(
+                          expandFlag0
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          color: Colors.black87,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        expandFlag0 = !expandFlag0;
+                      });
+                    }),
+              ),
+            ],
           ),
         ),
+        Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: Container()),
+        expandFlag0 == true ? Expandedview05() : Container(),
       ],
     );
   }
@@ -2142,7 +1394,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => sendreceivedgifts()), (route) => false);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
 
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

@@ -128,7 +128,6 @@ class sendreceivedgiftsState extends State<sendreceivedgifts> {
             ),*/
 
           ) ,
-
           bottomNavigationBar: bottombar(context),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton:

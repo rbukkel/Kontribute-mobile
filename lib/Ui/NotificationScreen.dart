@@ -446,9 +446,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                                         alignment: Alignment
                                             .centerLeft,
                                         margin: EdgeInsets.only(
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                               1,
                                             bottom: SizeConfig
                                                 .blockSizeVertical *
                                                 1,
@@ -498,9 +495,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       alignment: Alignment
                                           .centerLeft,
                                       margin: EdgeInsets.only(
-                                          top: SizeConfig
-                                              .blockSizeVertical *
-                                              2,
                                           bottom:
                                           SizeConfig.blockSizeVertical *
                                               1,
@@ -537,9 +531,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       alignment: Alignment
                                           .centerLeft,
                                       margin: EdgeInsets.only(
-                                          top: SizeConfig
-                                              .blockSizeVertical *
-                                              2,
                                           bottom:
                                           SizeConfig.blockSizeVertical *
                                               1,
@@ -569,6 +560,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   ),
                                   Row(
                                     children: [
+                                      listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="like" ||
+                                          listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="comment"?Container():
                                       GestureDetector(
                                         onTap: () {
                                           Widget cancelButton =
@@ -674,6 +673,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           ),
                                         ),
                                       ),
+
                                       GestureDetector(
                                         onTap: () {
                                           deleteItem(listing
@@ -762,7 +762,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                               decoration:
                                               TextDecoration
                                                   .none,
-                                              fontSize: 10,
+                                              fontSize: 12,
                                               fontWeight:
                                               FontWeight
                                                   .normal,
@@ -772,6 +772,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                               Colors.black),
                                         ),
                                       ),
+                                      listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="like" ||
+                                          listing
+                                              .result.data
+                                              .elementAt(index)
+                                              .notifyFrom=="comment"?Container():
                                       Container(
                                         width: SizeConfig
                                             .blockSizeHorizontal *
@@ -866,6 +874,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   ),
                                 ],
                               ),
+                              listing
+                                  .result.data
+                                  .elementAt(index)
+                                  .notifyFrom=="like" ||
+                                  listing
+                                      .result.data
+                                      .elementAt(index)
+                                      .notifyFrom=="comment"?Container():
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment
@@ -949,12 +965,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                                 ],
                               ),
 
-
-
-
                               listing.result.data
                                   .elementAt(index)
-                                  .giftPicture==''  ?  Container()  :
+                                  .giftPicture==''? Container() :
 
                               Container(
                                   height: SizeConfig

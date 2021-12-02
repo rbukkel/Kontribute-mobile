@@ -31,7 +31,7 @@ class Data {
   int id;
   String fullName;
   String email;
-  Null emailVerifiedAt;
+  String emailVerifiedAt;
   String nickName;
   String mobile;
   String dob;

@@ -498,9 +498,66 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                          'Poppins-Regular'),
                                    ),
                                  ),
-                                 followlistpojo.data.elementAt(ind).followed=="yes"?Container( margin: EdgeInsets.only(
-                                     right: SizeConfig.blockSizeHorizontal * 2,
-                                     left: SizeConfig.blockSizeHorizontal * 2),):
+                                 followlistpojo.data.elementAt(ind).followed=="yes"?
+                                 Container(
+                                   width: SizeConfig.blockSizeHorizontal * 30,
+                                   padding: EdgeInsets.only(
+                                       right: SizeConfig.blockSizeHorizontal * 2,
+                                       left: SizeConfig.blockSizeHorizontal * 2,
+                                       bottom: SizeConfig.blockSizeVertical * 1,
+                                       top: SizeConfig.blockSizeVertical * 1),
+                                   decoration: BoxDecoration(
+                                       color: AppColors.whiteColor,
+                                       borderRadius: BorderRadius.circular(20),
+                                       border: Border.all(color: AppColors.themecolor)
+                                   ),
+                                   margin: EdgeInsets.only(
+                                       top: SizeConfig.blockSizeVertical * 2,
+                                       bottom: SizeConfig.blockSizeHorizontal * 2,
+                                       right: SizeConfig.blockSizeHorizontal * 2,
+                                       left: SizeConfig.blockSizeHorizontal * 2),
+                                   alignment:Alignment.center,
+                                   child: Text(
+                                     "UnFollow",
+                                     style: TextStyle(
+                                         letterSpacing: 1.0,
+                                         color: AppColors.black,
+                                         fontSize: 12,
+                                         fontWeight: FontWeight.normal,
+                                         fontFamily:
+                                         'Poppins-Regular'),
+                                   ),
+                                 ):
+                                 followlistpojo.data.elementAt(ind).followed=="pending"?
+                                 Container(
+                                   width: SizeConfig.blockSizeHorizontal * 30,
+                                   padding: EdgeInsets.only(
+                                       right: SizeConfig.blockSizeHorizontal * 2,
+                                       left: SizeConfig.blockSizeHorizontal * 2,
+                                       bottom: SizeConfig.blockSizeVertical * 1,
+                                       top: SizeConfig.blockSizeVertical * 1),
+                                   decoration: BoxDecoration(
+                                       color: AppColors.whiteColor,
+                                       borderRadius: BorderRadius.circular(20),
+                                       border: Border.all(color: AppColors.themecolor)
+                                   ),
+                                   margin: EdgeInsets.only(
+                                       top: SizeConfig.blockSizeVertical * 2,
+                                       bottom: SizeConfig.blockSizeHorizontal * 2,
+                                       right: SizeConfig.blockSizeHorizontal * 2,
+                                       left: SizeConfig.blockSizeHorizontal * 2),
+                                   alignment:Alignment.center,
+                                   child: Text(
+                                     "Pending",
+                                     style: TextStyle(
+                                         letterSpacing: 1.0,
+                                         color: AppColors.black,
+                                         fontSize: 12,
+                                         fontWeight: FontWeight.normal,
+                                         fontFamily:
+                                         'Poppins-Regular'),
+                                   ),
+                                 ):
                                  GestureDetector(
                                    onTap: ()
                                    {
@@ -514,8 +571,8 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                      padding: EdgeInsets.only(
                                          right: SizeConfig.blockSizeHorizontal * 2,
                                          left: SizeConfig.blockSizeHorizontal * 2,
-                                         bottom: SizeConfig.blockSizeHorizontal * 2,
-                                         top: SizeConfig.blockSizeHorizontal * 1),
+                                         bottom: SizeConfig.blockSizeVertical * 1,
+                                         top: SizeConfig.blockSizeVertical * 1),
                                      decoration: BoxDecoration(
                                          color: AppColors.whiteColor,
                                          borderRadius: BorderRadius.circular(20),

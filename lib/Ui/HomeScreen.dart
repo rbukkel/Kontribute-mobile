@@ -7,6 +7,7 @@ import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
+import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -163,7 +164,7 @@ class HomeScreenState extends State<HomeScreen>{
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => sendreceivedgifts()));
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingSendReceived()));
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,

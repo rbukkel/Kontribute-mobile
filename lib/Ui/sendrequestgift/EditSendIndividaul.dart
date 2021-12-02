@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Pojo/get_send_gift.dart';
+import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -841,7 +842,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
           );
           Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(builder: (context) =>
-              sendreceivedgifts()),
+              OngoingSendReceived()),
                   (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

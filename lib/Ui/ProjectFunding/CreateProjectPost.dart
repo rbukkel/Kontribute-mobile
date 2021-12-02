@@ -1176,6 +1176,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           validator: (val) {
                                             if (val.length == 0)
                                               return "Please enter required amount";
+                                            else if(val.toString() =="0")
+                                              return "more than 0 amount";
                                             else
                                               return null;
                                           },

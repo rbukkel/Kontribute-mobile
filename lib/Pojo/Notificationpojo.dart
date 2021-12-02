@@ -25,7 +25,7 @@ class Notificationpojo {
 
 class Result {
   int currentPage;
-  List<Datum> data;
+  List<Data> data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -33,7 +33,7 @@ class Result {
   String nextPageUrl;
   String path;
   int perPage;
-  String prevPageUrl;
+  Null prevPageUrl;
   int to;
   int total;
 
@@ -54,9 +54,9 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      data = new List<Datum>();
+      data = new List<Data>();
       json['data'].forEach((v) {
-        data.add(new Datum.fromJson(v));
+        data.add(new Data.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -91,7 +91,7 @@ class Result {
   }
 }
 
-class Datum {
+class Data {
   String id;
   String senderId;
   String groupId;
@@ -104,15 +104,16 @@ class Datum {
   String giftPicture;
   String updateId;
   String endDate;
+  String notifyFrom;
   String postedDate;
   String createdAt;
   String updatedAt;
   String fullName;
   String profilePic;
   String facebookId;
-  String groupName;
+  Null groupName;
 
-  Datum(
+  Data(
       {this.id,
         this.senderId,
         this.groupId,
@@ -125,6 +126,7 @@ class Datum {
         this.giftPicture,
         this.updateId,
         this.endDate,
+        this.notifyFrom,
         this.postedDate,
         this.createdAt,
         this.updatedAt,
@@ -133,7 +135,7 @@ class Datum {
         this.facebookId,
         this.groupName});
 
-  Datum.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     senderId = json['sender_id'];
     groupId = json['group_id'];
@@ -146,6 +148,7 @@ class Datum {
     giftPicture = json['gift_picture'];
     updateId = json['update_id'];
     endDate = json['end_date'];
+    notifyFrom = json['notify_from'];
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -169,6 +172,7 @@ class Datum {
     data['gift_picture'] = this.giftPicture;
     data['update_id'] = this.updateId;
     data['end_date'] = this.endDate;
+    data['notify_from'] = this.notifyFrom;
     data['posted_date'] = this.postedDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
