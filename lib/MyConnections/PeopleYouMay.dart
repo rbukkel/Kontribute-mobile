@@ -41,6 +41,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
   FollowRequestAcceptPojo requestpojo;
   UserlistingPojo followlistpojo;
   num countValue = 2;
+  String unfollowval;
   num aspectWidth = 2;
   num aspectHeight = 2;
   follow_Request_updatePojo followupdatepojo;
@@ -119,8 +120,41 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
     }
   }
 
+  Future<void> Unfollowapi(String useid, String rece) async {
+    Map data = {
+      'senderid': rece.toString(),
+      'receiverid': useid.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response =
+    await http.post(Network.BaseApi + Network.unfollow_request, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      unfollowval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        showToast(unfollowval);
+        setState(() {
+          getFollowing(userid,searchvalue);
+        });
+      }
+      else
+        {
+        if (jsonResponse != null) {
+          showToast(unfollowval);
+          setState(() {
+            getFollowing(userid,searchvalue);
+          });
+        } else {
+          showToast(unfollowval);
+        }
+      }
+    } else {
+      showToast(unfollowval);
+    }
+  }
+
   void getFollowing(String user_id,String search) async {
-    //Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'userid': user_id.toString(),
       'search': search.toString(),
@@ -134,8 +168,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       followval = response.body;
       if (jsonResponse["status"] == false)
       {
-      //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
         setState(() {
           followlist_length =null;
           resultfollowvalue = false;
@@ -146,7 +178,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
       } else {
-        //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         followlistpojo = new UserlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
@@ -173,7 +204,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
         }
       }
     } else {
-      //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonDecode(followval)["message"],
         toastLength: Toast.LENGTH_SHORT,
@@ -199,13 +229,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
           fit: BoxFit.cover,
         ),
       ),
-     /* key: _scaffoldKey,
-      drawer: Drawer(
-        child: Container(
-          color: Colors.white,
-          child: Drawer_Screen(),
-        ),
-      ),*/
       body: Container(
         height: double.infinity,
         color: AppColors.whiteColor,
@@ -213,10 +236,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
           children: [
             GestureDetector(
               onTap: (){
-                Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder:
-                        (context) => selectlangauge()),
-                        (route) => false);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
               },
               child: Container(
                   alignment: Alignment.topRight,
@@ -272,8 +292,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       'sender_id': useid.toString(),
       'receiver_id': rece.toString(),
     };
-
-
 
     print("DATA: " + data.toString());
 
@@ -499,33 +517,39 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                    ),
                                  ),
                                  followlistpojo.data.elementAt(ind).followed=="yes"?
-                                 Container(
-                                   width: SizeConfig.blockSizeHorizontal * 30,
-                                   padding: EdgeInsets.only(
-                                       right: SizeConfig.blockSizeHorizontal * 2,
-                                       left: SizeConfig.blockSizeHorizontal * 2,
-                                       bottom: SizeConfig.blockSizeVertical * 1,
-                                       top: SizeConfig.blockSizeVertical * 1),
-                                   decoration: BoxDecoration(
-                                       color: AppColors.whiteColor,
-                                       borderRadius: BorderRadius.circular(20),
-                                       border: Border.all(color: AppColors.themecolor)
-                                   ),
-                                   margin: EdgeInsets.only(
-                                       top: SizeConfig.blockSizeVertical * 2,
-                                       bottom: SizeConfig.blockSizeHorizontal * 2,
-                                       right: SizeConfig.blockSizeHorizontal * 2,
-                                       left: SizeConfig.blockSizeHorizontal * 2),
-                                   alignment:Alignment.center,
-                                   child: Text(
-                                     "UnFollow",
-                                     style: TextStyle(
-                                         letterSpacing: 1.0,
-                                         color: AppColors.black,
-                                         fontSize: 12,
-                                         fontWeight: FontWeight.normal,
-                                         fontFamily:
-                                         'Poppins-Regular'),
+                                 GestureDetector(
+                                   onTap:()
+                                   {
+                                     Unfollowapi(userid, followlistpojo.data.elementAt(ind).id.toString());
+                                   },
+                                   child:  Container(
+                                     width: SizeConfig.blockSizeHorizontal * 30,
+                                     padding: EdgeInsets.only(
+                                         right: SizeConfig.blockSizeHorizontal * 2,
+                                         left: SizeConfig.blockSizeHorizontal * 2,
+                                         bottom: SizeConfig.blockSizeVertical * 1,
+                                         top: SizeConfig.blockSizeVertical * 1),
+                                     decoration: BoxDecoration(
+                                         color: AppColors.whiteColor,
+                                         borderRadius: BorderRadius.circular(20),
+                                         border: Border.all(color: AppColors.themecolor)
+                                     ),
+                                     margin: EdgeInsets.only(
+                                         top: SizeConfig.blockSizeVertical * 2,
+                                         bottom: SizeConfig.blockSizeHorizontal * 2,
+                                         right: SizeConfig.blockSizeHorizontal * 2,
+                                         left: SizeConfig.blockSizeHorizontal * 2),
+                                     alignment:Alignment.center,
+                                     child: Text(
+                                       "UnFollow",
+                                       style: TextStyle(
+                                           letterSpacing: 1.0,
+                                           color: AppColors.black,
+                                           fontSize: 12,
+                                           fontWeight: FontWeight.normal,
+                                           fontFamily:
+                                           'Poppins-Regular'),
+                                     ),
                                    ),
                                  ):
                                  followlistpojo.data.elementAt(ind).followed=="pending"?

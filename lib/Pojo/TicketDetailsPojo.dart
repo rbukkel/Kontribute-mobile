@@ -59,6 +59,7 @@ class Commentsdata {
   int balanceslot;
   int ticketsold;
   int balanceQtySlot;
+  List<TicketdetailUser> ticketdetailUser;
   List<Ticketpayemtndetails> ticketpayemtndetails;
   String fullName;
   String profilePic;
@@ -98,6 +99,7 @@ class Commentsdata {
         this.balanceslot,
         this.ticketsold,
         this.balanceQtySlot,
+        this.ticketdetailUser,
         this.ticketpayemtndetails,
         this.fullName,
         this.profilePic});
@@ -157,6 +159,12 @@ class Commentsdata {
     balanceslot = json['balanceslot'];
     ticketsold = json['ticketsold'];
     balanceQtySlot = json['balance_qty_slot'];
+    if (json['ticketdetail_user'] != null) {
+      ticketdetailUser = new List<TicketdetailUser>();
+      json['ticketdetail_user'].forEach((v) {
+        ticketdetailUser.add(new TicketdetailUser.fromJson(v));
+      });
+    }
     if (json['ticketpayemtndetails'] != null) {
       ticketpayemtndetails = new List<Ticketpayemtndetails>();
       json['ticketpayemtndetails'].forEach((v) {
@@ -212,6 +220,10 @@ class Commentsdata {
     data['balanceslot'] = this.balanceslot;
     data['ticketsold'] = this.ticketsold;
     data['balance_qty_slot'] = this.balanceQtySlot;
+    if (this.ticketdetailUser != null) {
+      data['ticketdetail_user'] =
+          this.ticketdetailUser.map((v) => v.toJson()).toList();
+    }
     if (this.ticketpayemtndetails != null) {
       data['ticketpayemtndetails'] =
           this.ticketpayemtndetails.map((v) => v.toJson()).toList();
@@ -353,7 +365,66 @@ class Ticketimagesdata {
     return data;
   }
 }
+class TicketdetailUser {
+  String id;
+  String ticketId;
+  String senderId;
+  String amount;
+  String qty;
+  String status;
+  String paymentfor;
+  String createdAt;
+  String updatedAt;
+  String fullName;
+  String profilePic;
+  String facebookId;
 
+  TicketdetailUser(
+      {this.id,
+        this.ticketId,
+        this.senderId,
+        this.amount,
+        this.qty,
+        this.status,
+        this.paymentfor,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.facebookId});
+
+  TicketdetailUser.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    ticketId = json['ticket_id'];
+    senderId = json['sender_id'];
+    amount = json['amount'];
+    qty = json['qty'];
+    status = json['status'];
+    paymentfor = json['paymentfor'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullName = json['full_name'];
+    profilePic = json['profile_pic'];
+    facebookId = json['facebook_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['ticket_id'] = this.ticketId;
+    data['sender_id'] = this.senderId;
+    data['amount'] = this.amount;
+    data['qty'] = this.qty;
+    data['status'] = this.status;
+    data['paymentfor'] = this.paymentfor;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['full_name'] = this.fullName;
+    data['profile_pic'] = this.profilePic;
+    data['facebook_id'] = this.facebookId;
+    return data;
+  }
+}
 class Ticketpayemtndetails {
   String id;
   String ticketId;

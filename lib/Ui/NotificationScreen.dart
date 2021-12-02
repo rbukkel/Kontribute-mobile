@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -175,10 +174,13 @@ class NotificationScreenState extends State<NotificationScreen> {
   }
 
   void getdata(String user_id, int page) async {
+    setState(() {
+      storelist_length =null;
+    });
     Map data = {
       'userid': user_id.toString(),
     };
-    Dialogs.showLoadingDialog(context, _keyLoader);
+   // Dialogs.showLoadingDialog(context, _keyLoader);
     print("user: " + data.toString());
     var jsonResponse = null;
     print(Network.BaseApi + Network.notificationlisting + "?page=" + page.toString());
@@ -187,7 +189,7 @@ class NotificationScreenState extends State<NotificationScreen> {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["status"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         setState(() {
           resultvalue = false;
         });
@@ -197,7 +199,7 @@ class NotificationScreenState extends State<NotificationScreen> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
       } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         listing = new Notificationpojo.fromJson(jsonResponse);
         print("Json User: " + jsonResponse.toString());
         if (jsonResponse != null) {
@@ -212,7 +214,7 @@ class NotificationScreenState extends State<NotificationScreen> {
             }
           });
         } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           Fluttertoast.showToast(
               msg: listing.message,
               toastLength: Toast.LENGTH_SHORT,
@@ -221,7 +223,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         }
       }
     } else {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonDecode(val)["message"],
         toastLength: Toast.LENGTH_SHORT,
@@ -676,11 +678,13 @@ class NotificationScreenState extends State<NotificationScreen> {
 
                                       GestureDetector(
                                         onTap: () {
-                                          deleteItem(listing
-                                              .result.data
-                                              .elementAt(index)
-                                              .id
-                                              .toString());
+                                          setState(() {
+                                            deleteItem(listing
+                                                .result.data
+                                                .elementAt(index)
+                                                .id
+                                                .toString());
+                                          });
                                         },
                                         child: Container(
                                           color: Colors

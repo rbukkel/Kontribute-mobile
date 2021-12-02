@@ -18,10 +18,10 @@ class ticketsState extends State<tickets> {
   String tabvalue = "Ongoing";
   bool ongoing = false;
   bool history = false;
-
   String textHolder = "Please Select";
 
-  changeText(String valu) {
+  changeText(String valu)
+  {
     setState(() {
       textHolder = valu;
       Fluttertoast.showToast(
@@ -58,8 +58,7 @@ class ticketsState extends State<tickets> {
                   color: Colors.white),
             ),
           ),
-          //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
-
+          //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black))
           flexibleSpace: Image(
             height: SizeConfig.blockSizeVertical * 12,
             image: AssetImage('assets/images/appbar.png'),
@@ -97,14 +96,18 @@ class ticketsState extends State<tickets> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(StringConstant.ongoingticket.toUpperCase(),
+                        Text(
+                            StringConstant.ongoingticket.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
-                                letterSpacing: 1.0))
+                                letterSpacing: 1.0
+                            )
+                        )
                       ],
-                    )),
+                    )
+                ),
               ),
               Tab(
                 child: Container(
@@ -114,7 +117,8 @@ class ticketsState extends State<tickets> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(StringConstant.historyticket.toUpperCase(),
+                        Text(
+                            StringConstant.historyticket.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.black,

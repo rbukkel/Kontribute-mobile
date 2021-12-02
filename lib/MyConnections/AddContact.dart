@@ -257,11 +257,10 @@ class _AddContactState extends State<AddContact> {
     }
   }
 
-
   Future<void> Unfollowapi(String useid, String rece) async {
     Map data = {
-      'senderid': useid.toString(),
-      'receiverid': rece.toString(),
+      'senderid': rece.toString(),
+      'receiverid': useid.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;

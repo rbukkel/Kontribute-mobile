@@ -2755,13 +2755,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                     ),
                                                   ],
                                                 ),
-
-                                                /*   decoration: BoxDecoration(
-                                    image: new DecorationImage(
-                                      image: new AssetImage("assets/images/files.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),*/
                                               );
                                             }),
                                       ),
