@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Ui/Carousel.dart';
+import 'package:kontribute/Ui/CustomIndicator.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/LocaleString.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -194,14 +194,14 @@ class _MyHomePageState extends State<MyHomePage> {
           print("falseValue");
           Future.delayed(Duration(seconds: 3),()
           {
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Carousel()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>CustomIndicator()), (route) => false);
           });
         }
       }else{
         print("falseValue");
         Future.delayed(Duration(seconds: 3),()
         {
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Carousel()), (route) => false);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>CustomIndicator()), (route) => false);
         });
       }
     });

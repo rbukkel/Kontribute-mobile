@@ -778,22 +778,12 @@ class CreateTicketPostState extends State<CreateTicketPost> {
               Navigator.of(context).pop();
               //   isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         }
       }else if (response.statusCode == 422) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
@@ -3064,10 +3054,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 // No-Internet Case
                               });
                             }
-
-
-
-
 
                           },
                           child: Container(

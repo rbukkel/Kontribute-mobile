@@ -65,7 +65,7 @@ class StringConstant {
   static const String createnewevent = "Create New Event";
   static const String costofticket = "Cost of Ticket";
   static const String campaignhistory = "Campaign History";
-  static const String ongoingcampaign = "Ongoing Campaign";
+  static const String ongoingcampaign = "Campaign";
   static const String contribution = "Contributors";
   static const String collectiontarget = "Collection Target";
   static const String withdrawtitle = "Please enter your paypal account details to withdraw";
@@ -135,13 +135,13 @@ class StringConstant {
   static const String requestindividaul = "Request Individual";
   static const String sendindividaul = "Send Individual";
   static const String createpool = "Create Pool";
-  static const String ongoingproject = "Ongoing Projects";
+  static const String ongoingproject = "Projects";
   static const String historyproject = "History Projects";
   static const String mynetwork = "My Network";
   static const String addcontacts = "Add Contact";
   static const String sendinvitations = "Send Invitations";
-  static const String ongoingevents = "Ongoing Events";
-  static const String ongoingticket = "Ongoing Ticket";
+  static const String ongoingevents = "Events";
+  static const String ongoingticket = "Ticket";
   static const String historyevents = "Event History";
   static const String historyticket = "Ticket History";
   static const String dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed Lorem ipsum dolor amet, consectetur adipiscing elit, sed";

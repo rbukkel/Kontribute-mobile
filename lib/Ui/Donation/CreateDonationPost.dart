@@ -2032,7 +2032,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
                                             (route) => false);*/
                               },
-                              child: Container(
+                              child:
+                              Container(
                                 alignment: Alignment.center,
                                 height: SizeConfig.blockSizeVertical * 6,
                                 margin: EdgeInsets.only(

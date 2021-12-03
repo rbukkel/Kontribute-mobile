@@ -14,6 +14,7 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
 
   bool descTextShowFlag = false;
   int currentPageValue = 0;
+
   final List<Widget> introWidgetsList = <Widget>[
     Container(height: SizeConfig.blockSizeVertical * 60,
       width: SizeConfig.blockSizeHorizontal*60,
@@ -64,10 +65,7 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
            children: [
              GestureDetector(
                onTap: (){
-                 Navigator.pushAndRemoveUntil(
-                     context,
-                     MaterialPageRoute(builder: (context) => afterwelcome()),
-                         (route) => false);
+                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => afterwelcome()),(route) => false);
                },
                child: Container(
                    alignment: Alignment.topRight,
@@ -112,7 +110,7 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
            ],
          ),
        ):
-       i==1?Container(
+       i==1? Container(
          margin:  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5),
          child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +134,7 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
                width: SizeConfig.blockSizeHorizontal * 90,
                alignment: Alignment.topCenter,
                margin:  EdgeInsets.only(top: SizeConfig.blockSizeVertical*4),
-               child: Text(StringConstant.letsgetstarted,textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Bold',
+               child: Text("Projects",textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Bold',
                  fontWeight: FontWeight.bold,
                  fontSize: 24,
                  letterSpacing: 2.0,),),),
@@ -191,7 +189,7 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
                width: SizeConfig.blockSizeHorizontal * 90,
                alignment: Alignment.topCenter,
                margin:  EdgeInsets.only(top: SizeConfig.blockSizeVertical*4),
-               child: Text(StringConstant.letsgetstarted,textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Bold',
+               child: Text("Events",textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Bold',
                  fontWeight: FontWeight.bold,
                  fontSize: 24,
                  letterSpacing: 2.0,),),),
@@ -247,7 +245,6 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
       body: Container(
         constraints: BoxConstraints.expand(),
        color: AppColors.whiteColor,
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -264,21 +261,6 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
                             child: Stack(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
-                                  child: Row(
-                                    children: <Widget>[
-                                      for (int i = 0; i < introWidgetsList.length; i++)
-                                        if (i == currentPageValue) ...[
-                                          i==0?circleText(i,'Receive Birthday Gifts in cash from ,Friends and also send Gifts them..., '):
-                                          i==1?circleText(i,'Collect Cash to support entrepreneurs ,in their projects or ask for support,in their own projects...'):
-                                          i==2?circleText(i,'Collect Cash for Social,Events as a Gift...,'):SizedBox()
-                                        ]
-
-
-                                    ],
-                                  ),
-                                ),
-                                Container(
                                   height: SizeConfig.blockSizeVertical*40,
                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*38),
                                   child: PageView.builder(
@@ -294,6 +276,21 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
                                     itemBuilder: (context, index) {
                                       return introWidgetsList[index];
                                     },
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+                                  child: Row(
+                                    children: <Widget>[
+                                      for (int i = 0; i < introWidgetsList.length; i++)
+                                        if (i == currentPageValue) ...[
+                                          i==0?circleText(i,'Receive Birthday Gifts in cash from ,Friends and also send Gifts them..., '):
+                                          i==1?circleText(i,'Collect Cash to support entrepreneurs ,in their projects or ask for support,in their own projects...'):
+                                          i==2?circleText(i,'Collect Cash for Social,Events as a Gift...,'):SizedBox()
+                                        ]
+
+
+                                    ],
                                   ),
                                 ),
                                 Container(
@@ -314,7 +311,38 @@ class _CarouselState extends State<Carousel> with SingleTickerProviderStateMixin
                               ],
                             ),
                           ),
-
+                          GestureDetector(onTap: ()
+                            {
+                              for (int i = 0; i < introWidgetsList.length; i++)
+                                if (i == currentPageValue)
+                            circleBar(true);
+                           else
+                            circleBar(false);
+                            },
+                          child:  Container(
+                            alignment: Alignment.center,
+                            height: SizeConfig.blockSizeVertical * 6,
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 3,
+                                bottom: SizeConfig.blockSizeVertical * 3,
+                                left: SizeConfig.blockSizeHorizontal * 15,
+                                right: SizeConfig.blockSizeHorizontal * 15),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              image: new DecorationImage(
+                                image: new AssetImage(
+                                    "assets/images/sendbutton.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: Text('Next'.toUpperCase(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 15,
+                                )),
+                          ),),
                         ],
                       ),
                     )))
