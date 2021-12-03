@@ -920,7 +920,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
       appBar: buildBar(context),
       body: Container(
           height: double.infinity,
-          color: AppColors.whiteColor,
+          color: AppColors.shadow,
           child: Column(
             children: [
            /*   Container(

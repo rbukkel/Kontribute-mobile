@@ -193,26 +193,34 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
 
   Widget _createSearchView() {
     return new Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
-            right: SizeConfig.blockSizeHorizontal *2),
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *20,
-            left: SizeConfig.blockSizeHorizontal*5,
-            right: SizeConfig.blockSizeHorizontal*5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1.0)
-        ),
-        child: new
-        TextField(
-          onChanged: (value){
-            setState(() {
-              getdata(userid,value);
-            });
-          },
-          decoration: new InputDecoration(
-              border: InputBorder.none,
-              hintStyle: TextStyle(color: Colors.black), hintText: 'Search...'),
-        )
+      height: SizeConfig.blockSizeVertical * 8,
+      padding: EdgeInsets.only(
+          left: SizeConfig.blockSizeHorizontal*1,
+          right: SizeConfig.blockSizeHorizontal *1),
+      margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical *20,
+          left: SizeConfig.blockSizeHorizontal*5,
+          right: SizeConfig.blockSizeHorizontal*5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 1.0)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(textAlign: TextAlign.start,
+            onChanged: (value){
+              setState(() {
+                getdata(userid,value);
+              });
+            },
+            decoration: new InputDecoration(
+                prefixIcon: Icon(Icons.search, color: Colors.black),
+                border: InputBorder.none,
+                hintStyle: TextStyle(color: Colors.black,fontSize: 12), hintText: 'Search'),
+          )
+        ],
+      ) ,
     );
   }
 
@@ -220,7 +228,6 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
     return Expanded(
       child: storelist_length != null ?
       Container(
-        alignment: Alignment.centerLeft,
         //height: SizeConfig.blockSizeVertical * 30,
         margin: EdgeInsets.only(
             bottom: SizeConfig.blockSizeVertical * 4,

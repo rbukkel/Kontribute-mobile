@@ -797,7 +797,7 @@ class registerState extends State<register> {
                                         fontSize: 10,
                                         color: Colors.grey),
                                   ),
-                                  dropdownColor: Colors.blueGrey,
+                                  dropdownColor: AppColors.whiteoff,
                                   value: currentSelectedValue,
                                   isDense: true,
                                   onChanged: (newValue) {
@@ -819,7 +819,7 @@ class registerState extends State<register> {
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular',
                                             fontSize:9,
-                                            color: Colors.white),
+                                            color: Colors.black),
                                       ),
                                     );
                                   }).toList(),
@@ -866,7 +866,7 @@ class registerState extends State<register> {
                                         fontSize: 10,
                                         color: Colors.grey),
                                   ),
-                                  dropdownColor: Colors.blueGrey,
+                                  dropdownColor: AppColors.whiteoff,
                                   value: currentSelectedCountry,
                                   isDense: true,
                                   onChanged: (newValue) {
@@ -889,7 +889,7 @@ class registerState extends State<register> {
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular',
                                             fontSize: 9,
-                                            color: Colors.white),
+                                            color: Colors.black),
                                       ),
                                     );
                                   }).toList(),

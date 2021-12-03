@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
-import 'package:kontribute/Ui/SettingScreen.dart';
-import 'package:kontribute/Ui/WalletScreen.dart';
+import 'package:get/get.dart';
 import 'package:kontribute/Ui/mytranscation.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'AppColors.dart';
@@ -274,10 +273,11 @@ bottombar(context) {
                 builder: (BuildContext context) => HomeScreen()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *13,
+              width: SizeConfig.blockSizeHorizontal *24,
               margin:
-                  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-              child: Column(
+                  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
+              child:
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -289,7 +289,8 @@ bottombar(context) {
                   Container(
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                     child: Text(
-                      "Home",
+                      'home'.tr,
+                      maxLines: 2,
                       style: TextStyle(color: AppColors.greyColor, fontSize: 10),
                     ),
                   )
@@ -318,7 +319,7 @@ bottombar(context) {
               Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                 child: Text(
-                  "My Transactions",
+                  'mytransactions'.tr,
                   style: TextStyle(color: AppColors.greyColor, fontSize: 10),
                 ),
               )
@@ -327,11 +328,10 @@ bottombar(context) {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => NotificationScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *15,
+              width: SizeConfig.blockSizeHorizontal *22,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -344,7 +344,7 @@ bottombar(context) {
               Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                 child: Text(
-                  "Notification",
+                  'notification'.tr,
                   style: TextStyle(color: AppColors.greyColor, fontSize: 10),
                 ),
               )
@@ -356,9 +356,9 @@ bottombar(context) {
             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ContactUs()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *15,
+              width: SizeConfig.blockSizeHorizontal *23,
               margin:
-                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -372,7 +372,7 @@ bottombar(context) {
                   Container(
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                     child: Text(
-                      "Contact Us",
+                      'contactus'.tr,
                       style: TextStyle(color: AppColors.greyColor, fontSize: 10),
                     ),
                   )
@@ -404,7 +404,7 @@ class Dialogs {
                           height: 10,
                         ),
                         Text(
-                          "Loading....",
+                          'loading'.tr,
                           style: TextStyle(color: Color(0xFF009247)),
                         )
                       ]),

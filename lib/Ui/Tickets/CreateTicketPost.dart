@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:async/async.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -413,8 +414,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         _hourend = selecteEndTime.hour.toString();
         _minuteend = selecteEndTime.minute.toString();
         _timend = _hourend + ':' + _minuteend;
-
-
         if(selectedEndTime=="")
         {
           selectedEndTime = TimeOfDay.now().toString().substring(10, 15);
@@ -614,6 +613,15 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     }
   }
 
+  // Format File Size
+   String getFilesizeString({@required int bytes, int decimals = 0}) {
+    const suffixes = ["b", "kb", "mb", "gb", "tb"];
+    var i = (log(bytes) / log(1024)).floor();
+    print("File Size: "+((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i]);
+
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
+  }
+
   Future getPdfAndUpload() async {
     File file = await FilePicker.getFile(
       type: FileType.custom,
@@ -629,6 +637,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         file1 = file;
         //file1 is a global variable which i created
         print("File Path: " + file1.toString());
+
+        print(getFilesizeString(bytes: file1.lengthSync()));
+
 
         if(_documentList.length<2)
         {

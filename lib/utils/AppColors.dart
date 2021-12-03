@@ -22,4 +22,5 @@ class AppColors {
   static Color theme1color = Color(0xdc2BACC8);
   static Color purplecolor = Color(0xdc000352);
   static Color headingblue = Color(0xdc2199C0);
+  static Color shadow = Color(0xdcF3F6FB);
 }

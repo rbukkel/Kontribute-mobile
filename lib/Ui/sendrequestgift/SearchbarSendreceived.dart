@@ -153,7 +153,7 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
       ),*/
         body: Container(
           height: double.infinity,
-          color: AppColors.whiteColor,
+          color: AppColors.shadow,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,

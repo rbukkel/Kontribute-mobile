@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -236,7 +237,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                     child: Icon(Icons.edit),
                   ),
                   Text(
-                    'Edit',
+                    'edit'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -258,7 +259,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
           toolbarHeight: SizeConfig.blockSizeVertical * 8,
           title: Container(
             child: Text(
-              StringConstant.sendandreceivegift,
+              'sendandreceivegift'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.none,
@@ -347,9 +348,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                         margin: EdgeInsets.only(
                                                             left: SizeConfig.blockSizeHorizontal * 2),
                                                         child: Text(
-                                                          requestpojo.result.data.elementAt(index).status == "request" ? "Request Received from:"
-                                                              : requestpojo.result.data.elementAt(index).status == "sent" ? "Send to:"
-                                                                  : requestpojo.result.data.elementAt(index).status == "group" ? "Group Request:"
+                                                          requestpojo.result.data.elementAt(index).status == "request" ? 'requestreceivedfrom'.tr
+                                                              : requestpojo.result.data.elementAt(index).status == "sent" ? 'sendto'.tr
+                                                                  : requestpojo.result.data.elementAt(index).status == "group" ? 'grouprequest'.tr
                                                                       : "",
                                                           style: TextStyle(
                                                               color:
@@ -613,7 +614,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                         3,
                                                                   ),
                                                                   child: Text(
-                                                                    "View Details",
+                                                                    'viewdetails'.tr,
                                                                     style: TextStyle(
                                                                         letterSpacing:
                                                                             1.0,
@@ -682,7 +683,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                             .blockSizeHorizontal *
                                                                         2),
                                                                 child: Text(
-                                                                  "Amount- ",
+                                                                  'amount'.tr,
                                                                   style: TextStyle(
                                                                       letterSpacing:
                                                                           1.0,
@@ -823,7 +824,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                   child: CircularProgressIndicator(),
                                 )
                               : Center(
-                                  child: Text("No Records Found",style: TextStyle(
+                                  child: Text('norecordsfound'.tr,style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: AppColors.black,
                                       fontSize: 16,
@@ -896,7 +897,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                               index)
                                                                           .status ==
                                                                       "request"
-                                                                  ? "Request Received from:"
+                                                                  ? 'requestreceivedfrom'.tr
                                                                   : requestpojo
                                                                               .result
                                                                               .data
@@ -904,10 +905,10 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                                   index)
                                                                               .status ==
                                                                           "sent"
-                                                                      ? "Send to:"
+                                                                      ? 'sendto'.tr
                                                                       : requestpojo.result.data.elementAt(index).status ==
                                                                               "group"
-                                                                          ? "Group Request:"
+                                                                          ? 'grouprequest'.tr
                                                                           : "",
                                                               style: TextStyle(
                                                                   color: Colors
@@ -953,9 +954,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                             onTapDown:
                                                                 (TapDownDetails
                                                                     details) {
-                                                              _tapDownPosition =
-                                                                  details
-                                                                      .globalPosition;
+                                                              _tapDownPosition = details.globalPosition;
                                                             },
                                                             onTap: () {
                                                               _showPopupMenu(
@@ -1122,23 +1121,14 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                               1,
                                                                     ),
                                                                     child: Text(
-                                                                      requestpojo
-                                                                          .result
-                                                                          .data
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .fullName,
+                                                                      requestpojo.result.data.elementAt(index).fullName,
                                                                       style: TextStyle(
-                                                                          letterSpacing:
-                                                                              1.0,
-                                                                          color: Colors
-                                                                              .black87,
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
+                                                                          letterSpacing: 1.0,
+                                                                          color: Colors.black87,
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.bold,
                                                                           fontFamily:
-                                                                              'Poppins-Regular'),
+                                                                          'Poppins-Regular'),
                                                                     ),
                                                                   ),
                                                                   GestureDetector(
@@ -1169,7 +1159,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                       ),
                                                                       child:
                                                                           Text(
-                                                                        "View Details",
+                                                                        'viewdetails'.tr,
                                                                         style: TextStyle(
                                                                             letterSpacing:
                                                                                 1.0,
@@ -1186,9 +1176,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                 ],
                                                               ),
                                                               Container(
-                                                                width: SizeConfig
-                                                                        .blockSizeHorizontal *
-                                                                    70,
+                                                                width: SizeConfig.blockSizeHorizontal * 70,
                                                                 alignment:
                                                                     Alignment
                                                                         .topLeft,
@@ -1237,7 +1225,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                                                         top: SizeConfig.blockSizeHorizontal *
                                                                             2),
                                                                     child: Text(
-                                                                      "Amount- ",
+                                                                      'amount'.tr,
                                                                       style: TextStyle(
                                                                           letterSpacing:
                                                                               1.0,
@@ -1358,7 +1346,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                                       child: CircularProgressIndicator(),
                                     )
                                   : Center(
-                                      child: Text("No Records Found",style: TextStyle(
+                                      child: Text('norecordsfound'.tr,style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: AppColors.black,
                                           fontSize: 16,
@@ -1922,13 +1910,13 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                         SpeedDialChild(
                             child: Icon(Icons.request_page),
                             backgroundColor: AppColors.theme1color,
-                            label: 'Request',
+                            label: 'request'.tr,
                             onTap: () {
                               tabValue="request";
                               getdata(userid, tabValue);
                               print('FIRST CHILD');
                             }),
-                        SpeedDialChild(
+                        /*      SpeedDialChild(
                             child: Icon(Icons.people_rounded),
                             backgroundColor: AppColors.theme1color,
                             label: 'Pool',
@@ -1936,11 +1924,11 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
                               tabValue="pool";
                               getdata(userid, tabValue);
                               print('SEcond CHILD');
-                            }),
+                            }),*/
                         SpeedDialChild(
                             child: Icon(Icons.all_inclusive),
                             backgroundColor: AppColors.theme1color,
-                            label: 'All',
+                            label: 'all'.tr,
                             onTap: () {
                               tabValue="all";
                               getdata(userid, tabValue);

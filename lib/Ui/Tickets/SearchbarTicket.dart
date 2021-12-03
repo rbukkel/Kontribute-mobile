@@ -246,7 +246,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
 
         body: Container(
           height: double.infinity,
-          color: AppColors.whiteColor,
+          color: AppColors.shadow,
           child:
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

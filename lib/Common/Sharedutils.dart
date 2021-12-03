@@ -113,7 +113,14 @@ class SharedUtils {
     return user;
   }
 
-
+  static saveLangaunage(String key, String value) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(key, value);
+  }
+  static readLangaunage(String key) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(key);
+  }
 
   static saveDate(String key, String value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();

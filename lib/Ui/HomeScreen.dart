@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
@@ -21,7 +22,9 @@ class HomeScreen extends StatefulWidget{
 class HomeScreenState extends State<HomeScreen>{
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   int currentPageValue = 0;
+
    final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
       width: SizeConfig.blockSizeHorizontal *100,
@@ -51,7 +54,7 @@ class HomeScreenState extends State<HomeScreen>{
       ),
       body: Container(
         height: double.infinity,
-        color: AppColors.whiteColor,
+        color: AppColors.shadow,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,6 +173,7 @@ class HomeScreenState extends State<HomeScreen>{
                                 height: SizeConfig.blockSizeVertical * 18,
                                 margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *3),
                                 child: Card(
+                                  elevation:3.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -194,7 +198,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                         'sendandreceivegift'.tr,
+                                         'sendandreceivegift'.tr.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -217,6 +221,7 @@ class HomeScreenState extends State<HomeScreen>{
                                 height: SizeConfig.blockSizeVertical * 18,
                                 margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
                                 child: Card(
+                                  elevation:3.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -229,7 +234,9 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(top: 5),
                                         padding: EdgeInsets.all(5),
                                         alignment: Alignment.center,
-                                        child: Image.asset("assets/images/projectfunding.png", height: SizeConfig.blockSizeVertical *10, width: SizeConfig.blockSizeHorizontal * 15,
+                                        child: Image.asset("assets/images/projectfunding.png",
+                                          height: SizeConfig.blockSizeVertical *10,
+                                          width: SizeConfig.blockSizeHorizontal * 15,
                                         ),
                                       ),
 
@@ -238,7 +245,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          'projectfunding'.tr,
+                                          'projectfunding'.tr.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -272,6 +279,7 @@ class HomeScreenState extends State<HomeScreen>{
                                 height: SizeConfig.blockSizeVertical * 18,
                                 margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *3),
                                 child: Card(
+                                  elevation:3.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -296,7 +304,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          'donations'.tr,
+                                          'donations'.tr.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -319,6 +327,7 @@ class HomeScreenState extends State<HomeScreen>{
                                 height: SizeConfig.blockSizeVertical * 18,
                                 margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
                                 child: Card(
+                                  elevation:3.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -340,7 +349,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          'events'.tr,
+                                          'events'.tr.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -374,6 +383,7 @@ class HomeScreenState extends State<HomeScreen>{
                                 height: SizeConfig.blockSizeVertical * 18,
                                 margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *3),
                                 child: Card(
+                                  elevation:3.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -398,7 +408,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          'tickets'.tr,
+                                          'tickets'.tr.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
@@ -421,6 +431,7 @@ class HomeScreenState extends State<HomeScreen>{
                                 height: SizeConfig.blockSizeVertical * 18,
                                 margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
                                 child: Card(
+                                  elevation:3.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -444,7 +455,7 @@ class HomeScreenState extends State<HomeScreen>{
                                         margin: EdgeInsets.only(bottom: 5),
                                         width: SizeConfig.blockSizeHorizontal *40,
                                         child: Text(
-                                          'My Activity'.tr,
+                                          'myActivity'.tr.toUpperCase(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,

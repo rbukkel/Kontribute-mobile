@@ -828,7 +828,7 @@ class MyActivitiesState extends State<MyActivities> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.shadow,
         toolbarHeight: SizeConfig.blockSizeVertical *8,
         title: Container(
           child: Text(

@@ -15,6 +15,7 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'dart:async';
+import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 void main() async {
@@ -139,10 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if(result!=null){
         if(result){
           print("trueValue");
-
-            initDynamicLinks();
-
-
+          initDynamicLinks();
           Future.delayed(Duration(seconds: 3),()
           {
             print('hereid'+isId.toString());
@@ -156,7 +154,38 @@ class _MyHomePageState extends State<MyHomePage> {
                        ), context);
                  }
                  else {
-                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                  /* if (lang == 'English') {
+                     var locale = Locale('en', 'US');
+                     SharedUtils.saveLangaunage("Langauge", lang);
+                     Get.updateLocale(locale);
+                   } else if (lang == 'Arabic') {
+                     var locale = Locale('ar', 'SA');
+                     SharedUtils.saveLangaunage("Langauge", lang);
+                     Get.updateLocale(locale);
+                   }*/
+
+
+
+
+                   SharedUtils.readLangaunage("Langauge").then((val) {
+                     print("Langauge: " + val);
+                    String langu = val;
+                     print("Login Langauge: " + langu.toString());
+                     if(langu =="Arabic")
+                       {
+                         var locale = Locale('ar', 'SA');
+                         Get.updateLocale(locale);
+
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                       }
+                     else if(langu =="English")
+                     {
+                       var locale = Locale('en', 'US');
+                       Get.updateLocale(locale);
+                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                     }
+                   });
+
                  }
 
          //

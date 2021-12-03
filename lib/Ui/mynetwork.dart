@@ -176,10 +176,10 @@ class _mynetworkState extends State<mynetwork> {
         Expanded(
           child: followlist_length != null ?
           Container(
-            alignment: Alignment.centerLeft,
             //height: SizeConfig.blockSizeVertical * 30,
             margin: EdgeInsets.only(
                 bottom: SizeConfig.blockSizeVertical * 4,
+                top: SizeConfig.blockSizeVertical * 1,
                 left: SizeConfig.blockSizeHorizontal * 2,
                 right: SizeConfig.blockSizeHorizontal * 2),
             child:  MediaQuery.removePadding(
@@ -187,6 +187,7 @@ class _mynetworkState extends State<mynetwork> {
               removeTop: true,
               child:
               GridView.count(
+                padding: EdgeInsets.all(0),
                 shrinkWrap: true,
                 crossAxisCount: countValue,
                 childAspectRatio: (aspectWidth / aspectHeight),
@@ -196,8 +197,7 @@ class _mynetworkState extends State<mynetwork> {
                         width: SizeConfig.blockSizeHorizontal * 60,
                         child: Card(
                           child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
                                 onTap: ()
@@ -225,8 +225,7 @@ class _mynetworkState extends State<mynetwork> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
                                     onTap: () {
@@ -384,7 +383,8 @@ class _mynetworkState extends State<mynetwork> {
                           ),
                         ));}
                 ),
-              ),),
+              ),
+            ),
           ):
           Container(
             margin: EdgeInsets.only(top: 100),
@@ -412,26 +412,34 @@ class _mynetworkState extends State<mynetwork> {
 
   Widget _createSearchView() {
     return new Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
-            right: SizeConfig.blockSizeHorizontal *2),
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *20,
-            left: SizeConfig.blockSizeHorizontal*5,
-            right: SizeConfig.blockSizeHorizontal*5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1.0)
-        ),
-        child: new
-        TextField(
-          onChanged: (value){
-            setState(() {
-              getFollowing(userid,value);
-            });
-          },
-          decoration: new InputDecoration(
-              border: InputBorder.none,
-              hintStyle: TextStyle(color: Colors.black), hintText: 'Search...'),
-        )
+      height: SizeConfig.blockSizeVertical * 8,
+      padding: EdgeInsets.only(
+          left: SizeConfig.blockSizeHorizontal*1,
+          right: SizeConfig.blockSizeHorizontal *1),
+      margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical *20,
+          left: SizeConfig.blockSizeHorizontal*5,
+          right: SizeConfig.blockSizeHorizontal*5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 1.0)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(textAlign: TextAlign.start,
+            onChanged: (value){
+              setState(() {
+                getFollowing(userid,value);
+              });
+            },
+            decoration: new InputDecoration(
+                prefixIcon: Icon(Icons.search, color: Colors.black),
+                border: InputBorder.none,
+                hintStyle: TextStyle(color: Colors.black,fontSize: 12), hintText: 'Search'),
+          )
+        ],
+      ) ,
     );
   }
 

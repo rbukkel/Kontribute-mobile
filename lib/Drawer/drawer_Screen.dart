@@ -625,6 +625,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     SharedUtils.readloginData("login",false);
     SharedUtils.writeloginId("UserId", "");
     SharedUtils.writeloginId("Usename", "");
+    SharedUtils.saveLangaunage("Langauge", "");
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext)=>login()), (route) => false);
     print("User Signed Out");
   }

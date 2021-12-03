@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
@@ -18,7 +19,6 @@ class selectlangaugeState extends State<selectlangauge> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     sampleData.add(new RadioModel(true, 'English'));
     sampleData.add(new RadioModel(false, 'Arabic'));
@@ -91,23 +91,20 @@ class selectlangaugeState extends State<selectlangauge> {
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    sampleData.forEach((element) =>
-                                        element.isSelected = false);
+                                    sampleData.forEach((element) => element.isSelected = false);
                                     sampleData[index].isSelected = true;
                                     print(sampleData[index].text);
                                     if (sampleData[index].text == "English") {
                                       lang = 'English';
                                       print("Langauge: "+lang.toString());
-                                    } else if (sampleData[index].text ==
-                                        "Arabic") {
+                                    } else if (sampleData[index].text == "Arabic") {
                                       lang = 'Arabic';
                                       print("Langauge: "+lang.toString());
                                     }
                                   });
                                 },
                                 child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         child: Text(
@@ -119,8 +116,7 @@ class selectlangaugeState extends State<selectlangauge> {
                                         ),
                                       ),
                                       Container(
-                                          child:
-                                              new RadioItem(sampleData[index])),
+                                          child: new RadioItem(sampleData[index])),
                                     ]),
                               ),
                             ),
@@ -139,16 +135,17 @@ class selectlangaugeState extends State<selectlangauge> {
                     setState(() {
                       if (lang == 'English') {
                         var locale = Locale('en', 'US');
+                         SharedUtils.saveLangaunage("Langauge", lang);
                         Get.updateLocale(locale);
                       } else if (lang == 'Arabic') {
                         var locale = Locale('ar', 'SA');
+                         SharedUtils.saveLangaunage("Langauge", lang);
                         Get.updateLocale(locale);
                       }
                     });
                     print("LangaugeHome: "+lang.toString());
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                   child: Container(
                     alignment: Alignment.center,

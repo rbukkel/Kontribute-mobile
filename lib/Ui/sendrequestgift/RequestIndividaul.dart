@@ -902,8 +902,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   }
 
 
-  void requestIndivial(String notification, String requiredamoun, String description,
-      String date,File Imge, String receiver) async {
+  void requestIndivial(String notification, String requiredamoun, String description, String date,File Imge, String receiver) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift_request),);

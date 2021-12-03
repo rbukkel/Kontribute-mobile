@@ -210,7 +210,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       ),*/
         body: Container(
           height: double.infinity,
-          color: AppColors.whiteColor,
+          color: AppColors.shadow,
             child: Column(
               children: [
                 storelist_length != null

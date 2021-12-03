@@ -170,7 +170,11 @@ class ConnectionsState extends State<Connections> {
               ],
             ),
           ),
-          bottomNavigationBar: bottombar(context),
+          bottomNavigationBar: Container(
+            color: AppColors.themecolor,
+            height: SizeConfig.blockSizeVertical * 7,
+            child:  bottombar(context),
+          ),
         )
       )
     );

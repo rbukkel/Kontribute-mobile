@@ -203,7 +203,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
       ),*/
         body: Container(
           height: double.infinity,
-          color: AppColors.whiteColor,
+          color: AppColors.shadow,
           child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
