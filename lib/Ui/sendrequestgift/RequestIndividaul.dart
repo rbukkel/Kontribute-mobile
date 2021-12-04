@@ -844,20 +844,45 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           if (intenet != null && intenet) {
                             if(_imageFile!=null)
                             {
-                              if (values==null || values=="")
+                              if(radioVal=="0")
                               {
-                                errorDialog("Please select contacts");
-                              }
-                              else
-                              {
-                                requestIndivial(
+                                if (contactvalues==null ||contactvalues=="" || contactname==null || contactname=="")
+                                {
+                                  errorDialog("Please select contacts");
+                                }
+                                else{
+                                  sendInvitation(
                                     notificationvalue,
                                     requiredamountController.text,
                                     DescriptionController.text,
                                     myFormat.format(currentDate),
                                     _imageFile,
-                                    values.toString()
-                                );
+                                    contactname.toString(),
+                                    contactvalues.toString(),
+
+                                  );
+                                }
+
+
+                              }
+                              else if(radioVal=="1")
+                              {
+                                if (values==null || values=="")
+                                {
+                                  errorDialog("Please select contacts");
+                                }
+                                else
+                                {
+                                  requestIndivial(
+                                      notificationvalue,
+                                      requiredamountController.text,
+                                      DescriptionController.text,
+                                      myFormat.format(currentDate),
+                                      _imageFile,
+                                      values.toString()
+                                  );
+                                }
+
                               }
                             }
                             else {
@@ -929,13 +954,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
-
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
           }
           else {
@@ -943,12 +961,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             setState(() {
               Navigator.of(context).pop();
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -958,20 +971,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
       else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog("Internal server error");
+
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog("Something went wrong");
       }
     });
   }
@@ -1339,32 +1343,30 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       ],
     );
   }
-  sendInvitation(String emal,String name,String mobile,String descr,String amoun) async {
+
+
+  sendInvitation(String notification,String required,String description,String dat,File Imge,String names,String numbers) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
-      "userid":userid.toString(),
-      "name":name,
-      "message":descr,
-      "email":emal,
-      "mobile":mobile,
-      "sendername":userName,
-      "amount":amoun.toString(),
+      "name":names.toString(),
+      "mobile":numbers.toString(),
+      "sender_id":userid.toString(),
+      "price":required.toString(),
+      "message":description,
+      "end_date":dat.toString(),
+      "notification":notification.toString(),
     };
 
-    print("Data: "+data.toString());
+    print("DataSend: "+data.toString());
     var jsonResponse = null;
-    var response = await http.post(Network.BaseApi + Network.invitation, body: data);
+    var response = await http.post(Network.BaseApi + Network.mobile_invitation, body: data);
     if (response.statusCode == 200)
     {
       jsonResponse = json.decode(response.body);
-      if (jsonResponse["status"] == false) {
+      if (jsonResponse["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonResponse["message"]);
+
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1375,24 +1377,16 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         if (jsonResponse != null) {
           setState(() {
             isLoading = false;
-            emailController.text = "";
-            nameController.text ="";
-            mobileController.text="";
-            messageController.text="";
-            amountController.text="";
+            requiredamountController.text = "";
+            DescriptionController.text ="";
           });
           final RenderBox box1 = _formKey.currentContext.findRenderObject();
-          if(sendinvi.invitationlink!=null)
-          Share.share("Let's join on Kontribute! Get it at " +sendinvi.invitationlink,
+          if(sendinvi.shareLink!=null)
+          Share.share("Let's join on Kontribute! Get it at " +sendinvi.shareLink,
               subject: "Kontribute",
               sharePositionOrigin:
               box1.localToGlobal(Offset.zero) & box1.size);
-          Fluttertoast.showToast(
-            msg: sendinvi.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
 
         } else {
@@ -1400,23 +1394,14 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           setState(() {
             Navigator.of(context).pop();
           });
-          Fluttertoast.showToast(
-            msg: sendinvi.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(sendinvi.message);
+
         }
       }
     }
     else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonResponse["message"]);
     }
   }
 }

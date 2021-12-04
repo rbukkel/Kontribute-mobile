@@ -101,4 +101,5 @@ class Network{
   static String remove_sendrequest = "remove_sendrequest";
   static String myactivities = "myactivities";
   static String unfollow_request = "unfollow_request";
+  static String mobile_invitation = "mobile_invitation";
 }

@@ -1,21 +1,21 @@
 class sendinvitationpojo {
-  bool status;
+  bool success;
+  String shareLink;
   String message;
-  String invitationlink;
 
-  sendinvitationpojo({this.status, this.message, this.invitationlink});
+  sendinvitationpojo({this.success, this.shareLink, this.message});
 
   sendinvitationpojo.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
+    success = json['success'];
+    shareLink = json['share_link'];
     message = json['message'];
-    invitationlink = json['invitationlink'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    data['success'] = this.success;
+    data['share_link'] = this.shareLink;
     data['message'] = this.message;
-    data['invitationlink'] = this.invitationlink;
     return data;
   }
 }

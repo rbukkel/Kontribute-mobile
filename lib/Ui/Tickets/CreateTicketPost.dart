@@ -2875,9 +2875,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                         currentSelectedValue.toString().toLowerCase() ==
                                 "invite"
                             ? inviteView()
-                            : currentSelectedValue.toString().toLowerCase() ==
-                                    "others"
-                                ? otherOptionview()
                                 : Container(),
                         Container(
                           margin: EdgeInsets.only(
@@ -3090,7 +3087,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     );
   }
 
-  otherOptionview() {
+ /* otherOptionview() {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
@@ -3359,81 +3356,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         ],
       ),
     );
-  }
+  }*/
 
-  sendInvitation(String emal, String name, String mobile, String descr) async {
-    Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {
-      "userid": userid.toString(),
-      "name": name,
-      "message": descr,
-      "email": emal,
-      "mobile": mobile,
-    };
-    print("Data: " + data.toString());
-    var jsonResponse = null;
 
-    var response =
-        await http.post(Network.BaseApi + Network.invitation, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      if (jsonResponse["success"] == false) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        sendinvi = new sendinvitationpojo.fromJson(jsonResponse);
-        String jsonProfile = jsonEncode(sendinvi);
-        print(jsonProfile);
-        SharedUtils.saveProfile(jsonProfile);
-        if (jsonResponse != null) {
-          setState(() {
-            isLoading = false;
-            emailController.text = "";
-            nameController.text = "";
-            mobileController.text = "";
-            messageController.text = "";
-          });
-          final RenderBox box1 = _formKey.currentContext.findRenderObject();
-          Share.share(
-              "Let's join on Kontribute! Get it at " + sendinvi.invitationlink,
-              subject: "Kontribute",
-              sharePositionOrigin: box1.localToGlobal(Offset.zero) & box1.size);
-          Fluttertoast.showToast(
-            msg: sendinvi.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Navigator.of(context).pop();
-            //   isLoading = false;
-          });
-          Fluttertoast.showToast(
-            msg: sendinvi.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-        }
-      }
-    } else {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
-    }
-  }
 
   inviteView() {
     return Column(

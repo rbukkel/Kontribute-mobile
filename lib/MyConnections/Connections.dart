@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/MyConnections/AddContact.dart';
 import 'package:kontribute/MyConnections/ReceivedRequest.dart';
-import 'package:kontribute/MyConnections/SendInvitation.dart';
 import 'package:kontribute/MyConnections/SendRequest.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/HistoryProject.dart';
