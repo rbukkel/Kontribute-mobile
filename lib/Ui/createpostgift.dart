@@ -10,7 +10,7 @@ import 'package:kontribute/Ui/sendrequestgift/RequestIndividaul.dart';
 import 'package:kontribute/Ui/sendrequestgift/SendIndividaul.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
-import 'package:kontribute/utils/app.dart';
+import 'package:get/get.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class createpostgift extends StatefulWidget {
@@ -37,7 +37,7 @@ class createpostgiftState extends State<createpostgift> {
           backgroundColor: Colors.transparent,
           title: Container(
             child: Text(
-              StringConstant.createnewgift,
+              'createnewgift'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.none,
@@ -94,7 +94,7 @@ class createpostgiftState extends State<createpostgift> {
                           width: 18,
                           height: 18,
                         ),
-                        Text(StringConstant.requestindividaul,
+                        Text('requestindividual'.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white, fontSize: 10))
                       ],
@@ -113,7 +113,7 @@ class createpostgiftState extends State<createpostgift> {
                           width: 18,
                           height: 18,
                         ),
-                        Text(StringConstant.sendindividaul,
+                        Text('sendindividual'.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white, fontSize: 10))
                       ],

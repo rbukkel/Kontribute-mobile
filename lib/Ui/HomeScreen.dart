@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
@@ -13,6 +14,7 @@ import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
+import 'dart:math' as math;
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -22,7 +24,7 @@ class HomeScreen extends StatefulWidget{
 class HomeScreenState extends State<HomeScreen>{
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  bool _isTypeSwitch = true;
   int currentPageValue = 0;
 
    final List<Widget> introWidgetsList = <Widget>[
@@ -39,6 +41,15 @@ class HomeScreenState extends State<HomeScreen>{
       width: SizeConfig.blockSizeHorizontal *100,
       height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
   ];
+
+
+
+  Widget _renderItem(BuildContext context, int index) {
+    return Image(
+      image: AssetImage('assets/images/welcome${index + 1}.png'),
+    );
+  }
+
 
 
   @override
@@ -109,11 +120,33 @@ class HomeScreenState extends State<HomeScreen>{
           ),
         ),
             Container(
-              color: AppColors.themecolor,
+              //color: AppColors.themecolor,
               alignment: Alignment.topCenter,
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+              bottom:  SizeConfig.blockSizeVertical *1,),
               width: SizeConfig.blockSizeHorizontal *100,
               height: SizeConfig.blockSizeVertical * 25,
-              child: Stack(
+              child: new Swiper(
+                itemBuilder: (BuildContext context, int index) {
+                  return
+                    Image(
+                      image: AssetImage('assets/images/homebg${index + 1}.png'),
+                      fit: BoxFit.fill,
+                    );
+
+                },
+                itemCount:3,
+                itemWidth: 300.0,
+                layout: SwiperLayout.STACK,
+              ),
+
+
+              /* InfiniteCards(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 1.3,
+                controller: _controller,
+              ),*/
+           /*   Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
                   PageView.builder(
@@ -150,9 +183,35 @@ class HomeScreenState extends State<HomeScreen>{
                     ],
                   ),
                 ],
-              ),
+              ),*/
             ),
-
+          /*  Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    _controller.reset(
+                        animType:
+                        _isTypeSwitch ? AnimType.SWITCH : AnimType.TO_FRONT);
+                    _controller.previous();
+                  },
+                  child: Text("Pre"),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    _changeType(context);
+                  },
+                  child: Text("Reset"),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    _controller.reset(animType: AnimType.TO_END);
+                    _controller.next();
+                  },
+                  child: Text("Next"),
+                ),
+              ],
+            ),*/
             Expanded(
                 child: SingleChildScrollView(
                   child:  Column(

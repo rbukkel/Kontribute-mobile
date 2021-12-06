@@ -82,6 +82,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   String _video;
   String val;
   bool resultvalue = true;
+  bool resultfolowvalue = true;
   var storelist_length;
   String textHolder = "Please Select";
   final _formKey = GlobalKey<FormState>();
@@ -2952,12 +2953,10 @@ class CreateEventPostState extends State<CreateEventPost> {
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
       //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        setState(() {
+          resultfolowvalue = false;
+          categoryfollowinglist = null;
+        });
       } else {
        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null) {
@@ -3109,7 +3108,8 @@ class CreateEventPostState extends State<CreateEventPost> {
   }
 
   ExpandedInvitationview0() {
-    return Container(
+    return categoryfollowinglist!=null?
+      Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
         child: MediaQuery.removePadding(
@@ -3143,6 +3143,22 @@ class CreateEventPostState extends State<CreateEventPost> {
                   ),
                 );
               }),
+        )) : Container(
+        alignment: Alignment.center,
+        child: resultfolowvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+          child: Text(
+            "No search results to show",
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
         ));
   }
 

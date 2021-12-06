@@ -21,6 +21,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
+import 'package:get/get.dart';
 
 class RequestIndividaul extends StatefulWidget {
   @override
@@ -90,6 +91,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   final TextEditingController messageController = new TextEditingController();
   String _email,_name,_mobile,_subject,_amount,_description;
   bool contactsLoaded = false;
+  TextEditingController searchController = new TextEditingController();
+  List<AppContacts> contactsFiltered = [];
 
   Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
@@ -101,6 +104,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       return permission;
     }
   }
+
 
   Future<void> getContacts() async {
     List<AppContacts> contacts = (await ContactsService.getContacts()).map((contact) {
@@ -114,23 +118,62 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
   }
 
+  String flattenPhoneNumber(String phoneStr) {
+    return phoneStr.replaceAllMapped(RegExp(r'^(\+)|\D'), (Match m) {
+      return m[0] == "+" ? "+" : "";
+    });
+  }
+
+  filterContacts() {
+    List<AppContacts> _contats = [];
+    _contats.addAll(_contacts);
+    if (searchController.text.isNotEmpty) {
+      _contats.retainWhere((contact) {
+        String searchTerm = searchController.text.toLowerCase();
+        String searchTermFlatten = flattenPhoneNumber(searchTerm);
+        String contactName = contact.info.displayName.toLowerCase();
+        bool nameMatches = contactName.contains(searchTerm);
+        if (nameMatches == true)
+        {
+          return true;
+        }
+        if (searchTermFlatten.isEmpty) {
+          return false;
+        }
+        var phone = contact.info.phones.firstWhere((phn) {
+          String phnFlattened = flattenPhoneNumber(phn.value);
+          return phnFlattened.contains(searchTermFlatten);
+        }, orElse: () => null);
+
+        return phone != null;
+      });
+    }
+    setState(() {
+      contactsFiltered = _contats;
+    });
+  }
+
+
   void checkper() async {
     final PermissionStatus permissionStatus = await _getPermission();
     if (permissionStatus == PermissionStatus.granted)
     {
       getContacts();
+      searchController.addListener(() {
+        filterContacts();
+      });
     }
     else {
       showDialog(
           context: context,
           builder: (BuildContext context) =>
               CupertinoAlertDialog(
-                title: Text('Permissions error'),
-                content: Text('Please enable contacts access'
-                    'permission in system settings'),
+                title: Text('permissionserror'.tr),
+                content: Text('pleaseenableaccesstocontacts'.tr+
+                    'permissioninsystemsettings'.tr),
                 actions: <Widget>[
                   CupertinoDialogAction(
-                    child: Text('OK'),
+                    child: Text('ok'.tr),
                     onPressed: () => Navigator.of(context).pop(),
                   )
                 ],
@@ -180,7 +223,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   color: AppColors.whiteColor,
                   child:
                   Text(
-                    'Camera',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -200,7 +243,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -218,7 +261,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -246,12 +289,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       } catch (e) {
@@ -269,12 +307,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       }
@@ -333,10 +366,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
   }
 
-
-
-
-
   Future<void> getCategory(String a,String search) async {
     setState(() {
       categorylist =null;
@@ -351,22 +380,19 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       jsonResponse = json.decode(response.body);
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
-      //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        setState(() {
+          resultvalue = false;
+          categorylist =null;
+        });
+
       }
       else {
        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null)
         {
           setState(() {
+            resultvalue = true;
             categorylist = jsonResponse['result'];
-            //get all the data from json string superheros
-            //  print(categorylist.length); // just printed length of data
           });
         }
         else {
@@ -442,7 +468,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 32,
                         child: Text(
-                          "Find in",
+                          "findin".tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -460,7 +486,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           top: SizeConfig.blockSizeVertical * 3,
                         ),
                         child: Text(
-                          catname != null ? catname.toString() : "please select contact",
+                          catname != null ? catname.toString() : 'pleaseselectcontact'.tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black38,
@@ -477,7 +503,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           top: SizeConfig.blockSizeVertical * 3,
                         ),
                         child: Text(
-                         contactname!=null?contactname.toString(): "please select contact",
+                         contactname!=null?contactname.toString(): 'pleaseselectcontact'.tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black38,
@@ -502,7 +528,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               ? false
                               : true,
                           title: Text(
-                            'My Network',
+                            'mynetwork'.tr,
                             textAlign: TextAlign.left,
                             style:
                             TextStyle(fontSize: 12),
@@ -526,7 +552,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               ? false
                               : true,
                           title: Text(
-                            'Phonebook',
+                            'phonebook'.tr,
                             textAlign: TextAlign.left,
                             style:
                             TextStyle(fontSize: 12),
@@ -555,7 +581,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
                         child: Text(
-                          StringConstant.enterrequiredamount,
+                          'enterrequiredamount'.tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -617,9 +643,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                   keyboardType: TextInputType.number,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter required amount";
+                                      return 'pleaseenterrequiredamount'.tr;
                                     else if(val.toString() =="0")
-                                      return "more than 0 amount";
+                                      return 'morethan0amount'.tr;
                                     else
                                       return null;
                                   },
@@ -654,7 +680,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
                         child: Text(
-                          StringConstant.timeframeforcollection,
+                          'timeframeforcollection'.tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -722,7 +748,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                         left: SizeConfig.blockSizeHorizontal * 3,
                         top: SizeConfig.blockSizeVertical * 2),
                     child: Text(
-                      StringConstant.message,
+                     'message'.tr,
                       style: TextStyle(
                           letterSpacing: 1.0,
                           color: Colors.black,
@@ -760,7 +786,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       keyboardType: TextInputType.text,
                       validator: (val) {
                         if (val.length == 0)
-                          return "Please enter message";
+                          return 'pleaseentermessage'.tr;
                         else
                           return null;
                       },
@@ -785,7 +811,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           fontSize: 12,
                           decoration: TextDecoration.none,
                         ),
-                        hintText: "Type here message...",
+                        hintText: 'typeheremessage'.tr,
                       ),
                     ),
                   ),
@@ -822,7 +848,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 5),
-                          child: Text(StringConstant.receivenotification,
+                          child: Text('receivenotificationswhenfriendpay'.tr,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
@@ -848,7 +874,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               {
                                 if (contactvalues==null ||contactvalues=="" || contactname==null || contactname=="")
                                 {
-                                  errorDialog("Please select contacts");
+                                  errorDialog('pleaseselectcontacts'.tr);
                                 }
                                 else{
                                   sendInvitation(
@@ -869,7 +895,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               {
                                 if (values==null || values=="")
                                 {
-                                  errorDialog("Please select contacts");
+                                  errorDialog('pleaseselectcontacts'.tr);
                                 }
                                 else
                                 {
@@ -886,10 +912,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                               }
                             }
                             else {
-                              errorDialog("Please select gift image");
+                              errorDialog('pleaseselectgiftimage'.tr);
                             }
                           } else {
-                            errorDialog("No Internet Connection");
+                            errorDialog('nointernetconnection'.tr);
 
                           }
                         });
@@ -910,7 +936,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      child: Text(StringConstant.invite,
+                      child: Text('invite'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.normal,
@@ -966,7 +992,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           errorDialog(jsonData["message"]);
-
         }
       }
       else if (response.statusCode == 500) {
@@ -975,7 +1000,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        errorDialog("Something went wrong");
+        errorDialog("somethingwentwrong".tr);
       }
     });
   }
@@ -1026,7 +1051,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'OK',
+                    'ok'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -1042,8 +1067,45 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   }
 
   Expandedview05() {
+    bool isSearching = searchController.text.isNotEmpty;
+
     return Column(
       children: [
+        isSearching == true ? contactsFiltered!=null?
+        Container(
+            alignment: Alignment.topLeft,
+            height: SizeConfig.blockSizeVertical * 30,
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child:  ListView.builder(
+                  itemCount:contactsFiltered == null ? 0 : contactsFiltered.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    AppContacts contact = contactsFiltered[index];
+                    return CheckboxListTile(
+                      activeColor: AppColors.theme1color,
+                      value: _selecteContact.contains(contact.info.phones.length==null || contact.info.phones.length==0?"":contact.info.phones.first.value),
+                      onChanged: (bool selected) {
+                        _onCateSelected(selected, contact.info.phones.first.value==null?"":contact.info.phones.first.value,
+                            contact.info.displayName??'');
+                      },
+                      title: Text(
+                        contact.info.displayName ??'',
+                        style: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                      ),
+                    );
+                  }),
+            )
+        ):
+        Center(
+          child: CircularProgressIndicator(),
+        ) :
+        _contacts!=null?
         Container(
             alignment: Alignment.topLeft,
             height: SizeConfig.blockSizeVertical * 30,
@@ -1073,16 +1135,18 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                     );
                   }),
             )
+        ):
+        Center(
+          child: CircularProgressIndicator(),
         )
       ],
     );
   }
 
-
-
   Expandedview0() {
     return Column(
       children: [
+        categorylist !=null?
       Container(
       alignment: Alignment.topLeft,
       height: SizeConfig.blockSizeVertical * 30,
@@ -1111,7 +1175,24 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                     );
                   }),
             )
-      )
+      ):
+
+        Container(
+            alignment: Alignment.center,
+            child: resultvalue == true
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : Center(
+              child: Text('nosearchresultstoshow'.tr,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: AppColors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular'),
+              ),
+            ))
 
       ],
 
@@ -1202,22 +1283,28 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                  width: SizeConfig.blockSizeHorizontal * 60,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal * 3,
                   right: SizeConfig.blockSizeHorizontal * 3,
                 ),
                 child:
-                Text(
-                  "Search contact",
-                  style:
-                  TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
+                TextField(
+                  onChanged: (value){
+                    setState(() {
+                      getCategory(userid,value);
+                    });
+                  },
+                  decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      hintStyle:  TextStyle(
+                          letterSpacing: 1.0,
+                          color: Colors.black,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Montserrat-Bold'),hintText: 'search'.tr),
+                )
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -1289,13 +1376,14 @@ class RequestIndividaulState extends State<RequestIndividaul> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                width: SizeConfig.blockSizeHorizontal * 60,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
+                 // left: SizeConfig.blockSizeHorizontal * 3,
                   right: SizeConfig.blockSizeHorizontal * 3,
                 ),
                 child:
-                Text(
+                /*Text(
                   "Search contact",
                   style:
                   TextStyle(
@@ -1304,7 +1392,39 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       fontSize: SizeConfig.blockSizeHorizontal * 3,
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Montserrat-Bold'),
-                ),
+                ),*/
+
+                TextField(
+                  controller: searchController,
+                  decoration: new InputDecoration(
+                      prefixIcon: Icon(
+                          Icons.search,
+                          color: AppColors.black
+                      ),
+                      border: InputBorder.none,
+                      hintStyle:  TextStyle(
+                          letterSpacing: 1.0,
+                          color: Colors.black,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Montserrat-Bold'),hintText: 'search'.tr),
+                )
+
+               /* TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Search...',
+                    border: new OutlineInputBorder(
+                        borderSide: new BorderSide(
+                            color: AppColors.black
+                        )
+                    ),
+                    prefixIcon: Icon(
+                        Icons.search,
+                        color: AppColors.black
+                    ),
+                  ),
+                ),*/
               ),
               Container(
                 padding: EdgeInsets.only(

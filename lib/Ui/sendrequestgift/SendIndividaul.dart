@@ -14,6 +14,7 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class SendIndividaul extends StatefulWidget{
   @override
@@ -200,7 +201,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -223,7 +224,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -241,7 +242,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -271,12 +272,7 @@ class SendIndividaulState extends State<SendIndividaul>{
             });
 
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       } catch (e) {
@@ -295,12 +291,7 @@ class SendIndividaulState extends State<SendIndividaul>{
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       } catch (e) {
@@ -360,7 +351,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 32,
                         child: Text(
-                          StringConstant.searchcontact,
+                          'searchcontact'.tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -394,10 +385,10 @@ class SendIndividaulState extends State<SendIndividaul>{
                           builder: (FormFieldState<dynamic> state) {
                             return InputDecorator(
                               decoration:
-                              InputDecoration.collapsed(hintText: ''),
+                              InputDecoration.collapsed(hintText:''),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<dynamic>(
-                                  hint: Text("select contact",
+                                  hint: Text('selectcontact'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -453,7 +444,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
                         child: Text(
-                          StringConstant.enteramount,
+                          'enteramount'.tr,
                           style: TextStyle(
                               letterSpacing: 1.0,
                               color: Colors.black,
@@ -522,7 +513,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   keyboardType: TextInputType.number,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter required amount";
+                                      return 'pleaseenterrequiredamount'.tr;
                                     else
                                       return null;
                                   },
@@ -560,7 +551,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                         left: SizeConfig.blockSizeHorizontal * 3,
                         top: SizeConfig.blockSizeVertical * 2),
                     child: Text(
-                      StringConstant.message,
+                      'message'.tr,
                       style: TextStyle(
                           letterSpacing: 1.0,
                           color: Colors.black,
@@ -598,7 +589,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                       keyboardType: TextInputType.text,
                       validator: (val) {
                         if (val.length == 0)
-                          return "Please enter message";
+                          return 'pleaseentermessage'.tr;
                         else
                           return null;
                       },
@@ -623,7 +614,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                           fontSize: 12,
                           decoration: TextDecoration.none,
                         ),
-                        hintText: "Type here message...",
+                        hintText: 'typeheremessage'.tr,
                       ),
                     ),
                   ),
@@ -660,7 +651,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 5),
-                          child: Text(StringConstant.receivenotification,
+                          child: Text('receivenotificationswhenfriendpay'.tr,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
@@ -691,16 +682,14 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 );
                               }
                               else {
-                                errorDialog("Please select gift image");
+                                errorDialog('pleaseselectgiftimage'.tr);
                               }
-
                             } else {
-                              errorDialog("No Internet Connection");
-
+                              errorDialog('nointernetconnection'.tr);
                             }
                           });
                         } else {
-                          errorDialog("please select contact");
+                          errorDialog('pleaseselectcontacts'.tr);
 
                         }
                       }
@@ -721,7 +710,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                           fit: BoxFit.fill,
                         ),
                       ),
-                      child: Text(StringConstant.invite,
+                      child: Text('invite'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.normal,
@@ -783,7 +772,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'OK',
+                    'ok'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,

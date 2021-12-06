@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/afterwelcome.dart';
+import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
 
 class CustomIndicator extends StatefulWidget {
@@ -79,8 +80,7 @@ class CustomIndicatorState extends State<CustomIndicator> {
                     ),
                   ),
                   Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
                     width: SizeConfig.blockSizeHorizontal * 90,
                     alignment: Alignment.topCenter,
                     child: Text(
@@ -130,10 +130,8 @@ class CustomIndicatorState extends State<CustomIndicator> {
                 ],
               ),
             )
-          : i == 1
-              ? Container(
-                  margin:
-                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+          : i == 1 ? Container(
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -178,8 +176,7 @@ class CustomIndicatorState extends State<CustomIndicator> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4),
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
                         alignment: Alignment.topCenter,
                         width: SizeConfig.blockSizeHorizontal * 90,
                         child: Text(
@@ -209,7 +206,8 @@ class CustomIndicatorState extends State<CustomIndicator> {
                               fontSize: 16,
                               letterSpacing: 1.0,
                             ),
-                          )),
+                          )
+                      ),
                       Container(
                           alignment: Alignment.topCenter,
                           width: SizeConfig.blockSizeHorizontal * 90,
@@ -229,9 +227,9 @@ class CustomIndicatorState extends State<CustomIndicator> {
                     ],
                   ),
                 )
-              : Container(
-                  margin:
-                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+              :
+                Container(
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -324,7 +322,8 @@ class CustomIndicatorState extends State<CustomIndicator> {
                               fontSize: 16,
                               letterSpacing: 1.0,
                             ),
-                          )),
+                          )
+                      ),
                     ],
                   ),
                 ),
@@ -334,145 +333,153 @@ class CustomIndicatorState extends State<CustomIndicator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-      Container(
-        alignment: Alignment.topRight,
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *5),
-        width: SizeConfig.blockSizeHorizontal * 90,
-        child: Row(
-          children: <Widget>[
-            for (int i = 0; i < listPaths.length; i++)
-              if (i == currentPos) ...[
-                i == 0
-                    ? GestureDetector(
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => afterwelcome()),
-                              (route) => false);
-                        },
-                        child: Container(
-                            alignment: Alignment.topRight,
-                            width: SizeConfig.blockSizeHorizontal * 90,
-                            child: Text(
-                              "Skip",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Poppins-Bold',
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                letterSpacing: 1.0,
-                              ),
-                            )),
-                      )
-                    : i == 1
-                        ? GestureDetector(
-                            onTap: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => afterwelcome()),
-                                  (route) => false);
-                            },
-                            child: Container(
-                                alignment: Alignment.topRight,
-                                width: SizeConfig.blockSizeHorizontal * 90,
-                                child: Text(
-                                  "Skip",
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'Poppins-Bold',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16,
-                                    letterSpacing: 1.0,
-                                  ),
-                                )),
-                          )
-                        : i == 2
-                            ? GestureDetector(
-                                onTap: () {
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => afterwelcome()),
-                                      (route) => false);
-                                },
-                                child: Container(
-                                    alignment: Alignment.topRight,
-                                    width: SizeConfig.blockSizeHorizontal * 90,
-                                    child: Text(
-                                      "Next",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'Poppins-Bold',
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                        letterSpacing: 1.0,
-                                      ),
-                                    )),
-                              )
-                            : SizedBox()
-              ]
-          ],
+        body: Container(
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: new DecorationImage(
+          image: new AssetImage("assets/images/welcome_bg.png"),
+          fit: BoxFit.fill,
         ),
       ),
-      CarouselSlider.builder(
-        itemCount: listPaths.length,
-        options: CarouselOptions(
-            autoPlay: true,
-            onPageChanged: (index, reason) {
-              setState(() {
-                currentPos = index;
-              });
-            }),
-        itemBuilder: (context, index) {
-          return MyImageView(listPaths[index]);
-        },
-      ),
-      Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-        child: Row(
-          children: <Widget>[
-            for (int i = 0; i < listPaths.length; i++)
-              if (i == currentPos) ...[
-                i == 0
-                    ? circleText(i,
-                        'Receive Birthday Gifts in cash from ,Friends and also send Gifts them..., ')
-                    : i == 1
-                        ? circleText(i,
-                            'Collect Cash to support entrepreneurs ,in their projects or ask for support,in their own projects...')
-                        : i == 2
-                            ? circleText(i,
-                                'Collect Cash for Social,Events as a Gift...,')
-                            : SizedBox()
-              ]
-          ],
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Container(
+          alignment: Alignment.topRight,
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+          width: SizeConfig.blockSizeHorizontal * 90,
+          child: Row(
+            children: <Widget>[
+              for (int i = 0; i < listPaths.length; i++)
+                if (i == currentPos) ...[
+                  i == 0
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => afterwelcome()),
+                                (route) => false);
+                          },
+                          child: Container(
+                              alignment: Alignment.topRight,
+                              width: SizeConfig.blockSizeHorizontal * 90,
+                              child: Text(
+                                "Skip",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins-Bold',
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  letterSpacing: 1.0,
+                                ),
+                              )),
+                        )
+                      : i == 1
+                          ? GestureDetector(
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => afterwelcome()),
+                                    (route) => false);
+                              },
+                              child: Container(
+                                  alignment: Alignment.topRight,
+                                  width: SizeConfig.blockSizeHorizontal * 90,
+                                  child: Text(
+                                    "Skip",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'Poppins-Bold',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
+                                      letterSpacing: 1.0,
+                                    ),
+                                  )),
+                            )
+                          : i == 2
+                              ? GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                afterwelcome()),
+                                        (route) => false);
+                                  },
+                                  child: Container(
+                                      alignment: Alignment.topRight,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 90,
+                                      child: Text(
+                                        "Next",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                          letterSpacing: 1.0,
+                                        ),
+                                      )),
+                                )
+                              : SizedBox()
+                ]
+            ],
+          ),
         ),
-      ),
-          Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: listPaths.map((url) {
-          int index = listPaths.indexOf(url);
-          return Container(
-            width: 10.0,
-            height: 10.0,
-            margin: EdgeInsets.only(left: 5.0, right: 5.0,top: 30.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: currentPos == index
-                  ? Color.fromRGBO(0, 0, 0, 0.9)
-                  : Color.fromRGBO(0, 0, 0, 0.4),
-            ),
-          );
-        }).toList(),
-      ),
-     /* GestureDetector(
+        CarouselSlider.builder(
+          itemCount: listPaths.length,
+          options: CarouselOptions(
+              autoPlay: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  currentPos = index;
+                });
+              }),
+          itemBuilder: (context, index) {
+            return MyImageView(listPaths[index]);
+          },
+        ),
+        Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+          child: Row(
+            children: <Widget>[
+              for (int i = 0; i < listPaths.length; i++)
+                if (i == currentPos) ...[
+                  i == 0
+                      ? circleText(i,
+                          'Receive Birthday Gifts in cash from ,Friends and also send Gifts them..., ')
+                      : i == 1
+                          ? circleText(i,
+                              'Collect Cash to support entrepreneurs ,in their projects or ask for support,in their own projects...')
+                          : i == 2
+                              ? circleText(i,
+                                  'Collect Cash for Social,Events as a Gift...,')
+                              : SizedBox()
+                ]
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: listPaths.map((url) {
+            int index = listPaths.indexOf(url);
+            return Container(
+              width: 10.0,
+              height: 10.0,
+              margin: EdgeInsets.only(left: 5.0, right: 5.0, top: 30.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: currentPos == index
+                    ? Color.fromRGBO(0, 0, 0, 0.9)
+                    : Color.fromRGBO(0, 0, 0, 0.4),
+              ),
+            );
+          }).toList(),
+        ),
+        /* GestureDetector(
         onTap: ()
         {
           for (int i = 0; i < listPaths.length; i++)
@@ -512,7 +519,8 @@ class CustomIndicatorState extends State<CustomIndicator> {
               )),
         ),
       )*/
-    ]));
+      ]),
+    ));
   }
 }
 
@@ -525,12 +533,14 @@ class MyImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-        margin: EdgeInsets.only(left: 5, right: 5, top: SizeConfig.blockSizeVertical *10),
-
-          child: Image.asset(imgPath,
-            height: SizeConfig.blockSizeVertical * 60,
-            width: SizeConfig.blockSizeHorizontal*60,
-            fit: BoxFit.fill,),
-        );
+      margin: EdgeInsets.only(
+          left: 5, right: 5, top: SizeConfig.blockSizeVertical * 10),
+      child: Image.asset(
+        imgPath,
+        height: SizeConfig.blockSizeVertical * 60,
+        width: SizeConfig.blockSizeHorizontal * 60,
+        fit: BoxFit.fill,
+      ),
+    );
   }
 }

@@ -78,6 +78,7 @@ dependencies:
   flutter_app_badger: ^1.1.2
   share_plus: ^1.2.0
   carousel_slider: ^2.1.0
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -195,6 +196,10 @@ flutter:
     - assets/images/account_circle.png
     - assets/images/dummyplace.jpg
     - assets/images/share.png
+    - assets/images/welcome_bg.png
+    - assets/images/homebg1.png
+    - assets/images/homebg2.png
+    - assets/images/homebg3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

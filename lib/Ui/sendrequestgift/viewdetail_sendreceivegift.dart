@@ -13,6 +13,7 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class viewdetail_sendreceivegift extends StatefulWidget {
   final String data;
@@ -102,7 +103,6 @@ class viewdetail_sendreceivegiftState
         setState(() {
           Follow = "Follow";
         });
-
        /* Fluttertoast.showToast(
           msg: jsonDecode(valfollowstatus)["message"],
           toastLength: Toast.LENGTH_SHORT,
@@ -321,7 +321,7 @@ class viewdetail_sendreceivegiftState
                         EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      StringConstant.sendandreceivegift,
+                      'sendandreceivegift'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
@@ -858,8 +858,7 @@ class viewdetail_sendreceivegiftState
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Container(
                                       width:
@@ -870,7 +869,6 @@ class viewdetail_sendreceivegiftState
                                               .blockSizeHorizontal *
                                               3),
                                       alignment: Alignment.topRight,
-
                                       child: Text(
                                         /* StringConstant.totalContribution+"-25 ",*/
                                         "",
@@ -883,40 +881,36 @@ class viewdetail_sendreceivegiftState
                                             'Poppins-Regular'),
                                       ),
                                     ),
-                                    /* Container(
-                            width: SizeConfig.blockSizeHorizontal *64,
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(
-                                left: SizeConfig
-                                    .blockSizeHorizontal *
-                                    1,
-                                right: SizeConfig
-                                    .blockSizeHorizontal *
-                                    2,
-                                top: SizeConfig
-                                    .blockSizeHorizontal *
-                                    1),
-                            child: Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
-                              maxLines: 2,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.white,
-                                  fontSize: 8,
-                                  fontWeight:
-                                  FontWeight.normal,
-                                  fontFamily:
-                                  'Poppins-Regular'),
-                            ),
-                          ),*/
+                                    senddetailsPojo.result.endDate != null ?
                                     Container (
-                                      margin: EdgeInsets.only(
-                                          right: SizeConfig.blockSizeHorizontal * 3),
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(
                                           left: SizeConfig
                                               .blockSizeHorizontal *
                                               1,
+                                          bottom: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                          top: SizeConfig
+                                              .blockSizeHorizontal *
+                                              1),
+                                      child: Text(
+                                         'closingdate'.tr,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ):Container(),
+
+                                    Container (
+                                      margin: EdgeInsets.only(
+                                          right: SizeConfig.blockSizeHorizontal * 3),
+                                      alignment: Alignment.topRight,
+                                      padding: EdgeInsets.only(
                                           right: SizeConfig
                                               .blockSizeHorizontal *
                                               2,
@@ -927,11 +921,7 @@ class viewdetail_sendreceivegiftState
                                               .blockSizeHorizontal *
                                               1),
                                       child: Text(
-                                        senddetailsPojo.result.endDate !=
-                                            null
-                                            ? "Closing Date-" +
-                                            senddetailsPojo
-                                                .result.endDate
+                                        senddetailsPojo.result.endDate != null ? "  "+senddetailsPojo.result.endDate
                                             : "",
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -951,7 +941,7 @@ class viewdetail_sendreceivegiftState
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockSizeHorizontal * 3),
                                       child: Text(
-                                        "Collection Target- ",
+                                        'collectiontarget'.tr,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
@@ -969,11 +959,11 @@ class viewdetail_sendreceivegiftState
                                             .blockSizeHorizontal *
                                             3,
                                       ),
-                                      child: Text(
+                                      child: Text(" "+
                                         senddetailsPojo.result.price != null
-                                            ? "\$" +
+                                            ? "  \$" +
                                             senddetailsPojo.result.price.toString()
-                                            : "\$" +
+                                            : "  \$" +
                                             senddetailsPojo.result
                                                 .collectionTarget
                                                 .toString(),
@@ -1090,7 +1080,7 @@ class viewdetail_sendreceivegiftState
                                     ),
                                     alignment: Alignment.topLeft,
                                     child: Text(
-                                      "Terms and condition: ",
+                                      'termsandcondition'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black87,
@@ -1349,10 +1339,10 @@ class viewdetail_sendreceivegiftState
                                                             senddetailsPojo
                                                                 .memberlist
                                                                 .elementAt(
-                                                                index).paymentStatus==0?"Pending": senddetailsPojo
+                                                                index).paymentStatus==0?'pending'.tr: senddetailsPojo
                                                                 .memberlist
                                                                 .elementAt(
-                                                                index).paymentStatus==1?"Done":"Pending",
+                                                                index).paymentStatus==1?'done'.tr:'pending'.tr,
                                                             textAlign:
                                                                 TextAlign.right,
                                                             style: TextStyle(
@@ -1373,40 +1363,60 @@ class viewdetail_sendreceivegiftState
                                                     Row(
                                                       children: [
                                                         Container(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              53,
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          padding: EdgeInsets.only(
-                                                              left: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  1,
-                                                              right: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  3,
-                                                              top: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  2),
-                                                          child: Text(
-                                                            "Contribute-\$" +
-                                                                senddetailsPojo
-                                                                    .memberlist
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .amountPaid
-                                                                    .toString(),
-                                                            style: TextStyle(
-                                                                letterSpacing:
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                'contribute'.tr,
+                                                                style: TextStyle(
+                                                                    letterSpacing:
                                                                     1.0,
-                                                                color: Colors
-                                                                    .black87,
-                                                                fontSize: 10,
-                                                                fontWeight:
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
                                                                     FontWeight
                                                                         .normal,
-                                                                fontFamily:
+                                                                    fontFamily:
                                                                     'Poppins-Regular'),
+                                                              ),
+                                                              Container(
+                                                                width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    45,
+                                                                alignment:
+                                                                Alignment.topLeft,
+                                                                padding: EdgeInsets.only(
+                                                                    left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                        1,
+                                                                    right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                        3,
+                                                                    top: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                        2),
+                                                                child: Text(
+                                                                  "- \$"+
+                                                                      senddetailsPojo
+                                                                          .memberlist
+                                                                          .elementAt(
+                                                                          index)
+                                                                          .amountPaid
+                                                                          .toString(),
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                      1.0,
+                                                                      color: Colors
+                                                                          .black87,
+                                                                      fontSize: 10,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                      fontFamily:
+                                                                      'Poppins-Regular'),
+                                                                ),
+                                                              )
+                                                            ],
                                                           ),
                                                         ),
                                                         senddetailsPojo.memberlist.elementAt(index).id ==
@@ -1464,7 +1474,7 @@ class viewdetail_sendreceivegiftState
                                                                           color:
                                                                               AppColors.orange)),
                                                                   child: Text(
-                                                                    "Pay",
+                                                                    'pay'.tr,
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
@@ -1501,7 +1511,7 @@ class viewdetail_sendreceivegiftState
                             alignment: Alignment.center,
                             child: internet == true
                                 ? Center(
-                                    child: Text("No Payment"),
+                                    child: Text('nopayment'.tr),
                                   )
                                 : Center(child: Text("")),
                           ),

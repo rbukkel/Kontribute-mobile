@@ -59,7 +59,7 @@ class ContactUsState extends State<ContactUs>{
         color: AppColors.whiteColor,
         child: Column(
           children: [
-        Container(
+           Container(
         height: SizeConfig.blockSizeVertical *12,
           decoration: BoxDecoration(
             image: new DecorationImage(

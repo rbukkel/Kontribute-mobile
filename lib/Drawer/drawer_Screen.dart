@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/MyConnections/Connections.dart';
+import 'package:kontribute/Ui/langauge.dart';
 import 'package:kontribute/Ui/login.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
@@ -17,6 +18,7 @@ import 'package:kontribute/Ui/TermsandCondition.dart';
 import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/Ui/mynetwork.dart';
 import 'package:kontribute/Ui/mytranscation.dart';
+import 'package:kontribute/Ui/selectlangauge.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -534,7 +536,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                         left: 20,
                                       ),
                                       child: Text(
-                                        'share'.tr,
+                                        'language'.tr,
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Medium',
                                             color: AppColors.whiteColor),
@@ -546,6 +548,40 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                           InkWell(
                             onTap: () {
                               drawer_function(9,context);
+                              // Navigator.pushReplacementNamed(context, pageRoutes.notification),
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeVertical * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/nav_share.png",
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        'share'.tr,
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-Medium',
+                                            color: AppColors.whiteColor),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              drawer_function(10,context);
 
                               // Navigator.pushReplacementNamed(context, pageRoutes.notification),
                             },
@@ -677,9 +713,17 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         );
         break;
       case 8:
-        Share.share('hey! check out this new app https://play.google.com/store/apps/details?id=com.kont.kontribute');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => langauge(),
+          ),
+        );
         break;
       case 9:
+        Share.share('hey! check out this new app https://play.google.com/store/apps/details?id=com.kont.kontribute');
+        break;
+      case 10:
         _showDialog();
         break;
     }

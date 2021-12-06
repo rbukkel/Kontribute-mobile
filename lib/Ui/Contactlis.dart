@@ -84,14 +84,13 @@ class _ContactlisState extends State<Contactlis>
         String searchTermFlatten = flattenPhoneNumber(searchTerm);
         String contactName = contact.info.displayName.toLowerCase();
         bool nameMatches = contactName.contains(searchTerm);
-        if (nameMatches == true) {
+        if (nameMatches == true)
+        {
           return true;
         }
-
         if (searchTermFlatten.isEmpty) {
           return false;
         }
-
         var phone = contact.info.phones.firstWhere((phn) {
           String phnFlattened = flattenPhoneNumber(phn.value);
           return phnFlattened.contains(searchTermFlatten);
