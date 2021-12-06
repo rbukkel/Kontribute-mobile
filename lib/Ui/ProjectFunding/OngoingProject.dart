@@ -24,6 +24,7 @@ import 'package:http/http.dart' as http;
 import 'package:kontribute/Ui/ProjectFunding/SearchbarProject.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
+import 'package:get/get.dart';
 
 class OngoingProject extends StatefulWidget {
   @override
@@ -163,6 +164,68 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 */
 
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
   void getSUBdata(String user_id, int page) async {
     setState(() {
       storelist_length = null;
@@ -186,11 +249,7 @@ class OngoingProjectState extends State<OngoingProject> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         listing = new projectlisting.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -206,20 +265,14 @@ class OngoingProjectState extends State<OngoingProject> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+
+          errorDialog(listing.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -246,11 +299,7 @@ class OngoingProjectState extends State<OngoingProject> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         listing = new projectlisting.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -266,20 +315,12 @@ class OngoingProjectState extends State<OngoingProject> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -302,11 +343,7 @@ class OngoingProjectState extends State<OngoingProject> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         listing = new projectlisting.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -322,20 +359,12 @@ class OngoingProjectState extends State<OngoingProject> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -370,7 +399,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Share via',
+                    'sharevia'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -394,7 +423,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     child: Icon(Icons.edit),
                   ),
                   Text(
-                    'Edit',
+                    'edit'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -456,7 +485,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Share via',
+                    'sharevia'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -480,7 +509,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     child: Icon(Icons.report),
                   ),
                   Text(
-                    'Report',
+                    'report'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -540,7 +569,7 @@ class OngoingProjectState extends State<OngoingProject> {
           toolbarHeight: SizeConfig.blockSizeVertical * 8,
           title: Container(
             child: Text(
-              StringConstant.projectfunding,
+              'projectfunding'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.none,
@@ -905,8 +934,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               color: AppColors
                                                                   .purple)),
                                                       child: Text(
-                                                        StringConstant.ongoing
-                                                            .toUpperCase(),
+                                                        'ongoing'.tr,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -932,13 +960,14 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                         index)
                                                                     .status ==
                                                                 "pending"
-                                                            ? GestureDetector(
+                                                            ?
+                                                    GestureDetector(
                                                                 onTap: () {
                                                                   Widget
                                                                       cancelButton =
                                                                       FlatButton(
                                                                     child: Text(
-                                                                        "Cancel"),
+                                                                        'cancel'.tr),
                                                                     onPressed:
                                                                         () {
                                                                       Navigator.pop(
@@ -949,7 +978,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                       continueButton =
                                                                       FlatButton(
                                                                     child: Text(
-                                                                        "Continue"),
+                                                                        'continue'.tr),
                                                                     onPressed:
                                                                         () async {
                                                                       Payamount(
@@ -966,7 +995,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                       alert =
                                                                       AlertDialog(
                                                                     title: Text(
-                                                                        "Pay now.."),
+                                                                        'paynow'.tr),
                                                                     // content: Text("Are you sure you want to Pay this project?"),
                                                                     content:
                                                                         new Row(
@@ -988,7 +1017,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                             validator:
                                                                                 (val) {
                                                                               if (val.length == 0)
-                                                                                return "Please enter payment amount";
+                                                                                return 'pleaseenterpaymentamount'.tr;
                                                                               else
                                                                                 return null;
                                                                             },
@@ -1017,7 +1046,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                 fontSize: 10,
                                                                                 decoration: TextDecoration.none,
                                                                               ),
-                                                                              hintText: "Enter payment amount",
+                                                                              hintText: 'enterpaymentamount'.tr,
                                                                             ),
                                                                           ),
                                                                         )
@@ -1073,9 +1102,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                             20),
                                                                   ),
                                                                   child: Text(
-                                                                    StringConstant
-                                                                        .pay
-                                                                        .toUpperCase(),
+                                                                    'pay'.tr,
                                                                     style: TextStyle(
                                                                         letterSpacing:
                                                                             1.0,
@@ -1145,25 +1172,45 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 .blockSizeVertical *
                                                             1,
                                                       ),
-                                                      child: Text(
-                                                        "Start Date- " +
-                                                            listing.projectData
-                                                                .elementAt(
-                                                                    index)
-                                                                .projectStartdate,
-                                                        textAlign:
+                                                      child:
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                            'startdate'.tr,
+                                                            textAlign:
                                                             TextAlign.right,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color:
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color:
                                                                 AppColors.black,
-                                                            fontSize: 8,
-                                                            fontWeight:
+                                                                fontSize: 8,
+                                                                fontWeight:
                                                                 FontWeight
                                                                     .normal,
-                                                            fontFamily:
+                                                                fontFamily:
                                                                 'Poppins-Regular'),
-                                                      ),
+                                                          ),
+                                                          Text(" "+
+                                                            listing.projectData
+                                                                    .elementAt(
+                                                                    index)
+                                                                    .projectStartdate,
+                                                            textAlign:
+                                                            TextAlign.right,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color:
+                                                                AppColors.black,
+                                                                fontSize: 8,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontFamily:
+                                                                'Poppins-Regular'),
+                                                          )
+                                                        ],
+                                                      )
                                                     ),
                                                   ],
                                                 ),
@@ -1219,25 +1266,45 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 .blockSizeVertical *
                                                             1,
                                                       ),
-                                                      child: Text(
-                                                        "End Date- " +
-                                                            listing.projectData
-                                                                .elementAt(
-                                                                    index)
-                                                                .projectEnddate,
-                                                        textAlign:
+                                                      child:
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                           'enddate'.tr,
+                                                            textAlign:
                                                             TextAlign.right,
-                                                        style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color:
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color:
                                                                 AppColors.black,
-                                                            fontSize: 8,
-                                                            fontWeight:
+                                                                fontSize: 8,
+                                                                fontWeight:
                                                                 FontWeight
                                                                     .normal,
-                                                            fontFamily:
+                                                                fontFamily:
                                                                 'Poppins-Regular'),
-                                                      ),
+                                                          ),
+                                                          Text(" "+listing.projectData
+                                                                    .elementAt(
+                                                                    index)
+                                                                    .projectEnddate,
+                                                            textAlign:
+                                                            TextAlign.right,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color:
+                                                                AppColors.black,
+                                                                fontSize: 8,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontFamily:
+                                                                'Poppins-Regular'),
+                                                          )
+                                                        ],
+                                                      )
+
                                                     ),
                                                   ],
                                                 ),
@@ -1265,9 +1332,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               .blockSizeHorizontal *
                                                           2),
                                                   child: Text(
-                                                    StringConstant
-                                                            .collectiontarget +
-                                                        "-",
+                                                   'collectiontarget'.tr,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
@@ -1290,7 +1355,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                        1,
                                                   ),
                                                   child: Text(
-                                                    "\$" +
+                                                    "  \$" +
                                                         listing.projectData
                                                             .elementAt(index)
                                                             .budget,
@@ -1341,9 +1406,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               .blockSizeVertical *
                                                           1),
                                                   child: Text(
-                                                    StringConstant
-                                                            .collectedamount +
-                                                        "-",
+                                                    'collectedamount'.tr,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
@@ -1364,7 +1427,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                           4),
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
-                                                    "\$" +
+                                                    "  \$" +
                                                         listing.projectData
                                                             .elementAt(index)
                                                             .totalcollectedamount
@@ -1809,7 +1872,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                 child: CircularProgressIndicator(),
                               )
                             : Center(
-                                child: Text("No Records Found",
+                                child: Text('norecordsfound'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: AppColors.black,
@@ -1866,7 +1929,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     SpeedDialChild(
                         child: Icon(Icons.public),
                         backgroundColor: AppColors.theme1color,
-                        label: 'Public',
+                        label: 'public'.tr,
                         onTap: () {
                           tabValue = "1";
                           getsortdata(userid, tabValue);
@@ -1875,7 +1938,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     SpeedDialChild(
                         child: Icon(Icons.privacy_tip),
                         backgroundColor: AppColors.theme1color,
-                        label: 'Private',
+                        label: 'private'.tr,
                         onTap: () {
                           tabValue = "2";
                           getsortdata(userid, tabValue);
@@ -1884,7 +1947,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     SpeedDialChild(
                         child: Icon(Icons.all_inclusive),
                         backgroundColor: AppColors.theme1color,
-                        label: 'All',
+                        label: 'all'.tr,
                         onTap: () {
                           tabValue = "0";
                           getsortdata(userid, tabValue);
@@ -1991,40 +2054,20 @@ class OngoingProjectState extends State<OngoingProject> {
       jsonResponse = json.decode(response.body);
       vallike = response.body; //store response as string
       if (jsonDecode(vallike)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(vallike)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(jsonDecode(vallike)["message"]));
       } else {
         prolike = new projectlike.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
           getdata(userid, pageNumber);
         } else {
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(prolike.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(vallike)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(jsonDecode(vallike)["message"]));
     }
   }
 
@@ -2043,37 +2086,20 @@ class OngoingProjectState extends State<OngoingProject> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       } else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 
@@ -2107,12 +2133,7 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 
   void showToast(String updateval) {
-    Fluttertoast.showToast(
-      msg: jsonDecode(updateval)["message"],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-    );
+    errorDialog(jsonDecode(updateval)["message"]);
   }
 
   Future<void> _createDynamicLink(String productid) async {

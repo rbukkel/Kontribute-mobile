@@ -17,7 +17,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
-import 'package:share/share.dart';
+import 'package:get/get.dart';
 
 class CreateDonationPost extends StatefulWidget {
   @override
@@ -132,7 +132,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   DateTime currentDate = DateTime.now();
   var myFormat = DateFormat('yyyy-MM-dd');
 
-  DateTime currentEndDate = DateTime.now();
+  DateTime currentEndDate = DateTime.now().add(Duration(days: 1));
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
@@ -190,18 +190,24 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate.add(Duration(days: 1)),
-      firstDate: currentEndDate.add(Duration(days: 1)),
+      initialDate: currentEndDate,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2050),
     );
 
     if (picked != null && picked != currentEndDate)
       setState(() {
-        if (currentDate.compareTo(currentEndDate) > 0) {
+        currentEndDate = picked;
+        print("Current: "+currentDate.toString());
+        print("END: "+currentEndDate.toString());
+        if(currentDate.compareTo(currentEndDate)>0)
+        {
           print('date is befor');
           //peform logic here.....
-          errorDialog('End Date Should be after Start Date');
-        } else {
+          errorDialog('End date should be after start date');
+
+        }
+        else {
           currentEndDate = picked;
           print('date is after');
         }
@@ -1116,9 +1122,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    myFormatEndDate.format(
-                                                        currentDate.add(
-                                                            Duration(days: 1))),
+                                                    myFormatEndDate.format(currentEndDate),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1986,43 +1990,56 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               Internet_check().check().then((intenet) {
                                 if (intenet != null && intenet) {
                                   if (_imageList.isNotEmpty) {
-                                    if (followingvalues == null) {
-                                      createproject(
-                                          context,
-                                          ProjectNameController.text,
-                                          DescriptionController.text,
-                                          myFormat.format(currentDate),
-                                          myFormat.format(currentEndDate),
-                                          TermsController.text,
-                                          EnterRequiredAmountController.text,
-                                          TotalBudgetController.text,
-                                          emailController.text,
-                                          nameController.text,
-                                          mobileController.text,
-                                          messageController.text,
-                                          "",
-                                          VideoController.text,
-                                          _imageList,
-                                          _documentList);
-                                    } else {
-                                      createproject(
-                                          context,
-                                          ProjectNameController.text,
-                                          DescriptionController.text,
-                                          myFormat.format(currentDate),
-                                          myFormat.format(currentEndDate),
-                                          TermsController.text,
-                                          EnterRequiredAmountController.text,
-                                          TotalBudgetController.text,
-                                          emailController.text,
-                                          nameController.text,
-                                          mobileController.text,
-                                          messageController.text,
-                                          followingvalues.toString(),
-                                          VideoController.text,
-                                          _imageList,
-                                          _documentList);
+                                    if(currentDate.compareTo(currentEndDate)>0)
+                                    {
+                                      print('date is befor');
+                                      //peform logic here.....
+                                      errorDialog('Theenddatemustbeafterthestartdate'.tr);
+
                                     }
+                                    else {
+                                      if (followingvalues == null) {
+                                        createproject(
+                                            context,
+                                            ProjectNameController.text,
+                                            DescriptionController.text,
+                                            myFormat.format(currentDate),
+                                            myFormat.format(currentEndDate),
+                                            TermsController.text,
+                                            EnterRequiredAmountController.text,
+                                            TotalBudgetController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            "",
+                                            VideoController.text,
+                                            _imageList,
+                                            _documentList);
+                                      } else {
+                                        createproject(
+                                            context,
+                                            ProjectNameController.text,
+                                            DescriptionController.text,
+                                            myFormat.format(currentDate),
+                                            myFormat.format(currentEndDate),
+                                            TermsController.text,
+                                            EnterRequiredAmountController.text,
+                                            TotalBudgetController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            followingvalues.toString(),
+                                            VideoController.text,
+                                            _imageList,
+                                            _documentList);
+                                      }
+                                    }
+
+
+
+
                                   } else {
                                     errorDialog(
                                         "Please Select Donation Images");

@@ -20,6 +20,7 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:get/get.dart';
 
 class SearchbarProject extends StatefulWidget {
 
@@ -52,7 +53,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
   var storelist_length;
   bool resultvalue = true;
   String searchvalue = "";
-
+  final AmountFocus = FocusNode();
+  final TextEditingController AmountController = new TextEditingController();
+  String _amount;
   searchsendreceivedpojo searchpojo;
   List<searchsendreceivedpojo> searchproductListing =
       new List<searchsendreceivedpojo>();
@@ -146,11 +149,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
           storelist_length =null;
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         listing = new projectlisting.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -174,21 +173,72 @@ class SearchbarProjectState extends State<SearchbarProject> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
+  }
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 
@@ -479,8 +529,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             color: AppColors
                                                                 .purple)),
                                                     child: Text(
-                                                      StringConstant.ongoing
-                                                          .toUpperCase(),
+                                                      'ongoing'.tr,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -498,26 +547,96 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                   listing.projectData.elementAt(index).userId.toString()!=userid?
                                                   listing.projectData.elementAt(index).status=="pending"?
                                                   GestureDetector(
-                                                    onTap: ()
-                                                    {
-                                                      Widget cancelButton = FlatButton(
-                                                        child: Text("No"),
-                                                        onPressed: () {
-                                                          Navigator.pop(context);
+                                                    onTap: () {
+                                                      Widget
+                                                      cancelButton =
+                                                      FlatButton(
+                                                        child: Text(
+                                                            'cancel'.tr),
+                                                        onPressed:
+                                                            () {
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       );
-                                                      Widget continueButton = FlatButton(
-                                                        child: Text("Yes"),
-                                                        onPressed: () async {
-                                                          Payamount(listing.projectData.elementAt(index).id,
-                                                              listing.projectData.elementAt(index).requiredAmount,
+                                                      Widget
+                                                      continueButton =
+                                                      FlatButton(
+                                                        child: Text(
+                                                            'continue'.tr),
+                                                        onPressed:
+                                                            () async {
+                                                          Payamount(
+                                                              listing
+                                                                  .projectData
+                                                                  .elementAt(index)
+                                                                  .id,
+                                                              AmountController.text,
                                                               userid);
                                                         },
                                                       );
                                                       // set up the AlertDialog
-                                                      AlertDialog alert = AlertDialog(
-                                                        title: Text("Pay now.."),
-                                                        content: Text("Are you sure you want to Pay this project?"),
+                                                      AlertDialog
+                                                      alert =
+                                                      AlertDialog(
+                                                        title: Text(
+                                                            'paynow'.tr),
+                                                        // content: Text("Are you sure you want to Pay this project?"),
+                                                        content:
+                                                        new Row(
+                                                          children: <
+                                                              Widget>[
+                                                            new Expanded(
+                                                              child:
+                                                              new TextFormField(
+                                                                autofocus:
+                                                                false,
+                                                                focusNode:
+                                                                AmountFocus,
+                                                                controller:
+                                                                AmountController,
+                                                                textInputAction:
+                                                                TextInputAction.next,
+                                                                keyboardType:
+                                                                TextInputType.number,
+                                                                validator:
+                                                                    (val) {
+                                                                  if (val.length == 0)
+                                                                    return 'pleaseenterpaymentamount'.tr;
+                                                                  else
+                                                                    return null;
+                                                                },
+                                                                onFieldSubmitted:
+                                                                    (v) {
+                                                                  AmountFocus.unfocus();
+                                                                },
+                                                                onSaved: (val) =>
+                                                                _amount = val,
+                                                                textAlign:
+                                                                TextAlign.left,
+                                                                style: TextStyle(
+                                                                    letterSpacing: 1.0,
+                                                                    fontWeight: FontWeight.normal,
+                                                                    fontFamily: 'Poppins-Regular',
+                                                                    fontSize: 10,
+                                                                    color: Colors.black),
+                                                                decoration:
+                                                                InputDecoration(
+                                                                  // border: InputBorder.none,
+                                                                  // focusedBorder: InputBorder.none,
+                                                                  hintStyle: TextStyle(
+                                                                    color: Colors.grey,
+                                                                    fontWeight: FontWeight.normal,
+                                                                    fontFamily: 'Poppins-Regular',
+                                                                    fontSize: 10,
+                                                                    decoration: TextDecoration.none,
+                                                                  ),
+                                                                  hintText: 'enterpaymentamount'.tr,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                         actions: [
                                                           cancelButton,
                                                           continueButton,
@@ -525,43 +644,60 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       );
                                                       // show the dialog
                                                       showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext context) {
+                                                        context:
+                                                        context,
+                                                        builder:
+                                                            (BuildContext
+                                                        context) {
                                                           return alert;
                                                         },
                                                       );
                                                     },
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(left:
-                                                      SizeConfig.blockSizeHorizontal *1,
-                                                          right: SizeConfig.blockSizeHorizontal *2,
-                                                          top: SizeConfig.blockSizeVertical *2),
+                                                    child:
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left:
+                                                          SizeConfig.blockSizeHorizontal *
+                                                              1,
+                                                          right:
+                                                          SizeConfig.blockSizeHorizontal *
+                                                              2,
+                                                          top: SizeConfig
+                                                              .blockSizeVertical *
+                                                              2),
                                                       padding: EdgeInsets.only(
-                                                          right: SizeConfig
-                                                              .blockSizeHorizontal *
+                                                          right:
+                                                          SizeConfig.blockSizeHorizontal *
                                                               3,
-                                                          left: SizeConfig
-                                                              .blockSizeHorizontal *
+                                                          left:
+                                                          SizeConfig.blockSizeHorizontal *
                                                               3,
-                                                          bottom: SizeConfig
-                                                              .blockSizeHorizontal *
+                                                          bottom:
+                                                          SizeConfig.blockSizeHorizontal *
                                                               1,
                                                           top: SizeConfig
                                                               .blockSizeHorizontal *
                                                               1),
-                                                      decoration: BoxDecoration(
-                                                        color: AppColors.darkgreen,
-                                                        borderRadius: BorderRadius.circular(20),
-
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color: AppColors
+                                                            .darkgreen,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
                                                       ),
                                                       child: Text(
-                                                        StringConstant.pay.toUpperCase(),
+                                                        'pay'.tr,
                                                         style: TextStyle(
-                                                            letterSpacing: 1.0,
-                                                            color: AppColors.whiteColor,
-                                                            fontSize:12,
+                                                            letterSpacing:
+                                                            1.0,
+                                                            color: AppColors
+                                                                .whiteColor,
+                                                            fontSize:
+                                                            12,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight
+                                                                .normal,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -616,23 +752,45 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               .blockSizeVertical *
                                                           1,
                                                     ),
-                                                    child: Text(
-                                                      "Start Date- " +
-                                                          listing.projectData
-                                                              .elementAt(index)
-                                                              .projectStartdate,
-                                                      textAlign:
+                                                    child:
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Text(
+                                                          'startdate'.tr,
+                                                          textAlign:
                                                           TextAlign.right,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color:
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
                                                               AppColors.black,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
                                                               'Poppins-Regular'),
-                                                    ),
+                                                        ),
+                                                        Text(" "+
+                                                            listing.projectData
+                                                                .elementAt(
+                                                                index)
+                                                                .projectStartdate,
+                                                          textAlign:
+                                                          TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
+                                                              AppColors.black,
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        )
+                                                      ],
+                                                    )
                                                   ),
                                                 ],
                                               ),
@@ -686,23 +844,44 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               .blockSizeVertical *
                                                           1,
                                                     ),
-                                                    child: Text(
-                                                      "End Date- " +
-                                                          listing.projectData
-                                                              .elementAt(index)
-                                                              .projectEnddate,
-                                                      textAlign:
+                                                    child:
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Text(
+                                                          'enddate'.tr,
+                                                          textAlign:
                                                           TextAlign.right,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color:
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
                                                               AppColors.black,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
                                                               'Poppins-Regular'),
-                                                    ),
+                                                        ),
+                                                        Text(" "+listing.projectData
+                                                            .elementAt(
+                                                            index)
+                                                            .projectEnddate,
+                                                          textAlign:
+                                                          TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color:
+                                                              AppColors.black,
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        )
+                                                      ],
+                                                    )
                                                   ),
                                                 ],
                                               ),
@@ -727,8 +906,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                         .blockSizeHorizontal *
                                                     2),
                                             child: Text(
-                                              StringConstant.collectiontarget +
-                                                  "-",
+                                              'collectiontarget'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
@@ -750,7 +928,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                   3,
                                             ),
                                             child: Text(
-                                              "\$" +
+                                              "  \$" +
                                                   listing.projectData
                                                       .elementAt(index)
                                                       .budget,
@@ -791,8 +969,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical * 1),
                                             child: Text(
-                                              StringConstant.collectedamount +
-                                                  "-",
+                                              'collectedamount'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
@@ -812,7 +989,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                     1),
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              "\$" +
+                                              "  \$" +
                                                   listing.projectData
                                                       .elementAt(index)
                                                       .requiredAmount,
@@ -1371,7 +1548,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                               child: CircularProgressIndicator(),
                             )
                           : Center(
-                              child: Image.asset("assets/images/empty.pn--------g",
+                              child: Image.asset("assets/images/empty.png",
                                   height: SizeConfig.blockSizeVertical * 30,
                                   width: SizeConfig.blockSizeVertical * 30),
                             ),
@@ -1404,7 +1581,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1424,7 +1601,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )
@@ -1455,7 +1632,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1475,7 +1652,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1584,35 +1761,18 @@ class SearchbarProjectState extends State<SearchbarProject> {
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false)
       {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 

@@ -152,9 +152,17 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       contactsFiltered = _contats;
     });
   }
+  getPermissions() async {
+    if (await Permission.contacts.request().isGranted) {
+      getContacts();
+      searchController.addListener(() {
+        filterContacts();
+      });
+    }
+  }
 
 
-  void checkper() async {
+/*  void checkper() async {
     final PermissionStatus permissionStatus = await _getPermission();
     if (permissionStatus == PermissionStatus.granted)
     {
@@ -180,7 +188,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
               )
       );
     }
-  }
+  }*/
 
 
   showAlert() {
@@ -321,7 +329,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   @override
   void initState() {
     super.initState();
-    checkper();
+    getPermissions();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: "+val);
       userid = val;
@@ -334,6 +342,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       print("Login username: " + userName.toString());
     });
   }
+
 
   DateView() async {
     final DateTime picked = await

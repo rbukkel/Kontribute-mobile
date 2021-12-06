@@ -13,6 +13,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/MyTransactionsPojo.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:get/get.dart';
 
 class mytranscation extends StatefulWidget {
   @override
@@ -51,15 +52,73 @@ class mytranscationState extends State<mytranscation> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
 
   void getdata(String user_id) async {
     setState(() {
@@ -79,11 +138,8 @@ class mytranscationState extends State<mytranscation> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         listing = new MyTransactionsPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -107,20 +163,11 @@ class mytranscationState extends State<mytranscation> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -179,7 +226,7 @@ class mytranscationState extends State<mytranscation> {
                         EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      "My Transcation",
+                      "mytranscation".tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
@@ -223,7 +270,7 @@ class mytranscationState extends State<mytranscation> {
                           alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 40,
                           height: SizeConfig.blockSizeVertical * 5,
-                          child: Text(StringConstant.amountpaid),
+                          child: Text('amountpaid'.tr),
                         )),
                   ),
                 ),
@@ -249,7 +296,7 @@ class mytranscationState extends State<mytranscation> {
                             alignment: Alignment.center,
                             width: SizeConfig.blockSizeHorizontal * 40,
                             height: SizeConfig.blockSizeVertical * 5,
-                            child: Text(StringConstant.amountreceive),
+                            child: Text('amountreceived'.tr),
                           ))),
                 ),
               ],
@@ -324,7 +371,7 @@ class mytranscationState extends State<mytranscation> {
                                                       3,
                                                 ),
                                                 child: Text(
-                                                  "Amount Received",
+                                                  'amountreceived'.tr,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
@@ -417,7 +464,7 @@ class mytranscationState extends State<mytranscation> {
                 child: CircularProgressIndicator(),
               )
                   : Center(
-                child: Text("No Records Found",style: TextStyle(
+                child: Text('norecordsfound'.tr,style: TextStyle(
                     letterSpacing: 1.0,
                     color: AppColors.black,
                     fontSize: 16,
@@ -507,7 +554,7 @@ class mytranscationState extends State<mytranscation> {
                                                         3,
                                                   ),
                                                   child: Text(
-                                                    "Amount Paid",
+                                                    'amountpaid'.tr,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
@@ -614,7 +661,7 @@ class mytranscationState extends State<mytranscation> {
                 child: CircularProgressIndicator(),
               )
                   : Center(
-                child:Text("No Records Found",style: TextStyle(
+                child:Text('norecordsfound'.tr,style: TextStyle(
                     letterSpacing: 1.0,
                     color: AppColors.black,
                     fontSize: 16,
@@ -664,7 +711,7 @@ class mytranscationState extends State<mytranscation> {
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Home",
+                        'home'.tr,
                         style:
                         TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -696,7 +743,7 @@ class mytranscationState extends State<mytranscation> {
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "My Transactions",
+                        'mytransactions'.tr,
                         style:
                         TextStyle(color: AppColors.selectedcolor, fontSize: 10),
                       ),
@@ -726,7 +773,7 @@ class mytranscationState extends State<mytranscation> {
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Notification",
+                        'notification'.tr,
                         style: TextStyle(
                             color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -759,7 +806,7 @@ class mytranscationState extends State<mytranscation> {
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Contact Us",
+                        'contactus'.tr,
                         style:
                         TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),

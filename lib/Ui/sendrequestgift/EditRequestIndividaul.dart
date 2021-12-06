@@ -18,6 +18,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class EditRequestIndividaul extends StatefulWidget {
   final String data;
@@ -108,7 +109,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                   color: AppColors.whiteColor,
                   child:
                   Text(
-                    'Camera',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -128,7 +129,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -146,7 +147,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -161,6 +162,68 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
     );
   }
 
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
@@ -174,12 +237,8 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
+
           }
         });
       } catch (e) {
@@ -197,12 +256,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       }
@@ -234,12 +288,9 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+
+        errorDialog('nointernetconnection'.tr);
+
       }
     });
   }
@@ -257,12 +308,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         sendgift = new get_send_gift_request.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
@@ -291,21 +337,11 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: sendgift.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(sendgift.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -349,7 +385,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                 child:
                 Row(
                   children: [
-                    createUpperBar(context, "Edit Request Individual"),
+                    createUpperBar(context, 'editrequestindividual'.tr),
                     SizedBox(
                       height: 10,
                     ),
@@ -471,7 +507,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 32,
                               child: Text(
-                                StringConstant.searchcontact,
+                                'searchcontact'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -507,7 +543,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                     InputDecoration.collapsed(hintText:''),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<dynamic>(
-                                        hint: Text(receiverName!=null?receiverName:"select contact",
+                                        hint: Text(receiverName!=null?receiverName:'selectcontact'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black,
@@ -559,7 +595,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.enterrequiredamount,
+                                'enterrequiredamount'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -621,7 +657,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                         keyboardType: TextInputType.number,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return "Please enter required amount";
+                                            return 'pleaseenterrequiredamount'.tr;
                                           else
                                             return null;
                                         },
@@ -656,7 +692,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.timeframeforcollection,
+                                'timeframeforcollection'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -724,7 +760,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                               left: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Text(
-                            StringConstant.message,
+                            'message'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -762,7 +798,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                             keyboardType: TextInputType.text,
                             validator: (val) {
                               if (val.length == 0)
-                                return "Please enter message";
+                                return 'pleaseentermessage'.tr;
                               else
                                 return null;
                             },
@@ -787,7 +823,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                 fontSize: 12,
                                 decoration: TextDecoration.none,
                               ),
-                              hintText: "Type here message...",
+                              hintText: 'typeheremessage'.tr,
                             ),
                           ),
                         ),
@@ -825,7 +861,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(left: 5),
-                                child: Text(StringConstant.receivenotification,
+                                child: Text('receivenotificationswhenfriendpay'.tr,
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12,
@@ -858,29 +894,17 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                       );
                                     }
                                     else {
-                                      Fluttertoast.showToast(
-                                        msg: "Please select gift image",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                      );
+                                      errorDialog('pleaseselectgiftimage'.tr);
+
                                     }
                                   } else {
-                                    Fluttertoast.showToast(
-                                      msg: "No Internet Connection",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                    );
+                                    errorDialog('nointernetconnection'.tr);
+
                                   }
                                 });
                               } else {
-                                Fluttertoast.showToast(
-                                  msg: "please select contact",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                );
+                                errorDialog('pleaseselectcontacts'.tr);
+
                               }
                             }
                           },
@@ -899,7 +923,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                 fit: BoxFit.fill,
                               ),
                             ),
-                            child: Text(StringConstant.invite,
+                            child: Text('invite'.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
@@ -954,12 +978,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
         jsonData = json.decode(value);
         if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(jsonData["message"]);
         }
         else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -967,12 +986,6 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
           }
           else {
@@ -980,33 +993,18 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
             setState(() {
               Navigator.of(context).pop();
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         }
       }
       else if(response.statusCode == 500)
       {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
       else{
+        errorDialog('somethingwentwrong'.tr);
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg:"Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
       }
     });
   }

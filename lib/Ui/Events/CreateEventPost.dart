@@ -20,6 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:file_picker/file_picker.dart';
+import 'package:get/get.dart';
 
 class CreateEventPost extends StatefulWidget {
   @override
@@ -171,7 +172,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   DateTime currentDate = DateTime.now();
   var myFormat = DateFormat('yyyy/MM/dd');
   bool internet = false;
-  DateTime currentEndDate = DateTime.now();
+  DateTime currentEndDate = DateTime.now().add(Duration(days: 1));
   var myFormatEndDate = DateFormat('yyyy/MM/dd');
 
   DateView(BuildContext context) async {
@@ -191,18 +192,21 @@ class CreateEventPostState extends State<CreateEventPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate.add(Duration(days: 1)),
-      firstDate: currentEndDate.add(Duration(days: 1)),
+      initialDate: currentEndDate,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2050),
     );
 
     if (picked != null && picked != currentEndDate)
       setState(() {
+        currentEndDate = picked;
+        print("Current: "+currentDate.toString());
+        print("END: "+currentEndDate.toString());
         if(currentDate.compareTo(currentEndDate)>0)
         {
           print('date is befor');
           //peform logic here.....
-          errorDialog('End Date Should be after Start Date');
+          errorDialog('End date should be after start date');
 
         }
         else {
@@ -1549,8 +1553,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                               .blockSizeHorizontal *
                                                           1),
                                                   child: Text(
-                                                    myFormatEndDate
-                                                        .format(currentDate.add(Duration(days: 1))),
+                                                    myFormatEndDate.format(currentEndDate),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -2340,50 +2343,64 @@ class CreateEventPostState extends State<CreateEventPost> {
                                 if (intenet != null && intenet) {
                                   if(_imageList.isNotEmpty)
                                   {
-                                    if (followingvalues == null) {
-                                      createproject(
-                                          context,
-                                          EventNameController.text,
-                                          DescriptionController.text,
-                                          catid,
-                                          selectedTime,
-                                          selectedEndTime,
-                                          myFormat.format(currentDate),
-                                          myFormat.format(currentEndDate),
-                                          EnterRequiredAmountController.text,
-                                          Maximumnoparticipantcontroller.text,
-                                          TermsController.text,
-                                          emailController.text,
-                                          nameController.text,
-                                          mobileController.text,
-                                          messageController.text,
-                                          "",
-                                          VideoController.text,
-                                          _imageList,
-                                          _documentList);
+                                    if(currentDate.compareTo(currentEndDate)>0)
+                                    {
+                                      print('date is befor');
+                                      //peform logic here.....
+                                      errorDialog('Theenddatemustbeafterthestartdate'.tr);
+
                                     }
-                                    else {
-                                      createproject(
-                                          context,
-                                          EventNameController.text,
-                                          DescriptionController.text,
-                                          catid,
-                                          selectedTime,
-                                          selectedEndTime,
-                                          myFormat.format(currentDate),
-                                          myFormat.format(currentEndDate),
-                                          EnterRequiredAmountController.text,
-                                          Maximumnoparticipantcontroller.text,
-                                          TermsController.text,
-                                          emailController.text,
-                                          nameController.text,
-                                          mobileController.text,
-                                          messageController.text,
-                                          followingvalues.toString(),
-                                          VideoController.text,
-                                          _imageList,
-                                          _documentList);
+                                    else{
+                                      if (followingvalues == null) {
+                                        createproject(
+                                            context,
+                                            EventNameController.text,
+                                            DescriptionController.text,
+                                            catid,
+                                            selectedTime,
+                                            selectedEndTime,
+                                            myFormat.format(currentDate),
+                                            myFormat.format(currentEndDate),
+                                            EnterRequiredAmountController.text,
+                                            Maximumnoparticipantcontroller.text,
+                                            TermsController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            "",
+                                            VideoController.text,
+                                            _imageList,
+                                            _documentList);
+                                      }
+                                      else {
+                                        createproject(
+                                            context,
+                                            EventNameController.text,
+                                            DescriptionController.text,
+                                            catid,
+                                            selectedTime,
+                                            selectedEndTime,
+                                            myFormat.format(currentDate),
+                                            myFormat.format(currentEndDate),
+                                            EnterRequiredAmountController.text,
+                                            Maximumnoparticipantcontroller.text,
+                                            TermsController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            followingvalues.toString(),
+                                            VideoController.text,
+                                            _imageList,
+                                            _documentList);
+                                      }
                                     }
+
+
+
+
+
                                   }
                                   else {
                                     errorDialog("Please Select Event Images");

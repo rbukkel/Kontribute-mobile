@@ -21,6 +21,7 @@ import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 class CreateTicketPost extends StatefulWidget {
   @override
@@ -78,7 +79,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   TimeOfDay selecteTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selecteEndTime = TimeOfDay(hour: 00, minute: 00);
   DateTime currentDate = DateTime.now();
-  DateTime currentEndDate = DateTime.now();
+  DateTime currentEndDate = DateTime.now().add(Duration(days: 1));
   DateTime timeframedate = DateTime.now();
   String dateTime;
   String _eventName;
@@ -337,18 +338,24 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate.add(Duration(days: 1)),
-      firstDate: currentEndDate.add(Duration(days: 1)),
+      initialDate: currentEndDate,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2050),
     );
 
     if (picked != null && picked != currentEndDate)
       setState(() {
-        if (currentDate.compareTo(currentEndDate) > 0) {
+        currentEndDate = picked;
+        print("Current: "+currentDate.toString());
+        print("END: "+currentEndDate.toString());
+        if(currentDate.compareTo(currentEndDate)>0)
+        {
           print('date is befor');
           //peform logic here.....
-          errorDialog('End Date Should be after Start Date');
-        } else {
+          errorDialog('End date should be after start date');
+
+        }
+        else {
           currentEndDate = picked;
           print('date is after');
         }
@@ -1420,10 +1427,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                                   .blockSizeHorizontal *
                                                               1),
                                                       child: Text(
-                                                        myFormatEndDate.format(
-                                                            currentDate.add(
-                                                                Duration(
-                                                                    days: 1))),
+                                                        myFormatEndDate.format(currentEndDate),
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -3119,63 +3123,78 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   Internet_check().check().then((intenet) {
                                     if (intenet != null && intenet) {
                                       if (_imageList.isNotEmpty) {
-                                        if (followingvalues == null) {
-                                          createproject(
-                                              context,
-                                              EventNameController.text,
-                                              DescriptionController.text,
-                                              myFormat.format(currentDate),
-                                              myFormatEndDate
-                                                  .format(currentEndDate),
-                                              selectedTime,
-                                              selectedEndTime,
-                                              LocationController.text,
-                                              LocationDetailsController.text,
-                                              ContactNoController.text,
-                                              EmailController.text,
-                                              myFormatTimeFrameDate
-                                                  .format(timeframedate),
-                                              CostofTicketController.text,
-                                              MaximumNoofquantityController
-                                                  .text,
-                                              TermsController.text,
-                                              emailController.text,
-                                              nameController.text,
-                                              mobileController.text,
-                                              messageController.text,
-                                              "",
-                                              VideoController.text,
-                                              _imageList,
-                                              _documentList);
-                                        } else {
-                                          createproject(
-                                              context,
-                                              EventNameController.text,
-                                              DescriptionController.text,
-                                              myFormat.format(currentDate),
-                                              myFormatEndDate
-                                                  .format(currentEndDate),
-                                              selectedTime,
-                                              selectedEndTime,
-                                              LocationController.text,
-                                              LocationDetailsController.text,
-                                              ContactNoController.text,
-                                              EmailController.text,
-                                              myFormatTimeFrameDate
-                                                  .format(timeframedate),
-                                              CostofTicketController.text,
-                                              MaximumNoofquantityController
-                                                  .text,
-                                              TermsController.text,
-                                              emailController.text,
-                                              nameController.text,
-                                              mobileController.text,
-                                              messageController.text,
-                                              followingvalues.toString(),
-                                              VideoController.text,
-                                              _imageList,
-                                              _documentList);
+
+                                        if(currentDate.compareTo(currentEndDate)>0)
+                                        {
+                                          print('date is befor');
+                                          //peform logic here.....
+                                          errorDialog('Theenddatemustbeafterthestartdate'.tr);
+
                                         }
+                                        else{
+                                          if (followingvalues == null) {
+                                            createproject(
+                                                context,
+                                                EventNameController.text,
+                                                DescriptionController.text,
+                                                myFormat.format(currentDate),
+                                                myFormatEndDate
+                                                    .format(currentEndDate),
+                                                selectedTime,
+                                                selectedEndTime,
+                                                LocationController.text,
+                                                LocationDetailsController.text,
+                                                ContactNoController.text,
+                                                EmailController.text,
+                                                myFormatTimeFrameDate
+                                                    .format(timeframedate),
+                                                CostofTicketController.text,
+                                                MaximumNoofquantityController
+                                                    .text,
+                                                TermsController.text,
+                                                emailController.text,
+                                                nameController.text,
+                                                mobileController.text,
+                                                messageController.text,
+                                                "",
+                                                VideoController.text,
+                                                _imageList,
+                                                _documentList);
+                                          } else {
+                                            createproject(
+                                                context,
+                                                EventNameController.text,
+                                                DescriptionController.text,
+                                                myFormat.format(currentDate),
+                                                myFormatEndDate
+                                                    .format(currentEndDate),
+                                                selectedTime,
+                                                selectedEndTime,
+                                                LocationController.text,
+                                                LocationDetailsController.text,
+                                                ContactNoController.text,
+                                                EmailController.text,
+                                                myFormatTimeFrameDate
+                                                    .format(timeframedate),
+                                                CostofTicketController.text,
+                                                MaximumNoofquantityController
+                                                    .text,
+                                                TermsController.text,
+                                                emailController.text,
+                                                nameController.text,
+                                                mobileController.text,
+                                                messageController.text,
+                                                followingvalues.toString(),
+                                                VideoController.text,
+                                                _imageList,
+                                                _documentList);
+                                          }
+                                        }
+
+
+
+
+
                                       } else {
                                         errorDialog(
                                             "Please Select Ticket Images");

@@ -526,9 +526,10 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                 children: [
                                   Container(
                                     child: Image.asset(
-                                      "assets/images/nav_share.png",
+                                      "assets/images/language.png",
                                       height: 25,
                                       width: 25,
+                                      color: AppColors.whiteColor,
                                     ),
                                   ),
                                   Container(

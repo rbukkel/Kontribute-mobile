@@ -200,6 +200,7 @@ flutter:
     - assets/images/homebg1.png
     - assets/images/homebg2.png
     - assets/images/homebg3.png
+    - assets/images/language.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

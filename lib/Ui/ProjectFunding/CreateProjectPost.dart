@@ -116,8 +116,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   FollowinglistPojo followlistpojo;
   final List<String> _dropdownCategoryValues = [
-
+    "Anyone",
+    "Connections only",
+    "Invite",
   ];
+
 
 
   var selectedIndexes = [];
@@ -132,8 +135,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   String Date, EndDate;
   DateTime currentDate = DateTime.now();
   var myFormat = DateFormat('yyyy-MM-dd');
-
-  DateTime currentEndDate = DateTime.now();
+  DateTime currentEndDate = DateTime.now().add(Duration(days: 1));
   var myFormatEndDate = DateFormat('yyyy-MM-dd');
   int currentPageValue = 0;
 
@@ -181,7 +183,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: currentDate,
-      firstDate: DateTime.now(),
+      firstDate: currentDate,
       lastDate: DateTime(2050),
     );
 
@@ -191,21 +193,26 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       });
   }
 
+
+
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: currentEndDate.add(Duration(days: 1)),
-      firstDate: currentEndDate.add(Duration(days: 1)),
+      initialDate: currentEndDate,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2050),
     );
 
     if (picked != null && picked != currentEndDate)
       setState(() {
+        currentEndDate = picked;
+        print("Current: "+currentDate.toString());
+        print("END: "+currentEndDate.toString());
         if(currentDate.compareTo(currentEndDate)>0)
         {
           print('date is befor');
           //peform logic here.....
-          errorDialog('End Date Should be after Start Date');
+          errorDialog('Theenddatemustbeafterthestartdate'.tr);
 
         }
         else {
@@ -268,18 +275,72 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         else {
           //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonResponse["message"]);
+
           });
         }
       }
     }
+  }
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 
@@ -318,12 +379,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
           print("Docname: "+catname.toString());
         }
         else{
-          Fluttertoast.showToast(
-            msg: "uploadupto2documents".tr,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog('uploadupto2documents'.tr);
         }
 
       });
@@ -450,12 +506,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             }
           }
           else {
-            Fluttertoast.showToast(
-              msg: "uploadupto3images".tr,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -475,12 +526,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             }
           }
           else{
-            Fluttertoast.showToast(
-              msg: "uploadupto3images".tr,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -546,7 +592,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.createnewproject,
+                        'createnewproject'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -725,7 +771,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.projectname,
+                                'projectname'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -798,7 +844,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.projectdescription,
+                                'projectdescription'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -881,7 +927,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                             bottom: SizeConfig.blockSizeVertical * 2,
                                             top: SizeConfig.blockSizeVertical * 2),
                                         child: Text(
-                                          StringConstant.addhashtag,
+                                          'addhashtag'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.lightBlue,
@@ -908,7 +954,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               right: SizeConfig.blockSizeHorizontal * 2,
                                               top: SizeConfig.blockSizeVertical * 2),
                                           child: Text(
-                                            StringConstant.startdate,
+                                            'startdate'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black,
@@ -995,7 +1041,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 top: SizeConfig.blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.enddate,
+                                              'enddate'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -1051,8 +1097,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                               .blockSizeHorizontal *
                                                               1),
                                                       child: Text(
-                                                        myFormat
-                                                            .format(currentDate.add(Duration(days: 1))),
+                                                        myFormat.format(currentEndDate),
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
@@ -1099,7 +1144,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.enterrequiredamount,
+                                    'enterrequiredamount'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1173,7 +1218,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 if (val.length == 0)
                                                   return 'pleaseenterrequiredamount'.tr;
                                                 else if(val.toString() =="0")
-                                                  return "more than 0 amount";
+                                                  return 'morethan0amount'.tr;
                                                 else
                                                   return null;
                                               },
@@ -1225,7 +1270,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.totalbudget,
+                                    'totalbudget'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1350,7 +1395,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 15,
                                   child: Text(
-                                    StringConstant.video,
+                                    'video'.tr,
                                     maxLines: 4,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
@@ -1475,7 +1520,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 22,
                                   child: Text(
-                                    StringConstant.revelantdocuents,
+                                    'relevantdocuments'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1688,7 +1733,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.showpostproject,
+                                    'whocanseethisproject'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1721,7 +1766,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
                                       hint: Text(
-                                        "pleaseselect".tr,
+                                        'whocanseethisproject'.tr,
                                         style: TextStyle(fontSize: 12),
                                       ),
                                       items: _dropdownCategoryValues
@@ -1799,7 +1844,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 80,
                               child: Text(
-                                StringConstant.addyourspecialtermcond,
+                                'pleaseaddyourspecialtermscondition'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1883,24 +1928,33 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     if (intenet != null && intenet) {
                                       if(_imageList.isNotEmpty)
                                       {
+                                        if(currentDate.compareTo(currentEndDate)>0)
+                                        {
+                                          print('date is befor');
+                                          //peform logic here.....
+                                          errorDialog('Theenddatemustbeafterthestartdate'.tr);
 
-                                        createproject(
-                                            context,
-                                            ProjectNameController.text,
-                                            DescriptionController.text,
-                                            myFormat.format(currentDate),
-                                            myFormat.format(currentEndDate),
-                                            TermsController.text,
-                                            EnterRequiredAmountController.text,
-                                            TotalBudgetController.text,
-                                            emailController.text,
-                                            nameController.text,
-                                            mobileController.text,
-                                            messageController.text,
-                                            followingvalues.toString(),
-                                            VideoController.text,
-                                            _imageList,
-                                            _documentList);
+                                        }
+                                        else {
+                                          createproject(
+                                              context,
+                                              ProjectNameController.text,
+                                              DescriptionController.text,
+                                              myFormat.format(currentDate),
+                                              myFormat.format(currentEndDate),
+                                              TermsController.text,
+                                              EnterRequiredAmountController.text,
+                                              TotalBudgetController.text,
+                                              emailController.text,
+                                              nameController.text,
+                                              mobileController.text,
+                                              messageController.text,
+                                              followingvalues.toString(),
+                                              VideoController.text,
+                                              _imageList,
+                                              _documentList);
+                                        }
+
                                       }
                                       else {
                                         errorDialog("pleaseselectprojectimages".tr);
@@ -1936,7 +1990,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     fit: BoxFit.fill,
                                   ),
                                 ),
-                                child: Text(StringConstant.creat,
+                                child: Text('createnow'.tr,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal,
@@ -2294,7 +2348,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                   top: SizeConfig.blockSizeVertical * 2),
               width: SizeConfig.blockSizeHorizontal * 32,
               child: Text(
-                StringConstant.searchcontact,
+                'searchcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black,
@@ -2591,18 +2645,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       if (response.statusCode == 200) {
         if (jsonData["status"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-
           errorDialog(jsonData["message"]);
-
-
-
-          /* Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );*/
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
@@ -2610,104 +2653,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             {
               isLoading = false;
             });
-
             videoList.clear();
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingProject()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
               Navigator.of(context).pop();
-              //   isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
           }
         }
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "internalservererror".tr,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('internalservererror'.tr);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "somethingwentwrong".tr,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
       }
     });
   }
 
-  void errorDialog(String text) {
-    showDialog(
-      context: context,
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ),
-        backgroundColor: AppColors.whiteColor,
-        child: new Container(
-          margin: EdgeInsets.all(5),
-          width: 300.0,
-          height: 180.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Icon(
-                  Icons.error,
-                  size: 50.0,
-                  color: Colors.red,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                color: AppColors.whiteColor,
-                alignment: Alignment.center,
-                height: 50,
-                child: Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  color: AppColors.whiteColor,
-                  alignment: Alignment.center,
-                  height: 50,
-                  child: Text(
-                    'ok'.tr,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-  }
 
   costValidation(String val) {
     if (val.length == 0) {

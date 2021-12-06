@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:share/share.dart';
 import 'package:async/async.dart';
 import 'package:file_picker/file_picker.dart';
@@ -114,8 +115,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
-    "Invite",
-    "Others"
+    "Invite"
   ];
   var file1;
   var documentPath;
@@ -148,6 +148,9 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   bool resultvalue = true;
   String link;
   String linkdocuments;
+  String searchvalue="";
+  bool resultfolowvalue = true;
+  FollowinglistPojo followlistpojo;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
       "assets/images/banner1.png",
@@ -195,8 +198,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
+        firstDate:DateTime.now(),
+        lastDate: DateTime(2050));
     setState(() {
       Date = picked.toString();
       formattedDate = DateFormat('yyyy-MM-yy').format(picked);
@@ -204,12 +207,14 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
     });
   }
 
+
   @override
   void initState() {
     super.initState();
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+      getFolowData(userid,searchvalue);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -232,15 +237,116 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "nointernetconnection".tr,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog("nointernetconnection".tr);
       }
     });
   }
+
+  Future<void> getFolowData(String a,String search) async {
+    setState(() {
+      categoryfollowinglist =null;
+    });
+    // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'receiver_id': a.toString(),
+      'search': search.toString(),
+    };
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultfolowvalue = false;
+          categoryfollowinglist = null;
+        });
+      }
+      else {
+        followlistpojo = new FollowinglistPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null)
+        {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+
+          });
+        }
+        else {
+          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            errorDialog(jsonResponse["message"]);
+
+          });
+        }
+      }
+    }
+  }
+
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getData(int id) async {
     Map data = {
@@ -254,12 +360,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         sendgift = new get_createProjectPojo.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
@@ -268,10 +370,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
           setState(() {
             productlist_length = sendgift.projectData;
             imageslist_length = sendgift.projectImagesdata;
-            ProjectNameController.text =
-                sendgift.projectData.projectName.toString();
-            DescriptionController.text =
-                sendgift.projectData.description.toString();
+            ProjectNameController.text = sendgift.projectData.projectName.toString();
+            DescriptionController.text = sendgift.projectData.description.toString();
             formattedDate = sendgift.projectData.projectStartdate;
             formattedEndDate = sendgift.projectData.projectEnddate;
             EnterRequiredAmountController.text = sendgift.projectData.requiredAmount.toString();
@@ -298,8 +398,9 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
               print("link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
               link = sendgift.projectData.videoLink.elementAt(i).vlink;
               print(": " + link);
-              newvideoList.add(link);
+
             }
+            newvideoList.add(link);
             currentid = int.parse(sendgift.projectData.viewType);
             if(currentid==1)
             {
@@ -310,9 +411,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             }else if(currentid==3)
             {
               showpost ="Invite";
-            }else if(currentid==4)
-            {
-              showpost ="Others";
             }
 
 
@@ -329,14 +427,16 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
 
             print("videoname: " + vidoname.toString());
 
-            // VideoController.text = vidoname;
+
+             VideoController.text = vidoname;
             for (int i = 0; i < sendgift.projectData.documents.length; i++) {
               print("link: " +
                   sendgift.projectData.documents.elementAt(i).documents);
               linkdocuments =
                   sendgift.projectData.documents.elementAt(i).documents;
-              docList.add(linkdocuments);
+
             }
+            docList.add(linkdocuments);
             newdocList = [
               for (var i in docList)
                 if (i != null) i
@@ -355,44 +455,44 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                 ? sendgift.projectData.termsAndCondition.toString()
                 : "";
             //  basename = sendgift.projectData.documents.toString();
-            currentid = int.parse(sendgift.projectData.viewType);
-            if (currentid == 1) {
-              showpost = "Anyone";
-            } else if (currentid == 2) {
-              showpost = "Connections only";
-            }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: sendgift.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(sendgift.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
   EndDateView(BuildContext context) async {
     final DateTime picke = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate:DateTime.now().add(Duration(days: 1)),
         firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
+        lastDate: DateTime(2050));
     setState(() {
       EndDate = picke.toString();
       formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
       print("onDate: " + formattedEndDate.toString());
+
+      if(formattedDate.compareTo(formattedEndDate)>0)
+      {
+        print('date is befor');
+        //peform logic here.....
+        errorDialog('End date should be after start date');
+
+      }
+      else {
+        EndDate = picke.toString();
+        print('date is after');
+      }
     });
   }
+
+
+
 
   Future getPdfAndUpload() async {
     File file = await FilePicker.getFile(
@@ -424,12 +524,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
           catname = parts.map((part) => "$part").join(',').trim();
           print("Docname: " + catname.toString());
         } else {
-          Fluttertoast.showToast(
-            msg: "upload upto 2 documents",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog('uploadupto2documents'.tr);
         }
       });
     }
@@ -547,12 +642,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "uploadupto3images".tr,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -570,12 +660,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "uploadupto3images".tr,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -642,7 +727,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
 
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.editnewproject,
+                       'editproject'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -863,7 +948,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
-                            StringConstant.projectname,
+                            'projectname'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -936,7 +1021,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
-                            StringConstant.projectdescription,
+                            'projectdescription'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -1030,7 +1115,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                         SizeConfig.blockSizeVertical *
                                             2),
                                     child: Text(
-                                      StringConstant.addhashtag,
+                                      'addhashtag'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.lightBlue,
@@ -1065,7 +1150,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                               .blockSizeVertical *
                                               2),
                                       child: Text(
-                                        StringConstant.startdate,
+                                        'startdate'.tr,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
@@ -1172,7 +1257,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                                 .blockSizeVertical *
                                                 2),
                                         child: Text(
-                                          StringConstant.enddate,
+                                          'enddate'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -1287,7 +1372,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.enterrequiredamount,
+                                'enterrequiredamount'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1369,6 +1454,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                           validator: (val) {
                                             if (val.length == 0)
                                               return "pleaseenterrequiredamount".tr;
+                                            else if(val.toString() =="0")
+                                              return 'morethan0amount'.tr;
                                             else
                                               return null;
                                           },
@@ -1429,7 +1516,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.totalbudget,
+                                'totalbudget'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1512,10 +1599,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                             keyboardType:
                                             TextInputType.number,
                                             validator: (val) {
-                                              if (val.length == 0)
-                                                return "pleaseentertotalbudget".tr;
-                                              else
-                                                return null;
+                                              return costValidation(val);
+
                                             },
                                             onFieldSubmitted: (v) {
                                               TotalBudgetFocus.unfocus();
@@ -1567,12 +1652,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                           children: [
                             Container(
                               margin: EdgeInsets.only(
-                                  left:
-                                  SizeConfig.blockSizeHorizontal * 3,
+                                  left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 15,
                               child: Text(
-                                StringConstant.video,
+                                'video'.tr,
                                 maxLines: 4,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
@@ -1582,7 +1666,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     fontFamily: 'Poppins-Bold'),
                               ),
                             ),
-                            Container(
+                           /* Container(
                               width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
@@ -1605,9 +1689,9 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               child: Column(
                                 children: [..._getVideoLink()],
                               ),
-                            )
+                            )*/
 
-                            /*   Container(
+                            Container(
                               width: SizeConfig.blockSizeHorizontal * 65,
                               height: SizeConfig.blockSizeVertical *10,
                               margin: EdgeInsets.only(
@@ -1634,15 +1718,10 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 autofocus: false,
                                 focusNode: VideoFocus,
                                 controller: VideoController,
-                                maxLines: 5,
+                                maxLines:6,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.url,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return "Please enter video url";
-                                  else
-                                    return null;
-                                },
+
                                 onFieldSubmitted: (v) {
                                   VideoFocus.unfocus();
                                 },
@@ -1667,8 +1746,24 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     ),
                                     hintText: "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
-                            )*/
+                            )
                           ],
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          margin: EdgeInsets.only(
+                              right: SizeConfig.blockSizeHorizontal * 4,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Text(
+                            'videoslinkwithcommasepratedwithoutspace'.tr,
+                            maxLines: 4,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -1688,7 +1783,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 22,
                               child: Text(
-                                StringConstant.revelantdocuents,
+                                'relevantdocuments'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1721,34 +1816,158 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 child: GestureDetector(
                                   onTap: () {},
                                   child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Container(
-                                          width: SizeConfig.blockSizeHorizontal * 60,
-                                          child: Text(
-                                            catname != null ? catname.toString() : "",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular',
-                                              fontSize: 10,
-                                              color: AppColors.black,
+
+                                      /* Text(
+                                              catname != null ? catname.toString() : "",
+                                              maxLines: 5,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                color: AppColors.black,
+                                              ),
+                                            ),*/
+                                      /*
+
+                                            TextFormField(
+                                              autofocus: false,
+                                              focusNode: documentsFocus,
+                                              controller: documentsController,
+                                              maxLines:6,
+                                              textInputAction: TextInputAction.done,
+                                              keyboardType: TextInputType.url,
+                                              validator: (val) {
+                                                if (val.length == 0)
+                                                  return "Please enter video url";
+                                                else
+                                                  return null;
+                                              },
+                                              onFieldSubmitted: (v) {
+                                                documentsFocus.unfocus();
+                                              },
+                                              onSaved: (val) => _documents = val,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                color: AppColors.black,
+                                              ),
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  focusedBorder: InputBorder.none,
+                                                  hintStyle: TextStyle(
+                                                    color: AppColors.themecolor,
+                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily: 'Poppins-Regular',
+                                                    fontSize: 10,
+                                                    decoration: TextDecoration.none,
+                                                  ),
+                                                  hintText: ""),
                                             ),
-                                          )),
-                                      GestureDetector(
-                                        onTap: () {
-                                          getPdfAndUpload();
-                                        },
-                                        child: Container(
-                                          width: SizeConfig.blockSizeHorizontal * 5,
-                                          child: Icon(
-                                            Icons.attachment,
-                                            color: AppColors.greyColor,
+
+                                      ),*/
+                                      Container(
+                                        height: SizeConfig.blockSizeVertical * 25,
+                                        width: SizeConfig.blockSizeHorizontal * 59,
+                                        child: ListView.builder(
+                                            itemCount: _documentList.length == null
+                                                ? 0
+                                                : _documentList.length,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context, int inde) {
+                                              return Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical * 3,
+                                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                                    right:
+                                                    SizeConfig.blockSizeHorizontal * 1),
+                                                alignment: Alignment.center,
+                                                child: Column(
+                                                  children: [
+
+                                                    Container(
+                                                      width:
+                                                      SizeConfig.blockSizeHorizontal * 45,
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        _documentList.elementAt(inde).toString(),
+                                                        maxLines: 3,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize: 8,
+                                                            fontWeight: FontWeight.normal,
+                                                            fontFamily: 'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: ()
+                                                      {
+                                                        setState(() {
+                                                          _documentList.removeAt(inde);
+                                                          print(inde.toString());
+                                                          print("Docname: "+_documentList.length.toString());
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                          top: SizeConfig.blockSizeVertical * 1,
+                                                        ),
+                                                        width:
+                                                        SizeConfig.blockSizeHorizontal * 20,
+                                                        alignment: Alignment.center,
+                                                        child: Text(
+                                                          "remove".tr,
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                              decoration:
+                                                              TextDecoration.underline,
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.blue,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular'),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                /*   decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
+                                              );
+                                            }),
+                                      ),
+
+
+
+                                      Container(
+                                        width: SizeConfig.blockSizeHorizontal * 5,
+                                        child:  GestureDetector(
+                                          onTap: () {
+                                            getPdfAndUpload();
+                                          },
+                                          child: Container(
+                                            width: SizeConfig.blockSizeHorizontal * 5,
+                                            child: Icon(
+                                              Icons.attachment,
+                                              color: AppColors.greyColor,
+                                            ),
                                           ),
                                         ),
                                       )
+
                                     ],
                                   ),
                                 ))
@@ -1772,7 +1991,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.showpostproject,
+                                'whocanseethisproject'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1844,8 +2063,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                         currentid = 2;
                                       } else if (currentSelectedValue == "Invite") {
                                         currentid = 3;
-                                      } else if (currentSelectedValue == "Others") {
-                                        currentid = 4;
                                       }
                                     });
                                   },
@@ -1856,7 +2073,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                           ],
                         ),
                         currentSelectedValue.toString().toLowerCase() == "invite" || showpost.toString().toLowerCase() == "invite" ? inviteView(context)
-                            : currentSelectedValue.toString().toLowerCase() == "others" ||showpost.toString().toLowerCase() == "others"? otherOptionview(context) : Container(),
+                            :Container(),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -1872,7 +2089,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 80,
                           child: Text(
-                            StringConstant.addyourspecialtermcond,
+                            'pleaseaddyourspecialtermscondition'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -1956,45 +2173,59 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 .join(',')
                                 .trim();
                             print("Vidoname: " + vidoname.toString());
-                            if(followingvalues==null)
+
+                            if(formattedDate.compareTo(formattedEndDate)>0)
                             {
-                              createproject(
-                                  context,
-                                  ProjectNameController.text,
-                                  DescriptionController.text,
-                                  formattedDate,
-                                  formattedEndDate,
-                                  TermsController.text,
-                                  EnterRequiredAmountController.text,
-                                  TotalBudgetController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  "",
-                                  vidoname,
-                                  _imageList,
-                                  _documentList);
+                              print('date is befor');
+                              //peform logic here.....
+                              errorDialog('Theenddatemustbeafterthestartdate'.tr);
+
                             }
                             else{
-                              createproject(
-                                  context,
-                                  ProjectNameController.text,
-                                  DescriptionController.text,
-                                  formattedDate,
-                                  formattedEndDate,
-                                  TermsController.text,
-                                  EnterRequiredAmountController.text,
-                                  TotalBudgetController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  followingvalues.toString(),
-                                  vidoname,
-                                  _imageList,
-                                  _documentList);
+                              if(followingvalues==null)
+                              {
+                                createproject(
+                                    context,
+                                    ProjectNameController.text,
+                                    DescriptionController.text,
+                                    formattedDate,
+                                    formattedEndDate,
+                                    TermsController.text,
+                                    EnterRequiredAmountController.text,
+                                    TotalBudgetController.text,
+                                    emailController.text,
+                                    nameController.text,
+                                    mobileController.text,
+                                    messageController.text,
+                                    "",
+                                    vidoname,
+                                    _imageList,
+                                    _documentList);
+                              }
+                              else{
+                                createproject(
+                                    context,
+                                    ProjectNameController.text,
+                                    DescriptionController.text,
+                                    formattedDate,
+                                    formattedEndDate,
+                                    TermsController.text,
+                                    EnterRequiredAmountController.text,
+                                    TotalBudgetController.text,
+                                    emailController.text,
+                                    nameController.text,
+                                    mobileController.text,
+                                    messageController.text,
+                                    followingvalues.toString(),
+                                    vidoname,
+                                    _imageList,
+                                    _documentList);
+                              }
                             }
+
+
+
+
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -2011,7 +2242,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                 fit: BoxFit.fill,
                               ),
                             ),
-                            child: Text(StringConstant.creat,
+                            child: Text('createnow'.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
@@ -2254,7 +2485,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                   top: SizeConfig.blockSizeVertical * 2),
               width: SizeConfig.blockSizeHorizontal * 32,
               child: Text(
-                StringConstant.searchcontact,
+                'searchcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black,
@@ -2310,20 +2541,28 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                child: Text(
-                  "searchcontact".tr,
-                  style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
+                  width: SizeConfig.blockSizeHorizontal * 50,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  child:
+                  TextField(
+                    onChanged: (value){
+                      setState(() {
+                        getFolowData(userid,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle:  TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),hintText: "searchhere".tr),
+                  )
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -2363,7 +2602,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   }
 
   ExpandedInvitationview0(BuildContext context) {
-    return Container(
+    return categoryfollowinglist!=null?
+      Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
         child: MediaQuery.removePadding(
@@ -2395,8 +2635,35 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                   ),
                 );
               }),
+        )): Container(
+        alignment: Alignment.center,
+        child: resultfolowvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+          child: Text(
+            "nosearchresultstoshow".tr,
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
         ));
   }
+  costValidation(String val) {
+    if (val.length == 0) {
+      return "pleaseentertotalbudget".tr;
+    }
+    else if(int.parse(EnterRequiredAmountController.text) > (int.parse(TotalBudgetController.text))){
+      errorDialog('requiredamountshouldbelessthantotalbudget'.tr);
+    }
+    else
+      return null;
+
+}
 
   void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
     if (selected == true) {
