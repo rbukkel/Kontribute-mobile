@@ -90,7 +90,7 @@ class ContactUsState extends State<ContactUs>{
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                 // margin: EdgeInsets.only(top: 10, left: 40),
                 child: Text(
-                  "Contact Us", textAlign: TextAlign.center,
+                  'contactus'.tr, textAlign: TextAlign.center,
                   style: TextStyle(
                       decoration: TextDecoration.none,
                       fontSize: 20,
@@ -152,9 +152,9 @@ class ContactUsState extends State<ContactUs>{
                                     textInputAction: TextInputAction.next,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter email";
+                                        return 'pleaseenteremail'.tr;
                                       else if (!regex.hasMatch(val))
-                                        return "Please enter valid email";
+                                        return 'pleaseentervalidemail'.tr;
                                       else
                                         return null;
                                     },
@@ -165,14 +165,14 @@ class ContactUsState extends State<ContactUs>{
                                     textAlign: TextAlign.left,
                                     style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
                                     fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',),
+                                    fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(5),
-                                      labelText: "Your Email*",
+                                      labelText: 'youremail'.tr,
                                       labelStyle:TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
+                                        fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
                                     ),
@@ -197,9 +197,9 @@ class ContactUsState extends State<ContactUs>{
                                     textInputAction: TextInputAction.next,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter name";
+                                        return 'pleaseentername'.tr;
                                       else if (val.length < 3)
-                                        return "Name must be more than 2 charater";
+                                        return 'namemustbemorethan2charater'.tr;
                                       else
                                         return null;
                                     },
@@ -210,10 +210,10 @@ class ContactUsState extends State<ContactUs>{
                                     textAlign: TextAlign.left,
                                     style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
                                     fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',),
+                                    fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(5),
-                                      labelText: "Your Name*",
+                                      labelText: 'yourname'.tr,
                                       labelStyle:TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
@@ -241,9 +241,9 @@ class ContactUsState extends State<ContactUs>{
                                     textInputAction: TextInputAction.next,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter mobile number";
+                                        return 'pleaseentermobilenumber'.tr;
                                       else if (val.length < 10)
-                                        return "Your mobile number should be 10 char long";
+                                        return 'yourmobilenumbershouldbe10charlong'.tr;
                                       else
                                         return null;
                                     },
@@ -254,14 +254,14 @@ class ContactUsState extends State<ContactUs>{
                                     textAlign: TextAlign.left,
                                     style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
                                     fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',),
+                                    fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(5),
-                                      labelText: "Phone Number*",
+                                      labelText: 'phonenumber'.tr,
                                       labelStyle:TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
+                                        fontFamily: 'Poppins-Regular',
                                         decoration: TextDecoration.none,
                                       ),
                                     ),
@@ -290,9 +290,9 @@ class ContactUsState extends State<ContactUs>{
                                     textInputAction: TextInputAction.done,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter subject";
+                                        return 'pleaseentersubject'.tr;
                                       else if (val.length < 3)
-                                        return "subject must be more than 2 charater";
+                                        return 'subjectmustbemorethan2charater'.tr;
                                       else
                                         return null;
                                     },
@@ -303,10 +303,10 @@ class ContactUsState extends State<ContactUs>{
                                     textAlign: TextAlign.left,
                                     style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
                                       fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',),
+                                      fontFamily: 'Poppins-Regular'),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(5),
-                                      labelText: "Subject",
+                                      labelText: 'subject'.tr,
                                       labelStyle:TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
@@ -328,7 +328,6 @@ class ContactUsState extends State<ContactUs>{
                                       right: SizeConfig.blockSizeHorizontal*2),
                                   height: SizeConfig.blockSizeVertical*15 ,
                                   width: SizeConfig.blockSizeHorizontal*80,
-
                                   child:
                                   TextFormField(
                                     autofocus: false,
@@ -339,9 +338,9 @@ class ContactUsState extends State<ContactUs>{
                                     textInputAction: TextInputAction.done,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter message";
+                                        return 'pleaseentermessage'.tr;
                                       else if (val.length < 3)
-                                        return "message must be more than 2 charater";
+                                        return 'messagemustbemorethan2charater'.tr;
                                       else
                                         return null;
                                     },
@@ -354,7 +353,7 @@ class ContactUsState extends State<ContactUs>{
                                       fontFamily: 'Poppins-Regular',),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(5),
-                                      labelText: "Your Message",
+                                      labelText: 'yourmessage'.tr,
                                       labelStyle:TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
@@ -391,7 +390,7 @@ class ContactUsState extends State<ContactUs>{
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(left: 5),
-                                        child: Text(StringConstant.sendingmeesageyou,
+                                        child: Text('bysendingthismessageyou'.tr,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 10,
@@ -418,7 +417,7 @@ class ContactUsState extends State<ContactUs>{
                                               descriptionController.text,
                                           );
                                         } else {
-                                          errorDialog("No Internet Connection");
+                                          errorDialog('nointernetconnection'.tr);
 
                                         }
                                         // No-Internet Case
@@ -451,7 +450,7 @@ class ContactUsState extends State<ContactUs>{
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Text(StringConstant.send,
+                                        Text('send'.tr,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal,
@@ -498,17 +497,17 @@ class ContactUsState extends State<ContactUs>{
               });
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 13,
+                width: SizeConfig.blockSizeHorizontal * 24,
                 margin:
-                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/homeicon.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -537,15 +536,15 @@ class ContactUsState extends State<ContactUs>{
                   children: [
                     Image.asset(
                       "assets/images/nav_mytranscaton.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                       color: AppColors.greyColor,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "My Transactions",
+                        'mytransactions'.tr,
                         style: TextStyle(
                             color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -561,21 +560,21 @@ class ContactUsState extends State<ContactUs>{
               });
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 22,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/notificationicon.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Notification",
+                        'notification'.tr,
                         style:
                         TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -591,24 +590,24 @@ class ContactUsState extends State<ContactUs>{
               });
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 23,
                 margin:
-                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/nav_contactus.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                       color: AppColors.selectedcolor,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Contact Us",
+                        'contactus'.tr,
                         style:
                         TextStyle(color: AppColors.selectedcolor, fontSize: 10),
                       ),

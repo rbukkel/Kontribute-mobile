@@ -637,17 +637,17 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Logout"),
-          content: Text("Are you sure you want to logout"),
+          title: Text('logout'.tr),
+          content: Text('areyousureyouwanttologout'.tr),
           actions: <Widget>[
             FlatButton(
-              child: Text("No"),
+              child: Text('no'.tr),
               onPressed: () {
                 Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (BuildContext context)=>HomeScreen()), (route) => false);
               },
             ),
             FlatButton(
-              child: Text("Yes"),
+              child: Text('yes'.tr),
               onPressed: (){
                 signOutGoogle(context);
               },

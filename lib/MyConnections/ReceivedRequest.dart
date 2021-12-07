@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
@@ -88,22 +88,75 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: requestpojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(requestpojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +270,7 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
             decoration: new InputDecoration(
                 prefixIcon: Icon(Icons.search, color: Colors.black),
                 border: InputBorder.none,
-                hintStyle: TextStyle(color: Colors.black,fontSize: 12), hintText: 'Search'),
+                hintStyle: TextStyle(color: Colors.black,fontSize: 12), hintText: 'search'.tr),
           )
         ],
       ) ,
@@ -230,7 +283,6 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
       Container(
         //height: SizeConfig.blockSizeVertical * 30,
         margin: EdgeInsets.only(
-            bottom: SizeConfig.blockSizeVertical * 4,
             top: SizeConfig.blockSizeVertical * 2,
             left: SizeConfig.blockSizeHorizontal * 2,
             right: SizeConfig.blockSizeHorizontal * 2),
@@ -442,7 +494,7 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
           child: CircularProgressIndicator(),
         )
             : Center(
-          child: Text("No Records Found",style: TextStyle(
+          child: Text('norecordsfound'.tr,style: TextStyle(
               letterSpacing: 1.0,
               color: AppColors.black,
               fontSize: 16,
@@ -470,40 +522,23 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
       jsonResponse = json.decode(response.body);
       requestval = response.body;
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(requestval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+       errorDialog(jsonDecode(requestval)["message"]);
       } else {
         followupdatepojo = new follow_Request_updatePojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
-          Fluttertoast.showToast(
-              msg: followupdatepojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           setState(() {
             getdata(userid,searchvalue);
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: followupdatepojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(followupdatepojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(requestval)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog( jsonDecode(requestval)["message"]);
+
     }
   }
 }

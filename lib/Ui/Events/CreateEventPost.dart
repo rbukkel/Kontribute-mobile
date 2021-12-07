@@ -2235,9 +2235,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                         currentSelectedValue.toString().toLowerCase() ==
                                 "invite"
                             ? inviteView()
-                            : currentSelectedValue.toString().toLowerCase() ==
-                                    "others"
-                                ? otherOptionview()
+
                                 : Container(),
                         Container(
                           margin: EdgeInsets.only(

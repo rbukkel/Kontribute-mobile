@@ -20,6 +20,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'package:get/get.dart';
 import 'package:kontribute/Pojo/get_createDonationPojo.dart';
 
 class EditDonationPost extends StatefulWidget {
@@ -102,9 +103,9 @@ class EditDonationPostState extends State<EditDonationPost> {
   String currentSelectedValueprivacy;
   String Date, EndDate;
   DateTime currentDate = DateTime.now();
-  String formattedDate = "2021-07-07";
-  String formattedEndDate = "2021-07-07";
-  var myFormat = DateFormat('yyyy-MM-dd');
+  String formattedDate = "2021/07/07";
+  String formattedEndDate = "2021/07/07";
+  var myFormat = DateFormat('yyyy/MM/dd');
   String data1;
   int a;
   bool internet = false;
@@ -112,7 +113,7 @@ class EditDonationPostState extends State<EditDonationPost> {
   var productlist_length;
   var imageslist_length;
   DateTime currentEndDate = DateTime.now();
-  var myFormatEndDate = DateFormat('yyyy-MM-dd');
+  var myFormatEndDate = DateFormat('yyyy/MM/dd');
   int currentPageValue = 0;
   String link;
   String linkdocuments;
@@ -125,8 +126,7 @@ class EditDonationPostState extends State<EditDonationPost> {
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
-    "Invite",
-    "Others"
+    "Invite"
   ];
   sendinvitationpojo sendinvi;
   final _formKey = GlobalKey<FormState>();
@@ -142,6 +142,8 @@ class EditDonationPostState extends State<EditDonationPost> {
   final MobileFocus = FocusNode();
   final SubjectFocus = FocusNode();
   final MessageFocus = FocusNode();
+  String searchvalue = "";
+  bool resultvalue = true;
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
@@ -195,7 +197,7 @@ class EditDonationPostState extends State<EditDonationPost> {
         lastDate: DateTime(2100));
     setState(() {
       Date = picked.toString();
-      formattedDate = DateFormat('yyyy-MM-yy').format(picked);
+      formattedDate = DateFormat('yyyy/MM/yy').format(picked);
       print("onDate: " + formattedDate.toString());
     });
   }
@@ -208,7 +210,7 @@ class EditDonationPostState extends State<EditDonationPost> {
         lastDate: DateTime(2100));
     setState(() {
       EndDate = picke.toString();
-      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
+      formattedEndDate = DateFormat('yyyy/MM/yy').format(picke);
       print("onDate: " + formattedEndDate.toString());
     });
   }
@@ -219,6 +221,7 @@ class EditDonationPostState extends State<EditDonationPost> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+      getFollowData(userid,searchvalue);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -299,6 +302,51 @@ class EditDonationPostState extends State<EditDonationPost> {
     }
   }
 
+  Future<void> getFollowData(String a, String search) async {
+    setState(() {
+      categoryfollowinglist = null;
+    });
+    // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'receiver_id': a.toString(),
+      'search': search.toString(),
+    };
+    print("Data: " + data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+          categoryfollowinglist = null;
+        });
+      } else {
+        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+          });
+        } else {
+          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
+  }
+
+
   void getData(int id) async {
     Map data = {
       'id': id.toString(),
@@ -353,8 +401,9 @@ class EditDonationPostState extends State<EditDonationPost> {
               print("link: " + sendgift.projectData.videoLink.elementAt(i).vlink);
               link = sendgift.projectData.videoLink.elementAt(i).vlink;
               print(": " + link);
-              newvideoList.add(link);
+
             }
+            newvideoList.add(link);
             currentid = int.parse(sendgift.projectData.viewType);
             if(currentid==1)
             {
@@ -381,12 +430,13 @@ class EditDonationPostState extends State<EditDonationPost> {
             vidoname = parts.map((part) => "$part").join(',').trim();
 
             print("videoname: " + vidoname.toString());
-            // VideoController.text = vidoname;
+             VideoController.text = vidoname;
             for (int i = 0; i < sendgift.projectData.documents.length; i++) {
               print("link: " + sendgift.projectData.documents.elementAt(i).documents);
               linkdocuments = sendgift.projectData.documents.elementAt(i).documents;
-              docList.add(linkdocuments);
+
             }
+            docList.add(linkdocuments);
             newdocList = [
               for (var i in docList)
                 if (i != null) i
@@ -1575,7 +1625,8 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     ),
                                   ),
                                   Container(
-                                    width: SizeConfig.blockSizeHorizontal * 75,
+                                    width: SizeConfig.blockSizeHorizontal * 65,
+                                    height: SizeConfig.blockSizeVertical * 10,
                                     margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 2,
                                       right: SizeConfig.blockSizeHorizontal * 3,
@@ -1594,8 +1645,37 @@ class EditDonationPostState extends State<EditDonationPost> {
                                       ),
                                       color: Colors.transparent,
                                     ),
-                                    child: Column(
-                                      children: [..._getVideoLink()],
+                                    child: TextFormField(
+                                      autofocus: false,
+                                      focusNode: VideoFocus,
+                                      controller: VideoController,
+                                      maxLines: 6,
+                                      textInputAction: TextInputAction.done,
+                                      keyboardType: TextInputType.url,
+                                      onFieldSubmitted: (v) {
+                                        VideoFocus.unfocus();
+                                      },
+                                      onSaved: (val) => _Video = val,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 10,
+                                        color: AppColors.themecolor,
+                                      ),
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                            color: AppColors.themecolor,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          hintText:
+                                          "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                                     ),
                                   )
 
@@ -1663,6 +1743,22 @@ class EditDonationPostState extends State<EditDonationPost> {
                                 ],
                               ),
                               Container(
+                                alignment: Alignment.bottomRight,
+                                margin: EdgeInsets.only(
+                                    right: SizeConfig.blockSizeHorizontal * 4,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Text(
+                                  "videos link with comma(,) seprated, without space",
+                                  maxLines: 4,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
                                 child: Divider(
@@ -1717,7 +1813,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         onTap: () {},
                                         child: Row(
                                           children: [
-                                            Container(
+                                            /*Container(
                                                 width: SizeConfig
                                                         .blockSizeHorizontal *
                                                     60,
@@ -1735,7 +1831,114 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                     fontSize: 10,
                                                     color: AppColors.black,
                                                   ),
-                                                )),
+                                                )),*/
+                                            Container(
+                                              height:
+                                              SizeConfig.blockSizeVertical * 25,
+                                              width:
+                                              SizeConfig.blockSizeHorizontal * 59,
+                                              child: ListView.builder(
+                                                  itemCount:
+                                                  _documentList.length == null
+                                                      ? 0
+                                                      : _documentList.length,
+                                                  shrinkWrap: true,
+                                                  scrollDirection: Axis.horizontal,
+                                                  itemBuilder: (BuildContext context,
+                                                      int inde) {
+                                                    return Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig
+                                                              .blockSizeVertical *
+                                                              3,
+                                                          left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              3,
+                                                          right: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              1),
+                                                      alignment: Alignment.center,
+                                                      child: Column(
+                                                        children: [
+                                                          Container(
+                                                            width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                25,
+                                                            alignment:
+                                                            Alignment.center,
+                                                            child: Text(
+                                                              _documentList
+                                                                  .elementAt(inde)
+                                                                  .toString(),
+                                                              maxLines: 2,
+                                                              style: TextStyle(
+                                                                  letterSpacing: 1.0,
+                                                                  color:
+                                                                  AppColors.black,
+                                                                  fontSize: 8,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                                  fontFamily:
+                                                                  'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                _documentList
+                                                                    .removeAt(inde);
+                                                                print(
+                                                                    inde.toString());
+                                                                print("Docname: " +
+                                                                    _documentList
+                                                                        .length
+                                                                        .toString());
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              margin: EdgeInsets.only(
+                                                                top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                    1,
+                                                              ),
+                                                              width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment:
+                                                              Alignment.center,
+                                                              child: Text(
+                                                                "Remove",
+                                                                maxLines: 2,
+                                                                style: TextStyle(
+                                                                    decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                                    letterSpacing:
+                                                                    1.0,
+                                                                    color:
+                                                                    Colors.blue,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    fontFamily:
+                                                                    'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+
+                                                      /*   decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
+                                                    );
+                                                  }),
+                                            ),
                                             GestureDetector(
                                               onTap: () {
                                                 getPdfAndUpload();
@@ -1844,9 +2047,6 @@ class EditDonationPostState extends State<EditDonationPost> {
                                             } else if (currentSelectedValue == "Invite")
                                             {
                                               currentid = 3;
-                                            } else if (currentSelectedValue == "Others")
-                                            {
-                                              currentid = 4;
                                             }
                                           });
                                         },
@@ -1856,10 +2056,18 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   )
                                 ],
                               ),
-                              currentSelectedValue.toString().toLowerCase() == "invite" || showpost.toString().toLowerCase() == "invite" ? inviteView(context)
-                              : currentSelectedValue.toString().toLowerCase() == "others" || showpost.toString().toLowerCase() == "others"? otherOptionview(context)
-                              : currentSelectedValue.toString().toLowerCase() == "anyone" || showpost.toString().toLowerCase() == "anyone"? emptybox(context) : Container(),
-                              Container(
+                              currentSelectedValue.toString().toLowerCase() ==
+                                  "invite" ||
+                                  showpost.toString().toLowerCase() ==
+                                      "invite"
+                                  ? inviteView(context)
+                                  : currentSelectedValue
+                                  .toString()
+                                  .toLowerCase() ==
+                                  "anyone" ||
+                                  showpost.toString().toLowerCase() ==
+                                      "anyone"
+                                  ? emptybox() : Container(),        Container(
                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                                 child: Divider(
                                   thickness: 1, color: Colors.black12,
@@ -1957,44 +2165,53 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         .trim();
                                     print("Vidoname: " + vidoname.toString());
 
-                                    if(followingvalues==null)
+                                    if(formattedDate.compareTo(formattedEndDate)>0)
                                     {
-                                      createproject(
-                                          context,
-                                          ProjectNameController.text,
-                                          DescriptionController.text,
-                                          formattedDate,
-                                          formattedEndDate,
-                                          TermsController.text,
-                                          EnterRequiredAmountController.text,
-                                          TotalBudgetController.text,
-                                          emailController.text,
-                                          nameController.text,
-                                          mobileController.text,
-                                          messageController.text,
-                                         "",
-                                          vidoname,
-                                          _imageList,
-                                          _documentList);
+                                      print('date is befor');
+                                      //peform logic here.....
+                                      errorDialog('Theenddatemustbeafterthestartdate'.tr);
+
                                     }
                                     else{
-                                      createproject(
-                                          context,
-                                          ProjectNameController.text,
-                                          DescriptionController.text,
-                                          formattedDate,
-                                          formattedEndDate,
-                                          TermsController.text,
-                                          EnterRequiredAmountController.text,
-                                          TotalBudgetController.text,
-                                          emailController.text,
-                                          nameController.text,
-                                          mobileController.text,
-                                          messageController.text,
-                                          followingvalues.toString(),
-                                          vidoname,
-                                          _imageList,
-                                          _documentList);
+                                      if(followingvalues==null)
+                                      {
+                                        createproject(
+                                            context,
+                                            ProjectNameController.text,
+                                            DescriptionController.text,
+                                            formattedDate,
+                                            formattedEndDate,
+                                            TermsController.text,
+                                            EnterRequiredAmountController.text,
+                                            TotalBudgetController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            "",
+                                            VideoController.text,
+                                            _imageList,
+                                            _documentList);
+                                      }
+                                      else{
+                                        createproject(
+                                            context,
+                                            ProjectNameController.text,
+                                            DescriptionController.text,
+                                            formattedDate,
+                                            formattedEndDate,
+                                            TermsController.text,
+                                            EnterRequiredAmountController.text,
+                                            TotalBudgetController.text,
+                                            emailController.text,
+                                            nameController.text,
+                                            mobileController.text,
+                                            messageController.text,
+                                            followingvalues.toString(),
+                                            VideoController.text,
+                                            _imageList,
+                                            _documentList);
+                                      }
                                     }
                                 },
                                 child: Container(
@@ -2038,6 +2255,68 @@ class EditDonationPostState extends State<EditDonationPost> {
           )),
     );
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   otherOptionview(BuildContext context2) {
     Pattern pattern =
@@ -2311,21 +2590,28 @@ class EditDonationPostState extends State<EditDonationPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                child: Text(
-                  "Search contact",
-                  style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
-              ),
+                  width: SizeConfig.blockSizeHorizontal * 50,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        getFollowData(userid, value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                        hintText: "Search..."),
+                  )),
               Container(
                 padding: EdgeInsets.only(
                   right: SizeConfig.blockSizeHorizontal * 2,
@@ -2363,7 +2649,7 @@ class EditDonationPostState extends State<EditDonationPost> {
     );
   }
 
-  emptybox(BuildContext context) {
+  emptybox() {
     return Container(  height: SizeConfig.blockSizeVertical * 30,
     child:  Column(
       children: [
@@ -2374,7 +2660,8 @@ class EditDonationPostState extends State<EditDonationPost> {
   }
 
   ExpandedInvitationview0(BuildContext context) {
-    return Container(
+    return categoryfollowinglist != null ?
+      Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
         child: MediaQuery.removePadding(
@@ -2406,6 +2693,22 @@ class EditDonationPostState extends State<EditDonationPost> {
                   ),
                 );
               }),
+        )) : Container(
+        alignment: Alignment.center,
+        child: resultvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+          child: Text(
+            "No search results to show",
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
         ));
   }
 
@@ -2608,7 +2911,7 @@ class EditDonationPostState extends State<EditDonationPost> {
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
-          msg: "Something went wrong",
+          msg: jsonData["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
@@ -18,6 +19,7 @@ import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class EditProfileScreen extends StatefulWidget{
 
@@ -173,15 +175,72 @@ class EditProfileScreenState extends State<EditProfileScreen>{
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getData(int id) async {
     Map data = {
@@ -194,12 +253,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         loginResponse = new LoginResponse.fromJson(jsonResponse);
         print("Json profile data: " + jsonResponse.toString());
@@ -283,21 +337,11 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: loginResponse.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(loginResponse.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -343,7 +387,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -366,7 +410,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -384,7 +428,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -457,7 +501,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                     EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      "Edit Profile",
+                      'editprofile'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
@@ -640,7 +684,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.nickname,
+                                'nickname'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -664,7 +708,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                   keyboardType: TextInputType.name,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter nick name";
+                                      return 'pleaseenternickname'.tr;
                                     else
                                       return null;
                                   },
@@ -700,7 +744,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.fullname,
+                                'fullname'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -722,7 +766,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 keyboardType: TextInputType.name,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter full name";
+                                    return 'pleaseenterfullname'.tr;
                                   else
                                     return null;
                                 },
@@ -758,7 +802,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.emailid,
+                                'email'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -780,9 +824,9 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter email";
+                                    return 'pleaseenteremail'.tr;
                                   else if (!regex.hasMatch(val))
-                                    return "Please enter valid email";
+                                    return 'pleaseentervalidemail'.tr;
                                   else
                                     return null;
                                 },
@@ -818,7 +862,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.contrycode,
+                                'countrycode'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -851,7 +895,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 keyboardType: TextInputType.phone,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter country code";
+                                    return 'pleaseentercountrycode'.tr;
                                   else
                                     return null;
                                 },
@@ -888,7 +932,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.mobileno,
+                               'mobileno'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -919,9 +963,9 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 keyboardType: TextInputType.phone,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter mobile number";
+                                    return 'pleaseentermobilenumber'.tr;
                                   else if (val.length != 10)
-                                    return "Please enter valid mobile number";
+                                    return 'pleaseentervalidmobilenumber'.tr;
                                   else
                                     return null;
                                 },
@@ -957,7 +1001,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.dateofbirth,
+                               'dateofbirth'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1117,7 +1161,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.nationality,
+                                'nationality'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1139,7 +1183,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 keyboardType: TextInputType.name,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter natinality";
+                                    return 'pleaseenternatinality'.tr;
                                   else
                                     return null;
                                 },
@@ -1176,7 +1220,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal * 35,
                               child: Text(
-                                StringConstant.currentcountry,
+                               'currentcountry'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1201,7 +1245,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 keyboardType: TextInputType.name,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter current country";
+                                    return 'pleaseentercurrentcountry'.tr;
                                   else
                                     return null;
                                 },
@@ -1253,7 +1297,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                       token,
                                       _imageFile);
                                 } else {
-                                  errorDialog("No Internet Connection");
+                                  errorDialog('nointernetconnection'.tr);
 
                                 }
                                 // No-Internet Case
@@ -1277,7 +1321,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                                 fit: BoxFit.fill,
                               ),
                             ),
-                            child: Text(StringConstant.update,
+                            child: Text('update'.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
@@ -1301,67 +1345,6 @@ class EditProfileScreenState extends State<EditProfileScreen>{
              ),
            )
           ],
-        ),
-      ),
-    );
-  }
-
-  void errorDialog(String text) {
-    showDialog(
-      context: context,
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ),
-        backgroundColor: AppColors.whiteColor,
-        child: new Container(
-          margin: EdgeInsets.all(5),
-          width: 300.0,
-          height: 180.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Icon(
-                  Icons.error,
-                  size: 50.0,
-                  color: Colors.red,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                color: AppColors.whiteColor,
-                alignment: Alignment.center,
-                height: 50,
-                child: Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  color: AppColors.whiteColor,
-                  alignment: Alignment.center,
-                  height: 50,
-                  child: Text(
-                    'OK',
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -1403,38 +1386,23 @@ class EditProfileScreenState extends State<EditProfileScreen>{
           {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
             Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => ProfileScreen()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
               Navigator.of(context).pop();
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         }
       }
       else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        errorDialog("Internal server error");
+        errorDialog('internalservererror'.tr);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('somethingwentwrong'.tr);
+
       }
     });
   }

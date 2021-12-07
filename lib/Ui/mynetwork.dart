@@ -14,6 +14,7 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 class mynetwork extends StatefulWidget {
   @override
@@ -50,6 +51,69 @@ class _mynetworkState extends State<mynetwork> {
       getFollowing(userid,searchvalue);
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
   void getdata(String user_id) async {
     setState(() {
       storelist_length=null;
@@ -90,20 +154,13 @@ class _mynetworkState extends State<mynetwork> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: requestpojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(requestpojo.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -146,20 +203,12 @@ class _mynetworkState extends State<mynetwork> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: followlistpojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(followlistpojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(followval)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(followval)["message"]);
+
     }
   }
 
@@ -178,7 +227,7 @@ class _mynetworkState extends State<mynetwork> {
           Container(
             //height: SizeConfig.blockSizeVertical * 30,
             margin: EdgeInsets.only(
-                bottom: SizeConfig.blockSizeVertical * 4,
+
                 top: SizeConfig.blockSizeVertical * 1,
                 left: SizeConfig.blockSizeHorizontal * 2,
                 right: SizeConfig.blockSizeHorizontal * 2),
@@ -393,7 +442,7 @@ class _mynetworkState extends State<mynetwork> {
                 ? Center(
               child: CircularProgressIndicator(),
             ) : Center(
-              child: Text("No Records Found",style: TextStyle(
+              child: Text('norecordsfound'.tr,style: TextStyle(
                   letterSpacing: 1.0,
                   color: AppColors.black,
                   fontSize: 16,
@@ -436,7 +485,7 @@ class _mynetworkState extends State<mynetwork> {
             decoration: new InputDecoration(
                 prefixIcon: Icon(Icons.search, color: Colors.black),
                 border: InputBorder.none,
-                hintStyle: TextStyle(color: Colors.black,fontSize: 12), hintText: 'Search'),
+                hintStyle: TextStyle(color: Colors.black,fontSize: 12), hintText: 'search'.tr),
           )
         ],
       ) ,

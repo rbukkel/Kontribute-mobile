@@ -306,7 +306,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'OK',
+                    'ok'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,

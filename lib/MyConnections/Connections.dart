@@ -13,6 +13,7 @@ import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class Connections extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class ConnectionsState extends State<Connections> {
             toolbarHeight: SizeConfig.blockSizeVertical *15,
             title: Container(
               child: Text(
-                StringConstant.mynetwork,
+               'mynetwork'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     decoration: TextDecoration.none,
@@ -104,7 +105,7 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.myconnections.toUpperCase(),
+                          Text('myconnections'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],
@@ -118,7 +119,7 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.receiverequest.toUpperCase(),
+                          Text('receiverequest'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],
@@ -133,7 +134,7 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.sendrequest.toUpperCase(),
+                          Text('sendrequest'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],
@@ -147,7 +148,7 @@ class ConnectionsState extends State<Connections> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(StringConstant.peopleyouknow.toUpperCase(),
+                          Text('peopleyoumayknow'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black, fontSize: 10,letterSpacing: 1.0))
                         ],

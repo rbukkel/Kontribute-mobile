@@ -20,6 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:file_picker/file_picker.dart';
+import 'package:get/get.dart';
 
 class EditEventPost extends StatefulWidget {
   final String data;
@@ -44,22 +45,29 @@ class EditEventPostState extends State<EditEventPost> {
   final SearchPostFocus = FocusNode();
   final CostofTicketFocus = FocusNode();
   final VideoFocus = FocusNode();
+  final TextEditingController VideoController = new TextEditingController();
+  String _Video;
   final TermsFocus = FocusNode();
-  var vidoname=null;
+  var vidoname = null;
   List _selecteName = List();
   var productlist_length;
   var imageslist_length;
   final TextEditingController TermsController = new TextEditingController();
-  final TextEditingController searchpostController = new TextEditingController();
+  final TextEditingController searchpostController =
+      new TextEditingController();
   final TextEditingController EventNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController = new TextEditingController();
-  final TextEditingController DescriptionController = new TextEditingController();
+  final TextEditingController LocationDetailsController =
+      new TextEditingController();
+  final TextEditingController DescriptionController =
+      new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController CostofTicketController = new TextEditingController();
-  final TextEditingController MaximumNoofquantityController = new TextEditingController();
+  final TextEditingController CostofTicketController =
+      new TextEditingController();
+  final TextEditingController MaximumNoofquantityController =
+      new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   List<File> _imageList = [];
   List<File> _documentList = [];
@@ -84,13 +92,13 @@ class EditEventPostState extends State<EditEventPost> {
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
-    "Invite",
-    "Others"
+    "Invite"
   ];
+  bool resultfolowvalue = true;
   get_EventCreate sendgift;
   FileType fileType;
-  var basename=null;
-  var catname=null;
+  var basename = null;
+  var catname = null;
   bool expandFlag0 = false;
   var categoryfollowinglist;
   String link;
@@ -115,7 +123,7 @@ class EditEventPostState extends State<EditEventPost> {
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController subjectController = new TextEditingController();
   final TextEditingController messageController = new TextEditingController();
-  String _emailother,_name,_mobile,_subject,_descriptionother;
+  String _emailother, _name, _mobile, _subject, _descriptionother;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   sendinvitationpojo sendinvi;
   var file1;
@@ -143,7 +151,6 @@ class EditEventPostState extends State<EditEventPost> {
     "Other"
   ];
 
-
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
   String selectedTime = "";
   String selectedEndTime = "";
@@ -160,13 +167,16 @@ class EditEventPostState extends State<EditEventPost> {
   String formattedEndDate = "2021/07/07";
   final EnterRequiredAmountFocus = FocusNode();
   final MaximumnoparticipantFocus = FocusNode();
-  final TextEditingController EnterRequiredAmountController = new TextEditingController();
-  final TextEditingController Maximumnoparticipantcontroller = new TextEditingController();
+  final TextEditingController EnterRequiredAmountController =
+      new TextEditingController();
+  final TextEditingController Maximumnoparticipantcontroller =
+      new TextEditingController();
   String _requiredamount;
   String _Maximumnoparticipant;
   String userid;
   String username;
   int catid;
+  String searchvalue="";
   EventCategoryPojo listing;
   DateTime currentDate = DateTime.now();
   var myFormat = DateFormat('yyyy/MM/dd');
@@ -176,37 +186,106 @@ class EditEventPostState extends State<EditEventPost> {
   String data1;
   int a;
 
+
   DateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2050),
-    );
-
-    if (picked != null && picked != currentDate)
-      setState(() {
-        currentDate = picked;
-        formattedDate = DateFormat('yyyy/MM/dd').format(currentDate);
-        print("onStartDate: " + formattedDate.toString());
-      });
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate:DateTime.now(),
+        lastDate: DateTime(2050));
+    setState(() {
+      Date = picked.toString();
+      formattedDate = DateFormat('yyyy-MM-yy').format(picked);
+      print("onDate: " + formattedDate.toString());
+    });
   }
 
   EndDateView(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: currentEndDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2050),
-    );
+    final DateTime picke = await showDatePicker(
+        context: context,
+        initialDate:DateTime.now().add(Duration(days: 1)),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2050));
+    setState(() {
+      EndDate = picke.toString();
+      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
+      print("onDate: " + formattedEndDate.toString());
 
-    if (picked != null && picked != currentEndDate)
-      setState(() {
-        currentEndDate = picked;
-        formattedEndDate = DateFormat('yyyy/MM/dd').format(currentEndDate);
-        print("onEndDate: " + formattedEndDate.toString());
-      });
+      if(formattedDate.compareTo(formattedEndDate)>0)
+      {
+        print('date is befor');
+        //peform logic here.....
+        errorDialog('End date should be after start date');
+
+      }
+      else {
+        EndDate = picke.toString();
+        print('date is after');
+      }
+    });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   @override
   void initState() {
@@ -214,6 +293,7 @@ class EditEventPostState extends State<EditEventPost> {
     SharedUtils.readloginId("UserId").then((vals) {
       print("UserId: " + vals);
       userid = vals;
+      getFollowData(userid,searchvalue);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -224,12 +304,11 @@ class EditEventPostState extends State<EditEventPost> {
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
-
         getEventCategory();
         data1 = widget.data;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
-        getData(userid,a);
+        getData(userid, a);
 
         setState(() {
           internet = true;
@@ -248,17 +327,17 @@ class EditEventPostState extends State<EditEventPost> {
     });
   }
 
-
   Future<void> _showTimePicker() async {
     final TimeOfDay picked = await showTimePicker(
-        context: context,
+      context: context,
       initialTime: TimeOfDay.now(),
       builder: (BuildContext context, Widget child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-        child: child,
-      );
-    },);
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child,
+        );
+      },
+    );
     /*if (picked != null) {
       setState(() {
         selectedTime = picked;
@@ -270,18 +349,26 @@ class EditEventPostState extends State<EditEventPost> {
         _hour = selecteTime.hour.toString();
         _minute = selecteTime.minute.toString();
         _tim = _hour + ':' + _minute;
-        selectedTime = _tim;
+        if (selectedTime == "") {
+          selectedTime = TimeOfDay.now().toString().substring(10, 15);
+        } else {
+          selectedTime = _tim;
+        }
       });
   }
 
+
   Future<void> _showEndTimePicker() async {
     final TimeOfDay picked = await showTimePicker(
-        context: context, initialTime: TimeOfDay.now(),builder: (BuildContext context, Widget child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-        child: child,
-      );
-    },);
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child,
+        );
+      },
+    );
     /*if (picked != null) {
       setState(() {
         selectedEndTime = picked.format(context);
@@ -293,7 +380,11 @@ class EditEventPostState extends State<EditEventPost> {
         _hourend = selecteEndTime.hour.toString();
         _minuteend = selecteEndTime.minute.toString();
         _timend = _hourend + ':' + _minuteend;
-        selectedEndTime = _timend;
+        if (selectedEndTime == "") {
+          selectedEndTime = TimeOfDay.now().toString().substring(10, 15);
+        } else {
+          selectedEndTime = _timend;
+        }
       });
   }
 
@@ -311,8 +402,7 @@ class EditEventPostState extends State<EditEventPost> {
                     image: new DecorationImage(
                   image: new AssetImage("assets/images/bg_img.png"),
                   fit: BoxFit.fill,
-                )
-                ), //could change this to Color(0xFF737373),
+                )), //could change this to Color(0xFF737373),
                 child: Column(
                   children: [
                     Row(
@@ -354,22 +444,25 @@ class EditEventPostState extends State<EditEventPost> {
                         ]),
                     Expanded(
                       child: ListView.builder(
-                          itemCount:  storelist_length.length == null
-                              ? 0 : storelist_length.length,
-                          itemBuilder: (BuildContext context, int index)
-                          {
+                          itemCount: storelist_length.length == null
+                              ? 0
+                              : storelist_length.length,
+                          itemBuilder: (BuildContext context, int index) {
                             return Container(
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                   catid = listing.resultPush
-                                      .elementAt(index).catId;
-                                  print("categoryid: "+catid.toString());
-                                  print("categoryname: "+listing.resultPush
-                                      .elementAt(index).categoryName
-                                      .toString());
+                                  catid =
+                                      listing.resultPush.elementAt(index).catId;
+                                  print("categoryid: " + catid.toString());
+                                  print("categoryname: " +
+                                      listing.resultPush
+                                          .elementAt(index)
+                                          .categoryName
+                                          .toString());
                                   changeText(listing.resultPush
-                                      .elementAt(index).categoryName
+                                      .elementAt(index)
+                                      .categoryName
                                       .toString());
                                 },
                                 child: Container(
@@ -384,7 +477,10 @@ class EditEventPostState extends State<EditEventPost> {
                                   ),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    listing.resultPush.elementAt(index).categoryName.toString(),
+                                    listing.resultPush
+                                        .elementAt(index)
+                                        .categoryName
+                                        .toString(),
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.normal,
@@ -541,10 +637,10 @@ class EditEventPostState extends State<EditEventPost> {
   }
 
   void getEventCategory() async {
-    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
+    var response = await http
+        .get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
     var jsonResponse = null;
-    if (response.statusCode == 200)
-    {
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["status"] == false) {
@@ -562,19 +658,15 @@ class EditEventPostState extends State<EditEventPost> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if(listing.resultPush.isEmpty)
-            {
+            if (listing.resultPush.isEmpty) {
               resultvalue = false;
-            }
-            else
-            {
+            } else {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.resultPush;
             }
           });
-        }
-        else {
+        } else {
           Fluttertoast.showToast(
               msg: listing.message,
               toastLength: Toast.LENGTH_SHORT,
@@ -592,12 +684,11 @@ class EditEventPostState extends State<EditEventPost> {
     }
   }
 
-
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() {
           _imageFile = imageFile;
 
@@ -621,7 +712,7 @@ class EditEventPostState extends State<EditEventPost> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() {
           _imageFile = imageFile;
           if (_imageList.length < 3) {
@@ -686,7 +777,8 @@ class EditEventPostState extends State<EditEventPost> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => OngoingEvents()));
+                                  builder: (BuildContext context) =>
+                                      OngoingEvents()));
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -726,383 +818,209 @@ class EditEventPostState extends State<EditEventPost> {
                   ],
                 ),
               ),
-              productlist_length != null?
-              Expanded(
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Stack(
+              productlist_length != null
+                  ? Expanded(
+                      child: Container(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                color: AppColors.themecolor,
-                                alignment: Alignment.topCenter,
-                                height: SizeConfig.blockSizeVertical * 25,
-                                width:
-                                SizeConfig.blockSizeHorizontal * 100,
                                 child: Stack(
-                                  alignment:
-                                  AlignmentDirectional.bottomCenter,
-                                  children: <Widget>[
-                                    PageView.builder(
-                                      physics: ClampingScrollPhysics(),
-                                      itemCount:
-                                      imageslist_length.length == null
-                                          ? 0
-                                          : imageslist_length.length,
-                                      onPageChanged: (int page) {
-                                        getChangedPageAndMoveBar(page);
-                                      },
-                                      controller: PageController(
-                                          initialPage: currentPageValue,
-                                          keepPage: true,
-                                          viewportFraction: 1),
-                                      itemBuilder: (context, ind) {
-                                        return Container(
-                                          width: SizeConfig
-                                              .blockSizeHorizontal *
-                                              100,
-                                          height: SizeConfig
-                                              .blockSizeVertical *
-                                              25,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color:
-                                                  Colors.transparent),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    Network.BaseApievent +
-                                                        sendgift
-                                                            .eventImagesdata
-                                                            .elementAt(
-                                                            ind)
-                                                            .imagePath,
-                                                  ),
-                                                  fit: BoxFit.fill)),
-                                        );
-                                      },
-                                    ),
-                                    Stack(
-                                      alignment: AlignmentDirectional
-                                          .bottomCenter,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: SizeConfig
-                                                  .blockSizeVertical *
-                                                  2),
-                                          child: Row(
-                                            mainAxisSize:
-                                            MainAxisSize.min,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      color: AppColors.themecolor,
+                                      alignment: Alignment.topCenter,
+                                      height: SizeConfig.blockSizeVertical * 25,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 100,
+                                      child: Stack(
+                                        alignment:
+                                            AlignmentDirectional.bottomCenter,
+                                        children: <Widget>[
+                                          PageView.builder(
+                                            physics: ClampingScrollPhysics(),
+                                            itemCount:
+                                                imageslist_length.length == null
+                                                    ? 0
+                                                    : imageslist_length.length,
+                                            onPageChanged: (int page) {
+                                              getChangedPageAndMoveBar(page);
+                                            },
+                                            controller: PageController(
+                                                initialPage: currentPageValue,
+                                                keepPage: true,
+                                                viewportFraction: 1),
+                                            itemBuilder: (context, ind) {
+                                              return Container(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    100,
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    25,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                            Colors.transparent),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          Network.BaseApievent +
+                                                              sendgift
+                                                                  .eventImagesdata
+                                                                  .elementAt(
+                                                                      ind)
+                                                                  .imagePath,
+                                                        ),
+                                                        fit: BoxFit.fill)),
+                                              );
+                                            },
+                                          ),
+                                          Stack(
+                                            alignment: AlignmentDirectional
+                                                .bottomCenter,
                                             children: <Widget>[
-                                              for (int i = 0; i < imageslist_length.length; i++)
-                                                if (i == currentPageValue) ...[
-                                                  circleBar(true)
-                                                ] else
-                                                  circleBar(false),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: SizeConfig
+                                                            .blockSizeVertical *
+                                                        2),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    for (int i = 0;
+                                                        i <
+                                                            imageslist_length
+                                                                .length;
+                                                        i++)
+                                                      if (i ==
+                                                          currentPageValue) ...[
+                                                        circleBar(true)
+                                                      ] else
+                                                        circleBar(false),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
+                                    InkWell(
+                                      onTap: () {
+                                        showAlert(context);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.topRight,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *
+                                                3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3),
+                                        child: Image.asset(
+                                          "assets/images/camera.png",
+                                          width: 50,
+                                          height: 50,
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  showAlert(context);
-                                },
-                                child: Container(
-                                  alignment: Alignment.topRight,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical *
-                                          3,
-                                      right:
-                                      SizeConfig.blockSizeHorizontal *
-                                          3),
-                                  child: Image.asset(
-                                    "assets/images/camera.png",
-                                    width: 50,
-                                    height: 50,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            child: Container()),
-                        _imageList.length != 0 ? Container(
-                            alignment: Alignment.topCenter,
-                            height: SizeConfig.blockSizeVertical * 10,
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal *
-                                    6,
-                                right:
-                                SizeConfig.blockSizeHorizontal *
-                                    6),
-                            child: _imageList.length == 0
-                                ? new Image.asset(
-                                'assets/images/orderListing.png')
-                                : ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: _imageList == null
-                                    ? 0
-                                    : _imageList.length,
-                                itemBuilder:
-                                    (BuildContext context,
-                                    int index) {
-                                  return Dismissible(
-                                      key: Key(_imageList[index]
-                                          .toString()),
-                                      direction: DismissDirection
-                                          .vertical,
-                                      onDismissed: (direction) {
-                                        setState(() {
-                                          _imageList
-                                              .removeAt(index);
-                                        });
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.topCenter,
-                                        width: 60,
-                                        height: 60,
-                                        margin: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2,
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                2),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              alignment: Alignment
-                                                  .topCenter,
-                                              decoration:
-                                              BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    20),
-                                              ),
-                                              width: 60,
-                                              height: 60,
-                                              child: Image.file(
-                                                _imageList
-                                                    .elementAt(
-                                                    index),
-                                                fit: BoxFit.fill,
-                                                width: 60,
-                                                height: 60,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ));
-                                }))
-                            : Container(),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.eventname,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 1,
-                            right: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                          ),
-                          child: TextFormField(
-                            autofocus: false,
-                            focusNode: EventNameFocus,
-                            controller: EventNameController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.name,
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please enter event name";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v) {
-                              FocusScope.of(context)
-                                  .requestFocus(DescriptionFocus);
-                            },
-                            onSaved: (val) => _eventName = val,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 15,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 15,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            StringConstant.eventdescription,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 1,
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeVertical * 1,
-                              right: SizeConfig.blockSizeVertical * 1,
-                            ),
-                            alignment: Alignment.topLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.black26,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                            child:
-                            Column(
-                              children: [
-                                TextFormField(
-                                  autofocus: false,
-                                  maxLines: 4,
-                                  focusNode: DescriptionFocus,
-                                  controller: DescriptionController,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.text,
-                                  validator: (val) {
-                                    if (val.length == 0)
-                                      return "Please enter event description";
-                                    else
-                                      return null;
-                                  },
-                                  onFieldSubmitted: (v)
-                                  {
-                                    FocusScope.of(context).requestFocus(DateFocus);
-                                  },
-                                  onSaved: (val) => _description = val,
-                                  textAlign: TextAlign.left,
-                                  style:
-                                  TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',  fontSize: 15,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: ()
-                                  {
-                                    DescriptionController.text=DescriptionController.text+"#";
-                                    DescriptionController.selection =
-                                        TextSelection.fromPosition(TextPosition(offset: DescriptionController.text.length));
-                                  },
-                                  child:  Container(
-                                    alignment:Alignment.topLeft,
-                                    margin: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeHorizontal * 3,
-                                        right: SizeConfig.blockSizeHorizontal *3,
-                                        bottom: SizeConfig.blockSizeVertical * 2,
-                                        top: SizeConfig.blockSizeVertical * 2),
-                                    child: Text(
-                                      StringConstant.addhashtag,
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          color: Colors.lightBlue,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Bold'),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                        ),
-                        Container(
-                         // width: SizeConfig.blockSizeHorizontal * 50,
-                          child: Column(
-                            children: [
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              _imageList.length != 0
+                                  ? Container(
+                                      alignment: Alignment.topCenter,
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              6,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  6),
+                                      child: _imageList.length == 0
+                                          ? new Image.asset(
+                                              'assets/images/orderListing.png')
+                                          : ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: _imageList == null
+                                                  ? 0
+                                                  : _imageList.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Dismissible(
+                                                    key: Key(_imageList[index]
+                                                        .toString()),
+                                                    direction: DismissDirection
+                                                        .vertical,
+                                                    onDismissed: (direction) {
+                                                      setState(() {
+                                                        _imageList
+                                                            .removeAt(index);
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      width: 60,
+                                                      height: 60,
+                                                      margin: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              2,
+                                                          top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              1,
+                                                          right: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              2),
+                                                      child: Stack(
+                                                        children: [
+                                                          Container(
+                                                            alignment: Alignment
+                                                                .topCenter,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                            ),
+                                                            width: 60,
+                                                            height: 60,
+                                                            child: Image.file(
+                                                              _imageList
+                                                                  .elementAt(
+                                                                      index),
+                                                              fit: BoxFit.fill,
+                                                              width: 60,
+                                                              height: 60,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ));
+                                              }))
+                                  : Container(),
                               Container(
-                                alignment: Alignment.topLeft,
                                 margin: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal *
-                                        3,
-                                    right:
-                                    SizeConfig.blockSizeHorizontal *
-                                        2,
-                                    top:
-                                    SizeConfig.blockSizeVertical * 2),
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  StringConstant.eventlist,
+                                  StringConstant.eventname,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -1111,32 +1029,92 @@ class EditEventPostState extends State<EditEventPost> {
                                       fontFamily: 'Poppins-Bold'),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  _modalBottomSheetMenu();
-                                },
-                                child: Container(
-                                  height:
-                                  SizeConfig.blockSizeVertical * 8,
-                                  margin: EdgeInsets.only(
-                                      left:
-                                      SizeConfig.blockSizeHorizontal *
-                                          3,
-                                      right:
-                                      SizeConfig.blockSizeHorizontal *
-                                          2,
-                                      top: SizeConfig.blockSizeVertical *
-                                          1),
-                                  padding: EdgeInsets.only(
-                                    left:
-                                    SizeConfig.blockSizeVertical * 1,
-                                    right:
-                                    SizeConfig.blockSizeVertical * 1,
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                alignment: Alignment.topLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
                                   ),
-                                  alignment: Alignment.centerLeft,
+                                  color: Colors.transparent,
+                                ),
+                                child: TextFormField(
+                                  autofocus: false,
+                                  focusNode: EventNameFocus,
+                                  controller: EventNameController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.name,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter event name";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context)
+                                        .requestFocus(DescriptionFocus);
+                                  },
+                                  onSaved: (val) => _eventName = val,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                child: Text(
+                                  StringConstant.eventdescription,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 1,
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeVertical * 1,
+                                    right: SizeConfig.blockSizeVertical * 1,
+                                  ),
+                                  alignment: Alignment.topLeft,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
                                       color: Colors.black26,
                                       style: BorderStyle.solid,
@@ -1144,17 +1122,152 @@ class EditEventPostState extends State<EditEventPost> {
                                     ),
                                     color: Colors.transparent,
                                   ),
-                                  child: Text(
-                                    textHolder,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
-                                  /*  child:
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        autofocus: false,
+                                        maxLines: 4,
+                                        focusNode: DescriptionFocus,
+                                        controller: DescriptionController,
+                                        textInputAction: TextInputAction.next,
+                                        keyboardType: TextInputType.text,
+                                        validator: (val) {
+                                          if (val.length == 0)
+                                            return "Please enter event description";
+                                          else
+                                            return null;
+                                        },
+                                        onFieldSubmitted: (v) {
+                                          FocusScope.of(context)
+                                              .requestFocus(DateFocus);
+                                        },
+                                        onSaved: (val) => _description = val,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 15,
+                                            color: Colors.black),
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 15,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          DescriptionController.text =
+                                              DescriptionController.text + "#";
+                                          DescriptionController.selection =
+                                              TextSelection.fromPosition(
+                                                  TextPosition(
+                                                      offset:
+                                                          DescriptionController
+                                                              .text.length));
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.topLeft,
+                                          margin: EdgeInsets.only(
+                                              left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  3,
+                                              right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  3,
+                                              bottom:
+                                                  SizeConfig.blockSizeVertical *
+                                                      2,
+                                              top:
+                                                  SizeConfig.blockSizeVertical *
+                                                      2),
+                                          child: Text(
+                                            StringConstant.addhashtag,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.lightBlue,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Bold'),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                              Container(
+                                // width: SizeConfig.blockSizeHorizontal * 50,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              3,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  2,
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
+                                      child: Text(
+                                        StringConstant.eventlist,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _modalBottomSheetMenu();
+                                      },
+                                      child: Container(
+                                        height:
+                                            SizeConfig.blockSizeVertical * 8,
+                                        margin: EdgeInsets.only(
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1),
+                                        padding: EdgeInsets.only(
+                                          left:
+                                              SizeConfig.blockSizeVertical * 1,
+                                          right:
+                                              SizeConfig.blockSizeVertical * 1,
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: Colors.black26,
+                                            style: BorderStyle.solid,
+                                            width: 1.0,
+                                          ),
+                                          color: Colors.transparent,
+                                        ),
+                                        child: Text(
+                                          textHolder,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        /*  child:
                                       DropdownButtonHideUnderline(
                                         child: DropdownButton(
                                           hint: Text("please select",style: TextStyle(fontSize: 12),),
@@ -1182,536 +1295,1189 @@ class EditEventPostState extends State<EditEventPost> {
                                           isExpanded: true,
                                         ),
                                       ),*/
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  width: SizeConfig.blockSizeHorizontal * 50,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 3,
-                                            right: SizeConfig.blockSizeHorizontal * 2,
-                                            top: SizeConfig.blockSizeVertical * 2),
-                                        child: Text(
-                                          StringConstant.eventstarttime,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                      ),
-                                      Container(
-                                          height: SizeConfig.blockSizeVertical * 8,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical * 1,
-                                            left: SizeConfig.blockSizeHorizontal * 3,
-                                            right: SizeConfig.blockSizeHorizontal * 2,
-                                          ),
-                                          padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical * 1,
-                                            right: SizeConfig.blockSizeVertical * 1,
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black26,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                            color: Colors.transparent,
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              _showTimePicker();
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  alignment:
-                                                  Alignment.centerLeft,
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      33,
-                                                  padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                          1),
-                                                  child: Text(
-                                                    selectedTime == ""
-                                                        ? "10:00AM"
-                                                        : selectedTime,
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular',
-                                                        fontSize: 12,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      5,
-                                                  child: Icon(
-                                                    Icons.alarm,
-                                                    color: AppColors.greyColor,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                      ),
-                                    ],
-                                  )
-                              ),
-                              Container(
-                                  width: SizeConfig.blockSizeHorizontal * 50,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                            top: SizeConfig.blockSizeVertical * 2),
-                                        child: Text(
-                                          StringConstant.eventendtime,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                      ),
-                                      Container(
-                                          height: SizeConfig.blockSizeVertical * 8,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical * 1,
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                          ),
-                                          padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical * 1,
-                                            right: SizeConfig.blockSizeVertical * 1,
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black26,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                            color: Colors.transparent,
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              _showEndTimePicker();
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      33,
-                                                  padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          1),
-                                                  child: Text(
-                                                    selectedEndTime ==""
-                                                        ? "10:00AM"
-                                                        : selectedEndTime,
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            'Poppins-Regular',
-                                                        fontSize: 12,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: SizeConfig.blockSizeHorizontal * 5,
-                                                  child: Icon(
-                                                    Icons.alarm,
-                                                    color: AppColors.greyColor,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )),
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 50,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
-                                      child: Text(
-                                        StringConstant.startdate,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),
                                       ),
                                     ),
-                                    Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 8,
-                                        margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            top: SizeConfig.blockSizeVertical *
-                                                1),
-                                        padding: EdgeInsets.only(
-                                          left:
-                                              SizeConfig.blockSizeVertical * 1,
-                                          right:
-                                              SizeConfig.blockSizeVertical * 1,
-                                        ),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: Colors.black26,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
-                                          ),
-                                          color: Colors.transparent,
-                                        ),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            DateView(context);
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: SizeConfig.blockSizeHorizontal * 33,
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig.blockSizeHorizontal * 1),
-                                                child: Text(
-                                                 formattedDate,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          'Poppins-Regular',
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    5,
-                                                child: Icon(
-                                                  Icons.calendar_today_outlined,
-                                                  color: AppColors.greyColor,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )),
                                   ],
                                 ),
                               ),
                               Container(
-                                  width: SizeConfig.blockSizeHorizontal * 50,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                            top: SizeConfig.blockSizeVertical *
-                                                2),
-                                        child: Text(
-                                          StringConstant.enddate,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                      ),
-                                      Container(
-                                          height:
-                                              SizeConfig.blockSizeVertical * 8,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                          ),
-                                          padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                          ),
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black26,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                            color: Colors.transparent,
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              EndDateView(context);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  width: SizeConfig
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 50,
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.only(
+                                                  left: SizeConfig
                                                           .blockSizeHorizontal *
-                                                      33,
-                                                  padding: EdgeInsets.only(
-                                                      left: SizeConfig
+                                                      3,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      2),
+                                              child: Text(
+                                                StringConstant.eventstarttime,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily: 'Poppins-Bold'),
+                                              ),
+                                            ),
+                                            Container(
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    8,
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                ),
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                  right: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                ),
+                                                alignment: Alignment.topLeft,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: Colors.black26,
+                                                    style: BorderStyle.solid,
+                                                    width: 1.0,
+                                                  ),
+                                                  color: Colors.transparent,
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    _showTimePicker();
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            33,
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1),
+                                                        child: Text(
+                                                          selectedTime == ""
+                                                              ? "10:00AM"
+                                                              : selectedTime,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                                  1.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily:
+                                                                  'Poppins-Regular',
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5,
+                                                        child: Icon(
+                                                          Icons.alarm,
+                                                          color: AppColors
+                                                              .greyColor,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )),
+                                          ],
+                                        )),
+                                    Container(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 50,
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3,
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      2),
+                                              child: Text(
+                                                StringConstant.eventendtime,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily: 'Poppins-Bold'),
+                                              ),
+                                            ),
+                                            Container(
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    8,
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3,
+                                                ),
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                  right: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                ),
+                                                alignment: Alignment.topLeft,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: Colors.black26,
+                                                    style: BorderStyle.solid,
+                                                    width: 1.0,
+                                                  ),
+                                                  color: Colors.transparent,
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    _showEndTimePicker();
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            33,
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1),
+                                                        child: Text(
+                                                          selectedEndTime == ""
+                                                              ? "10:00AM"
+                                                              : selectedEndTime,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                                  1.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily:
+                                                                  'Poppins-Regular',
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5,
+                                                        child: Icon(
+                                                          Icons.alarm,
+                                                          color: AppColors
+                                                              .greyColor,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )),
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 50,
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.topLeft,
+                                            margin: EdgeInsets.only(
+                                                left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    3,
+                                                right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    2,
+                                                top: SizeConfig
+                                                        .blockSizeVertical *
+                                                    2),
+                                            child: Text(
+                                              StringConstant.startdate,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                          ),
+                                          Container(
+                                              height:
+                                                  SizeConfig.blockSizeVertical *
+                                                      8,
+                                              margin: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1),
+                                              padding: EdgeInsets.only(
+                                                left: SizeConfig
+                                                        .blockSizeVertical *
+                                                    1,
+                                                right: SizeConfig
+                                                        .blockSizeVertical *
+                                                    1,
+                                              ),
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                  color: Colors.black26,
+                                                  style: BorderStyle.solid,
+                                                  width: 1.0,
+                                                ),
+                                                color: Colors.transparent,
+                                              ),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  DateView(context);
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: SizeConfig
                                                               .blockSizeHorizontal *
-                                                          1),
-                                                  child: Text(
-                                                    formattedEndDate,
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            'Poppins-Regular',
-                                                        fontSize: 12,
-                                                        color: Colors.black),
+                                                          33,
+                                                      padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              1),
+                                                      child: Text(
+                                                        formattedDate,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontFamily:
+                                                                'Poppins-Regular',
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          5,
+                                                      child: Icon(
+                                                        Icons
+                                                            .calendar_today_outlined,
+                                                        color:
+                                                            AppColors.greyColor,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 50,
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3,
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      2),
+                                              child: Text(
+                                                StringConstant.enddate,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily: 'Poppins-Bold'),
+                                              ),
+                                            ),
+                                            Container(
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    8,
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3,
+                                                ),
+                                                padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                  right: SizeConfig
+                                                          .blockSizeVertical *
+                                                      1,
+                                                ),
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: Colors.black26,
+                                                    style: BorderStyle.solid,
+                                                    width: 1.0,
+                                                  ),
+                                                  color: Colors.transparent,
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    EndDateView(context);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            33,
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1),
+                                                        child: Text(
+                                                          formattedEndDate,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                                  1.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily:
+                                                                  'Poppins-Regular',
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5,
+                                                        child: Icon(
+                                                          Icons
+                                                              .calendar_today_outlined,
+                                                          color: AppColors
+                                                              .greyColor,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )),
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    width: SizeConfig.blockSizeHorizontal * 45,
+                                    child: Text(
+                                      StringConstant.entryfees,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ),
+                                  Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 42,
+                                      height: SizeConfig.blockSizeVertical * 7,
+                                      margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 2,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Colors.black26,
+                                          style: BorderStyle.solid,
+                                          width: 1.0,
+                                        ),
+                                        color: Colors.transparent,
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {},
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              height:
+                                                  SizeConfig.blockSizeVertical *
+                                                      7,
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  10,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(8),
+                                                    bottomLeft:
+                                                        Radius.circular(8)),
+                                                border: Border.all(
+                                                  color: AppColors.theme1color,
+                                                  style: BorderStyle.solid,
+                                                  width: 1.0,
+                                                ),
+                                                color: AppColors.theme1color,
+                                              ),
+                                              padding: EdgeInsets.all(0.7),
+                                              child: Image.asset(
+                                                "assets/images/dollersign.png",
+                                                width: 50,
+                                                height: 50,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  30,
+                                              padding: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      1,
+                                                  right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      1),
+                                              child: TextFormField(
+                                                autofocus: false,
+                                                focusNode:
+                                                    EnterRequiredAmountFocus,
+                                                controller:
+                                                    EnterRequiredAmountController,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                validator: (val) {
+                                                  if (val.length == 0)
+                                                    return "Please enter required amount";
+                                                  else
+                                                    return null;
+                                                },
+                                                onFieldSubmitted: (v) {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          MaximumnoparticipantFocus);
+                                                },
+                                                onSaved: (val) =>
+                                                    _requiredamount = val,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily:
+                                                        'Poppins-Regular',
+                                                    fontSize: 15,
+                                                    color: Colors.black),
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  focusedBorder:
+                                                      InputBorder.none,
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily:
+                                                        'Poppins-Regular',
+                                                    fontSize: 15,
+                                                    decoration:
+                                                        TextDecoration.none,
                                                   ),
                                                 ),
-                                                Container(
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      5,
-                                                  child: Icon(
-                                                    Icons
-                                                        .calendar_today_outlined,
-                                                    color: AppColors.greyColor,
-                                                  ),
-                                                )
-                                              ],
+                                              ),
                                             ),
-                                          )),
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                StringConstant.entryfees,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: SizeConfig.blockSizeVertical * 7,
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 10,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(8),
-                                              bottomLeft: Radius.circular(8)),
-                                          border: Border.all(
-                                            color: AppColors.theme1color,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
-                                          ),
-                                          color: AppColors.theme1color,
+                                          ],
                                         ),
-                                        padding: EdgeInsets.all(0.7),
-                                        child: Image.asset(
-                                          "assets/images/dollersign.png",
-                                          width: 50,
-                                          height: 50,
+                                      ))
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    width: SizeConfig.blockSizeHorizontal * 45,
+                                    child: Text(
+                                      StringConstant.maximumnofparticipent,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 42,
+                                    height: SizeConfig.blockSizeVertical * 7,
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 2,
+                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.black26,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                      color: Colors.transparent,
+                                    ),
+                                    padding: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 4,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                    child: TextFormField(
+                                      autofocus: false,
+                                      focusNode: MaximumnoparticipantFocus,
+                                      controller:
+                                          Maximumnoparticipantcontroller,
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.number,
+                                      validator: (val) {
+                                        if (val.length == 0)
+                                          return "Please enter maximum no. of participant";
+                                        else
+                                          return null;
+                                      },
+                                      onFieldSubmitted: (v) {
+                                        FocusScope.of(context)
+                                            .requestFocus(VideoFocus);
+                                      },
+                                      onSaved: (val) =>
+                                          _Maximumnoparticipant = val,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 15,
+                                          color: Colors.black),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 15,
+                                          decoration: TextDecoration.none,
                                         ),
                                       ),
-                                      Container(
-                                        width:
-                                        SizeConfig.blockSizeHorizontal * 30,
-                                        padding: EdgeInsets.only(
-                                            left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1,
-                                            right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                1),
-                                        child: TextFormField(
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    width: SizeConfig.blockSizeHorizontal * 15,
+                                    child: Text(
+                                      StringConstant.video,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 65,
+                                    height: SizeConfig.blockSizeVertical * 10,
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 2,
+                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeVertical * 1,
+                                      right: SizeConfig.blockSizeVertical * 1,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.black26,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                      color: Colors.transparent,
+                                    ),
+                                    child: TextFormField(
+                                      autofocus: false,
+                                      focusNode: VideoFocus,
+                                      controller: VideoController,
+                                      maxLines: 6,
+                                      textInputAction: TextInputAction.done,
+                                      keyboardType: TextInputType.url,
+                                      onFieldSubmitted: (v) {
+                                        VideoFocus.unfocus();
+                                      },
+                                      onSaved: (val) => _Video = val,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 10,
+                                        color: AppColors.themecolor,
+                                      ),
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                            color: AppColors.themecolor,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          hintText:
+                                              "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                alignment: Alignment.bottomRight,
+                                margin: EdgeInsets.only(
+                                    right: SizeConfig.blockSizeHorizontal * 4,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Text(
+                                  "videos link with comma(,) seprated, without space",
+                                  maxLines: 4,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    width: SizeConfig.blockSizeHorizontal * 22,
+                                    child: Text(
+                                      StringConstant.revelantdocuents,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ),
+                                  Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 70,
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 2,
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.only(
+                                        left: SizeConfig.blockSizeVertical * 1,
+                                        right: SizeConfig.blockSizeVertical * 1,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Colors.black26,
+                                          style: BorderStyle.solid,
+                                          width: 1.0,
+                                        ),
+                                        color: Colors.transparent,
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {},
+                                        child: Row(
+                                          children: [
+                                            /*  Container(
+                                        width: SizeConfig.blockSizeHorizontal * 60,
+                                        child:
+                                       */ /* Text(
+                                          catname != null ? catname.toString() : "",
+                                          maxLines: 5,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            color: AppColors.black,
+                                          ),
+                                        ),*/ /*
+                                        TextFormField(
                                           autofocus: false,
-                                          focusNode: EnterRequiredAmountFocus,
-                                          controller:
-                                          EnterRequiredAmountController,
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType: TextInputType.number,
+                                          focusNode: documentsFocus,
+                                          controller: documentsController,
+                                          maxLines:6,
+                                          textInputAction: TextInputAction.done,
+                                          keyboardType: TextInputType.url,
                                           validator: (val) {
                                             if (val.length == 0)
-                                              return "Please enter required amount";
+                                              return "Please enter video url";
                                             else
                                               return null;
                                           },
                                           onFieldSubmitted: (v) {
-                                            FocusScope.of(context).requestFocus(
-                                                MaximumnoparticipantFocus);
+                                            documentsFocus.unfocus();
                                           },
-                                          onSaved: (val) => _requiredamount = val,
+                                          onSaved: (val) => _documents = val,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            hintStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 15,
-                                              decoration: TextDecoration.none,
-                                            ),
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            color: AppColors.black,
                                           ),
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              hintStyle: TextStyle(
+                                                color: AppColors.themecolor,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                decoration: TextDecoration.none,
+                                              ),
+                                              hintText: ""),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                StringConstant.maximumnofparticipent,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
+                                      ),*/
+                                            Container(
+                                              height:
+                                                  SizeConfig.blockSizeVertical *
+                                                      25,
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  59,
+                                              child: ListView.builder(
+                                                  itemCount: _documentList
+                                                              .length ==
+                                                          null
+                                                      ? 0
+                                                      : _documentList.length,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int inde) {
+                                                    return Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              3,
+                                                          left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              3,
+                                                          right: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              1),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Column(
+                                                        children: [
+                                                          Container(
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                25,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              _documentList
+                                                                  .elementAt(
+                                                                      inde)
+                                                                  .toString(),
+                                                              maxLines: 2,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
+                                                                  color:
+                                                                      AppColors
+                                                                          .black,
+                                                                  fontSize: 8,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                _documentList
+                                                                    .removeAt(
+                                                                        inde);
+                                                                print(inde
+                                                                    .toString());
+                                                                print("Docname: " +
+                                                                    _documentList
+                                                                        .length
+                                                                        .toString());
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                top: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                    1,
+                                                              ),
+                                                              width: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  20,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Text(
+                                                                "Remove",
+                                                                maxLines: 2,
+                                                                style: TextStyle(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .underline,
+                                                                    letterSpacing:
+                                                                        1.0,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontFamily:
+                                                                        'Poppins-Regular'),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+
+                                                      /*   decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage("assets/images/files.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),*/
+                                                    );
+                                                  }),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                getPdfAndUpload();
+                                              },
+                                              child: Container(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    5,
+                                                child: Icon(
+                                                  Icons.attachment,
+                                                  color: AppColors.greyColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                ],
                               ),
-                            ),
-                            Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
-                                height: SizeConfig.blockSizeVertical * 7,
+                              Container(
                                 margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    width: SizeConfig.blockSizeHorizontal * 45,
+                                    child: Text(
+                                      StringConstant.showpostevent,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 42,
+                                    height: SizeConfig.blockSizeVertical * 7,
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 2,
+                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                    ),
+                                    padding: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeVertical * 1,
+                                      right: SizeConfig.blockSizeVertical * 1,
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.black26,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                      color: Colors.transparent,
+                                    ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton(
+                                        hint: Text(
+                                          showpost == null
+                                              ? "please select"
+                                              : showpost,
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        items: _dropdownCategoryValues
+                                            .map((String value) =>
+                                                DropdownMenuItem(
+                                                  child: Text(
+                                                    value,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontFamily:
+                                                            'Poppins-Bold'),
+                                                  ),
+                                                  value: value,
+                                                ))
+                                            .toList(),
+                                        value: currentSelectedValue,
+                                        isDense: true,
+                                        onChanged: (String newValue) {
+                                          setState(() {
+                                            currentSelectedValue = newValue;
+                                            print(currentSelectedValue
+                                                .toString()
+                                                .toLowerCase());
+                                            if (currentSelectedValue ==
+                                                "Anyone") {
+                                              currentid = 1;
+                                            } else if (currentSelectedValue ==
+                                                "Connections only") {
+                                              currentid = 2;
+                                            } else if (currentSelectedValue ==
+                                                "Invite") {
+                                              currentid = 3;
+                                            }
+                                          });
+                                        },
+                                        isExpanded: true,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              currentSelectedValue.toString().toLowerCase() ==
+                                          "invite" ||
+                                      showpost.toString().toLowerCase() ==
+                                          "invite"
+                                  ? inviteView()
+                                  : currentSelectedValue
+                                                  .toString()
+                                                  .toLowerCase() ==
+                                              "anyone" ||
+                                          showpost.toString().toLowerCase() ==
+                                              "anyone"
+                                      ? emptybox()
+                                      : Container(),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                width: SizeConfig.blockSizeHorizontal * 80,
+                                child: Text(
+                                  StringConstant.addyourspecialtermcond,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                  left: SizeConfig.blockSizeHorizontal * 3,
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                 ),
-                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                alignment: Alignment.topLeft,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
@@ -1721,30 +2487,22 @@ class EditEventPostState extends State<EditEventPost> {
                                   ),
                                   color: Colors.transparent,
                                 ),
-                              padding: EdgeInsets.only(
-                                  left:
-                                  SizeConfig.blockSizeHorizontal *
-                                      4,
-                                  right:
-                                  SizeConfig.blockSizeHorizontal *
-                                      2),
                                 child: TextFormField(
                                   autofocus: false,
-                                  focusNode: MaximumnoparticipantFocus,
-                                  controller: Maximumnoparticipantcontroller,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.number,
+                                  focusNode: TermsFocus,
+                                  controller: TermsController,
+                                  textInputAction: TextInputAction.done,
+                                  keyboardType: TextInputType.text,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter maximum no. of participant";
+                                      return "Please add your special terms & condition";
                                     else
                                       return null;
                                   },
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context).requestFocus(
-                                        VideoFocus);
+                                    TermsFocus.unfocus();
                                   },
-                                  onSaved: (val) => _Maximumnoparticipant = val,
+                                  onSaved: (val) => _terms = val,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
@@ -1763,437 +2521,131 @@ class EditEventPostState extends State<EditEventPost> {
                                       decoration: TextDecoration.none,
                                     ),
                                   ),
-                                ),)
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 15,
-                              child: Text(
-                                StringConstant.video,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 75,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.black26,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
                                 ),
-                                color: Colors.transparent,
                               ),
-                              child: Column(
-                                children: [..._getVideoLink()],
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 22,
-                              child: Text(
-                                StringConstant.revelantdocuents,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                                width: SizeConfig.blockSizeHorizontal * 70,
-                                height: SizeConfig.blockSizeVertical * 10,
+                              Container(
                                 margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                    top: SizeConfig.blockSizeVertical * 2),
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black12,
                                 ),
-                                alignment: Alignment.centerLeft,
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeVertical * 1,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: GestureDetector(
-                                  onTap: ()
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  final input2 = videoList.toString();
+                                  final removedBrackets =
+                                      input2.substring(1, input2.length - 1);
+                                  final parts = removedBrackets.split(',');
+                                  vidoname = parts
+                                      .map((part) => "$part")
+                                      .join(',')
+                                      .trim();
+                                  print("Vidoname: " + vidoname.toString());
+
+
+                                  if(formattedDate.compareTo(formattedEndDate)>0)
                                   {
+                                    print('date is befor');
+                                    //peform logic here.....
+                                    errorDialog('Theenddatemustbeafterthestartdate'.tr);
 
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: SizeConfig.blockSizeHorizontal * 60,
-                                        child: Text(
-                                          catname != null ? catname.toString() : "",
-                                          maxLines: 5,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 10,
-                                            color: AppColors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          getPdfAndUpload();
-                                        },
-                                        child: Container(
-                                          width: SizeConfig.blockSizeHorizontal * 5,
-                                          child: Icon(
-                                            Icons.attachment,
-                                            color: AppColors.greyColor,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                StringConstant.showpostevent,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 42,
-                              height: SizeConfig.blockSizeVertical * 7,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.black26,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  hint: Text(
-                                    showpost == null
-                                        ? "please select"
-                                        : showpost,
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  items: _dropdownCategoryValues
-                                      .map((String value) => DropdownMenuItem(
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
-                                            value: value,
-                                          ))
-                                      .toList(),
-                                  value: currentSelectedValue,
-                                  isDense: true,
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      currentSelectedValue = newValue;
-                                      print(currentSelectedValue
-                                          .toString()
-                                          .toLowerCase());
-                                      if (currentSelectedValue == "Anyone")
-                                      {
-                                        currentid = 1;
-                                      } else if (currentSelectedValue == "Connections only")
-                                      {
-                                        currentid = 2;
+                                  }
+                                  else{
+                                    if (followingvalues == null) {
+                                      createproject(
+                                          context,
+                                          EventNameController.text,
+                                          DescriptionController.text,
+                                          catid,
+                                          selectedTime,
+                                          selectedEndTime,
+                                          formattedDate,
+                                          formattedEndDate,
+                                          EnterRequiredAmountController.text,
+                                          Maximumnoparticipantcontroller.text,
+                                          TermsController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                          "",
+                                          VideoController.text,
+                                          _imageList,
+                                          _documentList);
+                                    } else {
+                                      createproject(
+                                          context,
+                                          EventNameController.text,
+                                          DescriptionController.text,
+                                          catid,
+                                          selectedTime,
+                                          selectedEndTime,
+                                          formattedDate,
+                                          formattedEndDate,
+                                          EnterRequiredAmountController.text,
+                                          Maximumnoparticipantcontroller.text,
+                                          TermsController.text,
+                                          emailController.text,
+                                          nameController.text,
+                                          mobileController.text,
+                                          messageController.text,
+                                          followingvalues.toString(),
+                                          VideoController.text,
+                                          _imageList,
+                                          _documentList);
+                                    }
+                                  }
 
-                                      }else if(currentSelectedValue=="Invite")
-                                      {
-                                        currentid =3;
 
-                                      }else if(currentSelectedValue=="Others")
-                                      {
-                                        currentid = 4;
-                                      }
-                                    });
-                                  },
-                                  isExpanded: true,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        currentSelectedValue.toString().toLowerCase() == "invite" || showpost.toString().toLowerCase() == "invite" ? inviteView()
-                            : currentSelectedValue.toString().toLowerCase() == "others" || showpost.toString().toLowerCase() == "others"? otherOptionview()
-                            : currentSelectedValue.toString().toLowerCase() == "anyone" || showpost.toString().toLowerCase() == "anyone"? emptybox() : Container(),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 3,
-                              right: SizeConfig.blockSizeHorizontal * 3,
-                              top: SizeConfig.blockSizeVertical * 2),
-                          width: SizeConfig.blockSizeHorizontal * 80,
-                          child: Text(
-                            StringConstant.addyourspecialtermcond,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 1,
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal * 3,
-                          ),
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 1,
-                            right: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          alignment: Alignment.topLeft,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black26,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                          ),
-                          child: TextFormField(
-                            autofocus: false,
-                            focusNode: TermsFocus,
-                            controller: TermsController,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.text,
-                            validator: (val) {
-                              if (val.length == 0)
-                                return "Please add your special terms & condition";
-                              else
-                                return null;
-                            },
-                            onFieldSubmitted: (v) {
-                              TermsFocus.unfocus();
-                            },
-                            onSaved: (val) => _terms = val,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 15,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 15,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2),
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
 
-                            final input2 = videoList.toString();
-                            final removedBrackets = input2.substring(1, input2.length - 1);
-                            final parts = removedBrackets.split(',');
-                            vidoname = parts.map((part) => "$part").join(',').trim();
-                            print("Vidoname: "+vidoname.toString());
-
-                            if(followingvalues ==null)
-                              {
-                                createproject(
-                                    context,
-                                    EventNameController.text,
-                                    DescriptionController.text,
-                                    catid,
-                                    selectedTime,
-                                    selectedEndTime,
-                                    formattedDate,
-                                    formattedEndDate,
-                                    EnterRequiredAmountController.text,
-                                    Maximumnoparticipantcontroller.text,
-                                    TermsController.text,
-                                    emailController.text,
-                                    nameController.text,
-                                    mobileController.text,
-                                    messageController.text,
-                                   "",
-                                    vidoname,
-                                    _imageList,
-                                    _documentList);
-                              }
-                            else{
-                              createproject(
-                                  context,
-                                  EventNameController.text,
-                                  DescriptionController.text,
-                                  catid,
-                                  selectedTime,
-                                  selectedEndTime,
-                                  formattedDate,
-                                  formattedEndDate,
-                                  EnterRequiredAmountController.text,
-                                  Maximumnoparticipantcontroller.text,
-                                  TermsController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  followingvalues.toString(),
-                                  vidoname,
-                                  _imageList,
-                                  _documentList);
-                            }
-
-                            /* Navigator.pushAndRemoveUntil(
+                                  /* Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(builder: (context) => selectlangauge()),
                                             (route) => false);*/
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: SizeConfig.blockSizeVertical * 6,
-                            margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 3,
-                                bottom: SizeConfig.blockSizeVertical * 3,
-                                left: SizeConfig.blockSizeHorizontal * 25,
-                                right: SizeConfig.blockSizeHorizontal * 25),
-                            decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                image: new AssetImage(
-                                    "assets/images/sendbutton.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            child: Text(StringConstant.creat,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular',
-                                  fontSize: 15,
-                                )),
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: SizeConfig.blockSizeVertical * 6,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 3,
+                                      bottom: SizeConfig.blockSizeVertical * 3,
+                                      left: SizeConfig.blockSizeHorizontal * 25,
+                                      right:
+                                          SizeConfig.blockSizeHorizontal * 25),
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: new AssetImage(
+                                          "assets/images/sendbutton.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  child: Text(StringConstant.creat,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 15,
+                                      )),
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
+                        ),
+                      ),
+                    )
+                  : Container(
+                      child: Center(
+                        child: internet == true
+                            ? CircularProgressIndicator()
+                            : SizedBox(),
+                      ),
                     ),
-                  ),
-                ),
-              ) : Container(
-                child: Center(
-                  child: internet == true
-                      ? CircularProgressIndicator()
-                      : SizedBox(),
-                ),
-              ),
             ],
           )),
     );
   }
+
   Future getPdfAndUpload() async {
     File file = await FilePicker.getFile(
       type: FileType.custom,
@@ -2208,8 +2660,7 @@ class EditEventPostState extends State<EditEventPost> {
         file1 = file; //file1 is a global variable which i created
         print("File Path: " + file1.toString());
 
-        if(_documentList.length<2)
-        {
+        if (_documentList.length < 2) {
           _documentList.add(file1);
           for (int i = 0; i < _documentList.length; i++) {
             print("ListDoc:" + _documentList[i].toString());
@@ -2224,9 +2675,8 @@ class EditEventPostState extends State<EditEventPost> {
           final removedBrackets = input.substring(1, input.length - 1);
           final parts = removedBrackets.split(',');
           catname = parts.map((part) => "$part").join(',').trim();
-          print("Docname: "+catname.toString());
-        }
-        else{
+          print("Docname: " + catname.toString());
+        } else {
           Fluttertoast.showToast(
             msg: "upload upto 2 documents",
             toastLength: Toast.LENGTH_SHORT,
@@ -2234,7 +2684,6 @@ class EditEventPostState extends State<EditEventPost> {
             timeInSecForIosWeb: 1,
           );
         }
-
       });
       /* setState(() {
         file1 = file;
@@ -2269,6 +2718,7 @@ class EditEventPostState extends State<EditEventPost> {
     }
     return friendsTextFields;
   }
+
   Widget _addRemoveButton(bool add, int index) {
     return InkWell(
       onTap: () {
@@ -2294,7 +2744,6 @@ class EditEventPostState extends State<EditEventPost> {
     );
   }
 
-
   void createproject(
       BuildContext context,
       String projectname,
@@ -2317,7 +2766,8 @@ class EditEventPostState extends State<EditEventPost> {
       List documentList) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.edit_events));
+    var request = http.MultipartRequest(
+        "POST", Uri.parse(Network.BaseApi + Network.edit_events));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["event_name"] = projectname.toString();
     request.fields["description"] = description.toString();
@@ -2340,16 +2790,15 @@ class EditEventPostState extends State<EditEventPost> {
     request.fields["sendername"] = username.toString();
     request.fields["event_id"] = a.toString();
 
-    print("Request: "+request.fields.toString());
+    print("Request: " + request.fields.toString());
     for (int i = 0; i < images.length; i++) {
       request.files.add(
         http.MultipartFile(
           "fileimages[]",
           http.ByteStream(DelegatingStream.typed(images[i].openRead())),
           await images[i].length(),
-          filename:path.basename(images[i].path),
+          filename: path.basename(images[i].path),
         ),
-
       );
     }
     for (int i = 0; i < documentList.length; i++) {
@@ -2358,7 +2807,7 @@ class EditEventPostState extends State<EditEventPost> {
           "file[]",
           http.ByteStream(DelegatingStream.typed(documentList[i].openRead())),
           await documentList[i].length(),
-          filename:path.basename(documentList[i].path),
+          filename: path.basename(documentList[i].path),
         ),
       );
     }
@@ -2388,7 +2837,10 @@ class EditEventPostState extends State<EditEventPost> {
               timeInSecForIosWeb: 1,
             );
             videoList.clear();
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingEvents()), (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => OngoingEvents()),
+                (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
@@ -2403,7 +2855,7 @@ class EditEventPostState extends State<EditEventPost> {
             );
           }
         }
-      }else if (response.statusCode == 422) {
+      } else if (response.statusCode == 422) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         Fluttertoast.showToast(
           msg: jsonData["message"],
@@ -2431,11 +2883,11 @@ class EditEventPostState extends State<EditEventPost> {
     });
   }
 
-
   otherOptionview() {
-    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    return  Form(
+    return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -2443,15 +2895,14 @@ class EditEventPostState extends State<EditEventPost> {
         children: [
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *2,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:
-            TextFormField(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
               focusNode: NameFocus,
               controller: nameController,
@@ -2465,18 +2916,22 @@ class EditEventPostState extends State<EditEventPost> {
                 else
                   return null;
               },
-              onSaved: (val) => _name= val,
+              onSaved: (val) => _name = val,
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(MobileFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Name*",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2487,14 +2942,14 @@ class EditEventPostState extends State<EditEventPost> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *1,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:  TextFormField(
+                top: SizeConfig.blockSizeVertical * 1,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
               focusNode: MobileFocus,
               controller: mobileController,
@@ -2508,18 +2963,22 @@ class EditEventPostState extends State<EditEventPost> {
                 else
                   return null;
               },
-              onSaved: (val) => _mobile= val,
+              onSaved: (val) => _mobile = val,
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(EmailotherFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Phone Number*",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2530,15 +2989,14 @@ class EditEventPostState extends State<EditEventPost> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+            padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *1,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:
-            TextFormField(
+                top: SizeConfig.blockSizeVertical * 1,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
               focusNode: EmailotherFocus,
               controller: emailController,
@@ -2552,18 +3010,22 @@ class EditEventPostState extends State<EditEventPost> {
                 else
                   return null;
               },
-              onSaved: (val) => _emailother= val,
+              onSaved: (val) => _emailother = val,
               onFieldSubmitted: (v) {
                 FocusScope.of(context).requestFocus(MessageFocus);
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Email*",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2575,17 +3037,15 @@ class EditEventPostState extends State<EditEventPost> {
           Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
             margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *2,
-                left: SizeConfig.blockSizeHorizontal*2,
-                right: SizeConfig.blockSizeHorizontal*2),
-
-            child:
-            TextFormField(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 2,
+                right: SizeConfig.blockSizeHorizontal * 2),
+            child: TextFormField(
               autofocus: false,
-              maxLines:6,
+              maxLines: 6,
               focusNode: MessageFocus,
               controller: messageController,
               keyboardType: TextInputType.text,
@@ -2598,17 +3058,22 @@ class EditEventPostState extends State<EditEventPost> {
                 else
                   return null;
               },
-              onSaved: (val) => _descriptionother= val,
+              onSaved: (val) => _descriptionother = val,
               onFieldSubmitted: (v) {
                 MessageFocus.unfocus();
               },
               textAlign: TextAlign.left,
-              style: TextStyle(letterSpacing: 1.0,  color: Colors.black,fontSize: 12,fontWeight: FontWeight.normal,
-                fontFamily: 'Poppins-Regular',),
+              style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular',
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(5),
                 labelText: "Your Message",
-                labelStyle:TextStyle(
+                labelStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Poppins-Regular',
@@ -2622,8 +3087,50 @@ class EditEventPostState extends State<EditEventPost> {
     );
   }
 
+  Future<void> getFollowData(String a,String search) async {
+    setState(() {
+      categoryfollowinglist =null;
+    });
+    // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {'receiver_id': a.toString(), 'search': search.toString(),};
+    print("Data: " + data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        setState(() {
+          resultfolowvalue = false;
+          categoryfollowinglist = null;
+        });
+      } else {
+        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+          });
+        } else {
+          // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
+  }
 
-  void getData(String user,int id) async {
+
+  void getData(String user, int id) async {
     Map data = {
       'userid': user.toString(),
       'event_id': id.toString(),
@@ -2631,7 +3138,7 @@ class EditEventPostState extends State<EditEventPost> {
     print("receiver: " + data.toString());
     var jsonResponse = null;
     http.Response response =
-    await http.post(Network.BaseApi + Network.get_event, body: data);
+        await http.post(Network.BaseApi + Network.get_event, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
@@ -2651,51 +3158,49 @@ class EditEventPostState extends State<EditEventPost> {
             productlist_length = sendgift.eventData;
             imageslist_length = sendgift.eventImagesdata;
             EventNameController.text = sendgift.eventData.eventName.toString();
-            DescriptionController.text = sendgift.eventData.description.toString();
+            DescriptionController.text =
+                sendgift.eventData.description.toString();
             selectedTime = sendgift.eventData.eventStarttime;
             selectedEndTime = sendgift.eventData.eventEndtime;
             formattedDate = sendgift.eventData.eventStartdate;
             formattedEndDate = sendgift.eventData.eventEnddate;
-            EnterRequiredAmountController.text = sendgift.eventData.entryFee.toString();
-            Maximumnoparticipantcontroller.text = sendgift.eventData.maximumParticipant.toString();
-            TermsController.text = sendgift.eventData.termsAndCondition.toString();
+            EnterRequiredAmountController.text =
+                sendgift.eventData.entryFee.toString();
+            Maximumnoparticipantcontroller.text =
+                sendgift.eventData.maximumParticipant.toString();
+            TermsController.text =
+                sendgift.eventData.termsAndCondition.toString();
             textHolder = sendgift.eventData.categoryName;
             catid = int.parse(sendgift.eventData.categoryId);
-            if(sendgift.invitationdata==null)
-            {
+            if (sendgift.invitationdata == null) {
               nameController.text = "";
               emailController.text = "";
               messageController.text = "";
               mobileController.text = "";
-            }
-            else
-            {
+            } else {
               nameController.text = sendgift.invitationdata.name.toString();
               emailController.text = sendgift.invitationdata.email.toString();
-              messageController.text = sendgift.invitationdata.message.toString();
+              messageController.text =
+                  sendgift.invitationdata.message.toString();
               mobileController.text = sendgift.invitationdata.mobile.toString();
             }
 
-            for (int i = 0; i < sendgift.eventData.videoLink.length; i++)
-            {
+            for (int i = 0; i < sendgift.eventData.videoLink.length; i++) {
               print("link: " + sendgift.eventData.videoLink.elementAt(i).vlink);
               link = sendgift.eventData.videoLink.elementAt(i).vlink;
               print(": " + link);
-              newvideoList.add(link);
+
             }
+            newvideoList.add(link);
             currentid = int.parse(sendgift.eventData.viewType);
-            if(currentid==1)
-            {
-              showpost ="Anyone";
-            }else if(currentid==2)
-            {
-              showpost ="Connections only";
-            }else if(currentid==3)
-            {
-              showpost ="Invite";
-            }else if(currentid==4)
-            {
-              showpost ="Others";
+            if (currentid == 1) {
+              showpost = "Anyone";
+            } else if (currentid == 2) {
+              showpost = "Connections only";
+            } else if (currentid == 3) {
+              showpost = "Invite";
+            } else if (currentid == 4) {
+              showpost = "Others";
             }
             videoList = [
               for (var i in newvideoList)
@@ -2708,11 +3213,15 @@ class EditEventPostState extends State<EditEventPost> {
             final parts = removedBrackets.split(',');
             vidoname = parts.map((part) => "$part").join(',').trim();
             print("videoname: " + vidoname.toString());
+            VideoController.text = vidoname;
             for (int i = 0; i < sendgift.eventData.documents.length; i++) {
-              print("link: " + sendgift.eventData.documents.elementAt(i).documents);
-              linkdocuments = sendgift.eventData.documents.elementAt(i).documents;
-              docList.add(linkdocuments);
+              print("link: " +
+                  sendgift.eventData.documents.elementAt(i).documents);
+              linkdocuments =
+                  sendgift.eventData.documents.elementAt(i).documents;
+
             }
+            docList.add(linkdocuments);
             newdocList = [
               for (var i in docList)
                 if (i != null) i
@@ -2725,22 +3234,21 @@ class EditEventPostState extends State<EditEventPost> {
 
             print("Docname: " + catname.toString());
 
-            TermsController.text = sendgift.eventData.termsAndCondition != null ||
-                sendgift.eventData.termsAndCondition != "" ? sendgift.eventData.termsAndCondition.toString() : "";
+            TermsController.text =
+                sendgift.eventData.termsAndCondition != null ||
+                        sendgift.eventData.termsAndCondition != ""
+                    ? sendgift.eventData.termsAndCondition.toString()
+                    : "";
             //  basename = sendgift.projectData.documents.toString();
             currentid = int.parse(sendgift.eventData.viewType);
-            if (currentid == 1)
-            {
+            if (currentid == 1) {
               showpost = "Anyone";
             } else if (currentid == 2) {
               showpost = "Connections only";
-            }
-            else if(currentid==3)
-            {
-              showpost ="Invite";
-            }else if(currentid==4)
-            {
-              showpost ="Others";
+            } else if (currentid == 3) {
+              showpost = "Invite";
+            } else if (currentid == 4) {
+              showpost = "Others";
             }
           });
         } else {
@@ -2763,15 +3271,17 @@ class EditEventPostState extends State<EditEventPost> {
   }
 
   emptybox() {
-    return Container(  height: SizeConfig.blockSizeVertical * 2,
-        child:  Column(
+    return Container(
+        height: SizeConfig.blockSizeVertical * 2,
+        child: Column(
           children: [
-            Container(height: SizeConfig.blockSizeVertical * 1,
-              child: Text(""),)
+            Container(
+              height: SizeConfig.blockSizeVertical * 1,
+              child: Text(""),
+            )
           ],
         ));
   }
-
 
   inviteView() {
     return Column(
@@ -2797,14 +3307,16 @@ class EditEventPostState extends State<EditEventPost> {
             Container(
               width: SizeConfig.blockSizeHorizontal * 45,
               alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(
-                  right: SizeConfig.blockSizeHorizontal * 3),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
               padding: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical * 3,
               ),
               child: Text(
                 //catname!=null?catname.toString():category_names.toString(),
-                catFollowingname != null ? catFollowingname.toString() : "please select contact",
+                catFollowingname != null
+                    ? catFollowingname.toString()
+                    : "please select contact",
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black38,
@@ -2824,8 +3336,7 @@ class EditEventPostState extends State<EditEventPost> {
           ),
           padding: EdgeInsets.only(
               left: SizeConfig.blockSizeHorizontal * 2,
-              right: SizeConfig.blockSizeHorizontal * 2
-          ),
+              right: SizeConfig.blockSizeHorizontal * 2),
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -2840,23 +3351,28 @@ class EditEventPostState extends State<EditEventPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(
-                  left: SizeConfig.blockSizeHorizontal * 3,
-                  right: SizeConfig.blockSizeHorizontal * 3,
-                ),
-                child:
-                Text(
-                  "Search contact",
-                  style:
-                  TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
-              ),
+                  width: SizeConfig.blockSizeHorizontal * 50,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    left: SizeConfig.blockSizeHorizontal * 3,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        getFollowData(userid, value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            letterSpacing: 1.0,
+                            color: Colors.black,
+                            fontSize: SizeConfig.blockSizeHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Montserrat-Bold'),
+                        hintText: "Search..."),
+                  )),
               Container(
                 padding: EdgeInsets.only(
                   right: SizeConfig.blockSizeHorizontal * 2,
@@ -2895,20 +3411,26 @@ class EditEventPostState extends State<EditEventPost> {
   }
 
   ExpandedInvitationview0() {
-    return Container(
+    return categoryfollowinglist!=null?
+      Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
-        child:MediaQuery.removePadding(
+        child: MediaQuery.removePadding(
           context: context,
           removeTop: true,
-          child:  ListView.builder(
-              itemCount: categoryfollowinglist == null ? 0 : categoryfollowinglist.length,
+          child: ListView.builder(
+              itemCount: categoryfollowinglist == null
+                  ? 0
+                  : categoryfollowinglist.length,
               itemBuilder: (BuildContext context, int index) {
                 return CheckboxListTile(
                   activeColor: AppColors.theme1color,
-                  value: _selecteFollowing.contains(categoryfollowinglist[index]['sender_id']),
+                  value: _selecteFollowing
+                      .contains(categoryfollowinglist[index]['sender_id']),
                   onChanged: (bool selected) {
-                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['sender_id'],
+                    _onCategoryFollowingSelected(
+                        selected,
+                        categoryfollowinglist[index]['sender_id'],
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(
@@ -2922,8 +3444,23 @@ class EditEventPostState extends State<EditEventPost> {
                   ),
                 );
               }),
+        )): Container(
+        alignment: Alignment.center,
+        child: resultfolowvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
         )
-    );
+            : Center(
+          child: Text(
+            "No search results to show",
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
+        ));
   }
 
   void _onCategoryFollowingSelected(bool selected, category_id, category_name) {
@@ -2948,11 +3485,10 @@ class EditEventPostState extends State<EditEventPost> {
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');
     followingcatid = parts1.map((part1) => "$part1").join(',').trim();
-    followingvalues = followingcatid.replaceAll(" ","");
+    followingvalues = followingcatid.replaceAll(" ", "");
     print(followingvalues);
-    print("CatFollowName: "+catFollowingname);
+    print("CatFollowName: " + catFollowingname);
   }
-
 }
 
 class ItemLists {
@@ -2963,10 +3499,13 @@ class ItemLists {
 
 class videoTextFields extends StatefulWidget {
   final int index;
+
   videoTextFields(this.index);
+
   @override
   _videoTextFieldsState createState() => _videoTextFieldsState();
 }
+
 class _videoTextFieldsState extends State<videoTextFields> {
   TextEditingController _nameController;
 
@@ -2983,10 +3522,9 @@ class _videoTextFieldsState extends State<videoTextFields> {
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text = EditEventPostState.videoList[widget.index] ??'';
+      _nameController.text = EditEventPostState.videoList[widget.index] ?? '';
     });
 
     return TextFormField(
@@ -2999,18 +3537,17 @@ class _videoTextFieldsState extends State<videoTextFields> {
         fontSize: 10,
       ),
       decoration: InputDecoration(
-          hintText: 'Enter video link',hintStyle: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.normal,
-        fontFamily: 'Poppins-Regular',
-        fontSize: 10,
-      )),
+          hintText: 'Enter video link',
+          hintStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+            fontFamily: 'Poppins-Regular',
+            fontSize: 10,
+          )),
       validator: (v) {
-        if (v.trim().isEmpty)
-          return 'Please enter something';
+        if (v.trim().isEmpty) return 'Please enter something';
         return null;
       },
     );
   }
 }
-

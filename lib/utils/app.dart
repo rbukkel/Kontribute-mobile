@@ -283,8 +283,8 @@ bottombar(context) {
                 children: [
                   Image.asset(
                     "assets/images/homeicon.png",
-                    height: 20,
-                    width: 20,
+                    height: 15,
+                    width: 15,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
@@ -311,8 +311,8 @@ bottombar(context) {
             children: [
               Image.asset(
                 "assets/images/nav_mytranscaton.png",
-                height: 20,
-                width: 20,
+                height: 15,
+                width: 15,
                 color: AppColors.grey,
               ),
 
@@ -338,8 +338,8 @@ bottombar(context) {
             children: [
               Image.asset(
                 "assets/images/notificationicon.png",
-                height: 20,
-                width: 20,
+                height: 15,
+                width: 15,
               ),
               Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
@@ -365,8 +365,8 @@ bottombar(context) {
                 children: [
                   Image.asset(
                     "assets/images/nav_contactus.png",
-                    height: 20,
-                    width: 20,
+                    height: 15,
+                    width: 15,
                     color: AppColors.grey,
                   ),
                   Container(

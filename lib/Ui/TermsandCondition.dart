@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class TermsandCondition extends StatefulWidget {
   @override
@@ -65,7 +66,7 @@ class TermsandConditionState extends State<TermsandCondition> {
                     EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      "Terms and Condition",
+                      'termsandcondition'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
@@ -89,7 +90,7 @@ class TermsandConditionState extends State<TermsandCondition> {
               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *5),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Terms and Condition',
+                'termsandcondition'.tr,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     decoration: TextDecoration.none,

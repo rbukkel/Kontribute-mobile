@@ -112,8 +112,7 @@ class EditTicketPostState extends State<EditTicketPost> {
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
-    "Invite",
-    "Others"
+    "Invite"
   ];
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
 
@@ -158,7 +157,7 @@ class EditTicketPostState extends State<EditTicketPost> {
   var myFormatTimeFrameDate = DateFormat('yyyy/MM/dd');
   var categoryfollowinglist;
   int catid;
-
+  bool resultfolowvalue = true;
   final NameFocus = FocusNode();
   final EmailotherFocus = FocusNode();
   final MobileFocus = FocusNode();
@@ -182,7 +181,7 @@ class EditTicketPostState extends State<EditTicketPost> {
   getTicketPojo sendgift;
   var productlist_length;
   var imageslist_length;
-
+  String searchvalue = "";
 
   @override
   void initState() {
@@ -191,6 +190,7 @@ class EditTicketPostState extends State<EditTicketPost> {
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+      getFollowData(userid, searchvalue);
       print("Login userid: " + userid.toString());
     });
     SharedUtils.readloginId("Usename").then((val) {
@@ -308,8 +308,9 @@ class EditTicketPostState extends State<EditTicketPost> {
               print("link: " + sendgift.ticketData.videoLink.elementAt(i).vlink);
               link = sendgift.ticketData.videoLink.elementAt(i).vlink;
               print(": " + link);
-              newvideoList.add(link);
+
             }
+            newvideoList.add(link);
             currentid = int.parse(sendgift.ticketData.viewType);
             if(currentid==1)
             {
@@ -335,11 +336,13 @@ class EditTicketPostState extends State<EditTicketPost> {
             final parts = removedBrackets.split(',');
             vidoname = parts.map((part) => "$part").join(',').trim();
             print("videoname: " + vidoname.toString());
+            VideoController.text = vidoname;
             for (int i = 0; i < sendgift.ticketData.documents.length; i++) {
               print("link: " + sendgift.ticketData.documents.elementAt(i).documents);
               linkdocuments = sendgift.ticketData.documents.elementAt(i).documents;
-              docList.add(linkdocuments);
+
             }
+            docList.add(linkdocuments);
             newdocList = [
               for (var i in docList)
                 if (i != null) i
@@ -762,7 +765,7 @@ class EditTicketPostState extends State<EditTicketPost> {
     request.fields["video_link"] = video.toString();
     request.fields["special_terms_conditions"] = terms.toString();
     request.fields["userid"] = userid.toString();
-    request.fields["members"] = connection.toString();
+    request.fields["members"] = connection.toString()==null?"":connection.toString();
     request.fields["name"] = name.toString();
     request.fields["email"] = email.toString();
     request.fields["mobile"] = mobile.toString();
@@ -772,6 +775,7 @@ class EditTicketPostState extends State<EditTicketPost> {
     request.fields["location_details"] = locationdetails.toString();
     request.fields["message"] = message.toString();
     request.fields["sendername"] = username.toString();
+    request.fields["ticket_id"] = a.toString();
 
     print("Request: "+request.fields.toString());
     for (int i = 0; i < images.length; i++) {
@@ -2573,7 +2577,8 @@ class EditTicketPostState extends State<EditTicketPost> {
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 75,
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical * 10,
                               margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 2,
                                 right: SizeConfig.blockSizeHorizontal * 3,
@@ -2592,11 +2597,56 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 ),
                                 color: Colors.transparent,
                               ),
-                              child: Column(
-                                children: [..._getVideoLink()],
+                              child: TextFormField(
+                                autofocus: false,
+                                focusNode: VideoFocus,
+                                controller: VideoController,
+                                maxLines: 6,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.url,
+                                onFieldSubmitted: (v) {
+                                  VideoFocus.unfocus();
+                                },
+                                onSaved: (val) => _Video = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 10,
+                                  color: AppColors.themecolor,
+                                ),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.themecolor,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    hintText:
+                                    "https://www.youtube.com/watch?v=HFX6AZ5bDDo"),
                               ),
                             )
                           ],
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          margin: EdgeInsets.only(
+                              right: SizeConfig.blockSizeHorizontal * 4,
+                              top: SizeConfig.blockSizeVertical * 2),
+                          child: Text(
+                            "videos link with comma(,) seprated, without space",
+                            maxLines: 4,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Colors.black,
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Bold'),
+                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -2646,15 +2696,13 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   color: Colors.transparent,
                                 ),
                                 child: GestureDetector(
-                                  onTap: ()
-                                  {
-
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     children: [
-                                      Container(
+                                      /* Container(
                                         width: SizeConfig.blockSizeHorizontal * 60,
-                                        child: Text(
+                                        child:
+                                       */ /* Text(
                                           catname != null ? catname.toString() : "",
                                           maxLines: 5,
                                           textAlign: TextAlign.left,
@@ -2665,14 +2713,160 @@ class EditTicketPostState extends State<EditTicketPost> {
                                             fontSize: 10,
                                             color: AppColors.black,
                                           ),
-                                        ),
+                                        ),*/ /*
+                                        TextFormField(
+                                          autofocus: false,
+                                          focusNode: documentsFocus,
+                                          controller: documentsController,
+                                          maxLines:6,
+                                          textInputAction: TextInputAction.done,
+                                          keyboardType: TextInputType.url,
+                                          validator: (val) {
+                                            if (val.length == 0)
+                                              return "Please enter video url";
+                                            else
+                                              return null;
+                                          },
+                                          onFieldSubmitted: (v) {
+                                            documentsFocus.unfocus();
+                                          },
+                                          onSaved: (val) => _documents = val,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10,
+                                            color: AppColors.black,
+                                          ),
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              hintStyle: TextStyle(
+                                                color: AppColors.themecolor,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular',
+                                                fontSize: 10,
+                                                decoration: TextDecoration.none,
+                                              ),
+                                              hintText: ""),
+                                        )
+                                      ),*/
+                                      Container(
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            25,
+                                        width:
+                                        SizeConfig.blockSizeHorizontal *
+                                            59,
+                                        child: ListView.builder(
+                                            itemCount:
+                                            _documentList.length == null
+                                                ? 0
+                                                : _documentList.length,
+                                            shrinkWrap: true,
+                                            scrollDirection:
+                                            Axis.horizontal,
+                                            itemBuilder:
+                                                (BuildContext context,
+                                                int inde) {
+                                              return Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical *
+                                                        3,
+                                                    left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        3,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1),
+                                                alignment: Alignment.center,
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          25,
+                                                      alignment:
+                                                      Alignment.center,
+                                                      child: Text(
+                                                        _documentList
+                                                            .elementAt(inde)
+                                                            .toString(),
+                                                        maxLines: 2,
+                                                        style: TextStyle(
+                                                            letterSpacing:
+                                                            1.0,
+                                                            color: AppColors
+                                                                .black,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          _documentList
+                                                              .removeAt(
+                                                              inde);
+                                                          print(inde
+                                                              .toString());
+                                                          print("Docname: " +
+                                                              _documentList
+                                                                  .length
+                                                                  .toString());
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        margin:
+                                                        EdgeInsets.only(
+                                                          top: SizeConfig
+                                                              .blockSizeVertical *
+                                                              1,
+                                                        ),
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            20,
+                                                        alignment: Alignment
+                                                            .center,
+                                                        child: Text(
+                                                          "Remove",
+                                                          maxLines: 2,
+                                                          style: TextStyle(
+                                                              decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                              letterSpacing:
+                                                              1.0,
+                                                              color: Colors
+                                                                  .blue,
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
                                       ),
                                       GestureDetector(
                                         onTap: () {
                                           getPdfAndUpload();
                                         },
                                         child: Container(
-                                          width: SizeConfig.blockSizeHorizontal * 5,
+                                          width: SizeConfig
+                                              .blockSizeHorizontal *
+                                              5,
                                           child: Icon(
                                             Icons.attachment,
                                             color: AppColors.greyColor,
@@ -2772,9 +2966,6 @@ class EditTicketPostState extends State<EditTicketPost> {
                                       {
                                         currentid =3;
 
-                                      }else if(currentSelectedValue=="Others")
-                                      {
-                                        currentid = 4;
                                       }
                                     });
                                   },
@@ -2906,7 +3097,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   mobileController.text,
                                   messageController.text,
                                   "",
-                                  vidoname,
+                                  VideoController.text,
                                   _imageList,
                                   _documentList);
                             }
@@ -2932,7 +3123,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   mobileController.text,
                                   messageController.text,
                                   followingvalues.toString(),
-                                  vidoname,
+                                  VideoController.text,
                                   _imageList,
                                   _documentList
                                   );
@@ -2978,6 +3169,52 @@ class EditTicketPostState extends State<EditTicketPost> {
           )),
     );
   }
+
+  Future<void> getFollowData(String a, String search) async {
+    setState(() {
+      categoryfollowinglist = null;
+    });
+    // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'receiver_id': a.toString(),
+      'search': search.toString(),
+    };
+    print("Data: " + data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        setState(() {
+          resultfolowvalue = false;
+          categoryfollowinglist = null;
+        });
+      } else {
+        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+          });
+        } else {
+          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            Fluttertoast.showToast(
+              msg: jsonResponse["message"],
+              backgroundColor: Colors.black,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              textColor: Colors.white,
+              timeInSecForIosWeb: 1,
+            );
+          });
+        }
+      }
+    }
+  }
+
 
   emptybox() {
     return Container(  height: SizeConfig.blockSizeVertical * 2,
@@ -3060,20 +3297,28 @@ class EditTicketPostState extends State<EditTicketPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                  width: SizeConfig.blockSizeHorizontal * 50,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal * 3,
                   right: SizeConfig.blockSizeHorizontal * 3,
                 ),
-                child: Text(
-                  "Search contact",
-                  style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Montserrat-Bold'),
-                ),
+                child:TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      getFollowData(userid, value);
+                    });
+                  },
+                  decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          letterSpacing: 1.0,
+                          color: Colors.black,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Montserrat-Bold'),
+                      hintText: "Search..."),
+                )
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -3113,7 +3358,8 @@ class EditTicketPostState extends State<EditTicketPost> {
   }
 
   ExpandedInvitationview0() {
-    return Container(
+    return categoryfollowinglist != null ?
+      Container(
         alignment: Alignment.topLeft,
         height: SizeConfig.blockSizeVertical * 30,
         child: MediaQuery.removePadding(
@@ -3145,6 +3391,22 @@ class EditTicketPostState extends State<EditTicketPost> {
                   ),
                 );
               }),
+        )) : Container(
+        alignment: Alignment.center,
+        child: resultfolowvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+          child: Text(
+            "No search results to show",
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
         ));
   }
   List<Widget> _getVideoLink() {

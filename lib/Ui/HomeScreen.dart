@@ -122,31 +122,31 @@ class HomeScreenState extends State<HomeScreen>{
             Container(
               //color: AppColors.themecolor,
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+              margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical *2,
+              left: SizeConfig.blockSizeHorizontal *5,
+              right: SizeConfig.blockSizeHorizontal *2,
               bottom:  SizeConfig.blockSizeVertical *1,),
               width: SizeConfig.blockSizeHorizontal *100,
               height: SizeConfig.blockSizeVertical * 25,
-              child: new Swiper(
-                itemBuilder: (BuildContext context, int index) {
-                  return
-                    Image(
-                      image: AssetImage('assets/images/homebg${index + 1}.png'),
-                      fit: BoxFit.fill,
-                    );
-
-                },
-                itemCount:3,
-                itemWidth: 300.0,
-                layout: SwiperLayout.STACK,
-              ),
-
-
+                child: new Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    return
+                      Image(
+                        image: AssetImage('assets/images/homebg${index + 1}.png'),
+                        fit: BoxFit.fill,
+                      );
+                  },
+                  itemCount:4,
+                  itemWidth:  SizeConfig.blockSizeHorizontal *80,
+                  layout: SwiperLayout.STACK,
+                ),
               /* InfiniteCards(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 1.3,
                 controller: _controller,
               ),*/
-           /*   Stack(
+              /*   Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
                   PageView.builder(
@@ -230,7 +230,7 @@ class HomeScreenState extends State<HomeScreen>{
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *3),
+                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *2),
                                 child: Card(
                                   elevation:3.0,
                                   shape: RoundedRectangleBorder(
@@ -278,7 +278,7 @@ class HomeScreenState extends State<HomeScreen>{
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
                                 child: Card(
                                   elevation:3.0,
                                   shape: RoundedRectangleBorder(
@@ -336,7 +336,7 @@ class HomeScreenState extends State<HomeScreen>{
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *3),
+                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *2),
                                 child: Card(
                                   elevation:3.0,
                                   shape: RoundedRectangleBorder(
@@ -384,7 +384,7 @@ class HomeScreenState extends State<HomeScreen>{
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
                                 child: Card(
                                   elevation:3.0,
                                   shape: RoundedRectangleBorder(
@@ -440,7 +440,7 @@ class HomeScreenState extends State<HomeScreen>{
                               },
                               child:  Container(
                                 height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *3),
+                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *2),
                                 child: Card(
                                   elevation:3.0,
                                   shape: RoundedRectangleBorder(
@@ -488,7 +488,7 @@ class HomeScreenState extends State<HomeScreen>{
                               },
                               child: Container(
                                 height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
+                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
                                 child: Card(
                                   elevation:3.0,
                                   shape: RoundedRectangleBorder(

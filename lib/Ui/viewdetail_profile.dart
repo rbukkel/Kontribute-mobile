@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -63,7 +63,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
   bool imageUrl = false;
   bool _loading = false;
   String image;
-  String  Follow="Follow";
+  String Follow="Follow";
   followstatus followstatusPojo;
   String updateval;
 
@@ -90,15 +90,71 @@ class viewdetail_profileState extends State<viewdetail_profile>{
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getData(int id) async {
     Map data = {
@@ -111,12 +167,8 @@ class viewdetail_profileState extends State<viewdetail_profile>{
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["status"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         loginResponse = new ProfilePojo.fromJson(jsonResponse);
         print("Json profile data: " + jsonResponse.toString());
@@ -138,21 +190,11 @@ class viewdetail_profileState extends State<viewdetail_profile>{
 
           });
         } else {
-          Fluttertoast.showToast(
-            msg: loginResponse.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(loginResponse.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -172,13 +214,8 @@ class viewdetail_profileState extends State<viewdetail_profile>{
         setState(() {
           Follow="Follow";
         });
+       // errorDialog(jsonDecode(valfollowstatus)["message"]);
 
-        Fluttertoast.showToast(
-          msg: jsonDecode(valfollowstatus)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
       } else {
         followstatusPojo = new followstatus.fromJson(jsonResponse);
         print("Json status: " + jsonResponse.toString());
@@ -187,28 +224,13 @@ class viewdetail_profileState extends State<viewdetail_profile>{
           setState(() {
             Follow="";
           });
-          Fluttertoast.showToast(
-            msg: jsonDecode(valfollowstatus)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+
         } else {
-          Fluttertoast.showToast(
-            msg: followstatusPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(followstatusPojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(valfollowstatus)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(valfollowstatus)["message"]);
     }
   }
 
@@ -495,7 +517,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                               border: Border.all(color: AppColors.darkgreen)
                           ),
                           child: Text(
-                            StringConstant.follow.toUpperCase(),
+                            'follow'.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 letterSpacing: 1.0,
@@ -539,7 +561,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                   alignment: Alignment.center,
                                   width: SizeConfig.blockSizeHorizontal * 42,
                                   height: SizeConfig.blockSizeVertical * 6,
-                                  child: Text(StringConstant.pastprojects,
+                                  child: Text('pastprojects'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: pastproject
@@ -592,13 +614,10 @@ class viewdetail_profileState extends State<viewdetail_profile>{
 
                             ),
                           ),*/
-
-
-
                         ],
                       ),
 
-                      tabvalue == "Past Projects" ? pastprojects(): homeview()
+                      tabvalue == "Past Projects" ? pastprojects(): Container()
                     ],
                   ),
                 ),
@@ -810,8 +829,8 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
-
-                                        alignment: Alignment.topRight,
+                                       width: SizeConfig.blockSizeHorizontal *20,
+                                        alignment: Alignment.center,
                                         padding: EdgeInsets.only(
                                             right: SizeConfig
                                                 .blockSizeHorizontal *
@@ -831,7 +850,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                             border: Border.all(color: AppColors.purple)
                                         ),
                                         child: Text(
-                                          "Completed".toUpperCase(),
+                                          'completed'.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
@@ -909,16 +928,32 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical *1,
                                         ),
-                                        child: Text(
-                                          StringConstant.collectedamount+"-"+loginResponse.data.copleteProjects.elementAt(indx).budget,
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black87,
-                                              fontSize:8,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular'),
-                                        ),
+                                        child:
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'collectedamount'.tr,
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize:8,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                                Text(
+                                                 " "+loginResponse.data.copleteProjects.elementAt(indx).budget,
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize:8,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Regular'),
+                                                ),
+                                              ],
+                                            )
+
                                       ),
                                      /* Container(
                                         width: SizeConfig.blockSizeHorizontal *35,
@@ -1192,19 +1227,41 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                 left: SizeConfig.blockSizeHorizontal * 3,
                                 right: SizeConfig.blockSizeHorizontal * 3,
                                 top: SizeConfig.blockSizeVertical * 2),
-                            child: Text(
-                              "View all " +
-                                  (loginResponse.data.copleteProjects.elementAt(indx).commentslist.length)
-                                      .toString() +
-                                  " comments",
-                              maxLines: 2,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: Colors.black26,
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular'),
-                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'viewall'.tr,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black26,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                                Text(" "+(loginResponse.data.copleteProjects.elementAt(indx).commentslist.length).toString()+" ",
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black26,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                                Text('comments'.tr,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black26,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                              ],
+                            )
+
+
+
                           ),
                           commentlist_length != null
                               ?
@@ -1275,7 +1332,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
               left:SizeConfig.blockSizeHorizontal *5
           ),
           child: Text(
-            "About",
+            'about'.tr,
             textAlign: TextAlign.left,
             style: TextStyle(
                 letterSpacing: 1.0,

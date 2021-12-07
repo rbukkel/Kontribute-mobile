@@ -1,10 +1,9 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kontribute/Common/DialogsCommon.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
@@ -59,15 +58,72 @@ class ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getData(String id) async {
     Map data = {
@@ -81,12 +137,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         loginResponse = new LoginResponse.fromJson(jsonResponse);
         print("Json profile data: " + jsonResponse.toString());
@@ -154,21 +205,13 @@ class ProfileScreenState extends State<ProfileScreen> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: loginResponse.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(loginResponse.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -227,7 +270,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      "Profile",
+                      'profile'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
@@ -269,8 +312,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                               : loginResponse.resultPush.facebookId == ""
                                   ? Container(
                                       margin: EdgeInsets.only(
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
+                                          top: SizeConfig.blockSizeVertical * 2),
                                       child: _loading
                                           ? ClipOval(
                                               child: CachedNetworkImage(
@@ -384,7 +426,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Edit".toUpperCase(),
+                                    'edit'.tr,
                                     style: TextStyle(
                                         color: AppColors.whiteColor,
                                         fontWeight: FontWeight.normal,
@@ -392,8 +434,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 2),
+                                        left: SizeConfig.blockSizeHorizontal * 2),
                                     child: Image.asset(
                                       "assets/images/edit.png",
                                       color: AppColors.whiteColor,
@@ -420,7 +461,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 top: SizeConfig.blockSizeVertical * 2),
                             width: SizeConfig.blockSizeHorizontal * 35,
                             child: Text(
-                              StringConstant.emailid,
+                              'email'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,
@@ -455,7 +496,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 top: SizeConfig.blockSizeVertical * 4),
                             width: SizeConfig.blockSizeHorizontal * 35,
                             child: Text(
-                              StringConstant.mobileno,
+                              'mobileno'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,
@@ -490,7 +531,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 top: SizeConfig.blockSizeVertical * 4),
                             width: SizeConfig.blockSizeHorizontal * 35,
                             child: Text(
-                              StringConstant.dateofbirth,
+                              'dateofbirth'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,
@@ -556,7 +597,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 top: SizeConfig.blockSizeVertical * 4),
                             width: SizeConfig.blockSizeHorizontal * 35,
                             child: Text(
-                              StringConstant.nationality,
+                              'nationality'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,
@@ -591,7 +632,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 top: SizeConfig.blockSizeVertical * 4),
                             width: SizeConfig.blockSizeHorizontal * 35,
                             child: Text(
-                              StringConstant.currentcountry,
+                              'currentcountry'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,

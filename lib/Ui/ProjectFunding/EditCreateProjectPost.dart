@@ -150,6 +150,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   String linkdocuments;
   String searchvalue="";
   bool resultfolowvalue = true;
+  DateTime currentDate = DateTime.now();
+  DateTime currentEndDate = DateTime.now().add(Duration(days: 1));
   FollowinglistPojo followlistpojo;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
@@ -204,6 +206,31 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       Date = picked.toString();
       formattedDate = DateFormat('yyyy-MM-yy').format(picked);
       print("onDate: " + formattedDate.toString());
+    });
+  }
+
+  EndDateView(BuildContext context) async {
+    final DateTime picke = await showDatePicker(
+        context: context,
+        initialDate:DateTime.now().add(Duration(days: 1)),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2050));
+    setState(() {
+      EndDate = picke.toString();
+      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
+      print("onDate: " + formattedEndDate.toString());
+
+      if(formattedDate.compareTo(formattedEndDate)>0)
+      {
+        print('date is befor');
+        //peform logic here.....
+        errorDialog('End date should be after start date');
+
+      }
+      else {
+        EndDate = picke.toString();
+        print('date is after');
+      }
     });
   }
 
@@ -466,30 +493,6 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
     }
   }
 
-  EndDateView(BuildContext context) async {
-    final DateTime picke = await showDatePicker(
-        context: context,
-        initialDate:DateTime.now().add(Duration(days: 1)),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2050));
-    setState(() {
-      EndDate = picke.toString();
-      formattedEndDate = DateFormat('yyyy-MM-yy').format(picke);
-      print("onDate: " + formattedEndDate.toString());
-
-      if(formattedDate.compareTo(formattedEndDate)>0)
-      {
-        print('date is befor');
-        //peform logic here.....
-        errorDialog('End date should be after start date');
-
-      }
-      else {
-        EndDate = picke.toString();
-        print('date is after');
-      }
-    });
-  }
 
 
 
@@ -2198,7 +2201,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     mobileController.text,
                                     messageController.text,
                                     "",
-                                    vidoname,
+                                    VideoController.text,
                                     _imageList,
                                     _documentList);
                               }
@@ -2217,15 +2220,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                     mobileController.text,
                                     messageController.text,
                                     followingvalues.toString(),
-                                    vidoname,
+                                    VideoController.text,
                                     _imageList,
                                     _documentList);
                               }
                             }
-
-
-
-
                           },
                           child: Container(
                             alignment: Alignment.center,
