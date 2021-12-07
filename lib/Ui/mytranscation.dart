@@ -359,10 +359,12 @@ class mytranscationState extends State<mytranscation> {
                                                 ),
                                               ),
                                               Container(
+                                                width:
+                                                SizeConfig.blockSizeHorizontal * 25,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
-                                                alignment: Alignment.topRight,
+                                                alignment: Alignment.center,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal *
                                                       1,
@@ -540,11 +542,13 @@ class mytranscationState extends State<mytranscation> {
                                                   ),
                                                 ),
                                                 Container(
+
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig
                                                           .blockSizeVertical *
                                                           1),
-                                                  alignment: Alignment.topRight,
+                                                  width:SizeConfig.blockSizeHorizontal * 25,
+                                                  alignment: Alignment.center,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig
                                                         .blockSizeHorizontal *
@@ -695,9 +699,9 @@ class mytranscationState extends State<mytranscation> {
 
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 13,
+                width: SizeConfig.blockSizeHorizontal *24,
                 margin:
-                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -759,7 +763,7 @@ class mytranscationState extends State<mytranscation> {
               });
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 22,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -789,9 +793,9 @@ class mytranscationState extends State<mytranscation> {
               });
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 23,
                 margin:
-                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:dio/dio.dart';
 import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:file_utils/file_utils.dart';
@@ -33,6 +32,8 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'dart:io';
+import 'package:get/get.dart';
+import 'package:dio/dio.dart';
 
 class OngoingProjectDetailsscreen extends StatefulWidget {
   final String data;
@@ -182,15 +183,74 @@ class OngoingProjectDetailsscreenState
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
+
       }
     });
   }
+
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getData(String id, int projectid) async {
     Map data = {
@@ -204,12 +264,8 @@ class OngoingProjectDetailsscreenState
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         projectdetailspojo = new Projectdetailspojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -231,21 +287,11 @@ class OngoingProjectDetailsscreenState
             getfollowstatus(userid, reverid);
           });
         } else {
-          Fluttertoast.showToast(
-            msg: projectdetailspojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(projectdetailspojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
   int currentPageValue = 0;
@@ -345,7 +391,7 @@ class OngoingProjectDetailsscreenState
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Share via',
+                    'sharevia'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -368,7 +414,7 @@ class OngoingProjectDetailsscreenState
                     child: Icon(Icons.report),
                   ),
                   Text(
-                    'Report',
+                    'report'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -408,7 +454,7 @@ class OngoingProjectDetailsscreenState
                     child: Icon(Icons.content_copy),
                   ),
                   Text(
-                    'Share via',
+                    'sharevia'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -429,7 +475,7 @@ class OngoingProjectDetailsscreenState
                     child: Icon(Icons.edit),
                   ),
                   Text(
-                    'Edit',
+                    'edit'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -466,10 +512,9 @@ class OngoingProjectDetailsscreenState
 
   Future download2(Dio dio, String url, String savePath) async {
     try {
-      Response response = await dio.get(
+      var response = await dio.get(
         url,
         onReceiveProgress: showDownloadProgress,
-        //Received data with List<int>
         options: Options(
             responseType: ResponseType.bytes,
             followRedirects: false,
@@ -540,28 +585,12 @@ class OngoingProjectDetailsscreenState
             Follow = "";
           });
 
-          Fluttertoast.showToast(
-            msg: jsonDecode(valfollowstatus)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
         } else {
-          Fluttertoast.showToast(
-            msg: followstatusPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(followstatusPojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(valfollowstatus)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(valfollowstatus)["message"]);
     }
   }
 
@@ -639,7 +668,7 @@ class OngoingProjectDetailsscreenState
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.ongoingproject,
+                        'projects'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -830,7 +859,7 @@ class OngoingProjectDetailsscreenState
                                           border: Border.all(
                                               color: AppColors.purple)),
                                       child: Text(
-                                        StringConstant.ongoing.toUpperCase(),
+                                       'ongoing'.tr,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
@@ -846,13 +875,13 @@ class OngoingProjectDetailsscreenState
                                       onTap: ()
                                       {
                                         Widget cancelButton = FlatButton(
-                                          child: Text("Cancel"),
+                                          child: Text('cancel'.tr),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
                                         );
                                         Widget continueButton = FlatButton(
-                                          child: Text("Continue"),
+                                          child: Text('continue'.tr),
                                           onPressed: () async {
                                             Payamount(
                                                 projectdetailspojo.commentsdata.id,
@@ -862,7 +891,7 @@ class OngoingProjectDetailsscreenState
                                         );
                                         // set up the AlertDialog
                                         AlertDialog alert = AlertDialog(
-                                          title: Text("Pay now.."),
+                                          title: Text('paynow'.tr),
                                           // content: Text("Are you sure you want to Pay this project?"),
                                           content: new Row(
                                             children: <Widget>[
@@ -875,7 +904,7 @@ class OngoingProjectDetailsscreenState
                                                   keyboardType: TextInputType.number,
                                                   validator: (val) {
                                                     if (val.length == 0)
-                                                      return "Please enter payment amount";
+                                                      return 'pleaseenterpaymentamount'.tr;
                                                     else
                                                       return null;
                                                   },
@@ -900,7 +929,7 @@ class OngoingProjectDetailsscreenState
                                                       fontSize: 10,
                                                       decoration: TextDecoration.none,
                                                     ),
-                                                    hintText:"Enter payment amount",
+                                                    hintText:'enterpaymentamount'.tr,
                                                   ),
                                                 ),
                                               )
@@ -943,7 +972,7 @@ class OngoingProjectDetailsscreenState
 
                                         ),
                                         child: Text(
-                                          StringConstant.pay.toUpperCase(),
+                                          'pay'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.whiteColor,
@@ -994,18 +1023,35 @@ class OngoingProjectDetailsscreenState
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1,
                                       ),
-                                      child: Text(
-                                        "Start Date- " +
-                                            projectdetailspojo
-                                                .commentsdata.projectStartdate,
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: AppColors.black,
-                                            fontSize: 8,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular'),
-                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Text(
+        'startdate'.tr,
+        textAlign: TextAlign.right,
+        style: TextStyle(
+            letterSpacing: 1.0,
+            color: AppColors.black,
+            fontSize: 8,
+            fontWeight: FontWeight.normal,
+            fontFamily: 'Poppins-Regular'),
+      ),
+      Text(
+        " " +
+            projectdetailspojo
+                .commentsdata.projectStartdate,
+        textAlign: TextAlign.right,
+        style: TextStyle(
+            letterSpacing: 1.0,
+            color: AppColors.black,
+            fontSize: 8,
+            fontWeight: FontWeight.normal,
+            fontFamily: 'Poppins-Regular'),
+      ),
+    ],
+    ),
+
+
                                     ),
                                   ],
                                 ),
@@ -1045,18 +1091,34 @@ class OngoingProjectDetailsscreenState
                                       margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1,
                                       ),
-                                      child: Text(
-                                        "End Date- " +
-                                            projectdetailspojo
-                                                .commentsdata.projectEnddate,
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: AppColors.black,
-                                            fontSize: 8,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular'),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'enddate'.tr,
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: AppColors.black,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                          Text(
+                                            " " +
+                                                projectdetailspojo
+                                                    .commentsdata.projectEnddate,
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: AppColors.black,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Regular'),
+                                          ),
+                                        ],
                                       ),
+
                                     ),
                                   ],
                                 ),
@@ -1069,34 +1131,34 @@ class OngoingProjectDetailsscreenState
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 23,
+                              width: SizeConfig.blockSizeHorizontal * 35,
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 1,
                                   left: SizeConfig.blockSizeHorizontal * 2),
-                              child: Text(
-                                StringConstant.collectiontarget + "- ",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black87,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 1),
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "\$" + projectdetailspojo.commentsdata.budget,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.lightBlueAccent,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'collectiontarget'.tr ,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black87,
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular'),
+                                  ),
+                                  Text(
+                                    "  \$" + projectdetailspojo.commentsdata.budget,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.lightBlueAccent,
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular'),
+                                  ),
+                                ],
+                              )
+
                             ),
                             Container(
                               margin: EdgeInsets.only(
@@ -1116,39 +1178,37 @@ class OngoingProjectDetailsscreenState
                               ),
                             ),
                             Container(
-                              width: SizeConfig.blockSizeHorizontal * 24,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 1),
-                              child: Text(
-                                StringConstant.collectedamount + "- ",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black87,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
-                            ),
-                            Container(
+                              width: SizeConfig.blockSizeHorizontal * 35,
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeHorizontal * 4),
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.only(
-                                right: SizeConfig.blockSizeHorizontal * 1,
-                              ),
-                              child: Text(
-                                "\$" +
-                                    projectdetailspojo
-                                        .commentsdata.totalcollectedamount,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.lightBlueAccent,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
-                            )
+                                  right: SizeConfig.blockSizeHorizontal * 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'collectedamount'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black87,
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                    Text(
+                                      "  \$" +
+                                          projectdetailspojo
+                                              .commentsdata.totalcollectedamount,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.lightBlueAccent,
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ],
+                              )
+
+                            ),
                           ],
                         ),
                         imageslist_length != null
@@ -1408,7 +1468,7 @@ class OngoingProjectDetailsscreenState
                             right: SizeConfig.blockSizeHorizontal * 3,),
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Terms and condition: ",
+                            'termsandcondition'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
@@ -1470,20 +1530,43 @@ class OngoingProjectDetailsscreenState
                               left: SizeConfig.blockSizeHorizontal * 3,
                               right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
-                          child: Text(
-                            "View all " +
-                                (projectdetailspojo
-                                        .commentsdata.commentslist.length)
-                                    .toString() +
-                                " comments",
-                            maxLines: 2,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black26,
-                                fontSize: 8,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular'),
-                          ),
+                          child: Row(
+                              children: [
+                                Text(
+                                  'viewall'.tr,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black26,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                                Text(" "+
+                                  (projectdetailspojo
+                                          .commentsdata.commentslist.length)
+                                          .toString()+" ",
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black26,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                                Text('comments'.tr,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black26,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular'),
+                                ),
+                              ],
+                          )
+
+
                         ),
                         storelist_length != null
                             ?
@@ -1586,7 +1669,7 @@ class OngoingProjectDetailsscreenState
                                  maxLines: 10,
                                  validator: (val) {
                                    if (val.length == 0)
-                                     return "Please enter comment";
+                                     return 'pleaseentercomment'.tr;
                                    else
                                      return null;
                                  },
@@ -1612,7 +1695,7 @@ class OngoingProjectDetailsscreenState
                                      fontSize: 12,
                                      decoration: TextDecoration.none,
                                    ),
-                                   hintText: "Add a comment...",
+                                   hintText: 'addacomment'.tr,
                                  ),
                                ),
                              ),
@@ -1630,7 +1713,7 @@ class OngoingProjectDetailsscreenState
                                      right: SizeConfig.blockSizeHorizontal * 5,
                                      top: SizeConfig.blockSizeVertical * 1),
                                  child: Text(
-                                   "Post",
+                                   'post'.tr,
 
                                    style: TextStyle(
                                        letterSpacing: 1.0,
@@ -1805,7 +1888,7 @@ class OngoingProjectDetailsscreenState
                                           SizeConfig.blockSizeHorizontal * 20,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            "Download",
+                                            'download'.tr,
                                             maxLines: 2,
                                             style: TextStyle(
                                                 decoration:
@@ -1848,7 +1931,7 @@ class OngoingProjectDetailsscreenState
                                   top: SizeConfig.blockSizeVertical * 2,
                                   left: SizeConfig.blockSizeHorizontal * 3),
                               child: Text(
-                                StringConstant.contribution,
+                                'contributors'.tr,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     decoration: TextDecoration.none,
@@ -2061,7 +2144,7 @@ class OngoingProjectDetailsscreenState
                                                                   3,
                                                             ),
                                                             child: Text(
-                                                              "Status",
+                                                              'status'.tr,
                                                               textAlign:
                                                                   TextAlign
                                                                       .right,
@@ -2099,20 +2182,40 @@ class OngoingProjectDetailsscreenState
                                                                 top: SizeConfig
                                                                         .blockSizeHorizontal *
                                                                     2),
-                                                            child: Text(
-                                                              "Contribute-\$"+projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toString(),
-                                                              style: TextStyle(
-                                                                  letterSpacing:
-                                                                      1.0,
-                                                                  color: Colors
-                                                                      .black87,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontFamily:
-                                                                      'Poppins-Regular'),
-                                                            ),
+                                                            child:
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      'contribute'.tr,
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                          1.0,
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize: 10,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                          fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                    ),
+                                                                    Text(
+                                                                      "  -\$"+projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toString(),
+                                                                      style: TextStyle(
+                                                                          letterSpacing:
+                                                                          1.0,
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize: 10,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                          fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                    ),
+                                                                  ],
+                                                                )
+
                                                           ),
                                                           projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status=="0"?
                                                           Container(
@@ -2145,7 +2248,7 @@ class OngoingProjectDetailsscreenState
                                                                     color: AppColors
                                                                         .orange)),
                                                             child: Text(
-                                                              "Pending".toUpperCase(),
+                                                              'pendinguppercase'.tr,
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -2192,7 +2295,7 @@ class OngoingProjectDetailsscreenState
                                                                     color: AppColors
                                                                         .orange)),
                                                             child: Text(
-                                                            "Done".toUpperCase(),
+                                                            'done'.tr,
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -2239,7 +2342,7 @@ class OngoingProjectDetailsscreenState
                                                                     color: AppColors
                                                                         .orange)),
                                                             child: Text(
-                                                              "Pending".toUpperCase(),
+                                                              'pendinguppercase'.tr,
                                                               textAlign:
                                                               TextAlign
                                                                   .center,
@@ -2298,35 +2401,19 @@ class OngoingProjectDetailsscreenState
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
+
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 
@@ -2343,40 +2430,21 @@ class OngoingProjectDetailsscreenState
       jsonResponse = json.decode(response.body);
       vallike = response.body; //store response as string
       if (jsonDecode(vallike)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(vallike)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(vallike)["message"]);
+
       } else {
         prolike = new projectlike.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
           getData(userid, a);
         } else {
-          Fluttertoast.showToast(
-            msg: prolike.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+
+          errorDialog(prolike.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(vallike)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(vallike)["message"]);
     }
   }
 
@@ -2395,46 +2463,26 @@ class OngoingProjectDetailsscreenState
       valPost = response.body; //store response as string
       if (jsonDecode(valPost)["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonDecode(valPost)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(valPost)["message"]);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         postcom = new PostcommentPojo.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: postcom.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
           setState(() {
             CommentController.text ="";
           });
 
           getData(userid, a);
         } else {
-          Fluttertoast.showToast(
-            msg: postcom.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(postcom.message);
         }
       }
     } else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonDecode(valPost)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(valPost)["message"]);
+
     }
   }
 
@@ -2468,11 +2516,6 @@ class OngoingProjectDetailsscreenState
     }
   }
   void showToast(String updateval) {
-    Fluttertoast.showToast(
-      msg: jsonDecode(updateval)["message"],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-    );
+    errorDialog(jsonDecode(updateval)["message"]);
   }
 }
