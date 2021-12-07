@@ -20,6 +20,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -113,7 +114,6 @@ class NotificationScreenState extends State<NotificationScreen> {
         });
       }
       });
-
   }
 
   void getSUBdata(String user_id, int page) async {
@@ -123,8 +123,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     print("Subuser: " + data.toString());
     var jsonResponse = null;
     print(Network.BaseApi +
-        Network.notificationlisting +
-        "?page=" +
+        Network.notificationlisting + "?page=" +
         page.toString());
     http.Response response = await http.post(
         Network.BaseApi + Network.notificationlisting + "?page=$page",
@@ -136,11 +135,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
       }  else {
         listing = new Notificationpojo.fromJson(jsonResponse);
         print("Json User: " + jsonResponse.toString());
@@ -156,22 +151,75 @@ class NotificationScreenState extends State<NotificationScreen> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getdata(String user_id, int page) async {
     setState(() {
@@ -193,11 +241,8 @@ class NotificationScreenState extends State<NotificationScreen> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
+        errorDialog(jsonDecode(val)["message"]);
       } else {
        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         listing = new Notificationpojo.fromJson(jsonResponse);
@@ -215,21 +260,12 @@ class NotificationScreenState extends State<NotificationScreen> {
           });
         } else {
         //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
      // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
     paginationApi();
   }
@@ -365,7 +401,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                         EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
-                      StringConstant.notification,
+                      'notification'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           decoration: TextDecoration.none,
@@ -569,12 +605,21 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           listing
                                           .result.data
                                           .elementAt(index)
-                                          .notifyFrom=="comment"?Container():
+                                          .notifyFrom=="comment"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="follow_request"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="donation"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="project"?Container():
                                       GestureDetector(
                                         onTap: () {
                                           Widget cancelButton =
                                           FlatButton(
-                                            child: Text("No"),
+                                            child: Text('no'.tr),
                                             onPressed: () {
                                               Navigator.pop(
                                                   context);
@@ -583,7 +628,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           Widget
                                           continueButton =
                                           FlatButton(
-                                            child: Text("Yes"),
+                                            child: Text('yes'.tr),
                                             onPressed:
                                                 () async {
                                               listing.result
@@ -616,9 +661,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           AlertDialog alert =
                                           AlertDialog(
                                             title: Text(
-                                                "Pay now.."),
-                                            content: Text(
-                                                "Are you sure you want to Pay this project?"),
+                                                'paynow'.tr),
+                                            content: Text('areyousureyouwanttoPaythisproject'.tr),
                                             actions: [
                                               cancelButton,
                                               continueButton,
@@ -657,7 +701,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                 4,
                                           ),
                                           child: Text(
-                                            StringConstant.pay,
+                                           'pay'.tr,
                                             textAlign: TextAlign
                                                 .center,
                                             style: TextStyle(
@@ -783,7 +827,16 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           listing
                                               .result.data
                                               .elementAt(index)
-                                              .notifyFrom=="comment"?Container():
+                                              .notifyFrom=="comment"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="follow_request"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="donation"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="project"?Container():
                                       Container(
                                         width: SizeConfig
                                             .blockSizeHorizontal *
@@ -802,39 +855,60 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                 1),
                                         alignment: Alignment
                                             .centerLeft,
-                                        child: Text(
-                                          listing.result.data
-                                              .elementAt(
-                                              index)
-                                              .price ==
-                                              "0"
-                                              ? "Amount: " +
-                                              listing.result
-                                                  .data
+                                        child: Row(
+                                          children: [
+                                            Text('amount'.tr,
+                                              textAlign:
+                                              TextAlign.left,
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration
+                                                      .none,
+                                                  fontSize: 10,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .normal,
+                                                  fontFamily:
+                                                  "Poppins-Regular",
+                                                  color:
+                                                  Colors.black),
+                                            ),
+                                            Text(
+                                              listing.result.data
                                                   .elementAt(
                                                   index)
-                                                  .minCashByParticipant
-                                              : "Amount: " +
-                                              listing.result
-                                                  .data
-                                                  .elementAt(
-                                                  index)
-                                                  .price,
-                                          textAlign:
-                                          TextAlign.left,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration
-                                                  .none,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight
-                                                  .normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color:
-                                              Colors.black),
-                                        ),
+                                                  .price == "0"
+                                                  ?
+                                                  listing.result
+                                                      .data
+                                                      .elementAt(
+                                                      index)
+                                                      .minCashByParticipant
+                                                  :
+                                                  listing.result
+                                                      .data
+                                                      .elementAt(
+                                                      index)
+                                                      .price,
+                                              textAlign:
+                                              TextAlign.left,
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration
+                                                      .none,
+                                                  fontSize: 10,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .normal,
+                                                  fontFamily:
+                                                  "Poppins-Regular",
+                                                  color:
+                                                  Colors.black),
+                                            ),
+                                          ],
+                                        )
+
+
                                       ),
                                       Container(
                                         width: SizeConfig
@@ -885,7 +959,16 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   listing
                                       .result.data
                                       .elementAt(index)
-                                      .notifyFrom=="comment"?Container():
+                                      .notifyFrom=="comment"||listing
+                                  .result.data
+                                  .elementAt(index)
+                                  .notifyFrom=="follow_request"||listing
+                                  .result.data
+                                  .elementAt(index)
+                                  .notifyFrom=="donation"||listing
+                                  .result.data
+                                  .elementAt(index)
+                                  .notifyFrom=="project"?Container():
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment
@@ -911,23 +994,42 @@ class NotificationScreenState extends State<NotificationScreen> {
                                             1),
                                     alignment:
                                     Alignment.centerLeft,
-                                    child: Text(
-                                      "Start date: " +
-                                          listing.result.data
-                                              .elementAt(index)
-                                              .postedDate,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          decoration:
-                                          TextDecoration
-                                              .none,
-                                          fontSize: 10,
-                                          fontWeight:
-                                          FontWeight.normal,
-                                          fontFamily:
-                                          "Poppins-Regular",
-                                          color: Colors.black),
-                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'startdate'.tr,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration
+                                                  .none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          " :  " +
+                                              listing.result.data
+                                                  .elementAt(index)
+                                                  .postedDate,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration
+                                                  .none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    )
                                   ),
                                   Container(
                                     width: SizeConfig
@@ -949,21 +1051,38 @@ class NotificationScreenState extends State<NotificationScreen> {
                                             1),
                                     alignment:
                                     Alignment.centerRight,
-                                    child: Text(
-                                      "End date: " +
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'enddate'.tr,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration.none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color: Colors.black),
+                                        ),
+                                        Text(" :  "+
                                           listing.result.data
-                                              .elementAt(index)
-                                              .postedDate,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          decoration:
-                                          TextDecoration.none,
-                                          fontSize: 10,
-                                          fontWeight:
-                                          FontWeight.normal,
-                                          fontFamily:
-                                          "Poppins-Regular",
-                                          color: Colors.black),
+                                                  .elementAt(index)
+                                                  .postedDate,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              decoration:
+                                              TextDecoration.none,
+                                              fontSize: 10,
+                                              fontWeight:
+                                              FontWeight.normal,
+                                              fontFamily:
+                                              "Poppins-Regular",
+                                              color: Colors.black),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
@@ -1032,7 +1151,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -1172,23 +1291,22 @@ class NotificationScreenState extends State<NotificationScreen> {
 
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 13,
-                margin:
-                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                width: SizeConfig.blockSizeHorizontal * 24,
+                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/homeicon.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Home",
+                        'home'.tr,
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -1212,15 +1330,15 @@ class NotificationScreenState extends State<NotificationScreen> {
                   children: [
                     Image.asset(
                       "assets/images/nav_mytranscaton.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                       color: AppColors.grey,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "My Transactions",
+                        'mytransactions'.tr,
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),
@@ -1237,22 +1355,22 @@ class NotificationScreenState extends State<NotificationScreen> {
 
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 22,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/notificationicon.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                       color: AppColors.selectedcolor,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Notification",
+                        'notification'.tr,
                         style: TextStyle(
                             color: AppColors.selectedcolor, fontSize: 10),
                       ),
@@ -1268,24 +1386,24 @@ class NotificationScreenState extends State<NotificationScreen> {
     });
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal * 15,
+                width: SizeConfig.blockSizeHorizontal * 23,
                 margin:
-                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/nav_contactus.png",
-                      height: 20,
-                      width: 20,
+                      height: 15,
+                      width: 15,
                       color: AppColors.greyColor,
                     ),
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
                       child: Text(
-                        "Contact Us",
+                        'contactus'.tr,
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 10),
                       ),

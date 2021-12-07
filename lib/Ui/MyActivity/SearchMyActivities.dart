@@ -38,6 +38,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
+import 'package:get/get.dart';
 
 class SearchMyActivities extends StatefulWidget {
 
@@ -68,6 +69,10 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
   String tabValue = "gift";
   String receivefrom = "gift";
   String updateval;
+  String eventupdateval;
+  String ticketupdateval;
+  String donationupdateval;
+  String giftupdateval;
   String Follow = "Follow";
   int pageNumber = 1;
   int totalPage = 1;
@@ -183,11 +188,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
 
         if(sortval.toString() == "gift")
@@ -208,11 +210,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
               });
             }
             else {
-              Fluttertoast.showToast(
-                  msg: listinggift.message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1);
+              errorDialog(listinggift.message);
             }
           }
         else if(sortval.toString() == "project")
@@ -233,11 +231,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
             });
           }
           else {
-            Fluttertoast.showToast(
-                msg: listing.message,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
+            errorDialog(listing.message);
           }
         }
         else if(sortval.toString() == "donation")
@@ -258,11 +252,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
             });
           }
           else {
-            Fluttertoast.showToast(
-                msg: listingdonation.message,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
+            errorDialog(listingdonation.message);
+
           }
         }
         else if(sortval.toString() == "event")
@@ -283,11 +274,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
             });
           }
           else {
-            Fluttertoast.showToast(
-                msg: listingevent.message,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
+            errorDialog(listingevent.message);
+
           }
         }
         else if(sortval.toString() == "ticket")
@@ -308,21 +296,14 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
             });
           }
           else {
-            Fluttertoast.showToast(
-                msg: listingticket.message,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
+            errorDialog(listingticket.message);
+
           }
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -377,7 +358,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     child: Icon(Icons.edit),
                   ),
                   Text(
-                    'Edit',
+                    'edit'.tr,
                     style: TextStyle(fontSize: 14),
                   )
                 ],
@@ -417,7 +398,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via', style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr, style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -439,7 +420,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit', style: TextStyle(fontSize: 14),
+                  Text('edit'.tr, style: TextStyle(fontSize: 14),
                   )
                 ],
               ),
@@ -499,7 +480,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via', style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr, style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -517,7 +498,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report', style: TextStyle(fontSize: 14),)
+                  Text('report'.tr, style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -552,7 +533,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -572,7 +553,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -604,7 +585,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -625,7 +606,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -660,7 +641,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -680,7 +661,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -712,7 +693,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -733,7 +714,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -767,7 +748,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -787,7 +768,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -819,7 +800,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -839,7 +820,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -880,7 +861,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     },
                     decoration: new InputDecoration(
                       //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: "Search here...",
+                        hintText: 'searchhere'.tr,
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
                   _handleSearchStart();
@@ -1242,8 +1223,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                         color: AppColors.purple)
                                                 ),
                                                 child: Text(
-                                                  StringConstant.ongoing
-                                                      .toUpperCase(),
+                                                  'ongoing'.tr,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -1265,13 +1245,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               GestureDetector(
                                                 onTap: () {
                                                   Widget cancelButton = FlatButton(
-                                                    child: Text("Cancel"),
+                                                    child: Text('cancel'.tr),
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                   );
                                                   Widget continueButton = FlatButton(
-                                                    child: Text("Continue"),
+                                                    child: Text('continue'.tr),
                                                     onPressed: () async {
                                                       Payamount(
                                                           listing.result
@@ -1283,7 +1263,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   );
                                                   // set up the AlertDialog
                                                   AlertDialog alert = AlertDialog(
-                                                    title: Text("Pay now.."),
+                                                    title: Text('paynow'.tr),
                                                     // content: Text("Are you sure you want to Pay this project?"),
                                                     content: new Row(
                                                       children: <Widget>[
@@ -1299,7 +1279,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                             validator: (val) {
                                                               if (val.length ==
                                                                   0)
-                                                                return "Please enter payment amount";
+                                                                return 'pleaseenterpaymentamount'.tr;
                                                               else
                                                                 return null;
                                                             },
@@ -1331,7 +1311,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 decoration: TextDecoration
                                                                     .none,
                                                               ),
-                                                              hintText: "Enter payment amount",
+                                                              hintText: 'enterpaymentamount'.tr,
                                                             ),
                                                           ),
                                                         )
@@ -1381,8 +1361,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
 
                                                   ),
                                                   child: Text(
-                                                    StringConstant.pay
-                                                        .toUpperCase(),
+                                                    'pay'.tr,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors
@@ -1438,21 +1417,39 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   top: SizeConfig
                                                       .blockSizeVertical * 1,
                                                 ),
-                                                child: Text(
-                                                  "Start Date- " +
-                                                      listing.result
-                                                          .elementAt(index)
-                                                          .projectStartdate,
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: AppColors.black,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
+                                                child:
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'startdate'.tr,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                    Text(
+                                                      "- " +
+                                                          listing.result
+                                                              .elementAt(index)
+                                                              .projectStartdate,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ],
+                                                )
                                               ),
 
                                             ],
@@ -1498,21 +1495,39 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   top: SizeConfig
                                                       .blockSizeVertical * 1,
                                                 ),
-                                                child: Text(
-                                                  "End Date- " +
-                                                      listing.result
-                                                          .elementAt(index)
-                                                          .projectEnddate,
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: AppColors.black,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
+                                                child:
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'enddate'.tr,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                    Text(
+                                                      "- " +
+                                                          listing.result
+                                                              .elementAt(index)
+                                                              .projectEnddate,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ],
+                                                )
                                               ),
                                             ],
                                           ),
@@ -1538,8 +1553,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 left: SizeConfig
                                                     .blockSizeHorizontal * 2),
                                             child: Text(
-                                              StringConstant.collectiontarget +
-                                                  "-",
+                                              'collectiontarget'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
@@ -1561,7 +1575,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   1,
                                             ),
                                             child: Text(
-                                              "\$" + listing.result
+                                              "  \$" + listing.result
                                                   .elementAt(index)
                                                   .budget,
                                               style: TextStyle(
@@ -1602,8 +1616,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 top: SizeConfig
                                                     .blockSizeVertical * 1),
                                             child: Text(
-                                              StringConstant.collectedamount +
-                                                  "-",
+                                              'collectedamount'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
@@ -1622,7 +1635,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                     .blockSizeHorizontal * 4),
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              "\$" + listing.result
+                                              "  \$" + listing.result
                                                   .elementAt(index)
                                                   .totalcollectedamount
                                                   .toString(),
@@ -1748,7 +1761,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               data: listing.result
                                                   .elementAt(index)
                                                   .id
-                                                  .toString()
+                                                  .toString(),
+                                              coming:"myactivity"
                                           ), context);
                                     },
                                     child: Container(
@@ -1840,7 +1854,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -2038,7 +2052,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   border: Border.all(color: AppColors.purple)
                                               ),
                                               child: Text(
-                                                "OnGoing".toUpperCase(),
+                                                'ongoing'.tr,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -2057,13 +2071,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               {
 
                                                 Widget cancelButton = FlatButton(
-                                                  child: Text("Cancel"),
+                                                  child: Text('cancel'.tr),
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
                                                 );
                                                 Widget continueButton = FlatButton(
-                                                  child: Text("Continue"),
+                                                  child: Text('continue'.tr),
                                                   onPressed: () async {
                                                     PayDonationamount(listingdonation.result.elementAt(index).id,
                                                         AmountController.text,
@@ -2072,7 +2086,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 );
                                                 // set up the AlertDialog
                                                 AlertDialog alert = AlertDialog(
-                                                  title: Text("Pay now.."),
+                                                  title: Text('paynow'.tr),
                                                   // content: Text("Are you sure you want to Pay this project?"),
                                                   content: new Row(
                                                     children: <Widget>[
@@ -2085,7 +2099,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                           keyboardType: TextInputType.number,
                                                           validator: (val) {
                                                             if (val.length == 0)
-                                                              return "Please enter payment amount";
+                                                              return 'pleaseenterpaymentamount'.tr;
                                                             else
                                                               return null;
                                                           },
@@ -2110,7 +2124,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               fontSize: 10,
                                                               decoration: TextDecoration.none,
                                                             ),
-                                                            hintText:"Enter payment amount",
+                                                            hintText:'enterpaymentamount'.tr,
                                                           ),
                                                         ),
                                                       )
@@ -2156,7 +2170,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
 
                                                 ),
                                                 child: Text(
-                                                  StringConstant.pay.toUpperCase(),
+                                                  'pay'.tr,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.whiteColor,
@@ -2206,18 +2220,37 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
-                                              child: Text(
-                                                "Start Date- "+listingdonation.result.elementAt(index).campaignStartdate,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.black,
-                                                    fontSize:8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              child:
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'startdate'.tr,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " - "+listingdonation.result.elementAt(index).campaignStartdate,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+
+                                                ],
+                                              )
                                             ),
 
                                           ],
@@ -2257,18 +2290,37 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
-                                              child: Text(
-                                                "End Date- "+listingdonation.result.elementAt(index).campaignEnddate,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.black,
-                                                    fontSize:8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              child:
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'enddate'.tr,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " - "+listingdonation.result.elementAt(index).campaignEnddate,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+
+                                                ],
+                                              )
                                             ),
                                           ],
                                         ),
@@ -2286,41 +2338,38 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *23,
+                                            width: SizeConfig.blockSizeHorizontal *35,
                                           alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                                          child: Text(
-                                            "Collection Target- ",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                              left: SizeConfig.blockSizeHorizontal * 2),
+                                          child:  Row(
+                                            children: [
+                                              Text(
+                                                'collectiontarget'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                              Text(
+                                                "  \$"+listingdonation.result.elementAt(index).budget,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ],
+                                          )
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,
-                                          ),
-                                          child: Text(
-                                            "\$"+listingdonation.result.elementAt(index).budget,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
+
                                       ],
                                     ),
 
@@ -2339,37 +2388,41 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          alignment: Alignment.centerRight,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            StringConstant.collectedamount+"-",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                            width: SizeConfig.blockSizeHorizontal *33,
+                                            alignment: Alignment.centerRight,
+                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                5),
+                                          child:
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                'collectedamount'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                              Text(
+                                                "  \$"+listingdonation.result.elementAt(index).totalcollectedamount.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ],
+                                          )
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              4),
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "\$"+listingdonation.result.elementAt(index).totalcollectedamount.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        )
+
                                       ],
                                     )
                                   ],
@@ -2453,7 +2506,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                     callNext(
                                         OngoingCampaignDetailsscreen(
                                             data:
-                                            listingdonation.result.elementAt(index).id.toString()
+                                            listingdonation.result.elementAt(index).id.toString(),
+                                            coming:"myactivity"
                                         ), context);
                                   },
                                   child: Container(
@@ -2534,7 +2588,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -2601,20 +2655,20 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                     index)
                                                     .status ==
                                                     "request"
-                                                    ? "Request Received from:"
+                                                    ? 'requestreceivedfrom'.tr
                                                     : listinggift
                                                     .result
                                                     .elementAt(
                                                     index)
                                                     .status ==
                                                     "sent"
-                                                    ? "Send to:"
+                                                    ? 'sendto'.tr
                                                     : listinggift
                                                     .result
                                                     .elementAt(index)
                                                     .status ==
                                                     "group"
-                                                    ? "Group Request:"
+                                                    ? 'grouprequest'.tr
                                                     : "",
                                                 style: TextStyle(
                                                     color:
@@ -2892,7 +2946,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               3,
                                                         ),
                                                         child: Text(
-                                                          "View Details",
+                                                          'viewdetails'.tr,
                                                           style: TextStyle(
                                                               letterSpacing:
                                                               1.0,
@@ -2961,7 +3015,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               .blockSizeHorizontal *
                                                               2),
                                                       child: Text(
-                                                        "Amount- ",
+                                                        'amount'.tr,
                                                         style: TextStyle(
                                                             letterSpacing:
                                                             1.0,
@@ -2993,7 +3047,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                             index)
                                                             .price !=
                                                             null
-                                                            ? "\$" +
+                                                            ? "  \$" +
                                                             listinggift
                                                                 .result
                                                                 .elementAt(
@@ -3001,7 +3055,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 .price
                                                             : listinggift.result.elementAt(index).minCashByParticipant !=
                                                             null
-                                                            ? "\$" +
+                                                            ? "  \$" +
                                                             listinggift.result.elementAt(index).minCashByParticipant
                                                             : "",
                                                         style: TextStyle(
@@ -3100,7 +3154,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -3299,7 +3353,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   border: Border.all(color: AppColors.purple)
                                               ),
                                               child: Text(
-                                                "Ongoing".toUpperCase(),
+                                                'ongoing'.tr,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -3317,25 +3371,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               onTap: ()
                                               {
                                                 Widget cancelButton = FlatButton(
-                                                  child: Text("Cancel"),
+                                                  child: Text('cancel'.tr),
                                                   onPressed: ()
                                                   {
                                                     Navigator.pop(context);
                                                   },
                                                 );
                                                 Widget continueButton = FlatButton(
-                                                  child: Text("Continue"),
+                                                  child: Text('continue'.tr),
                                                   onPressed: () async {
                                                     PayEventamount( listingevent.result.elementAt(index).id, listingevent.result.elementAt(index).entryFee,userid);
                                                   },
                                                 );
                                                 // set up the AlertDialog
                                                 AlertDialog alert = AlertDialog(
-                                                  title: Text("Pay now.."),
+                                                  title: Text('paynow'.tr),
                                                   // content: Text("Are you sure you want to Pay this project?"),
                                                   content: new Row(
                                                     children: <Widget>[
-                                                      new Text("Event entry fees \$"+listingevent.result.elementAt(index).entryFee,
+                                                      new Text('eventeentryfees'.tr,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular',
+                                                              fontSize: 10,
+                                                              color: Colors.black)) ,
+                                                      new Text(" \$"+listingevent.result.elementAt(index).entryFee,
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               fontWeight: FontWeight.normal,
@@ -3375,7 +3436,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   borderRadius: BorderRadius.circular(20),
                                                 ),
                                                 child: Text(
-                                                  StringConstant.pay.toUpperCase(),
+                                                  'pay'.tr,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.whiteColor,
@@ -3419,17 +3480,33 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
                                               child:
-                                              Text(
-                                                "Start Date- "+listingevent.result.elementAt(index).eventStartdate,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.black,
-                                                    fontSize:8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily: 'Poppins-Regular'),
-                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'startdate'.tr,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " - "+listingevent.result.elementAt(index).eventStartdate,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                             )
                                           ],
                                         ),
@@ -3462,18 +3539,33 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
-                                              child: Text(
-                                                "End Date- "+listingevent.result.elementAt(index).eventEnddate,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.black,
-                                                    fontSize:8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              child:  Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'enddate'.tr,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " - "+listingevent.result.elementAt(index).eventEnddate,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                             ),
                                           ],
                                         ),
@@ -3488,43 +3580,42 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                     Row(
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *15,
+                                            width: SizeConfig.blockSizeHorizontal *35,
                                           alignment: Alignment.topLeft,
                                           margin:
                                           EdgeInsets.only(
                                               top: SizeConfig.blockSizeVertical *1,
                                               left: SizeConfig.blockSizeHorizontal * 2),
                                           child:
-                                          Text(
-                                            "Sold slots- ",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'soldslots'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                              Text(
+                                                "  \$"+listingevent.result.elementAt(index).totalslotamount.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ],
+                                          )
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig.blockSizeHorizontal * 3,
-                                          ),
-                                          child: Text(
-                                            "\$"+listingevent.result.elementAt(index).totalslotamount.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
+
                                       ],
                                     ),
                                     Container(
@@ -3542,37 +3633,38 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                       children: [
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *26,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "Remaining slots-",
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical *1,
+                                            width: SizeConfig.blockSizeHorizontal *33,
+                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig.blockSizeHorizontal * 3),
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "\$"+listingevent.result.elementAt(index).balanceslot.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        )
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                'remainingslots'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                              Text(
+                                                "  \$"+listingevent.result.elementAt(index).balanceslot.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.lightBlueAccent,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ],
+                                          )
+                                        ),
+
                                       ],)
                                   ],
                                 ),
@@ -3894,7 +3986,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -3947,18 +4039,18 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                       onTap: ()
                                       {
                                         Widget cancelButton = FlatButton(
-                                          child: Text("Cancel"),
+                                          child: Text('cancel'.tr),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
                                         );
                                         Widget continueButton = FlatButton(
-                                          child: Text("Continue"),
+                                          child: Text('continue'.tr),
                                           onPressed: () async {
                                             if(AmountController.text==null||AmountController.text=="")
                                             {
                                               Fluttertoast.showToast(
-                                                  msg: "Please enter ticket qty",
+                                                  msg: 'pleaseenterticketqty'.tr,
                                                   toastLength: Toast.LENGTH_SHORT,
                                                   gravity: ToastGravity.BOTTOM,
                                                   timeInSecForIosWeb: 1);
@@ -3992,7 +4084,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   keyboardType: TextInputType.number,
                                                   validator: (val) {
                                                     if (val.length == 0)
-                                                      return "Please enter payment amount";
+                                                      return 'pleaseenterpaymentamount'.tr;
                                                     else
                                                       return null;
                                                   },
@@ -4017,7 +4109,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                       fontSize: 10,
                                                       decoration: TextDecoration.none,
                                                     ),
-                                                    hintText:"Enter Ticket Qty",
+                                                    hintText:'enterticketqty'.tr,
                                                   ),
                                                 ),
                                               )
@@ -4061,7 +4153,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
 
                                         ),
                                         child: Text(
-                                          "BUY",
+                                          'buy'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: AppColors.whiteColor,
@@ -4239,18 +4331,37 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
-                                              child: Text(
-                                                "Start Date- "+listingticket.result.elementAt(index).ticketStartdate,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.black,
-                                                    fontSize:8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'startdate'.tr,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                    Text(
+                                                      " - "+listingticket.result.elementAt(index).ticketStartdate,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ],
+                                              )
+
+
                                             )
                                           ],
                                         ),
@@ -4288,18 +4399,36 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
-                                              child: Text(
-                                                "End Date- "+listingticket.result.elementAt(index).ticketEnddate,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: AppColors.black,
-                                                    fontSize:8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'enddate'.tr,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " - "+listingticket.result.elementAt(index).ticketEnddate,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors.black,
+                                                        fontSize:8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
+
                                             ),
                                           ],
                                         ),
@@ -4317,17 +4446,37 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig
                                             .blockSizeHorizontal *
                                             3,),
-                                      child: Text(
-                                        "No. of Tickets - "+ listingticket.result.elementAt(index).maximumQtySold.toString(),
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black87,
-                                            fontSize: 8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'nooftickets'.tr,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black87,
+                                                fontSize: 8,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                          Text(
+                                            " - "+ listingticket.result.elementAt(index).maximumQtySold.toString(),
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black87,
+                                                fontSize: 8,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                        ],
+                                      )
+
+
+
+
                                     ),
                                     /*Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
@@ -4366,17 +4515,33 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                           .blockSizeHorizontal *
                                           3),
-                                      child: Text(
-                                        "Available Tickets- "+listingticket.result.elementAt(index).balanceQtySlot.toString(),
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black87,
-                                            fontSize: 8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'availabletickets'.tr,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black87,
+                                                fontSize: 8,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                          Text(
+                                            " - "+ listingticket.result.elementAt(index).balanceQtySlot.toString(),
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black87,
+                                                fontSize: 8,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                        ],
+                                      )
                                     ),
                                     /*  Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
@@ -4643,18 +4808,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                       top: SizeConfig.blockSizeVertical *1),
-                                  child: Text(
-                                    "No. of Persons joined- "+listingticket.result.elementAt(index).totalcontributor.toString(),
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black26,
-                                        fontSize: 8,
-                                        fontWeight:
-                                        FontWeight.normal,
-                                        fontFamily:
-                                        'Poppins-Regular'),
-                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'noofpersonsjoined'.tr,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black87,
+                                            fontSize: 8,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                      Text(
+                                        " - "+ listingticket.result.elementAt(index).totalcontributor.toString(),
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black87,
+                                            fontSize: 8,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular'),
+                                      ),
+                                    ],
+                                  )
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -4666,7 +4845,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                           alignment: Alignment.centerRight,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1, left: SizeConfig.blockSizeHorizontal *3),
                                           child: Text(
-                                            "Ticket Price-",
+                                            'ticketprice'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
@@ -4714,7 +4893,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -4749,7 +4928,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           SpeedDialChild(
               child: Icon(Icons.margin),
               backgroundColor: AppColors.theme1color,
-              label: 'Tickets',
+              label: 'tickets'.tr,
               onTap: () {
                 tabValue = "ticket";
                 getsortdata(userid, tabValue,"");
@@ -4759,7 +4938,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           SpeedDialChild(
               child: Icon(Icons.event),
               backgroundColor: AppColors.theme1color,
-              label: 'Events',
+              label: 'events'.tr,
               onTap: () {
                 tabValue = "event";
                 getsortdata(userid, tabValue,"");
@@ -4769,7 +4948,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           SpeedDialChild(
               child: Icon(Icons.whatshot),
               backgroundColor: AppColors.theme1color,
-              label: 'Donations',
+              label: 'donations'.tr,
               onTap: () {
                 tabValue = "donation";
                 getsortdata(userid, tabValue,"");
@@ -4779,7 +4958,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           SpeedDialChild(
               child: Icon(Icons.request_page),
               backgroundColor: AppColors.theme1color,
-              label: 'Project Funding',
+              label: 'projectfunding'.tr,
               onTap: () {
                 tabValue = "project";
                 getsortdata(userid, tabValue,"");
@@ -4789,7 +4968,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           SpeedDialChild(
               child: Icon(Icons.wallet_giftcard),
               backgroundColor: AppColors.theme1color,
-              label: 'Send/Receive Gifts',
+              label: 'sendandreceivegift'.tr,
               onTap: () {
                 tabValue = "gift";
                 getsortdata(userid, tabValue,"");
@@ -4813,39 +4992,85 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     http.Response response = await http.post(Network.BaseApi + Network.ticket_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      updateval = response.body; //store response as string
+      ticketupdateval = response.body; //store response as string
       if (jsonResponse["status"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+       errorDialog(jsonDecode(ticketupdateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchMyActivities()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(ticketupdateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(ticketupdateval)["message"]);
     }
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   Future<void> Payamount(String id, String requiredAmount,
       String userid) async {
@@ -4856,42 +5081,24 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(
-        Network.BaseApi + Network.project_pay, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(
               builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 
@@ -4959,38 +5166,22 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
         Network.BaseApi + Network.project_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      updateval = response.body; //store response as string
+      eventupdateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+       errorDialog(jsonDecode(eventupdateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+
           Navigator.push(context, MaterialPageRoute(
               builder: (BuildContext context) => OngoingProject()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(eventupdateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(eventupdateval)["message"]);
     }
   }
 
@@ -5005,31 +5196,25 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     await http.post(Network.BaseApi + Network.follow, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      updateval = response.body; //store response as string
+      giftupdateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        showToast(updateval);
+        showToast(giftupdateval);
       } else {
         if (jsonResponse != null) {
-          showToast(updateval);
           setState(() {
             Follow = "";
           });
         } else {
-          showToast(updateval);
+          showToast(giftupdateval);
         }
       }
     } else {
-      showToast(updateval);
+      showToast(giftupdateval);
     }
   }
 
   void showToast(String updateval) {
-    Fluttertoast.showToast(
-      msg: jsonDecode(updateval)["message"],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-    );
+   errorDialog(jsonDecode(updateval)["message"]);
   }
 
   Future<void> _createDynamicLink(String productid) async {
@@ -5069,37 +5254,20 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     http.Response response = await http.post(Network.BaseApi + Network.donation_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      updateval = response.body; //store response as string
+      donationupdateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(donationupdateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchMyActivities()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(donationupdateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(donationupdateval)["message"]);
     }
   }
 
