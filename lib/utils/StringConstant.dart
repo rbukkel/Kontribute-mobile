@@ -150,19 +150,13 @@ class StringConstant {
   static const String collectcashtosocial = "Collect Cash for Social Events as a Gift...";
   static const String cancelorder = "Cancel Order";
   static const String descriptiondetails = "Lorem ipsum dolor sit amet, consectetuer adipis cing elit, seddiam nonummy nibh euismod tincid unt ut laoreet dolore Lorem ipsum dolor sit amet, consectetuer adipis cing elit, seddiam nonummy nibh euismod tincid unt ut laoreet dolore";
-
   static const String follow="Follow";
   static const String dummyproject="Follow";
-
   static const String ongoing="OnGoing";
   static const String Invitations="Invitations";
-
   static const String totalContribution="Total Contributors";
-
   static const String collectedamount="Collected Amount";
-
   static const String createpost="Create Post";
-
   static const String addhashtag="Add hashtag";
 
   static const String update="Update";

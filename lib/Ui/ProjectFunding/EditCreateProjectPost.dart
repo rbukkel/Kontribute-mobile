@@ -212,8 +212,8 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   EndDateView(BuildContext context) async {
     final DateTime picke = await showDatePicker(
         context: context,
-        initialDate:DateTime.now().add(Duration(days: 1)),
-        firstDate: DateTime(1901, 1),
+        initialDate: currentEndDate,
+        firstDate: DateTime.now(),
         lastDate: DateTime(2050));
     setState(() {
       EndDate = picke.toString();
@@ -224,7 +224,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       {
         print('date is befor');
         //peform logic here.....
-        errorDialog('End date should be after start date');
+        errorDialog('enddateshouldbeafterstartdate'.tr);
 
       }
       else {

@@ -244,12 +244,7 @@ class EditDonationPostState extends State<EditDonationPost> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
@@ -284,12 +279,8 @@ class EditDonationPostState extends State<EditDonationPost> {
           catname = parts.map((part) => "$part").join(',').trim();
           print("Docname: " + catname.toString());
         } else {
-          Fluttertoast.showToast(
-            msg: "upload upto 2 documents",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog('uploadupto2documents'.tr);
+
         }
       });
       /* setState(() {
@@ -332,14 +323,7 @@ class EditDonationPostState extends State<EditDonationPost> {
         } else {
           //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonResponse["message"]);
           });
         }
       }
@@ -359,12 +343,7 @@ class EditDonationPostState extends State<EditDonationPost> {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         sendgift = new get_createDonationPojo.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
@@ -468,21 +447,11 @@ class EditDonationPostState extends State<EditDonationPost> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: sendgift.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(sendgift.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -528,7 +497,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -551,7 +520,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -569,7 +538,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -598,12 +567,7 @@ class EditDonationPostState extends State<EditDonationPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -621,12 +585,7 @@ class EditDonationPostState extends State<EditDonationPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -688,7 +647,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.createnewcampaign,
+                        'editcampaign'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -904,7 +863,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     top: SizeConfig.blockSizeVertical * 2),
                                 width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  StringConstant.campaignname,
+                                  'campaignname'.tr,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -941,7 +900,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   keyboardType: TextInputType.name,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter campaign name";
+                                      return 'pleaseentercampaignname'.tr;
                                     else
                                       return null;
                                   },
@@ -977,7 +936,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     top: SizeConfig.blockSizeVertical * 2),
                                 width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  StringConstant.campaigndescription,
+                                  'campaigndescription'.tr,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -1017,7 +976,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         keyboardType: TextInputType.text,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return "Please enter campaign descriptio";
+                                            return 'pleaseentercampaigndescription'.tr;
                                           else
                                             return null;
                                         },
@@ -1072,7 +1031,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                   SizeConfig.blockSizeVertical *
                                                       2),
                                           child: Text(
-                                            StringConstant.addhashtag,
+                                            'addhashtag'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlue,
@@ -1107,7 +1066,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                         .blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.startdate,
+                                              'startdate'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -1214,7 +1173,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                           .blockSizeVertical *
                                                       2),
                                               child: Text(
-                                                StringConstant.enddate,
+                                                'enddate'.tr,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black,
@@ -1329,7 +1288,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
-                                      StringConstant.enterrequiredamount,
+                                      'enterrequiredamount'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -1410,7 +1369,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                     TextInputType.number,
                                                 validator: (val) {
                                                   if (val.length == 0)
-                                                    return "Please enter required amount";
+                                                    return 'pleaseenterrequiredamount'.tr;
                                                   else
                                                     return null;
                                                 },
@@ -1471,7 +1430,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
-                                      StringConstant.totalbudget,
+                                      'totalbudget'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -1554,10 +1513,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                   keyboardType:
                                                       TextInputType.number,
                                                   validator: (val) {
-                                                    if (val.length == 0)
-                                                      return "Please enter total budget";
-                                                    else
-                                                      return null;
+                                                    return costValidation(val);
                                                   },
                                                   onFieldSubmitted: (v) {
                                                     TotalBudgetFocus.unfocus();
@@ -1614,7 +1570,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 15,
                                     child: Text(
-                                      StringConstant.video,
+                                      'video'.tr,
                                       maxLines: 4,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
@@ -1748,7 +1704,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     right: SizeConfig.blockSizeHorizontal * 4,
                                     top: SizeConfig.blockSizeVertical * 2),
                                 child: Text(
-                                  "videos link with comma(,) seprated, without space",
+                                  'videoslinkwithcommasepratedwithoutspace'.tr,
                                   maxLines: 4,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
@@ -1777,7 +1733,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 22,
                                     child: Text(
-                                      StringConstant.revelantdocuents,
+                                      'relevantdocuments'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -1908,7 +1864,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                                               alignment:
                                                               Alignment.center,
                                                               child: Text(
-                                                                "Remove",
+                                                                'remove'.tr,
                                                                 maxLines: 2,
                                                                 style: TextStyle(
                                                                     decoration:
@@ -1977,7 +1933,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
-                                      StringConstant.showpostevent,
+                                      'whocanseethisevent'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -2011,7 +1967,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                       child: DropdownButton(
                                         hint: Text(
                                           showpost == null
-                                              ? "please select"
+                                              ?  'pleaseselect'.tr
                                               : showpost,
                                           style: TextStyle(fontSize: 12),
                                         ),
@@ -2080,7 +2036,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                     top: SizeConfig.blockSizeVertical * 2),
                                 width: SizeConfig.blockSizeHorizontal * 80,
                                 child: Text(
-                                  StringConstant.addyourspecialtermcond,
+                                  'addyourspecialtermscondition'.tr,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -2117,7 +2073,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                   keyboardType: TextInputType.text,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please add your special terms & condition";
+                                      return 'pleaseaddyourspecialtermscondition'.tr;
                                     else
                                       return null;
                                   },
@@ -2230,7 +2186,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                                       fit: BoxFit.fill,
                                     ),
                                   ),
-                                  child: Text(StringConstant.creat,
+                                  child: Text('editnow'.tr,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.normal,
@@ -2255,6 +2211,17 @@ class EditDonationPostState extends State<EditDonationPost> {
           )),
     );
   }
+
+  costValidation(String val) {
+    if (val.length == 0) {
+      return 'pleaseentertotalbudget'.tr;
+    } else if (int.parse(EnterRequiredAmountController.text) >
+        (int.parse(TotalBudgetController.text))) {
+      errorDialog('requiredamountshouldbelessthantotalbudget'.tr);
+    } else
+      return null;
+  }
+
 
   void errorDialog(String text) {
     showDialog(
@@ -2536,7 +2503,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                   top: SizeConfig.blockSizeVertical * 2),
               width: SizeConfig.blockSizeHorizontal * 32,
               child: Text(
-                StringConstant.searchcontact,
+                'searchcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black,
@@ -2555,7 +2522,7 @@ class EditDonationPostState extends State<EditDonationPost> {
               ),
               child: Text(
                 //catname!=null?catname.toString():category_names.toString(),
-                catFollowingname != null ? catFollowingname.toString() : "please select contact",
+                catFollowingname != null ? catFollowingname.toString() : 'pleaseselectcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black38,
@@ -2610,7 +2577,7 @@ class EditDonationPostState extends State<EditDonationPost> {
                             fontSize: SizeConfig.blockSizeHorizontal * 3,
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Montserrat-Bold'),
-                        hintText: "Search..."),
+                        hintText: 'search'.tr),
                   )),
               Container(
                 padding: EdgeInsets.only(
@@ -2701,7 +2668,7 @@ class EditDonationPostState extends State<EditDonationPost> {
         )
             : Center(
           child: Text(
-            "No search results to show",
+            'nosearchresultstoshow'.tr,
             style: TextStyle(
                 letterSpacing: 1.0,
                 color: AppColors.black,
@@ -2863,59 +2830,31 @@ class EditDonationPostState extends State<EditDonationPost> {
       if (response.statusCode == 200) {
         if (jsonData["status"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(jsonData["message"]);
+
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
             videoList.clear();
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => OngoingCampaign()),
-                (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingCampaign()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
               Navigator.of(context).pop();
               //   isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         }
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('internalservererror'.tr);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
       }
     });
   }

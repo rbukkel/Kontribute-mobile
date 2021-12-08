@@ -110,7 +110,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     });
   }
 
-  String textHolder = "Please Select";
+  String textHolder = 'pleaseselect'.tr;
   final List<String> _dropdownEventCategory = [
     "New year",
     "Halloween",
@@ -215,51 +215,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     });
   }
 
-  Future<void> getData(String a, String search) async {
-    setState(() {
-      categoryfollowinglist = null;
-    });
-    // Dialogs.showLoadingDialog(context, _keyLoader);
-    Map data = {
-      'receiver_id': a.toString(),
-      'search': search.toString(),
-    };
-    print("Data: " + data.toString());
-    var jsonResponse = null;
-    var response =
-        await http.post(Network.BaseApi + Network.followlisting, body: data);
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      print("Json User" + jsonResponse.toString());
-      if (jsonResponse["success"] == false) {
-        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        setState(() {
-          resultfolowvalue = false;
-          categoryfollowinglist = null;
-        });
-      } else {
-        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        if (jsonResponse != null) {
-          setState(() {
-            categoryfollowinglist = jsonResponse['result'];
-          });
-        } else {
-          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
-          });
-        }
-      }
-    }
-  }
-
   void errorDialog(String text) {
     showDialog(
       context: context,
@@ -321,6 +276,45 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     );
   }
 
+
+  Future<void> getData(String a, String search) async {
+    setState(() {
+      categoryfollowinglist = null;
+    });
+    // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'receiver_id': a.toString(),
+      'search': search.toString(),
+    };
+    print("Data: " + data.toString());
+    var jsonResponse = null;
+    var response =
+        await http.post(Network.BaseApi + Network.followlisting, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print("Json User" + jsonResponse.toString());
+      if (jsonResponse["success"] == false) {
+        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        setState(() {
+          resultfolowvalue = false;
+          categoryfollowinglist = null;
+        });
+      } else {
+        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          setState(() {
+            categoryfollowinglist = jsonResponse['result'];
+          });
+        } else {
+          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+           errorDialog(jsonResponse["message"]);
+          });
+        }
+      }
+    }
+  }
+
   DateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
@@ -352,7 +346,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         {
           print('date is befor');
           //peform logic here.....
-          errorDialog('End date should be after start date');
+          errorDialog('enddateshouldbeafterstartdate'.tr);
 
         }
         else {
@@ -520,7 +514,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -543,7 +537,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -561,7 +555,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -590,12 +584,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -613,7 +602,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            errorDialog("upload upto 3 images");
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -666,12 +655,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
           documentsController.text = catname;
           print("Docname: " + catname.toString());
         } else {
-          Fluttertoast.showToast(
-            msg: "upload upto 2 documents",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog('uploadupto2documents'.tr);
+
         }
       });
       /* setState(() {
@@ -792,20 +777,10 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         errorDialog(jsonData["message"]);
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('internalservererror'.tr);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+       errorDialog('somethingwentwrong'.tr);
       }
     });
   }
@@ -867,7 +842,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.createnewticket,
+                        'createnewticket'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -1061,7 +1036,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.eventname,
+                                'eventname'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1098,7 +1073,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 keyboardType: TextInputType.name,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter event name";
+                                    return 'pleaseentereventname'.tr;
                                   else
                                     return null;
                                 },
@@ -1134,7 +1109,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.eventdescription,
+                                'eventdescription'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -1174,7 +1149,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       keyboardType: TextInputType.text,
                                       validator: (val) {
                                         if (val.length == 0)
-                                          return "Please enter event description";
+                                          return 'pleaseentereventdescription'.tr;
                                         else
                                           return null;
                                       },
@@ -1228,7 +1203,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
-                                          StringConstant.addhashtag,
+                                          'addhashtag'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.lightBlue,
@@ -1262,7 +1237,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   SizeConfig.blockSizeVertical *
                                                       2),
                                           child: Text(
-                                            StringConstant.startdate,
+                                            'startdate'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black,
@@ -1367,7 +1342,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                         .blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.enddate,
+                                              'enddate'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -1484,7 +1459,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                         .blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.starttime,
+                                              'starttime'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -1594,7 +1569,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                         .blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.endtime,
+                                              'endtime'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -1716,7 +1691,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           top:
                                               SizeConfig.blockSizeVertical * 2),
                                       child: Text(
-                                        StringConstant.location,
+                                        'location'.tr,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
@@ -1757,7 +1732,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             TextInputType.streetAddress,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return "Please enter location";
+                                            return 'pleaseenterlocation'.tr;
                                           else
                                             return null;
                                         },
@@ -1801,7 +1776,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       right: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
                                   child: Text(
-                                    StringConstant.locationdetails,
+                                    'locationdetails'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1839,7 +1814,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     keyboardType: TextInputType.streetAddress,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter location details";
+                                        return 'pleaseenterlocationdetails'.tr;
                                       else
                                         return null;
                                     },
@@ -2087,7 +2062,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   SizeConfig.blockSizeVertical *
                                                       2),
                                           child: Text(
-                                            StringConstant.contactno,
+                                            'contactno'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black,
@@ -2134,9 +2109,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             keyboardType: TextInputType.phone,
                                             validator: (val) {
                                               if (val.length == 0)
-                                                return "Please enter mobile number";
+                                                return 'pleaseentermobilenumber'.tr;
                                               else if (val.length != 10)
-                                                return "Please enter valid mobile number";
+                                                return 'pleaseentervalidmobilenumber'.tr;
                                               else
                                                 return null;
                                             },
@@ -2169,8 +2144,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     ),
                                   ),
                                   Container(
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 50,
+                                      width: SizeConfig.blockSizeHorizontal * 50,
                                       child: Column(
                                         children: [
                                           Container(
@@ -2186,7 +2160,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                         .blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.email,
+                                              'email'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -2236,9 +2210,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   TextInputType.emailAddress,
                                               validator: (val) {
                                                 if (val.length == 0)
-                                                  return "Please enter email";
+                                                  return 'pleaseenteremail'.tr;
                                                 else if (!regex.hasMatch(val))
-                                                  return "Please enter valid email";
+                                                  return 'pleaseentervalidemail'.tr;
                                                 else
                                                   return null;
                                               },
@@ -2289,7 +2263,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.timeframeforsale,
+                                    'timeframeforSale'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -2372,7 +2346,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.costofticket,
+                                    'costofticket'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -2440,7 +2414,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   TextInputType.number,
                                               validator: (val) {
                                                 if (val.length == 0)
-                                                  return "Please enter cost of ticket";
+                                                  return 'pleaseentercostofticket'.tr;
                                                 else
                                                   return null;
                                               },
@@ -2494,7 +2468,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.maximumquatity,
+                                    'maximumquantitytobesold'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -2532,7 +2506,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     keyboardType: TextInputType.number,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter Muximum qty";
+                                        return 'pleaseentermaximumquantity'.tr;
                                       else
                                         return null;
                                     },
@@ -2581,7 +2555,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 15,
                                   child: Text(
-                                    StringConstant.video,
+                                    'video'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -2676,7 +2650,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   right: SizeConfig.blockSizeHorizontal * 4,
                                   top: SizeConfig.blockSizeVertical * 2),
                               child: Text(
-                                "videos link with comma(,) seprated, without space",
+                                'videoslinkwithcommasepratedwithoutspace'.tr,
                                 maxLines: 4,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
@@ -2703,7 +2677,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 22,
                                   child: Text(
-                                    StringConstant.revelantdocuents,
+                                    'relevantdocuments'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -2873,7 +2847,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                             alignment: Alignment
                                                                 .center,
                                                             child: Text(
-                                                              "Remove",
+                                                              'remove'.tr,
                                                               maxLines: 2,
                                                               style: TextStyle(
                                                                   decoration:
@@ -2933,7 +2907,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    StringConstant.showpostevent,
+                                    'whocanseethisevent'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -2966,7 +2940,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
                                       hint: Text(
-                                        "please select",
+                                        'pleaseselect'.tr,
                                         style: TextStyle(fontSize: 12),
                                       ),
                                       items: _dropdownCategoryValues
@@ -3035,7 +3009,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 80,
                               child: Text(
-                                StringConstant.addyourspecialtermcond,
+                                'addyourspecialtermscondition'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -3072,7 +3046,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 keyboardType: TextInputType.text,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please add your special terms & condition";
+                                    return 'pleaseaddyourspecialtermscondition'.tr;
                                   else
                                     return null;
                                 },
@@ -3190,18 +3164,12 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 _documentList);
                                           }
                                         }
-
-
-
-
-
                                       } else {
-                                        errorDialog(
-                                            "Please Select Ticket Images");
+                                        errorDialog('pleaseselectticketimages'.tr);
                                       }
                                     } else {
                                       Fluttertoast.showToast(
-                                        msg: "No Internet Connection",
+                                        msg: 'nointernetconnection'.tr,
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,
@@ -3226,7 +3194,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     fit: BoxFit.fill,
                                   ),
                                 ),
-                                child: Text(StringConstant.creat,
+                                child: Text('createnow'.tr,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal,
@@ -3528,7 +3496,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   top: SizeConfig.blockSizeVertical * 2),
               width: SizeConfig.blockSizeHorizontal * 32,
               child: Text(
-                StringConstant.searchcontact,
+                'searchcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black,
@@ -3549,7 +3517,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                 //catname!=null?catname.toString():category_names.toString(),
                 catFollowingname != null
                     ? catFollowingname.toString()
-                    : "please select contact",
+                    : 'pleaseselectcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black38,
@@ -3604,7 +3572,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                             fontSize: SizeConfig.blockSizeHorizontal * 3,
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Montserrat-Bold'),
-                        hintText: "Search..."),
+                        hintText: 'search'.tr),
                   )),
               Container(
                 padding: EdgeInsets.only(
@@ -3688,7 +3656,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   )
                 : Center(
                     child: Text(
-                      "No search results to show",
+                      'nosearchresultstoshow'.tr,
                       style: TextStyle(
                           letterSpacing: 1.0,
                           color: AppColors.black,

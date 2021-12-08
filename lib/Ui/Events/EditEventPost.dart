@@ -86,7 +86,7 @@ class EditEventPostState extends State<EditEventPost> {
   String val;
   bool resultvalue = true;
   var storelist_length;
-  String textHolder = "Please Select";
+  String textHolder = 'pleaseselect'.tr;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   final List<String> _dropdownCategoryValues = [
@@ -215,7 +215,7 @@ class EditEventPostState extends State<EditEventPost> {
       {
         print('date is befor');
         //peform logic here.....
-        errorDialog('End date should be after start date');
+        errorDialog('enddateshouldbeafterstartdate'.tr);
 
       }
       else {
@@ -317,12 +317,7 @@ class EditEventPostState extends State<EditEventPost> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
@@ -415,7 +410,7 @@ class EditEventPostState extends State<EditEventPost> {
                                 top: SizeConfig.blockSizeVertical * 2),
                             width: SizeConfig.blockSizeHorizontal * 45,
                             child: Text(
-                              "Event Type",
+                              'eventyype'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,
@@ -580,7 +575,7 @@ class EditEventPostState extends State<EditEventPost> {
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera ',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -603,7 +598,7 @@ class EditEventPostState extends State<EditEventPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -621,7 +616,7 @@ class EditEventPostState extends State<EditEventPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -647,11 +642,7 @@ class EditEventPostState extends State<EditEventPost> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         listing = new EventCategoryPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -667,20 +658,12 @@ class EditEventPostState extends State<EditEventPost> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -698,12 +681,7 @@ class EditEventPostState extends State<EditEventPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -721,12 +699,7 @@ class EditEventPostState extends State<EditEventPost> {
               print("ListImages:" + _imageList[i].toString());
             }
           } else {
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -798,7 +771,7 @@ class EditEventPostState extends State<EditEventPost> {
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.createnewevent,
+                        'editevent'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -1020,7 +993,7 @@ class EditEventPostState extends State<EditEventPost> {
                                     top: SizeConfig.blockSizeVertical * 2),
                                 width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  StringConstant.eventname,
+                                  'eventname'.tr,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -1057,7 +1030,7 @@ class EditEventPostState extends State<EditEventPost> {
                                   keyboardType: TextInputType.name,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter event name";
+                                      return 'pleaseentereventname'.tr;
                                     else
                                       return null;
                                   },
@@ -1093,7 +1066,7 @@ class EditEventPostState extends State<EditEventPost> {
                                     top: SizeConfig.blockSizeVertical * 2),
                                 width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  StringConstant.eventdescription,
+                                  'eventdescription'.tr,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -1133,7 +1106,7 @@ class EditEventPostState extends State<EditEventPost> {
                                         keyboardType: TextInputType.text,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return "Please enter event description";
+                                            return 'pleaseentereventdescription'.tr;
                                           else
                                             return null;
                                         },
@@ -1188,7 +1161,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                   SizeConfig.blockSizeVertical *
                                                       2),
                                           child: Text(
-                                            StringConstant.addhashtag,
+                                            'addhashtag'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlue,
@@ -1215,7 +1188,7 @@ class EditEventPostState extends State<EditEventPost> {
                                           top:
                                               SizeConfig.blockSizeVertical * 2),
                                       child: Text(
-                                        StringConstant.eventlist,
+                                        'events'.tr,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
@@ -1323,7 +1296,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                           .blockSizeVertical *
                                                       2),
                                               child: Text(
-                                                StringConstant.eventstarttime,
+                                                'eventstarttime'.tr,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black,
@@ -1385,7 +1358,9 @@ class EditEventPostState extends State<EditEventPost> {
                                                                 1),
                                                         child: Text(
                                                           selectedTime == ""
-                                                              ? "10:00AM"
+                                                              ? TimeOfDay.now()
+                                                              .toString()
+                                                              .substring(10, 15)
                                                               : selectedTime,
                                                           textAlign:
                                                               TextAlign.left,
@@ -1435,7 +1410,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                           .blockSizeVertical *
                                                       2),
                                               child: Text(
-                                                StringConstant.eventendtime,
+                                                'eventendtime'.tr,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black,
@@ -1497,7 +1472,9 @@ class EditEventPostState extends State<EditEventPost> {
                                                                 1),
                                                         child: Text(
                                                           selectedEndTime == ""
-                                                              ? "10:00AM"
+                                                              ? TimeOfDay.now()
+                                                              .toString()
+                                                              .substring(10, 15)
                                                               : selectedEndTime,
                                                           textAlign:
                                                               TextAlign.left,
@@ -1555,7 +1532,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                         .blockSizeVertical *
                                                     2),
                                             child: Text(
-                                              StringConstant.startdate,
+                                              'startdate'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
@@ -1664,7 +1641,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                           .blockSizeVertical *
                                                       2),
                                               child: Text(
-                                                StringConstant.enddate,
+                                                'enddate'.tr,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black,
@@ -1777,7 +1754,7 @@ class EditEventPostState extends State<EditEventPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
-                                      StringConstant.entryfees,
+                                      'entryfees'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -1858,7 +1835,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                     TextInputType.number,
                                                 validator: (val) {
                                                   if (val.length == 0)
-                                                    return "Please enter required amount";
+                                                    return 'pleaseenterrequiredamount'.tr;
                                                   else
                                                     return null;
                                                 },
@@ -1911,7 +1888,7 @@ class EditEventPostState extends State<EditEventPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
-                                      StringConstant.maximumnofparticipent,
+                                      'maximumnumberofparticipant'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -1951,7 +1928,7 @@ class EditEventPostState extends State<EditEventPost> {
                                       keyboardType: TextInputType.number,
                                       validator: (val) {
                                         if (val.length == 0)
-                                          return "Please enter maximum no. of participant";
+                                          return 'pleaseentermaximumnoofparticipant'.tr;
                                         else
                                           return null;
                                       },
@@ -2002,7 +1979,7 @@ class EditEventPostState extends State<EditEventPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 15,
                                     child: Text(
-                                      StringConstant.video,
+                                      'video'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -2073,7 +2050,7 @@ class EditEventPostState extends State<EditEventPost> {
                                     right: SizeConfig.blockSizeHorizontal * 4,
                                     top: SizeConfig.blockSizeVertical * 2),
                                 child: Text(
-                                  "videos link with comma(,) seprated, without space",
+                                  'videoslinkwithcommasepratedwithoutspace'.tr,
                                   maxLines: 4,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
@@ -2102,7 +2079,7 @@ class EditEventPostState extends State<EditEventPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 22,
                                     child: Text(
-                                      StringConstant.revelantdocuents,
+                                      'relevantdocuments'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -2279,7 +2256,7 @@ class EditEventPostState extends State<EditEventPost> {
                                                                   Alignment
                                                                       .center,
                                                               child: Text(
-                                                                "Remove",
+                                                                'remove'.tr,
                                                                 maxLines: 2,
                                                                 style: TextStyle(
                                                                     decoration:
@@ -2349,7 +2326,7 @@ class EditEventPostState extends State<EditEventPost> {
                                         top: SizeConfig.blockSizeVertical * 2),
                                     width: SizeConfig.blockSizeHorizontal * 45,
                                     child: Text(
-                                      StringConstant.showpostevent,
+                                      'whocanseethisevent'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
@@ -2383,7 +2360,7 @@ class EditEventPostState extends State<EditEventPost> {
                                       child: DropdownButton(
                                         hint: Text(
                                           showpost == null
-                                              ? "please select"
+                                              ? 'pleaseselect'.tr
                                               : showpost,
                                           style: TextStyle(fontSize: 12),
                                         ),
@@ -2458,7 +2435,7 @@ class EditEventPostState extends State<EditEventPost> {
                                     top: SizeConfig.blockSizeVertical * 2),
                                 width: SizeConfig.blockSizeHorizontal * 80,
                                 child: Text(
-                                  StringConstant.addyourspecialtermcond,
+                                   'addyourspecialtermscondition'.tr,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black,
@@ -2495,7 +2472,7 @@ class EditEventPostState extends State<EditEventPost> {
                                   keyboardType: TextInputType.text,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please add your special terms & condition";
+                                      return 'pleaseaddyourspecialtermscondition'.tr;
                                     else
                                       return null;
                                   },
@@ -2620,7 +2597,7 @@ class EditEventPostState extends State<EditEventPost> {
                                       fit: BoxFit.fill,
                                     ),
                                   ),
-                                  child: Text(StringConstant.creat,
+                                  child: Text('editnow'.tr,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.normal,
@@ -2677,12 +2654,8 @@ class EditEventPostState extends State<EditEventPost> {
           catname = parts.map((part) => "$part").join(',').trim();
           print("Docname: " + catname.toString());
         } else {
-          Fluttertoast.showToast(
-            msg: "upload upto 2 documents",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog('uploadupto2documents'.tr);
+
         }
       });
       /* setState(() {
@@ -2818,24 +2791,14 @@ class EditEventPostState extends State<EditEventPost> {
       if (response.statusCode == 200) {
         if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(jsonData["message"]);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+
             videoList.clear();
             Navigator.pushAndRemoveUntil(
                 context,
@@ -2847,38 +2810,18 @@ class EditEventPostState extends State<EditEventPost> {
               Navigator.of(context).pop();
               //   isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         }
       } else if (response.statusCode == 422) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('internalservererror'.tr);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('somethingwentwrong'.tr);
       }
     });
   }
@@ -3115,14 +3058,7 @@ class EditEventPostState extends State<EditEventPost> {
         } else {
           // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonResponse["message"]);
           });
         }
       }
@@ -3143,12 +3079,8 @@ class EditEventPostState extends State<EditEventPost> {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         sendgift = new get_EventCreate.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
@@ -3252,21 +3184,11 @@ class EditEventPostState extends State<EditEventPost> {
             }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: sendgift.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(sendgift.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -3295,7 +3217,7 @@ class EditEventPostState extends State<EditEventPost> {
                   top: SizeConfig.blockSizeVertical * 2),
               width: SizeConfig.blockSizeHorizontal * 32,
               child: Text(
-                StringConstant.searchcontact,
+                'searchcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black,
@@ -3316,7 +3238,7 @@ class EditEventPostState extends State<EditEventPost> {
                 //catname!=null?catname.toString():category_names.toString(),
                 catFollowingname != null
                     ? catFollowingname.toString()
-                    : "please select contact",
+                    : 'pleaseselectcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black38,
@@ -3371,7 +3293,7 @@ class EditEventPostState extends State<EditEventPost> {
                             fontSize: SizeConfig.blockSizeHorizontal * 3,
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Montserrat-Bold'),
-                        hintText: "Search..."),
+                        hintText: 'search'.tr),
                   )),
               Container(
                 padding: EdgeInsets.only(
@@ -3452,7 +3374,7 @@ class EditEventPostState extends State<EditEventPost> {
         )
             : Center(
           child: Text(
-            "No search results to show",
+            'nosearchresultstoshow'.tr,
             style: TextStyle(
                 letterSpacing: 1.0,
                 color: AppColors.black,

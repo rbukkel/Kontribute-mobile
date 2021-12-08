@@ -21,6 +21,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class EventReport extends StatefulWidget {
   final String data;
@@ -63,14 +64,70 @@ class EventReportState extends State<EventReport> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
+  }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 
@@ -89,7 +146,7 @@ class EventReportState extends State<EventReport> {
                 child:
                 Row(
                   children: [
-                    createUpperBar(context, "Report"),
+                    createUpperBar(context, 'report'.tr),
                     SizedBox(
                       height: 10,
                     ),
@@ -103,7 +160,7 @@ class EventReportState extends State<EventReport> {
                     key: _formKey,
                     child:  Column(
                       children: [
-                        Container(
+                      /*  Container(
                           width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(
@@ -111,7 +168,7 @@ class EventReportState extends State<EventReport> {
                               right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 1),
                           child: Text(
-                            "Add Comments: ",
+                            'addcomments'.tr,
                             maxLines: 2,
                             style: TextStyle(
                                 letterSpacing: 1.0,
@@ -128,7 +185,7 @@ class EventReportState extends State<EventReport> {
                             thickness: 1,
                             color: Colors.black12,
                           ),
-                        ),
+                        ),*/
                         Container(
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeVertical * 1,
@@ -144,7 +201,7 @@ class EventReportState extends State<EventReport> {
                             maxLines: 10,
                             validator: (val) {
                               if (val.length == 0)
-                                return "Please enter comment";
+                                return 'pleaseentercomment'.tr;
                               else
                                 return null;
                             },
@@ -169,7 +226,7 @@ class EventReportState extends State<EventReport> {
                                 fontSize: 12,
                                 decoration: TextDecoration.none,
                               ),
-                              hintText: "Add a comment...",
+                              hintText: 'addacomment'.tr,
                             ),
                           ),
                         ),
@@ -195,7 +252,7 @@ class EventReportState extends State<EventReport> {
                                 right: SizeConfig.blockSizeHorizontal * 5,
                                 top: SizeConfig.blockSizeVertical * 1),
                             child: Text(
-                              "Post",
+                              'post'.tr,
                               maxLines: 2,
                               style: TextStyle(
                                   letterSpacing: 1.0,
@@ -234,43 +291,27 @@ class EventReportState extends State<EventReport> {
       valPost = response.body; //store response as string
       if (jsonDecode(valPost)["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonDecode(valPost)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(valPost)["message"]);
+
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         reportcommentPojo = new ReportDonationPojo.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
-        if (jsonResponse != null) {
+        if (jsonResponse != null)
+        {
           print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: reportcommentPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(reportcommentPojo.message);
           CommentController.text =null;
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
-        } else {
-          Fluttertoast.showToast(
-            msg: reportcommentPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+        }
+        else {
+          errorDialog(reportcommentPojo.message);
+
         }
       }
     } else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonDecode(valPost)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(valPost)["message"]);
     }
   }
 

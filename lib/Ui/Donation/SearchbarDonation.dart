@@ -22,6 +22,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SearchbarDonation extends StatefulWidget {
@@ -154,11 +155,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
           storelist_length =null;
           resultvalue = false;
         });
-       /* Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);*/
       } else {
         listing = new donationlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -181,21 +177,75 @@ class SearchbarDonationState extends State<SearchbarDonation> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
+  }
+
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 
@@ -398,7 +448,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                     border: Border.all(color: AppColors.purple)
                                                 ),
                                                 child: Text(
-                                                  "OnGoing".toUpperCase(),
+                                                  'ongoing'.tr,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -416,13 +466,13 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                 onTap: ()
                                                 {
                                                   Widget cancelButton = FlatButton(
-                                                    child: Text("Cancel"),
+                                                    child: Text('cancel'.tr),
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                   );
                                                   Widget continueButton = FlatButton(
-                                                    child: Text("Continue"),
+                                                    child: Text('continue'.tr),
                                                     onPressed: () async {
                                                       Payamount(listing.projectData.elementAt(index).id,
                                                           listing.projectData.elementAt(index).requiredAmount,
@@ -431,7 +481,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                   );
                                                   // set up the AlertDialog
                                                   AlertDialog alert = AlertDialog(
-                                                    title: Text("Pay now.."),
+                                                    title: Text('paynow'.tr),
                                                     // content: Text("Are you sure you want to Pay this project?"),
                                                     content: new Row(
                                                       children: <Widget>[
@@ -444,7 +494,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                             keyboardType: TextInputType.number,
                                                             validator: (val) {
                                                               if (val.length == 0)
-                                                                return "Please enter payment amount";
+                                                                return 'pleaseenterpaymentamount'.tr;
                                                               else
                                                                 return null;
                                                             },
@@ -469,7 +519,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                 fontSize: 10,
                                                                 decoration: TextDecoration.none,
                                                               ),
-                                                              hintText:"Enter payment amount",
+                                                              hintText:'enterpaymentamount'.tr,
                                                             ),
                                                           ),
                                                         )
@@ -505,7 +555,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
 
                                                   ),
                                                   child: Text(
-                                                    StringConstant.pay.toUpperCase(),
+                                                    'pay'.tr,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.whiteColor,
@@ -553,18 +603,36 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                 margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *1,
                                                 ),
-                                                child: Text(
-                                                  "Start Date- "+listing.projectData.elementAt(index).campaignStartdate,
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: AppColors.black,
-                                                      fontSize:8,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
+                                                child:   Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'startdate'.tr,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                    Text(
+                                                      " - "+listing.projectData.elementAt(index).campaignStartdate,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+
+                                                  ],
+                                                )
                                               ),
                                             ],
                                           ),
@@ -603,18 +671,36 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                 margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *1,
                                                 ),
-                                                child: Text(
-                                                  "End Date- "+listing.projectData.elementAt(index).campaignEnddate,
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: AppColors.black,
-                                                      fontSize:8,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
+                                                child:  Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'enddate'.tr,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                    Text(
+                                                      " - "+listing.projectData.elementAt(index).campaignEnddate,
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: AppColors.black,
+                                                          fontSize:8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+
+                                                  ],
+                                                )
                                               ),
                                             ],
                                           ),
@@ -624,102 +710,102 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                       )
                                     ],
                                   ),
-                                  /*     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal *23,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                              width: SizeConfig.blockSizeHorizontal *35,
                                               alignment: Alignment.topLeft,
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                                              child: Text(
-                                                "Collection Target- ",
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                              alignment: Alignment.topLeft,
-                                              padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    3,
-                                              ),
-                                              child: Text(
-                                                "\$"+listing.projectData.elementAt(index).budget,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.lightBlueAccent,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-
-                                        Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          child:  LinearPercentIndicator(
-                                            width: 70.0,
-                                            lineHeight: 14.0,
-                                            percent: amoun/100,
-                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
-                                            backgroundColor: AppColors.lightgrey,
-                                            progressColor:AppColors.themecolor,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *1,
+                                                  left: SizeConfig.blockSizeHorizontal * 2),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'collectiontarget'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    "  \$"+listing.projectData.elementAt(index).budget,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                           ),
+                                        ],
+                                      ),
+
+                                      Container(
+                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                        child:  LinearPercentIndicator(
+                                          width: 70.0,
+                                          lineHeight: 14.0,
+                                          percent: amoun/100,
+                                          center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                          backgroundColor: AppColors.lightgrey,
+                                          progressColor:AppColors.themecolor,
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            Container(
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                              width: SizeConfig.blockSizeHorizontal *33,
                                               alignment: Alignment.centerRight,
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                              child: Text(
-                                                StringConstant.collectedamount+"-",
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-                                            Container(
                                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                                   .blockSizeHorizontal *
-                                                  4),
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                "\$"+listing.projectData.elementAt(index).requiredAmount.toString(),
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.lightBlueAccent,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),*/
+                                                  5),
+                                              child:  Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'collectedamount'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    "  \$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
+                                          ),
+
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                   imageslist_length!=null?
                                   GestureDetector(
                                     onTap: () {
@@ -1164,17 +1250,22 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                         );
                       }),
                 )
-                    : Container(
-                  margin: EdgeInsets.only(top: 100),
+                    :  Container(
+                  margin: EdgeInsets.only(top: 180),
                   alignment: Alignment.center,
                   child: resultvalue == true
                       ? Center(
                     child: CircularProgressIndicator(),
                   )
                       : Center(
-                    child: Image.asset("assets/images/empty.png",
-                        height: SizeConfig.blockSizeVertical * 30,
-                        width: SizeConfig.blockSizeVertical * 30),
+                    child: Text('norecordsfound'.tr,style: TextStyle(
+                        letterSpacing: 1.0,
+                        color: AppColors.black,
+                        fontSize: 16,
+                        fontWeight:
+                        FontWeight.normal,
+                        fontFamily:
+                        'Poppins-Regular')),
                   ),
                 )
               ],
@@ -1204,7 +1295,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1225,7 +1316,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1257,7 +1348,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Copy this post',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1277,27 +1368,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),
-        PopupMenuItem(
-            value:3,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                callNext(
-                    ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -1341,7 +1412,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                     },
                     decoration: new InputDecoration(
                         //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: "Search here...",
+                        hintText: 'searchhere'.tr,
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
                   _handleSearchStart();
@@ -1386,35 +1457,18 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchbarDonation()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 

@@ -20,6 +20,7 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
+import 'package:get/get.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -98,14 +99,71 @@ class OngoingCampaignState extends State<OngoingCampaign> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
+  }
+
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _createDynamicLink(String productid) async {
@@ -164,12 +222,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   }
 
   void showToast(String updateval) {
-    Fluttertoast.showToast(
-      msg: jsonDecode(updateval)["message"],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-    );
+    errorDialog(jsonDecode(updateval)["message"]);
+
   }
 
   void getdata(String user_id) async {
@@ -189,12 +243,10 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       if (jsonResponse["success"] == false) {
         setState(() {
           resultvalue = false;
+          storelist_length =null;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
+
       } else {
         listing = new donationlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -214,20 +266,12 @@ class OngoingCampaignState extends State<OngoingCampaign> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -250,12 +294,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       if (jsonResponse["success"] == false) {
         setState(() {
           resultvalue = false;
+          storelist_length =null;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
       } else {
         listing = new donationlistingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -275,20 +315,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -319,7 +350,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -339,7 +370,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -373,7 +404,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -394,7 +425,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -417,7 +448,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
         toolbarHeight: SizeConfig.blockSizeVertical * 8,
         title: Container(
           child: Text(
-            "Donation",
+            'donations'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
                 decoration: TextDecoration.none,
@@ -656,7 +687,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                       border: Border.all(color: AppColors.purple)
                                                   ),
                                                   child: Text(
-                                                    "OnGoing".toUpperCase(),
+                                                    'ongoing'.tr,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -675,13 +706,13 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   {
 
                                                     Widget cancelButton = FlatButton(
-                                                      child: Text("Cancel"),
+                                                      child: Text('cancel'.tr),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
                                                     );
                                                     Widget continueButton = FlatButton(
-                                                      child: Text("Continue"),
+                                                      child: Text('continue'.tr),
                                                       onPressed: () async {
                                                         Payamount(listing.projectData.elementAt(index).id,
                                                             AmountController.text,
@@ -690,7 +721,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                     );
                                                     // set up the AlertDialog
                                                     AlertDialog alert = AlertDialog(
-                                                      title: Text("Pay now.."),
+                                                      title: Text('paynow'.tr),
                                                       // content: Text("Are you sure you want to Pay this project?"),
                                                       content: new Row(
                                                         children: <Widget>[
@@ -703,7 +734,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                               keyboardType: TextInputType.number,
                                                               validator: (val) {
                                                                 if (val.length == 0)
-                                                                  return "Please enter payment amount";
+                                                                  return 'pleaseenterpaymentamount'.tr;
                                                                 else
                                                                   return null;
                                                               },
@@ -728,7 +759,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                   fontSize: 10,
                                                                   decoration: TextDecoration.none,
                                                                 ),
-                                                                hintText:"Enter payment amount",
+                                                                hintText:'enterpaymentamount'.tr,
                                                               ),
                                                             ),
                                                           )
@@ -774,7 +805,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
 
                                                     ),
                                                     child: Text(
-                                                      StringConstant.pay.toUpperCase(),
+                                                      'pay'.tr,
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.whiteColor,
@@ -824,18 +855,37 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
-                                                    "Start Date- "+listing.projectData.elementAt(index).campaignStartdate,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.black,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
+                                                  child:
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        'startdate'.tr,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+                                                      Text(
+                                                        " - "+listing.projectData.elementAt(index).campaignStartdate,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+
+                                                    ],
+                                                  )
                                                 ),
 
                                               ],
@@ -875,18 +925,36 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
-                                                    "End Date- "+listing.projectData.elementAt(index).campaignEnddate,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.black,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
+                                                  child:  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        'enddate'.tr,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+                                                      Text(
+                                                        " - "+listing.projectData.elementAt(index).campaignEnddate,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+
+                                                    ],
+                                                  )
                                                 ),
                                               ],
                                             ),
@@ -904,40 +972,37 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *23,
+                                              width: SizeConfig.blockSizeHorizontal *35,
                                               alignment: Alignment.topLeft,
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,left: SizeConfig.blockSizeHorizontal * 2),
-                                              child: Text(
-                                                "Collection Target- ",
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                              alignment: Alignment.topLeft,
-                                              padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    3,
-                                              ),
-                                              child: Text(
-                                                "\$"+listing.projectData.elementAt(index).budget,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.lightBlueAccent,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *1,
+                                                  left: SizeConfig.blockSizeHorizontal * 2),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'collectiontarget'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    "  \$"+listing.projectData.elementAt(index).budget,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                             ),
                                           ],
                                         ),
@@ -957,37 +1022,40 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              alignment: Alignment.centerRight,
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                              child: Text(
-                                                StringConstant.collectedamount+"-",
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                                width: SizeConfig.blockSizeHorizontal *33,
+                                                alignment: Alignment.centerRight,
+                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    5),
+                                              child:  Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'collectedamount'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    "  \$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                             ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  4),
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                "\$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.lightBlueAccent,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            )
+
                                           ],
                                         )
                                       ],
@@ -1347,7 +1415,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         ),
                                       ),
                                     )*/
-                                  ],
+                        ],
                                 ),
                               ),
                         ),
@@ -1362,7 +1430,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -1419,7 +1487,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                       SpeedDialChild(
                           child: Icon(Icons.public),
                           backgroundColor: AppColors.theme1color,
-                          label: 'Public',
+                          label: 'public'.tr,
 
                           onTap: () {
                             tabValue="1";
@@ -1430,7 +1498,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                       SpeedDialChild(
                           child: Icon(Icons.privacy_tip),
                           backgroundColor: AppColors.theme1color,
-                          label: 'Private',
+                          label: 'private'.tr,
                           onTap: () {
                             tabValue="2";
                             getsortdata(userid, tabValue);
@@ -1440,7 +1508,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                       SpeedDialChild(
                           child: Icon(Icons.all_inclusive),
                           backgroundColor: AppColors.theme1color,
-                          label: 'All',
+                          label: 'all'.tr,
                           onTap: () {
                             tabValue="0";
                             getsortdata(userid, tabValue);
@@ -1468,35 +1536,18 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 

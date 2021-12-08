@@ -22,6 +22,7 @@ import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
+import 'package:get/get.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 class OngoingEvents extends StatefulWidget {
@@ -71,7 +72,7 @@ class OngoingEventsState extends State<OngoingEvents> {
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
   }
-  String textHolder = "Please Select";
+  String textHolder = 'pleaseselect'.tr;
   void getChangedPageAndMoveBar(int page) {
     currentPageValue = page;
     setState(() {});
@@ -79,14 +80,70 @@ class OngoingEventsState extends State<OngoingEvents> {
   changeText(String valu) {
     setState(() {
       textHolder = valu;
-      Fluttertoast.showToast(
-        msg: textHolder,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   Future<void> _createDynamicLink(String productid) async {
     print("Product: "+productid);
@@ -141,7 +198,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -161,7 +218,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -196,7 +253,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -217,7 +274,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -239,11 +296,7 @@ class OngoingEventsState extends State<OngoingEvents> {
         setState(() {
           resultcatvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(valcat)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+
       } else {
         listingcate = new EventCategoryPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -263,20 +316,12 @@ class OngoingEventsState extends State<OngoingEvents> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listingcate.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listingcate.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(valcat)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(valcat)["message"]);
+
     }
   }
 
@@ -299,12 +344,8 @@ class OngoingEventsState extends State<OngoingEvents> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
+
       }
     });
   }
@@ -327,11 +368,8 @@ class OngoingEventsState extends State<OngoingEvents> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         listing = new EventOngoingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -351,20 +389,11 @@ class OngoingEventsState extends State<OngoingEvents> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -388,11 +417,8 @@ class OngoingEventsState extends State<OngoingEvents> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         listing = new EventOngoingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -412,20 +438,12 @@ class OngoingEventsState extends State<OngoingEvents> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -449,11 +467,8 @@ class OngoingEventsState extends State<OngoingEvents> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         listing = new EventOngoingPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -473,23 +488,13 @@ class OngoingEventsState extends State<OngoingEvents> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -502,7 +507,7 @@ class OngoingEventsState extends State<OngoingEvents> {
           toolbarHeight: SizeConfig.blockSizeVertical * 8,
           title: Container(
             child: Text(
-              "Events",
+              'events'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.none,
@@ -571,13 +576,13 @@ class OngoingEventsState extends State<OngoingEvents> {
                               child:
                               Container(
                                 padding: EdgeInsets.all(5.0),
-                                margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,top: SizeConfig.blockSizeVertical *2),
+                                margin: EdgeInsets.only(
+                                    bottom: SizeConfig.blockSizeVertical *2,
+                                    top: SizeConfig.blockSizeVertical *2),
                                 child:
                                 Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     GestureDetector(
                                       onTapDown: (TapDownDetails details){
@@ -722,7 +727,9 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   ),
                                                 ),*/
                                                 Container(
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3, top: SizeConfig.blockSizeVertical *2,),
+                                                  margin: EdgeInsets.only(
+                                                    left: SizeConfig.blockSizeHorizontal *3,
+                                                    top: SizeConfig.blockSizeVertical *2,),
 
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
@@ -744,7 +751,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                       border: Border.all(color: AppColors.purple)
                                                   ),
                                                   child: Text(
-                                                    "Ongoing".toUpperCase(),
+                                                    'ongoing'.tr,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -762,31 +769,41 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   onTap: ()
                                                   {
                                                     Widget cancelButton = FlatButton(
-                                                      child: Text("Cancel"),
+                                                      child: Text('cancel'.tr),
                                                       onPressed: ()
                                                       {
                                                         Navigator.pop(context);
                                                       },
                                                     );
                                                     Widget continueButton = FlatButton(
-                                                      child: Text("Continue"),
+                                                      child: Text('continue'.tr),
                                                       onPressed: () async {
                                                         Payamount( listing.projectData.elementAt(index).id, listing.projectData.elementAt(index).entryFee,userid);
                                                       },
                                                     );
                                                     // set up the AlertDialog
                                                     AlertDialog alert = AlertDialog(
-                                                      title: Text("Pay now.."),
+                                                      title: Text('paynow'.tr),
                                                       // content: Text("Are you sure you want to Pay this project?"),
                                                       content: new Row(
                                                         children: <Widget>[
-                                                          new Text("Event entry fees \$"+listing.projectData.elementAt(index).entryFee,
-                                                            style: TextStyle(
-                                                                letterSpacing: 1.0,
-                                                                fontWeight: FontWeight.normal,
-                                                                fontFamily: 'Poppins-Regular',
-                                                                fontSize: 10,
-                                                                color: Colors.black))
+
+                                                          new Text('eventeentryfees'.tr,
+                                                              style: TextStyle(
+                                                                  letterSpacing: 1.0,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  fontFamily: 'Poppins-Regular',
+                                                                  fontSize: 10,
+                                                                  color: Colors.black)),
+
+                                                          new Text(" \$"+listing.projectData.elementAt(index).entryFee,
+                                                              style: TextStyle(
+                                                                  letterSpacing: 1.0,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  fontFamily: 'Poppins-Regular',
+                                                                  fontSize: 10,
+                                                                  color: Colors.black))
+
                                                         ],
                                                       ),
                                                       actions:
@@ -820,7 +837,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                       borderRadius: BorderRadius.circular(20),
                                                     ),
                                                     child: Text(
-                                                      StringConstant.pay.toUpperCase(),
+                                                      'pay'.tr,
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.whiteColor,
@@ -863,18 +880,33 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child:
-                                                  Text(
-                                                    "Start Date- "+listing.projectData.elementAt(index).eventStartdate,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.black,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily: 'Poppins-Regular'),
-                                                  ),
+                                                  child:  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        'startdate'.tr,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily: 'Poppins-Regular'),
+                                                      ),
+                                                      Text(
+                                                        " - "+listing.projectData.elementAt(index).eventStartdate,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily: 'Poppins-Regular'),
+                                                      ),
+                                                    ],
+                                                  )
                                                 )
                                               ],
                                             ),
@@ -907,18 +939,33 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
-                                                    "End Date- "+listing.projectData.elementAt(index).eventEnddate,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.black,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
+                                                  child:  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        'enddate'.tr,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily: 'Poppins-Regular'),
+                                                      ),
+                                                      Text(
+                                                        " - "+listing.projectData.elementAt(index).eventEnddate,
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors.black,
+                                                            fontSize:8,
+                                                            fontWeight:
+                                                            FontWeight.normal,
+                                                            fontFamily: 'Poppins-Regular'),
+                                                      ),
+                                                    ],
+                                                  )
                                                 ),
                                               ],
                                             ),
@@ -933,43 +980,42 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         Row(
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *15,
+                                              width: SizeConfig.blockSizeHorizontal *35,
                                               alignment: Alignment.topLeft,
                                               margin:
                                               EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *1,
                                                   left: SizeConfig.blockSizeHorizontal * 2),
                                               child:
-                                              Text(
-                                                "Sold slots- ",
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'soldslots'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    "  \$"+listing.projectData.elementAt(index).totalslotamount.toString(),
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                             ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                              alignment: Alignment.topLeft,
-                                              padding: EdgeInsets.only(
-                                                right: SizeConfig.blockSizeHorizontal * 3,
-                                              ),
-                                              child: Text(
-                                                "\$"+listing.projectData.elementAt(index).totalslotamount.toString(),
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.lightBlueAccent,
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
+
                                           ],
                                         ),
                                         Container(
@@ -985,41 +1031,39 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         ),
                                         Row(
                                           children: [
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            width: SizeConfig.blockSizeHorizontal *26,
-                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                            child: Text(
-                                              "Remaining slots-",
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
+                                            Container(
+                                                alignment: Alignment.centerRight,
+                                                width: SizeConfig.blockSizeHorizontal *33,
+                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                    right: SizeConfig.blockSizeHorizontal * 3),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'remainingslots'.tr,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.black87,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                    Text(
+                                                      "  \$"+listing.projectData.elementAt(index).balanceslot.toString(),
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.lightBlueAccent,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                          FontWeight.normal,
+                                                          fontFamily:
+                                                          'Poppins-Regular'),
+                                                    ),
+                                                  ],
+                                                )
                                             ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig.blockSizeVertical *1,
-                                                right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3),
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              "\$"+listing.projectData.elementAt(index).balanceslot.toString(),
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          )
                                         ],)
                                       ],
                                     ),
@@ -1232,10 +1276,13 @@ class OngoingEventsState extends State<OngoingEvents> {
                                       ),
                                     ),*/
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
+                                      width: SizeConfig.blockSizeHorizontal * 100,
                                       alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1,bottom: SizeConfig.blockSizeVertical *1),
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockSizeHorizontal * 3,
+                                          right: SizeConfig.blockSizeHorizontal * 3,
+                                          top: SizeConfig.blockSizeVertical * 1,
+                                          bottom: SizeConfig.blockSizeVertical * 1),
                                       child: new Html(
                                         data: listing.projectData.elementAt(index).description,
                                         defaultTextStyle: TextStyle(
@@ -1340,7 +1387,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -1409,7 +1456,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.dashboard),
                             backgroundColor: AppColors.theme1color,
-                            label: 'Category',
+                            label: 'category'.tr,
                             onTap: ()
                             {
                               // tabValue="1";
@@ -1420,7 +1467,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.public),
                             backgroundColor: AppColors.theme1color,
-                            label: 'Public',
+                            label: 'public'.tr,
                             onTap: ()
                             {
                               tabValue="1";
@@ -1431,7 +1478,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.privacy_tip),
                             backgroundColor: AppColors.theme1color,
-                            label: 'Private',
+                            label: 'private'.tr,
                             onTap: ()
                             {
                               tabValue="2";
@@ -1442,7 +1489,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.all_inclusive),
                             backgroundColor: AppColors.theme1color,
-                            label: 'All',
+                            label: 'all'.tr,
                             onTap: ()
                             {
                               tabValue="0";
@@ -1473,39 +1520,22 @@ class OngoingEventsState extends State<OngoingEvents> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["status"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
+
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
-
 
   void _modalBottomSheetMenu() {
     showModalBottomSheet(
@@ -1535,7 +1565,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                 top: SizeConfig.blockSizeVertical * 2),
                             width: SizeConfig.blockSizeHorizontal * 45,
                             child: Text(
-                              "Event Type",
+                              'eventyype'.tr,
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,

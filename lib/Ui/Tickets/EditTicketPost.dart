@@ -21,6 +21,7 @@ import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 class EditTicketPost extends StatefulWidget {
 
@@ -90,7 +91,7 @@ class EditTicketPostState extends State<EditTicketPost> {
   TimeOfDay selecteTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selecteEndTime = TimeOfDay(hour: 00, minute: 00);
   DateTime currentDate = DateTime.now();
-  DateTime currentEndDate = DateTime.now();
+  DateTime currentEndDate = DateTime.now().add(Duration(days: 1));
   DateTime timeframedate = DateTime.now();
   String dateTime;
   String _eventName;
@@ -122,7 +123,7 @@ class EditTicketPostState extends State<EditTicketPost> {
     });
   }
 
-  String textHolder = "Please Select";
+  String textHolder = 'pleaseselect'.tr;
   final List<String> _dropdownEventCategory = [
     "New year",
     "Halloween",
@@ -214,15 +215,72 @@ class EditTicketPostState extends State<EditTicketPost> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+       errorDialog('nointernetconnection'.tr);
       }
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   _getCurrentLocation() {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) {
@@ -259,12 +317,8 @@ class EditTicketPostState extends State<EditTicketPost> {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         sendgift = new getTicketPojo.fromJson(jsonResponse);
         print("Json User Details: " + jsonResponse.toString());
@@ -359,21 +413,13 @@ class EditTicketPostState extends State<EditTicketPost> {
             //  basename = sendgift.projectData.documents.toString();
           });
         } else {
-          Fluttertoast.showToast(
-            msg: sendgift.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(sendgift.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -407,8 +453,21 @@ class EditTicketPostState extends State<EditTicketPost> {
         currentEndDate = picked;
         formattedEndDate = DateFormat('yyyy/MM/dd').format(currentEndDate);
         print("onEndDate: " + formattedEndDate.toString());
+
+        if(formattedDate.compareTo(formattedEndDate)>0)
+        {
+          print('date is befor');
+          //peform logic here.....
+          errorDialog('enddateshouldbeafterstartdate'.tr);
+
+        }
+        else {
+          currentEndDate = picked;
+          print('date is after');
+        }
       });
   }
+
 
 
   Timeframe(BuildContext context) async {
@@ -560,7 +619,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                   height: 50,
                   color: AppColors.whiteColor,
                   child: Text(
-                    'Camera',
+                    'camera'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -583,7 +642,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Gallery',
+                    'gallery'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -601,7 +660,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'Cancel',
+                    'cancel'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -631,12 +690,7 @@ class EditTicketPostState extends State<EditTicketPost> {
             }
           }
           else{
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -656,12 +710,7 @@ class EditTicketPostState extends State<EditTicketPost> {
             }
           }
           else{
-            Fluttertoast.showToast(
-              msg: "upload upto 3 images",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('uploadupto3images'.tr);
           }
         });
       } catch (e) {
@@ -703,12 +752,7 @@ class EditTicketPostState extends State<EditTicketPost> {
           print("Docname: "+catname.toString());
         }
         else{
-          Fluttertoast.showToast(
-            msg: "upload upto 2 documents",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog('uploadupto2documents'.tr);
         }
 
       });
@@ -806,24 +850,14 @@ class EditTicketPostState extends State<EditTicketPost> {
       if (response.statusCode == 200) {
         if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+         errorDialog(jsonData["message"]);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+
             videoList.clear();
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => TicketOngoingEvents()), (route) => false);
           } else {
@@ -832,38 +866,19 @@ class EditTicketPostState extends State<EditTicketPost> {
               Navigator.of(context).pop();
               //   isLoading = false;
             });
-            Fluttertoast.showToast(
-              msg: jsonData["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonData["message"]);
           }
         }
       }else if (response.statusCode == 422) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
       } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Internal server error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('internalservererror'.tr);
+
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('somethingwentwrong'.tr);
       }
     });
   }
@@ -926,7 +941,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                           top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.editnewticket,
+                        'editticket'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -1131,7 +1146,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
-                            StringConstant.eventname,
+                            'eventname'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -1168,7 +1183,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                             keyboardType: TextInputType.name,
                             validator: (val) {
                               if (val.length == 0)
-                                return "Please enter event name";
+                                return 'pleaseentereventname'.tr;
                               else
                                 return null;
                             },
@@ -1204,7 +1219,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
                           child: Text(
-                            StringConstant.eventdescription,
+                            'eventdescription'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -1244,7 +1259,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   keyboardType: TextInputType.text,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "Please enter event description";
+                                      return 'pleaseentereventdescription'.tr;
                                     else
                                       return null;
                                   },
@@ -1290,7 +1305,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                             SizeConfig.blockSizeVertical * 2,
                                         top: SizeConfig.blockSizeVertical * 2),
                                     child: Text(
-                                      StringConstant.addhashtag,
+                                      'addhashtag'.tr,
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.lightBlue,
@@ -1321,7 +1336,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                           top:
                                               SizeConfig.blockSizeVertical * 2),
                                       child: Text(
-                                        StringConstant.startdate,
+                                        'startdate'.tr,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
@@ -1417,7 +1432,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
-                                          StringConstant.enddate,
+                                          'enddate'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -1514,7 +1529,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
-                                          StringConstant.starttime,
+                                          'starttime'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -1567,7 +1582,9 @@ class EditTicketPostState extends State<EditTicketPost> {
                                                         1),
                                                 child: Text(
                                                   selectedTime == ""
-                                                      ? "10:00AM"
+                                                      ? TimeOfDay.now()
+                                                      .toString()
+                                                      .substring(10, 15)
                                                       : selectedTime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
@@ -1609,7 +1626,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
-                                          StringConstant.endtime,
+                                          'endtime'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -1665,8 +1682,10 @@ class EditTicketPostState extends State<EditTicketPost> {
                                                             .blockSizeHorizontal *
                                                         1),
                                                 child: Text(
-                                                  selectedEndTime ==""
-                                                      ? "10:00AM"
+                                                  selectedEndTime == ""
+                                                      ? TimeOfDay.now()
+                                                      .toString()
+                                                      .substring(10, 15)
                                                       : selectedEndTime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
@@ -1724,7 +1743,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                       top:
                                       SizeConfig.blockSizeVertical * 2),
                                   child: Text(
-                                    StringConstant.location,
+                                    'location'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1765,7 +1784,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                     TextInputType.streetAddress,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter location";
+                                        return 'pleaseenterlocation'.tr;
                                       else
                                         return null;
                                     },
@@ -1814,7 +1833,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                       top: SizeConfig.blockSizeVertical *
                                           2),
                                   child: Text(
-                                    StringConstant.locationdetails,
+                                    'locationdetails'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1856,7 +1875,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                     TextInputType.streetAddress,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return "Please enter location details";
+                                        return 'pleaseenterlocationdetails'.tr;
                                       else
                                         return null;
                                     },
@@ -2102,7 +2121,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                           top:
                                               SizeConfig.blockSizeVertical * 2),
                                       child: Text(
-                                        StringConstant.contactno,
+                                        'contactno'.tr,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
@@ -2142,9 +2161,9 @@ class EditTicketPostState extends State<EditTicketPost> {
                                         keyboardType: TextInputType.phone,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return "Please enter mobile number";
+                                            return 'pleaseentermobilenumber'.tr;
                                           else if (val.length != 10)
-                                            return "Please enter valid mobile number";
+                                            return 'pleaseentervalidmobilenumber'.tr;
                                           else
                                             return null;
                                         },
@@ -2192,7 +2211,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         child: Text(
-                                          StringConstant.email,
+                                          'email'.tr,
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
@@ -2236,9 +2255,9 @@ class EditTicketPostState extends State<EditTicketPost> {
                                               TextInputType.emailAddress,
                                           validator: (val) {
                                             if (val.length == 0)
-                                              return "Please enter email";
+                                              return 'pleaseenteremail'.tr;
                                             else if (!regex.hasMatch(val))
-                                              return "Please enter valid email";
+                                              return 'pleaseentervalidemail'.tr;
                                             else
                                               return null;
                                           },
@@ -2288,7 +2307,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.timeframeforsale,
+                                'timeframeforSale'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -2368,7 +2387,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.costofticket,
+                                'costofticket'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -2430,7 +2449,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                           keyboardType: TextInputType.number,
                                           validator: (val) {
                                             if (val.length == 0)
-                                              return "Please enter cost of ticket";
+                                              return 'pleaseentercostofticket'.tr;
                                             else
                                               return null;
                                           },
@@ -2481,7 +2500,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.maximumquatity,
+                                'maximumquantitytobesold'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -2519,7 +2538,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 keyboardType: TextInputType.number,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "Please enter Muximum qty";
+                                    return 'pleaseentermaximumquantity'.tr;
                                   else
                                     return null;
                                 },
@@ -2567,7 +2586,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 15,
                               child: Text(
-                                StringConstant.video,
+                                'video'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -2638,7 +2657,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                               right: SizeConfig.blockSizeHorizontal * 4,
                               top: SizeConfig.blockSizeVertical * 2),
                           child: Text(
-                            "videos link with comma(,) seprated, without space",
+                            'videoslinkwithcommasepratedwithoutspace'.tr,
                             maxLines: 4,
                             style: TextStyle(
                                 letterSpacing: 1.0,
@@ -2665,7 +2684,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 22,
                               child: Text(
-                                StringConstant.revelantdocuents,
+                                'relevantdocuments'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -2835,7 +2854,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                                         alignment: Alignment
                                                             .center,
                                                         child: Text(
-                                                          "Remove",
+                                                          'remove'.tr,
                                                           maxLines: 2,
                                                           style: TextStyle(
                                                               decoration:
@@ -2895,7 +2914,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                StringConstant.showpostevent,
+                                'whocanseethisevent'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,
@@ -2929,7 +2948,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 child: DropdownButton(
                                   hint: Text(
                                     showpost == null
-                                        ? "please select"
+                                        ?  'pleaseselect'.tr
                                         : showpost,
                                     style: TextStyle(fontSize: 12),
                                   ),
@@ -2993,7 +3012,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 80,
                           child: Text(
-                            StringConstant.addyourspecialtermcond,
+                            'addyourspecialtermscondition'.tr,
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black,
@@ -3030,7 +3049,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                             keyboardType: TextInputType.text,
                             validator: (val) {
                               if (val.length == 0)
-                                return "Please add your special terms & condition";
+                                return 'pleaseaddyourspecialtermscondition'.tr;
                               else
                                 return null;
                             },
@@ -3074,60 +3093,72 @@ class EditTicketPostState extends State<EditTicketPost> {
                             vidoname = parts.map((part) => "$part").join(',').trim();
                             print("Vidoname: "+vidoname.toString());
 
-                            if(followingvalues ==null)
+                            if(formattedDate.compareTo(formattedEndDate)>0)
                             {
-                              createproject(
-                                  context,
-                                  EventNameController.text,
-                                  DescriptionController.text,
-                                  myFormat.format(currentDate),
-                                  myFormatEndDate.format(currentEndDate),
-                                  selectedTime,
-                                  selectedEndTime,
-                                  LocationController.text,
-                                  LocationDetailsController.text,
-                                  ContactNoController.text,
-                                  EmailController.text,
-                                  myFormatTimeFrameDate.format(timeframedate),
-                                  CostofTicketController.text,
-                                  MaximumNoofquantityController.text,
-                                  TermsController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  "",
-                                  VideoController.text,
-                                  _imageList,
-                                  _documentList);
+                              print('date is befor');
+                              //peform logic here.....
+                              errorDialog('enddateshouldbeafterstartdate'.tr);
+
                             }
                             else{
-                              createproject(
-                                  context,
-                                  EventNameController.text,
-                                  DescriptionController.text,
-                                  myFormat.format(currentDate),
-                                  myFormatEndDate.format(currentEndDate),
-                                  selectedTime,
-                                  selectedEndTime,
-                                  LocationController.text,
-                                  LocationDetailsController.text,
-                                  ContactNoController.text,
-                                  EmailController.text,
-                                  myFormatTimeFrameDate.format(timeframedate),
-                                  CostofTicketController.text,
-                                  MaximumNoofquantityController.text,
-                                  TermsController.text,
-                                  emailController.text,
-                                  nameController.text,
-                                  mobileController.text,
-                                  messageController.text,
-                                  followingvalues.toString(),
-                                  VideoController.text,
-                                  _imageList,
-                                  _documentList
-                                  );
+                              if(followingvalues ==null)
+                              {
+                                createproject(
+                                    context,
+                                    EventNameController.text,
+                                    DescriptionController.text,
+                                    myFormat.format(currentDate),
+                                    myFormatEndDate.format(currentEndDate),
+                                    selectedTime,
+                                    selectedEndTime,
+                                    LocationController.text,
+                                    LocationDetailsController.text,
+                                    ContactNoController.text,
+                                    EmailController.text,
+                                    myFormatTimeFrameDate.format(timeframedate),
+                                    CostofTicketController.text,
+                                    MaximumNoofquantityController.text,
+                                    TermsController.text,
+                                    emailController.text,
+                                    nameController.text,
+                                    mobileController.text,
+                                    messageController.text,
+                                    "",
+                                    VideoController.text,
+                                    _imageList,
+                                    _documentList);
+                              }
+                              else{
+                                createproject(
+                                    context,
+                                    EventNameController.text,
+                                    DescriptionController.text,
+                                    myFormat.format(currentDate),
+                                    myFormatEndDate.format(currentEndDate),
+                                    selectedTime,
+                                    selectedEndTime,
+                                    LocationController.text,
+                                    LocationDetailsController.text,
+                                    ContactNoController.text,
+                                    EmailController.text,
+                                    myFormatTimeFrameDate.format(timeframedate),
+                                    CostofTicketController.text,
+                                    MaximumNoofquantityController.text,
+                                    TermsController.text,
+                                    emailController.text,
+                                    nameController.text,
+                                    mobileController.text,
+                                    messageController.text,
+                                    followingvalues.toString(),
+                                    VideoController.text,
+                                    _imageList,
+                                    _documentList
+                                );
+                              }
                             }
+
+
+
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -3144,7 +3175,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 fit: BoxFit.fill,
                               ),
                             ),
-                            child: Text(StringConstant.creat,
+                            child: Text('editnow'.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
@@ -3201,14 +3232,7 @@ class EditTicketPostState extends State<EditTicketPost> {
         } else {
           //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonResponse["message"]);
           });
         }
       }
@@ -3241,7 +3265,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                   top: SizeConfig.blockSizeVertical * 2),
               width: SizeConfig.blockSizeHorizontal * 32,
               child: Text(
-                StringConstant.searchcontact,
+                'searchcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black,
@@ -3262,7 +3286,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                 //catname!=null?catname.toString():category_names.toString(),
                 catFollowingname != null
                     ? catFollowingname.toString()
-                    : "please select contact",
+                    : 'pleaseselectcontact'.tr,
                 style: TextStyle(
                     letterSpacing: 1.0,
                     color: Colors.black38,
@@ -3317,7 +3341,7 @@ class EditTicketPostState extends State<EditTicketPost> {
                           fontSize: SizeConfig.blockSizeHorizontal * 3,
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Montserrat-Bold'),
-                      hintText: "Search..."),
+                      hintText: 'search'.tr),
                 )
               ),
               Container(
@@ -3399,7 +3423,7 @@ class EditTicketPostState extends State<EditTicketPost> {
         )
             : Center(
           child: Text(
-            "No search results to show",
+            'nosearchresultstoshow'.tr,
             style: TextStyle(
                 letterSpacing: 1.0,
                 color: AppColors.black,
@@ -3450,8 +3474,7 @@ class EditTicketPostState extends State<EditTicketPost> {
           color: (add) ? Colors.green : Colors.red,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Icon(
-          (add) ? Icons.add : Icons.remove,
+        child: Icon((add) ? Icons.add : Icons.remove,
           color: Colors.white,
         ),
       ),
@@ -3465,7 +3488,8 @@ class EditTicketPostState extends State<EditTicketPost> {
         _selecteFollowingName.add(category_name);
       });
     } else {
-      setState(() {
+      setState(()
+      {
         _selecteFollowing.remove(category_id);
 
         _selecteFollowingName.remove(category_name);

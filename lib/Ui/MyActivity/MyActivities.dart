@@ -2241,7 +2241,8 @@ class MyActivitiesState extends State<MyActivities> {
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
                                               ),
-                                              child: Row(
+                                              child:
+                                              Row(
                                                 mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   Text(
@@ -2344,7 +2345,8 @@ class MyActivitiesState extends State<MyActivities> {
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                               .blockSizeHorizontal *
                                               5),
-                                          child: Row(
+                                          child:
+                                          Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
                                                 Text(
@@ -4334,9 +4336,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       width: SizeConfig.blockSizeHorizontal *34,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                        left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            3,),
+                                        left: SizeConfig.blockSizeHorizontal * 2),
                                       child: Row(
                                         children: [
                                           Text(

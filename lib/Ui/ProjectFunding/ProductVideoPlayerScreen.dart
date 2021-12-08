@@ -1,6 +1,5 @@
 import 'dart:developer';
-
-
+import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,7 +53,69 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
     '34_PXCzGw1M',
   ];*/
 
-  @override
+   void errorDialog(String text) {
+     showDialog(
+       context: context,
+       child: Dialog(
+         shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(18.0),
+         ),
+         backgroundColor: AppColors.whiteColor,
+         child: new Container(
+           margin: EdgeInsets.all(5),
+           width: 300.0,
+           height: 180.0,
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children: [
+               Container(
+                 child: Icon(
+                   Icons.error,
+                   size: 50.0,
+                   color: Colors.red,
+                 ),
+               ),
+               Container(
+                 margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                 color: AppColors.whiteColor,
+                 alignment: Alignment.center,
+                 height: 50,
+                 child: Text(
+                   text,
+                   style: TextStyle(
+                       fontSize: 18.0,
+                       color: Colors.black,
+                       fontWeight: FontWeight.bold),
+                 ),
+               ),
+               InkWell(
+                 onTap: () {
+                   Navigator.of(context).pop();
+                 },
+                 child: Container(
+                   margin: EdgeInsets.all(10),
+                   color: AppColors.whiteColor,
+                   alignment: Alignment.center,
+                   height: 50,
+                   child: Text(
+                     'ok'.tr,
+                     style: TextStyle(
+                         fontSize: 18.0,
+                         color: Colors.black,
+                         fontWeight: FontWeight.bold),
+                   ),
+                 ),
+               ),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
+
+
+   @override
   void initState() {
     super.initState();
     urlLik =widget.data;
@@ -86,12 +147,8 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
         _playerState = PlayerState.unknown;
       }
     else{
-      Fluttertoast.showToast(
-        msg: "video link is not valid",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog('videolinkisnotvalid'.tr);
+
       if(come=="Project")
         {
           Navigator.push(
@@ -268,7 +325,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.video,
+                        'video'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
@@ -374,8 +431,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
                     _space,
                     Row(
                       children: <Widget>[
-                        const Text(
-                          "Volume",
+                         Text('volume'.tr,
                           style: TextStyle(fontWeight: FontWeight.w300),
                         ),
                         Expanded(
@@ -406,11 +462,6 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
             ],
           ),
         )
-
-
-
-
-
 
       ),
     );

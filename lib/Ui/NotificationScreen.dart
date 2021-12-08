@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/Notificationpojo.dart';
@@ -89,8 +88,7 @@ class NotificationScreenState extends State<NotificationScreen> {
 
   void paginationApi() {
     _scrollController.addListener(() {
-      if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber < listing.result.lastPage) {
             pageNumber += 1;

@@ -2465,12 +2465,7 @@ class OngoingCampaignDetailsscreenState
         timeInSecForIosWeb: 1,
       );
       if ((received / total * 100).toStringAsFixed(0) + "%" == "100%") {
-        Fluttertoast.showToast(
-          msg: "Saved in download folder",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('savedindownloadfolder'.tr);
       }
     }
   }

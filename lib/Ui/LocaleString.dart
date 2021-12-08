@@ -64,8 +64,8 @@ class LocaleString extends Translations {
           'amountreceived' : 'Amount Received',
           'paynow' : 'Pay now',
           'areyousureyouwanttoPaythisproject' : 'Are you sure you want to Pay this project?',
-          'startdate' : 'Start date ',
-          'enddate' : 'End date ',
+          'startdate' : 'Start Date ',
+          'enddate' : 'End Date ',
           'pay' : 'PAY',
           'no' : 'No',
           'yes' : 'Yes',
@@ -147,6 +147,7 @@ class LocaleString extends Translations {
           'eventhistory' : 'EVENT HISTORY',
           'ongoingevents' : 'ONGOING EVENTS',
           'createnewevent' : 'Create New Event',
+          'editevent' : 'Edit Event',
           'eventname' : 'Event Name',
           'pleaseentereventname' : 'Please enter event name',
           'eventdescription' : 'Event Description',
@@ -268,6 +269,9 @@ class LocaleString extends Translations {
           'unfollow ' : 'UnFollow',
           'pleaseentersubject ' : 'Please enter subject',
           'subjectmustbemorethan2charater ' : 'subject must be more than 2 charater',
+          'subjectmustbemorethan2charater ' : 'subject must be more than 2 charater',
+          'editcampaign ' : 'Edit campaign',
+          'editnow' : 'Edit Now',
         },
         'ar_SA': {
           'home': 'الصفحة الرئيسية',
@@ -533,6 +537,9 @@ class LocaleString extends Translations {
           'unfollow' : 'الغاء المتابعة',
           'pleaseentersubject' : 'الرجاء إدخال الموضوع',
           'subjectmustbemorethan2charater' : 'يجب أن يكون الموضوع أكثر من حرفين',
+          'editcampaign' : 'تحرير الحملة',
+          'editnow' : 'تحرير الآن',
+          'editevent' : 'تحرير الحدث',
 
         },
       };

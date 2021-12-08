@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -23,6 +22,7 @@ import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:get/get.dart';
 
 class TicketOngoingEvents extends StatefulWidget {
   @override
@@ -69,14 +69,71 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
+
       }
     });
+  }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 
@@ -130,11 +187,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         listing = new TicketOngoingListing.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -154,20 +207,12 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -201,12 +246,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
   }
 
   void showToast(String updateval) {
-    Fluttertoast.showToast(
-      msg: jsonDecode(updateval)["message"],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-    );
+    errorDialog(jsonDecode(updateval)["message"]);
   }
 
   void getsortdata(String user_id,String sortval) async {
@@ -228,11 +268,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
         setState(() {
           resultvalue = false;
         });
-        Fluttertoast.showToast(
-            msg: jsonDecode(val)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(val)["message"]);
+
       } else {
         listing = new TicketOngoingListing.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -252,20 +289,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: listing.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(listing.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
     }
   }
 
@@ -323,10 +351,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
-            )),
+            )
+        ),
         PopupMenuItem(
             value: 2,
             child: GestureDetector(
@@ -343,11 +372,10 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('Edit',style: TextStyle(fontSize: 14),)
+                  Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
-
       ],
       elevation: 8.0,
     );
@@ -377,7 +405,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('Share via',style: TextStyle(fontSize: 14),)
+                  Text('sharevia'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -397,7 +425,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text('report'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
             )),
@@ -417,7 +445,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
         toolbarHeight: SizeConfig.blockSizeVertical * 8,
         title: Container(
           child: Text(
-            "Tickets",
+            'tickets'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
                 decoration: TextDecoration.none,
@@ -500,18 +528,18 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                           onTap: ()
                                           {
                                             Widget cancelButton = FlatButton(
-                                              child: Text("Cancel"),
+                                              child: Text('cancel'.tr),
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
                                             );
                                             Widget continueButton = FlatButton(
-                                              child: Text("Continue"),
+                                              child: Text('continue'.tr),
                                               onPressed: () async {
                                                 if(AmountController.text==null||AmountController.text=="")
                                                 {
                                                   Fluttertoast.showToast(
-                                                      msg: "Please enter ticket qty",
+                                                      msg: 'pleaseenterticketqty'.tr,
                                                       toastLength: Toast.LENGTH_SHORT,
                                                       gravity: ToastGravity.BOTTOM,
                                                       timeInSecForIosWeb: 1);
@@ -545,7 +573,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                       keyboardType: TextInputType.number,
                                                       validator: (val) {
                                                         if (val.length == 0)
-                                                          return "Please enter payment amount";
+                                                          return 'pleaseenterpaymentamount'.tr;
                                                         else
                                                           return null;
                                                       },
@@ -570,7 +598,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           fontSize: 10,
                                                           decoration: TextDecoration.none,
                                                         ),
-                                                        hintText:"Enter Ticket Qty",
+                                                        hintText:'enterticketqty'.tr,
                                                       ),
                                                     ),
                                                   )
@@ -614,7 +642,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
 
                                             ),
                                             child: Text(
-                                              "BUY",
+                                              'buy'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.whiteColor,
@@ -810,18 +838,35 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
-                                                    "Start Date- "+listing.projectData.elementAt(index).ticketStartdate,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.black,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
+                                                  child:  Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children:[
+                                                        Text(
+                                                          'startdate'.tr,
+                                                          textAlign: TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: AppColors.black,
+                                                              fontSize:8,
+                                                              fontWeight:
+                                                              FontWeight.normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                        Text(
+                                                          " - "+listing.projectData.elementAt(index).ticketStartdate,
+                                                          textAlign: TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: AppColors.black,
+                                                              fontSize:8,
+                                                              fontWeight:
+                                                              FontWeight.normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ]
+                                                  )
                                                 )
 
                                               ],
@@ -860,18 +905,35 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child: Text(
-                                                    "End Date- "+listing.projectData.elementAt(index).ticketEnddate,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors.black,
-                                                        fontSize:8,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'Poppins-Regular'),
-                                                  ),
+                                                  child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children:[
+                                                        Text(
+                                                          'enddate'.tr,
+                                                          textAlign: TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: AppColors.black,
+                                                              fontSize:8,
+                                                              fontWeight:
+                                                              FontWeight.normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                        Text(
+                                                          " - "+listing.projectData.elementAt(index).ticketEnddate,
+                                                          textAlign: TextAlign.right,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: AppColors.black,
+                                                              fontSize:8,
+                                                              fontWeight:
+                                                              FontWeight.normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ]
+                                                  )
                                                 ),
                                               ],
                                             ),
@@ -883,23 +945,36 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *27,
+                                          width: SizeConfig.blockSizeHorizontal *34,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                              left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,),
-                                          child: Text(
-                                            "No. of Tickets - "+ listing.projectData.elementAt(index).maximumQtySold.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                              left: SizeConfig.blockSizeHorizontal * 2),
+                                          child:  Row(
+                                            children: [
+                                              Text(
+                                                'nooftickets'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                              Text(
+                                                " - "+ listing.projectData.elementAt(index).maximumQtySold.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ],
+                                          )
                                         ),
                                         /*Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
@@ -934,21 +1009,38 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         ),
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *29,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3),
-                                          child: Text(
-                                            "Available Tickets- "+listing.projectData.elementAt(index).balanceQtySlot.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black87,
-                                                fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
+                                            width: SizeConfig.blockSizeHorizontal *32,
+                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                3),
+
+                                          child:  Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                'availabletickets'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                              Text(
+                                                " - "+ listing.projectData.elementAt(index).balanceQtySlot.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black87,
+                                                    fontSize: 8,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ],
+                                          )
                                         ),
                                       /*  Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
@@ -1215,18 +1307,34 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
                                           top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "No. of Persons joined- "+listing.projectData.elementAt(index).totalcontributor.toString(),
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black26,
-                                            fontSize: 8,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
+                                      child:  Row(
+                                        children: [
+                                          Text(
+                                            'noofpersonsjoined'.tr,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black26,
+                                                fontSize: 8,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                          Text(
+                                            " - "+listing.projectData.elementAt(index).totalcontributor.toString(),
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black26,
+                                                fontSize: 8,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                fontFamily:
+                                                'Poppins-Regular'),
+                                          ),
+                                        ],
+                                      )
                                     ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1238,7 +1346,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             alignment: Alignment.centerRight,
                                             margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1, left: SizeConfig.blockSizeHorizontal *3),
                                             child: Text(
-                                              "Ticket Price-",
+                                              'ticketprice'.tr,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
@@ -1256,7 +1364,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             alignment: Alignment.topLeft,
 
                                             child: Text(
-                                              "\$"+listing.projectData.elementAt(index).ticketCost.toString(),
+                                              "  \$"+listing.projectData.elementAt(index).ticketCost.toString(),
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
@@ -1287,7 +1395,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                   child: CircularProgressIndicator(),
                 )
                     : Center(
-                  child: Text("No Records Found",style: TextStyle(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
                       fontSize: 16,
@@ -1343,7 +1451,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.public),
                             backgroundColor: AppColors.theme1color,
-                            label: 'Public',
+                            label: 'public'.tr,
 
                             onTap: () {
                               tabValue="1";
@@ -1354,7 +1462,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.privacy_tip),
                             backgroundColor: AppColors.theme1color,
-                            label: 'Private',
+                            label: 'private'.tr,
                             onTap: () {
                               tabValue="2";
                               getsortdata(userid, tabValue);
@@ -1364,7 +1472,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                         SpeedDialChild(
                             child: Icon(Icons.all_inclusive),
                             backgroundColor: AppColors.theme1color,
-                            label: 'All',
+                            label: 'all'.tr,
                             onTap: () {
                               tabValue="0";
                               getsortdata(userid, tabValue);
@@ -1393,35 +1501,18 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["status"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
           // getpaymentlist(a);
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 
