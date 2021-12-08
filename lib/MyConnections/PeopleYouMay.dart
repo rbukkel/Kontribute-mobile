@@ -411,9 +411,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                      return
                        Container(
                            width: SizeConfig.blockSizeHorizontal * 60,
-                           margin: EdgeInsets.only(
-                             bottom: SizeConfig.blockSizeVertical * 2,
-                           ),
                            child:  Container(
                            height: SizeConfig.blockSizeVertical * 80,
                            child:

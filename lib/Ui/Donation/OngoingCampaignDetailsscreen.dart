@@ -2494,7 +2494,8 @@ class OngoingCampaignDetailsscreenState
           errorDialog(prolike.message);
         }
       }
-    } else {
+    }
+    else {
       errorDialog(jsonDecode(vallike)["message"]);
     }
   }
@@ -2530,7 +2531,6 @@ class OngoingCampaignDetailsscreenState
           getData(userid, a);
         } else {
           errorDialog(postcom.message);
-
         }
       }
     } else {

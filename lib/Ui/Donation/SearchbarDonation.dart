@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:kontribute/Ui/Donation/DonationReport.dart';
+import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/donationlistingPojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
@@ -23,6 +25,8 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:get/get.dart';
+import 'package:share/share.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SearchbarDonation extends StatefulWidget {
@@ -52,6 +56,8 @@ class SearchbarDonationState extends State<SearchbarDonation> {
   bool internet = false;
   String val;
   String userid;
+  String shortsharedlink = '';
+
   bool resultvalue = true;
   String searchvalue = "";
   searchsendreceivedpojo searchpojo;
@@ -247,7 +253,31 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       ),
     );
   }
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
 
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1287,6 +1317,12 @@ class SearchbarDonationState extends State<SearchbarDonation> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -1306,7 +1342,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    ProjectReport(
+                    DonationReport(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },
@@ -1340,6 +1376,12 @@ class SearchbarDonationState extends State<SearchbarDonation> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -1358,7 +1400,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    EditCreateProjectPost(
+                    EditDonationPost(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },

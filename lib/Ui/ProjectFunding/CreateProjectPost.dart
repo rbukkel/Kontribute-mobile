@@ -1766,7 +1766,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
                                       hint: Text(
-                                        'whocanseethisproject'.tr,
+                                        'pleaseselect'.tr,
                                         style: TextStyle(fontSize: 12),
                                       ),
                                       items: _dropdownCategoryValues

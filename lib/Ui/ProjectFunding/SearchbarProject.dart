@@ -21,6 +21,8 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:get/get.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:share/share.dart';
 
 class SearchbarProject extends StatefulWidget {
 
@@ -39,7 +41,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
     Icons.search,
     color: Colors.white,
   );
-
+  String shortsharedlink = '';
   Offset _tapDownPosition;
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
@@ -1573,6 +1575,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: " +
+                      listing.projectData.elementAt(index).id.toString());
+                  _createDynamicLink(
+                      listing.projectData.elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -1592,8 +1600,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 Navigator.of(context).pop();
                 callNext(
                     ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);
+                        data:
+                        listing.projectData.elementAt(index).id.toString()),
+                    context);
               },
               child: Row(
                 children: <Widget>[
@@ -1610,6 +1619,28 @@ class SearchbarProjectState extends State<SearchbarProject> {
       elevation: 8.0,
     );
   }
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: " + productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        ));
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
+
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  }
 
   _showEditPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
@@ -1624,6 +1655,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: " +
+                      listing.projectData.elementAt(index).id.toString());
+                  _createDynamicLink(
+                      listing.projectData.elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -1643,8 +1680,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 Navigator.of(context).pop();
                 callNext(
                     EditCreateProjectPost(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);
+                        data:
+                        listing.projectData.elementAt(index).id.toString()),
+                    context);
               },
               child: Row(
                 children: <Widget>[
@@ -1715,7 +1753,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     },
                     decoration: new InputDecoration(
                         //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: "Search here...",
+                        hintText:'searchhere'.tr,
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
                   _handleSearchStart();

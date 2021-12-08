@@ -77,12 +77,7 @@ class viewdetail_sendreceivegiftState
         setState(() {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
@@ -103,12 +98,7 @@ class viewdetail_sendreceivegiftState
         setState(() {
           Follow = "Follow";
         });
-       /* Fluttertoast.showToast(
-          msg: jsonDecode(valfollowstatus)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );*/
+        errorDialog(jsonDecode(valfollowstatus)["message"]);
       } else {
         followstatusPojo = new followstatus.fromJson(jsonResponse);
         print("Json status: " + jsonResponse.toString());
@@ -118,30 +108,77 @@ class viewdetail_sendreceivegiftState
             Follow = "";
           });
 
-          Fluttertoast.showToast(
-            msg: jsonDecode(valfollowstatus)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
         } else {
-          Fluttertoast.showToast(
-            msg: followstatusPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(followstatusPojo.message);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(valfollowstatus)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+     errorDialog(jsonDecode(valfollowstatus)["message"]);
     }
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   void getData(int id, String userid) async {
     setState(() {
@@ -160,12 +197,7 @@ class viewdetail_sendreceivegiftState
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
-        Fluttertoast.showToast(
-          msg: jsonDecode(val)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonDecode(val)["message"]);
       } else {
         senddetailsPojo =
             new individualRequestDetailspojo.fromJson(jsonResponse);
@@ -196,21 +228,12 @@ class viewdetail_sendreceivegiftState
             }
           });
         } else {
-          Fluttertoast.showToast(
-            msg: senddetailsPojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(senddetailsPojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(val)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(val)["message"]);
+
     }
   }
 
@@ -1542,7 +1565,6 @@ class viewdetail_sendreceivegiftState
         showToast(updateval);
       } else {
         if (jsonResponse != null) {
-          showToast(updateval);
           setState(() {
             getData(a, userid);
           });
@@ -1557,12 +1579,7 @@ class viewdetail_sendreceivegiftState
   }
 
   void showToast(String updateval) {
-    Fluttertoast.showToast(
-      msg: jsonDecode(updateval)["message"],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-    );
+    errorDialog(jsonDecode(updateval)["message"]);
   }
 
   Future<void> followapi(String useid, String rece) async {
@@ -1581,7 +1598,6 @@ class viewdetail_sendreceivegiftState
         showToast(updateval);
       } else {
         if (jsonResponse != null) {
-          showToast(updateval);
           setState(() {
             Follow = "";
           });

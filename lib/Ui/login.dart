@@ -474,6 +474,66 @@ class loginState extends State<login>{
     }
     return null;
   }
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 
   void loginmethod() {
@@ -481,11 +541,7 @@ class loginState extends State<login>{
       if (intenet != null && intenet) {
         initiateFacebookLogin();
       } else {
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-        );
+        errorDialog("No Internet Connection");
       }
     });
   }
@@ -556,12 +612,8 @@ class loginState extends State<login>{
       jsonResponse = json.decode(response.body);
       if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonResponse["message"]);
+
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -577,12 +629,7 @@ class loginState extends State<login>{
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
           SharedUtils.writeloginId("Usename", login.resultPush.fullName);
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -601,24 +648,14 @@ class loginState extends State<login>{
             Navigator.of(context).pop();
             //   isLoading = false;
           });
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
         }
       }
     }
     else {
 
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonResponse["message"]);
     }
   }
 
@@ -657,12 +694,7 @@ class loginState extends State<login>{
       jsonResponse = json.decode(response.body);
       if (jsonResponse["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonResponse["message"]);
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -672,12 +704,7 @@ class loginState extends State<login>{
             isLoading = false;
           });
 
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
 
           callNext(loginOTPScreen(data:emal.toString(),pass:pass.toString()), context);
 
@@ -687,23 +714,13 @@ class loginState extends State<login>{
             Navigator.of(context).pop();
             //   isLoading = false;
           });
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
         }
       }
     }
     else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonResponse["message"]);
     }
   }
 

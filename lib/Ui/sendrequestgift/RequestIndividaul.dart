@@ -407,20 +407,74 @@ class RequestIndividaulState extends State<RequestIndividaul> {
         else {
          // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonResponse["message"]);
+
           });
         }
       }
     }
   }
 
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 
   @override
@@ -1014,66 +1068,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     });
   }
 
-  void errorDialog(String text) {
-    showDialog(
-      context: context,
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ),
-        backgroundColor: AppColors.whiteColor,
-        child: new Container(
-          margin: EdgeInsets.all(5),
-          width: 300.0,
-          height: 180.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Icon(
-                  Icons.error,
-                  size: 50.0,
-                  color: Colors.red,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                color: AppColors.whiteColor,
-                alignment: Alignment.center,
-                height: 50,
-                child: Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  color: AppColors.whiteColor,
-                  alignment: Alignment.center,
-                  height: 50,
-                  child: Text(
-                    'ok'.tr,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   Expandedview05() {
     bool isSearching = searchController.text.isNotEmpty;

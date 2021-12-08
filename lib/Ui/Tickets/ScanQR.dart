@@ -9,6 +9,7 @@ import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
 class ScanQR extends StatefulWidget {
   final String data;
@@ -44,22 +45,79 @@ class ScanQRState extends State<ScanQR> {
         {
           internet = false;
         });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog('nointernetconnection'.tr);
       }
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.themecolor,
-        title: Text("Scan QR Code"),
+        title: Text('scanqrcode'.tr),
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -69,7 +127,7 @@ class ScanQRState extends State<ScanQR> {
           children: [
             //Message displayed over here
             Text(
-              "Result: ",
+              'result'.tr,
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -92,7 +150,7 @@ class ScanQRState extends State<ScanQR> {
                   print("Result: "+qrCodeResult.toString());
                 });
               },
-              child: Text("Open Scanner",style: TextStyle(color: AppColors.themecolor)),
+              child: Text('openscanner'.tr,style: TextStyle(color: AppColors.themecolor)),
               //Button having rounded rectangle border
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: AppColors.themecolor),
@@ -110,7 +168,7 @@ class ScanQRState extends State<ScanQR> {
                     validate(qrCodeResult.toString());
                   });
                 },
-                child: Text("Validate",style: TextStyle(color: AppColors.themecolor),),
+                child: Text('validate'.tr,style: TextStyle(color: AppColors.themecolor),),
                 //Button having rounded rectangle border
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: AppColors.themecolor),
@@ -137,41 +195,22 @@ class ScanQRState extends State<ScanQR> {
       valPost = response.body; //store response as string
       if (jsonDecode(valPost)["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonDecode(valPost)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+       errorDialog(jsonDecode(valPost)["message"]);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         postcom = new TicketValidate.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("responseLIke: ");
-          Fluttertoast.showToast(
-            msg: postcom.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(postcom.message);
+
         } else {
-          Fluttertoast.showToast(
-            msg: postcom.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(postcom.message);
         }
       }
     } else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonDecode(valPost)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(valPost)["message"]);
     }
   }
 }

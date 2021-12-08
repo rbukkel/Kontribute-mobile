@@ -1181,12 +1181,9 @@ class registerState extends State<register> {
 
       if (jsonData["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonData["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonData["message"]);
+
+
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         LoginResponse login = new LoginResponse.fromJson(jsonData);
@@ -1202,12 +1199,7 @@ class registerState extends State<register> {
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
           SharedUtils.writeloginId("Usename", login.resultPush.fullName);
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -1221,16 +1213,73 @@ class registerState extends State<register> {
             Navigator.of(context).pop();
             //   isLoading = false;
           });
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+         errorDialog(login.message);
         }
       }
     });
   }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   fetchData(String name, String email, String id, String photoURL) async {
     print("email: " + email.toString());
@@ -1255,12 +1304,7 @@ class registerState extends State<register> {
       jsonResponse = json.decode(response.body);
       if (jsonResponse["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonResponse["message"]);
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1276,12 +1320,7 @@ class registerState extends State<register> {
           SharedUtils.saveDate("Token", login.resultPush.mobileToken);
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
           SharedUtils.writeloginId("Usename", login.resultPush.fullName);
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -1294,26 +1333,15 @@ class registerState extends State<register> {
             Navigator.of(context).pop();
             //   isLoading = false;
           });
-          Fluttertoast.showToast(
-            msg: login.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(login.message);
         }
       }
     }
     else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonResponse["message"]);
     }
   }
-
 
   showAlert() {
     showDialog(
@@ -1427,17 +1455,9 @@ class registerState extends State<register> {
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog("Please Select Image");
           }
         });
-
-
-
       } catch (e) {
         print(e);
       }
@@ -1454,12 +1474,7 @@ class registerState extends State<register> {
               imageUrl = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog("Please Select Image");
           }
         });
       } catch (e) {
@@ -1473,11 +1488,7 @@ class registerState extends State<register> {
       if (intenet != null && intenet) {
         initiateFacebookLogin();
       } else {
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-        );
+        errorDialog("No Internet Connection");
       }
     });
   }

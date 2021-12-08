@@ -538,11 +538,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                               onPressed: () async {
                                                 if(AmountController.text==null||AmountController.text=="")
                                                 {
-                                                  Fluttertoast.showToast(
-                                                      msg: 'pleaseenterticketqty'.tr,
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.BOTTOM,
-                                                      timeInSecForIosWeb: 1);
+                                                  errorDialog('pleaseenterticketqty'.tr);
                                                 }
                                                 else
                                                 {
@@ -838,7 +834,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
                                                   ),
-                                                  child:  Row(
+                                                  child:
+                                                  Row(
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children:[
                                                         Text(
@@ -1452,7 +1449,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                             child: Icon(Icons.public),
                             backgroundColor: AppColors.theme1color,
                             label: 'public'.tr,
-
                             onTap: () {
                               tabValue="1";
                               getsortdata(userid, tabValue);

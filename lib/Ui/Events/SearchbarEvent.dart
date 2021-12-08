@@ -25,6 +25,10 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:get/get.dart';
+import 'package:kontribute/Ui/Events/EditEventPost.dart';
+import 'package:kontribute/Ui/Events/EventReport.dart';
+import 'package:share/share.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 class SearchbarEvent extends StatefulWidget {
 
@@ -42,7 +46,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
     Icons.search,
     color: Colors.white,
   );
-
+  String shortsharedlink = '';
   Offset _tapDownPosition;
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
@@ -1131,7 +1135,31 @@ class SearchbarEventState extends State<SearchbarEvent> {
 
         ));
   }
+  Future<void> _createDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribute.page.link',
+        link: Uri.parse(Network.sharelin + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareproductlink();
+  }
 
+  void shareproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
 
   _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
@@ -1147,6 +1175,12 @@ class SearchbarEventState extends State<SearchbarEvent> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -1166,7 +1200,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    ProjectReport(
+                    EventReport(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },
@@ -1200,6 +1234,12 @@ class SearchbarEventState extends State<SearchbarEvent> {
             value: 1,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  print("Copy: "+listing.projectData
+                      .elementAt(index).id.toString());
+                  _createDynamicLink(listing.projectData
+                      .elementAt(index).id.toString());
+                });
                 Navigator.of(context).pop();
               },
               child: Row(
@@ -1218,7 +1258,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    EditCreateProjectPost(
+                    EditEventPost(
                         data: listing.projectData.elementAt(index).id.toString()
                     ), context);
               },
