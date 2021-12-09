@@ -1,20 +1,24 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Pojo/bannerpojo.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
+import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
 import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
-import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
-import 'dart:math' as math;
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -22,12 +26,11 @@ class HomeScreen extends StatefulWidget{
 }
 
 class HomeScreenState extends State<HomeScreen>{
-
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _isTypeSwitch = true;
   int currentPageValue = 0;
-
-   final List<Widget> introWidgetsList = <Widget>[
+  String valcat;
+  final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
       width: SizeConfig.blockSizeHorizontal *100,
       height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
@@ -41,13 +44,138 @@ class HomeScreenState extends State<HomeScreen>{
       width: SizeConfig.blockSizeHorizontal *100,
       height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
   ];
-
-
+  bool internet = false;
+  bannerpojo imageslisting;
+  bool resultcatvalue = true;
+  var banner_length;
 
   Widget _renderItem(BuildContext context, int index) {
     return Image(
       image: AssetImage('assets/images/welcome${index + 1}.png'),
     );
+  }
+
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'ok'.tr,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getBanners();
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        errorDialog('nointernetconnection'.tr);
+
+      }
+    });
+  }
+
+
+  void getBanners() async {
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.bannerimages));
+    var jsonResponse = null;
+    if (response.statusCode == 200)
+    {
+      jsonResponse = json.decode(response.body);
+      valcat = response.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultcatvalue = false;
+        });
+
+      } else {
+        imageslisting = new bannerpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            if(imageslisting.projectimages.isEmpty)
+            {
+              resultcatvalue = false;
+            }
+            else
+            {
+              resultcatvalue = true;
+              print("SSSS");
+              banner_length = imageslisting.projectimages;
+            }
+          });
+        }
+        else {
+          errorDialog(imageslisting.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcat)["message"]);
+
+    }
   }
 
 
@@ -123,13 +251,50 @@ class HomeScreenState extends State<HomeScreen>{
               //color: AppColors.themecolor,
               alignment: Alignment.topCenter,
               margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical *2,
+              top: SizeConfig.blockSizeVertical *2,
               left: SizeConfig.blockSizeHorizontal *5,
               right: SizeConfig.blockSizeHorizontal *2,
               bottom:  SizeConfig.blockSizeVertical *1,),
               width: SizeConfig.blockSizeHorizontal *100,
               height: SizeConfig.blockSizeVertical * 25,
-                child: new Swiper(
+                child: banner_length != null ?
+                new Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    return
+                     GestureDetector(
+                       onTap: ()
+                       {
+                         callNext(
+                             OngoingProjectDetailsscreen(
+                                 data: imageslisting.projectimages.elementAt(index).
+                                     projectId
+                                     .toString(),
+                                 coming: "home"),
+                             context);
+                       },
+                       child: Container(
+                         width: SizeConfig.blockSizeHorizontal * 80,
+                         height: SizeConfig.blockSizeVertical * 25,
+                         decoration: BoxDecoration(
+                             border: Border.all(
+                                 color: Colors.transparent),
+                             image: DecorationImage(
+                                 image: NetworkImage(
+                                   Network.BaseApiProject +
+                                       imageslisting.projectimages.elementAt(index).imagePath,
+                                 ),
+                                 fit: BoxFit.fill)),
+                       ),
+                     );
+
+                  },
+                  itemCount:banner_length.length == null ? 0 : banner_length.length,
+                  itemWidth:  SizeConfig.blockSizeHorizontal *80,
+                  layout: SwiperLayout.STACK,
+                  //pagination: new SwiperPagination(),
+                ):
+
+                new Swiper(
                   itemBuilder: (BuildContext context, int index) {
                     return
                       Image(
@@ -140,6 +305,7 @@ class HomeScreenState extends State<HomeScreen>{
                   itemCount:4,
                   itemWidth:  SizeConfig.blockSizeHorizontal *80,
                   layout: SwiperLayout.STACK,
+                  //pagination: new SwiperPagination(),
                 ),
               /* InfiniteCards(
                 width: MediaQuery.of(context).size.width,

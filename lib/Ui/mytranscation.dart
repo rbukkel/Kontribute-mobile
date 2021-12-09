@@ -264,8 +264,7 @@ class mytranscationState extends State<mytranscation> {
                         left: SizeConfig.blockSizeHorizontal * 6,
                         top: SizeConfig.blockSizeVertical * 2),
                     child: Card(
-                        color:
-                            paid ? AppColors.light_grey : AppColors.whiteColor,
+                        color: paid ? AppColors.light_grey : AppColors.whiteColor,
                         child: Container(
                           alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 40,
@@ -341,7 +340,7 @@ class mytranscationState extends State<mytranscation> {
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 68,
+                                                SizeConfig.blockSizeHorizontal * 65,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal *
@@ -360,7 +359,7 @@ class mytranscationState extends State<mytranscation> {
                                               ),
                                               Container(
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 25,
+                                                SizeConfig.blockSizeHorizontal * 26,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),

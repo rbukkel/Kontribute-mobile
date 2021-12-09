@@ -507,7 +507,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                 width: 1,
                               ),
                             ),
-                              child: Container(
+                              child:
+                              Container(
                                 padding: EdgeInsets.all(5.0),
                                 margin: EdgeInsets.only(
                                     bottom: SizeConfig.blockSizeVertical *2,

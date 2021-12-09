@@ -3350,7 +3350,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *37,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
@@ -3370,7 +3370,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               alignment: Alignment.topRight,
                                               padding: EdgeInsets.only(
                                                 left: SizeConfig.blockSizeHorizontal * 1,
-                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                right: SizeConfig.blockSizeHorizontal * 2,
                                               ),
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
@@ -3410,7 +3410,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *37,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                               child:
@@ -3430,7 +3430,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               alignment: Alignment.topRight,
                                               padding: EdgeInsets.only(
                                                 left: SizeConfig.blockSizeHorizontal * 1,
-                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                right: SizeConfig.blockSizeHorizontal * 2,
                                               ),
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
@@ -4196,7 +4196,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *37,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
@@ -4220,7 +4220,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     1,
                                                 right: SizeConfig
                                                     .blockSizeHorizontal *
-                                                    1,
+                                                    2,
                                               ),
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
@@ -4263,7 +4263,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *37,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,
@@ -4288,7 +4288,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     1,
                                                 right: SizeConfig
                                                     .blockSizeHorizontal *
-                                                    1,
+                                                   2,
                                               ),
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig.blockSizeVertical *1,

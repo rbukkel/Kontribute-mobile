@@ -415,8 +415,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                     margin: EdgeInsets.only(
                         right: SizeConfig.blockSizeHorizontal * 3,
                         top: SizeConfig.blockSizeVertical * 2),
-
-
                   ),
                 ],
               ),
@@ -444,30 +442,33 @@ class NotificationScreenState extends State<NotificationScreen> {
                     itemCount: storelist_length.length == null
                         ? 0 : storelist_length.length,
                     /*physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,*/
-                    itemBuilder:
-                        (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5,
-                        right: SizeConfig.blockSizeHorizontal *5),
-                          child: Column(
+                      shrinkWrap: true,*/
+                    itemBuilder: (BuildContext context, int index)
+                    {
+                      return  Container(
+                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                          child:
+                        Card(
+                          shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                          color: Colors.grey.withOpacity(0.2),
+                          width: 1,
+                          ),
+                          ),
+                          child:
+                          Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical *2,
+                            left: SizeConfig.blockSizeHorizontal*5,
+                            right: SizeConfig.blockSizeHorizontal *5),
+                          child:
+                          Column(
                             children: [
-
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment
-                                    .spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  listing.result.data
-                                      .elementAt(
-                                      index)
-                                      .profilePic ==
-                                      null ||
-                                      listing.result.data
-                                          .elementAt(
-                                          index)
-                                          .profilePic ==
-                                          ""
+                                  listing.result.data.elementAt(index).profilePic == null ||
+                                      listing.result.data.elementAt(index).profilePic == ""
                                       ? GestureDetector(
                                     onTap: () {
                                       //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
@@ -915,6 +916,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                                         margin: EdgeInsets.only(
                                             top: SizeConfig
                                                 .blockSizeVertical *
+                                                1,
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
                                                 1),
                                         padding: EdgeInsets.only(
                                             left: SizeConfig
@@ -1126,20 +1130,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           'assets/images/dummyplace.jpg')
                                   )),
 
-                                 Container(
-                                margin: EdgeInsets.only(top: SizeConfig
-                                    .blockSizeVertical *
-                                    1,
-                                    bottom: SizeConfig
-                                        .blockSizeVertical *
-                                        1),
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Colors.black12,
-                                ),
-                              ),
                             ],
-                          ));
+                          )))
+                      );
                     })
                   : Container(
                 margin: EdgeInsets.only(top: 150),
@@ -1428,36 +1421,20 @@ class NotificationScreenState extends State<NotificationScreen> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(updateval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(jsonDecode(updateval)["message"]);
       } else {
         if (jsonResponse != null) {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => NotificationScreen()));
         } else {
-          Fluttertoast.showToast(
-              msg: jsonDecode(updateval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(jsonDecode(updateval)["message"]);
+
         }
       }
     } else {
-      Fluttertoast.showToast(
-          msg: jsonDecode(updateval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+      errorDialog(jsonDecode(updateval)["message"]);
     }
   }
 
@@ -1506,35 +1483,19 @@ class NotificationScreenState extends State<NotificationScreen> {
       deleteval = response.body; //store response as string
       if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteval)["message"]);
 
-        Fluttertoast.showToast(
-          msg: jsonDecode(deleteval)["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null) {
           print(" if Item Deleted Successfully");
-
-          Fluttertoast.showToast(
-              msg: jsonDecode(deleteval)["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
           setState(() {
             getdata(userid, pageNumber);
           });
         } else {
           print("if Item is not Deleted Successfully");
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-          Fluttertoast.showToast(
-            msg: jsonDecode(deleteval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+          errorDialog(jsonDecode(deleteval)["message"]);
           setState(() {
             resultvalue = false;
             //getData();
@@ -1543,12 +1504,7 @@ class NotificationScreenState extends State<NotificationScreen> {
       }
     } else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonDecode(deleteval)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(deleteval)["message"]);
     }
   }
 }

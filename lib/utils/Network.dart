@@ -102,4 +102,5 @@ class Network{
   static String myactivities = "myactivities";
   static String unfollow_request = "unfollow_request";
   static String mobile_invitation = "mobile_invitation";
+  static String bannerimages = "bannerimages";
 }

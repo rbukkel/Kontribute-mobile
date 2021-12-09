@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:file_utils/file_utils.dart';
@@ -638,6 +639,12 @@ class OngoingProjectDetailsscreenState
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         OngoingProject()));
+                          }else if (coming1.toString() == "home") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen()));
                           }
                         },
                         child: Container(
