@@ -89,20 +89,6 @@ class registerState extends State<register> {
   static List<ResutPush> users = new List<ResutPush>();
   bool loading = true;
 
-  void getUsers() async {
-      var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
-      if (response.statusCode == 200){
-       // final data = json.decode(response.body);
-        users = loadUsers(response.body);
-        print('Users: ${users.length}');
-        setState(() {
-          loading = false;
-        });
-      } else {
-        print("Error getting users2.");
-      }
-
-  }
 
   static List<ResutPush> loadUsers(String jsonString) {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
@@ -173,10 +159,6 @@ class registerState extends State<register> {
     setState(() {
       currentcountryTypes = data1;
     });
-
-
-
-
   }
 
   void getNationalList() async {

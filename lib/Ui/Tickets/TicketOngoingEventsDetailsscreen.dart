@@ -1001,9 +1001,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   ),
                                 ],
                               )
-
-
-
                             ),
                             /*Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),

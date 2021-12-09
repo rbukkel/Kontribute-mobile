@@ -2250,7 +2250,7 @@ class OngoingEventsDetailsscreenState
                                                                     children: [
                                                                       Container(
                                                                         width: SizeConfig.blockSizeHorizontal *
-                                                                            55,
+                                                                            54,
                                                                         alignment:
                                                                             Alignment.topLeft,
                                                                         padding:
@@ -2283,7 +2283,7 @@ class OngoingEventsDetailsscreenState
                                                                           left: SizeConfig.blockSizeHorizontal *
                                                                               1,
                                                                           right:
-                                                                              SizeConfig.blockSizeHorizontal * 3,
+                                                                              SizeConfig.blockSizeHorizontal * 1,
                                                                         ),
                                                                         child:
                                                                             Text(
@@ -2304,7 +2304,7 @@ class OngoingEventsDetailsscreenState
                                                                     children: [
                                                                       Container(
                                                                         width: SizeConfig.blockSizeHorizontal *
-                                                                            55,
+                                                                            54,
                                                                         alignment:
                                                                             Alignment.topLeft,
                                                                         padding: EdgeInsets.only(

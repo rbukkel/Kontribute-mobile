@@ -937,7 +937,7 @@ class OngoingCampaignDetailsscreenState
                                           Container(
                                               width: SizeConfig
                                                       .blockSizeHorizontal *
-                                                  41,
+                                                  39,
                                               alignment: Alignment.topRight,
                                               padding: EdgeInsets.only(
                                                 left: SizeConfig
@@ -1018,7 +1018,7 @@ class OngoingCampaignDetailsscreenState
                                           Container(
                                             width:
                                                 SizeConfig.blockSizeHorizontal *
-                                                    40,
+                                                    39,
                                             alignment: Alignment.topRight,
                                             padding: EdgeInsets.only(
                                               left: SizeConfig
@@ -2053,6 +2053,8 @@ class OngoingCampaignDetailsscreenState
                                           margin: EdgeInsets.only(
                                               top:
                                                   SizeConfig.blockSizeVertical *
+                                                      2, bottom:
+                                                  SizeConfig.blockSizeVertical *
                                                       2,
                                               left: SizeConfig
                                                       .blockSizeHorizontal *
@@ -2068,58 +2070,15 @@ class OngoingCampaignDetailsscreenState
                                                 color: Colors.black),
                                           ),
                                         ),
-                                        /*  Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 5,
-                                  top: SizeConfig.blockSizeVertical * 2),
-                              child: Text(
-                                StringConstant.exportto,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "Poppins-Regular",
-                                    color: Colors.black),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context, true);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal * 1,
-                                    top: SizeConfig.blockSizeVertical * 2),
-                                child: Image.asset(
-                                  "assets/images/csv.png",
-                                  width: 80,
-                                  height: 40,
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context, true);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 4,
-                                ),
-                                child: Image.asset(
-                                  "assets/images/pdf.png",
-                                  width: 80,
-                                  height: 40,
-                                ),
-                              ),
-                            ),*/
                                       ],
                                     ),
                               paymentdetails_length != null
                                   ? Container(
-                                      child: ListView.builder(
+                                      child:  MediaQuery.removePadding(
+                                        context: context,
+                                        removeTop: true,
+                                        child:
+                                      ListView.builder(
                                           itemCount: paymentdetails_length
                                                       .length ==
                                                   null
@@ -2239,7 +2198,7 @@ class OngoingCampaignDetailsscreenState
                                                                     children: [
                                                                       Container(
                                                                         width: SizeConfig.blockSizeHorizontal *
-                                                                            55,
+                                                                            54,
                                                                         alignment:
                                                                             Alignment.topLeft,
                                                                         padding:
@@ -2264,19 +2223,19 @@ class OngoingCampaignDetailsscreenState
                                                                         width: SizeConfig.blockSizeHorizontal *
                                                                             20,
                                                                         alignment:
-                                                                            Alignment.topRight,
+                                                                            Alignment.center,
                                                                         padding:
                                                                             EdgeInsets.only(
                                                                           left: SizeConfig.blockSizeHorizontal *
                                                                               1,
                                                                           right:
-                                                                              SizeConfig.blockSizeHorizontal * 3,
+                                                                              SizeConfig.blockSizeHorizontal * 1,
                                                                         ),
                                                                         child:
                                                                             Text(
                                                                           'status'.tr,
                                                                           textAlign:
-                                                                              TextAlign.right,
+                                                                              TextAlign.center,
                                                                           style: TextStyle(
                                                                               letterSpacing: 1.0,
                                                                               color: AppColors.black,
@@ -2291,7 +2250,7 @@ class OngoingCampaignDetailsscreenState
                                                                     children: [
                                                                       Container(
                                                                         width: SizeConfig.blockSizeHorizontal *
-                                                                            55,
+                                                                            54,
                                                                         alignment:
                                                                             Alignment.topLeft,
                                                                         padding: EdgeInsets.only(
@@ -2376,7 +2335,7 @@ class OngoingCampaignDetailsscreenState
                                                     onTap: () {},
                                                   )),
                                             );
-                                          }),
+                                          })),
                                     )
                                   : Container()
                             ],

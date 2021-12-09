@@ -98,7 +98,7 @@ class viewdetail_sendreceivegiftState
         setState(() {
           Follow = "Follow";
         });
-        errorDialog(jsonDecode(valfollowstatus)["message"]);
+       // errorDialog(jsonDecode(valfollowstatus)["message"]);
       } else {
         followstatusPojo = new followstatus.fromJson(jsonResponse);
         print("Json status: " + jsonResponse.toString());
@@ -1386,6 +1386,20 @@ class viewdetail_sendreceivegiftState
                                                     Row(
                                                       children: [
                                                         Container(
+                                                          width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              53,
+                                                          alignment:
+                                                          Alignment.topLeft,
+                                                          padding:
+                                                          EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                1,
+                                                            top: SizeConfig
+                                                                .blockSizeVertical *
+                                                                2,
+                                                          ),
                                                           child: Row(
                                                             children: [
                                                               Text(
@@ -1403,12 +1417,8 @@ class viewdetail_sendreceivegiftState
                                                                     'Poppins-Regular'),
                                                               ),
                                                               Container(
-                                                                width: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    45,
-                                                                alignment:
-                                                                Alignment.topLeft,
-                                                                padding: EdgeInsets.only(
+                                                                alignment: Alignment.topLeft,
+                                                                /*padding: EdgeInsets.only(
                                                                     left: SizeConfig
                                                                         .blockSizeHorizontal *
                                                                         1,
@@ -1417,7 +1427,7 @@ class viewdetail_sendreceivegiftState
                                                                         3,
                                                                     top: SizeConfig
                                                                         .blockSizeHorizontal *
-                                                                        2),
+                                                                        2),*/
                                                                 child: Text(
                                                                   "- \$"+
                                                                       senddetailsPojo
@@ -1466,14 +1476,25 @@ class viewdetail_sendreceivegiftState
                                                                     timeInSecForIosWeb:
                                                                     1);*/
                                                                 },
-                                                                child:
-                                                                    Container(
-                                                                  width: SizeConfig.blockSizeHorizontal * 20,
-                                                                  alignment: Alignment.center,
-                                                                  margin: EdgeInsets.only(
-                                                                      top: SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                          2),
+                                                                child: Container(
+                                                                 color: AppColors.themecolor,
+                                                                  width: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      20,
+                                                                  alignment: Alignment
+                                                                      .topRight,
+                                                                  margin:
+                                                                  EdgeInsets.only(
+                                                                    left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                        1,
+                                                                    top: SizeConfig
+                                                                        .blockSizeVertical *
+                                                                        2,
+                                                                    right: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                        3,
+                                                                  ),
                                                                   padding: EdgeInsets.only(
                                                                       right:
                                                                           SizeConfig.blockSizeHorizontal *
@@ -1515,7 +1536,8 @@ class viewdetail_sendreceivegiftState
                                                                             'Poppins-Regular'),
                                                                   ),
                                                                 ),
-                                                              ):Container()
+                                                              )
+                                                            :Container()
                                                             : Container()
                                                       ],
                                                     ),
@@ -1534,7 +1556,7 @@ class viewdetail_sendreceivegiftState
                             alignment: Alignment.center,
                             child: internet == true
                                 ? Center(
-                                    child: Text('nopayment'.tr),
+                                    child: Text('loading..'.tr),
                                   )
                                 : Center(child: Text("")),
                           ),

@@ -855,7 +855,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *36,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -914,7 +914,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *36,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                                   child:

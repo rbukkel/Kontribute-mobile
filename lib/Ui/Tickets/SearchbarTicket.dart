@@ -609,7 +609,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *36,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -633,7 +633,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                         1,
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        1,
+                                                        2,
                                                   ),
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -675,7 +675,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig.blockSizeHorizontal *37,
+                                                  width: SizeConfig.blockSizeHorizontal *36,
                                                   alignment: Alignment.topLeft,
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
@@ -700,7 +700,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                         1,
                                                     right: SizeConfig
                                                         .blockSizeHorizontal *
-                                                        1,
+                                                       2,
                                                   ),
                                                   margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,
