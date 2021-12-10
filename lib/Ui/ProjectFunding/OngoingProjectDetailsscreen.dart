@@ -883,7 +883,7 @@ class OngoingProjectDetailsscreenState
                                                           letterSpacing: 1.0,
                                                           color: AppColors
                                                               .darkgreen,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontFamily:
@@ -925,7 +925,7 @@ class OngoingProjectDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.purple,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
                                                       'Poppins-Regular'),
@@ -1164,7 +1164,7 @@ class OngoingProjectDetailsscreenState
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -1179,7 +1179,7 @@ class OngoingProjectDetailsscreenState
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -1211,7 +1211,7 @@ class OngoingProjectDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
                                                       'Poppins-Regular'),
@@ -1245,7 +1245,7 @@ class OngoingProjectDetailsscreenState
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -1260,7 +1260,7 @@ class OngoingProjectDetailsscreenState
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -1748,7 +1748,7 @@ class OngoingProjectDetailsscreenState
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1762,7 +1762,7 @@ class OngoingProjectDetailsscreenState
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1772,7 +1772,7 @@ class OngoingProjectDetailsscreenState
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1822,7 +1822,7 @@ class OngoingProjectDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1860,7 +1860,7 @@ class OngoingProjectDetailsscreenState
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black26,
-                                fontSize: 8,
+                                fontSize: 9,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular'),
                           ),
@@ -2183,7 +2183,7 @@ class OngoingProjectDetailsscreenState
                                                           letterSpacing: 1.0,
                                                           color:
                                                               AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontFamily:

@@ -745,7 +745,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.purple,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
                                                       'Poppins-Regular'),
@@ -945,7 +945,7 @@ class OngoingEventsDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -960,7 +960,7 @@ class OngoingEventsDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -988,7 +988,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
                                                       'Poppins-Regular'),
@@ -1022,7 +1022,7 @@ class OngoingEventsDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1037,7 +1037,7 @@ class OngoingEventsDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1075,7 +1075,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1088,7 +1088,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1110,7 +1110,7 @@ class OngoingEventsDetailsscreenState
                                       center: Text(
                                         amoun.toString() + "%",
                                         style: TextStyle(
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             color: AppColors.whiteColor),
                                       ),
                                       backgroundColor: AppColors.lightgrey,
@@ -1135,7 +1135,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1147,7 +1147,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1551,7 +1551,7 @@ class OngoingEventsDetailsscreenState
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black26,
-                                          fontSize: 8,
+                                          fontSize: 9,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Poppins-Regular'),
                                     ),
@@ -1565,7 +1565,7 @@ class OngoingEventsDetailsscreenState
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black26,
-                                          fontSize: 8,
+                                          fontSize: 9,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Poppins-Regular'),
                                     ),
@@ -1574,7 +1574,7 @@ class OngoingEventsDetailsscreenState
                                       style: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black26,
-                                          fontSize: 8,
+                                          fontSize: 9,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Poppins-Regular'),
                                     ),
@@ -1627,7 +1627,7 @@ class OngoingEventsDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1967,7 +1967,7 @@ class OngoingEventsDetailsscreenState
                                                           letterSpacing: 1.0,
                                                           color:
                                                               AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontFamily:

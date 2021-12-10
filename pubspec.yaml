@@ -204,6 +204,11 @@ flutter:
     - assets/images/homebg4.png
     - assets/images/language.png
     - assets/images/peoplemayknow_bg.png
+    - assets/images/registerbtn.png
+    - assets/images/email_bg.png
+    - assets/images/user_bg.png
+    - assets/images/lock_bg.png
+    - assets/images/date_bg.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

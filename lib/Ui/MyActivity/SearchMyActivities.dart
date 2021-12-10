@@ -1185,7 +1185,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                         letterSpacing: 1.0,
                                                         color: AppColors
                                                             .darkgreen,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
@@ -1228,7 +1228,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.purple,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight:
                                                       FontWeight.normal,
                                                       fontFamily:
@@ -1427,7 +1427,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1442,7 +1442,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1473,7 +1473,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight: FontWeight
                                                           .normal,
                                                       fontFamily: 'Poppins-Regular'),
@@ -1505,7 +1505,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1520,7 +1520,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1557,7 +1557,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1581,7 +1581,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1600,7 +1600,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                           lineHeight: 14.0,
                                           percent: amoun / 100,
                                           center: Text(amoun.toString() + "%",
-                                            style: TextStyle(fontSize: 8,
+                                            style: TextStyle(fontSize: 9,
                                                 color: AppColors.whiteColor),),
                                           backgroundColor: AppColors.lightgrey,
                                           progressColor: AppColors.themecolor,
@@ -1620,7 +1620,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1642,7 +1642,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -2704,7 +2704,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                     fontWeight:
                                                     FontWeight
                                                         .normal,
-                                                    fontSize: 8),
+                                                    fontSize: 9),
                                               ),
                                             ),
 
@@ -2993,7 +2993,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                         1.0,
                                                         color: Colors
                                                             .black87,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                         FontWeight
                                                             .normal,
@@ -3580,7 +3580,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                     Row(
                                       children: [
                                         Container(
-                                            width: SizeConfig.blockSizeHorizontal *35,
+                                            width: SizeConfig.blockSizeHorizontal *33,
                                           alignment: Alignment.topLeft,
                                           margin:
                                           EdgeInsets.only(
@@ -3633,7 +3633,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                       children: [
                                         Container(
                                           alignment: Alignment.centerRight,
-                                            width: SizeConfig.blockSizeHorizontal *33,
+                                            width: SizeConfig.blockSizeHorizontal *35,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig.blockSizeHorizontal * 3),
                                           child: Row(
@@ -3908,7 +3908,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black26,
-                                              fontSize: 8,
+                                              fontSize: 9,
                                               fontWeight:
                                               FontWeight.normal,
                                               fontFamily:
@@ -3927,7 +3927,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -3945,7 +3945,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -3963,7 +3963,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4454,7 +4454,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4465,7 +4465,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4491,7 +4491,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4504,7 +4504,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         width: 70.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
-                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
                                         backgroundColor: AppColors.lightgrey,
                                         progressColor:AppColors.themecolor,
                                       ),
@@ -4523,7 +4523,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4534,7 +4534,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4553,7 +4553,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4722,7 +4722,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black26,
-                                              fontSize: 8,
+                                              fontSize: 9,
                                               fontWeight:
                                               FontWeight.normal,
                                               fontFamily:
@@ -4741,7 +4741,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4759,7 +4759,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4777,7 +4777,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4796,7 +4796,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4815,7 +4815,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4826,7 +4826,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4849,7 +4849,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4867,7 +4867,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:

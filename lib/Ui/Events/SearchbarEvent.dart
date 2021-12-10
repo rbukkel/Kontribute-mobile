@@ -436,7 +436,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize:8,
+                                                          fontSize:9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -472,7 +472,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color:AppColors.purple,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
@@ -616,7 +616,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: AppColors.black,
-                                                            fontSize:8,
+                                                            fontSize:9,
                                                             fontWeight:
                                                             FontWeight.normal,
                                                             fontFamily: 'Poppins-Regular'),
@@ -627,7 +627,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: AppColors.black,
-                                                            fontSize:8,
+                                                            fontSize:9,
                                                             fontWeight:
                                                             FontWeight.normal,
                                                             fontFamily: 'Poppins-Regular'),
@@ -653,7 +653,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight: FontWeight.normal,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
@@ -677,7 +677,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: AppColors.black,
-                                                            fontSize:8,
+                                                            fontSize:9,
                                                             fontWeight:
                                                             FontWeight.normal,
                                                             fontFamily: 'Poppins-Regular'),
@@ -688,7 +688,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: AppColors.black,
-                                                            fontSize:8,
+                                                            fontSize:9,
                                                             fontWeight:
                                                             FontWeight.normal,
                                                             fontFamily: 'Poppins-Regular'),

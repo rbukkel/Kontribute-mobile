@@ -95,7 +95,7 @@ class loginState extends State<login>{
         height: double.infinity,
         decoration: BoxDecoration(
           image: new DecorationImage(
-            image: new AssetImage("assets/images/login_bg.png"),
+            image: new AssetImage("assets/images/welcome_bg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -104,13 +104,13 @@ class loginState extends State<login>{
             key: _formKey,
             child: Container(
               margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 9,
+                  top: SizeConfig.blockSizeVertical * 5,
                   bottom: SizeConfig.blockSizeVertical * 1),
               child: Column(
                 children: [
                   Container(
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 8,
+                      top: SizeConfig.blockSizeVertical * 5,
                     ),
                     alignment: Alignment.topCenter,
                     child: Text(
@@ -119,7 +119,7 @@ class loginState extends State<login>{
                           letterSpacing: 1.0,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins-Bold',
-                          color: AppColors.whiteColor,
+                          color: AppColors.black,
                           fontSize: 30),
                     ),
                   ),
@@ -133,22 +133,30 @@ class loginState extends State<login>{
                           letterSpacing: 1.0,
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',
-                          color: AppColors.light_grey,
+                          color: AppColors.black,
                           fontSize: 20),
                     ),
                   ),
                   Container(
+                    height: SizeConfig.blockSizeVertical * 17,
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 7,
-                      left: SizeConfig.blockSizeHorizontal * 10,
-                      right: SizeConfig.blockSizeHorizontal * 10,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
                     ),
                     padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 3,
-                      right: SizeConfig.blockSizeVertical * 3,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
+                      bottom: SizeConfig.blockSizeVertical *1,
                     ),
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
+                      image: new DecorationImage(
+                        image: new AssetImage("assets/images/email_bg.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                   /* decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
                         color: Colors.white,
@@ -156,7 +164,7 @@ class loginState extends State<login>{
                         width: 1.0,
                       ),
                       color: Colors.transparent,
-                    ),
+                    ),*/
                     child: TextFormField(
                       autofocus: false,
                       focusNode: EmailFocus,
@@ -178,8 +186,12 @@ class loginState extends State<login>{
                       onSaved: (val) => _email = val,
                       textAlign: TextAlign.center,
                       style:
-                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 10,color: Colors.white),
+                      TextStyle(
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 10,
+                          color: Colors.black),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -194,24 +206,22 @@ class loginState extends State<login>{
                     ),
                   ),
                   Container(
+                    height: SizeConfig.blockSizeVertical * 17,
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 5,
-                      left: SizeConfig.blockSizeHorizontal * 10,
-                      right: SizeConfig.blockSizeHorizontal * 10,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
                     ),
                     padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 3,
-                      right: SizeConfig.blockSizeVertical * 3,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
+                      bottom: SizeConfig.blockSizeVertical *1,
                     ),
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: Colors.white,
-                        style: BorderStyle.solid,
-                        width: 1.0,
+                      image: new DecorationImage(
+                        image: new AssetImage("assets/images/lock_bg.png"),
+                        fit: BoxFit.fill,
                       ),
-                      color: Colors.transparent,
                     ),
                     child: TextFormField(
                       autofocus: false,
@@ -235,7 +245,7 @@ class loginState extends State<login>{
                       textAlign: TextAlign.center,
                       style:
                       TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',color: Colors.white),
+                          fontFamily: 'Poppins-Regular',color: Colors.black),
                       decoration: InputDecoration(
 
                         border: InputBorder.none,
@@ -278,9 +288,9 @@ class loginState extends State<login>{
                       width: MediaQuery.of(context).size.width,
                       height: SizeConfig.blockSizeVertical * 7,
                       margin: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 5,
-                        left: SizeConfig.blockSizeHorizontal * 10,
-                        right: SizeConfig.blockSizeHorizontal * 10,
+                        top: SizeConfig.blockSizeVertical * 2,
+                        left: SizeConfig.blockSizeHorizontal * 12,
+                        right: SizeConfig.blockSizeHorizontal * 12,
                       ),
                       decoration: BoxDecoration(
                         image: new DecorationImage(
@@ -313,7 +323,7 @@ class loginState extends State<login>{
                           child: Container(
                             child: Text(StringConstant.forgetpwd,
                                 style: TextStyle(
-                                    color: AppColors.light_grey,
+                                    color: AppColors.black,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Poppins-Regular',
                                     fontSize: 15,
@@ -323,7 +333,7 @@ class loginState extends State<login>{
                         Container(
                             height: 20,
                             child: VerticalDivider(
-                                thickness: 1, color: AppColors.light_grey,)),
+                                thickness: 1, color: AppColors.black,)),
                         InkWell(
                           onTap: () {
                             Navigator.push(
@@ -334,7 +344,7 @@ class loginState extends State<login>{
                           child: Container(
                             child: Text(StringConstant.register,
                                 style: TextStyle(
-                                  color: AppColors.light_grey,
+                                  color: AppColors.black,
                                     fontSize: 15,
                                   fontWeight: FontWeight.normal,
                                   fontFamily: 'Poppins-Regular',)),
@@ -351,7 +361,7 @@ class loginState extends State<login>{
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                      Container(
-                       width:60,
+                       width:80,
                        child:  Divider(
                          color: Colors.grey,
                          thickness: 1,
@@ -370,7 +380,7 @@ class loginState extends State<login>{
                               fontFamily: 'Poppins-Regular',)),
                       ),
                       Container(
-                        width:60,
+                        width:80,
                         child:  Divider(
                           color: Colors.grey,
                           thickness: 1,
@@ -379,28 +389,9 @@ class loginState extends State<login>{
                     ]),
                   ),
                   Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                            ),
-                            child: Image.asset(
-                              "assets/images/facebook.png",
-                              height: 40,
-                              width: 40,
-                            ),
-                          ),
-                          onTap: ()
-                          {
-                            loginmethod();
-                          },
-                        ),
                         GestureDetector(
                           child: Container(
                             margin: EdgeInsets.only(
@@ -408,8 +399,8 @@ class loginState extends State<login>{
                                 right: SizeConfig.blockSizeHorizontal * 3),
                             child: Image.asset(
                               "assets/images/gmail.png",
-                              height: 40,
-                              width: 40,
+                              height: SizeConfig.blockSizeVertical *20,
+                              width:SizeConfig.blockSizeHorizontal * 20,
                             ),
                           ),
                           onTap: () {
@@ -423,9 +414,28 @@ class loginState extends State<login>{
                                 right: SizeConfig.blockSizeHorizontal * 3,
                             ),
                             child: Image.asset(
+                              "assets/images/facebook.png",
+                              height: SizeConfig.blockSizeVertical *20,
+                              width:SizeConfig.blockSizeHorizontal * 20,
+                            ),
+                          ),
+                          onTap: ()
+                          {
+                            loginmethod();
+                          },
+                        ),
+
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            child: Image.asset(
                               "assets/images/twitter.png",
-                              height: 40,
-                              width: 40,
+                             height: SizeConfig.blockSizeVertical *20,
+                              width:SizeConfig.blockSizeHorizontal * 20,
+
                             ),
                           ),
                           onTap: () {

@@ -83,12 +83,14 @@ class registerState extends State<register> {
   AutoCompleteTextField searchTextField;
   final TextEditingController _typeAheadController = TextEditingController();
   TextEditingController controller = new TextEditingController();
-
+  String val;
+  String contryval;
   AutoCompleteTextField searchTextFields;
   GlobalKey<AutoCompleteTextFieldState<ResutPush>> key = new GlobalKey();
   static List<ResutPush> users = new List<ResutPush>();
   bool loading = true;
-
+  bool resultvalue = false;
+  bool countryresultvalue = false;
 
   static List<ResutPush> loadUsers(String jsonString) {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
@@ -123,8 +125,8 @@ class registerState extends State<register> {
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
        // getUsers();
-        getNationalList();
-        getCountryList();
+        getNationalList("");
+        getCountryList("");
       } else {
         Fluttertoast.showToast(
           msg: "No Internet Connection",
@@ -151,25 +153,64 @@ class registerState extends State<register> {
       });
   }
 
-  void getCountryList() async {
-    var res = await http.get(Uri.encodeFull(Network.BaseApi + Network.countrylist));
-    final data = json.decode(res.body);
-     List<dynamic> data1 = data["result_push"];
+  void getCountryList(String search) async {
+    Map data = {
+      'search': search.toString(),
+    };
+    print("search: " + data.toString());
+    http.Response res = await http.post(Network.BaseApi + Network.countrylist, body: data);
+    var jsonResponse = null;
+    if (res.statusCode == 200) {
+      jsonResponse = json.decode(res.body);
+      contryval = res.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          countryresultvalue = false;
+        });
+        errorDialog(jsonDecode(contryval)["message"]);
+      } else {
+        List<dynamic> data1 = jsonResponse["result_push"];
 
-    setState(() {
-      currentcountryTypes = data1;
-    });
+        setState(() {
+          currentcountryTypes = data1;
+        });
+      }
+    } else {
+      errorDialog(jsonDecode(contryval)["message"]);
+    }
+
+
+
+
   }
 
-  void getNationalList() async {
-    var res =
-        await http.get(Uri.encodeFull(Network.BaseApi + Network.nationality));
-    final data = json.decode(res.body);
-    List<dynamic> data1 = data["result_push"];
+  void getNationalList(String search) async {
+    Map data = {
+      'search': search.toString(),
+    };
+    print("search: " + data.toString());
+    http.Response res = await http.post(Network.BaseApi + Network.nationality, body: data);
+    var jsonResponse = null;
+    if (res.statusCode == 200) {
+      jsonResponse = json.decode(res.body);
+      val = res.body;
+      if (jsonResponse["success"] == false) {
+        setState(() {
+          resultvalue = false;
+        });
+        errorDialog(jsonDecode(val)["message"]);
+      } else {
+        List<dynamic> data1 = jsonResponse["result_push"];
 
-    setState(() {
-      nationalityTypes = data1;
-    });
+        setState(() {
+          nationalityTypes = data1;
+        });
+      }
+    } else {
+      errorDialog(jsonDecode(val)["message"]);
+    }
+
+
   }
 
   @override
@@ -185,7 +226,7 @@ class registerState extends State<register> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: new DecorationImage(
-            image: new AssetImage("assets/images/signup_bg.png"),
+            image: new AssetImage("assets/images/welcome_bg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -220,7 +261,7 @@ class registerState extends State<register> {
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Poppins-Bold',
-                              color: AppColors.whiteColor,
+                              color: AppColors.black,
                               fontSize: 26),
                         ),
                       ),
@@ -234,14 +275,11 @@ class registerState extends State<register> {
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              color: AppColors.light_grey,
+                              color: AppColors.black,
                               fontSize: 20),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 3,
-                            bottom: SizeConfig.blockSizeVertical * 2),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -251,24 +289,9 @@ class registerState extends State<register> {
                                     left: SizeConfig.blockSizeHorizontal * 3,
                                     right: SizeConfig.blockSizeHorizontal * 3),
                                 child: Image.asset(
-                                  "assets/images/facebook.png",
-                                  height: 40,
-                                  width: 40,
-                                ),
-                              ),
-                              onTap: () {
-                                loginmethod();
-                              },
-                            ),
-                            GestureDetector(
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockSizeHorizontal * 3,
-                                    right: SizeConfig.blockSizeHorizontal * 3),
-                                child: Image.asset(
                                   "assets/images/gmail.png",
-                                  height: 40,
-                                  width: 40,
+                                  height: SizeConfig.blockSizeVertical *20,
+                                  width:SizeConfig.blockSizeHorizontal * 20,
                                 ),
                               ),
                               onTap: () {
@@ -281,9 +304,25 @@ class registerState extends State<register> {
                                     left: SizeConfig.blockSizeHorizontal * 3,
                                     right: SizeConfig.blockSizeHorizontal * 3),
                                 child: Image.asset(
+                                  "assets/images/facebook.png",
+                                  height: SizeConfig.blockSizeVertical *20,
+                                  width:SizeConfig.blockSizeHorizontal * 20,
+                                ),
+                              ),
+                              onTap: () {
+                                loginmethod();
+                              },
+                            ),
+
+                            GestureDetector(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockSizeHorizontal * 3,
+                                    right: SizeConfig.blockSizeHorizontal * 3),
+                                child: Image.asset(
                                   "assets/images/twitter.png",
-                                  height: 40,
-                                  width: 40,
+                                  height: SizeConfig.blockSizeVertical *20,
+                                  width:SizeConfig.blockSizeHorizontal * 20,
                                 ),
                               ),
                               onTap: () {
@@ -294,14 +333,12 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 3),
                         width: 300,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                width: 60,
+                                width:80,
                                 child: Divider(
                                   color: Colors.grey,
                                   thickness: 1,
@@ -321,7 +358,7 @@ class registerState extends State<register> {
                                     )),
                               ),
                               Container(
-                                width: 60,
+                                width: 80,
                                 child: Divider(
                                   color: Colors.grey,
                                   thickness: 1,
@@ -351,28 +388,28 @@ class registerState extends State<register> {
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              color: AppColors.light_grey,
+                              color: AppColors.black,
                               fontSize: 14),
                         ),
                       ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          top: SizeConfig.blockSizeVertical * 2,
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeVertical * 3,
-                          right: SizeConfig.blockSizeVertical * 3,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.white,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/user_bg.png"),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.transparent,
                         ),
                         child:
                         TextFormField(
@@ -397,7 +434,7 @@ class registerState extends State<register> {
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
                               fontSize: 10,
-                              color: Colors.white),
+                              color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -413,23 +450,22 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeVertical * 3,
-                          right: SizeConfig.blockSizeVertical * 3,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.white,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/user_bg.png"),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.transparent,
                         ),
                         child: TextFormField(
                           autofocus: false,
@@ -453,7 +489,7 @@ class registerState extends State<register> {
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
                               fontSize: 10,
-                              color: Colors.white),
+                              color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -469,23 +505,22 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeVertical * 3,
-                          right: SizeConfig.blockSizeVertical * 3,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.white,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/email_bg.png"),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.transparent,
                         ),
                         child: TextFormField(
                           autofocus: false,
@@ -511,7 +546,7 @@ class registerState extends State<register> {
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
                               fontSize: 10,
-                              color: Colors.white),
+                              color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -527,23 +562,22 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeVertical * 3,
-                          right: SizeConfig.blockSizeVertical * 3,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 5,
+                          bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.white,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/lock_bg.png"),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.transparent,
                         ),
                         child: TextFormField(
                           autofocus: false,
@@ -570,7 +604,7 @@ class registerState extends State<register> {
                               fontSize: 10,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              color: Colors.white),
+                              color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -653,24 +687,60 @@ class registerState extends State<register> {
                           ),
                         ),
                       ),*/
-                      Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selected = true;
+                          });
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          height: SizeConfig.blockSizeVertical * 17,
                           margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 5,
+                            left: SizeConfig.blockSizeHorizontal * 1,
+                            right: SizeConfig.blockSizeHorizontal * 1,
                           ),
                           padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 3,
-                            right: SizeConfig.blockSizeVertical * 3,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 5,
+                            bottom: SizeConfig.blockSizeVertical *1,
                           ),
-                          alignment: Alignment.topLeft,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                            image: new DecorationImage(
+                              image: new AssetImage("assets/images/date_bg.png"),
+                              fit: BoxFit.fill,
                             ),
-                            color: Colors.transparent,
+                          ),
+                          child: Text(
+                            selecteddate,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 10,
+                                color: selected?Colors.black:Colors.grey),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          height: SizeConfig.blockSizeVertical * 17,
+                          margin: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 1,
+                            right: SizeConfig.blockSizeHorizontal * 1,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 10,
+                            right: SizeConfig.blockSizeHorizontal * 5,
+                            bottom: SizeConfig.blockSizeVertical *1,
+                          ),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            image: new DecorationImage(
+                              image: new AssetImage("assets/images/registerbtn.png"),
+                              fit: BoxFit.fill,
+                            ),
                           ),
                           child:
                           IntlPhoneField(
@@ -691,7 +761,7 @@ class registerState extends State<register> {
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
                                 fontSize: 10,
-                                color: Colors.white),
+                                color: Colors.black),
                             initialCountryCode: 'NP', //default contry code, NP for Nepal
                             onChanged: (phone) {
                               mobile =phone.number;
@@ -703,64 +773,24 @@ class registerState extends State<register> {
                             },
                           )
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selected = true;
-                          });
-                          _selectDate(context);
-                        },
-                        child: Container(
-                          height: SizeConfig.blockSizeVertical * 7.5,
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 5,
-                          ),
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.blockSizeVertical * 3,
-                            right: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                          ),
-                          child: Text(
-                            selecteddate,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
-                                color: selected?Colors.white:Colors.grey),
-                          ),
-                        ),
-                      ),
+
                       Container(
-                        height: SizeConfig.blockSizeVertical * 7.5,
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeVertical * 1,
-                          right: SizeConfig.blockSizeVertical * 1,
+                          left: SizeConfig.blockSizeHorizontal * 8,
+                          right: SizeConfig.blockSizeHorizontal * 10,
+                          bottom: SizeConfig.blockSizeVertical *1,
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.white,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.transparent,
                         ),
                         child: FormField<dynamic>(
                           builder: (FormFieldState<dynamic> state) {
@@ -812,24 +842,22 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        height: SizeConfig.blockSizeVertical * 7.5,
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeVertical * 1,
-                          right: SizeConfig.blockSizeVertical * 1,
+                          left: SizeConfig.blockSizeHorizontal * 8,
+                          right: SizeConfig.blockSizeHorizontal * 10,
+                          bottom: SizeConfig.blockSizeVertical *1,
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.white,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.transparent,
                         ),
                         child:
                         FormField<dynamic>(
@@ -945,12 +973,15 @@ class registerState extends State<register> {
                       ),*/
 
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        alignment: Alignment.center,
+                        width: SizeConfig.blockSizeHorizontal * 100,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                          left: SizeConfig.blockSizeHorizontal * 2,
+                          right: SizeConfig.blockSizeHorizontal * 2,
+                          top: SizeConfig.blockSizeVertical * 3,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               height: 18,
@@ -968,7 +999,7 @@ class registerState extends State<register> {
                               margin: EdgeInsets.only(left: 5),
                               child: Text(StringConstant.terms,
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 10,
                                       fontFamily: 'Montserrat')),
                             ),

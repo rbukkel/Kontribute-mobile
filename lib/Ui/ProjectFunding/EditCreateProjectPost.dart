@@ -613,44 +613,70 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   }
 
   Future<void> captureImage(ImageSource imageSource) async {
-    if (imageSource == ImageSource.camera) {
-      try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
+    if(imageSource!=null)
+    {
+      if (imageSource == ImageSource.camera) {
+        try {
+          final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          setState(() {
+            if (imageFile != null) {
+              setState(() {
+                _imageFile = imageFile;
 
-          if (_imageList.length < 3) {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
+                if(_imageList.length<3)
+                {
+                  _imageList.add(_imageFile);
+                  for (int i = 0; i < _imageList.length; i++) {
+                    print("ListImages:" + _imageList[i].toString());
+                  }
+                }
+                else {
+                  errorDialog('uploadupto3images'.tr);
+                }
+              });
+
+            } else {
+              print('No image selected.');
             }
-          } else {
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
+          });
+
+        } catch (e) {
+          print(e);
+        }
       }
-    } else if (imageSource == ImageSource.gallery) {
-      try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
-          if (_imageList.length < 3) {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
+      else if (imageSource == ImageSource.gallery) {
+        try {
+          final imageFile =
+          await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          setState(() {
+            if (imageFile != null) {
+              setState(() {
+                _imageFile = imageFile;
+
+                if(_imageList.length<3)
+                {
+                  _imageList.add(_imageFile);
+                  for (int i = 0; i < _imageList.length; i++) {
+                    print("ListImages:" + _imageList[i].toString());
+                  }
+                }
+                else {
+                  errorDialog('uploadupto3images'.tr);
+                }
+              });
+
+            } else {
+              print('No image selected.');
             }
-          } else {
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
+          });
+        } catch (e) {
+          print(e);
+        }
       }
     }
+    else {}
+
+
   }
 
   @override
@@ -861,8 +887,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                               SizeConfig.blockSizeHorizontal *
                                                   6),
                                       child: _imageList.length == 0
-                                          ? new Image.asset(
-                                              'assets/images/orderListing.png')
+                                          ? Container()
                                           : ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
@@ -970,7 +995,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   keyboardType: TextInputType.name,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "pleaseenterprojectname".tr;
+                                      return '*';
                                     else
                                       return null;
                                   },
@@ -1046,8 +1071,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                         keyboardType: TextInputType.text,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return "pleaseenterprojectdescription"
-                                                .tr;
+                                            return '*';
                                           else
                                             return null;
                                         },
@@ -1440,8 +1464,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                                     TextInputType.number,
                                                 validator: (val) {
                                                   if (val.length == 0)
-                                                    return "pleaseenterrequiredamount"
-                                                        .tr;
+                                                    return '*';
                                                   else if (val.toString() ==
                                                       "0")
                                                     return 'morethan0amount'.tr;
@@ -2182,8 +2205,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   keyboardType: TextInputType.text,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return "pleaseaddyourspecialtermscondition"
-                                          .tr;
+                                      return '*';
                                     else
                                       return null;
                                   },
@@ -2707,7 +2729,7 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
 
   costValidation(String val) {
     if (val.length == 0) {
-      return "pleaseentertotalbudget".tr;
+      return '*';
     } else if (int.parse(EnterRequiredAmountController.text) >
         (int.parse(TotalBudgetController.text))) {
       errorDialog('requiredamountshouldbelessthantotalbudget'.tr);

@@ -1115,7 +1115,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                         letterSpacing: 1.0,
                                                         color: AppColors
                                                             .darkgreen,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
@@ -1158,7 +1158,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.purple,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight:
                                                       FontWeight.normal,
                                                       fontFamily:
@@ -1357,7 +1357,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1372,7 +1372,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1404,7 +1404,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize: 8,
+                                                      fontSize: 9,
                                                       fontWeight: FontWeight
                                                           .normal,
                                                       fontFamily: 'Poppins-Regular'),
@@ -1436,7 +1436,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1451,7 +1451,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -1488,7 +1488,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1512,7 +1512,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1531,7 +1531,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           lineHeight: 14.0,
                                           percent: amoun / 100,
                                           center: Text(amoun.toString() + "%",
-                                            style: TextStyle(fontSize: 8,
+                                            style: TextStyle(fontSize: 9,
                                                 color: AppColors.whiteColor),),
                                           backgroundColor: AppColors.lightgrey,
                                           progressColor: AppColors.themecolor,
@@ -1551,7 +1551,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1573,7 +1573,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -2926,7 +2926,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                         1.0,
                                                         color: Colors
                                                             .black87,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
                                                         FontWeight
                                                             .normal,
@@ -3458,7 +3458,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     Row(
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *35,
+                                          width: SizeConfig.blockSizeHorizontal *33,
                                           alignment: Alignment.topLeft,
                                           margin:
                                           EdgeInsets.only(
@@ -3509,7 +3509,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       children: [
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *33,
+                                          width: SizeConfig.blockSizeHorizontal *35,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig.blockSizeHorizontal * 3),
                                           child: Row(
@@ -3531,7 +3531,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.lightBlueAccent,
-                                                    fontSize: 8,
+                                                    fontSize: 9,
                                                     fontWeight:
                                                     FontWeight.normal,
                                                     fontFamily:
@@ -3786,7 +3786,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black26,
-                                              fontSize: 8,
+                                              fontSize: 9,
                                               fontWeight:
                                               FontWeight.normal,
                                               fontFamily:
@@ -3805,7 +3805,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -3823,7 +3823,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -3841,7 +3841,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4324,7 +4324,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4335,7 +4335,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4358,7 +4358,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4371,7 +4371,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         width: 70.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
-                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
                                         backgroundColor: AppColors.lightgrey,
                                         progressColor:AppColors.themecolor,
                                       ),
@@ -4390,7 +4390,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4401,7 +4401,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4420,7 +4420,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4589,7 +4589,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black26,
-                                              fontSize: 8,
+                                              fontSize: 9,
                                               fontWeight:
                                               FontWeight.normal,
                                               fontFamily:
@@ -4608,7 +4608,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4626,7 +4626,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4644,7 +4644,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4663,7 +4663,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4683,7 +4683,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4695,7 +4695,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -4720,7 +4720,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -4738,7 +4738,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:

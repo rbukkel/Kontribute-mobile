@@ -20,7 +20,7 @@ class afterwelcomeState extends State<afterwelcome>{
         width: double.infinity,
         decoration: BoxDecoration(
           image: new DecorationImage(
-            image: new AssetImage("assets/images/afterwelcome_bg.png"),
+            image: new AssetImage("assets/images/welcome_bg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -31,7 +31,7 @@ class afterwelcomeState extends State<afterwelcome>{
               width: SizeConfig.blockSizeHorizontal * 90,
               alignment: Alignment.topCenter,
               margin:  EdgeInsets.only(top: SizeConfig.blockSizeVertical*18),
-              child: Text(StringConstant.appname,textAlign:TextAlign.center,style: TextStyle(color: Colors.white, fontFamily: 'Poppins-Bold',
+              child: Text(StringConstant.appname,textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Bold',
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
                 letterSpacing: 2.0,),),),
@@ -42,7 +42,7 @@ class afterwelcomeState extends State<afterwelcome>{
                   right: SizeConfig.blockSizeHorizontal*2),
               alignment: Alignment.topCenter,
               width: SizeConfig.blockSizeHorizontal * 92,
-              child: Text(StringConstant.dummytext,textAlign:TextAlign.center,style: TextStyle(color: Colors.white, fontFamily: 'Poppins-Regular',
+              child: Text(StringConstant.dummytext,textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Regular',
                 fontWeight: FontWeight.normal,
                 fontSize: 18,
                 letterSpacing:1.5,),),),
@@ -50,8 +50,14 @@ class afterwelcomeState extends State<afterwelcome>{
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                height: SizeConfig.blockSizeVertical * 7,
+                height: SizeConfig.blockSizeVertical * 15,
                 decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/images/registerbtn.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+               /* decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
                     color: AppColors.whiteColor,
@@ -59,13 +65,14 @@ class afterwelcomeState extends State<afterwelcome>{
                     width: 1.0,
                   ),
                   color: AppColors.whiteColor,
-                ),
+                ),*/
                 margin: EdgeInsets.only(
                   top: SizeConfig.blockSizeVertical * 10,
-                  bottom: SizeConfig.blockSizeVertical * 3,
-                  left: SizeConfig.blockSizeHorizontal * 12,
-                  right: SizeConfig.blockSizeHorizontal * 12,
+                  bottom: SizeConfig.blockSizeVertical * 1,
+                  left: SizeConfig.blockSizeHorizontal * 10,
+                  right: SizeConfig.blockSizeHorizontal * 10,
                 ),
+                padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                 child: Text(
                   StringConstant.register,
                   textAlign: TextAlign.center,
@@ -87,27 +94,34 @@ class afterwelcomeState extends State<afterwelcome>{
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                height: SizeConfig.blockSizeVertical * 7,
+                height: SizeConfig.blockSizeVertical * 15,
+                padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                 decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/images/registerbtn.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                /* decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
                     color: AppColors.whiteColor,
+                    style: BorderStyle.solid,
                     width: 1.0,
                   ),
-                  color: Colors.transparent,
-                ),
+                  color: AppColors.whiteColor,
+                ),*/
                 margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 5,
                   bottom: SizeConfig.blockSizeVertical * 3,
-                  left: SizeConfig.blockSizeHorizontal * 12,
-                  right: SizeConfig.blockSizeHorizontal * 12,
+                  left: SizeConfig.blockSizeHorizontal * 10,
+                  right: SizeConfig.blockSizeHorizontal * 10,
                 ),
                 child: Text(
                   StringConstant.login,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       letterSpacing: 1.0,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize:
                       SizeConfig.blockSizeHorizontal * 5,
                       fontWeight: FontWeight.normal,

@@ -165,7 +165,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
         height: double.infinity,
         decoration: BoxDecoration(
           image: new DecorationImage(
-            image: new AssetImage("assets/images/login_bg.png"),
+            image: new AssetImage("assets/images/welcome_bg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -189,7 +189,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                           letterSpacing: 1.0,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins-Bold',
-                          color: AppColors.whiteColor,
+                          color: AppColors.black,
                           fontSize: 30),
                     ),
                   ),
@@ -203,7 +203,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                           letterSpacing: 1.0,
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',
-                          color: AppColors.light_grey,
+                          color: AppColors.black,
                           fontSize: 20),
                     ),
                   ),
@@ -321,24 +321,23 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                     ),
                   ),*/
                   Container(
+                    height: SizeConfig.blockSizeVertical * 17,
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 7,
-                      left: SizeConfig.blockSizeHorizontal * 10,
-                      right: SizeConfig.blockSizeHorizontal * 10,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
+                      top: SizeConfig.blockSizeVertical *10,
                     ),
                     padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 3,
-                      right: SizeConfig.blockSizeVertical * 3,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 3,
+                      bottom: SizeConfig.blockSizeVertical *1,
                     ),
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: Colors.white,
-                        style: BorderStyle.solid,
-                        width: 1.0,
+                      image: new DecorationImage(
+                        image: new AssetImage("assets/images/lock_bg.png"),
+                        fit: BoxFit.fill,
                       ),
-                      color: Colors.transparent,
                     ),
                     child: TextFormField(
                       autofocus: false,
@@ -359,7 +358,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                       textAlign: TextAlign.center,
                       style:
                       TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',color: Colors.white),
+                          fontFamily: 'Poppins-Regular',color: Colors.black),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -435,7 +434,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                           child: Container(
                             child: Text(StringConstant.forgetpwd,
                                 style: TextStyle(
-                                    color: AppColors.light_grey,
+                                    color: AppColors.black,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Poppins-Regular',
                                     fontSize: 15,
@@ -445,7 +444,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                         Container(
                             height: 20,
                             child: VerticalDivider(
-                                thickness: 1, color: AppColors.light_grey,)),
+                                thickness: 1, color: AppColors.black,)),
                         InkWell(
                           onTap: () {
                             Navigator.push(
@@ -456,7 +455,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                           child: Container(
                             child: Text(StringConstant.register,
                                 style: TextStyle(
-                                  color: AppColors.light_grey,
+                                  color: AppColors.black,
                                     fontSize: 15,
                                   fontWeight: FontWeight.normal,
                                   fontFamily: 'Poppins-Regular',)),

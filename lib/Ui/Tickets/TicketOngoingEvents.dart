@@ -790,7 +790,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.darkgreen,
-                                                          fontSize:8,
+                                                          fontSize:9,
                                                           fontWeight:
                                                           FontWeight.normal,
                                                           fontFamily:
@@ -845,7 +845,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
                                                               FontWeight.normal,
                                                               fontFamily:
@@ -857,7 +857,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
                                                               FontWeight.normal,
                                                               fontFamily:
@@ -884,7 +884,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight: FontWeight.normal,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
@@ -912,7 +912,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
                                                               FontWeight.normal,
                                                               fontFamily:
@@ -924,7 +924,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
                                                               FontWeight.normal,
                                                               fontFamily:
@@ -954,7 +954,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 8,
+                                                    fontSize: 9,
                                                     fontWeight:
                                                     FontWeight.normal,
                                                     fontFamily:
@@ -965,7 +965,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 8,
+                                                    fontSize: 9,
                                                     fontWeight:
                                                     FontWeight.normal,
                                                     fontFamily:
@@ -987,7 +987,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -1000,7 +1000,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             width: 70.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
-                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
@@ -1020,7 +1020,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 8,
+                                                    fontSize: 9,
                                                     fontWeight:
                                                     FontWeight.normal,
                                                     fontFamily:
@@ -1031,7 +1031,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 8,
+                                                    fontSize: 9,
                                                     fontWeight:
                                                     FontWeight.normal,
                                                     fontFamily:
@@ -1050,7 +1050,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -1219,7 +1219,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black26,
-                                              fontSize: 8,
+                                              fontSize: 9,
                                               fontWeight:
                                               FontWeight.normal,
                                               fontFamily:
@@ -1238,7 +1238,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -1256,7 +1256,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -1274,7 +1274,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -1293,7 +1293,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             fontWeight:
                                             FontWeight.normal,
                                             fontFamily:
@@ -1313,7 +1313,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black26,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -1325,7 +1325,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black26,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -1348,7 +1348,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1366,7 +1366,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:

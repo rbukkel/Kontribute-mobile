@@ -489,7 +489,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             letterSpacing: 1.0,
                                                             color: AppColors
                                                                 .darkgreen,
-                                                            fontSize: 8,
+                                                            fontSize: 9,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
@@ -538,7 +538,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           letterSpacing: 1.0,
                                                           color:
                                                               AppColors.purple,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontFamily:
@@ -766,7 +766,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               letterSpacing: 1.0,
                                                               color:
                                                               AppColors.black,
-                                                              fontSize: 8,
+                                                              fontSize: 9,
                                                               fontWeight:
                                                               FontWeight
                                                                   .normal,
@@ -784,7 +784,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               letterSpacing: 1.0,
                                                               color:
                                                               AppColors.black,
-                                                              fontSize: 8,
+                                                              fontSize: 9,
                                                               fontWeight:
                                                               FontWeight
                                                                   .normal,
@@ -820,7 +820,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: Colors.black87,
-                                                          fontSize: 8,
+                                                          fontSize: 9,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontFamily:
@@ -858,7 +858,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               letterSpacing: 1.0,
                                                               color:
                                                               AppColors.black,
-                                                              fontSize: 8,
+                                                              fontSize: 9,
                                                               fontWeight:
                                                               FontWeight
                                                                   .normal,
@@ -875,7 +875,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               letterSpacing: 1.0,
                                                               color:
                                                               AppColors.black,
-                                                              fontSize: 8,
+                                                              fontSize: 9,
                                                               fontWeight:
                                                               FontWeight
                                                                   .normal,
@@ -893,116 +893,136 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                       ),
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    23,
-                                            alignment: Alignment.topLeft,
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
                                                         .blockSizeVertical *
-                                                    1,
-                                                left: SizeConfig
+                                                        1,
+                                                    left: SizeConfig
                                                         .blockSizeHorizontal *
-                                                    2),
-                                            child: Text(
-                                              'collectiontarget'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 8,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
+                                                        2),
+                                                child: Text(
+                                                  'collectiontarget'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 9,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
                                                       'Poppins-Regular'),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
                                                         .blockSizeVertical *
-                                                    1),
-                                            alignment: Alignment.topLeft,
-                                            padding: EdgeInsets.only(
-                                              right: SizeConfig
+                                                        1),
+                                                alignment: Alignment.topLeft,
+                                                padding: EdgeInsets.only(
+                                                  right: SizeConfig
                                                       .blockSizeHorizontal *
-                                                  3,
-                                            ),
-                                            child: Text(
-                                              "  \$" +
-                                                  listing.projectData
-                                                      .elementAt(index)
-                                                      .budget,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
+                                                      1,
+                                                ),
+                                                child: Text(
+                                                  "  \$" +
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .budget,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      fontSize: 9,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
                                                       'Poppins-Regular'),
-                                            ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           Container(
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig
-                                                        .blockSizeVertical *
+                                                    .blockSizeVertical *
                                                     1),
                                             child: LinearPercentIndicator(
-                                              width: 60.0,
+                                              width: 65.0,
                                               lineHeight: 14.0,
                                               percent: amoun / 100,
                                               center: Text(
                                                 amoun.toString() + "%",
                                                 style: TextStyle(
-                                                    fontSize: 8,
+                                                    fontSize: 9,
                                                     color:
-                                                        AppColors.whiteColor),
+                                                    AppColors.whiteColor),
                                               ),
                                               backgroundColor:
-                                                  AppColors.lightgrey,
+                                              AppColors.lightgrey,
                                               progressColor:
-                                                  AppColors.themecolor,
+                                              AppColors.themecolor,
                                             ),
                                           ),
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            width: SizeConfig.blockSizeHorizontal * 25,
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig.blockSizeVertical * 1),
-                                            child: Text(
-                                              'collectedamount'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 8,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
-                                                      'Poppins-Regular'),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                alignment:
+                                                Alignment.centerRight,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
                                                         .blockSizeVertical *
-                                                    1,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    1),
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              "  \$" +
-                                                  listing.projectData
-                                                      .elementAt(index)
-                                                      .requiredAmount,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
+                                                        1),
+                                                child: Text(
+                                                  'collectedamount'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black87,
+                                                      fontSize: 9,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
                                                       'Poppins-Regular'),
-                                            ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        4),
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "  \$" +
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .totalcollectedamount
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      fontSize: 9,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              )
+                                            ],
                                           )
                                         ],
                                       ),
@@ -1473,7 +1493,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black26,
-                                                  fontSize: 8,
+                                                  fontSize: 9,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1492,7 +1512,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -1510,7 +1530,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -1528,7 +1548,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black26,
-                                                fontSize: 8,
+                                                fontSize: 9,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:

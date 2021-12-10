@@ -1797,9 +1797,13 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 Container(
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2,
-                                      right: SizeConfig.blockSizeHorizontal * 3,
-                                      top: SizeConfig.blockSizeVertical * 2),
+                                      left: SizeConfig.blockSizeHorizontal *
+                                          3,
+                                      right:
+                                      SizeConfig.blockSizeHorizontal *
+                                          2,
+                                      top:
+                                      SizeConfig.blockSizeVertical * 2),
                                   child: Text(
                                     'locationdetails'.tr,
                                     style: TextStyle(
@@ -2068,9 +2072,13 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
+                                  left: SizeConfig.blockSizeHorizontal *
+                                      3,
+                                  right:
+                                  SizeConfig.blockSizeHorizontal *
+                                      2,
+                                  top:
+                                  SizeConfig.blockSizeVertical * 2),
                               child: Text(
                                 'contactno'.tr,
                                 style: TextStyle(
@@ -2119,8 +2127,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       letterSpacing: 1.0,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Poppins-Regular',
-                                      fontSize: 10,
-                                      color: Colors.white),
+                                      fontSize: 15,
+                                      color: Colors.black),
                                   initialCountryCode: 'NP', //default contry code, NP for Nepal
                                   onChanged: (phone)
                                   {
@@ -2136,9 +2144,13 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 2,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 2),
+                                  left: SizeConfig.blockSizeHorizontal *
+                                      3,
+                                  right:
+                                  SizeConfig.blockSizeHorizontal *
+                                      2,
+                                  top:
+                                  SizeConfig.blockSizeVertical * 2),
                               child: Text(
                                 'email'.tr,
                                 style: TextStyle(
@@ -3082,7 +3094,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 selectedEndTime,
                                                 LocationController.text,
                                                 LocationDetailsController.text,
-                                                ContactNoController.text,
+                                                mobile,
                                                 EmailController.text,
                                                 myFormatTimeFrameDate
                                                     .format(timeframedate),
@@ -3092,7 +3104,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 TermsController.text,
                                                 emailController.text,
                                                 nameController.text,
-                                                mobile,
+                                                mobileController.text,
                                                 messageController.text,
                                                 "",
                                                 VideoController.text,
@@ -3110,7 +3122,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 selectedEndTime,
                                                 LocationController.text,
                                                 LocationDetailsController.text,
-                                                ContactNoController.text,
+                                                mobile,
                                                 EmailController.text,
                                                 myFormatTimeFrameDate
                                                     .format(timeframedate),
@@ -3120,7 +3132,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 TermsController.text,
                                                 emailController.text,
                                                 nameController.text,
-                                                mobile,
+                                                mobileController.text,
                                                 messageController.text,
                                                 followingvalues.toString(),
                                                 VideoController.text,
