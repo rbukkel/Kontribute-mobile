@@ -274,7 +274,7 @@ class LocaleString extends Translations {
           'pleaseentersubject ' : 'Please enter subject',
           'subjectmustbemorethan2charater ' : 'subject must be more than 2 charater',
           'subjectmustbemorethan2charater ' : 'subject must be more than 2 charater',
-          'editcampaign ' : 'Edit campaign',
+          'editcampaign' : 'Edit campaign',
           'editnow' : 'Edit Now',
         },
         'ar_SA': {

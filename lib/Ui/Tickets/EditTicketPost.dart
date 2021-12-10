@@ -794,7 +794,7 @@ class EditTicketPostState extends State<EditTicketPost> {
       List documentList) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.create_ticket));
+    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.edit_ticket));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["event_name"] = projectname.toString();
     request.fields["description"] = description.toString();
@@ -850,6 +850,7 @@ class EditTicketPostState extends State<EditTicketPost> {
       if (response.statusCode == 200) {
         if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          print(jsonData["message"]);
          errorDialog(jsonData["message"]);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

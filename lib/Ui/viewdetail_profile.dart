@@ -24,11 +24,9 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 
 class viewdetail_profile extends StatefulWidget{
-
   final String data;
 
-  const viewdetail_profile({Key key, @required this.data})
-      : super(key: key);
+  const viewdetail_profile({Key key, @required this.data}) : super(key: key);
 
   @override
   viewdetail_profileState createState() => viewdetail_profileState();
@@ -37,15 +35,15 @@ class viewdetail_profile extends StatefulWidget{
 
 class viewdetail_profileState extends State<viewdetail_profile>{
   int currentPageValue = 0;
+
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner2.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner1.png",
-      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
+      height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),];
 
-  ];
   String tabvalue = "Past Projects";
   bool home =false;
   bool pastproject = true;
@@ -94,6 +92,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
       }
     });
   }
+
   void errorDialog(String text) {
     showDialog(
       context: context,
@@ -616,7 +615,6 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                           ),*/
                         ],
                       ),
-
                       tabvalue == "Past Projects" ? pastprojects(): Container()
                     ],
                   ),
@@ -627,17 +625,12 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                 child: internet == true?CircularProgressIndicator():SizedBox(),
               ),
             ),
-
-
           ],
         ),
       ),
-
       bottomNavigationBar: bottombar(context),
-
     );
   }
-
 
   Future<void>  followapi(String useid,int rece) async {
     Map data = {
@@ -646,7 +639,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.follow, body: data);
+    http.Response response = await http.post(Network.BaseApi+Network.follow, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1217,7 +1210,6 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                   fontSize: 10,
                                   fontWeight: FontWeight.normal,
                                   fontFamily: 'Poppins-Regular'),
-
                             ),
                           ),
                           Container(

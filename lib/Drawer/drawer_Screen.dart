@@ -356,6 +356,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                       "assets/images/nav_mytranscaton.png",
                                       height: 25,
                                       width: 25,
+                                      color: AppColors.whiteColor,
                                     ),
                                   ),
                                   Container(

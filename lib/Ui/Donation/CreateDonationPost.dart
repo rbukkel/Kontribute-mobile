@@ -475,44 +475,68 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   }
 
   Future<void> captureImage(ImageSource imageSource) async {
-    if (imageSource == ImageSource.camera) {
-      try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
+    if(imageSource!=null)
+    {
+      if (imageSource == ImageSource.camera) {
+        try {
+          final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          setState(() {
+            if (imageFile != null) {
+              setState(() {
+                _imageFile = imageFile;
 
-          if (_imageList.length < 3) {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
+                if(_imageList.length<3)
+                {
+                  _imageList.add(_imageFile);
+                  for (int i = 0; i < _imageList.length; i++) {
+                    print("ListImages:" + _imageList[i].toString());
+                  }
+                }
+                else {
+                  errorDialog('uploadupto3images'.tr);
+                }
+              });
+
+            } else {
+              print('No image selected.');
             }
-          } else {
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
+          });
+
+        } catch (e) {
+          print(e);
+        }
       }
-    } else if (imageSource == ImageSource.gallery) {
-      try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
-          if (_imageList.length < 3) {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
+      else if (imageSource == ImageSource.gallery) {
+        try {
+          final imageFile =
+          await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          setState(() {
+            if (imageFile != null) {
+              setState(() {
+                _imageFile = imageFile;
+
+                if(_imageList.length<3)
+                {
+                  _imageList.add(_imageFile);
+                  for (int i = 0; i < _imageList.length; i++) {
+                    print("ListImages:" + _imageList[i].toString());
+                  }
+                }
+                else {
+                  errorDialog('uploadupto3images'.tr);
+                }
+              });
+
+            } else {
+              print('No image selected.');
             }
-          } else {
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
+          });
+        } catch (e) {
+          print(e);
+        }
       }
     }
+    else {}
   }
 
   @override
@@ -688,8 +712,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     left: SizeConfig.blockSizeHorizontal * 6,
                                     right: SizeConfig.blockSizeHorizontal * 6),
                                 child: _imageList.length == 0
-                                    ? new Image.asset(
-                                        'assets/images/orderListing.png')
+                                    ? Container()
                                     : ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
@@ -791,7 +814,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             keyboardType: TextInputType.name,
                             validator: (val) {
                               if (val.length == 0)
-                                return 'pleaseentercampaignname'.tr;
+                                return '*';
                               else
                                 return null;
                             },
@@ -867,7 +890,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   keyboardType: TextInputType.text,
                                   validator: (val) {
                                     if (val.length == 0)
-                                      return 'pleaseentercampaigndescription'.tr;
+                                      return '*';
                                     else
                                       return null;
                                   },
@@ -1221,7 +1244,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                           keyboardType: TextInputType.number,
                                           validator: (val) {
                                             if (val.length == 0)
-                                              return 'pleaseenterrequiredamount'.tr;
+                                              return '*';
                                             else
                                               return null;
                                           },
@@ -1903,7 +1926,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             keyboardType: TextInputType.text,
                             validator: (val) {
                               if (val.length == 0)
-                                return 'pleaseaddyourspecialtermscondition'.tr;
+                                return '*';
                               else
                                 return null;
                             },
@@ -1971,7 +1994,9 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               });
                               Internet_check().check().then((intenet) {
                                 if (intenet != null && intenet) {
-                                  if (_imageList.isNotEmpty) {
+
+
+                                  if (_imageList.isNotEmpty &&  _imageList.length!=null) {
                                     if(currentDate.compareTo(currentEndDate)>0)
                                     {
                                       print('date is befor');
@@ -2021,6 +2046,8 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   } else {
                                     errorDialog('pleaseselectdonationimages'.tr);
                                   }
+
+
                                 } else {
                                   Fluttertoast.showToast(
                                     msg: 'nointernetconnection'.tr,
@@ -2660,7 +2687,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
 
   costValidation(String val) {
     if (val.length == 0) {
-      return 'pleaseentertotalbudget'.tr;
+      return '*';
     } else if (int.parse(EnterRequiredAmountController.text) >
         (int.parse(TotalBudgetController.text))) {
       errorDialog('requiredamountshouldbelessthantotalbudget'.tr);

@@ -267,6 +267,7 @@ class MyActivitiesState extends State<MyActivities> {
       errorDialog(jsonDecode(val)["message"]);
     }
   }
+
   void errorDialog(String text) {
     showDialog(
       context: context,
@@ -327,7 +328,6 @@ class MyActivitiesState extends State<MyActivities> {
       ),
     );
   }
-
 
   _showGiftPopupMenu(int index, String valu) async {
     print("Index: " + index.toString());
@@ -447,26 +447,6 @@ class MyActivitiesState extends State<MyActivities> {
                 ],
               ),
             )),
-        /* PopupMenuItem(
-            value:3,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                callNext(
-                    ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
-                  ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
-                ],
-              ),
-            )),*/
 
       ],
       elevation: 8.0,
@@ -584,8 +564,8 @@ class MyActivitiesState extends State<MyActivities> {
                   Text('edit'.tr,style: TextStyle(fontSize: 14),)
                 ],
               ),
-            )),
-
+            )
+        ),
       ],
       elevation: 8.0,
     );

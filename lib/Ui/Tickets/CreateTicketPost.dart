@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
@@ -102,6 +103,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     "Connections only",
     "Invite",
   ];
+  String mobile, countrycode;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
 
   changeText(String valu) {
@@ -571,44 +573,68 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   }
 
   Future<void> captureImage(ImageSource imageSource) async {
-    if (imageSource == ImageSource.camera) {
-      try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
+    if(imageSource!=null)
+    {
+      if (imageSource == ImageSource.camera) {
+        try {
+          final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          setState(() {
+            if (imageFile != null) {
+              setState(() {
+                _imageFile = imageFile;
 
-          if (_imageList.length < 3) {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
+                if(_imageList.length<3)
+                {
+                  _imageList.add(_imageFile);
+                  for (int i = 0; i < _imageList.length; i++) {
+                    print("ListImages:" + _imageList[i].toString());
+                  }
+                }
+                else {
+                  errorDialog('uploadupto3images'.tr);
+                }
+              });
+
+            } else {
+              print('No image selected.');
             }
-          } else {
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
+          });
+
+        } catch (e) {
+          print(e);
+        }
       }
-    } else if (imageSource == ImageSource.gallery) {
-      try {
-        final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
-          if (_imageList.length < 3) {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
+      else if (imageSource == ImageSource.gallery) {
+        try {
+          final imageFile =
+          await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          setState(() {
+            if (imageFile != null) {
+              setState(() {
+                _imageFile = imageFile;
+
+                if(_imageList.length<3)
+                {
+                  _imageList.add(_imageFile);
+                  for (int i = 0; i < _imageList.length; i++) {
+                    print("ListImages:" + _imageList[i].toString());
+                  }
+                }
+                else {
+                  errorDialog('uploadupto3images'.tr);
+                }
+              });
+
+            } else {
+              print('No image selected.');
             }
-          } else {
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
+          });
+        } catch (e) {
+          print(e);
+        }
       }
     }
+    else {}
   }
 
   // Format File Size
@@ -965,8 +991,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                         right:
                                             SizeConfig.blockSizeHorizontal * 6),
                                     child: _imageList.length == 0
-                                        ? new Image.asset(
-                                            'assets/images/orderListing.png')
+                                        ? Container()
                                         : ListView.builder(
                                             shrinkWrap: true,
                                             scrollDirection: Axis.horizontal,
@@ -1073,7 +1098,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 keyboardType: TextInputType.name,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return 'pleaseentereventname'.tr;
+                                    return '*';
                                   else
                                     return null;
                                 },
@@ -1149,7 +1174,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       keyboardType: TextInputType.text,
                                       validator: (val) {
                                         if (val.length == 0)
-                                          return 'pleaseentereventdescription'.tr;
+                                          return '*';
                                         else
                                           return null;
                                       },
@@ -1732,7 +1757,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             TextInputType.streetAddress,
                                         validator: (val) {
                                           if (val.length == 0)
-                                            return 'pleaseenterlocation'.tr;
+                                            return '*';
                                           else
                                             return null;
                                         },
@@ -1814,7 +1839,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     keyboardType: TextInputType.streetAddress,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return 'pleaseenterlocationdetails'.tr;
+                                        return '*';
                                       else
                                         return null;
                                     },
@@ -2041,209 +2066,148 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                               ),
                             ),
                             Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 50,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  3,
-                                              right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  2,
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      2),
-                                          child: Text(
-                                            'contactno'.tr,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Bold'),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  3,
-                                              right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  2,
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1),
-                                          padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical *
-                                                1,
-                                            right:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black26,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                            color: Colors.transparent,
-                                          ),
-                                          child: TextFormField(
-                                            autofocus: false,
-                                            focusNode: ContactNoFocus,
-                                            controller: ContactNoController,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            keyboardType: TextInputType.phone,
-                                            validator: (val) {
-                                              if (val.length == 0)
-                                                return 'pleaseentermobilenumber'.tr;
-                                              else if (val.length != 10)
-                                                return 'pleaseentervalidmobilenumber'.tr;
-                                              else
-                                                return null;
-                                            },
-                                            onFieldSubmitted: (v) {
-                                              FocusScope.of(context)
-                                                  .requestFocus(EmailFocus);
-                                            },
-                                            onSaved: (val) => _contactno = val,
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',
-                                                fontSize: 15,
-                                                color: Colors.black),
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              hintStyle: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',
-                                                fontSize: 15,
-                                                decoration: TextDecoration.none,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              child: Text(
+                                'contactno'.tr,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 1,
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 1,
+                                  right: SizeConfig.blockSizeVertical * 1,
+                                ),
+                                alignment: Alignment.topLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
                                   ),
-                                  Container(
-                                      width: SizeConfig.blockSizeHorizontal * 50,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            alignment: Alignment.topLeft,
-                                            margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    2,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3,
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    2),
-                                            child: Text(
-                                              'email'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1,
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  2,
-                                              right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  3,
-                                            ),
-                                            padding: EdgeInsets.only(
-                                              left:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1,
-                                              right:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1,
-                                            ),
-                                            alignment: Alignment.topLeft,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: Colors.black26,
-                                                style: BorderStyle.solid,
-                                                width: 1.0,
-                                              ),
-                                              color: Colors.transparent,
-                                            ),
-                                            child: TextFormField(
-                                              autofocus: false,
-                                              focusNode: EmailFocus,
-                                              controller: EmailController,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              keyboardType:
-                                                  TextInputType.emailAddress,
-                                              validator: (val) {
-                                                if (val.length == 0)
-                                                  return 'pleaseenteremail'.tr;
-                                                else if (!regex.hasMatch(val))
-                                                  return 'pleaseentervalidemail'.tr;
-                                                else
-                                                  return null;
-                                              },
-                                              onFieldSubmitted: (v) {
-                                                EmailFocus.unfocus();
-                                              },
-                                              onSaved: (val) => _email = val,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Regular',
-                                                  fontSize: 15,
-                                                  color: Colors.black),
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Regular',
-                                                  fontSize: 15,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ))
-                                ],
+                                  color: Colors.transparent,
+                                ),
+                                child:
+                                IntlPhoneField(
+                                  decoration: InputDecoration( //decoration for Input Field
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    hintText: StringConstant.mobile,
+                                    focusedBorder: InputBorder.none,
+                                  ),
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      color: Colors.white),
+                                  initialCountryCode: 'NP', //default contry code, NP for Nepal
+                                  onChanged: (phone)
+                                  {
+                                    mobile = phone.number;
+                                    countrycode = phone.countryCode;
+                                    //when phone number country code is changed
+                                    print(phone.completeNumber); //get complete number
+                                    print(phone.countryCode); // get country code only
+                                    print(phone.number); // only phone number
+                                  },
+                                )
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 2,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2),
+                              child: Text(
+                                'email'.tr,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 1,
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                              ),
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 1,
+                                right: SizeConfig.blockSizeVertical * 1,
+                              ),
+                              alignment: Alignment.topLeft,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              child: TextFormField(
+                                autofocus: false,
+                                focusNode: EmailFocus,
+                                controller: EmailController,
+                                textInputAction:
+                                TextInputAction.next,
+                                keyboardType:
+                                TextInputType.emailAddress,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return '*';
+                                  else if (!regex.hasMatch(val))
+                                    return 'pleaseentervalidemail'.tr;
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  EmailFocus.unfocus();
+                                },
+                                onSaved: (val) => _email = val,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 15,
+                                    decoration:
+                                    TextDecoration.none,
+                                  ),
+                                ),
                               ),
                             ),
                             Container(
@@ -2414,7 +2378,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   TextInputType.number,
                                               validator: (val) {
                                                 if (val.length == 0)
-                                                  return 'pleaseentercostofticket'.tr;
+                                                  return '*';
                                                 else
                                                   return null;
                                               },
@@ -2506,7 +2470,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     keyboardType: TextInputType.number,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return 'pleaseentermaximumquantity'.tr;
+                                        return '*';
                                       else
                                         return null;
                                     },
@@ -3046,7 +3010,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 keyboardType: TextInputType.text,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return 'pleaseaddyourspecialtermscondition'.tr;
+                                    return '*';
                                   else
                                     return null;
                                 },
@@ -3096,7 +3060,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   });
                                   Internet_check().check().then((intenet) {
                                     if (intenet != null && intenet) {
-                                      if (_imageList.isNotEmpty) {
+                                      if (_imageList.isNotEmpty && _imageList.length!=null) {
 
                                         if(currentDate.compareTo(currentEndDate)>0)
                                         {
@@ -3128,7 +3092,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 TermsController.text,
                                                 emailController.text,
                                                 nameController.text,
-                                                mobileController.text,
+                                                mobile,
                                                 messageController.text,
                                                 "",
                                                 VideoController.text,
@@ -3156,7 +3120,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 TermsController.text,
                                                 emailController.text,
                                                 nameController.text,
-                                                mobileController.text,
+                                                mobile,
                                                 messageController.text,
                                                 followingvalues.toString(),
                                                 VideoController.text,

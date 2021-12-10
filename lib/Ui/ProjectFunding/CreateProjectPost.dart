@@ -121,10 +121,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     "Invite",
   ];
 
-
-
   var selectedIndexes = [];
-
   static List<String> videoList = [''];
   var file1;
   var documentPath;
@@ -492,47 +489,70 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   }
 
   Future<void> captureImage(ImageSource imageSource) async {
-    if (imageSource == ImageSource.camera) {
-      try {
-        final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
+    if(imageSource!=null)
+      {
+        if (imageSource == ImageSource.camera) {
+          try {
+            final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+            setState(() {
+              if (imageFile != null) {
+                setState(() {
+                  _imageFile = imageFile;
 
-          if(_imageList.length<3)
-          {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
-            }
+                  if(_imageList.length<3)
+                  {
+                    _imageList.add(_imageFile);
+                    for (int i = 0; i < _imageList.length; i++) {
+                      print("ListImages:" + _imageList[i].toString());
+                    }
+                  }
+                  else {
+                    errorDialog('uploadupto3images'.tr);
+                  }
+                });
+
+              } else {
+                print('No image selected.');
+              }
+            });
+
+          } catch (e) {
+            print(e);
           }
-          else {
-            errorDialog('uploadupto3images'.tr);
+        }
+        else if (imageSource == ImageSource.gallery) {
+          try {
+            final imageFile =
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+            setState(() {
+              if (imageFile != null) {
+                setState(() {
+                  _imageFile = imageFile;
+
+                  if(_imageList.length<3)
+                  {
+                    _imageList.add(_imageFile);
+                    for (int i = 0; i < _imageList.length; i++) {
+                      print("ListImages:" + _imageList[i].toString());
+                    }
+                  }
+                  else {
+                    errorDialog('uploadupto3images'.tr);
+                  }
+                });
+
+              } else {
+                print('No image selected.');
+              }
+            });
+          } catch (e) {
+            print(e);
           }
-        });
-      } catch (e) {
-        print(e);
+        }
       }
-    } else if (imageSource == ImageSource.gallery) {
-      try {
-        final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() {
-          _imageFile = imageFile;
-          if(_imageList.length<3)
-          {
-            _imageList.add(_imageFile);
-            for (int i = 0; i < _imageList.length; i++) {
-              print("ListImages:" + _imageList[i].toString());
-            }
-          }
-          else{
-            errorDialog('uploadupto3images'.tr);
-          }
-        });
-      } catch (e) {
-        print(e);
-      }
-    }
+    else {}
+
+
   }
 
   @override
@@ -698,7 +718,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 maintainAnimation: true,
                                 maintainState: true,
                                 child: Container()),
-                            _imageList.length != 0
+                            _imageList.length != null
                                 ? Container(
                                 alignment: Alignment.topCenter,
                                 height: SizeConfig.blockSizeVertical * 10,
@@ -706,8 +726,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     left: SizeConfig.blockSizeHorizontal * 6,
                                     right: SizeConfig.blockSizeHorizontal * 6),
                                 child: _imageList.length == 0
-                                    ? new Image.asset(
-                                    'assets/images/orderListing.png')
+                                    ? Container()
                                     : ListView.builder(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
@@ -751,13 +770,14 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                     ),
                                                     width: 60,
                                                     height: 60,
-                                                    child: Image.file(
-                                                      _imageList
-                                                          .elementAt(index),
+                                                    child:
+                                                    _imageList!=null &&  _imageList.elementAt(index)!=null?
+                                                    Image.file(
+                                                      _imageList.elementAt(index),
                                                       fit: BoxFit.fill,
                                                       width: 60,
                                                       height: 60,
-                                                    ),
+                                                    ):Container(),
                                                   ),
                                                 ],
                                               ),
@@ -808,7 +828,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 keyboardType: TextInputType.name,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return 'pleaseenterprojectname'.tr;
+                                    return '*';
                                   else
                                     return null;
                                 },
@@ -884,7 +904,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       keyboardType: TextInputType.text,
                                       validator: (val) {
                                         if (val.length == 0)
-                                          return 'pleaseenterprojectdescription'.tr;
+                                          return '*';
                                         else
                                           return null;
                                       },
@@ -1216,7 +1236,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               keyboardType: TextInputType.number,
                                               validator: (val) {
                                                 if (val.length == 0)
-                                                  return 'pleaseenterrequiredamount'.tr;
+                                                  return '*';
                                                 else if(val.toString() =="0")
                                                   return 'morethan0amount'.tr;
                                                 else
@@ -1325,16 +1345,10 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               ),
                                             ),
                                             Container(
-                                              width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  30,
+                                              width: SizeConfig.blockSizeHorizontal * 30,
                                               padding: EdgeInsets.only(
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1),
+                                                  left: SizeConfig.blockSizeHorizontal * 1,
+                                                  right: SizeConfig.blockSizeHorizontal * 1),
                                               child: TextFormField(
                                                 autofocus: false,
                                                 focusNode: TotalBudgetFocus,
@@ -1344,10 +1358,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 keyboardType: TextInputType.number,
                                                 validator: (val) {
                                                   return costValidation(val);
-
                                                 },
-
-
                                                 onFieldSubmitted: (v) {
                                                   TotalBudgetFocus.unfocus();
                                                 },
@@ -1450,9 +1461,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                     ),
                                     color: Colors.transparent,
                                   ),
-                                  child:
-
-                                  TextFormField(
+                                  child: TextFormField(
                                     autofocus: false,
                                     focusNode: VideoFocus,
                                     controller: VideoController,
@@ -1692,9 +1701,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                   );
                                                 }),
                                           ),
-
-
-
                                           Container(
                                             width: SizeConfig.blockSizeHorizontal * 5,
                                             child:  GestureDetector(
@@ -1881,7 +1887,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                 keyboardType: TextInputType.text,
                                 validator: (val) {
                                   if (val.length == 0)
-                                    return "pleaseaddyourspecialtermscondition".tr;
+                                    return '*';
                                   else
                                     return null;
                                 },
@@ -1926,7 +1932,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   });
                                   Internet_check().check().then((intenet) {
                                     if (intenet != null && intenet) {
-                                      if(_imageList.isNotEmpty)
+                                      if(_imageList.isNotEmpty &&  _imageList.length!=null )
                                       {
                                         if(currentDate.compareTo(currentEndDate)>0)
                                         {
@@ -1936,6 +1942,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
 
                                         }
                                         else {
+                                          print("LENGTH:" +  _imageList.length.toString());
                                           createproject(
                                               context,
                                               ProjectNameController.text,
@@ -2613,16 +2620,17 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     request.fields["members"] = connection.toString();
 
     print("Request: "+request.fields.toString());
-    for (int i = 0; i < images.length; i++) {
-      request.files.add(
-        http.MultipartFile(
-          "fileimages[]",
-          http.ByteStream(DelegatingStream.typed(images[i].openRead())),
-          await images[i].length(),
-          filename:path.basename(images[i].path),
-        ),
-      );
-    }
+
+        for (int i = 0; i < images.length; i++)
+        {
+          request.files.add(
+            http.MultipartFile("fileimages[]", http.ByteStream(DelegatingStream.typed(images[i].openRead())),
+              await images[i].length(), filename: path.basename(images[i].path),
+            ),
+          );
+        }
+
+
     for (int i = 0; i < documentList.length; i++) {
       request.files.add(
         http.MultipartFile(
@@ -2675,7 +2683,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
 
   costValidation(String val) {
     if (val.length == 0) {
-      return "pleaseentertotalbudget".tr;
+      return '*';
     }
     else if(int.parse(EnterRequiredAmountController.text) > (int.parse(TotalBudgetController.text))){
       errorDialog('requiredamountshouldbelessthantotalbudget'.tr);

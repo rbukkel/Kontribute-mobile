@@ -442,7 +442,8 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                               ),*/
 
                               image_value==false?Container(
-                                  height: SizeConfig.blockSizeVertical * 25,
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *15),
+                                  height: SizeConfig.blockSizeVertical * 35,
                                   width: SizeConfig.blockSizeHorizontal * 100,
                                   alignment: Alignment.center,
                                   child:  CachedNetworkImage(

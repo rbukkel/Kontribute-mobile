@@ -492,7 +492,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                     child: Stack(
                       children: [
                         Container(
-                          height: SizeConfig.blockSizeVertical * 45,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *15),
+                          height: SizeConfig.blockSizeVertical * 35,
                           width: SizeConfig.blockSizeHorizontal * 100,
                           alignment: Alignment.center,
                           child:ClipRect(child:  image_value?

@@ -383,6 +383,7 @@ class EditSendIndividaulState extends State<EditSendIndividaul>{
                         child: Stack(
                           children: [
                             image_value==false?Container(
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *15),
                                 height: SizeConfig.blockSizeVertical * 25,
                                 width: SizeConfig.blockSizeHorizontal * 100,
                                 alignment: Alignment.center,
