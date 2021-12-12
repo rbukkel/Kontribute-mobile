@@ -14,6 +14,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/MyConnections/ContactsPage.dart';
 import 'package:kontribute/Pojo/ResutPush.dart';
+import 'package:kontribute/Pojo/NationalitylistPojo.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Ui/ContactFromKontribute.dart';
 import 'package:kontribute/Ui/Contactlis.dart';
@@ -85,12 +86,16 @@ class registerState extends State<register> {
   TextEditingController controller = new TextEditingController();
   String val;
   String contryval;
+  var nationalitylist;
   AutoCompleteTextField searchTextFields;
   GlobalKey<AutoCompleteTextFieldState<ResutPush>> key = new GlobalKey();
   static List<ResutPush> users = new List<ResutPush>();
   bool loading = true;
   bool resultvalue = false;
   bool countryresultvalue = false;
+  bool expandFlag0 = false;
+  NationalitylistPojo listing;
+
 
   static List<ResutPush> loadUsers(String jsonString) {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
@@ -200,11 +205,24 @@ class registerState extends State<register> {
         });
         errorDialog(jsonDecode(val)["message"]);
       } else {
-        List<dynamic> data1 = jsonResponse["result_push"];
+        listing = new NationalitylistPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          setState(() {
+            nationalitylist = jsonResponse['result_push'];
+            List<dynamic> data1 = jsonResponse["result_push"];
 
-        setState(() {
-          nationalityTypes = data1;
-        });
+            setState(() {
+              nationalityTypes = data1;
+            });
+          });
+        } else {
+          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          setState(() {
+            errorDialog(jsonResponse["message"]);
+          });
+        }
+
       }
     } else {
       errorDialog(jsonDecode(val)["message"]);
@@ -774,6 +792,85 @@ class registerState extends State<register> {
                           )
                       ),
 
+
+                      Container(
+                        height: SizeConfig.blockSizeVertical * 17,
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 10,
+                          right: SizeConfig.blockSizeHorizontal * 5,
+                          bottom: SizeConfig.blockSizeVertical *1,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 50,
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                child: TextField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      getNationalList(value);
+                                    });
+                                  },
+                                  decoration: new InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: SizeConfig.blockSizeHorizontal * 3,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Montserrat-Bold'),
+                                      hintText: 'please select nationality'),
+                                )),
+                            Container(
+                              padding: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 2,
+                              ),
+                              child: IconButton(
+                                  icon: new Container(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    child: new Center(
+                                      child: new Icon(
+                                        expandFlag0
+                                            ? Icons.arrow_drop_up
+                                            : Icons.arrow_drop_down,
+                                        color: Colors.black87,
+                                        size: 30.0,
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      expandFlag0 = !expandFlag0;
+                                    });
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                          maintainSize: true,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          child: Container()),
+                      expandFlag0 == true ? ExpandedInvitationview0() : Container(),
+
                       Container(
                         height: SizeConfig.blockSizeVertical * 17,
                         margin: EdgeInsets.only(
@@ -1101,6 +1198,78 @@ class registerState extends State<register> {
       ),
     );
   }
+
+
+  ExpandedInvitationview0() {
+    return nationalitylist != null ?
+    Container(
+        alignment: Alignment.topLeft,
+        margin: EdgeInsets.only(
+          left: SizeConfig.blockSizeHorizontal * 4,
+          right: SizeConfig.blockSizeHorizontal * 4,
+        ),
+        height: SizeConfig.blockSizeVertical * 30,
+        child: Card(
+          child:  MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+                itemCount: nationalitylist == null
+                    ? 0
+                    : nationalitylist.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        print("Selection: "+listing.resultPush.elementAt(index).nationality);
+                        print("Selectioncode: "+listing.resultPush.elementAt(index).numCode.toString());
+                      },
+                      child: Container(
+                        height: SizeConfig.blockSizeVertical *7,
+                        margin: EdgeInsets.only(
+                          top:SizeConfig.blockSizeVertical * 2,
+                          left: SizeConfig.blockSizeHorizontal * 2,
+                          right: SizeConfig.blockSizeHorizontal * 2,
+                        ),
+                        child: Text(
+                          listing.resultPush.elementAt(index).nationality == null
+                              ? ""
+                              : listing.resultPush.elementAt(index).nationality,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat-Bold'),
+                        ),
+                      ),
+                    ) ;
+
+                }),
+          ),
+        )
+
+    )
+        : Container(
+        alignment: Alignment.center,
+        child: resultvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+          child: Text(
+            'No search results to show',
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
+        ));
+  }
+
 
   Widget getSearchableDropdown(List<dynamic> listData) {
     List<DropdownMenuItem> items = [];
