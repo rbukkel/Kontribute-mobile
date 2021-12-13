@@ -204,7 +204,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',
                           color: AppColors.black,
-                          fontSize: 20),
+                          fontSize: 16),
                     ),
                   ),
               /*    Container(
@@ -321,7 +321,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                     ),
                   ),*/
                   Container(
-                    height: SizeConfig.blockSizeVertical * 17,
+                    height: SizeConfig.blockSizeVertical * 15.6,
                     margin: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 3,
                       right: SizeConfig.blockSizeHorizontal * 3,
@@ -397,7 +397,8 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
-                      height: SizeConfig.blockSizeVertical * 7,
+                      height: SizeConfig.blockSizeVertical * 10,
+                      padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
                       margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 5,
                         left: SizeConfig.blockSizeHorizontal * 10,

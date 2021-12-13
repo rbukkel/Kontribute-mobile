@@ -150,7 +150,10 @@ class selectlangaugeState extends State<selectlangauge> {
                   child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
-                    height: SizeConfig.blockSizeVertical * 7,
+                    height: SizeConfig.blockSizeVertical * 10,
+                    padding:
+                    EdgeInsets.only(
+                        bottom: SizeConfig.blockSizeVertical * 1),
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 6,
                       left: SizeConfig.blockSizeHorizontal * 12,

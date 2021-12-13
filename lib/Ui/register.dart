@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/MyConnections/ContactsPage.dart';
+import 'package:kontribute/Pojo/CountrylistPojo.dart';
 import 'package:kontribute/Pojo/ResutPush.dart';
 import 'package:kontribute/Pojo/NationalitylistPojo.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
@@ -87,14 +88,19 @@ class registerState extends State<register> {
   String val;
   String contryval;
   var nationalitylist;
+  var countrylist;
   AutoCompleteTextField searchTextFields;
   GlobalKey<AutoCompleteTextFieldState<ResutPush>> key = new GlobalKey();
   static List<ResutPush> users = new List<ResutPush>();
   bool loading = true;
-  bool resultvalue = false;
-  bool countryresultvalue = false;
+  bool resultvalue = true;
+  bool countryresultvalue = true;
   bool expandFlag0 = false;
+  bool expandFlag1 = false;
   NationalitylistPojo listing;
+  CountrylistPojo listingCountry;
+  final mycontroller = new TextEditingController();
+  final myCountrycontroller = new TextEditingController();
 
 
   static List<ResutPush> loadUsers(String jsonString) {
@@ -174,19 +180,32 @@ class registerState extends State<register> {
         });
         errorDialog(jsonDecode(contryval)["message"]);
       } else {
-        List<dynamic> data1 = jsonResponse["result_push"];
+        listingCountry = new CountrylistPojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          setState(() {
 
-        setState(() {
-          currentcountryTypes = data1;
-        });
+            if (listingCountry.resultPush.isEmpty) {
+              countryresultvalue = false;
+            } else {
+              countryresultvalue = true;
+              print("SSSS");
+              countrylist = listingCountry.resultPush;
+              List<dynamic> data1 = jsonResponse["result_push"];
+              setState(() {
+                currentcountryTypes = data1;
+              });
+            }
+          });
+        } else {
+          setState(() {
+            errorDialog(jsonDecode(contryval)["message"]);
+          });
+        }
       }
     } else {
       errorDialog(jsonDecode(contryval)["message"]);
     }
-
-
-
-
   }
 
   void getNationalList(String search) async {
@@ -209,12 +228,19 @@ class registerState extends State<register> {
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           setState(() {
-            nationalitylist = jsonResponse['result_push'];
-            List<dynamic> data1 = jsonResponse["result_push"];
 
-            setState(() {
-              nationalityTypes = data1;
-            });
+            if (listing.resultPush.isEmpty) {
+              resultvalue = false;
+            } else {
+              resultvalue = true;
+              print("SSSS");
+              nationalitylist = listing.resultPush;
+              List<dynamic> data1 = jsonResponse["result_push"];
+              setState(() {
+                nationalityTypes = data1;
+              });
+            }
+
           });
         } else {
           //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -269,9 +295,7 @@ class registerState extends State<register> {
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 2,
-                        ),
+
                         alignment: Alignment.topCenter,
                         child: Text(
                           StringConstant.signup,
@@ -294,7 +318,7 @@ class registerState extends State<register> {
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
                               color: AppColors.black,
-                              fontSize: 20),
+                              fontSize: 16),
                         ),
                       ),
                       Container(
@@ -411,7 +435,7 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 2,
                           left: SizeConfig.blockSizeHorizontal * 1,
@@ -468,7 +492,7 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -523,7 +547,7 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -580,7 +604,7 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -713,7 +737,7 @@ class registerState extends State<register> {
                           _selectDate(context);
                         },
                         child: Container(
-                          height: SizeConfig.blockSizeVertical * 17,
+                          height: SizeConfig.blockSizeVertical * 15.6,
                           margin: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 1,
                             right: SizeConfig.blockSizeHorizontal * 1,
@@ -743,7 +767,7 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                          height: SizeConfig.blockSizeVertical * 17,
+                          height: SizeConfig.blockSizeVertical * 15.6,
                           margin: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 1,
                             right: SizeConfig.blockSizeHorizontal * 1,
@@ -794,7 +818,7 @@ class registerState extends State<register> {
 
 
                       Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -815,24 +839,31 @@ class registerState extends State<register> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                                width: SizeConfig.blockSizeHorizontal * 50,
+                                width: SizeConfig.blockSizeHorizontal * 65,
                                 alignment: Alignment.centerLeft,
                                 padding: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                 ),
                                 child: TextField(
+                                  controller: mycontroller,
                                   onChanged: (value) {
                                     setState(() {
                                       getNationalList(value);
                                     });
                                   },
+                                 style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                    color: Colors.black),
                                   decoration: new InputDecoration(
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
-                                          fontSize: SizeConfig.blockSizeHorizontal * 3,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Montserrat-Bold'),
                                       hintText: 'please select nationality'),
@@ -871,8 +902,8 @@ class registerState extends State<register> {
                           child: Container()),
                       expandFlag0 == true ? ExpandedInvitationview0() : Container(),
 
-                      Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                    /*  Container(
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -937,9 +968,97 @@ class registerState extends State<register> {
                             );
                           },
                         ),
-                      ),
+                      ),*/
+
+
                       Container(
-                        height: SizeConfig.blockSizeVertical * 17,
+                        height: SizeConfig.blockSizeVertical * 15.6,
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 1,
+                          right: SizeConfig.blockSizeHorizontal * 1,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 10,
+                          right: SizeConfig.blockSizeHorizontal * 5,
+                          bottom: SizeConfig.blockSizeVertical *1,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal * 65,
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                ),
+                                child: TextField(
+                                  controller: myCountrycontroller,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      getCountryList(value);
+                                    });
+                                  },
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      color: Colors.black),
+                                  decoration: new InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Montserrat-Bold'),
+                                      hintText: 'please select country'),
+                                )),
+                            Container(
+                              padding: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 2,
+                              ),
+                              child: IconButton(
+                                  icon: new Container(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    child: new Center(
+                                      child: new Icon(
+                                        expandFlag1
+                                            ? Icons.arrow_drop_up
+                                            : Icons.arrow_drop_down,
+                                        color: Colors.black87,
+                                        size: 30.0,
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      expandFlag1 = !expandFlag1;
+                                    });
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                          maintainSize: true,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          child: Container()),
+                      expandFlag1 == true ? ExpandedCountryview0() : Container(),
+
+
+                    /*  Container(
+                        height: SizeConfig.blockSizeVertical * 15.6,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -1005,7 +1124,7 @@ class registerState extends State<register> {
                             );
                           },
                         ),
-                      ),
+                      ),*/
 
                      /*
 
@@ -1133,8 +1252,8 @@ class registerState extends State<register> {
                                           countrycode,
                                           _imageFile,
                                           selecteddate,
-                                          countryname,
-                                          nationalityname);
+                                          myCountrycontroller.text,
+                                          mycontroller.text);
                                     }
                                   else {
                                     Fluttertoast.showToast(
@@ -1166,7 +1285,8 @@ class registerState extends State<register> {
                         child: Container(
                           alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
-                          height: SizeConfig.blockSizeVertical * 7,
+                          height: SizeConfig.blockSizeVertical * 10,
+                          padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
                           margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 5,
                             bottom: SizeConfig.blockSizeVertical * 2,
@@ -1222,7 +1342,9 @@ class registerState extends State<register> {
                     GestureDetector(
                       onTap: ()
                       {
+                        mycontroller.text =listing.resultPush.elementAt(index).nationality;
                         print("Selection: "+listing.resultPush.elementAt(index).nationality);
+                        print("SelectionController: "+mycontroller.text);
                         print("Selectioncode: "+listing.resultPush.elementAt(index).numCode.toString());
                       },
                       child: Container(
@@ -1254,6 +1376,78 @@ class registerState extends State<register> {
         : Container(
         alignment: Alignment.center,
         child: resultvalue == true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Center(
+          child: Text(
+            'No search results to show',
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: AppColors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Poppins-Regular'),
+          ),
+        ));
+  }
+
+
+  ExpandedCountryview0() {
+    return countrylist != null ?
+    Container(
+        alignment: Alignment.topLeft,
+        margin: EdgeInsets.only(
+          left: SizeConfig.blockSizeHorizontal * 4,
+          right: SizeConfig.blockSizeHorizontal * 4,
+        ),
+        height: SizeConfig.blockSizeVertical * 30,
+        child: Card(
+          child:  MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+                itemCount: countrylist == null
+                    ? 0
+                    : countrylist.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        myCountrycontroller.text =listingCountry.resultPush.elementAt(index).country;
+                        print("Selection: "+listingCountry.resultPush.elementAt(index).country);
+                        print("SelectionController: "+myCountrycontroller.text);
+                        print("Selectioncode: "+listingCountry.resultPush.elementAt(index).numCode.toString());
+                      },
+                      child: Container(
+                        height: SizeConfig.blockSizeVertical *7,
+                        margin: EdgeInsets.only(
+                          top:SizeConfig.blockSizeVertical * 2,
+                          left: SizeConfig.blockSizeHorizontal * 2,
+                          right: SizeConfig.blockSizeHorizontal * 2,
+                        ),
+                        child: Text(
+                          listingCountry.resultPush.elementAt(index).country == null
+                              ? ""
+                              : listingCountry.resultPush.elementAt(index).country,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat-Bold'),
+                        ),
+                      ),
+                    ) ;
+
+                }),
+          ),
+        )
+    )
+        : Container(
+        alignment: Alignment.center,
+        child: countryresultvalue == true
             ? Center(
           child: CircularProgressIndicator(),
         )

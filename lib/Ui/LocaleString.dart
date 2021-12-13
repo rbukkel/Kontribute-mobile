@@ -276,6 +276,8 @@ class LocaleString extends Translations {
           'subjectmustbemorethan2charater ' : 'subject must be more than 2 charater',
           'editcampaign' : 'Edit campaign',
           'editnow' : 'Edit Now',
+          'phonebookinvitation' : 'Phonebook Invitation',
+          'invitation' : 'Invitation',
         },
         'ar_SA': {
           'home': 'الصفحة الرئيسية',
@@ -548,6 +550,8 @@ class LocaleString extends Translations {
           'editcampaign' : 'تحرير الحملة',
           'editnow' : 'تحرير الآن',
           'editevent' : 'تحرير الحدث',
+          'phonebookinvitation' : 'دعوة دفتر الهاتف',
+          'invitation' : 'دعوة',
 
         },
       };

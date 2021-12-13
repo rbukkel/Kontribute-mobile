@@ -9,6 +9,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/myactivitiesdonationpojo.dart';
 import 'package:kontribute/Pojo/myactivitieseventpojo.dart';
 import 'package:kontribute/Pojo/myactivitiesgiftpojo.dart';
+import 'package:kontribute/Pojo/myactivitiesinvitepojo.dart';
 import 'package:kontribute/Pojo/myactivitiesprojectpojo.dart';
 import 'package:kontribute/Pojo/myactivitiesticketpojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
@@ -62,6 +63,7 @@ class MyActivitiesState extends State<MyActivities> {
   myactivitieseventpojo listingevent;
   myactivitiesticketpojo listingticket;
   myactivitiesgiftpojo listinggift;
+  myactivitiesinvitepojo listinginvite;
   int amount;
   int amoun;
   String vallike;
@@ -142,6 +144,8 @@ class MyActivitiesState extends State<MyActivities> {
       receivefrom = "project";
     }else if (sortval.toString() == "gift") {
       receivefrom = "gift";
+    }else if (sortval.toString() == "invitation") {
+      receivefrom = "invitation";
     }
     print("user: " + data.toString());
     var jsonResponse = null;
@@ -260,6 +264,27 @@ class MyActivitiesState extends State<MyActivities> {
           }
           else {
             errorDialog(listingticket.message);
+          }
+        }
+        else if(sortval.toString() == "invitation")
+        {
+          listinginvite = new myactivitiesinvitepojo.fromJson(jsonResponse);
+          print("Json User" + jsonResponse.toString());
+          if (jsonResponse != null) {
+            print("response");
+            setState(() {
+              if (listinginvite.result.isEmpty) {
+                resultvalue = false;
+              }
+              else {
+                resultvalue = true;
+                print("project");
+                storelist_length = listinginvite.result;
+              }
+            });
+          }
+          else {
+            errorDialog(listinginvite.message);
           }
         }
       }
@@ -4774,6 +4799,353 @@ class MyActivitiesState extends State<MyActivities> {
                       'Poppins-Regular')),
                 ),
               ):
+              receivefrom == "invitation"?
+              storelist_length != null ?
+              Expanded(
+                child: ListView.builder(
+                    itemCount: storelist_length.length == null
+                        ? 0
+                        : storelist_length.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: EdgeInsets.only(
+                                bottom:
+                                SizeConfig.blockSizeVertical * 2),
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color:
+                                    Colors.grey.withOpacity(0.2),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: InkWell(
+                                  child: Container(
+                                    padding: EdgeInsets.all(5.0),
+                                    margin: EdgeInsets.only(
+                                        bottom: SizeConfig
+                                            .blockSizeVertical *
+                                            2),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  72,
+                                              margin: EdgeInsets.only(
+                                                  left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      2),
+                                              child: Text(
+                                                'invitation'.tr,
+                                                style: TextStyle(
+                                                    color:
+                                                    Colors.black,
+                                                    fontFamily:
+                                                    'Poppins-Bold',
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .bold,
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                            Container(
+                                              alignment:
+                                              Alignment.center,
+                                              margin: EdgeInsets.only(
+                                                  right: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      2),
+                                              child: Text(
+                                                listinginvite
+                                                    .result
+                                                    .elementAt(index)
+                                                    .receiverEndDate
+                                                    .toString(),
+                                                textAlign:
+                                                TextAlign.center,
+                                                style: TextStyle(
+                                                    color:
+                                                    Colors.black,
+                                                    fontFamily:
+                                                    'Poppins-Regular',
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .normal,
+                                                    fontSize: 8),
+                                              ),
+                                            ),
+
+
+                                          ],
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                          color: Colors.black12,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          80,
+                                                      alignment:
+                                                      Alignment
+                                                          .topLeft,
+                                                      child: Text(
+                                                        listinginvite.result.elementAt(index).receiverName !=
+                                                            null
+                                                            ? listinginvite
+                                                            .result
+                                                            .elementAt(index)
+                                                            .receiverName
+                                                            : "",
+                                                        style: TextStyle(
+                                                            letterSpacing:
+                                                            1.0,
+                                                            color: Colors
+                                                                .black87,
+                                                            fontSize:
+                                                            14,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .bold,
+                                                            fontFamily:
+                                                            'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                  /*  GestureDetector(
+                                                      onTap: () {
+                                                        callNext(
+                                                            viewdetail_sendreceivegift(
+                                                                data: listinggift
+                                                                    .result
+                                                                    .elementAt(
+                                                                    index)
+                                                                    .id
+                                                                    .toString(),
+                                                                coming:
+                                                                "Ongoing"),
+                                                            context);
+                                                        //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyForm()));
+                                                      },
+                                                      child:
+                                                      Container(
+                                                        alignment:
+                                                        Alignment
+                                                            .topLeft,
+                                                        padding:
+                                                        EdgeInsets
+                                                            .only(
+                                                          left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              1,
+                                                          right: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              3,
+                                                        ),
+                                                        child: Text(
+                                                          'viewdetails'.tr,
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                              1.0,
+                                                              color: AppColors
+                                                                  .green,
+                                                              fontSize:
+                                                              12,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ),
+                                                    )*/
+                                                  ],
+                                                ),
+                                                Container(
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      70,
+                                                  alignment: Alignment
+                                                      .topLeft,
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          1,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          3,
+                                                      top: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          2),
+                                                  child: Text(
+                                                    listinginvite
+                                                        .result
+                                                        .elementAt(
+                                                        index)
+                                                        .receiverMessage
+                                                        .toString(),
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        letterSpacing:
+                                                        1.0,
+                                                        color: Colors
+                                                            .black87,
+                                                        fontSize: 9,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .normal,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ),
+
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        width:SizeConfig.blockSizeHorizontal * 50,
+                                                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *1),
+                                                        alignment:
+                                                        Alignment
+                                                            .topLeft,
+                                                        padding: EdgeInsets.only(
+                                                            right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                3,
+                                                            top: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                2),
+                                                        child: Text(
+                                                          listinginvite.result.elementAt(index).receiverMobile != null
+                                                              ?
+                                                          listinginvite.result.elementAt(index).receiverMobile
+                                                              : "",
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                              1.0,
+                                                              color: Colors
+                                                                  .black,
+                                                              fontSize:
+                                                              12,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ),
+
+                                                      Container(
+                                                        width:SizeConfig.blockSizeHorizontal * 42,
+                                                        alignment: Alignment.topRight,
+                                                        padding: EdgeInsets.only(
+
+                                                            top: SizeConfig.blockSizeHorizontal * 2),
+                                                        child:  Row(
+                                                          mainAxisAlignment: MainAxisAlignment.end,
+                                                          children: [
+                                                            Text(
+                                                              'amount'.tr,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                  1.0,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  fontSize:
+                                                                  10,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                                  fontFamily:
+                                                                  'Poppins-Regular'),
+                                                            ),
+                                                            Text(
+                                                              listinginvite.result.elementAt(index).receiverRequestPrice !=
+                                                                  null
+                                                                  ? " \$" +
+                                                                  listinginvite.result.elementAt(index).receiverRequestPrice
+                                                                  : "",
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                  1.0,
+                                                                  color: Colors
+                                                                      .lightBlueAccent,
+                                                                  fontSize:
+                                                                  12,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                                  fontFamily:
+                                                                  'Poppins-Regular'),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {},
+                                )),
+                          )
+                        ],
+                      );
+                    }),
+              )
+                  : Container(
+                margin: EdgeInsets.only(top: 180),
+                alignment: Alignment.center,
+                child: resultvalue == true
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Center(
+                  child: Text('norecordsfound'.tr,style: TextStyle(
+                      letterSpacing: 1.0,
+                      color: AppColors.black,
+                      fontSize: 16,
+                      fontWeight:
+                      FontWeight.normal,
+                      fontFamily:
+                      'Poppins-Regular')),
+                ),
+              ):
                   Container()
             ],
           )
@@ -4796,6 +5168,16 @@ class MyActivitiesState extends State<MyActivities> {
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
+          SpeedDialChild(
+              child: Icon(Icons.phone_android),
+              backgroundColor: AppColors.theme1color,
+              label: 'phonebookinvitation'.tr,
+              onTap: () {
+                tabValue = "invitation";
+                getsortdata(userid, tabValue);
+                print('sixth CHILD');
+              }
+          ),
           SpeedDialChild(
               child: Icon(Icons.margin),
               backgroundColor: AppColors.theme1color,
@@ -4870,7 +5252,15 @@ class MyActivitiesState extends State<MyActivities> {
       }
       else {
         if (jsonResponse != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyActivities()));
+          errorDialog(jsonDecode(ticketupdateval)["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MyActivities()));
+          });
+
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(ticketupdateval)["message"]);
@@ -4900,8 +5290,15 @@ class MyActivitiesState extends State<MyActivities> {
       }
       else {
         if (jsonResponse != null) {
-          Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => OngoingProject()));
+          errorDialog(jsonDecode(updateval)["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MyActivities()));
+          });
+
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
@@ -4943,27 +5340,33 @@ class MyActivitiesState extends State<MyActivities> {
   }
 
 
-  Future<void> PayEventamount(String id, String requiredAmount,
-      String userid) async {
+  Future<void> PayEventamount(String id, String requiredAmount, String userid) async {
     Map data = {
       'userid': userid.toString(),
-      'project_id': id.toString(),
+      'event_id': id.toString(),
       'amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(
-        Network.BaseApi + Network.project_pay, body: data);
+        Network.BaseApi + Network.event_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       eventupdateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         errorDialog(jsonDecode(eventupdateval)["message"]);
       }
       else {
         if (jsonResponse != null) {
-          Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => OngoingProject()));
+          errorDialog(jsonDecode(eventupdateval)["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MyActivities()));
+          });
+
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(eventupdateval)["message"]);
@@ -5052,9 +5455,14 @@ class MyActivitiesState extends State<MyActivities> {
       }
       else {
         if (jsonResponse != null) {
-
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyActivities()));
-          // getpaymentlist(a);
+          errorDialog(jsonDecode(donationupdateval)["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MyActivities()));
+          });
         } else {
           errorDialog(jsonDecode(donationupdateval)["message"]);
         }

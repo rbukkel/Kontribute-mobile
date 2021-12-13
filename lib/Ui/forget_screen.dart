@@ -84,7 +84,7 @@ class forget_screenState extends State<forget_screen>{
                     ),
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical * 17,
+                    height: SizeConfig.blockSizeVertical * 15.6,
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 10,
                       left: SizeConfig.blockSizeHorizontal * 3,
@@ -143,8 +143,7 @@ class forget_screenState extends State<forget_screen>{
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => login()),
-                              (route) => false);
+                          MaterialPageRoute(builder: (context) => login()),(route) => false);
 /*
                       if (_formKey.currentState.validate()) {
                         setState(() {
@@ -170,7 +169,8 @@ class forget_screenState extends State<forget_screen>{
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
-                      height: SizeConfig.blockSizeVertical * 7,
+                      height: SizeConfig.blockSizeVertical * 10,
+                      padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
                       margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 5,
                         left: SizeConfig.blockSizeHorizontal * 12,

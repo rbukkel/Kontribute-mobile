@@ -138,7 +138,7 @@ class loginState extends State<login>{
                     ),
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical * 17,
+                    height: SizeConfig.blockSizeVertical * 15.2,
                     margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 7,
                       left: SizeConfig.blockSizeHorizontal * 3,
@@ -206,7 +206,7 @@ class loginState extends State<login>{
                     ),
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical * 17,
+                    height: SizeConfig.blockSizeVertical * 15.2,
                     margin: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 3,
                       right: SizeConfig.blockSizeHorizontal * 3,
@@ -286,7 +286,8 @@ class loginState extends State<login>{
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
-                      height: SizeConfig.blockSizeVertical * 7,
+                      height: SizeConfig.blockSizeVertical * 10,
+                      padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
                       margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 2,
                         left: SizeConfig.blockSizeHorizontal * 12,

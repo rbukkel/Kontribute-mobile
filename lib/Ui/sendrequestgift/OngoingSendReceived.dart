@@ -25,8 +25,8 @@ class OngoingSendReceived extends StatefulWidget {
   OngoingSendReceivedState createState() => OngoingSendReceivedState();
 }
 
-class OngoingSendReceivedState extends State<OngoingSendReceived>
-    with TickerProviderStateMixin {
+class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerProviderStateMixin
+{
   Offset _tapDownPosition;
   bool _dialVisible = true;
   String userid;
@@ -34,8 +34,6 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
   bool internet = false;
   String val;
   var storelist_length;
-
-  // String receivefrom ="all";
   String receivefrom = "all";
 
 //  String tabValue ="all";
@@ -46,8 +44,9 @@ class OngoingSendReceivedState extends State<OngoingSendReceived>
   @override
   void initState() {
     super.initState();
-    SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
+    SharedUtils.readloginId("UserId").then((val)
+    {
+      print("UserId: " +val);
       userid = val;
       print("Login userid: " + userid.toString());
       getdata(userid, tabValue);

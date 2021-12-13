@@ -190,17 +190,14 @@ class viewdetail_sendreceivegiftState
     };
     print("receiver: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(
-        Network.BaseApi + Network.send_receive_gifts_contributer,
-        body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.send_receive_gifts_contributer, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
         errorDialog(jsonDecode(val)["message"]);
       } else {
-        senddetailsPojo =
-            new individualRequestDetailspojo.fromJson(jsonResponse);
+        senddetailsPojo = new individualRequestDetailspojo.fromJson(jsonResponse);
         print("Json User: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
@@ -1587,6 +1584,7 @@ class viewdetail_sendreceivegiftState
         showToast(updateval);
       } else {
         if (jsonResponse != null) {
+          showToast(updateval);
           setState(() {
             getData(a, userid);
           });

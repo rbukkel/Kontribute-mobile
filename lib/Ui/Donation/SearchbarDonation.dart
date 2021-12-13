@@ -1489,12 +1489,12 @@ class SearchbarDonationState extends State<SearchbarDonation> {
   Future<void> Payamount(String id, String requiredAmount, String userid) async {
     Map data = {
       'userid': userid.toString(),
-      'project_id': id.toString(),
+      'donation_id': id.toString(),
       'amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.donation_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1503,7 +1503,15 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       }
       else {
         if (jsonResponse != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchbarDonation()));
+          errorDialog(jsonDecode(updateval)["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => SearchbarDonation()));
+          });
+
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);

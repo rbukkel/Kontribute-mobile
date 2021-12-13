@@ -393,7 +393,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
           resultvalue = false;
           categorylist =null;
         });
-
+       // errorDialog(jsonResponse["message"]);
       }
       else {
        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1041,10 +1041,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
         if (jsonData["success"] == true) {
-
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
+           // errorDialog(jsonData["message"]);
           }
           else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1068,7 +1068,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
       }
     });
   }
-
 
   Expandedview05() {
     bool isSearching = searchController.text.isNotEmpty;
@@ -1204,7 +1203,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     );
   }
 
-
   void _onCateSelected(bool selected, category_id, category_name) {
     if (selected == true) {
       setState(() {
@@ -1230,7 +1228,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     print("CatNa: "+contactname);
     print("Catva: "+contactvalues);
   }
-
 
 
   void _onCategorySelected(bool selected, category_id, category_name) {

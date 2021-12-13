@@ -1336,7 +1336,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize: 9,
+                                                        fontSize: 8,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1363,7 +1363,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         letterSpacing: 1.0,
                                                         color: Colors
                                                             .lightBlueAccent,
-                                                        fontSize: 9,
+                                                        fontSize: 8,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1384,7 +1384,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                 center: Text(
                                                   amoun.toString() + "%",
                                                   style: TextStyle(
-                                                      fontSize: 9,
+                                                      fontSize: 8,
                                                       color:
                                                           AppColors.whiteColor),
                                                 ),
@@ -1410,7 +1410,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize: 9,
+                                                        fontSize: 8,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -1436,7 +1436,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         letterSpacing: 1.0,
                                                         color: Colors
                                                             .lightBlueAccent,
-                                                        fontSize: 9,
+                                                        fontSize: 8,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
@@ -2071,8 +2071,7 @@ class OngoingProjectState extends State<OngoingProject> {
     }
   }
 
-  Future<void> Payamount(
-      String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount, String userid) async {
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
@@ -2085,14 +2084,21 @@ class OngoingProjectState extends State<OngoingProject> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         errorDialog(jsonDecode(updateval)["message"]);
       } else {
         if (jsonResponse != null) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => OngoingProject()));
+          errorDialog(jsonDecode(updateval)["message"]);
+
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => OngoingProject()));
+          });
+
+
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);

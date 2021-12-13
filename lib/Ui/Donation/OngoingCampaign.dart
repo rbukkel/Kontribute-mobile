@@ -1540,7 +1540,15 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       }
       else {
         if (jsonResponse != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
+          errorDialog(jsonDecode(updateval)["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => OngoingCampaign()));
+          });
+
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);

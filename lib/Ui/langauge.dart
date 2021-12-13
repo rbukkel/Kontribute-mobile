@@ -143,7 +143,8 @@ class langaugeState extends State<langauge> {
                                     if (sampleData[index].text == "English") {
                                       lang = 'English';
                                       print("Langauge: "+lang.toString());
-                                    } else if (sampleData[index].text == "Arabic") {
+                                    }
+                                    else if (sampleData[index].text == "Arabic") {
                                       lang = 'Arabic';
                                       print("Langauge: "+lang.toString());
                                     }
@@ -179,26 +180,31 @@ class langaugeState extends State<langauge> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      if (lang == 'English') {
+                      if (lang == 'English')
+                      {
                         var locale = Locale('en', 'US');
-                         SharedUtils.saveLangaunage("Langauge", lang);
+                         SharedUtils.saveLangaunage("Langauge",lang);
                         Get.updateLocale(locale);
-                      } else if (lang == 'Arabic') {
+                      }
+                      else if (lang == 'Arabic')
+                      {
                         var locale = Locale('ar', 'SA');
-                         SharedUtils.saveLangaunage("Langauge", lang);
+                         SharedUtils.saveLangaunage("Langauge",lang);
                         Get.updateLocale(locale);
                       }
                     });
                     print("LangaugeHome: "+lang.toString());
-
                     Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                   child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
-                    height: SizeConfig.blockSizeVertical * 7,
+                    height: SizeConfig.blockSizeVertical * 10,
+                    padding:
+                    EdgeInsets.only(
+                        bottom: SizeConfig.blockSizeVertical * 1),
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 6,
+                      top: SizeConfig.blockSizeVertical * 5,
                       left: SizeConfig.blockSizeHorizontal * 12,
                       right: SizeConfig.blockSizeHorizontal * 12,
                     ),
@@ -219,7 +225,6 @@ class langaugeState extends State<langauge> {
                 ),
               ],
             ),
-
       ),
     );
   }
@@ -251,11 +256,8 @@ class RadioItem extends StatelessWidget {
                       image: new ExactAssetImage('assets/images/not_click.png'),
                       fit: BoxFit.cover,
                     ),
-              // color: _item.isSelected ? Colors.blueAccent : Colors.transparent,
-              border: new Border.all(
+                border: new Border.all(
                 width: 1.0,
-
-                //    color: _item.isSelected ? Colors.blueAccent : Colors.grey
               ),
               borderRadius: const BorderRadius.all(const Radius.circular(30.0)),
             ),

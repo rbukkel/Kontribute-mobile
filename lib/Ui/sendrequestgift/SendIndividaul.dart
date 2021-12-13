@@ -125,12 +125,7 @@ class SendIndividaulState extends State<SendIndividaul>{
       print("Json User" + jsonResponse.toString());
       if (jsonResponse["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Fluttertoast.showToast(
-          msg: jsonResponse["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
+        errorDialog(jsonResponse["message"]);
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -145,14 +140,7 @@ class SendIndividaulState extends State<SendIndividaul>{
         else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
-            Fluttertoast.showToast(
-              msg: jsonResponse["message"],
-              backgroundColor: Colors.black,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              textColor: Colors.white,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog(jsonResponse["message"]);
           });
         }
       }
@@ -819,16 +807,15 @@ class SendIndividaulState extends State<SendIndividaul>{
           setState(() {
             isLoading = false;
           });
-          Fluttertoast.showToast(
-            msg: jsonData["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (context) =>
-              OngoingSendReceived()),
-                  (route) => false);
+          errorDialog(jsonData["message"]);
+          Future.delayed(Duration(seconds: 2),()
+          {
+            Navigator.pushAndRemoveUntil(
+                context, MaterialPageRoute(builder: (context) =>
+                OngoingSendReceived()),
+                    (route) => false);
+          });
+
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
