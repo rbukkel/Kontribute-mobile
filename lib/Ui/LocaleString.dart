@@ -278,6 +278,7 @@ class LocaleString extends Translations {
           'editnow' : 'Edit Now',
           'phonebookinvitation' : 'Phonebook Invitation',
           'invitation' : 'Invitation',
+          'delete' : 'Delete',
         },
         'ar_SA': {
           'home': 'الصفحة الرئيسية',
@@ -552,6 +553,7 @@ class LocaleString extends Translations {
           'editevent' : 'تحرير الحدث',
           'phonebookinvitation' : 'دعوة دفتر الهاتف',
           'invitation' : 'دعوة',
+          'delete' : 'حذف',
 
         },
       };

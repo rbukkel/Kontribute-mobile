@@ -86,6 +86,17 @@ class MyActivitiesState extends State<MyActivities> {
   String product_id = '';
   bool _dialVisible = true;
   int currentPageValue = 0;
+  final GlobalKey<State> _keyLoadergift = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderevent = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderdonation = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderticket = new GlobalKey<State>();
+
+  String deletegift;
+  String deleteproject;
+  String deleteevent;
+  String deletedonation;
+  String deleteticket;
 
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner5.png",
@@ -411,10 +422,232 @@ class MyActivitiesState extends State<MyActivities> {
                 ],
               ),
             )),
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteGift(listinggift.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            )),
       ],
       elevation: 8.0,
     );
   }
+
+  Future<void> deleteGift(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoadergift);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http
+        .post(Network.BaseApi + Network.giftdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deletegift = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deletegift)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "gift");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deletegift)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deletegift)["message"]);
+    }
+  }
+
+
+  Future<void> deleteProject(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteproject = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteproject)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "project");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteproject)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteproject)["message"]);
+    }
+  }
+
+  Future<void> deleteDonation(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderdonation);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deletedonation = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deletedonation)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "donation");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deletedonation)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deletedonation)["message"]);
+    }
+  }
+
+  Future<void> deleteEvent(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderevent);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteevent = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteevent)["message"]);
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "event");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteevent)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteevent)["message"]);
+    }
+  }
+  Future<void> deleteTicket(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderticket);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.ticketdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteticket = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteticket)["message"]);
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "ticket");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteticket)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteticket)["message"]);
+    }
+  }
+
+
 
   _showProjectEditPopupMenu(int index) async {
     print("INDEX: "+index.toString());
@@ -469,6 +702,33 @@ class MyActivitiesState extends State<MyActivities> {
                     child: Icon(Icons.edit),
                   ),
                   Text('edit'.tr, style: TextStyle(fontSize: 14),)
+                ],
+              ),
+            )),
+
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteProject(listing.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -591,6 +851,33 @@ class MyActivitiesState extends State<MyActivities> {
               ),
             )
         ),
+
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteDonation(listingdonation.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
     );
@@ -699,6 +986,34 @@ class MyActivitiesState extends State<MyActivities> {
               ),
             )),
 
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteEvent(listingevent.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
+
+
       ],
       elevation: 8.0,
     );
@@ -805,7 +1120,32 @@ class MyActivitiesState extends State<MyActivities> {
                 ],
               ),
             )),
-
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteTicket(listingticket.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
     );
@@ -1513,7 +1853,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1537,7 +1877,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1556,7 +1896,7 @@ class MyActivitiesState extends State<MyActivities> {
                                           lineHeight: 14.0,
                                           percent: amoun / 100,
                                           center: Text(amoun.toString() + "%",
-                                            style: TextStyle(fontSize: 9,
+                                            style: TextStyle(fontSize: 8,
                                                 color: AppColors.whiteColor),),
                                           backgroundColor: AppColors.lightgrey,
                                           progressColor: AppColors.themecolor,
@@ -1576,7 +1916,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1598,7 +1938,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -2137,8 +2477,6 @@ class MyActivitiesState extends State<MyActivities> {
                                                 ),
                                               ),
                                             ): Container(): Container()
-
-
                                           ],
                                         ),
 
@@ -2185,7 +2523,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                      style: TextStyle(
                                                          letterSpacing: 1.0,
                                                          color: AppColors.black,
-                                                         fontSize:8,
+                                                         fontSize:9,
                                                          fontWeight:
                                                          FontWeight.normal,
                                                          fontFamily:
@@ -2197,7 +2535,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                      style: TextStyle(
                                                          letterSpacing: 1.0,
                                                          color: AppColors.black,
-                                                         fontSize:8,
+                                                         fontSize:9,
                                                          fontWeight:
                                                          FontWeight.normal,
                                                          fontFamily:
@@ -2227,7 +2565,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize:8,
+                                                    fontSize:9,
                                                     fontWeight: FontWeight.normal,
                                                     fontFamily: 'Poppins-Regular'),
                                               ),
@@ -2256,7 +2594,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
@@ -2268,7 +2606,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight:
                                                         FontWeight.normal,
                                                         fontFamily:
@@ -2288,16 +2626,16 @@ class MyActivitiesState extends State<MyActivities> {
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: SizeConfig.blockSizeHorizontal *35,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
-                                              left: SizeConfig.blockSizeHorizontal * 2),
+                                              left: SizeConfig.blockSizeHorizontal * 1),
                                           child: Row(
                                             children: [
                                               Text(
@@ -2331,9 +2669,10 @@ class MyActivitiesState extends State<MyActivities> {
                                     ),
 
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                       child:  LinearPercentIndicator(
-                                        width: 70.0,
+                                        width: 60.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
                                         center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -2345,11 +2684,12 @@ class MyActivitiesState extends State<MyActivities> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *33,
-                                          alignment: Alignment.centerRight,
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                          width: SizeConfig.blockSizeHorizontal *35,
+                                          alignment: Alignment.bottomRight,
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                               .blockSizeHorizontal *
-                                              5),
+                                             4),
                                           child:
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
@@ -2665,7 +3005,12 @@ class MyActivitiesState extends State<MyActivities> {
                                                     fontSize: 8),
                                               ),
                                             ),
-
+                                            listinggift
+                                                .result
+                                                .elementAt(
+                                                index)
+                                                .status ==
+                                                "sent"?Container():
                                             userid == listinggift.result.elementAt(index).senderId.toString()?
                                             GestureDetector(
                                               onTapDown:
@@ -3070,9 +3415,7 @@ class MyActivitiesState extends State<MyActivities> {
               Expanded(
                 child:
                 ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
+                    itemCount: storelist_length.length == null ? 0 : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listingevent.result.elementAt(index).projectImages;
                       commentlist_length = listingevent.result.elementAt(index).comments;
@@ -3467,8 +3810,6 @@ class MyActivitiesState extends State<MyActivities> {
                                                   ),
                                                 ],
                                               )
-
-
                                             ),
                                           ],
                                         ),

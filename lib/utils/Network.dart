@@ -103,4 +103,9 @@ class Network{
   static String unfollow_request = "unfollow_request";
   static String mobile_invitation = "mobile_invitation";
   static String bannerimages = "bannerimages";
+  static String projectdelete = "projectdelete";
+  static String donationdelete = "donationdelete";
+  static String eventdelete = "eventdelete";
+  static String ticketdelete = "ticketdelete";
+  static String giftdelete = "giftdelete";
 }
