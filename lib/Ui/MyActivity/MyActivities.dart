@@ -427,13 +427,9 @@ class MyActivitiesState extends State<MyActivities> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  deleteGift(listinggift.result
-                      .elementAt(index)
-                      .id
-                      .toString()
-                  );
+                  deleteGiftDialog(listinggift.result.elementAt(index).id.toString());
                 });
-                Navigator.of(context).pop();
+               // Navigator.of(context).pop();
               },
               child: Row(
                 children: <Widget>[
@@ -609,6 +605,7 @@ class MyActivitiesState extends State<MyActivities> {
       errorDialog(jsonDecode(deleteevent)["message"]);
     }
   }
+
   Future<void> deleteTicket(String id) async {
     Dialogs.showLoadingDialog(context, _keyLoaderticket);
     Map data = {
@@ -711,13 +708,14 @@ class MyActivitiesState extends State<MyActivities> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  deleteProject(listing.result
+
+                  deleteProjectDialog(listing.result
                       .elementAt(index)
                       .id
                       .toString()
                   );
                 });
-                Navigator.of(context).pop();
+               // Navigator.of(context).pop();
               },
               child: Row(
                 children: <Widget>[
@@ -857,7 +855,7 @@ class MyActivitiesState extends State<MyActivities> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  deleteDonation(listingdonation.result
+                  deleteDonationDialog(listingdonation.result
                       .elementAt(index)
                       .id
                       .toString()
@@ -991,13 +989,9 @@ class MyActivitiesState extends State<MyActivities> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  deleteEvent(listingevent.result
-                      .elementAt(index)
-                      .id
-                      .toString()
-                  );
+                  deleteEventDialog(listingevent.result.elementAt(index).id.toString());
                 });
-                Navigator.of(context).pop();
+               // Navigator.of(context).pop();
               },
               child: Row(
                 children: <Widget>[
@@ -1125,13 +1119,9 @@ class MyActivitiesState extends State<MyActivities> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  deleteTicket(listingticket.result
-                      .elementAt(index)
-                      .id
-                      .toString()
-                  );
+                  deleteTicketDialog(listingticket.result.elementAt(index).id.toString());
                 });
-                Navigator.of(context).pop();
+              //  Navigator.of(context).pop();
               },
               child: Row(
                 children: <Widget>[
@@ -1199,6 +1189,177 @@ class MyActivitiesState extends State<MyActivities> {
             )),
       ],
       elevation: 8.0,
+    );
+  }
+
+
+  void deleteTicketDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteTicket(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteEventDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteEvent(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteDonationDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteDonation(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteProjectDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteProject(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteGiftDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteGift(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -5257,6 +5418,14 @@ class MyActivitiesState extends State<MyActivities> {
                                                       width: SizeConfig
                                                           .blockSizeHorizontal *
                                                           80,
+                                                      padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              1,
+                                                          right: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              3,
+                                                        ),
                                                       alignment:
                                                       Alignment
                                                           .topLeft,
@@ -5632,6 +5801,7 @@ class MyActivitiesState extends State<MyActivities> {
       else {
         if (jsonResponse != null) {
           errorDialog(jsonDecode(updateval)["message"]);
+          AmountController.text =null;
           Future.delayed(Duration(seconds: 2),()
           {
             Navigator.push(
@@ -5790,7 +5960,7 @@ class MyActivitiesState extends State<MyActivities> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       donationupdateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         errorDialog(jsonDecode(donationupdateval)["message"]);
 
       }

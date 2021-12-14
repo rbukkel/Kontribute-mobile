@@ -95,7 +95,17 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
     "",
     style: new TextStyle(color: Colors.white),
   );
+  final GlobalKey<State> _keyLoadergift = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderevent = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderdonation = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderticket = new GlobalKey<State>();
 
+  String deletegift;
+  String deleteproject;
+  String deleteevent;
+  String deletedonation;
+  String deleteticket;
   Icon actionIcon = new Icon(
     Icons.search,
     color: Colors.white,
@@ -390,6 +400,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                 ],
               ),
             )),
+        PopupMenuItem(
+            value: 1,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteGiftDialog(listinggift.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            )),
       ],
       elevation: 8.0,
     );
@@ -451,26 +487,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                 ],
               ),
             )),
-        /* PopupMenuItem(
-            value:3,
+        PopupMenuItem(
+            value: 3,
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  deleteProjectDialog(listing.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
                 Navigator.of(context).pop();
-                callNext(
-                    ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);
               },
               child: Row(
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
+                    child: Icon(Icons.delete_forever),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
-            )),*/
+            )),
 
       ],
       elevation: 8.0,
@@ -583,7 +625,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                 ],
               ),
             )),
-
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteDonationDialog(listingdonation.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
     );
@@ -691,7 +758,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                 ],
               ),
             )),
-
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteEventDialog(listingevent.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
     );
@@ -798,7 +890,32 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                 ],
               ),
             )),
-
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteTicketDialog(listingticket.result
+                      .elementAt(index)
+                      .id
+                      .toString()
+                  );
+                });
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
     );
@@ -854,6 +971,375 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
       elevation: 8.0,
     );
   }
+
+
+  Future<void> deleteGift(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoadergift);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http
+        .post(Network.BaseApi + Network.giftdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deletegift = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deletegift)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "gift","");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deletegift)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deletegift)["message"]);
+    }
+  }
+
+  Future<void> deleteProject(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteproject = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteproject)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "project","");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteproject)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteproject)["message"]);
+    }
+  }
+
+  Future<void> deleteDonation(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderdonation);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deletedonation = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deletedonation)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "donation","");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deletedonation)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deletedonation)["message"]);
+    }
+  }
+
+  Future<void> deleteEvent(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderevent);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteevent = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteevent)["message"]);
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "event","");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteevent)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteevent)["message"]);
+    }
+  }
+
+  Future<void> deleteTicket(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderticket);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.ticketdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteticket = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteticket)["message"]);
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getsortdata(userid, "ticket","");
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteticket)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteticket)["message"]);
+    }
+  }
+
+
+  void deleteTicketDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteTicket(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteEventDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteEvent(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteDonationDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteDonation(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteProjectDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteProject(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void deleteGiftDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteGift(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
+
 
   Widget buildBar(BuildContext context) {
     return new AppBar(
@@ -5007,8 +5493,6 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                                                     fontSize: 8),
                                               ),
                                             ),
-
-
                                           ],
                                         ),
                                         Divider(
@@ -5033,6 +5517,14 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
                                                     Container(
                                                       width: SizeConfig.blockSizeHorizontal * 80,
                                                       alignment: Alignment.topLeft,
+                                                      padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            1,
+                                                        right: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            3,
+                                                      ),
                                                       child: Text(
                                                         listinginvite.result.elementAt(index).receiverName !=
                                                             null
@@ -5465,6 +5957,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
       else {
         if (jsonResponse != null) {
           errorDialog(jsonDecode(updateval)["message"]);
+          AmountController.text =null;
           Future.delayed(Duration(seconds: 2),()
           {
             Navigator.push(
@@ -5641,7 +6134,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities>
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       donationupdateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         errorDialog(jsonDecode(donationupdateval)["message"]);
       }
       else {

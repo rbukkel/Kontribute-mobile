@@ -1453,33 +1453,48 @@ class viewdetail_sendreceivegiftState
                                                                 userid ?senddetailsPojo.memberlist.elementAt(index).paymentStatus==0?
                                                         GestureDetector(
                                                                 onTap: () {
-                                                                  payamount();
-                                                                  /* paymentlistpojo
-                                                                    .paymentdetails
-                                                                    .data
-                                                                    .elementAt(
-                                                                    index)
-                                                                    .status ==
-                                                                    "0"
-                                                                    ? payamount()
-                                                                    : Fluttertoast.showToast(
-                                                                    msg:
-                                                                    "Already paid",
-                                                                    toastLength: Toast
-                                                                        .LENGTH_SHORT,
-                                                                    gravity:
-                                                                    ToastGravity
-                                                                        .BOTTOM,
-                                                                    timeInSecForIosWeb:
-                                                                    1);*/
+                                                                  Widget cancelButton =
+                                                                  FlatButton(
+                                                                    child:
+                                                                    Text('no'.tr),
+                                                                    onPressed: () {
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                  );
+                                                                  Widget continueButton =
+                                                                  FlatButton(
+                                                                    child: Text(
+                                                                        'yes'.tr),
+                                                                    onPressed: () async {
+                                                                      payamount();
+                                                                    },
+                                                                  );
+                                                                  // set up the AlertDialog
+                                                                  AlertDialog alert =
+                                                                  AlertDialog(
+                                                                    title: Text('paynow'.tr),
+                                                                     content: Text('areyousureyouwanttoPay'.tr),
+                                                                    actions: [
+                                                                      cancelButton,
+                                                                      continueButton,
+                                                                    ],
+                                                                  );
+                                                                  // show the dialog
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    builder: (BuildContext
+                                                                    context) {
+                                                                      return alert;
+                                                                    },
+                                                                  );
+
                                                                 },
                                                                 child: Container(
-                                                                 color: AppColors.themecolor,
                                                                   width: SizeConfig
                                                                       .blockSizeHorizontal *
                                                                       20,
                                                                   alignment: Alignment
-                                                                      .topRight,
+                                                                      .center,
                                                                   margin:
                                                                   EdgeInsets.only(
                                                                     left: SizeConfig

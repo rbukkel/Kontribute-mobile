@@ -284,40 +284,61 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     );
   }
 
+
+
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() async {
-          _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
-              print("Path: "+_imageFile.toString());
-              image_value = true;
-              imageUrl = false;
+
+
+        if (imageFile != null)
+          {
+
+            setState(() async {
+              _imageFile = imageFile;
+              if (_imageFile != null && await _imageFile.exists()) {
+                setState(() {
+                  print("Path: "+_imageFile.toString());
+                  image_value = true;
+                  imageUrl = false;
+                });
+              } else {
+                errorDialog('pleaseselectimage'.tr);
+              }
             });
-          } else {
-            errorDialog('pleaseselectimage'.tr);
           }
-        });
+        else {
+          print('No image selected.');
+          errorDialog('pleaseselectimage'.tr);
+        }
+
       } catch (e) {
         print(e);
       }
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
-        setState(() async {
-          _imageFile = imageFile;
-          if (_imageFile != null && await _imageFile.exists()) {
-            setState(() {
-              print("Path: "+_imageFile.toString());
-              image_value = true;
-              imageUrl = false;
+
+        if (imageFile != null)
+          {
+            setState(() async {
+              _imageFile = imageFile;
+              if (_imageFile != null && await _imageFile.exists()) {
+                setState(() {
+                  print("Path: "+_imageFile.toString());
+                  image_value = true;
+                  imageUrl = false;
+                });
+              } else {
+                errorDialog('pleaseselectimage'.tr);
+              }
             });
-          } else {
-            errorDialog('pleaseselectimage'.tr);
           }
-        });
+        else {
+          print('No image selected.');
+          errorDialog('pleaseselectimage'.tr);
+        }
       }
       catch (e)
       {

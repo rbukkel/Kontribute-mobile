@@ -58,6 +58,8 @@ class OngoingProjectState extends State<OngoingProject> {
   String _amount;
   String shortsharedlink = '';
   String product_id = '';
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
+  String deleteproject;
 
   void function() {
     print("scrolling");
@@ -429,30 +431,108 @@ class OngoingProjectState extends State<OngoingProject> {
                 ],
               ),
             )),
-        /* PopupMenuItem(
-            value:3,
+        PopupMenuItem(
+            value: 3,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
-                callNext(
-                    ProjectReport(
-                        data: listing.projectData.elementAt(index).id.toString()
-                    ), context);
+                setState(() {
+                  deleteDialog(listing.projectData.elementAt(index).id.toString());
+                });
+              //  Navigator.of(context).pop();
               },
               child: Row(
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
-                    child: Icon(Icons.report),
+                    child: Icon(Icons.delete_forever),
                   ),
-                  Text('Report',style: TextStyle(fontSize: 14),)
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
-            )),*/
+            )),
       ],
       elevation: 8.0,
     );
   }
+
+
+  Future<void> deleteProject(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.projectdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteproject = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteproject)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getdata(userid, pageNumber);
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteproject)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteproject)["message"]);
+    }
+  }
+
+
+  void deleteDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteProject(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   _showPopupMenu(int index) async {
     print("INDEX: " + index.toString());
@@ -2089,7 +2169,7 @@ class OngoingProjectState extends State<OngoingProject> {
       } else {
         if (jsonResponse != null) {
           errorDialog(jsonDecode(updateval)["message"]);
-
+          AmountController.text =null;
           Future.delayed(Duration(seconds: 2),()
           {
             Navigator.push(

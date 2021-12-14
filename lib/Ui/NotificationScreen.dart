@@ -721,13 +721,50 @@ class NotificationScreenState extends State<NotificationScreen> {
 
                                       GestureDetector(
                                         onTap: () {
-                                          setState(() {
-                                            deleteItem(listing
-                                                .result.data
-                                                .elementAt(index)
-                                                .id
-                                                .toString());
-                                          });
+
+                                          Widget cancelButton =
+                                          FlatButton(
+                                            child:
+                                            Text('no'.tr),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          );
+                                          Widget continueButton =
+                                          FlatButton(
+                                            child: Text(
+                                                'yes'.tr),
+                                            onPressed: () async {
+                                              setState(() {
+                                                deleteItem(listing
+                                                    .result.data
+                                                    .elementAt(index)
+                                                    .id
+                                                    .toString());
+                                              });
+
+                                            },
+                                          );
+                                          // set up the AlertDialog
+                                          AlertDialog alert =
+                                          AlertDialog(
+                                            title: Text('delete'.tr),
+                                            content: Text('areyousureyouwanttodeletethisnotification'.tr),
+                                            actions: [
+                                              cancelButton,
+                                              continueButton,
+                                            ],
+                                          );
+                                          // show the dialog
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext
+                                            context) {
+                                              return alert;
+                                            },
+                                          );
+
+
                                         },
                                         child: Container(
                                           color: Colors
@@ -1484,13 +1521,13 @@ class NotificationScreenState extends State<NotificationScreen> {
       if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         errorDialog(jsonDecode(deleteval)["message"]);
-
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         if (jsonResponse != null) {
           print(" if Item Deleted Successfully");
           setState(() {
-            getdata(userid, pageNumber);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => NotificationScreen()));
           });
         } else {
           print("if Item is not Deleted Successfully");

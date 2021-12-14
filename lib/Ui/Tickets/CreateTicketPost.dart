@@ -597,6 +597,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
 
             } else {
               print('No image selected.');
+              errorDialog('pleaseselectimage'.tr);
             }
           });
 
@@ -627,6 +628,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
 
             } else {
               print('No image selected.');
+              errorDialog('pleaseselectimage'.tr);
             }
           });
         } catch (e) {

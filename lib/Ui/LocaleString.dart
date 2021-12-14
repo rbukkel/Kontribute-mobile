@@ -64,6 +64,7 @@ class LocaleString extends Translations {
           'amountreceived' : 'Amount Received',
           'paynow' : 'Pay now',
           'areyousureyouwanttoPaythisproject' : 'Are you sure you want to Pay this project?',
+          'areyousureyouwanttoPay' : 'Are you sure you want to Pay?',
           'startdate' : 'Start Date ',
           'enddate' : 'End Date ',
           'pay' : 'PAY',
@@ -279,6 +280,8 @@ class LocaleString extends Translations {
           'phonebookinvitation' : 'Phonebook Invitation',
           'invitation' : 'Invitation',
           'delete' : 'Delete',
+          'areyousureyouwanttodeletethispost' : 'Are you sure you want to delete this post',
+          'areyousureyouwanttodeletethisnotification' : 'Are you sure you want to delete this notification?',
         },
         'ar_SA': {
           'home': 'الصفحة الرئيسية',
@@ -342,10 +345,12 @@ class LocaleString extends Translations {
           'amountreceived' : 'تم استلام المبلغ',
           'paynow' : 'ادفع الآن',
           'areyousureyouwanttoPaythisproject' : 'هل أنت متأكد أنك تريد دفع هذا المشروع؟',
+          'areyousureyouwanttodeletethisnotification' : 'هل أنت متأكد أنك تريد حذف هذا الإخطار؟',
+          'areyousureyouwanttoPay' : 'هل أنت متأكد أنك تريد الدفع؟',
           'startdate' : 'تاريخ البدء',
           'enddate' : 'تاريخ الانتهاء',
           'pay' : 'يدفع',
-          'no' : 'لا',
+          'no' : 'لرقم',
           'yes' : 'نعم',
           'update' : 'تحديث',
           'contactus' : 'اتصل بنا',
@@ -554,6 +559,7 @@ class LocaleString extends Translations {
           'phonebookinvitation' : 'دعوة دفتر الهاتف',
           'invitation' : 'دعوة',
           'delete' : 'حذف',
+          'areyousureyouwanttodeletethispost' : 'هل أنت متأكد أنك تريد حذف هذه المشاركة',
 
         },
       };

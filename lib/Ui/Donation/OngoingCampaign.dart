@@ -53,6 +53,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
+  String deleteproject;
 
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -374,11 +376,109 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 ],
               ),
             )),
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteDialog(listing.projectData.elementAt(index).id.toString());
+
+                });
+              //  Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
 
       ],
       elevation: 8.0,
     );
   }
+
+  Future<void> deleteProject(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.donationdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteproject = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteproject)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getdata(userid);
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteproject)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteproject)["message"]);
+    }
+  }
+
+
+  void deleteDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteProject(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   _showPopupMenu(int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
@@ -966,17 +1066,18 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                     ),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *35,
+                                              width: SizeConfig.blockSizeHorizontal *34,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *1,
-                                                  left: SizeConfig.blockSizeHorizontal * 2),
+                                                  left: SizeConfig.blockSizeHorizontal * 1),
                                               child: Row(
                                                 children: [
                                                   Text(
@@ -1010,10 +1111,13 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 70.0,
+                                            width: 60.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
-                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                            center: Text(amoun.toString()+"%",
+                                              style: TextStyle(
+                                                  fontSize: 8,
+                                                  color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
@@ -1022,11 +1126,11 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                                width: SizeConfig.blockSizeHorizontal *33,
+                                                width: SizeConfig.blockSizeHorizontal *34,
                                                 alignment: Alignment.centerRight,
-                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    5),
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical *1,
+                                                    right: SizeConfig.blockSizeHorizontal * 4),
                                               child:  Row(
                                                 mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
@@ -1535,7 +1639,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         errorDialog(jsonDecode(updateval)["message"]);
       }
       else {

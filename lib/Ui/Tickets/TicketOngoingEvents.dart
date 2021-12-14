@@ -50,6 +50,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
   String tabValue ="1";
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
+  String deleteproject;
 
   @override
   void initState() {
@@ -376,6 +378,29 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                 ],
               ),
             )),
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteDialog(listing.projectData.elementAt(index).id.toString());
+
+                });
+                //  Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
     );
@@ -433,6 +458,79 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
       elevation: 8.0,
     );
   }
+
+
+  Future<void> deleteProject(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.ticketdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteproject = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteproject)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            getdata(userid);
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteproject)["message"]);
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteproject)["message"]);
+    }
+  }
+
+
+  void deleteDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteProject(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

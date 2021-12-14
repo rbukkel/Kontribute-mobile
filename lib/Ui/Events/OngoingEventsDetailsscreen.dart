@@ -72,6 +72,8 @@ class OngoingEventsDetailsscreenState
   var paymentdetails_length;
   List<String> imagestore = [];
   EventDetailsPojo projectdetailspojo;
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
+  String deleteproject;
   projectlike prolike;
   EventCommentPojo postcom;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
@@ -421,8 +423,107 @@ class OngoingEventsDetailsscreenState
                 ],
               ),
             )),
+        PopupMenuItem(
+            value: 3,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  deleteDialog(projectdetailspojo.eventsdata.id.toString());
+
+                });
+                //  Navigator.of(context).pop();
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  Text(
+                    'delete'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
+                ],
+              ),
+            ))
       ],
       elevation: 8.0,
+    );
+  }
+
+
+
+  Future<void> deleteProject(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    Map data = {
+      'id': id.toString(),
+      'user_id': userid.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.eventdelete, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      deleteproject = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
+        errorDialog(jsonDecode(deleteproject)["message"]);
+
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item Deleted Successfully");
+          setState(() {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => OngoingEvents()),
+                    (route) => false);
+          });
+        } else {
+          print("if Item is not Deleted Successfully");
+          Navigator.of(context, rootNavigator: true).pop();
+          errorDialog(jsonDecode(deleteproject)["message"]);
+
+        }
+      }
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      errorDialog(jsonDecode(deleteproject)["message"]);
+    }
+  }
+
+
+  void deleteDialog(String id) {
+    Widget cancelButton = FlatButton
+      (
+      child: Text('no'.tr),
+      onPressed: ()
+      {
+        Navigator.of(context,rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        Navigator.of(context,rootNavigator: true).pop();
+        deleteProject(id);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('delete'.tr),
+      content: Text('areyousureyouwanttodeletethispost'.tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -1059,7 +1160,7 @@ class OngoingEventsDetailsscreenState
                                   Row(
                                     children: [
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal *34,
+                                        width: SizeConfig.blockSizeHorizontal *36,
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
@@ -1075,7 +1176,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 9,
+                                                  fontSize:8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1088,7 +1189,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1104,13 +1205,13 @@ class OngoingEventsDetailsscreenState
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1),
                                     child: LinearPercentIndicator(
-                                      width: 70.0,
+                                      width: 60.0,
                                       lineHeight: 14.0,
                                       percent: amoun / 100,
                                       center: Text(
                                         amoun.toString() + "%",
                                         style: TextStyle(
-                                            fontSize: 9,
+                                            fontSize: 8,
                                             color: AppColors.whiteColor),
                                       ),
                                       backgroundColor: AppColors.lightgrey,
@@ -1122,7 +1223,7 @@ class OngoingEventsDetailsscreenState
                                       Container(
                                         alignment: Alignment.centerRight,
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 33,
+                                            SizeConfig.blockSizeHorizontal * 37,
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 1,
@@ -1135,7 +1236,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -1147,7 +1248,7 @@ class OngoingEventsDetailsscreenState
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.lightBlueAccent,
-                                                  fontSize: 9,
+                                                  fontSize: 8,
                                                   fontWeight:
                                                   FontWeight.normal,
                                                   fontFamily:
@@ -2458,7 +2559,7 @@ class OngoingEventsDetailsscreenState
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["status"] == false) {
         errorDialog(jsonDecode(updateval)["message"]);
       } else {
         if (jsonResponse != null) {
@@ -2495,7 +2596,7 @@ class OngoingEventsDetailsscreenState
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("responseLIke: ");
-          errorDialog(prolike.message);
+         // errorDialog(prolike.message);
           getData(userid, a);
         } else {
           errorDialog(prolike.message);
