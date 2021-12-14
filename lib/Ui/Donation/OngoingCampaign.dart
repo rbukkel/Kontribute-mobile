@@ -751,7 +751,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   },
                                                   child: Container(
                                                     margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical *2,
-                                                        left: SizeConfig.blockSizeHorizontal*2),
+                                                        left: SizeConfig.blockSizeHorizontal*1),
                                                     padding: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *1,
                                                     ),
@@ -772,7 +772,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical *2,
-                                                      left: SizeConfig.blockSizeHorizontal *2),
+                                                      left: SizeConfig.blockSizeHorizontal *1),
                                                   alignment: Alignment.topRight,
                                                   padding: EdgeInsets.only(
                                                       right: SizeConfig.blockSizeHorizontal * 2,

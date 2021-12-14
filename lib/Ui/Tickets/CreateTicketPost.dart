@@ -3092,8 +3092,18 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 myFormat.format(currentDate),
                                                 myFormatEndDate
                                                     .format(currentEndDate),
-                                                selectedTime,
-                                                selectedEndTime,
+                                                selectedTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedTime,
+                                                selectedEndTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedEndTime,
                                                 LocationController.text,
                                                 LocationDetailsController.text,
                                                 mobile,
@@ -3120,8 +3130,18 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 myFormat.format(currentDate),
                                                 myFormatEndDate
                                                     .format(currentEndDate),
-                                                selectedTime,
-                                                selectedEndTime,
+                                                selectedTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedTime,
+                                                selectedEndTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedEndTime,
                                                 LocationController.text,
                                                 LocationDetailsController.text,
                                                 mobile,

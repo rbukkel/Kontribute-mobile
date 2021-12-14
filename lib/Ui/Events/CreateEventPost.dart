@@ -2495,8 +2495,18 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                 EventNameController.text,
                                                 DescriptionController.text,
                                                 catid,
-                                                selectedTime,
-                                                selectedEndTime,
+                                                selectedTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedTime,
+                                                selectedEndTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedEndTime,
                                                 myFormat.format(currentDate),
                                                 myFormat.format(currentEndDate),
                                                 EnterRequiredAmountController
@@ -2518,8 +2528,18 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                 EventNameController.text,
                                                 DescriptionController.text,
                                                 catid,
-                                                selectedTime,
-                                                selectedEndTime,
+                                                selectedTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedTime,
+                                                selectedEndTime == ""
+                                                    ? TimeOfDay.now()
+                                                    .toString()
+                                                    .substring(
+                                                    10, 15)
+                                                    : selectedEndTime,
                                                 myFormat.format(currentDate),
                                                 myFormat.format(currentEndDate),
                                                 EnterRequiredAmountController
