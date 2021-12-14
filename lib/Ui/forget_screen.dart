@@ -84,11 +84,11 @@ class forget_screenState extends State<forget_screen>{
                     ),
                   ),
                   Container(
-                    height: SizeConfig.blockSizeVertical * 15.6,
+                    height: SizeConfig.blockSizeVertical * 13,
                     margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 10,
                       left: SizeConfig.blockSizeHorizontal * 3,
                       right: SizeConfig.blockSizeHorizontal * 3,
+                      top: SizeConfig.blockSizeVertical *7,
                     ),
                     padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 3,
@@ -98,45 +98,74 @@ class forget_screenState extends State<forget_screen>{
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                       image: new DecorationImage(
-                        image: new AssetImage("assets/images/email_bg.png"),
+                        image: new AssetImage("assets/images/registerbtn.png"),
                         fit: BoxFit.fill,
                       ),
                     ),
-                    child: TextFormField(
-                      autofocus: false,
-                      focusNode: EmailFocus,
-                      controller: emailController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (val) {
-                        if (val.length == 0)
-                          return "Please enter email";
-                        else if (!regex.hasMatch(val))
-                          return "Please enter valid email";
-                        else
-                          return null;
-                      },
-                      onFieldSubmitted: (v)
-                      {
-                        FocusScope.of(context).requestFocus(PwdFocus);
-                      },
-                      onSaved: (val) => _email = val,
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 15,
-                          decoration: TextDecoration.none,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                            bottom: SizeConfig.blockSizeVertical *1,
+                          ),
+                          alignment: Alignment.centerLeft,
+                          height: SizeConfig.blockSizeVertical *18,
+                          width: SizeConfig.blockSizeHorizontal *18,
+                          child:  ElevatedButton(
+                            onPressed: () {},
+                            child: Icon(Icons.mail_outline_sharp, color: AppColors.iconcolor),
+                            style: ElevatedButton.styleFrom(
+                              shadowColor: AppColors.iconcolor,
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(20),
+                              primary: Colors.white, // <-- Button color
+                              onPrimary: Colors.white, // <-- Splash color
+                            ),
+                          ),
                         ),
-                        hintText: StringConstant.emailaddres,
-                      ),
-                    ),
+                        Container(
+                            width: SizeConfig.blockSizeHorizontal *60,
+                            child:
+                            TextFormField(
+                              autofocus: false,
+                              focusNode: EmailFocus,
+                              controller: emailController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return "Please enter email";
+                                else if (!regex.hasMatch(val))
+                                  return "Please enter valid email";
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v)
+                              {
+                                FocusScope.of(context).requestFocus(PwdFocus);
+                              },
+                              onSaved: (val) => _email = val,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',  fontSize: 10,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: StringConstant.emailaddres,
+                              ),
+                            ),
+                        )
+
+                      ],
+                    )
                   ),
 
                   GestureDetector(
@@ -169,7 +198,7 @@ class forget_screenState extends State<forget_screen>{
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
-                      height: SizeConfig.blockSizeVertical * 10,
+                      height: SizeConfig.blockSizeVertical * 9,
                       padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
                       margin: EdgeInsets.only(
                         top: SizeConfig.blockSizeVertical * 5,

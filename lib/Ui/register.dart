@@ -150,7 +150,6 @@ class registerState extends State<register> {
   }
 
 
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -435,241 +434,363 @@ class registerState extends State<register> {
                         ),
                       ),
                       Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
+                        height: SizeConfig.blockSizeVertical * 13,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 2,
-                          left: SizeConfig.blockSizeHorizontal * 1,
-                          right: SizeConfig.blockSizeHorizontal * 1,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical *3,
                         ),
                         padding: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 3,
                           right: SizeConfig.blockSizeHorizontal * 3,
                           bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(
                           image: new DecorationImage(
-                            image: new AssetImage("assets/images/user_bg.png"),
+                            image: new AssetImage("assets/images/registerbtn.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
                         child:
-                        TextFormField(
-                          autofocus: false,
-                          focusNode: NickNameFocus,
-                          controller: nicknameController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.name,
-                          validator: (val) {
-                            if (val.length == 0)
-                              return "Please enter nick name";
-                            else
-                              return null;
-                          },
-                          onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(FullNameFocus);
-                          },
-                          onSaved: (val) => _nickname = val,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              decoration: TextDecoration.none,
-                            ),
-                            hintText: StringConstant.nickname,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
-                        margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 1,
-                          right: SizeConfig.blockSizeHorizontal * 1,
-                        ),
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                          right: SizeConfig.blockSizeHorizontal * 3,
-                          bottom: SizeConfig.blockSizeVertical *1,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          image: new DecorationImage(
-                            image: new AssetImage("assets/images/user_bg.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: TextFormField(
-                          autofocus: false,
-                          focusNode: FullNameFocus,
-                          controller: fullnameController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.name,
-                          validator: (val) {
-                            if (val.length == 0)
-                              return "Please enter full name";
-                            else
-                              return null;
-                          },
-                          onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(EmailFocus);
-                          },
-                          onSaved: (val) => _fullname = val,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              decoration: TextDecoration.none,
-                            ),
-                            hintText: StringConstant.fullname,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
-                        margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 1,
-                          right: SizeConfig.blockSizeHorizontal * 1,
-                        ),
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                          right: SizeConfig.blockSizeHorizontal * 3,
-                          bottom: SizeConfig.blockSizeVertical *1,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          image: new DecorationImage(
-                            image: new AssetImage("assets/images/email_bg.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: TextFormField(
-                          autofocus: false,
-                          focusNode: EmailFocus,
-                          controller: emailController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (val) {
-                            if (val.length == 0)
-                              return "Please enter email";
-                            else if (!regex1.hasMatch(val))
-                              return "Please enter valid email";
-                            else
-                              return null;
-                          },
-                          onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(PwdFocus);
-                          },
-                          onSaved: (val) => _email = val,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              decoration: TextDecoration.none,
-                            ),
-                            hintText: StringConstant.emailaddres,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
-                        margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 1,
-                          right: SizeConfig.blockSizeHorizontal * 1,
-                        ),
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                          right: SizeConfig.blockSizeHorizontal * 5,
-                          bottom: SizeConfig.blockSizeVertical *1,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          image: new DecorationImage(
-                            image: new AssetImage("assets/images/lock_bg.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: TextFormField(
-                          autofocus: false,
-                          focusNode: PwdFocus,
-                          controller: passwordController,
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (val) {
-                            if (val.length == 0)
-                              return "Please enter password";
-                            else if(!regex.hasMatch(val))
-                              return "should contain at least one upper case, lower case, digit,Special character and Must be at least 8 characters in length";
-                            else
-                              return null;
-                          },
-                          onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(MobileFocus);
-                          },
-                          onSaved: (val) => _password = val,
-                          obscureText: !this._showPassword,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              fontSize: 10,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
-                              decoration: TextDecoration.none,
-                            ),
-                            hintText: StringConstant.password,
-                            suffixIcon:  InkWell(
-                              onTap: (){
-                                setState(() => this._showPassword = !this._showPassword);
-                              },
-                              child: Icon(
-                                _showPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical *1,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              height: SizeConfig.blockSizeVertical *18,
+                              width: SizeConfig.blockSizeHorizontal *18,
+                              child:  ElevatedButton(
+                                onPressed: () {},
+                                child: Icon(Icons.person_outline, color: AppColors.iconcolor),
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor: AppColors.iconcolor,
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(20),
+                                  primary: Colors.white, // <-- Button color
+                                  onPrimary: Colors.white, // <-- Splash color
+                                ),
                               ),
                             ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal *60,
+                                child:
+                                TextFormField(
+                                  autofocus: false,
+                                  focusNode: NickNameFocus,
+                                  controller: nicknameController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.name,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter nick name";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(FullNameFocus);
+                                  },
+                                  onSaved: (val) => _nickname = val,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    hintText: StringConstant.nickname,
+                                  ),
+                                ),
+                            )
+
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: SizeConfig.blockSizeVertical * 13,
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical *2,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          bottom: SizeConfig.blockSizeVertical *1,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
                           ),
                         ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical *1,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              height: SizeConfig.blockSizeVertical *18,
+                              width: SizeConfig.blockSizeHorizontal *18,
+                              child:  ElevatedButton(
+                                onPressed: () {},
+                                child: Icon(Icons.person_outline, color: AppColors.iconcolor),
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor: AppColors.iconcolor,
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(20),
+                                  primary: Colors.white, // <-- Button color
+                                  onPrimary: Colors.white, // <-- Splash color
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal *60,
+                              child:
+                              TextFormField(
+                                autofocus: false,
+                                focusNode: FullNameFocus,
+                                controller: fullnameController,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.name,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter full name";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  FocusScope.of(context).requestFocus(EmailFocus);
+                                },
+                                onSaved: (val) => _fullname = val,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  hintText: StringConstant.fullname,
+                                ),
+                              ),
+                            )
+
+                          ],
+                        ),
+
+
+                      ),
+                      Container(
+                        height: SizeConfig.blockSizeVertical * 13,
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical *2,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          bottom: SizeConfig.blockSizeVertical *1,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child:  Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical *1,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              height: SizeConfig.blockSizeVertical *18,
+                              width: SizeConfig.blockSizeHorizontal *18,
+                              child:  ElevatedButton(
+                                onPressed: () {},
+                                child: Icon(Icons.mail_outline_sharp, color: AppColors.iconcolor),
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor: AppColors.iconcolor,
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(20),
+                                  primary: Colors.white, // <-- Button color
+                                  onPrimary: Colors.white, // <-- Splash color
+                                ),
+                              ),
+                            ),
+                            Container(
+                                width: SizeConfig.blockSizeHorizontal *60,
+                                child:
+                                TextFormField(
+                                  autofocus: false,
+                                  focusNode: EmailFocus,
+                                  controller: emailController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (val) {
+                                    if (val.length == 0)
+                                      return "Please enter email";
+                                    else if (!regex1.hasMatch(val))
+                                      return "Please enter valid email";
+                                    else
+                                      return null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(PwdFocus);
+                                  },
+                                  onSaved: (val) => _email = val,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    hintText: StringConstant.emailaddres,
+                                  ),
+                                ),
+                            )
+
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: SizeConfig.blockSizeVertical * 13,
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          top: SizeConfig.blockSizeVertical *2,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                          // bottom: SizeConfig.blockSizeVertical *1,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          image: new DecorationImage(
+                            image: new AssetImage("assets/images/registerbtn.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child:  Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical *1,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              height: SizeConfig.blockSizeVertical *18,
+                              width: SizeConfig.blockSizeHorizontal *18,
+                              child:  ElevatedButton(
+                                onPressed: () {},
+                                child: Icon(Icons.lock, color: AppColors.iconcolor),
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor: AppColors.iconcolor,
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(20),
+                                  primary: Colors.white, // <-- Button color
+                                  onPrimary: Colors.white, // <-- Splash color
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal *60,
+                              child:
+                              TextFormField(
+                                autofocus: false,
+                                focusNode: PwdFocus,
+                                controller: passwordController,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.visiblePassword,
+                                validator: (val) {
+                                  if (val.length == 0)
+                                    return "Please enter password";
+                                  else if(!regex.hasMatch(val))
+                                    return "should contain at least one upper case, lower case, digit,Special character and Must be at least 8 characters in length";
+                                  else
+                                    return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  FocusScope.of(context).requestFocus(MobileFocus);
+                                },
+                                onSaved: (val) => _password = val,
+                                obscureText: !this._showPassword,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  hintText: StringConstant.password,
+                                  suffixIcon:  InkWell(
+                                    onTap: (){
+                                      setState(() => this._showPassword = !this._showPassword);
+                                    },
+                                    child: Icon(
+                                      _showPassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+
+                          ],
+                        )
+
                       ),
                     /*  Container(
                         width: SizeConfig.blockSizeHorizontal * 90,
@@ -737,37 +858,69 @@ class registerState extends State<register> {
                           _selectDate(context);
                         },
                         child: Container(
-                          height: SizeConfig.blockSizeVertical * 15.6,
+                          height: SizeConfig.blockSizeVertical * 13,
                           margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 1,
-                            right: SizeConfig.blockSizeHorizontal * 1,
+                            left: SizeConfig.blockSizeHorizontal * 3,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                            top: SizeConfig.blockSizeVertical *2,
                           ),
                           padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal * 5,
-                            bottom: SizeConfig.blockSizeVertical *1,
+                            right: SizeConfig.blockSizeHorizontal * 3,
+                             bottom: SizeConfig.blockSizeVertical *1,
                           ),
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             image: new DecorationImage(
-                              image: new AssetImage("assets/images/date_bg.png"),
+                              image: new AssetImage("assets/images/registerbtn.png"),
                               fit: BoxFit.fill,
                             ),
                           ),
-                          child: Text(
-                            selecteddate,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
-                                color: selected?Colors.black:Colors.grey),
-                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  bottom: SizeConfig.blockSizeVertical *1,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                height: SizeConfig.blockSizeVertical *18,
+                                width: SizeConfig.blockSizeHorizontal *18,
+                                child:  ElevatedButton(
+                                  onPressed: () {},
+                                  child: Icon(Icons.calendar_today_outlined, color: AppColors.iconcolor),
+                                  style: ElevatedButton.styleFrom(
+                                    shadowColor: AppColors.iconcolor,
+                                    shape: CircleBorder(),
+                                    padding: EdgeInsets.all(20),
+                                    primary: Colors.white, // <-- Button color
+                                    onPrimary: Colors.white, // <-- Splash color
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal *60,
+                                child:
+                                Text(
+                                  selecteddate,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 10,
+                                      color: selected?Colors.black:Colors.grey),
+                                ),
+                              )
+                            ],
+                          )
+
+
+
                         ),
                       ),
                       Container(
-                          height: SizeConfig.blockSizeVertical * 15.6,
+                          height: SizeConfig.blockSizeVertical * 14.5,
                           margin: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 1,
                             right: SizeConfig.blockSizeHorizontal * 1,
@@ -818,7 +971,7 @@ class registerState extends State<register> {
 
 
                       Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
+                        height: SizeConfig.blockSizeVertical * 14.5,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -903,7 +1056,7 @@ class registerState extends State<register> {
                       expandFlag0 == true ? ExpandedInvitationview0() : Container(),
 
                     /*  Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
+                        height: SizeConfig.blockSizeVertical * 14.5,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -972,7 +1125,7 @@ class registerState extends State<register> {
 
 
                       Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
+                        height: SizeConfig.blockSizeVertical * 14.5,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -1055,10 +1208,8 @@ class registerState extends State<register> {
                           maintainState: true,
                           child: Container()),
                       expandFlag1 == true ? ExpandedCountryview0() : Container(),
-
-
                     /*  Container(
-                        height: SizeConfig.blockSizeVertical * 15.6,
+                        height: SizeConfig.blockSizeVertical * 14.5,
                         margin: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 1,
                           right: SizeConfig.blockSizeHorizontal * 1,
@@ -1125,7 +1276,6 @@ class registerState extends State<register> {
                           },
                         ),
                       ),*/
-
                      /*
 
                       loading
