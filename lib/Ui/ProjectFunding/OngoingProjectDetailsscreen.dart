@@ -2047,296 +2047,296 @@ class OngoingProjectDetailsscreenState
                                         ),
                                       ],
                                     ),
-                              videolist_length != null
-                                  ? Container(
-                                      height: SizeConfig.blockSizeVertical * 25,
-                                      child: ListView.builder(
-                                          itemCount:
-                                              videolist_length.length == null
-                                                  ? 0
-                                                  : videolist_length.length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder:
-                                              (BuildContext context, int indx) {
-                                            return Container(
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .blockSizeVertical *
-                                                        2,
-                                                    left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        3,
-                                                    right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        1),
-                                                child: Stack(
-                                                  children: [
-                                                    projectdetailspojo
-                                                                    .commentsdata
-                                                                    .videoLink
-                                                                    .elementAt(
-                                                                        indx)
-                                                                    .videoThumbnail ==
-                                                                null ||
-                                                            projectdetailspojo
-                                                                    .commentsdata
-                                                                    .videoLink
-                                                                    .elementAt(
-                                                                        indx)
-                                                                    .videoThumbnail ==
-                                                                ""
-                                                        ? Container(
-                                                            height: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                45,
-                                                            width: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                60,
-                                                            alignment: Alignment
-                                                                .center,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              image:
-                                                                  new DecorationImage(
-                                                                image: new AssetImage(
-                                                                    "assets/images/events1.png"),
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : Container(
-                                                            color:
-                                                                Colors.black12,
-                                                            child: Container(
-                                                              height: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  45,
-                                                              width: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  60,
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .black12),
-                                                                  shape: BoxShape
-                                                                      .rectangle,
-                                                                  image: DecorationImage(
-                                                                      image: NetworkImage(projectdetailspojo
-                                                                          .commentsdata
-                                                                          .videoLink
-                                                                          .elementAt(
-                                                                              indx)
-                                                                          .videoThumbnail),
-                                                                      fit: BoxFit
-                                                                          .fill)),
-                                                            ),
-                                                          ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        callNext(
-                                                            ProductVideoPlayerScreen(
-                                                                data: projectdetailspojo
-                                                                    .commentsdata
-                                                                    .videoLink
-                                                                    .elementAt(
-                                                                        indx)
-                                                                    .vlink
-                                                                    .toString(),
-                                                                comesfrom:
-                                                                    "Project"),
-                                                            context);
-                                                      },
-                                                      child: Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        margin: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                25,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                25),
-                                                        child: Image.asset(
-                                                          "assets/images/play.png",
-                                                          color: Colors.white,
-                                                          width: 50,
-                                                          height: 50,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ));
-                                          }),
-                                    )
-                                  : Container(),
-                              documentlist_length != null
-                                  ? Container(
-                                      height: SizeConfig.blockSizeVertical * 25,
-                                      child: ListView.builder(
-                                          itemCount:
-                                              documentlist_length.length == null
-                                                  ? 0
-                                                  : documentlist_length.length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder:
-                                              (BuildContext context, int inde) {
-                                            return Container(
-                                              margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                          .blockSizeVertical *
-                                                      3,
-                                                  left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      3,
-                                                  right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      1),
-                                              alignment: Alignment.center,
-                                              child: Column(
-                                                children: [
-                                                  GestureDetector(
-                                                      onTap: () async {
-                                                        String path = await ExtStorage
-                                                            .getExternalStoragePublicDirectory(
-                                                                ExtStorage
-                                                                    .DIRECTORY_DOWNLOADS);
-                                                        //String fullPath = tempDir.path + "/boo2.pdf'";
-                                                        String fullPath =
-                                                            "$path/" +
-                                                                projectdetailspojo
-                                                                    .commentsdata
-                                                                    .documents
-                                                                    .elementAt(
-                                                                        inde)
-                                                                    .docName;
-                                                        print(
-                                                            'full path ${fullPath}');
 
-                                                        download2(
-                                                            dio,
-                                                            projectdetailspojo
-                                                                .commentsdata
-                                                                .documents
-                                                                .elementAt(inde)
-                                                                .documentsUrl,
-                                                            fullPath);
-                                                        // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
-                                                      },
-                                                      child: Image.asset(
-                                                        "assets/images/files.png",
-                                                        height: SizeConfig
-                                                                .blockSizeVertical *
-                                                            10,
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            25,
-                                                        fit: BoxFit.fitHeight,
-                                                      )),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                              .blockSizeVertical *
-                                                          1,
-                                                    ),
-                                                    width: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        20,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
+                              videolist_length == null || projectdetailspojo.commentsdata.videoLink.isEmpty?
+                              Container(): Container(
+                                height: SizeConfig.blockSizeVertical * 25,
+                                child: ListView.builder(
+                                    itemCount:
+                                    videolist_length.length == null
+                                        ? 0
+                                        : videolist_length.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int indx) {
+                                      return Container(
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig
+                                                  .blockSizeVertical *
+                                                  2,
+                                              left: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  3,
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  1),
+                                          child: Stack(
+                                            children: [
+                                              projectdetailspojo
+                                                  .commentsdata
+                                                  .videoLink
+                                                  .elementAt(
+                                                  indx)
+                                                  .videoThumbnail ==
+                                                  null ||
+                                                  projectdetailspojo
+                                                      .commentsdata
+                                                      .videoLink
+                                                      .elementAt(
+                                                      indx)
+                                                      .videoThumbnail ==
+                                                      ""
+                                                  ? Container(
+                                                height: SizeConfig
+                                                    .blockSizeVertical *
+                                                    45,
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    60,
+                                                alignment: Alignment
+                                                    .center,
+                                                decoration:
+                                                BoxDecoration(
+                                                  image:
+                                                  new DecorationImage(
+                                                    image: new AssetImage(
+                                                        "assets/images/events1.png"),
+                                                    fit:
+                                                    BoxFit.fill,
+                                                  ),
+                                                ),
+                                              )
+                                                  : Container(
+                                                color:
+                                                Colors.black12,
+                                                child: Container(
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      45,
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      60,
+                                                  alignment:
+                                                  Alignment
+                                                      .center,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors
+                                                              .black12),
+                                                      shape: BoxShape
+                                                          .rectangle,
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(projectdetailspojo
+                                                              .commentsdata
+                                                              .videoLink
+                                                              .elementAt(
+                                                              indx)
+                                                              .videoThumbnail),
+                                                          fit: BoxFit
+                                                              .fill)),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  callNext(
+                                                      ProductVideoPlayerScreen(
+                                                          data: projectdetailspojo
+                                                              .commentsdata
+                                                              .videoLink
+                                                              .elementAt(
+                                                              indx)
+                                                              .vlink
+                                                              .toString(),
+                                                          comesfrom:
+                                                          "Project"),
+                                                      context);
+                                                },
+                                                child: Container(
+                                                  alignment:
+                                                  Alignment.center,
+                                                  margin: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          25,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          25),
+                                                  child: Image.asset(
+                                                    "assets/images/play.png",
+                                                    color: Colors.white,
+                                                    width: 50,
+                                                    height: 50,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ));
+                                    }),
+                              ),
+                              documentlist_length==null || projectdetailspojo.commentsdata.documents.isEmpty?Container():
+                              Container(
+                                height: SizeConfig.blockSizeVertical * 25,
+                                child: ListView.builder(
+                                    itemCount:
+                                    documentlist_length.length == null
+                                        ? 0
+                                        : documentlist_length.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int inde) {
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig
+                                                .blockSizeVertical *
+                                                3,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                3,
+                                            right: SizeConfig
+                                                .blockSizeHorizontal *
+                                                1),
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          children: [
+                                            GestureDetector(
+                                                onTap: () async {
+                                                  String path = await ExtStorage
+                                                      .getExternalStoragePublicDirectory(
+                                                      ExtStorage
+                                                          .DIRECTORY_DOWNLOADS);
+                                                  //String fullPath = tempDir.path + "/boo2.pdf'";
+                                                  String fullPath =
+                                                      "$path/" +
+                                                          projectdetailspojo
+                                                              .commentsdata
+                                                              .documents
+                                                              .elementAt(
+                                                              inde)
+                                                              .docName;
+                                                  print(
+                                                      'full path ${fullPath}');
+
+                                                  download2(
+                                                      dio,
                                                       projectdetailspojo
                                                           .commentsdata
                                                           .documents
                                                           .elementAt(inde)
-                                                          .docName
-                                                          .toString(),
-                                                      maxLines: 2,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color:
-                                                              AppColors.black,
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
-                                                              'Poppins-Regular'),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      String path = await ExtStorage
-                                                          .getExternalStoragePublicDirectory(
-                                                              ExtStorage
-                                                                  .DIRECTORY_DOWNLOADS);
-                                                      //String fullPath = tempDir.path + "/boo2.pdf'";
-                                                      String fullPath =
-                                                          "$path/" +
-                                                              projectdetailspojo
-                                                                  .commentsdata
-                                                                  .documents
-                                                                  .elementAt(
-                                                                      inde)
-                                                                  .docName;
-                                                      print(
-                                                          'full path ${fullPath}');
-
-                                                      download2(
-                                                          dio,
-                                                          projectdetailspojo
-                                                              .commentsdata
-                                                              .documents
-                                                              .elementAt(inde)
-                                                              .documentsUrl,
-                                                          fullPath);
-                                                      // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
-                                                    },
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                      ),
-                                                      width: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          20,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Text(
-                                                        'download'.tr,
-                                                        maxLines: 2,
-                                                        style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline,
-                                                            letterSpacing: 1.0,
-                                                            color: Colors.blue,
-                                                            fontSize: 10,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontFamily:
-                                                                'Poppins-Regular'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                                          .documentsUrl,
+                                                      fullPath);
+                                                  // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                                },
+                                                child: Image.asset(
+                                                  "assets/images/files.png",
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      10,
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      25,
+                                                  fit: BoxFit.fitHeight,
+                                                )),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                    .blockSizeVertical *
+                                                    1,
                                               ),
+                                              width: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  20,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                projectdetailspojo
+                                                    .commentsdata
+                                                    .documents
+                                                    .elementAt(inde)
+                                                    .docName
+                                                    .toString(),
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color:
+                                                    AppColors.black,
+                                                    fontSize: 9,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    'Poppins-Regular'),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                String path = await ExtStorage
+                                                    .getExternalStoragePublicDirectory(
+                                                    ExtStorage
+                                                        .DIRECTORY_DOWNLOADS);
+                                                //String fullPath = tempDir.path + "/boo2.pdf'";
+                                                String fullPath =
+                                                    "$path/" +
+                                                        projectdetailspojo
+                                                            .commentsdata
+                                                            .documents
+                                                            .elementAt(
+                                                            inde)
+                                                            .docName;
+                                                print(
+                                                    'full path ${fullPath}');
 
-                                              /*   decoration: BoxDecoration(
+                                                download2(
+                                                    dio,
+                                                    projectdetailspojo
+                                                        .commentsdata
+                                                        .documents
+                                                        .elementAt(inde)
+                                                        .documentsUrl,
+                                                    fullPath);
+                                                // downloadFile(Network.BaseApiProject+projectdetailspojo.commentsdata.documents.elementAt(inde).documents);
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  top: SizeConfig
+                                                      .blockSizeVertical *
+                                                      1,
+                                                ),
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    20,
+                                                alignment:
+                                                Alignment.center,
+                                                child: Text(
+                                                  'download'.tr,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      decoration:
+                                                      TextDecoration
+                                                          .underline,
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.blue,
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .normal,
+                                                      fontFamily:
+                                                      'Poppins-Regular'),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+                                        /*   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: new AssetImage("assets/images/files.png"),
                                       fit: BoxFit.fill,
                                     ),
                                   ),*/
-                                            );
-                                          }),
-                                    )
-                                  : Container(),
+                                      );
+                                    }),
+                              ),
+
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),

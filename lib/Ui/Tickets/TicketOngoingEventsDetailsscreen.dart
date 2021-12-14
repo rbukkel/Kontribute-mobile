@@ -1630,8 +1630,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             ),
                           ],
                         ),
-                        videolist_length!=null?
-                        Container(
+                        videolist_length==null || projectdetailspojo.commentsdata.videoLink.isEmpty?
+                        Container(): Container(
                           height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
                               itemCount:  videolist_length.length == null
@@ -1704,9 +1704,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       ],
                                     ));
                               }),
-                        ):Container(),
-                        documentlist_length!=null?
-                        Container(
+                        ),
+                        documentlist_length==null || projectdetailspojo.commentsdata.documents.isEmpty?
+                        Container():Container(
                           height: SizeConfig.blockSizeVertical * 25,
                           child: ListView.builder(
                               itemCount: documentlist_length.length == null
@@ -1801,7 +1801,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   ),*/
                                 );
                               }),
-                        ):Container(),
+                        ),
                         Container(
                           width: SizeConfig.blockSizeHorizontal *100,
                           alignment: Alignment.topLeft,

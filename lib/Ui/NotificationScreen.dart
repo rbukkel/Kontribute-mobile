@@ -229,7 +229,7 @@ class NotificationScreenState extends State<NotificationScreen> {
    // Dialogs.showLoadingDialog(context, _keyLoader);
     print("user: " + data.toString());
     var jsonResponse = null;
-    print(Network.BaseApi + Network.notificationlisting + "?page=" + page.toString());
+    print(Network.BaseApi + Network.notificationlisting + "?page=" +page.toString());
     http.Response response = await http.post(Network.BaseApi + Network.notificationlisting + "?page=$page", body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -239,7 +239,6 @@ class NotificationScreenState extends State<NotificationScreen> {
         setState(() {
           resultvalue = false;
         });
-
         errorDialog(jsonDecode(val)["message"]);
       } else {
        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -302,7 +301,6 @@ class NotificationScreenState extends State<NotificationScreen> {
     });
   }
 */
-
   /*void getdata(String user_id) async {
     setState(() {
       storelist_length =null;
@@ -1450,10 +1448,10 @@ class NotificationScreenState extends State<NotificationScreen> {
       'notificationid': notificationid.toString(),
       'sender_id': userid.toString(),
     };
+
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.notification_projectpay, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.notification_projectpay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1461,13 +1459,12 @@ class NotificationScreenState extends State<NotificationScreen> {
         errorDialog(jsonDecode(updateval)["message"]);
       } else {
         if (jsonResponse != null) {
-          Navigator.push(
-              context,
+          Navigator.push(context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => NotificationScreen()));
+                  builder: (BuildContext context) =>
+                      NotificationScreen()));
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
-
         }
       }
     } else {

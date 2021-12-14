@@ -1768,135 +1768,135 @@ class OngoingCampaignDetailsscreenState
                                         ),
                                       ],
                                     ),
-                              videolist_length != null
-                                  ? Container(
-                                      height: SizeConfig.blockSizeVertical * 25,
-                                      child: ListView.builder(
-                                          itemCount:
-                                              videolist_length.length == null
-                                                  ? 0
-                                                  : videolist_length.length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder:
-                                              (BuildContext context, int indx) {
-                                            return Container(
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .blockSizeVertical *
-                                                        2,
-                                                    left: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        3,
-                                                    right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        1),
-                                                child: Stack(
-                                                  children: [
-                                                    projectdetailspojo
-                                                                    .commentsdata
-                                                                    .videoLink
-                                                                    .elementAt(
-                                                                        indx)
-                                                                    .videoThumbnail ==
-                                                                null ||
-                                                            projectdetailspojo
-                                                                    .commentsdata
-                                                                    .videoLink
-                                                                    .elementAt(
-                                                                        indx)
-                                                                    .videoThumbnail ==
-                                                                ""
-                                                        ? Container(
-                                                            height: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                45,
-                                                            width: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                60,
-                                                            alignment: Alignment
-                                                                .center,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              image:
-                                                                  new DecorationImage(
-                                                                image: new AssetImage(
-                                                                    "assets/images/events1.png"),
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : Container(
-                                                            color:
-                                                                Colors.black12,
-                                                            child: Container(
-                                                              height: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  45,
-                                                              width: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  60,
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .black12),
-                                                                  shape: BoxShape
-                                                                      .rectangle,
-                                                                  image: DecorationImage(
-                                                                      image: NetworkImage(projectdetailspojo
-                                                                          .commentsdata
-                                                                          .videoLink
-                                                                          .elementAt(
-                                                                              indx)
-                                                                          .videoThumbnail),
-                                                                      fit: BoxFit
-                                                                          .fill)),
-                                                            ),
-                                                          ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        callNext(
-                                                            ProductVideoPlayerScreen(
-                                                                data: projectdetailspojo
-                                                                    .commentsdata
-                                                                    .videoLink
-                                                                    .elementAt(
-                                                                        indx)
-                                                                    .vlink
-                                                                    .toString(),
-                                                                comesfrom:
-                                                                    "Donation"),
-                                                            context);
-                                                      },
-                                                      child: Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        margin: EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                25,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                25),
-                                                        child: Image.asset(
-                                                          "assets/images/play.png",
-                                                          color: Colors.white,
-                                                          width: 50,
-                                                          height: 50,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ));
-                                          }),
-                                    )
-                                  : Container(),
-                              documentlist_length != null
-                                  ? Container(
+
+                              videolist_length == null || projectdetailspojo.commentsdata.videoLink.isEmpty?
+                                Container():Container(
+                                height: SizeConfig.blockSizeVertical * 25,
+                                child: ListView.builder(
+                                    itemCount:
+                                    videolist_length.length == null
+                                        ? 0
+                                        : videolist_length.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int indx) {
+                                      return Container(
+                                          margin: EdgeInsets.only(
+                                              top: SizeConfig
+                                                  .blockSizeVertical *
+                                                  2,
+                                              left: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  3,
+                                              right: SizeConfig
+                                                  .blockSizeHorizontal *
+                                                  1),
+                                          child: Stack(
+                                            children: [
+                                              projectdetailspojo
+                                                  .commentsdata
+                                                  .videoLink
+                                                  .elementAt(
+                                                  indx)
+                                                  .videoThumbnail ==
+                                                  null ||
+                                                  projectdetailspojo
+                                                      .commentsdata
+                                                      .videoLink
+                                                      .elementAt(
+                                                      indx)
+                                                      .videoThumbnail ==
+                                                      ""
+                                                  ? Container(
+                                                height: SizeConfig
+                                                    .blockSizeVertical *
+                                                    45,
+                                                width: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    60,
+                                                alignment: Alignment
+                                                    .center,
+                                                decoration:
+                                                BoxDecoration(
+                                                  image:
+                                                  new DecorationImage(
+                                                    image: new AssetImage(
+                                                        "assets/images/events1.png"),
+                                                    fit:
+                                                    BoxFit.fill,
+                                                  ),
+                                                ),
+                                              )
+                                                  : Container(
+                                                color:
+                                                Colors.black12,
+                                                child: Container(
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      45,
+                                                  width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      60,
+                                                  alignment:
+                                                  Alignment
+                                                      .center,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors
+                                                              .black12),
+                                                      shape: BoxShape
+                                                          .rectangle,
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(projectdetailspojo
+                                                              .commentsdata
+                                                              .videoLink
+                                                              .elementAt(
+                                                              indx)
+                                                              .videoThumbnail),
+                                                          fit: BoxFit
+                                                              .fill)),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  callNext(
+                                                      ProductVideoPlayerScreen(
+                                                          data: projectdetailspojo
+                                                              .commentsdata
+                                                              .videoLink
+                                                              .elementAt(
+                                                              indx)
+                                                              .vlink
+                                                              .toString(),
+                                                          comesfrom:
+                                                          "Donation"),
+                                                      context);
+                                                },
+                                                child: Container(
+                                                  alignment:
+                                                  Alignment.center,
+                                                  margin: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          25,
+                                                      right: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          25),
+                                                  child: Image.asset(
+                                                    "assets/images/play.png",
+                                                    color: Colors.white,
+                                                    width: 50,
+                                                    height: 50,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ));
+                                    }),
+                              ),
+                              documentlist_length==null || projectdetailspojo.commentsdata.documents.isEmpty?Container():
+                                  Container(
                                       height: SizeConfig.blockSizeVertical * 25,
                                       child: ListView.builder(
                                           itemCount:
@@ -2056,8 +2056,7 @@ class OngoingCampaignDetailsscreenState
                                   ),*/
                                             );
                                           }),
-                                    )
-                                  : Container(),
+                                    ),
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
