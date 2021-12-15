@@ -133,56 +133,26 @@ class OngoingProjectState extends State<OngoingProject> {
     });
   }
 
-/*
-  @override
-  void initState() {
-    super.initState();
-    SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
-      userid = val;
-      print("Login userid: " + userid.toString());
-    });
-    Internet_check().check().then((intenet) {
-      if (intenet != null && intenet) {
-        print("PAge: "+pageNumber.toString());
-        getdata(userid, pageNumber);
-        paginationApi();
-
-        setState(() {
-          internet = true;
-        });
-      } else {
-        setState(() {
-          internet = false;
-        });
-        Fluttertoast.showToast(
-          msg: "No Internet Connection",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-        );
-      }
-    });
-  }
-*/
 
   void errorDialog(String text) {
     showDialog(
       context: context,
       child: Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         backgroundColor: AppColors.whiteColor,
         child: new Container(
+          color: AppColors.whiteColor,
           margin: EdgeInsets.all(5),
-          width: 300.0,
+          width: 320.0,
           height: 180.0,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                margin: EdgeInsets.only(top:10, left: 10, right: 10),
                 child: Icon(
                   Icons.error,
                   size: 50.0,
@@ -193,13 +163,12 @@ class OngoingProjectState extends State<OngoingProject> {
                 margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                 color: AppColors.whiteColor,
                 alignment: Alignment.center,
-                height: 50,
                 child: Text(
                   text,
                   style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 14.0,
                       color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.normal),
                 ),
               ),
               InkWell(
@@ -207,16 +176,15 @@ class OngoingProjectState extends State<OngoingProject> {
                   Navigator.of(context).pop();
                 },
                 child: Container(
-                  margin: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(bottom: 10,top: 20,),
                   color: AppColors.whiteColor,
                   alignment: Alignment.center,
-                  height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                         color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
               ),
@@ -1043,24 +1011,35 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             ?
                                                     GestureDetector(
                                                                 onTap: () {
-
                                                                   showDialog(
                                                                     context: context,
                                                                     child: Dialog(
                                                                       shape: RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.circular(18.0),
+                                                                        borderRadius: BorderRadius.circular(10.0),
                                                                       ),
                                                                       backgroundColor: AppColors.whiteColor,
                                                                       child: new Container(
                                                                         margin: EdgeInsets.all(5),
-                                                                        width: 300.0,
-                                                                        height: 250.0,
+                                                                        width: 320.0,
+                                                                        height: 290.0,
                                                                         child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
                                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                                           children: [
                                                                             Container(
-                                                                              height: SizeConfig.blockSizeVertical *10,
+                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                              color: AppColors.whiteColor,
+                                                                              alignment: Alignment.center,
+                                                                              child: Text(
+                                                                                'confirmation'.tr,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 14.0,
+                                                                                    color: Colors.black,
+                                                                                    fontWeight: FontWeight.normal),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              height: SizeConfig.blockSizeVertical *15,
                                                                               width: SizeConfig.blockSizeHorizontal *30,
                                                                               margin: EdgeInsets.only(
                                                                                 left: SizeConfig.blockSizeHorizontal *5,
@@ -1077,31 +1056,139 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                               margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                                               color: AppColors.whiteColor,
                                                                               alignment: Alignment.center,
-                                                                              height: 50,
                                                                               child: Text(
                                                                                 'paymentalert'.tr,
                                                                                 style: TextStyle(
-                                                                                    fontSize: 18.0,
+                                                                                    fontSize: 14.0,
                                                                                     color: Colors.black,
-                                                                                    fontWeight: FontWeight.bold),
+                                                                                    fontWeight: FontWeight.normal),
                                                                               ),
                                                                             ),
                                                                             InkWell(
                                                                               onTap: () {
                                                                                 Navigator.of(context).pop();
+                                                                                setState(() {
+                                                                                  Widget
+                                                                                  cancelButton =
+                                                                                  FlatButton(
+                                                                                    child: Text('cancel'.tr),
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                  );
+                                                                                  Widget
+                                                                                  continueButton =
+                                                                                  FlatButton(
+                                                                                    child: Text('continue'.tr),
+                                                                                    onPressed: () async {
+
+                                                                                      setState(() {
+                                                                                        Payamount(
+                                                                                            listing
+                                                                                                .projectData
+                                                                                                .elementAt(index)
+                                                                                                .id,
+                                                                                            AmountController.text,
+                                                                                            userid);
+                                                                                      });
+                                                                                    },
+                                                                                  );
+                                                                                  // set up the AlertDialog
+                                                                                  AlertDialog alert = AlertDialog(
+                                                                                    title: Text('paynow'.tr),
+                                                                                    // content: Text("Are you sure you want to Pay this project?"),
+                                                                                    content:
+                                                                                    new Row(
+                                                                                      children: <Widget>[
+                                                                                        new Expanded(
+                                                                                          child:
+                                                                                          new TextFormField(
+                                                                                            autofocus:
+                                                                                            false,
+                                                                                            focusNode:
+                                                                                            AmountFocus,
+                                                                                            controller:
+                                                                                            AmountController,
+                                                                                            textInputAction:
+                                                                                            TextInputAction.next,
+                                                                                            keyboardType:
+                                                                                            TextInputType.number,
+                                                                                            validator: (val) {
+                                                                                              if (val.length == 0)
+                                                                                                return 'pleaseenterpaymentamount'.tr;
+                                                                                              else
+                                                                                                return null;
+                                                                                            },
+                                                                                            onFieldSubmitted:
+                                                                                                (v) {
+                                                                                              AmountFocus.unfocus();
+                                                                                            },
+                                                                                            onSaved: (val) =>
+                                                                                            _amount = val,
+                                                                                            textAlign:
+                                                                                            TextAlign.left,
+                                                                                            style: TextStyle(
+                                                                                                letterSpacing: 1.0,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 10,
+                                                                                                color: Colors.black),
+                                                                                            decoration:
+                                                                                            InputDecoration(
+                                                                                              // border: InputBorder.none,
+                                                                                              // focusedBorder: InputBorder.none,
+                                                                                              hintStyle: TextStyle(
+                                                                                                color: Colors.grey,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 10,
+                                                                                                decoration: TextDecoration.none,
+                                                                                              ),
+                                                                                              hintText: 'enterpaymentamount'.tr,
+                                                                                            ),
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                    actions: [
+                                                                                      cancelButton,
+                                                                                      continueButton,
+                                                                                    ],
+                                                                                  );
+                                                                                  // show the dialog
+                                                                                  showDialog(
+                                                                                    context:
+                                                                                    context,
+                                                                                    builder:
+                                                                                        (BuildContext
+                                                                                    context) {
+                                                                                      return alert;
+                                                                                    },
+                                                                                  );
+                                                                                });
                                                                               },
                                                                               child: Container(
-                                                                                margin: EdgeInsets.all(10),
-                                                                                color: AppColors.whiteColor,
                                                                                 alignment: Alignment.center,
-                                                                                height: 10,
-                                                                                child: Text(
-                                                                                  'ok'.tr,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18.0,
-                                                                                      color: Colors.black,
-                                                                                      fontWeight: FontWeight.bold),
+                                                                                height: SizeConfig.blockSizeVertical * 6,
+                                                                                margin: EdgeInsets.only(
+                                                                                    top: SizeConfig.blockSizeVertical * 3,
+                                                                                    bottom: SizeConfig.blockSizeVertical * 3,
+                                                                                    left: SizeConfig.blockSizeHorizontal * 25,
+                                                                                    right: SizeConfig.blockSizeHorizontal * 25),
+                                                                                decoration: BoxDecoration(
+                                                                                  image: new DecorationImage(
+                                                                                    image: new AssetImage(
+                                                                                        "assets/images/sendbutton.png"),
+                                                                                    fit: BoxFit.fill,
+                                                                                  ),
                                                                                 ),
+                                                                                child: Text('okay'.tr,
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontFamily: 'Poppins-Regular',
+                                                                                      fontSize: 15,
+                                                                                    )),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -1111,120 +1198,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                   );
 
 
-
-
-
-
-
-
-
-
-
-
-/*                                                                  Widget
-                                                                      cancelButton =
-                                                                      FlatButton(
-                                                                    child: Text(
-                                                                        'cancel'.tr),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                  );
-                                                                  Widget
-                                                                      continueButton =
-                                                                      FlatButton(
-                                                                    child: Text(
-                                                                        'continue'.tr),
-                                                                    onPressed:
-                                                                        () async {
-                                                                      Payamount(
-                                                                          listing
-                                                                              .projectData
-                                                                              .elementAt(index)
-                                                                              .id,
-                                                                          AmountController.text,
-                                                                          userid);
-                                                                    },
-                                                                  );
-                                                                  // set up the AlertDialog
-                                                                  AlertDialog
-                                                                      alert =
-                                                                      AlertDialog(
-                                                                    title: Text(
-                                                                        'paynow'.tr),
-                                                                    // content: Text("Are you sure you want to Pay this project?"),
-                                                                    content:
-                                                                        new Row(
-                                                                      children: <
-                                                                          Widget>[
-                                                                        new Expanded(
-                                                                          child:
-                                                                              new TextFormField(
-                                                                            autofocus:
-                                                                                false,
-                                                                            focusNode:
-                                                                                AmountFocus,
-                                                                            controller:
-                                                                                AmountController,
-                                                                            textInputAction:
-                                                                                TextInputAction.next,
-                                                                            keyboardType:
-                                                                                TextInputType.number,
-                                                                            validator:
-                                                                                (val) {
-                                                                              if (val.length == 0)
-                                                                                return 'pleaseenterpaymentamount'.tr;
-                                                                              else
-                                                                                return null;
-                                                                            },
-                                                                            onFieldSubmitted:
-                                                                                (v) {
-                                                                              AmountFocus.unfocus();
-                                                                            },
-                                                                            onSaved: (val) =>
-                                                                                _amount = val,
-                                                                            textAlign:
-                                                                                TextAlign.left,
-                                                                            style: TextStyle(
-                                                                                letterSpacing: 1.0,
-                                                                                fontWeight: FontWeight.normal,
-                                                                                fontFamily: 'Poppins-Regular',
-                                                                                fontSize: 10,
-                                                                                color: Colors.black),
-                                                                            decoration:
-                                                                                InputDecoration(
-                                                                              // border: InputBorder.none,
-                                                                              // focusedBorder: InputBorder.none,
-                                                                              hintStyle: TextStyle(
-                                                                                color: Colors.grey,
-                                                                                fontWeight: FontWeight.normal,
-                                                                                fontFamily: 'Poppins-Regular',
-                                                                                fontSize: 10,
-                                                                                decoration: TextDecoration.none,
-                                                                              ),
-                                                                              hintText: 'enterpaymentamount'.tr,
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    actions: [
-                                                                      cancelButton,
-                                                                      continueButton,
-                                                                    ],
-                                                                  );
-                                                                  // show the dialog
-                                                                  showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                      return alert;
-                                                                    },
-                                                                  );*/
                                                                 },
                                                                 child:
                                                                     Container(
@@ -2230,6 +2203,7 @@ class OngoingProjectState extends State<OngoingProject> {
   }
 
   Future<void> Payamount(String id, String requiredAmount, String userid) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
@@ -2243,8 +2217,10 @@ class OngoingProjectState extends State<OngoingProject> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["status"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
         errorDialog(jsonDecode(updateval)["message"]);
       } else {
+        Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
           errorDialog(jsonDecode(updateval)["message"]);
           AmountController.text ="";
@@ -2263,6 +2239,7 @@ class OngoingProjectState extends State<OngoingProject> {
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
       errorDialog(jsonDecode(updateval)["message"]);
     }
   }
