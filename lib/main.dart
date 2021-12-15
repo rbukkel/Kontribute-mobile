@@ -164,9 +164,6 @@ class _MyHomePageState extends State<MyHomePage> {
                      Get.updateLocale(locale);
                    }*/
 
-
-
-
                    SharedUtils.readLangaunage("Langauge").then((val) {
                      print("Langauge: " + val);
                     String langu = val;

@@ -1915,7 +1915,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
         bottomNavigationBar: bottombar(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 30.0,top: 15.0),
             child: Stack(
               children: <Widget>[
                 Align(

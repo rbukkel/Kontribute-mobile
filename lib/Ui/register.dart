@@ -355,7 +355,7 @@ class registerState extends State<register> {
                               },
                             ),
 
-                            GestureDetector(
+                          /*  GestureDetector(
                               child: Container(
                                 margin: EdgeInsets.only(
                                     left: SizeConfig.blockSizeHorizontal * 3,
@@ -369,7 +369,7 @@ class registerState extends State<register> {
                               onTap: () {
                                 // signInWithGoogle();
                               },
-                            ),
+                            ),*/
                           ],
                         ),
                       ),
@@ -445,15 +445,50 @@ class registerState extends State<register> {
                           right: SizeConfig.blockSizeHorizontal * 3,
                           bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                           image: new DecorationImage(
                             image: new AssetImage("assets/images/registerbtn.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
-                        child:
-                        Row(
+                        child: TextFormField(
+                          autofocus: false,
+                          focusNode: NickNameFocus,
+                          controller: nicknameController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.name,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return "Please enter nick name";
+                            else
+                              return null;
+                          },
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(FullNameFocus);
+                          },
+                          onSaved: (val) => _nickname = val,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: StringConstant.nickname,
+                          ),
+                        ),
+                       /* Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
@@ -517,7 +552,7 @@ class registerState extends State<register> {
                             )
 
                           ],
-                        ),
+                        ),*/
                       ),
                       Container(
                         height: SizeConfig.blockSizeVertical * 13,
@@ -531,14 +566,51 @@ class registerState extends State<register> {
                           right: SizeConfig.blockSizeHorizontal * 3,
                           bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                           image: new DecorationImage(
                             image: new AssetImage("assets/images/registerbtn.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
-                        child: Row(
+                        child:
+                        TextFormField(
+                          autofocus: false,
+                          focusNode: FullNameFocus,
+                          controller: fullnameController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.name,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return "Please enter full name";
+                            else
+                              return null;
+                          },
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(EmailFocus);
+                          },
+                          onSaved: (val) => _fullname = val,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: StringConstant.fullname,
+                          ),
+                        ),
+                       /* Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
@@ -603,7 +675,7 @@ class registerState extends State<register> {
 
                           ],
                         ),
-
+*/
 
                       ),
                       Container(
@@ -618,14 +690,52 @@ class registerState extends State<register> {
                           right: SizeConfig.blockSizeHorizontal * 3,
                           bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                           image: new DecorationImage(
                             image: new AssetImage("assets/images/registerbtn.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
-                        child:  Row(
+                        child:TextFormField(
+                          autofocus: false,
+                          focusNode: EmailFocus,
+                          controller: emailController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return "Please enter email";
+                            else if (!regex1.hasMatch(val))
+                              return "Please enter valid email";
+                            else
+                              return null;
+                          },
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(PwdFocus);
+                          },
+                          onSaved: (val) => _email = val,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: StringConstant.emailaddres,
+                          ),
+                        ),
+                        /*Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
@@ -691,7 +801,7 @@ class registerState extends State<register> {
                             )
 
                           ],
-                        ),
+                        ),*/
                       ),
                       Container(
                         height: SizeConfig.blockSizeVertical * 13,
@@ -702,17 +812,66 @@ class registerState extends State<register> {
                         ),
                         padding: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 3,
-                          right: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 5,
                           // bottom: SizeConfig.blockSizeVertical *1,
                         ),
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                           image: new DecorationImage(
                             image: new AssetImage("assets/images/registerbtn.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
-                        child:  Row(
+                        child: TextFormField(
+                          autofocus: false,
+                          focusNode: PwdFocus,
+                          controller: passwordController,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return "Please enter password";
+                            else if(!regex.hasMatch(val))
+                              return "should contain at least one upper case, lower case, digit,Special character and Must be at least 8 characters in length";
+                            else
+                              return null;
+                          },
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(MobileFocus);
+                          },
+                          onSaved: (val) => _password = val,
+                          obscureText: !this._showPassword,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              fontSize: 10,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 10,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: StringConstant.password,
+                            suffixIcon:  InkWell(
+                              onTap: (){
+                                setState(() => this._showPassword = !this._showPassword);
+                              },
+                              child: Icon(
+                                _showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            ),
+                          ),
+                        ),
+                       /* Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
@@ -789,7 +948,7 @@ class registerState extends State<register> {
                             )
 
                           ],
-                        )
+                        )*/
 
                       ),
                     /*  Container(
@@ -869,14 +1028,24 @@ class registerState extends State<register> {
                             right: SizeConfig.blockSizeHorizontal * 3,
                              bottom: SizeConfig.blockSizeVertical *1,
                           ),
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             image: new DecorationImage(
                               image: new AssetImage("assets/images/registerbtn.png"),
                               fit: BoxFit.fill,
                             ),
                           ),
-                          child: Row(
+                          child: Text(
+                            selecteddate,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 10,
+                                color: selected?Colors.black:Colors.grey),
+                          ),
+                          /*Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
@@ -886,9 +1055,11 @@ class registerState extends State<register> {
                                 alignment: Alignment.centerLeft,
                                 height: SizeConfig.blockSizeVertical *18,
                                 width: SizeConfig.blockSizeHorizontal *18,
-                                child:  ElevatedButton(
+                                child: ElevatedButton(
                                   onPressed: () {},
-                                  child: Icon(Icons.calendar_today_outlined, color: AppColors.iconcolor),
+                                  child: Icon(
+                                      Icons.calendar_today_outlined,
+                                      color: AppColors.iconcolor),
                                   style: ElevatedButton.styleFrom(
                                     shadowColor: AppColors.iconcolor,
                                     shape: CircleBorder(),
@@ -913,10 +1084,7 @@ class registerState extends State<register> {
                                 ),
                               )
                             ],
-                          )
-
-
-
+                          )*/
                         ),
                       ),
                       Container(
@@ -1414,21 +1582,11 @@ class registerState extends State<register> {
                                     );
                                   }
                                 } else {
-                                  Fluttertoast.showToast(
-                                    msg: "No Internet Connection",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                  );
+                                 errorDialog("No Internet Connection");
                                 }
                               });
                             } else {
-                              Fluttertoast.showToast(
-                                msg: "please check Terms & Conditions",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                              );
+                              errorDialog("please check Terms & Conditions");
                             }
                           }
                         },

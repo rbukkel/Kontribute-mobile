@@ -208,6 +208,7 @@ flutter:
     - assets/images/user_bg.png
     - assets/images/lock_bg.png
     - assets/images/date_bg.png
+    - assets/images/caution.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -284,10 +284,10 @@ class _AddContactState extends State<AddContact> {
                                               bottom:  SizeConfig.blockSizeVertical *1),
                                           height: SizeConfig
                                               .blockSizeVertical *
-                                              9,
+                                             10,
                                           width: SizeConfig
                                               .blockSizeVertical *
-                                              9,
+                                              10,
                                           alignment: Alignment.center,
                                           margin: EdgeInsets.only(
                                             bottom: SizeConfig
@@ -295,7 +295,7 @@ class _AddContactState extends State<AddContact> {
                                                 1,
                                             top: SizeConfig
                                                 .blockSizeVertical *
-                                                3,
+                                               2,
                                           ),
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -324,14 +324,14 @@ class _AddContactState extends State<AddContact> {
                                               bottom:  SizeConfig.blockSizeVertical *1),
                                           height: SizeConfig
                                               .blockSizeVertical *
-                                              9,
+                                              10,
                                           width: SizeConfig
                                               .blockSizeVertical *
-                                              9,
+                                              10,
                                           alignment: Alignment.center,
                                           margin: EdgeInsets.only(
                                             bottom: SizeConfig.blockSizeVertical * 1,
-                                            top: SizeConfig.blockSizeVertical *3,
+                                            top: SizeConfig.blockSizeVertical *2
                                           ),
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -372,7 +372,7 @@ class _AddContactState extends State<AddContact> {
                                           Unfollowapi(userid, followlistpojo.data.elementAt(ind).id.toString());
                                         },
                                         child:  Container(
-                                          width: SizeConfig.blockSizeHorizontal * 26,
+                                          width: SizeConfig.blockSizeHorizontal * 32,
                                           padding: EdgeInsets.only(
                                               right: SizeConfig.blockSizeHorizontal * 2,
                                               left: SizeConfig.blockSizeHorizontal * 2,
@@ -403,7 +403,7 @@ class _AddContactState extends State<AddContact> {
                                       ) :
                                       followlistpojo.data.elementAt(ind).followed=="pending"?
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal * 26,
+                                        width: SizeConfig.blockSizeHorizontal * 32,
                                         padding: EdgeInsets.only(
                                             right: SizeConfig.blockSizeHorizontal * 2,
                                             left: SizeConfig.blockSizeHorizontal * 2,
@@ -439,7 +439,7 @@ class _AddContactState extends State<AddContact> {
                                         },
                                         child:
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal * 26,
+                                          width: SizeConfig.blockSizeHorizontal * 32,
                                           padding: EdgeInsets.only(
                                               right: SizeConfig.blockSizeHorizontal * 2,
                                               left: SizeConfig.blockSizeHorizontal * 2,
@@ -457,7 +457,7 @@ class _AddContactState extends State<AddContact> {
                                               left: SizeConfig.blockSizeHorizontal * 2),
                                           alignment:Alignment.center,
                                           child: Text(
-                                            'follow'.tr,
+                                            'connect'.tr,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: AppColors.black,

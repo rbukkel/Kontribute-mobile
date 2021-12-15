@@ -479,7 +479,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                     border: Border.all(color: AppColors.purple)
                                                 ),
                                                 child: Text(
-                                                  'ongoing'.tr,
+                                                  listing.projectData.elementAt(index).status.toUpperCase(),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,

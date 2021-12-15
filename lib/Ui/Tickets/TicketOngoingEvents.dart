@@ -138,7 +138,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     );
   }
 
-
   int currentPageValue = 0;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -147,7 +146,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
     Image.asset("assets/images/banner1.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
-
   ];
 
   Widget circleBar(bool isActive) {
@@ -167,9 +165,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     setState(() {});
   }
 
-
   bool _dialVisible = true;
-
 
   void getdata(String user_id) async {
     setState(() {
@@ -247,7 +243,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     }
   }
 
-  void showToast(String updateval) {
+  void showToast(String updateval)
+  {
     errorDialog(jsonDecode(updateval)["message"]);
   }
 
@@ -290,7 +287,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
             }
           });
         }
-        else {
+        else
+        {
           errorDialog(listing.message);
         }
       }
@@ -1507,7 +1505,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
         bottomNavigationBar: bottombar(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 30.0,top: 15.0),
             child: Stack(
               children: <Widget>[
                 Align(

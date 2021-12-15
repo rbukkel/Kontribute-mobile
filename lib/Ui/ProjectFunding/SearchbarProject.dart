@@ -534,7 +534,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             color: AppColors
                                                                 .purple)),
                                                     child: Text(
-                                                      'ongoing'.tr,
+                                                      listing.projectData.elementAt(index).status.toUpperCase(),
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -1902,7 +1902,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
       else {
         if (jsonResponse != null) {
           errorDialog(jsonDecode(updateval)["message"]);
-          AmountController.text =null;
+          AmountController.text ="";
           Future.delayed(Duration(seconds: 2),()
           {
             Navigator.push(

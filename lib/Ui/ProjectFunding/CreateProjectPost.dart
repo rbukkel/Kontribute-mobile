@@ -1164,7 +1164,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    'enterrequiredamount'.tr,
+                                    'minimumcashbyparticipant'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -1850,7 +1850,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 80,
                               child: Text(
-                                'pleaseaddyourspecialtermscondition'.tr,
+                                'addyourspecialtermscondition'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,

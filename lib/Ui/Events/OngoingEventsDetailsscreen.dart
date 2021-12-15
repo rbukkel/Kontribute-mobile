@@ -841,7 +841,7 @@ class OngoingEventsDetailsscreenState
                                                 border: Border.all(
                                                     color: AppColors.purple)),
                                             child: Text(
-                                              'ongoing'.tr,
+                                              projectdetailspojo.eventsdata.status.toUpperCase(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,

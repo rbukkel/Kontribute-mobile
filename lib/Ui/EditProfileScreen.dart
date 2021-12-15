@@ -21,19 +21,16 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 
-class EditProfileScreen extends StatefulWidget{
-
+class EditProfileScreen extends StatefulWidget {
   final String data;
 
-  const EditProfileScreen({Key key, @required this.data})
-      : super(key: key);
+  const EditProfileScreen({Key key, @required this.data}) : super(key: key);
 
   @override
   EditProfileScreenState createState() => EditProfileScreenState();
-
 }
 
-class EditProfileScreenState extends State<EditProfileScreen>{
+class EditProfileScreenState extends State<EditProfileScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   final NickNameFocus = FocusNode();
@@ -51,10 +48,14 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   final TextEditingController fullnameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController CountryController = new TextEditingController();
-  final TextEditingController dateofbirthController = new TextEditingController();
-  final TextEditingController companynameController = new TextEditingController();
-  final TextEditingController natinalityController = new TextEditingController();
-  final TextEditingController currentCountryController = new TextEditingController();
+  final TextEditingController dateofbirthController =
+      new TextEditingController();
+  final TextEditingController companynameController =
+      new TextEditingController();
+  final TextEditingController natinalityController =
+      new TextEditingController();
+  final TextEditingController currentCountryController =
+      new TextEditingController();
   File _imageFile;
   bool image_value = false;
   bool _showPassword = false;
@@ -83,13 +84,14 @@ class EditProfileScreenState extends State<EditProfileScreen>{
   String selecteddate = "Date of Birth";
   bool isLoading = false;
   bool selected = false;
+  bool selectedit = false;
   final _formmainKey = GlobalKey<FormState>();
 
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -111,7 +113,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-        await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -162,7 +164,6 @@ class EditProfileScreenState extends State<EditProfileScreen>{
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
-
         data1 = widget.data;
         a = int.parse(data1);
         print("receiverComing: " + a.toString());
@@ -241,14 +242,14 @@ class EditProfileScreenState extends State<EditProfileScreen>{
     );
   }
 
-
   void getData(int id) async {
     Map data = {
       'userid': id.toString(),
     };
     print("profile data: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.get_profiledata, body: data);
+    http.Response response =
+        await http.post(Network.BaseApi + Network.get_profiledata, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
@@ -261,75 +262,60 @@ class EditProfileScreenState extends State<EditProfileScreen>{
           print("response");
           setState(() {
             storelist_length = loginResponse.resultPush;
-            if(loginResponse.resultPush.fullName=="")
-            {
+            if (loginResponse.resultPush.fullName == "") {
               fullnameController.text = "";
-            }
-            else{
+            } else {
               fullnameController.text = loginResponse.resultPush.fullName;
             }
 
-            if(loginResponse.resultPush.nickName=="")
-            {
+            if (loginResponse.resultPush.nickName == "") {
               nicknameController.text = "";
-            }
-            else{
+            } else {
               nicknameController.text = loginResponse.resultPush.nickName;
             }
 
-            if(loginResponse.resultPush.email=="")
-            {
+            if (loginResponse.resultPush.email == "") {
               emailController.text = "";
-            }
-            else{
+            } else {
               emailController.text = loginResponse.resultPush.email;
             }
 
-            if(loginResponse.resultPush.mobile=="")
-            {
+            if (loginResponse.resultPush.mobile == "") {
               mobileController.text = "";
-            }
-            else{
+            } else {
               mobileController.text = loginResponse.resultPush.mobile;
             }
 
-            if(loginResponse.resultPush.countryCode=="")
-            {
+            if (loginResponse.resultPush.countryCode == "") {
               CountryController.text = "";
-            }
-            else {
+            } else {
               CountryController.text = loginResponse.resultPush.countryCode;
             }
 
-            if( loginResponse.resultPush.dob=="")
-            {
+            if (loginResponse.resultPush.dob == "") {
               selecteddate = "";
-            }
-            else{
+            } else {
               selecteddate = loginResponse.resultPush.dob;
             }
 
-            if( loginResponse.resultPush.nationality=="")
-            {
+            if (loginResponse.resultPush.nationality == "") {
               natinalityController.text = "";
-            }
-            else{
+            } else {
               natinalityController.text = loginResponse.resultPush.nationality;
             }
 
-            if( loginResponse.resultPush.currentCountry=="")
-            {
+            if (loginResponse.resultPush.currentCountry == "") {
               currentCountryController.text = "";
-            }
-            else{
-              currentCountryController.text = loginResponse.resultPush.currentCountry;
+            } else {
+              currentCountryController.text =
+                  loginResponse.resultPush.currentCountry;
             }
 
-
-            if(loginResponse.resultPush.profilePic !=null || loginResponse.resultPush.profilePic !=""){
+            if (loginResponse.resultPush.profilePic != null ||
+                loginResponse.resultPush.profilePic != "") {
               setState(() {
                 image = loginResponse.resultPush.profilePic;
-                if(image.isNotEmpty){
+                if (image.isNotEmpty) {
                   image_value = true;
                   _loading = true;
                 }
@@ -498,7 +484,7 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                     width: SizeConfig.blockSizeHorizontal * 60,
                     alignment: Alignment.center,
                     margin:
-                    EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
                       'editprofile'.tr,
@@ -521,18 +507,21 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                 ],
               ),
             ),
-           storelist_length!=null?
-            Expanded(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formmainKey,
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *1,right: SizeConfig.blockSizeHorizontal *1),
-                    child: Column(
-                      children: [
-                        Stack(
+            storelist_length != null
+                ? Expanded(
+                    child: SingleChildScrollView(
+                        child: Form(
+                      key: _formmainKey,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            bottom: SizeConfig.blockSizeVertical * 2,
+                            left: SizeConfig.blockSizeHorizontal * 1,
+                            right: SizeConfig.blockSizeHorizontal * 1),
+                        child: Column(
                           children: [
-                         /*   GestureDetector(
+                            Stack(
+                              children: [
+                                /*   GestureDetector(
                               onTap: () {
                                 showAlert();
                               },
@@ -573,444 +562,345 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               ),
                             ),*/
 
-
-                            image_value == false
-                                ? Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: _imageFile != null
-                                        ? FileImage(_imageFile)
-                                        : AssetImage(
-                                        "assets/images/person.png")),
-                              ),
-                            ) :
-                            loginResponse.resultPush.facebookId == ""?
-                            Container(
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                width: 80.0,
-                                height: 80.0,
-                                child:
-                                CachedNetworkImage(
-                                  fit: BoxFit.fill,
-                                  imageUrl: Network.BaseApiprofile+image,
-                                  imageBuilder:
-                                      (context, imageProvider) =>
-                                      Container(
+                                image_value == false
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
                                         width: 80.0,
                                         height: 80.0,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
+                                              fit: BoxFit.fill,
+                                              image: _imageFile != null
+                                                  ? FileImage(_imageFile)
+                                                  : AssetImage(
+                                                      "assets/images/person.png")),
                                         ),
-                                      ),
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                )
-                            ):
-                            Container(
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                width: 80.0,
-                                height: 80.0,
-                                child:
-                                CachedNetworkImage(
-                                  fit: BoxFit.fill,
-                                  imageUrl: image,
-                                  imageBuilder:
-                                      (context, imageProvider) =>
-                                      Container(
-                                        width: 80.0,
-                                        height: 80.0,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
+                                      )
+                                    : loginResponse.resultPush.facebookId == ""
+                                        ? Container(
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                        .blockSizeVertical *
+                                                    2),
+                                            width: 80.0,
+                                            height: 80.0,
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.fill,
+                                              imageUrl: Network.BaseApiprofile +
+                                                  image,
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ),
+                                              placeholder: (context, url) =>
+                                                  CircularProgressIndicator(),
+                                            ))
+                                        : Container(
+                                            margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                        .blockSizeVertical *
+                                                    2),
+                                            width: 80.0,
+                                            height: 80.0,
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.fill,
+                                              imageUrl: image,
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ),
+                                              placeholder: (context, url) =>
+                                                  CircularProgressIndicator(),
+                                            )),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 40,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showAlert();
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  8),
+                                      width: SizeConfig.blockSizeHorizontal * 8,
+                                      height: SizeConfig.blockSizeVertical * 8,
+                                      decoration: BoxDecoration(
+                                          color: Colors.orange,
+                                          shape: BoxShape.circle),
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                          "assets/images/edit.png",
+                                          color: AppColors.whiteColor,
+                                          width: 15,
+                                          height: 15,
                                         ),
-                                      ),
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
+                                      )),
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'nickname'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  margin: EdgeInsets.only(
+                                    right: SizeConfig.blockSizeHorizontal * 2,
+                                  ),
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                      autofocus: false,
+                                      focusNode: NickNameFocus,
+                                      controller: nicknameController,
+                                      cursorColor: AppColors.selectedcolor,
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.name,
+                                      validator: (val) {
+                                        if (val.length == 0)
+                                          return 'pleaseenternickname'.tr;
+                                        else
+                                          return null;
+                                      },
+                                      onFieldSubmitted: (v) {
+                                        FocusScope.of(context)
+                                            .requestFocus(FullNameFocus);
+                                      },
+                                      onSaved: (val) => _nickname = val,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                      decoration: InputDecoration(
+                                        focusColor: AppColors.selectedcolor,
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.light_grey),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.selectedcolor),
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.selectedcolor),
+                                        ),
+                                      )),
                                 )
+                              ],
                             ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal *40,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showAlert();
-                              },
-                              child: Container(
-                                margin:EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 8),
-                                  width: SizeConfig.blockSizeHorizontal * 8,
-                                  height: SizeConfig.blockSizeVertical * 8,
-                                  decoration: BoxDecoration(
-                                      color: Colors.orange,
-                                      shape: BoxShape.circle
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'fullname'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
                                   ),
-                                  child:Container(
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      "assets/images/edit.png",
-                                      color: AppColors.whiteColor,
-                                      width: 15,
-                                      height: 15,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: FullNameFocus,
+                                    controller: fullnameController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseenterfullname'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context)
+                                          .requestFocus(EmailFocus);
+                                    },
+                                    onSaved: (val) => _fullname = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
                                     ),
-                                  )
-                              ),
+                                  ),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'email'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: EmailFocus,
+                                    controller: emailController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseenteremail'.tr;
+                                      else if (!regex.hasMatch(val))
+                                        return 'pleaseentervalidemail'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context)
+                                          .requestFocus(CountryFocus);
+                                    },
+                                    onSaved: (val) => _email = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: Container()),
+                            selectedit == true ? editmobile() : withouteditmobile(),
 
-                        Divider(
-                          thickness: 1,
-                          color: Colors.black12,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                                'nickname'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              margin: EdgeInsets.only(
-                                right: SizeConfig.blockSizeHorizontal * 2,
-                              ),
-                              alignment: Alignment.topLeft,
-                              child: TextFormField(
-                                  autofocus: false,
-                                  focusNode: NickNameFocus,
-                                  controller: nicknameController,
-                                  cursorColor: AppColors.selectedcolor,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.name,
-                                  validator: (val) {
-                                    if (val.length == 0)
-                                      return 'pleaseenternickname'.tr;
-                                    else
-                                      return null;
-                                  },
-                                  onFieldSubmitted: (v)
-                                  {
-                                    FocusScope.of(context).requestFocus(FullNameFocus);
-                                  },
-                                  onSaved: (val) => _nickname = val,
-                                  textAlign: TextAlign.left,
-                                  style:
-                                  TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                  decoration: InputDecoration(
-                                    focusColor: AppColors.selectedcolor,
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.light_grey),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.selectedcolor),
-                                    ),
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.selectedcolor),
-                                    ),
-                                  )
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                                'fullname'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              alignment: Alignment.topLeft,
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: FullNameFocus,
-                                controller: fullnameController,
-                                cursorColor: AppColors.selectedcolor,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return 'pleaseenterfullname'.tr;
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(EmailFocus);
-                                },
-                                onSaved: (val) => _fullname = val,
-                                textAlign: TextAlign.left,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                decoration: InputDecoration(
-                                  focusColor: AppColors.selectedcolor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.light_grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'dateofbirth'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                                'email'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              alignment: Alignment.topLeft,
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: EmailFocus,
-                                controller: emailController,
-                                cursorColor: AppColors.selectedcolor,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return 'pleaseenteremail'.tr;
-                                  else if (!regex.hasMatch(val))
-                                    return 'pleaseentervalidemail'.tr;
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(CountryFocus);
-                                },
-                                onSaved: (val) => _email = val,
-                                textAlign: TextAlign.left,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                decoration: InputDecoration(
-                                  focusColor: AppColors.selectedcolor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.light_grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                                'countrycode'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal*2,
-                                  top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                              //  borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child:   TextFormField(
-                                autofocus: false,
-                                focusNode: CountryFocus,
-                                controller: CountryController,
-                                cursorColor: AppColors.selectedcolor,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.phone,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return 'pleaseentercountrycode'.tr;
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(MobileFocus);
-                                },
-                                onSaved: (val) => _Country = val,
-                                textAlign: TextAlign.left,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                decoration: InputDecoration(
-                                  focusColor: AppColors.selectedcolor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.light_grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                ),
-                              ),
-
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                               'mobileno'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,),
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              alignment: Alignment.topLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: MobileFocus,
-                                controller: mobileController,
-                                cursorColor: AppColors.selectedcolor,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.phone,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return 'pleaseentermobilenumber'.tr;
-                                  else if (val.length != 10)
-                                    return 'pleaseentervalidmobilenumber'.tr;
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(DateofbirthFocus);
-                                },
-                                onSaved: (val) => _mobile = val,
-                                textAlign: TextAlign.left,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                decoration: InputDecoration(
-                                  focusColor: AppColors.selectedcolor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.light_grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                               'dateofbirth'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                           /* Container(
+                                /* Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
                               width: SizeConfig.blockSizeHorizontal *58,
                               alignment: Alignment.topLeft,
@@ -1060,42 +950,46 @@ class EditProfileScreenState extends State<EditProfileScreen>{
                               ),
                             ),*/
 
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selected = true;
-                                });
-                                _selectDate(context);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                                width: SizeConfig.blockSizeHorizontal *58,
-                                alignment: Alignment.topLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selected = true;
+                                    });
+                                    _selectDate(context);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        right:
+                                            SizeConfig.blockSizeHorizontal * 2,
+                                        top: SizeConfig.blockSizeVertical * 2),
+                                    width: SizeConfig.blockSizeHorizontal * 58,
+                                    alignment: Alignment.topLeft,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                        color: AppColors.whiteColor,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                      color: Colors.transparent,
+                                    ),
+                                    child: Text(
+                                      selecteddate,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 10,
+                                          color: selected
+                                              ? Colors.black
+                                              : Colors.black),
+                                    ),
                                   ),
-                                  color: Colors.transparent,
                                 ),
-                                child: Text(
-                                  selecteddate,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 10,
-                                      color: selected?Colors.black:Colors.black),
-                                ),
-                              ),
+                              ],
                             ),
-
-                          ],
-                        ),
-                     /*   Row(
+                            /*   Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
@@ -1154,209 +1048,522 @@ class EditProfileScreenState extends State<EditProfileScreen>{
 
                           ],
                         ),*/
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                                'nationality'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              alignment: Alignment.topLeft,
-                              child: TextFormField(
-                                autofocus: false,
-                                focusNode: NatinalityFocus,
-                                controller: natinalityController,
-                                cursorColor: AppColors.selectedcolor,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return 'pleaseenternatinality'.tr;
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                  FocusScope.of(context).requestFocus(CurrentCountryFocus);
-                                },
-                                onSaved: (val) => _currentCountry = val,
-                                textAlign: TextAlign.left,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                decoration: InputDecoration(
-                                  focusColor: AppColors.selectedcolor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.light_grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'nationality'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
                                   ),
                                 ),
-                              ),
-                            )
-
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal * 35,
-                              child: Text(
-                               'currentcountry'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: NatinalityFocus,
+                                    controller: natinalityController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseenternatinality'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context)
+                                          .requestFocus(CurrentCountryFocus);
+                                    },
+                                    onSaved: (val) => _currentCountry = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-
-                            Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
-                              width: SizeConfig.blockSizeHorizontal *58,
-                              alignment: Alignment.topLeft,
-                              child:
-
-                              TextFormField(
-                                autofocus: false,
-                                focusNode: CurrentCountryFocus,
-                                controller: currentCountryController,
-                                cursorColor: AppColors.selectedcolor,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                validator: (val) {
-                                  if (val.length == 0)
-                                    return 'pleaseentercurrentcountry'.tr;
-                                  else
-                                    return null;
-                                },
-                                onFieldSubmitted: (v)
-                                {
-                                 CurrentCountryFocus.unfocus();
-                                },
-                                onSaved: (val) => _currentCountry = val,
-                                textAlign: TextAlign.left,
-                                style:
-                                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
-                                decoration: InputDecoration(
-                                  focusColor: AppColors.selectedcolor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.light_grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'currentcountry'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
                                   ),
                                 ),
-                              ),
-
-                            )
-
-                          ],
-                        ),
-                        GestureDetector(
-                          onTap: () {
-
-                            if (_formmainKey.currentState.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              Internet_check().check().then((intenet) {
-                                if (intenet != null && intenet) {
-                                  updateprofile(
-                                      userid,
-                                      fullnameController.text,
-                                      nicknameController.text,
-                                      mobileController.text,
-                                      CountryController.text,
-                                      selecteddate.toString(),
-                                      natinalityController.text,
-                                      currentCountryController.text,
-                                      token,
-                                      _imageFile);
-                                } else {
-                                  errorDialog('nointernetconnection'.tr);
-
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: CurrentCountryFocus,
+                                    controller: currentCountryController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseentercurrentcountry'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      CurrentCountryFocus.unfocus();
+                                    },
+                                    onSaved: (val) => _currentCountry = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (_formmainKey.currentState.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  Internet_check().check().then((intenet) {
+                                    if (intenet != null && intenet) {
+                                      if(mobile==null || mobile ==" " && countrycode==null || countrycode=="")
+                                        {
+                                          updateprofile(
+                                              userid,
+                                              fullnameController.text,
+                                              nicknameController.text,
+                                              mobileController.text,
+                                              CountryController.text,
+                                              selecteddate.toString(),
+                                              natinalityController.text,
+                                              currentCountryController.text,
+                                              token,
+                                              _imageFile);
+                                        }
+                                      else{
+                                        updateprofile(
+                                            userid,
+                                            fullnameController.text,
+                                            nicknameController.text,
+                                            mobile,
+                                            countrycode,
+                                            selecteddate.toString(),
+                                            natinalityController.text,
+                                            currentCountryController.text,
+                                            token,
+                                            _imageFile);
+                                      }
+                                    } else {
+                                      errorDialog('nointernetconnection'.tr);
+                                    }
+                                    // No-Internet Case
+                                  });
                                 }
-                                // No-Internet Case
-                              });
-                            }
-
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            height: SizeConfig.blockSizeVertical * 7,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 5,
-                              bottom: SizeConfig.blockSizeVertical * 4,
-                              left: SizeConfig.blockSizeHorizontal * 20,
-                              right: SizeConfig.blockSizeHorizontal * 20,
-                            ),
-                            decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                image: new AssetImage("assets/images/sendbutton.png"),
-                                fit: BoxFit.fill,
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5,
+                                  bottom: SizeConfig.blockSizeVertical * 4,
+                                  left: SizeConfig.blockSizeHorizontal * 20,
+                                  right: SizeConfig.blockSizeHorizontal * 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  image: new DecorationImage(
+                                    image: new AssetImage(
+                                        "assets/images/sendbutton.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                child: Text('update'.tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                    )),
                               ),
-                            ),
-                            child: Text('update'.tr,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Poppins-Regular',
-                                  fontSize: 15,
-                                )),
-                          ),
-                        )
-
-                      ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
+                  )
+                : Container(
+                    margin: EdgeInsets.only(top: 150),
+                    alignment: Alignment.center,
+                    child: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                )
-
-              ),
-            ): Container(
-             margin: EdgeInsets.only(top: 150),
-             alignment: Alignment.center,
-             child:Center(
-               child: CircularProgressIndicator(),
-             ),
-           )
+                  )
           ],
         ),
       ),
     );
   }
 
+  withouteditmobile() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 2,
+                  top: SizeConfig.blockSizeVertical * 2),
+              width: SizeConfig.blockSizeHorizontal * 35,
+              child: Text(
+                'countrycode'.tr,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            GestureDetector(
+              onTap: ()
+              {
 
-  void updateprofile(String user, String name, String nickname, String phone, String code, String dob, String nation,
-      String country,String tken, File imageFile) async
-  {
+              },
+              child:
+              Container(
+                  margin: EdgeInsets.only(
+                      right: SizeConfig.blockSizeHorizontal * 2,
+                      top: SizeConfig.blockSizeVertical * 2),
+                  width: SizeConfig.blockSizeHorizontal * 35,
+                  alignment: Alignment.topLeft,
+                  decoration: BoxDecoration(
+                    //  borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: Colors.white,
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child: Text(
+                    CountryController.text,
+                    style: TextStyle(
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Poppins-Regular',
+                        fontSize: 12,
+                        color: Colors.black),
+                  )
+
+                /* TextFormField(
+                autofocus: false,
+                focusNode: CountryFocus,
+                controller: CountryController,
+                cursorColor: AppColors.selectedcolor,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.phone,
+                validator: (val) {
+                  if (val.length == 0)
+                    return 'pleaseentercountrycode'.tr;
+                  else
+                    return null;
+                },
+                onFieldSubmitted: (v)
+                {
+                  FocusScope.of(context).requestFocus(MobileFocus);
+                },
+                onSaved: (val) => _Country = val,
+                textAlign: TextAlign.left,
+                style:
+                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
+                decoration: InputDecoration(
+                  focusColor: AppColors.selectedcolor,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.light_grey),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                  ),
+                ),
+              ),*/
+
+              ),
+            ),
+
+            GestureDetector(
+              onTap: () {
+
+                setState(() {
+                  selectedit = !selectedit;
+                });
+                print("Selected: "+selectedit.toString());
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: SizeConfig.blockSizeHorizontal * 20,
+                height: SizeConfig.blockSizeVertical * 5,
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2,
+                bottom:  SizeConfig.blockSizeVertical * 2),
+                decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage(
+                        "assets/images/sendbutton.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Text('select'.tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 15,
+                    )),
+              ),
+            )
+
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal * 2,
+              ),
+              width: SizeConfig.blockSizeHorizontal * 35,
+              child: Text(
+                'mobileno'.tr,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                right: SizeConfig.blockSizeHorizontal * 2,
+              ),
+              width: SizeConfig.blockSizeHorizontal * 58,
+              alignment: Alignment.topLeft,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: Colors.white,
+                  style: BorderStyle.solid,
+                  width: 1.0,
+                ),
+                color: Colors.transparent,
+              ),
+              child: TextFormField(
+                autofocus: false,
+                focusNode: MobileFocus,
+                controller: mobileController,
+                cursorColor: AppColors.selectedcolor,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.phone,
+                validator: (val) {
+                  if (val.length == 0)
+                    return 'pleaseentermobilenumber'.tr;
+                  else if (val.length != 10)
+                    return 'pleaseentervalidmobilenumber'.tr;
+                  else
+                    return null;
+                },
+                onFieldSubmitted: (v) {
+                  FocusScope.of(context).requestFocus(DateofbirthFocus);
+                },
+                onSaved: (val) => _mobile = val,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 12,
+                    color: Colors.black),
+                decoration: InputDecoration(
+                  focusColor: AppColors.selectedcolor,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.light_grey),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.selectedcolor),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  editmobile() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          width: SizeConfig.blockSizeHorizontal * 100,
+          alignment: Alignment.topLeft,
+          margin: EdgeInsets.only(
+              left: SizeConfig.blockSizeHorizontal * 2,
+              top: SizeConfig.blockSizeVertical * 2),
+          child: Text(
+            'mobileno'.tr,
+            style: TextStyle(
+                letterSpacing: 1.0,
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins-Bold'),
+          ),
+        ),
+        Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.only(
+                right: SizeConfig.blockSizeHorizontal * 2,
+                top: SizeConfig.blockSizeVertical * 2),
+            decoration: BoxDecoration(
+              //  borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: Colors.white,
+                style: BorderStyle.solid,
+                width: 1.0,
+              ),
+              color: Colors.transparent,
+            ),
+            child: IntlPhoneField(
+              decoration: InputDecoration(
+                //decoration for Input Field
+                focusColor: AppColors.selectedcolor,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.light_grey),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.selectedcolor),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.selectedcolor),
+                ),
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 10,
+                  decoration: TextDecoration.none,
+                ),
+                hintText: StringConstant.mobile,
+              ),
+              style: TextStyle(
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 10,
+                  color: Colors.black),
+              initialCountryCode: 'NP', //default contry code, NP for Nepal
+              onChanged: (phone) {
+                setState(() {
+                  mobile = phone.number;
+                  countrycode = phone.countryCode;
+                  //when phone number country code is changed
+                  print(phone.completeNumber); //get complete number
+                  print(phone.countryCode); // get country code only
+                  print(phone.number); // only phone number
+                });
+              },
+            ))
+      ],
+    );
+  }
+
+  void updateprofile(
+      String user,
+      String name,
+      String nickname,
+      String phone,
+      String code,
+      String dob,
+      String nation,
+      String country,
+      String tken,
+      File imageFile) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
-    var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.update_profiledata));
+    var request = http.MultipartRequest(
+        "POST", Uri.parse(Network.BaseApi + Network.update_profiledata));
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["userid"] = user.toString();
     request.fields["full_name"] = name.toString();
@@ -1371,22 +1578,24 @@ class EditProfileScreenState extends State<EditProfileScreen>{
 
     if (imageFile != null) {
       print("PATH: " + imageFile.path);
-      request.files.add(await http.MultipartFile.fromPath("profile_pic", imageFile.path, filename: imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath(
+          "profile_pic", imageFile.path,
+          filename: imageFile.path));
     }
     var response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value)
-    {
+    response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
-        if (jsonData["success"] == false)
-        {
+        if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           errorDialog(jsonData["message"]);
-        } else
-          {
+        } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
-            Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => ProfileScreen()), (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+                (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
             setState(() {
@@ -1395,16 +1604,13 @@ class EditProfileScreenState extends State<EditProfileScreen>{
             errorDialog(jsonData["message"]);
           }
         }
-      }
-      else if (response.statusCode == 500) {
+      } else if (response.statusCode == 500) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         errorDialog('internalservererror'.tr);
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         errorDialog('somethingwentwrong'.tr);
-
       }
     });
   }
-
 }

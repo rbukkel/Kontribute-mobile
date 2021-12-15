@@ -364,7 +364,7 @@ class ContactUsState extends State<ContactUs>{
                                     ),
                                   ),
                                 ),
-                                Container(
+                              /*  Container(
                                   padding: EdgeInsets.only( left: SizeConfig.blockSizeHorizontal*2,
                                       right: SizeConfig.blockSizeHorizontal*2),
                                   margin: EdgeInsets.only(
@@ -400,7 +400,7 @@ class ContactUsState extends State<ContactUs>{
 
                                     ],
                                   ),
-                                ),
+                                ),*/
                                 GestureDetector(
                                   onTap: () {
                                     if (_formKey.currentState.validate()) {

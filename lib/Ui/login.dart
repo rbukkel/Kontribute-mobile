@@ -149,7 +149,7 @@ class loginState extends State<login>{
                       right: SizeConfig.blockSizeHorizontal * 3,
                       bottom: SizeConfig.blockSizeVertical *1,
                     ),
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage("assets/images/registerbtn.png"),
@@ -165,8 +165,47 @@ class loginState extends State<login>{
                       ),
                       color: Colors.transparent,
                     ),*/
-                    child:
-                    Row(
+                    child: TextFormField(
+                      autofocus: false,
+                      focusNode: EmailFocus,
+                      controller: emailController,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter email";
+                        else if (!regex.hasMatch(val))
+                          return "Please enter valid email";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v)
+                      {
+                        FocusScope.of(context).requestFocus(PwdFocus);
+                      },
+                      onSaved: (val) => _email = val,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 10,
+                          color: Colors.black),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.emailaddres,
+                      ),
+                    )
+
+                    /*Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
@@ -233,7 +272,7 @@ class loginState extends State<login>{
                         )
 
                       ],
-                    ),
+                    ),*/
                   ),
                   Container(
                     height: SizeConfig.blockSizeVertical * 13,
@@ -244,18 +283,63 @@ class loginState extends State<login>{
                     ),
                     padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeHorizontal * 3,
+                      right: SizeConfig.blockSizeHorizontal * 5,
                      // bottom: SizeConfig.blockSizeVertical *1,
                     ),
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage("assets/images/registerbtn.png"),
                         fit: BoxFit.fill,
                       ),
                     ),
-                    child:
-                        Row(
+                    child: TextFormField(
+                      autofocus: false,
+                      focusNode: PwdFocus,
+                      controller: passwordController,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter password";
+                        else if (val.length <= 4)
+                          return "Your password should be more then 5 char long";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v) {
+                        PwdFocus.unfocus();
+                      },
+                      onSaved: (val) => _password = val,
+                      obscureText: !this._showPassword,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',color: Colors.black),
+                      decoration: InputDecoration(
+
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.password,
+                        suffixIcon:  InkWell(
+                          onTap: (){
+                            setState(() => this._showPassword = !this._showPassword);
+                          },
+                          child: Icon(
+                            _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
+                    ),
+                       /* Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
@@ -328,7 +412,7 @@ class loginState extends State<login>{
                             )
 
                           ],
-                        )
+                        )*/
 
 
                   ),
@@ -344,12 +428,7 @@ class loginState extends State<login>{
                             signIn(
                                 emailController.text, passwordController.text,token);
                           } else {
-                            Fluttertoast.showToast(
-                              msg: "No Internet Connection",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                            );
+                           errorDialog("No Internet Connection");
                           }
                           // No-Internet Case
                         });
@@ -498,7 +577,7 @@ class loginState extends State<login>{
                           },
                         ),
 
-                        GestureDetector(
+                       /* GestureDetector(
                           child: Container(
                             margin: EdgeInsets.only(
                                 left: SizeConfig.blockSizeHorizontal * 3,
@@ -514,8 +593,7 @@ class loginState extends State<login>{
                           onTap: () {
                            // signInWithTwitter();
                           },
-                        ),
-
+                        ),*/
 
                       ],
                     ),
@@ -786,10 +864,65 @@ class loginState extends State<login>{
           setState(() {
             isLoading = false;
           });
+          showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              backgroundColor: AppColors.whiteColor,
+              child: new Container(
+                margin: EdgeInsets.all(5),
+                width: 300.0,
+                height: 180.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.error,
+                        size: 50.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      color: AppColors.whiteColor,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        login.message,
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        callNext1(loginOTPScreen(data:emal.toString(),pass:pass.toString()), context);
 
-          errorDialog(login.message);
-
-          callNext(loginOTPScreen(data:emal.toString(),pass:pass.toString()), context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        color: AppColors.whiteColor,
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
 
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

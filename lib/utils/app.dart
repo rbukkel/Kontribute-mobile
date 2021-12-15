@@ -274,8 +274,6 @@ bottombar(context) {
           },
           child: Container(
               width: SizeConfig.blockSizeHorizontal *24,
-              margin:
-                  EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
               child:
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -304,7 +302,8 @@ bottombar(context) {
                 builder: (BuildContext context) => mytranscation()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *24,
+            padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *5),
+              width: SizeConfig.blockSizeHorizontal *26,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -331,7 +330,8 @@ bottombar(context) {
             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
           },
           child: Container(
-              width: SizeConfig.blockSizeHorizontal *22,
+              padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *5),
+              width: SizeConfig.blockSizeHorizontal *24,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -357,8 +357,6 @@ bottombar(context) {
           },
           child: Container(
               width: SizeConfig.blockSizeHorizontal *23,
-              margin:
-                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

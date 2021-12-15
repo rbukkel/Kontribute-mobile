@@ -2885,7 +2885,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
                                   child: Text(
-                                    'whocanseethisevent'.tr,
+                                    'whocanseethisticket'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,

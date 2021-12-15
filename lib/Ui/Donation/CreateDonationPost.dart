@@ -1172,7 +1172,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
                               child: Text(
-                                'enterrequiredamount'.tr,
+                                'minimumcashbyparticipant'.tr,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black,

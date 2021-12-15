@@ -849,7 +849,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                       border: Border.all(color: AppColors.purple)
                                                   ),
                                                   child: Text(
-                                                    'ongoing'.tr,
+                                                    listing.projectData.elementAt(index).status.toUpperCase(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
@@ -1514,7 +1514,7 @@ class OngoingEventsState extends State<OngoingEvents> {
       bottomNavigationBar: bottombar(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+          padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 30.0,top: 15.0),
           child: Stack(
             children: <Widget>[
               Align(

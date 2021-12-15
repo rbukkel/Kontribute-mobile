@@ -1014,7 +1014,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               color: AppColors
                                                                   .purple)),
                                                       child: Text(
-                                                        'ongoing'.tr,
+                                                        listing.projectData.elementAt(index).status.toUpperCase(),
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -1043,7 +1043,85 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             ?
                                                     GestureDetector(
                                                                 onTap: () {
-                                                                  Widget
+
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    child: Dialog(
+                                                                      shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(18.0),
+                                                                      ),
+                                                                      backgroundColor: AppColors.whiteColor,
+                                                                      child: new Container(
+                                                                        margin: EdgeInsets.all(5),
+                                                                        width: 300.0,
+                                                                        height: 250.0,
+                                                                        child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Container(
+                                                                              height: SizeConfig.blockSizeVertical *10,
+                                                                              width: SizeConfig.blockSizeHorizontal *30,
+                                                                              margin: EdgeInsets.only(
+                                                                                left: SizeConfig.blockSizeHorizontal *5,
+                                                                                right: SizeConfig.blockSizeHorizontal *5,
+                                                                                top: SizeConfig.blockSizeVertical *2,),
+                                                                              decoration: BoxDecoration(
+                                                                                image: new DecorationImage(
+                                                                                  image: new AssetImage("assets/images/caution.png"),
+                                                                                  fit: BoxFit.fill,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                              color: AppColors.whiteColor,
+                                                                              alignment: Alignment.center,
+                                                                              height: 50,
+                                                                              child: Text(
+                                                                                'paymentalert'.tr,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 18.0,
+                                                                                    color: Colors.black,
+                                                                                    fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                            ),
+                                                                            InkWell(
+                                                                              onTap: () {
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                              child: Container(
+                                                                                margin: EdgeInsets.all(10),
+                                                                                color: AppColors.whiteColor,
+                                                                                alignment: Alignment.center,
+                                                                                height: 10,
+                                                                                child: Text(
+                                                                                  'ok'.tr,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18.0,
+                                                                                      color: Colors.black,
+                                                                                      fontWeight: FontWeight.bold),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+
+
+
+
+
+
+
+
+
+
+
+
+/*                                                                  Widget
                                                                       cancelButton =
                                                                       FlatButton(
                                                                     child: Text(
@@ -1146,7 +1224,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                             context) {
                                                                       return alert;
                                                                     },
-                                                                  );
+                                                                  );*/
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1966,7 +2044,7 @@ class OngoingProjectState extends State<OngoingProject> {
         bottomNavigationBar: bottombar(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 20.0,top: 15.0),
+            padding: const EdgeInsets.only(left:15.0,right:15.0,bottom: 30.0,top: 15.0),
             child: Stack(
               children: <Widget>[
                 Align(
@@ -2169,7 +2247,7 @@ class OngoingProjectState extends State<OngoingProject> {
       } else {
         if (jsonResponse != null) {
           errorDialog(jsonDecode(updateval)["message"]);
-          AmountController.text =null;
+          AmountController.text ="";
           Future.delayed(Duration(seconds: 2),()
           {
             Navigator.push(

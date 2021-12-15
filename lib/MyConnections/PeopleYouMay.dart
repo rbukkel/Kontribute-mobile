@@ -437,13 +437,14 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                          },
                                          child:
                                          Container(
-                                           padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,bottom:  SizeConfig.blockSizeVertical *1),
+                                           padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
+                                               bottom:  SizeConfig.blockSizeVertical *1),
                                            height: SizeConfig
                                                .blockSizeVertical *
-                                               9,
+                                               10,
                                            width: SizeConfig
                                                .blockSizeVertical *
-                                               9,
+                                               10,
                                            alignment: Alignment.center,
                                            margin: EdgeInsets.only(
                                              bottom: SizeConfig
@@ -451,7 +452,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                                  1,
                                              top: SizeConfig
                                                  .blockSizeVertical *
-                                                 3,
+                                                 2,
                                            ),
                                            decoration: BoxDecoration(
                                                border: Border.all(
@@ -479,14 +480,14 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,bottom:  SizeConfig.blockSizeVertical *1),
                                            height: SizeConfig
                                                .blockSizeVertical *
-                                               9,
+                                               10,
                                            width: SizeConfig
                                                .blockSizeVertical *
-                                               9,
+                                               10,
                                            alignment: Alignment.center,
                                            margin: EdgeInsets.only(
                                              bottom: SizeConfig.blockSizeVertical * 1,
-                                             top: SizeConfig.blockSizeVertical * 3,
+                                             top: SizeConfig.blockSizeVertical * 2,
                                            ),
                                            decoration: BoxDecoration(
                                                shape: BoxShape.circle,
@@ -528,7 +529,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                            Unfollowapi(userid, followlistpojo.data.elementAt(ind).id.toString());
                                          },
                                          child:  Container(
-                                           width: SizeConfig.blockSizeHorizontal * 30,
+                                           width: SizeConfig.blockSizeHorizontal * 32,
                                            padding: EdgeInsets.only(
                                                right: SizeConfig.blockSizeHorizontal * 2,
                                                left: SizeConfig.blockSizeHorizontal * 2,
@@ -559,7 +560,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                        ):
                                        followlistpojo.data.elementAt(ind).followed=="pending"?
                                        Container(
-                                         width: SizeConfig.blockSizeHorizontal * 30,
+                                         width: SizeConfig.blockSizeHorizontal * 32,
                                          padding: EdgeInsets.only(
                                              right: SizeConfig.blockSizeHorizontal * 2,
                                              left: SizeConfig.blockSizeHorizontal * 2,
@@ -596,7 +597,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                          child:
                                          Container(
                                            alignment: Alignment.center,
-                                           width: SizeConfig.blockSizeHorizontal *30,
+                                           width: SizeConfig.blockSizeHorizontal * 32,
                                            padding: EdgeInsets.only(
                                                right: SizeConfig.blockSizeHorizontal * 2,
                                                left: SizeConfig.blockSizeHorizontal * 2,
@@ -613,7 +614,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                                bottom: SizeConfig.blockSizeVertical * 2,
                                                left: SizeConfig.blockSizeHorizontal * 2),
                                            child: Text(
-                                             "Follow",
+                                             'Connect',
                                              style: TextStyle(
                                                  letterSpacing: 1.0,
                                                  color: AppColors.black,

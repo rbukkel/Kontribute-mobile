@@ -743,7 +743,7 @@ class OngoingCampaignDetailsscreenState
                                                 border: Border.all(
                                                     color: AppColors.purple)),
                                             child: Text(
-                                              'ongoing'.tr,
+                                              projectdetailspojo.commentsdata.status.toUpperCase(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,

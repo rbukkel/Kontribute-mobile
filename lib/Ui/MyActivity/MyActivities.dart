@@ -1679,7 +1679,9 @@ class MyActivitiesState extends State<MyActivities> {
                                                         color: AppColors.purple)
                                                 ),
                                                 child: Text(
-                                                  'ongoing'.tr,
+                                                  listing
+                                                      .result
+                                                      .elementAt(index).status.toUpperCase(),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -2508,7 +2510,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   border: Border.all(color: AppColors.purple)
                                               ),
                                               child: Text(
-                                                'ongoing'.tr,
+                                                listingdonation.result.elementAt(index).status.toUpperCase(),
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
@@ -3114,7 +3116,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     index)
                                                     .status ==
                                                     "request"
-                                                    ? 'requestreceivedfrom'.tr
+                                                    ? 'sendarequest'.tr
                                                     : listinggift
                                                     .result
                                                     .elementAt(
@@ -3758,7 +3760,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   border: Border.all(color: AppColors.purple)
                                               ),
                                               child: Text(
-                                                'ongoing'.tr,
+                                                listingevent.result.elementAt(index).status.toUpperCase(),
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,

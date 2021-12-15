@@ -35,7 +35,7 @@ class afterwelcomeState extends State<afterwelcome>{
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
                 letterSpacing: 2.0,),),),
-            Container(
+         /*   Container(
               margin: EdgeInsets.only(
                   top: SizeConfig.blockSizeVertical * 4,
                   left: SizeConfig.blockSizeHorizontal*2,
@@ -45,7 +45,7 @@ class afterwelcomeState extends State<afterwelcome>{
               child: Text(StringConstant.dummytext,textAlign:TextAlign.center,style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Regular',
                 fontWeight: FontWeight.normal,
                 fontSize: 18,
-                letterSpacing:1.5,),),),
+                letterSpacing:1.5,),),),*/
             GestureDetector(
               child: Container(
                 alignment: Alignment.center,
@@ -67,7 +67,7 @@ class afterwelcomeState extends State<afterwelcome>{
                   color: AppColors.whiteColor,
                 ),*/
                 margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 10,
+                  top: SizeConfig.blockSizeVertical * 15,
                   bottom: SizeConfig.blockSizeVertical * 1,
                   left: SizeConfig.blockSizeHorizontal * 10,
                   right: SizeConfig.blockSizeHorizontal * 10,
