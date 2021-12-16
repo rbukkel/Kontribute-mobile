@@ -59,7 +59,7 @@ class LocaleString extends Translations {
           'nointernetconnection' : 'No Internet Connection',
           'update' : 'Update',
           'createnewgift' : 'Create New Gift',
-          'ok' : 'OK',
+          'ok':'OK',
           'norecordsfound' : 'No Records Found',
           'amountpaid' : 'Amount Paid',
           'amountreceived' : 'Amount Received',

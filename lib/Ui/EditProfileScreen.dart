@@ -145,6 +145,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         selecteddate = DateFormat('yyyy-MM-dd').format(picked);
         print("onDate: " + selecteddate.toString());
+        dateofbirthController.text =selecteddate.toString();
       });
   }
 
@@ -293,9 +294,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             }
 
             if (loginResponse.resultPush.dob == "") {
-              selecteddate = "";
+              dateofbirthController.text = "";
             } else {
-              selecteddate = loginResponse.resultPush.dob;
+              dateofbirthController.text = loginResponse.resultPush.dob;
             }
 
             if (loginResponse.resultPush.nationality == "") {
@@ -568,8 +569,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
-                                        width: 80.0,
-                                        height: 80.0,
+                                        width: 120.0,
+                                        height: 120.0,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
@@ -586,8 +587,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            width: 80.0,
-                                            height: 80.0,
+                                            width: 120.0,
+                                            height: 120.0,
                                             child: CachedNetworkImage(
                                               fit: BoxFit.fill,
                                               imageUrl: Network.BaseApiprofile +
@@ -595,8 +596,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               imageBuilder:
                                                   (context, imageProvider) =>
                                                       Container(
-                                                width: 80.0,
-                                                height: 80.0,
+                                                width: 120.0,
+                                                height: 120.0,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
@@ -612,16 +613,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            width: 80.0,
-                                            height: 80.0,
+                                            width: 120.0,
+                                            height: 120.0,
                                             child: CachedNetworkImage(
                                               fit: BoxFit.fill,
                                               imageUrl: image,
                                               imageBuilder:
                                                   (context, imageProvider) =>
                                                       Container(
-                                                width: 80.0,
-                                                height: 80.0,
+                                                width: 120.0,
+                                                height: 120.0,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
@@ -632,9 +633,27 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               placeholder: (context, url) =>
                                                   CircularProgressIndicator(),
                                             )),
+
+                                GestureDetector(
+                                  onTap: () {
+                                    showAlert();
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *13,
+                                        left: SizeConfig.blockSizeHorizontal * 24
+                                      ),
+                                      child:CircleAvatar(
+                                        backgroundColor: AppColors.themecolor,
+                                        radius: 25.0,
+                                        child: new Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.white,
+                                        ),
+                                      )),
+                                ),
                               ],
                             ),
-                            Row(
+                           /* Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
@@ -649,23 +668,17 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                           right:
                                               SizeConfig.blockSizeHorizontal *
                                                   8),
-                                      width: SizeConfig.blockSizeHorizontal * 8,
-                                      height: SizeConfig.blockSizeVertical * 8,
-                                      decoration: BoxDecoration(
-                                          color: Colors.orange,
-                                          shape: BoxShape.circle),
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          "assets/images/edit.png",
-                                          color: AppColors.whiteColor,
-                                          width: 15,
-                                          height: 15,
+                                      child:CircleAvatar(
+                                        backgroundColor: AppColors.themecolor,
+                                        radius: 25.0,
+                                        child: new Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.white,
                                         ),
                                       )),
                                 ),
                               ],
-                            ),
+                            ),*/
                             Divider(
                               thickness: 1,
                               color: Colors.black12,
@@ -899,6 +912,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Poppins-Bold'),
                                   ),
+
+
+
                                 ),
                                 /* Container(
                               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2,top: SizeConfig.blockSizeVertical *2),
@@ -973,7 +989,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                       ),
                                       color: Colors.transparent,
                                     ),
-                                    child: Text(
+                                    child:
+                                    /*Text(
                                       selecteddate,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -984,6 +1001,42 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                           color: selected
                                               ? Colors.black
                                               : Colors.black),
+                                    ),*/
+                                    TextFormField(
+                                      autofocus: false,
+                                      enabled: false,
+                                      focusNode: DateofbirthFocus,
+                                      controller: dateofbirthController,
+                                      cursorColor: AppColors.selectedcolor,
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.number,
+                                      validator: (val) {
+                                        if (val.length == 0)
+                                          return "Please enter date of birth";
+                                        else
+                                          return null;
+                                      },
+                                      onFieldSubmitted: (v)
+                                      {
+                                        FocusScope.of(context).requestFocus(CompanynameFocus);
+                                      },
+                                      onSaved: (val) => _dateofbirth = val,
+                                      textAlign: TextAlign.left,
+                                      style:
+                                      TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
+                                      decoration: InputDecoration(
+                                        focusColor: AppColors.selectedcolor,
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: AppColors.light_grey),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: AppColors.selectedcolor),
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: AppColors.selectedcolor),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1199,7 +1252,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               nicknameController.text,
                                               mobileController.text,
                                               CountryController.text,
-                                              selecteddate.toString(),
+                                              dateofbirthController.text,
                                               natinalityController.text,
                                               currentCountryController.text,
                                               token,
@@ -1212,7 +1265,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                             nicknameController.text,
                                             mobile,
                                             countrycode,
-                                            selecteddate.toString(),
+                                            dateofbirthController.text,
                                             natinalityController.text,
                                             currentCountryController.text,
                                             token,

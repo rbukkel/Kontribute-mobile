@@ -153,7 +153,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -985,7 +985,8 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                           print("falseValue");
                                                           warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Donation", context);
                                                         }
-                                                      }else{
+                                                      }
+                                                      else{
                                                         print("falseValue");
                                                         warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Donation", context);
                                                       }
@@ -1670,12 +1671,13 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 child: FloatingActionButton(
                   heroTag: null,
                   onPressed: () {
-
                     SharedUtils.readTerms("Terms").then((result){
                       if(result!=null){
-                        if(result){
+                        if(result)
+                        {
                           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateDonationPost()));
-                        }else{
+                        }else
+                          {
                           print("falseValue");
                           warningDialog('pleasereadthetermsandconditionscarefullybeforecreatepost'.tr,"Donation", context);
                         }

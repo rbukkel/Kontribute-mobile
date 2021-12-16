@@ -5,6 +5,8 @@ import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Donation/SearchbarDonation.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/Events/SearchbarEvent.dart';
+import 'package:kontribute/Ui/NotificationScreen.dart';
+import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/ProjectFunding/SearchbarProject.dart';
 import 'package:kontribute/Ui/Tickets/SearchbarTicket.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEvents.dart';
@@ -254,6 +256,12 @@ class TermsState extends State<Terms> {
                         }else if(data1=="SearchTicket")
                         {
                           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchbarTicket()));
+                        }else if(data1=="Gift")
+                        {
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingSendReceived()));
+                        }else if(data1=="Notification")
+                        {
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
                         }
                       });
                     } else {

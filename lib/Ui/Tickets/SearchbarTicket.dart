@@ -194,8 +194,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                   color: AppColors.whiteColor,
                   alignment: Alignment.center,
                   height: 50,
-                  child: Text(
-                    'ok'.tr,
+                  child: Text('okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,

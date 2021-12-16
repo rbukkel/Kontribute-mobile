@@ -111,13 +111,8 @@ flutter:
     - assets/images/afterwelcome_bg.png
     - assets/images/forgot_bg.png
     - assets/images/languag_bg.png
-    - assets/images/login_bg.png
-    - assets/images/signup_bg.png
     - assets/images/btn.png
     - assets/images/facebook.png
-    - assets/images/instagram.png
-    - assets/images/snapchat.png
-    - assets/images/telegram.png
     - assets/images/twitter.png
     - assets/images/gmail.png
     - assets/images/homelogo.png
@@ -205,9 +200,6 @@ flutter:
     - assets/images/language.png
     - assets/images/peoplemayknow_bg.png
     - assets/images/registerbtn.png
-    - assets/images/user_bg.png
-    - assets/images/lock_bg.png
-    - assets/images/date_bg.png
     - assets/images/caution.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

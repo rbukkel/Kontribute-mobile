@@ -163,7 +163,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                   color: AppColors.whiteColor,
                   alignment: Alignment.center,
                   height: 50,
-                  child: Text('ok'.tr,
+                  child: Text('okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -1452,131 +1452,144 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                         senddetailsPojo.memberlist.elementAt(index).paymentStatus==0?
                                                         GestureDetector(
                                                                 onTap: () {
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    child: Dialog(
-                                                                      shape: RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      backgroundColor: AppColors.whiteColor,
-                                                                      child: new Container(
-                                                                        margin: EdgeInsets.all(5),
-                                                                        width: 320.0,
-                                                                        height: 290.0,
-                                                                        child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                                          children: [
-                                                                            Container(
-                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                                                                              color: AppColors.whiteColor,
-                                                                              alignment: Alignment.center,
-                                                                              child: Text(
-                                                                                'confirmation'.tr,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 14.0,
-                                                                                    color: Colors.black,
-                                                                                    fontWeight: FontWeight.normal),
-                                                                              ),
+
+                                                                  SharedUtils.readTerms("Terms").then((result){
+                                                                    if(result!=null){
+                                                                      if(result){
+                                                                        showDialog(
+                                                                          context: context,
+                                                                          child: Dialog(
+                                                                            shape: RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(10.0),
                                                                             ),
-                                                                            Container(
-                                                                              height: SizeConfig.blockSizeVertical *15,
-                                                                              width: SizeConfig.blockSizeHorizontal *30,
-                                                                              margin: EdgeInsets.only(
-                                                                                left: SizeConfig.blockSizeHorizontal *5,
-                                                                                right: SizeConfig.blockSizeHorizontal *5,
-                                                                                top: SizeConfig.blockSizeVertical *2,),
-                                                                              decoration: BoxDecoration(
-                                                                                image: new DecorationImage(
-                                                                                  image: new AssetImage("assets/images/caution.png"),
-                                                                                  fit: BoxFit.fill,
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Container(
-                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                                                                              color: AppColors.whiteColor,
-                                                                              alignment: Alignment.center,
-                                                                              child: Text(
-                                                                                'paymentalert'.tr,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 14.0,
-                                                                                    color: Colors.black,
-                                                                                    fontWeight: FontWeight.normal),
-                                                                              ),
-                                                                            ),
-                                                                            InkWell(
-                                                                              onTap: () {
-                                                                                Navigator.of(context).pop();
-                                                                                setState(() {
-                                                                                  Widget cancelButton =
-                                                                                  FlatButton(
-                                                                                    child:
-                                                                                    Text('no'.tr),
-                                                                                    onPressed: () {
-                                                                                      Navigator.pop(context);
-                                                                                    },
-                                                                                  );
-                                                                                  Widget continueButton =
-                                                                                  FlatButton(
+                                                                            backgroundColor: AppColors.whiteColor,
+                                                                            child: new Container(
+                                                                              margin: EdgeInsets.all(5),
+                                                                              width: 320.0,
+                                                                              height: 290.0,
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                                    color: AppColors.whiteColor,
+                                                                                    alignment: Alignment.center,
                                                                                     child: Text(
-                                                                                        'yes'.tr),
-                                                                                    onPressed: () async {
-                                                                                      payamount();
-                                                                                    },
-                                                                                  );
-                                                                                  // set up the AlertDialog
-                                                                                  AlertDialog alert =
-                                                                                  AlertDialog(
-                                                                                    title: Text('paynow'.tr),
-                                                                                    content: Text('areyousureyouwanttoPay'.tr),
-                                                                                    actions: [
-                                                                                      cancelButton,
-                                                                                      continueButton,
-                                                                                    ],
-                                                                                  );
-                                                                                  // show the dialog
-                                                                                  showDialog(
-                                                                                    context: context,
-                                                                                    builder: (BuildContext
-                                                                                    context) {
-                                                                                      return alert;
-                                                                                    },
-                                                                                  );
-
-                                                                                });
-                                                                              },
-                                                                              child: Container(
-                                                                                alignment: Alignment.center,
-                                                                                height: SizeConfig.blockSizeVertical * 6,
-                                                                                margin: EdgeInsets.only(
-                                                                                    top: SizeConfig.blockSizeVertical * 3,
-                                                                                    bottom: SizeConfig.blockSizeVertical * 3,
-                                                                                    left: SizeConfig.blockSizeHorizontal * 25,
-                                                                                    right: SizeConfig.blockSizeHorizontal * 25),
-                                                                                decoration: BoxDecoration(
-                                                                                  image: new DecorationImage(
-                                                                                    image: new AssetImage(
-                                                                                        "assets/images/sendbutton.png"),
-                                                                                    fit: BoxFit.fill,
+                                                                                      'confirmation'.tr,
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 14.0,
+                                                                                          color: Colors.black,
+                                                                                          fontWeight: FontWeight.normal),
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                                child: Text('okay'.tr,
-                                                                                    style: TextStyle(
-                                                                                      color: Colors.white,
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontFamily: 'Poppins-Regular',
-                                                                                      fontSize: 15,
-                                                                                    )),
+                                                                                  Container(
+                                                                                    height: SizeConfig.blockSizeVertical *15,
+                                                                                    width: SizeConfig.blockSizeHorizontal *30,
+                                                                                    margin: EdgeInsets.only(
+                                                                                      left: SizeConfig.blockSizeHorizontal *5,
+                                                                                      right: SizeConfig.blockSizeHorizontal *5,
+                                                                                      top: SizeConfig.blockSizeVertical *2,),
+                                                                                    decoration: BoxDecoration(
+                                                                                      image: new DecorationImage(
+                                                                                        image: new AssetImage("assets/images/caution.png"),
+                                                                                        fit: BoxFit.fill,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                                    color: AppColors.whiteColor,
+                                                                                    alignment: Alignment.center,
+                                                                                    child: Text(
+                                                                                      'paymentalert'.tr,
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 14.0,
+                                                                                          color: Colors.black,
+                                                                                          fontWeight: FontWeight.normal),
+                                                                                    ),
+                                                                                  ),
+                                                                                  InkWell(
+                                                                                    onTap: () {
+                                                                                      Navigator.of(context).pop();
+                                                                                      setState(() {
+                                                                                        Widget cancelButton =
+                                                                                        FlatButton(
+                                                                                          child:
+                                                                                          Text('no'.tr),
+                                                                                          onPressed: () {
+                                                                                            Navigator.pop(context);
+                                                                                          },
+                                                                                        );
+                                                                                        Widget continueButton =
+                                                                                        FlatButton(
+                                                                                          child: Text(
+                                                                                              'yes'.tr),
+                                                                                          onPressed: () async {
+                                                                                            payamount();
+                                                                                          },
+                                                                                        );
+                                                                                        // set up the AlertDialog
+                                                                                        AlertDialog alert =
+                                                                                        AlertDialog(
+                                                                                          title: Text('paynow'.tr),
+                                                                                          content: Text('areyousureyouwanttoPay'.tr),
+                                                                                          actions: [
+                                                                                            cancelButton,
+                                                                                            continueButton,
+                                                                                          ],
+                                                                                        );
+                                                                                        // show the dialog
+                                                                                        showDialog(
+                                                                                          context: context,
+                                                                                          builder: (BuildContext
+                                                                                          context) {
+                                                                                            return alert;
+                                                                                          },
+                                                                                        );
+
+                                                                                      });
+                                                                                    },
+                                                                                    child: Container(
+                                                                                      alignment: Alignment.center,
+                                                                                      height: SizeConfig.blockSizeVertical * 6,
+                                                                                      margin: EdgeInsets.only(
+                                                                                          top: SizeConfig.blockSizeVertical * 3,
+                                                                                          bottom: SizeConfig.blockSizeVertical * 3,
+                                                                                          left: SizeConfig.blockSizeHorizontal * 25,
+                                                                                          right: SizeConfig.blockSizeHorizontal * 25),
+                                                                                      decoration: BoxDecoration(
+                                                                                        image: new DecorationImage(
+                                                                                          image: new AssetImage(
+                                                                                              "assets/images/sendbutton.png"),
+                                                                                          fit: BoxFit.fill,
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Text('okay'.tr,
+                                                                                          style: TextStyle(
+                                                                                            color: Colors.white,
+                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                            fontSize: 15,
+                                                                                          )),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
                                                                               ),
                                                                             ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  );
+                                                                          ),
+                                                                        );
 
-
+                                                                      }else{
+                                                                        print("falseValue");
+                                                                        warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Gift", context);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      print("falseValue");
+                                                                      warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Gift", context);
+                                                                    }
+                                                                  });
 
                                                                 },
                                                                 child: Container(
@@ -1739,7 +1752,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,

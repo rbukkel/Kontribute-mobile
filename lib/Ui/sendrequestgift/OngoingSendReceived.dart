@@ -147,7 +147,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -1923,11 +1923,22 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                   child: FloatingActionButton(
                     heroTag: null,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  createpostgift()));
+                      SharedUtils.readTerms("Terms").then((result){
+                        if(result!=null){
+                          if(result)
+                          {
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => createpostgift()));
+                          }else
+                          {
+                            print("falseValue");
+                            warningDialog('pleasereadthetermsandconditionscarefullybeforecreatepost'.tr,"Gift", context);
+                          }
+                        }else{
+                          print("falseValue");
+                          warningDialog('pleasereadthetermsandconditionscarefullybeforecreatepost'.tr,"Gift", context);
+                        }
+                      });
+
                     },
                     child: new Icon(Icons.add_box),
                     backgroundColor: AppColors.themecolor,

@@ -46,6 +46,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   double percent = 0.0;
   String token = '';
+  int _counter=0;
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
   String product_id;
   bool isId=false;
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
    // FlutterAppBadger.updateBadgeCount(1);
   }
+
 
   @override
   void initState() {

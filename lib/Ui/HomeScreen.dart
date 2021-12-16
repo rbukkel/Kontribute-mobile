@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/bannerpojo.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
@@ -29,6 +31,7 @@ class HomeScreenState extends State<HomeScreen>{
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _isTypeSwitch = true;
   int currentPageValue = 0;
+  int counter = 5;
   String valcat;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/banner1.png",
@@ -54,6 +57,7 @@ class HomeScreenState extends State<HomeScreen>{
       image: AssetImage('assets/images/welcome${index + 1}.png'),
     );
   }
+  String resultCounter="0";
 
 
   void errorDialog(String text) {
@@ -121,6 +125,23 @@ class HomeScreenState extends State<HomeScreen>{
   @override
   void initState() {
     super.initState();
+    SharedUtils.readnoficationcounter("counter").then((result){
+      if(result!=null){
+        if(result=="0"){
+          print("falseValue");
+
+
+        }else{
+          print("trueValue");
+          resultCounter = result;
+        }
+      }else{
+        print("falseValue");
+
+      }
+    });
+
+
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         getBanners();
@@ -230,20 +251,53 @@ class HomeScreenState extends State<HomeScreen>{
                 // margin: EdgeInsets.only(top: 10, left: 40),
               // child: Image.asset("assets/images/appicon_circular.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
               ),
-              GestureDetector(
-                onTap: ()
-                {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
-                  // margin: EdgeInsets.only(top: 10, left: 40),
-                  child: Image.asset("assets/images/appicon_circular.png",
-                    width:SizeConfig.blockSizeHorizontal *20,
-                    height: SizeConfig.blockSizeVertical *5,),
-                ),
+
+              new Stack(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
+                      // margin: EdgeInsets.only(top: 10, left: 40),
+                      child: Image.asset("assets/images/appicon_circular.png",
+                        width:SizeConfig.blockSizeHorizontal *20,
+                        height: SizeConfig.blockSizeVertical *5,),
+                    ),
+                  ),
+                  counter != 0 ? new Positioned(
+                      top: 30,
+                      left: 40,
+                   /* right: 11,
+                    top: 11,*/
+                    child: new Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: new BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 14,
+                        minHeight: 14,
+                      ),
+                      child: Text(
+                        '$counter',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ) : new Container()
+                ],
               ),
+
+
+
             ],
           ),
         ),

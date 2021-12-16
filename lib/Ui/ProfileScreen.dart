@@ -393,12 +393,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3,
-                                right: SizeConfig.blockSizeHorizontal * 3),
+                                left: SizeConfig.blockSizeHorizontal * 2,
+                                right: SizeConfig.blockSizeHorizontal * 2),
                             alignment: Alignment.topCenter,
                             width: SizeConfig.blockSizeHorizontal * 65,
                             child: Text(
-                              fullname + "(" + nickname + ")",
+                              fullname + " (" + nickname + ") ",
                               style: TextStyle(
                                   letterSpacing: 1.0,
                                   color: Colors.black,

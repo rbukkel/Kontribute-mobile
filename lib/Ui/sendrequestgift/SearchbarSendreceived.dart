@@ -19,12 +19,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 
 class SearchbarSendreceived extends StatefulWidget {
-  final String data;
 
-  const SearchbarSendreceived({
-    Key key,
-    @required this.data,
-  }) : super(key: key);
 
   @override
   SearchbarSendreceivedState createState() => SearchbarSendreceivedState();
@@ -45,7 +40,6 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
   List<String> _list;
   bool _IsSearching;
   String _searchText = "";
-  String data1;
   bool search = true;
   bool internet = false;
   String val;
@@ -85,7 +79,6 @@ class SearchbarSendreceivedState extends State<SearchbarSendreceived> {
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
-    data1 = widget.data;
   }
   void errorDialog(String text) {
     showDialog(
