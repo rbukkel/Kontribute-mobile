@@ -330,16 +330,48 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                     padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 3,
                       right: SizeConfig.blockSizeHorizontal * 3,
-                      // bottom: SizeConfig.blockSizeVertical *1,
+                      bottom: SizeConfig.blockSizeVertical *1,
                     ),
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage("assets/images/registerbtn.png"),
                         fit: BoxFit.fill,
                       ),
                     ),
-                    child:  Row(
+                    child:   TextFormField(
+                      autofocus: false,
+                      focusNode: OTPFocus,
+                      controller: OtpController,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter otp";
+                        else
+                          return null;
+                      },
+                      onFieldSubmitted: (v) {
+                        OTPFocus.unfocus();
+                      },
+                      onSaved: (val) => _otp = val,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',color: Colors.black),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          decoration: TextDecoration.none,
+                        ),
+                        hintText: StringConstant.Otp,
+                      ),
+                    ),
+                /*    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
@@ -399,7 +431,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                         )
 
                       ],
-                    )
+                    )*/
 
 
                   ),

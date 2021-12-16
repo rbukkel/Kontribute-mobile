@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kontribute/Terms.dart';
 import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
@@ -29,6 +30,96 @@ callNext1(var className, var context) {
   );
   Navigator.pushAndRemoveUntil(context,
       MaterialPageRoute(builder: (context) => className), (route) => false);
+}
+
+void warningDialog(String text,String coming, var context) {
+  showDialog(
+    context: context,
+    child: Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      backgroundColor: AppColors.whiteColor,
+      child: new Container(
+        margin: EdgeInsets.all(5),
+        width: 320.0,
+        height: 260.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              color: AppColors.whiteColor,
+              alignment: Alignment.center,
+              child: Text(
+                'warning'.tr,
+                style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeVertical *15,
+              width: SizeConfig.blockSizeHorizontal *30,
+              margin: EdgeInsets.only(
+                left: SizeConfig.blockSizeHorizontal *5,
+                right: SizeConfig.blockSizeHorizontal *5,
+                top: SizeConfig.blockSizeVertical *2,),
+              decoration: BoxDecoration(
+                image: new DecorationImage(
+                  image: new AssetImage("assets/images/caution.png"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              color: AppColors.whiteColor,
+              alignment: Alignment.center,
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+                callNext(Terms(data: coming), context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: SizeConfig.blockSizeVertical * 6,
+                margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 5,
+                    bottom: SizeConfig.blockSizeVertical * 2,
+                    left: SizeConfig.blockSizeHorizontal * 25,
+                    right: SizeConfig.blockSizeHorizontal * 25),
+                decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage(
+                        "assets/images/sendbutton.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Text('okay'.tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 15,
+                    )),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 createUpperBar(context, text) {

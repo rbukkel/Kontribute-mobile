@@ -611,69 +611,162 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           .notifyFrom=="donation"||listing
                                           .result.data
                                           .elementAt(index)
-                                          .notifyFrom=="project"?Container():
+                                          .notifyFrom=="project"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="payment"?Container():
                                       GestureDetector(
                                         onTap: () {
-                                          Widget cancelButton =
-                                          FlatButton(
-                                            child: Text('no'.tr),
-                                            onPressed: () {
-                                              Navigator.pop(
-                                                  context);
-                                            },
-                                          );
-                                          Widget
-                                          continueButton =
-                                          FlatButton(
-                                            child: Text('yes'.tr),
-                                            onPressed:
-                                                () async {
-                                              listing.result
-                                                  .data
-                                                  .elementAt(
-                                                  index)
-                                                  .price ==
-                                                  "0"
-                                                  ? Payamount(
-                                                  listing
-                                                      .result
-                                                      .data
-                                                      .elementAt(
-                                                      index)
-                                                      .updateId,
-                                                  listing.result.data.elementAt(index).id.toString(),
-                                                  userid)
-                                                  : Payamount(
-                                                  listing
-                                                      .result
-                                                      .data
-                                                      .elementAt(
-                                                      index)
-                                                      .updateId,
-                                                  listing.result.data.elementAt(index).id.toString(),
-                                                  userid);
-                                            },
-                                          );
-                                          // set up the AlertDialog
-                                          AlertDialog alert =
-                                          AlertDialog(
-                                            title: Text(
-                                                'paynow'.tr),
-                                            content: Text('areyousureyouwanttoPaythisproject'.tr),
-                                            actions: [
-                                              cancelButton,
-                                              continueButton,
-                                            ],
-                                          );
-                                          // show the dialog
                                           showDialog(
                                             context: context,
-                                            builder:
-                                                (BuildContext
-                                            context) {
-                                              return alert;
-                                            },
+                                            child: Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              backgroundColor: AppColors.whiteColor,
+                                              child: new Container(
+                                                margin: EdgeInsets.all(5),
+                                                width: 320.0,
+                                                height: 290.0,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                      color: AppColors.whiteColor,
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        'confirmation'.tr,
+                                                        style: TextStyle(
+                                                            fontSize: 14.0,
+                                                            color: Colors.black,
+                                                            fontWeight: FontWeight.normal),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: SizeConfig.blockSizeVertical *15,
+                                                      width: SizeConfig.blockSizeHorizontal *30,
+                                                      margin: EdgeInsets.only(
+                                                        left: SizeConfig.blockSizeHorizontal *5,
+                                                        right: SizeConfig.blockSizeHorizontal *5,
+                                                        top: SizeConfig.blockSizeVertical *2,),
+                                                      decoration: BoxDecoration(
+                                                        image: new DecorationImage(
+                                                          image: new AssetImage("assets/images/caution.png"),
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                      color: AppColors.whiteColor,
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        'paymentalert'.tr,
+                                                        style: TextStyle(
+                                                            fontSize: 14.0,
+                                                            color: Colors.black,
+                                                            fontWeight: FontWeight.normal),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.of(context).pop();
+                                                        setState(() {
+                                                          Widget cancelButton =
+                                                          FlatButton(
+                                                            child: Text('no'.tr),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          );
+                                                          Widget
+                                                          continueButton =
+                                                          FlatButton(
+                                                            child: Text('yes'.tr),
+                                                            onPressed:
+                                                                () async {
+                                                              listing.result
+                                                                  .data
+                                                                  .elementAt(
+                                                                  index)
+                                                                  .price ==
+                                                                  "0"
+                                                                  ? Payamount(
+                                                                  listing
+                                                                      .result
+                                                                      .data
+                                                                      .elementAt(
+                                                                      index)
+                                                                      .updateId,
+                                                                  listing.result.data.elementAt(index).id.toString(),
+                                                                  userid)
+                                                                  : Payamount(
+                                                                  listing
+                                                                      .result
+                                                                      .data
+                                                                      .elementAt(
+                                                                      index)
+                                                                      .updateId,
+                                                                  listing.result.data.elementAt(index).id.toString(),
+                                                                  userid);
+                                                            },
+                                                          );
+                                                          // set up the AlertDialog
+                                                          AlertDialog alert =
+                                                          AlertDialog(
+                                                            title: Text(
+                                                                'paynow'.tr),
+                                                            content: Text('areyousureyouwanttoPaythisproject'.tr),
+                                                            actions: [
+                                                              cancelButton,
+                                                              continueButton,
+                                                            ],
+                                                          );
+                                                          // show the dialog
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                            context) {
+                                                              return alert;
+                                                            },
+                                                          );
+
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        height: SizeConfig.blockSizeVertical * 6,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig.blockSizeVertical * 3,
+                                                            bottom: SizeConfig.blockSizeVertical * 3,
+                                                            left: SizeConfig.blockSizeHorizontal * 25,
+                                                            right: SizeConfig.blockSizeHorizontal * 25),
+                                                        decoration: BoxDecoration(
+                                                          image: new DecorationImage(
+                                                            image: new AssetImage(
+                                                                "assets/images/sendbutton.png"),
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        ),
+                                                        child: Text('okay'.tr,
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontFamily: 'Poppins-Regular',
+                                                              fontSize: 15,
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           );
+
                                         },
                                         child: Container(
                                           alignment:
@@ -870,7 +963,10 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           .notifyFrom=="donation"||listing
                                           .result.data
                                           .elementAt(index)
-                                          .notifyFrom=="project"?Container():
+                                          .notifyFrom=="project"||listing
+                                          .result.data
+                                          .elementAt(index)
+                                          .notifyFrom=="payment"?Container():
                                       Container(
                                         width: SizeConfig
                                             .blockSizeHorizontal *
@@ -1005,7 +1101,10 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   .notifyFrom=="donation"||listing
                                   .result.data
                                   .elementAt(index)
-                                  .notifyFrom=="project"?Container():
+                                  .notifyFrom=="project"||listing
+                                  .result.data
+                                  .elementAt(index)
+                                  .notifyFrom=="payment"?Container():
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment
@@ -1443,6 +1542,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   }
 
   Future<void> Payamount(String id,String notificationid, String userid) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': id.toString(),
       'notificationid': notificationid.toString(),
@@ -1456,8 +1556,10 @@ class NotificationScreenState extends State<NotificationScreen> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
         errorDialog(jsonDecode(updateval)["message"]);
       } else {
+        Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
           Navigator.push(context,
               MaterialPageRoute(
@@ -1468,6 +1570,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
       errorDialog(jsonDecode(updateval)["message"]);
     }
   }

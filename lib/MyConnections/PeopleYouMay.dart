@@ -411,7 +411,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                      return
                        Container(
                            width: SizeConfig.blockSizeHorizontal * 60,
-                           child:  Container(
+                           child: Container(
                            height: SizeConfig.blockSizeVertical * 80,
                            child:
                            Card(

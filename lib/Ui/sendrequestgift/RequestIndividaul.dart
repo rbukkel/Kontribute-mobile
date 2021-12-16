@@ -107,7 +107,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
 
   Future<void> getContacts() async {
-    List<AppContacts> contacts = (await ContactsService.getContacts()).map((contact) {
+    List<AppContacts> contacts = (await ContactsService.getContacts(
+      withThumbnails: false,
+      photoHighResolution: false,)).map((contact) {
       return new AppContacts(info: contact);
     }).toList();
 

@@ -63,6 +63,16 @@ class SharedUtils {
   }
 
 
+  static writeTerms(String key, bool value) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setBool(key, value);
+  }
+
+  static readTerms(String key) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getBool(key);
+  }
+
 
   static saveImage(String image) async {
     SharedPreferences shared_User = await SharedPreferences.getInstance();

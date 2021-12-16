@@ -28,8 +28,7 @@ class viewdetail_sendreceivegift extends StatefulWidget {
       viewdetail_sendreceivegiftState();
 }
 
-class viewdetail_sendreceivegiftState
-    extends State<viewdetail_sendreceivegift> {
+class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> {
   String data1;
   String coming1;
   bool internet = false;
@@ -52,6 +51,7 @@ class viewdetail_sendreceivegiftState
   var followlist_length;
   FollowinglistPojo followlistpojo;
   String followval;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   @override
   void initState() {
@@ -163,8 +163,7 @@ class viewdetail_sendreceivegiftState
                   color: AppColors.whiteColor,
                   alignment: Alignment.center,
                   height: 50,
-                  child: Text(
-                    'ok'.tr,
+                  child: Text('ok'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -1449,44 +1448,135 @@ class viewdetail_sendreceivegiftState
                                                             ],
                                                           ),
                                                         ),
-                                                        senddetailsPojo.memberlist.elementAt(index).id ==
-                                                                userid ?senddetailsPojo.memberlist.elementAt(index).paymentStatus==0?
+                                                        senddetailsPojo.memberlist.elementAt(index).id == userid ?
+                                                        senddetailsPojo.memberlist.elementAt(index).paymentStatus==0?
                                                         GestureDetector(
                                                                 onTap: () {
-                                                                  Widget cancelButton =
-                                                                  FlatButton(
-                                                                    child:
-                                                                    Text('no'.tr),
-                                                                    onPressed: () {
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                  );
-                                                                  Widget continueButton =
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        'yes'.tr),
-                                                                    onPressed: () async {
-                                                                      payamount();
-                                                                    },
-                                                                  );
-                                                                  // set up the AlertDialog
-                                                                  AlertDialog alert =
-                                                                  AlertDialog(
-                                                                    title: Text('paynow'.tr),
-                                                                     content: Text('areyousureyouwanttoPay'.tr),
-                                                                    actions: [
-                                                                      cancelButton,
-                                                                      continueButton,
-                                                                    ],
-                                                                  );
-                                                                  // show the dialog
                                                                   showDialog(
                                                                     context: context,
-                                                                    builder: (BuildContext
-                                                                    context) {
-                                                                      return alert;
-                                                                    },
+                                                                    child: Dialog(
+                                                                      shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(10.0),
+                                                                      ),
+                                                                      backgroundColor: AppColors.whiteColor,
+                                                                      child: new Container(
+                                                                        margin: EdgeInsets.all(5),
+                                                                        width: 320.0,
+                                                                        height: 290.0,
+                                                                        child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Container(
+                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                              color: AppColors.whiteColor,
+                                                                              alignment: Alignment.center,
+                                                                              child: Text(
+                                                                                'confirmation'.tr,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 14.0,
+                                                                                    color: Colors.black,
+                                                                                    fontWeight: FontWeight.normal),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              height: SizeConfig.blockSizeVertical *15,
+                                                                              width: SizeConfig.blockSizeHorizontal *30,
+                                                                              margin: EdgeInsets.only(
+                                                                                left: SizeConfig.blockSizeHorizontal *5,
+                                                                                right: SizeConfig.blockSizeHorizontal *5,
+                                                                                top: SizeConfig.blockSizeVertical *2,),
+                                                                              decoration: BoxDecoration(
+                                                                                image: new DecorationImage(
+                                                                                  image: new AssetImage("assets/images/caution.png"),
+                                                                                  fit: BoxFit.fill,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                              color: AppColors.whiteColor,
+                                                                              alignment: Alignment.center,
+                                                                              child: Text(
+                                                                                'paymentalert'.tr,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 14.0,
+                                                                                    color: Colors.black,
+                                                                                    fontWeight: FontWeight.normal),
+                                                                              ),
+                                                                            ),
+                                                                            InkWell(
+                                                                              onTap: () {
+                                                                                Navigator.of(context).pop();
+                                                                                setState(() {
+                                                                                  Widget cancelButton =
+                                                                                  FlatButton(
+                                                                                    child:
+                                                                                    Text('no'.tr),
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                  );
+                                                                                  Widget continueButton =
+                                                                                  FlatButton(
+                                                                                    child: Text(
+                                                                                        'yes'.tr),
+                                                                                    onPressed: () async {
+                                                                                      payamount();
+                                                                                    },
+                                                                                  );
+                                                                                  // set up the AlertDialog
+                                                                                  AlertDialog alert =
+                                                                                  AlertDialog(
+                                                                                    title: Text('paynow'.tr),
+                                                                                    content: Text('areyousureyouwanttoPay'.tr),
+                                                                                    actions: [
+                                                                                      cancelButton,
+                                                                                      continueButton,
+                                                                                    ],
+                                                                                  );
+                                                                                  // show the dialog
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (BuildContext
+                                                                                    context) {
+                                                                                      return alert;
+                                                                                    },
+                                                                                  );
+
+                                                                                });
+                                                                              },
+                                                                              child: Container(
+                                                                                alignment: Alignment.center,
+                                                                                height: SizeConfig.blockSizeVertical * 6,
+                                                                                margin: EdgeInsets.only(
+                                                                                    top: SizeConfig.blockSizeVertical * 3,
+                                                                                    bottom: SizeConfig.blockSizeVertical * 3,
+                                                                                    left: SizeConfig.blockSizeHorizontal * 25,
+                                                                                    right: SizeConfig.blockSizeHorizontal * 25),
+                                                                                decoration: BoxDecoration(
+                                                                                  image: new DecorationImage(
+                                                                                    image: new AssetImage(
+                                                                                        "assets/images/sendbutton.png"),
+                                                                                    fit: BoxFit.fill,
+                                                                                  ),
+                                                                                ),
+                                                                                child: Text('okay'.tr,
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontFamily: 'Poppins-Regular',
+                                                                                      fontSize: 15,
+                                                                                    )),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
                                                                   );
+
+
 
                                                                 },
                                                                 child: Container(
@@ -1584,6 +1674,7 @@ class viewdetail_sendreceivegiftState
   }
 
   Future<void> payamount() async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': senddetailsPojo.result.id.toString(),
       'sender_id': userid.toString(),
@@ -1596,19 +1687,79 @@ class viewdetail_sendreceivegiftState
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
         showToast(updateval);
       } else {
+        Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-          showToast(updateval);
-          setState(() {
-            getData(a, userid);
-          });
+          showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              backgroundColor: AppColors.whiteColor,
+              child: new Container(
+                margin: EdgeInsets.all(5),
+                width: 300.0,
+                height: 180.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.error,
+                        size: 50.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      color: AppColors.whiteColor,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        jsonDecode(updateval)["message"],
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          getData(a, userid);
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        color: AppColors.whiteColor,
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          "'ok'.tr",
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+
           // getpaymentlist(a);
         } else {
           showToast(updateval);
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
       showToast(updateval);
     }
   }

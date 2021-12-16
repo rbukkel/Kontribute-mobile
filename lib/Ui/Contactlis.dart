@@ -61,7 +61,10 @@ class _ContactlisState extends State<Contactlis>
       Colors.orange
     ];
     int colorIndex = 0;
-    List<AppContact> _contacts = (await ContactsService.getContacts()).map((contact) {
+    List<AppContact> _contacts = (await ContactsService.getContacts(
+      withThumbnails: false,
+      photoHighResolution: false,
+    )).map((contact) {
       Color baseColor = colors[colorIndex];
       colorIndex++;
       if (colorIndex == colors.length) {
