@@ -28,6 +28,7 @@ callNext1(var className, var context) {
     context,
     MaterialPageRoute(builder: (context) => className),
   );
+
   Navigator.pushAndRemoveUntil(context,
       MaterialPageRoute(builder: (context) => className), (route) => false);
 }
@@ -42,8 +43,8 @@ void warningDialog(String text,String coming, var context) {
       backgroundColor: AppColors.whiteColor,
       child: new Container(
         margin: EdgeInsets.all(5),
-        width: 320.0,
-        height: 260.0,
+        width: SizeConfig.blockSizeHorizontal * 80,
+        height: SizeConfig.blockSizeVertical *40,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,8 +62,8 @@ void warningDialog(String text,String coming, var context) {
               ),
             ),
             Container(
-              height: SizeConfig.blockSizeVertical *15,
-              width: SizeConfig.blockSizeHorizontal *30,
+              height: SizeConfig.blockSizeVertical *10,
+              width: SizeConfig.blockSizeHorizontal *25,
               margin: EdgeInsets.only(
                 left: SizeConfig.blockSizeHorizontal *5,
                 right: SizeConfig.blockSizeHorizontal *5,
@@ -75,13 +76,14 @@ void warningDialog(String text,String coming, var context) {
               ),
             ),
             Container(
+              height: SizeConfig.blockSizeVertical *9,
               margin: EdgeInsets.only(top: 10, left: 10, right: 10),
               color: AppColors.whiteColor,
               alignment: Alignment.center,
               child: Text(
                 text,
                 style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 12.0,
                     color: Colors.black,
                     fontWeight: FontWeight.normal),
               ),
@@ -93,9 +95,9 @@ void warningDialog(String text,String coming, var context) {
               },
               child: Container(
                 alignment: Alignment.center,
-                height: SizeConfig.blockSizeVertical * 6,
+                height: SizeConfig.blockSizeVertical * 5,
                 margin: EdgeInsets.only(
-                    top: SizeConfig.blockSizeVertical * 5,
+                    top: SizeConfig.blockSizeVertical *3,
                     bottom: SizeConfig.blockSizeVertical * 2,
                     left: SizeConfig.blockSizeHorizontal * 25,
                     right: SizeConfig.blockSizeHorizontal * 25),
@@ -107,11 +109,12 @@ void warningDialog(String text,String coming, var context) {
                   ),
                 ),
                 child: Text('okay'.tr,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Poppins-Regular',
-                      fontSize: 15,
+                      fontSize: 14,
                     )),
               ),
             ),
@@ -372,8 +375,8 @@ bottombar(context) {
                 children: [
                   Image.asset(
                     "assets/images/homeicon.png",
-                    height: 15,
-                    width: 15,
+                    height: 19,
+                    width: 19,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
@@ -401,8 +404,8 @@ bottombar(context) {
             children: [
               Image.asset(
                 "assets/images/nav_mytranscaton.png",
-                height: 15,
-                width: 15,
+                height: 19,
+                width: 19,
                 color: AppColors.grey,
               ),
 
@@ -429,8 +432,8 @@ bottombar(context) {
             children: [
               Image.asset(
                 "assets/images/notificationicon.png",
-                height: 15,
-                width: 15,
+                height: 19,
+                width: 19,
               ),
               Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
@@ -454,8 +457,8 @@ bottombar(context) {
                 children: [
                   Image.asset(
                     "assets/images/nav_contactus.png",
-                    height: 15,
-                    width: 15,
+                    height: 19,
+                    width: 19,
                     color: AppColors.grey,
                   ),
                   Container(

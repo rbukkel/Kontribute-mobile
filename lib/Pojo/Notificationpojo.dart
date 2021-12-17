@@ -2,13 +2,15 @@ class Notificationpojo {
   bool status;
   Result result;
   String message;
+  int unreadnotificaiton;
 
-  Notificationpojo({this.status, this.result, this.message});
+  Notificationpojo({this.status, this.result,this.unreadnotificaiton, this.message});
 
   Notificationpojo.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     result =
     json['result'] != null ? new Result.fromJson(json['result']) : null;
+    unreadnotificaiton = json['unreadnotificaiton'];
     message = json['message'];
   }
 
@@ -18,6 +20,7 @@ class Notificationpojo {
     if (this.result != null) {
       data['result'] = this.result.toJson();
     }
+    data['unreadnotificaiton'] = this.unreadnotificaiton;
     data['message'] = this.message;
     return data;
   }
@@ -111,7 +114,7 @@ class Data {
   String fullName;
   String profilePic;
   String facebookId;
-  Null groupName;
+  String groupName;
 
   Data(
       {this.id,

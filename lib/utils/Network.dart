@@ -108,4 +108,5 @@ class Network{
   static String eventdelete = "eventdelete";
   static String ticketdelete = "ticketdelete";
   static String giftdelete = "giftdelete";
+  static String update_notifications = "update_notifications";
 }

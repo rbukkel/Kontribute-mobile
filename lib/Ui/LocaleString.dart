@@ -293,6 +293,7 @@ class LocaleString extends Translations {
           'okay' : 'OKAY',
           'ihavereadandagreedtothe' : 'I have read and agreed to the ',
           'pleasechecktermscondition' : 'Please Check Terms & Condition',
+          'markasread' : 'Mark as read',
           'pleasereadthetermsandconditionscarefullybeforepaying': 'Please Read The Terms And Conditions Carefully Before Paying',
           'pleasereadthetermsandconditionscarefullybeforecreatepost': 'Please Read The Terms And Conditions Carefully Before Create Post',
           'paymentalert' : 'Be aware from scammers and ensure the payment is going to a legitimate end user as contribute will not be responsible for any fraudulent activity.',
@@ -588,8 +589,7 @@ class LocaleString extends Translations {
           'pleasereadthetermsandconditionscarefullybeforepaying' : 'يرجى قراءة الشروط والأحكام بعناية قبل الدفع',
           'pleasereadthetermsandconditionscarefullybeforecreatepost' : 'يرجى قراءة الشروط والأحكام بعناية قبل إنشاء المنشور',
           'ihavereadandagreedtothe' : 'لقد قرأت ووافقت على',
-
-
+          'markasread' : 'ضع إشارة مقروء',
         },
       };
 }

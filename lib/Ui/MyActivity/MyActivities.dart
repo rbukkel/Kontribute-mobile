@@ -1709,8 +1709,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                       backgroundColor: AppColors.whiteColor,
                                                       child: new Container(
                                                         margin: EdgeInsets.all(5),
-                                                        width: 320.0,
-                                                        height: 290.0,
+                                                         width: SizeConfig.blockSizeHorizontal * 80,
+                                                                  height: SizeConfig.blockSizeVertical *40,
                                                         child: Column(
                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1728,8 +1728,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                               ),
                                                             ),
                                                             Container(
-                                                              height: SizeConfig.blockSizeVertical *15,
-                                                              width: SizeConfig.blockSizeHorizontal *30,
+                                                             height: SizeConfig.blockSizeVertical *10,
+                                                             width: SizeConfig.blockSizeHorizontal *25,
                                                               margin: EdgeInsets.only(
                                                                 left: SizeConfig.blockSizeHorizontal *5,
                                                                 right: SizeConfig.blockSizeHorizontal *5,
@@ -1741,14 +1741,14 @@ class MyActivitiesState extends State<MyActivities> {
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            Container(height: SizeConfig.blockSizeVertical *9,
                                                               margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                               color: AppColors.whiteColor,
                                                               alignment: Alignment.center,
                                                               child: Text(
                                                                 'paymentalert'.tr,
                                                                 style: TextStyle(
-                                                                    fontSize: 14.0,
+                                                                    fontSize: 12.0,
                                                                     color: Colors.black,
                                                                     fontWeight: FontWeight.normal),
                                                               ),
@@ -1857,7 +1857,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               },
                                                               child: Container(
                                                                 alignment: Alignment.center,
-                                                                height: SizeConfig.blockSizeVertical * 6,
+                                                                height: SizeConfig.blockSizeVertical * 5,
                                                                 margin: EdgeInsets.only(
                                                                     top: SizeConfig.blockSizeVertical * 3,
                                                                     bottom: SizeConfig.blockSizeVertical * 3,
@@ -1871,11 +1871,12 @@ class MyActivitiesState extends State<MyActivities> {
                                                                   ),
                                                                 ),
                                                                 child: Text('okay'.tr,
+                                                                    textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                       color: Colors.white,
                                                                       fontWeight: FontWeight.normal,
                                                                       fontFamily: 'Poppins-Regular',
-                                                                      fontSize: 15,
+                                                                      fontSize: 14,
                                                                     )),
                                                               ),
                                                             ),
@@ -2640,8 +2641,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                     backgroundColor: AppColors.whiteColor,
                                                     child: new Container(
                                                       margin: EdgeInsets.all(5),
-                                                      width: 320.0,
-                                                      height: 290.0,
+                                                      width: SizeConfig.blockSizeHorizontal * 80,
+                                                                  height: SizeConfig.blockSizeVertical *40,
                                                       child: Column(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -2659,8 +2660,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                             ),
                                                           ),
                                                           Container(
-                                                            height: SizeConfig.blockSizeVertical *15,
-                                                            width: SizeConfig.blockSizeHorizontal *30,
+                                                           height: SizeConfig.blockSizeVertical *10,
+                                                           width: SizeConfig.blockSizeHorizontal *25,
                                                             margin: EdgeInsets.only(
                                                               left: SizeConfig.blockSizeHorizontal *5,
                                                               right: SizeConfig.blockSizeHorizontal *5,
@@ -2672,14 +2673,14 @@ class MyActivitiesState extends State<MyActivities> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          Container(height: SizeConfig.blockSizeVertical *9,
                                                             margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                             color: AppColors.whiteColor,
                                                             alignment: Alignment.center,
                                                             child: Text(
                                                               'paymentalert'.tr,
                                                               style: TextStyle(
-                                                                  fontSize: 14.0,
+                                                                  fontSize: 12.0,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.normal),
                                                             ),
@@ -2778,7 +2779,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                             },
                                                             child: Container(
                                                               alignment: Alignment.center,
-                                                              height: SizeConfig.blockSizeVertical * 6,
+                                                              height: SizeConfig.blockSizeVertical * 5,
                                                               margin: EdgeInsets.only(
                                                                   top: SizeConfig.blockSizeVertical * 3,
                                                                   bottom: SizeConfig.blockSizeVertical * 3,
@@ -2792,11 +2793,12 @@ class MyActivitiesState extends State<MyActivities> {
                                                                 ),
                                                               ),
                                                               child: Text('okay'.tr,
+                                                                  textAlign:TextAlign.center,
                                                                   style: TextStyle(
                                                                     color: Colors.white,
                                                                     fontWeight: FontWeight.normal,
                                                                     fontFamily: 'Poppins-Regular',
-                                                                    fontSize: 15,
+                                                                    fontSize: 14,
                                                                   )),
                                                             ),
                                                           ),
@@ -3989,8 +3991,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                     backgroundColor: AppColors.whiteColor,
                                                     child: new Container(
                                                       margin: EdgeInsets.all(5),
-                                                      width: 320.0,
-                                                      height: 290.0,
+                                                     width: SizeConfig.blockSizeHorizontal * 80,
+                                                                  height: SizeConfig.blockSizeVertical *40,
                                                       child: Column(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -4008,8 +4010,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                             ),
                                                           ),
                                                           Container(
-                                                            height: SizeConfig.blockSizeVertical *15,
-                                                            width: SizeConfig.blockSizeHorizontal *30,
+                                                            height: SizeConfig.blockSizeVertical *10,
+                                                            width: SizeConfig.blockSizeHorizontal *25,
                                                             margin: EdgeInsets.only(
                                                               left: SizeConfig.blockSizeHorizontal *5,
                                                               right: SizeConfig.blockSizeHorizontal *5,
@@ -4021,14 +4023,14 @@ class MyActivitiesState extends State<MyActivities> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          Container(height: SizeConfig.blockSizeVertical *9,
                                                             margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                             color: AppColors.whiteColor,
                                                             alignment: Alignment.center,
                                                             child: Text(
                                                               'paymentalert'.tr,
                                                               style: TextStyle(
-                                                                  fontSize: 14.0,
+                                                                  fontSize: 12.0,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.normal),
                                                             ),
@@ -4090,7 +4092,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                             },
                                                             child: Container(
                                                               alignment: Alignment.center,
-                                                              height: SizeConfig.blockSizeVertical * 6,
+                                                              height: SizeConfig.blockSizeVertical * 5,
                                                               margin: EdgeInsets.only(
                                                                   top: SizeConfig.blockSizeVertical * 3,
                                                                   bottom: SizeConfig.blockSizeVertical * 3,
@@ -4104,11 +4106,12 @@ class MyActivitiesState extends State<MyActivities> {
                                                                 ),
                                                               ),
                                                               child: Text('okay'.tr,
+                                                                  textAlign:TextAlign.center,
                                                                   style: TextStyle(
                                                                     color: Colors.white,
                                                                     fontWeight: FontWeight.normal,
                                                                     fontFamily: 'Poppins-Regular',
-                                                                    fontSize: 15,
+                                                                    fontSize: 14,
                                                                   )),
                                                             ),
                                                           ),
@@ -4746,8 +4749,8 @@ class MyActivitiesState extends State<MyActivities> {
                                             backgroundColor: AppColors.whiteColor,
                                             child: new Container(
                                               margin: EdgeInsets.all(5),
-                                              width: 320.0,
-                                              height: 290.0,
+                                               width: SizeConfig.blockSizeHorizontal * 80,
+                                                                  height: SizeConfig.blockSizeVertical *40,
                                               child: Column(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -4765,8 +4768,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    height: SizeConfig.blockSizeVertical *15,
-                                                    width: SizeConfig.blockSizeHorizontal *30,
+                                                    height: SizeConfig.blockSizeVertical *10,
+                                                    width: SizeConfig.blockSizeHorizontal *25,
                                                     margin: EdgeInsets.only(
                                                       left: SizeConfig.blockSizeHorizontal *5,
                                                       right: SizeConfig.blockSizeHorizontal *5,
@@ -4779,13 +4782,14 @@ class MyActivitiesState extends State<MyActivities> {
                                                     ),
                                                   ),
                                                   Container(
+                                                    height: SizeConfig.blockSizeVertical *9,
                                                     margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                     color: AppColors.whiteColor,
                                                     alignment: Alignment.center,
                                                     child: Text(
                                                       'paymentalert'.tr,
                                                       style: TextStyle(
-                                                          fontSize: 14.0,
+                                                          fontSize: 12.0,
                                                           color: Colors.black,
                                                           fontWeight: FontWeight.normal),
                                                     ),
@@ -4893,7 +4897,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     },
                                                     child: Container(
                                                       alignment: Alignment.center,
-                                                      height: SizeConfig.blockSizeVertical * 6,
+                                                      height: SizeConfig.blockSizeVertical * 5,
                                                       margin: EdgeInsets.only(
                                                           top: SizeConfig.blockSizeVertical * 3,
                                                           bottom: SizeConfig.blockSizeVertical * 3,
@@ -4907,11 +4911,12 @@ class MyActivitiesState extends State<MyActivities> {
                                                         ),
                                                       ),
                                                       child: Text('okay'.tr,
+                                                          textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                             fontWeight: FontWeight.normal,
                                                             fontFamily: 'Poppins-Regular',
-                                                            fontSize: 15,
+                                                            fontSize: 14,
                                                           )),
                                                     ),
                                                   ),

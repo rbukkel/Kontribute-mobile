@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
+import 'package:kontribute/Pojo/Notificationpojo.dart';
 import 'package:kontribute/Pojo/bannerpojo.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
@@ -22,30 +23,45 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget{
+class HomeScreen extends StatefulWidget {
   @override
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen>{
+class HomeScreenState extends State<HomeScreen> {
+  int _totalNotifications;
+  Notificationpojo listing;
+  String val;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _isTypeSwitch = true;
   int currentPageValue = 0;
-  int counter = 5;
+  int counter = 0;
   String valcat;
   final List<Widget> introWidgetsList = <Widget>[
-    Image.asset("assets/images/banner1.png",
-      width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner2.png",
-      width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner1.png",
-      width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
-    Image.asset("assets/images/banner2.png",
-      width: SizeConfig.blockSizeHorizontal *100,
-      height: SizeConfig.blockSizeVertical * 25,fit: BoxFit.fitHeight,),
+    Image.asset(
+      "assets/images/banner1.png",
+      width: SizeConfig.blockSizeHorizontal * 100,
+      height: SizeConfig.blockSizeVertical * 25,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner2.png",
+      width: SizeConfig.blockSizeHorizontal * 100,
+      height: SizeConfig.blockSizeVertical * 25,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner1.png",
+      width: SizeConfig.blockSizeHorizontal * 100,
+      height: SizeConfig.blockSizeVertical * 25,
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      "assets/images/banner2.png",
+      width: SizeConfig.blockSizeHorizontal * 100,
+      height: SizeConfig.blockSizeVertical * 25,
+      fit: BoxFit.fitHeight,
+    ),
   ];
   bool internet = false;
   bannerpojo imageslisting;
@@ -57,7 +73,69 @@ class HomeScreenState extends State<HomeScreen>{
       image: AssetImage('assets/images/welcome${index + 1}.png'),
     );
   }
-  String resultCounter="0";
+
+  String resultCounter = "0";
+  String userid;
+
+  @override
+  void initState() {
+    _totalNotifications = 0;
+
+    super.initState();
+    SharedUtils.readloginId("UserId").then((val) {
+      print("UserId: " + val);
+      setState(() {
+        userid = val;
+        getSUBdata(userid);
+        print("Login userid: " + userid.toString());
+      });
+    });
+
+    Internet_check().check().then((intenet) {
+      if (intenet != null && intenet) {
+        getBanners();
+        setState(() {
+          internet = true;
+        });
+      } else {
+        setState(() {
+          internet = false;
+        });
+        errorDialog('nointernetconnection'.tr);
+      }
+    });
+  }
+
+  void getSUBdata(String user_id) async {
+    Map data = {
+      'userid': user_id.toString(),
+    };
+    print("Subuser: " + data.toString());
+    var jsonResponse = null;
+    print(Network.BaseApi + Network.notificationlisting);
+    http.Response response = await http.post(Network.BaseApi + Network.notificationlisting, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      val = response.body;
+      if (jsonResponse["status"] == false) {
+
+       // errorDialog(jsonDecode(val)["message"]);
+      }  else {
+        listing = new Notificationpojo.fromJson(jsonResponse);
+        print("Json User: " + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            _totalNotifications = listing.unreadnotificaiton;
+          });
+        } else {
+         // errorDialog(listing.message);
+        }
+      }
+    } else {
+     // errorDialog(jsonDecode(val)["message"]);
+    }
+  }
 
 
   void errorDialog(String text) {
@@ -121,85 +199,39 @@ class HomeScreenState extends State<HomeScreen>{
     );
   }
 
-
-  @override
-  void initState() {
-    super.initState();
-    SharedUtils.readnoficationcounter("counter").then((result){
-      if(result!=null){
-        if(result=="0"){
-          print("falseValue");
-
-
-        }else{
-          print("trueValue");
-          resultCounter = result;
-        }
-      }else{
-        print("falseValue");
-
-      }
-    });
-
-
-    Internet_check().check().then((intenet) {
-      if (intenet != null && intenet) {
-        getBanners();
-        setState(() {
-          internet = true;
-        });
-      } else {
-        setState(() {
-          internet = false;
-        });
-        errorDialog('nointernetconnection'.tr);
-
-      }
-    });
-  }
-
-
   void getBanners() async {
-    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.bannerimages));
+    var response =
+        await http.get(Uri.encodeFull(Network.BaseApi + Network.bannerimages));
     var jsonResponse = null;
-    if (response.statusCode == 200)
-    {
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valcat = response.body;
       if (jsonResponse["success"] == false) {
         setState(() {
           resultcatvalue = false;
         });
-
       } else {
         imageslisting = new bannerpojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            if(imageslisting.projectimages.isEmpty)
-            {
+            if (imageslisting.projectimages.isEmpty) {
               resultcatvalue = false;
-            }
-            else
-            {
+            } else {
               resultcatvalue = true;
               print("SSSS");
               banner_length = imageslisting.projectimages;
             }
           });
-        }
-        else {
+        } else {
           errorDialog(imageslisting.message);
         }
       }
     } else {
       errorDialog(jsonDecode(valcat)["message"]);
-
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -219,148 +251,161 @@ class HomeScreenState extends State<HomeScreen>{
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-        Container(
-        height: SizeConfig.blockSizeVertical *12,
-          decoration: BoxDecoration(
-            image: new DecorationImage(
-              image: new AssetImage("assets/images/appbar.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-            width: 20,height: 20,
-                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6,top: SizeConfig.blockSizeVertical *4),
-                child:
-                InkWell(
-                  onTap: () {
-                    _scaffoldKey.currentState.openDrawer();
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Image.asset("assets/images/menu.png",color:AppColors.whiteColor,width: 20,height: 20,),
-                  ),
+            Container(
+              height: SizeConfig.blockSizeVertical * 12,
+              decoration: BoxDecoration(
+                image: new DecorationImage(
+                  image: new AssetImage("assets/images/appbar.png"),
+                  fit: BoxFit.fill,
                 ),
               ),
-              Container(
-                width: SizeConfig.blockSizeHorizontal * 45,
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
-                // margin: EdgeInsets.only(top: 10, left: 40),
-              // child: Image.asset("assets/images/appicon_circular.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
-              ),
-
-              new Stack(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: ()
-                    {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => NotificationScreen()));
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *4),
-                      // margin: EdgeInsets.only(top: 10, left: 40),
-                      child: Image.asset("assets/images/appicon_circular.png",
-                        width:SizeConfig.blockSizeHorizontal *20,
-                        height: SizeConfig.blockSizeVertical *5,),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 20,
+                    height: 20,
+                    margin: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 6,
+                        top: SizeConfig.blockSizeVertical * 4),
+                    child: InkWell(
+                      onTap: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Image.asset(
+                          "assets/images/menu.png",
+                          color: AppColors.whiteColor,
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
                     ),
                   ),
-                  counter != 0 ? new Positioned(
-                      top: 30,
-                      left: 40,
-                   /* right: 11,
-                    top: 11,*/
-                    child: new Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: new BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 14,
-                        minHeight: 14,
-                      ),
-                      child: Text(
-                        '$counter',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 45,
+                    alignment: Alignment.center,
+                    margin:
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
+                    // margin: EdgeInsets.only(top: 10, left: 40),
+                    // child: Image.asset("assets/images/appicon_circular.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
+                  ),
+                  // NotificationBadge(totalNotifications: _totalNotifications),
+                  new Stack(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      NotificationScreen()));
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 4),
+                          // margin: EdgeInsets.only(top: 10, left: 40),
+                          child: Image.asset(
+                            "assets/images/appicon_circular.png",
+                            width: SizeConfig.blockSizeHorizontal * 20,
+                            height: SizeConfig.blockSizeVertical * 5,
+                          ),
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ) : new Container()
+                      _totalNotifications != 0 ? new Positioned(
+                              top: 40,
+                              left: 40,
+                              /* right: 11,
+                                 top: 11,*/
+                              child: new Container(
+                                padding: EdgeInsets.all(2),
+                                decoration: new BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                constraints: BoxConstraints(
+                                  minWidth: 14,
+                                  minHeight: 14,
+                                ),
+                                child: Text(
+                                  '$_totalNotifications',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 9,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          : new Container()
+                    ],
+                  ),
                 ],
               ),
-
-
-
-            ],
-          ),
-        ),
+            ),
             Container(
               //color: AppColors.themecolor,
               alignment: Alignment.topCenter,
               margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical *2,
-              left: SizeConfig.blockSizeHorizontal *5,
-              right: SizeConfig.blockSizeHorizontal *2,
-              bottom:  SizeConfig.blockSizeVertical *1,),
-              width: SizeConfig.blockSizeHorizontal *100,
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 5,
+                right: SizeConfig.blockSizeHorizontal * 2,
+                bottom: SizeConfig.blockSizeVertical * 1,
+              ),
+              width: SizeConfig.blockSizeHorizontal * 100,
               height: SizeConfig.blockSizeVertical * 25,
-                child: banner_length != null ?
-                new Swiper(
-                  itemBuilder: (BuildContext context, int index) {
-                    return
-                     GestureDetector(
-                       onTap: ()
-                       {
-                         callNext(
-                             OngoingProjectDetailsscreen(
-                                 data: imageslisting.projectimages.elementAt(index).
-                                     projectId
-                                     .toString(),
-                                 coming: "home"),
-                             context);
-                       },
-                       child: Container(
-                         width: SizeConfig.blockSizeHorizontal * 80,
-                         height: SizeConfig.blockSizeVertical * 25,
-                         decoration: BoxDecoration(
-                             border: Border.all(
-                                 color: Colors.transparent),
-                             image: DecorationImage(
-                                 image: NetworkImage(
-                                   Network.BaseApiProject +
-                                       imageslisting.projectimages.elementAt(index).imagePath,
-                                 ),
-                                 fit: BoxFit.fill)),
-                       ),
-                     );
-
-                  },
-                  itemCount:banner_length.length == null ? 0 : banner_length.length,
-                  itemWidth:  SizeConfig.blockSizeHorizontal *80,
-                  layout: SwiperLayout.STACK,
-                  //pagination: new SwiperPagination(),
-                ):
-
-                new Swiper(
-                  itemBuilder: (BuildContext context, int index) {
-                    return
-                      Image(
-                        image: AssetImage('assets/images/homebg${index + 1}.png'),
-                        fit: BoxFit.fill,
-                      );
-                  },
-                  itemCount:4,
-                  itemWidth:  SizeConfig.blockSizeHorizontal *80,
-                  layout: SwiperLayout.STACK,
-                  //pagination: new SwiperPagination(),
-                ),
+              child: banner_length != null
+                  ? new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            callNext(
+                                OngoingProjectDetailsscreen(
+                                    data: imageslisting.projectimages
+                                        .elementAt(index)
+                                        .projectId
+                                        .toString(),
+                                    coming: "home"),
+                                context);
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 80,
+                            height: SizeConfig.blockSizeVertical * 25,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.transparent),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      Network.BaseApiProject +
+                                          imageslisting.projectimages
+                                              .elementAt(index)
+                                              .imagePath,
+                                    ),
+                                    fit: BoxFit.fill)),
+                          ),
+                        );
+                      },
+                      itemCount: banner_length.length == null
+                          ? 0
+                          : banner_length.length,
+                      itemWidth: SizeConfig.blockSizeHorizontal * 80,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    )
+                  : new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image(
+                          image: AssetImage(
+                              'assets/images/homebg${index + 1}.png'),
+                          fit: BoxFit.fill,
+                        );
+                      },
+                      itemCount: 4,
+                      itemWidth: SizeConfig.blockSizeHorizontal * 80,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    ),
               /* InfiniteCards(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 1.3,
@@ -405,7 +450,7 @@ class HomeScreenState extends State<HomeScreen>{
                 ],
               ),*/
             ),
-          /*  Row(
+            /*  Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 RaisedButton(
@@ -434,328 +479,363 @@ class HomeScreenState extends State<HomeScreen>{
             ),*/
             Expanded(
                 child: SingleChildScrollView(
-                  child:  Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeHorizontal * 3,bottom: SizeConfig.blockSizeHorizontal * 3,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingSendReceived()));
-                              },
-                              child:  Container(
-                                height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *2),
-                                child: Card(
-                                  elevation:3.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeHorizontal * 3,
+                      bottom: SizeConfig.blockSizeHorizontal * 3,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OngoingSendReceived()));
+                          },
+                          child: Container(
+                            height: SizeConfig.blockSizeVertical * 18,
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 2),
+                            child: Card(
+                              elevation: 3.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: AppColors.whiteColor,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.all(5),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/sendreceivegift.png",
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 15,
+                                    ),
                                   ),
-                                  color: AppColors.whiteColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        padding: EdgeInsets.all(5),
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          "assets/images/sendreceivegift.png",
-                                          height: SizeConfig.blockSizeVertical *10,
-                                          width: SizeConfig.blockSizeHorizontal * 15,
-                                        ),
-                                      ),
-
-                                      Container(
-                                        padding: EdgeInsets.all(2),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        width: SizeConfig.blockSizeHorizontal *40,
-                                        child: Text(
-                                         'sendandreceivegift'.tr.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Poppins-Bold',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10,
-                                              letterSpacing: 1.0),
-                                        ),
-                                      ),
-                                    ],
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Text(
+                                      'sendandreceivegift'.tr.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                          letterSpacing: 1.0),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
-                              },
-                              child: Container(
-                                height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                                child: Card(
-                                  elevation:3.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OngoingProject()));
+                          },
+                          child: Container(
+                            height: SizeConfig.blockSizeVertical * 18,
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2),
+                            child: Card(
+                              elevation: 3.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: AppColors.whiteColor,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.all(5),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/projectfunding.png",
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 15,
+                                    ),
                                   ),
-                                  color: AppColors.whiteColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        padding: EdgeInsets.all(5),
-                                        alignment: Alignment.center,
-                                        child: Image.asset("assets/images/projectfunding.png",
-                                          height: SizeConfig.blockSizeVertical *10,
-                                          width: SizeConfig.blockSizeHorizontal * 15,
-                                        ),
-                                      ),
-
-                                      Container(
-                                        padding: EdgeInsets.all(2),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        width: SizeConfig.blockSizeHorizontal *40,
-                                        child: Text(
-                                          'projectfunding'.tr.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Poppins-Bold',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10,
-                                              letterSpacing: 1.0),
-                                        ),
-                                      ),
-                                    ],
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Text(
+                                      'projectfunding'.tr.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                          letterSpacing: 1.0),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          bottom: SizeConfig.blockSizeHorizontal * 3,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
-                              },
-                              child:  Container(
-                                height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *2),
-                                child: Card(
-                                  elevation:3.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  color: AppColors.whiteColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        padding: EdgeInsets.all(5),
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          "assets/images/donation.png",
-                                          height: SizeConfig.blockSizeVertical *10,
-                                          width: SizeConfig.blockSizeHorizontal * 15,
-                                        ),
-                                      ),
-
-                                      Container(
-                                        padding: EdgeInsets.all(2),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        width: SizeConfig.blockSizeHorizontal *40,
-                                        child: Text(
-                                          'donations'.tr.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Poppins-Bold',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10,
-                                              letterSpacing: 1.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
-                              },
-                              child: Container(
-                                height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                                child: Card(
-                                  elevation:3.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  color: AppColors.whiteColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        padding: EdgeInsets.all(5),
-                                        alignment: Alignment.center,
-                                        child: Image.asset("assets/images/events.png", height: SizeConfig.blockSizeVertical *10, width: SizeConfig.blockSizeHorizontal * 15,
-                                        ),
-                                      ),
-
-                                      Container(
-                                        padding: EdgeInsets.all(2),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        width: SizeConfig.blockSizeHorizontal *40,
-                                        child: Text(
-                                          'events'.tr.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Poppins-Bold',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10,
-                                              letterSpacing: 1.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          bottom: SizeConfig.blockSizeHorizontal * 3,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEvents()));
-                              },
-                              child:  Container(
-                                height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal *2),
-                                child: Card(
-                                  elevation:3.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  color: AppColors.whiteColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        padding: EdgeInsets.all(5),
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          "assets/images/tickets.png",
-                                          height: SizeConfig.blockSizeVertical *10,
-                                          width: SizeConfig.blockSizeHorizontal * 15,
-                                        ),
-                                      ),
-
-                                      Container(
-                                        padding: EdgeInsets.all(2),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        width: SizeConfig.blockSizeHorizontal *40,
-                                        child: Text(
-                                          'tickets'.tr.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Poppins-Bold',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10,
-                                              letterSpacing: 1.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyActivities()));
-                              },
-                              child: Container(
-                                height: SizeConfig.blockSizeVertical * 18,
-                                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                                child: Card(
-                                  elevation:3.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  color: AppColors.whiteColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        padding: EdgeInsets.all(5),
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          "assets/images/invitation.png",
-                                          height: SizeConfig.blockSizeVertical *10,
-                                          width: SizeConfig.blockSizeHorizontal * 15,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.all(2),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        width: SizeConfig.blockSizeHorizontal *40,
-                                        child: Text(
-                                          'myActivity'.tr.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Poppins-Bold',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10,
-                                              letterSpacing: 1.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )
-            )
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: SizeConfig.blockSizeHorizontal * 3,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OngoingCampaign()));
+                          },
+                          child: Container(
+                            height: SizeConfig.blockSizeVertical * 18,
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 2),
+                            child: Card(
+                              elevation: 3.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: AppColors.whiteColor,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.all(5),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/donation.png",
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 15,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Text(
+                                      'donations'.tr.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                          letterSpacing: 1.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OngoingEvents()));
+                          },
+                          child: Container(
+                            height: SizeConfig.blockSizeVertical * 18,
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2),
+                            child: Card(
+                              elevation: 3.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: AppColors.whiteColor,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.all(5),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/events.png",
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 15,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Text(
+                                      'events'.tr.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                          letterSpacing: 1.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: SizeConfig.blockSizeHorizontal * 3,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        TicketOngoingEvents()));
+                          },
+                          child: Container(
+                            height: SizeConfig.blockSizeVertical * 18,
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 2),
+                            child: Card(
+                              elevation: 3.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: AppColors.whiteColor,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.all(5),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/tickets.png",
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 15,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Text(
+                                      'tickets'.tr.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                          letterSpacing: 1.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MyActivities()));
+                          },
+                          child: Container(
+                            height: SizeConfig.blockSizeVertical * 18,
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 2),
+                            child: Card(
+                              elevation: 3.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: AppColors.whiteColor,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.all(5),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/invitation.png",
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 15,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Text(
+                                      'myActivity'.tr.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins-Bold',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                          letterSpacing: 1.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ))
           ],
         ),
       ),

@@ -1031,8 +1031,8 @@ class OngoingProjectDetailsscreenState
                                                                   new Container(
                                                                     margin: EdgeInsets
                                                                         .all(5),
-                                                                    width: 320.0,
-                                                                    height: 290.0,
+                                                                    width: SizeConfig.blockSizeHorizontal * 80,
+                                                                    height: SizeConfig.blockSizeVertical *40,
                                                                     child: Column(
                                                                       mainAxisAlignment:
                                                                       MainAxisAlignment
@@ -1066,12 +1066,8 @@ class OngoingProjectDetailsscreenState
                                                                           ),
                                                                         ),
                                                                         Container(
-                                                                          height:
-                                                                          SizeConfig.blockSizeVertical *
-                                                                              15,
-                                                                          width: SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                              30,
+                                                                          height: SizeConfig.blockSizeVertical *10,
+                                                                          width: SizeConfig.blockSizeHorizontal *25,
                                                                           margin:
                                                                           EdgeInsets
                                                                               .only(
@@ -1097,6 +1093,7 @@ class OngoingProjectDetailsscreenState
                                                                           ),
                                                                         ),
                                                                         Container(
+                                                                          height: SizeConfig.blockSizeVertical *9,
                                                                           margin: EdgeInsets.only(
                                                                               top: 10,
                                                                               left:
@@ -1113,7 +1110,7 @@ class OngoingProjectDetailsscreenState
                                                                                 .tr,
                                                                             style: TextStyle(
                                                                                 fontSize:
-                                                                                14.0,
+                                                                                12.0,
                                                                                 color: Colors
                                                                                     .black,
                                                                                 fontWeight:
@@ -1224,7 +1221,7 @@ class OngoingProjectDetailsscreenState
                                                                                 .center,
                                                                             height:
                                                                             SizeConfig.blockSizeVertical *
-                                                                                6,
+                                                                                5,
                                                                             margin: EdgeInsets.only(
                                                                                 top: SizeConfig.blockSizeVertical *
                                                                                     3,
@@ -1247,6 +1244,7 @@ class OngoingProjectDetailsscreenState
                                                                             child: Text(
                                                                                 'okay'
                                                                                     .tr,
+                                                                                textAlign: TextAlign.center,
                                                                                 style:
                                                                                 TextStyle(
                                                                                   color:
@@ -1256,7 +1254,7 @@ class OngoingProjectDetailsscreenState
                                                                                   fontFamily:
                                                                                   'Poppins-Regular',
                                                                                   fontSize:
-                                                                                  15,
+                                                                                  14,
                                                                                 )),
                                                                           ),
                                                                         ),

@@ -124,32 +124,15 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
     print("COMES: "+come);
 
     String videoId;
-    videoId = YoutubePlayer.convertUrlToId(urlLik);
-    if(videoId!=null)
+
+    Future.delayed(Duration.zero, () {
+      setState(()
       {
-        print("ID: "+videoId);
+        videoId = YoutubePlayer.convertUrlToId(urlLik);
+        if(videoId==null|| videoId=="")
+          errorDialog('videolinkisnotvalid'.tr);
 
-        _controller = YoutubePlayerController(
-          initialVideoId: videoId,
-          flags: const YoutubePlayerFlags(
-            mute: false,
-            autoPlay: true,
-            disableDragSeek: false,
-            loop: false,
-            isLive: false,
-            forceHD: false,
-            enableCaption: true,
-          ),
-        )..addListener(listener);
-        _idController = TextEditingController();
-        _seekToController = TextEditingController();
-        _videoMetaData = const YoutubeMetaData();
-        _playerState = PlayerState.unknown;
-      }
-    else{
-      errorDialog('videolinkisnotvalid'.tr);
-
-      if(come=="Project")
+        if(come=="Project")
         {
           Navigator.push(
               context,
@@ -157,30 +140,54 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
                   builder: (BuildContext context) =>
                       OngoingProject()));
         }
-      else if(come=="Ticket")
-      {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    TicketOngoingEvents()));
-      } else if(come=="Event")
-      {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    OngoingEvents()));
-      }else if(come=="Donation")
-      {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    OngoingCampaign()));
-      }
+        else if(come=="Ticket")
+        {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      TicketOngoingEvents()));
+        } else if(come=="Event")
+        {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      OngoingEvents()));
+        }else if(come=="Donation")
+        {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      OngoingCampaign()));
+        }
 
-    }
+        else{
+          {
+            print("ID: "+videoId);
+
+            _controller = YoutubePlayerController(
+              initialVideoId: videoId,
+              flags: const YoutubePlayerFlags(
+                mute: false,
+                autoPlay: true,
+                disableDragSeek: false,
+                loop: false,
+                isLive: false,
+                forceHD: false,
+                enableCaption: true,
+              ),
+            )..addListener(listener);
+            _idController = TextEditingController();
+            _seekToController = TextEditingController();
+            _videoMetaData = const YoutubeMetaData();
+            _playerState = PlayerState.unknown;
+          }
+
+        }
+      });
+    });
 
   }
 
@@ -210,7 +217,8 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
+    return _controller!=null?
+      YoutubePlayerBuilder(
       onExitFullScreen: () {
         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
@@ -221,6 +229,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
         progressIndicatorColor: AppColors.themecolor,
         topActions: <Widget>[
           const SizedBox(width: 8.0),
+
           Expanded(
             child: Text(
               _controller.metadata.title,
@@ -273,13 +282,15 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
             'Product Video',
             style: TextStyle(color: Colors.white),
           ),
-          *//*actions: [
+          */
+        /*actions: [
             IconButton(
               icon: const Icon(Icons.video_library),
 
 
             ),
-          ],*//*
+          ],*/
+        /*
         ),*/
         body: Container(
           height: double.infinity,
@@ -464,7 +475,7 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
         )
 
       ),
-    );
+    ):Container();
   }
 
   Widget _text(String title, String value) {

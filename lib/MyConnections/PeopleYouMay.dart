@@ -133,7 +133,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       jsonResponse = json.decode(response.body);
       unfollowval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
-        showToast(unfollowval);
+       // showToast(unfollowval);
         setState(() {
           getFollowing(userid,searchvalue);
         });
@@ -141,7 +141,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       else
         {
         if (jsonResponse != null) {
-          showToast(unfollowval);
+         // showToast(unfollowval);
           setState(() {
             getFollowing(userid,searchvalue);
           });

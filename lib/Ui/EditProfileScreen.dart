@@ -99,12 +99,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               image_value = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       } catch (e) {
@@ -121,12 +116,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               image_value = false;
             });
           } else {
-            Fluttertoast.showToast(
-              msg: "Please Select Image ",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-            );
+            errorDialog('pleaseselectimage'.tr);
           }
         });
       } catch (e) {
@@ -639,12 +629,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                     showAlert();
                                   },
                                   child: Container(
-                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *13,
+                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *12,
                                         left: SizeConfig.blockSizeHorizontal * 24
                                       ),
                                       child:CircleAvatar(
                                         backgroundColor: AppColors.themecolor,
-                                        radius: 25.0,
+                                        radius: 22.0,
                                         child: new Icon(
                                           Icons.camera_alt,
                                           color: Colors.white,

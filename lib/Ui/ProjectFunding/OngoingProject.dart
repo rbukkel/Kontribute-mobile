@@ -35,6 +35,7 @@ class OngoingProject extends StatefulWidget {
 class OngoingProjectState extends State<OngoingProject> {
   Offset _tapDownPosition;
   String userid;
+  int counter;
   String reverid;
   bool resultvalue = true;
   bool internet = false;
@@ -90,6 +91,13 @@ class OngoingProjectState extends State<OngoingProject> {
         getdata(userid, pageNumber);
         print("Login userid: " + userid.toString());
         paginationApi();
+      });
+    });
+    SharedUtils.readloginId("Counternot").then((val) {
+      print("UserId: " + val);
+      setState(() {
+        counter = val;
+        print("counter: " + counter.toString());
       });
     });
   }
@@ -1021,8 +1029,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                             backgroundColor: AppColors.whiteColor,
                                                                             child: new Container(
                                                                               margin: EdgeInsets.all(5),
-                                                                              width: 320.0,
-                                                                              height: 290.0,
+                                                                              width: SizeConfig.blockSizeHorizontal * 80,
+                                                                              height: SizeConfig.blockSizeVertical *40,
                                                                               child: Column(
                                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1040,8 +1048,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                     ),
                                                                                   ),
                                                                                   Container(
-                                                                                    height: SizeConfig.blockSizeVertical *15,
-                                                                                    width: SizeConfig.blockSizeHorizontal *30,
+                                                                                    height: SizeConfig.blockSizeVertical *10,
+                                                                                    width: SizeConfig.blockSizeHorizontal *25,
                                                                                     margin: EdgeInsets.only(
                                                                                       left: SizeConfig.blockSizeHorizontal *5,
                                                                                       right: SizeConfig.blockSizeHorizontal *5,
@@ -1054,13 +1062,14 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                     ),
                                                                                   ),
                                                                                   Container(
+                                                                                    height: SizeConfig.blockSizeVertical *9,
                                                                                     margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                                                     color: AppColors.whiteColor,
                                                                                     alignment: Alignment.center,
                                                                                     child: Text(
                                                                                       'paymentalert'.tr,
                                                                                       style: TextStyle(
-                                                                                          fontSize: 14.0,
+                                                                                          fontSize: 12.0,
                                                                                           color: Colors.black,
                                                                                           fontWeight: FontWeight.normal),
                                                                                     ),
@@ -1173,12 +1182,13 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                         );
                                                                                       });
                                                                                     },
-                                                                                    child: Container(
+                                                                                    child:
+                                                                                    Container(
                                                                                       alignment: Alignment.center,
-                                                                                      height: SizeConfig.blockSizeVertical * 6,
+                                                                                      height: SizeConfig.blockSizeVertical * 5,
                                                                                       margin: EdgeInsets.only(
                                                                                           top: SizeConfig.blockSizeVertical * 3,
-                                                                                          bottom: SizeConfig.blockSizeVertical * 3,
+                                                                                          bottom: SizeConfig.blockSizeVertical * 2,
                                                                                           left: SizeConfig.blockSizeHorizontal * 25,
                                                                                           right: SizeConfig.blockSizeHorizontal * 25),
                                                                                       decoration: BoxDecoration(
@@ -1189,11 +1199,12 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                         ),
                                                                                       ),
                                                                                       child: Text('okay'.tr,
+                                                                                          textAlign: TextAlign.center,
                                                                                           style: TextStyle(
                                                                                             color: Colors.white,
                                                                                             fontWeight: FontWeight.normal,
                                                                                             fontFamily: 'Poppins-Regular',
-                                                                                            fontSize: 15,
+                                                                                            fontSize: 14,
                                                                                           )),
                                                                                     ),
                                                                                   ),
@@ -1299,23 +1310,14 @@ class OngoingProjectState extends State<OngoingProject> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      width: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          38,
-                                                      alignment:
-                                                          Alignment.topRight,
+                                                      width: SizeConfig.blockSizeHorizontal * 38,
+                                                      alignment: Alignment.topRight,
                                                       padding: EdgeInsets.only(
-                                                        left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
+                                                        left: SizeConfig.blockSizeHorizontal * 1,
+                                                        right: SizeConfig.blockSizeHorizontal * 1,
                                                       ),
                                                       margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
+                                                        top: SizeConfig.blockSizeVertical * 1,
                                                       ),
                                                       child:
                                                       Row(
@@ -1323,8 +1325,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         children: [
                                                           Text(
                                                             'startdate'.tr,
-                                                            textAlign:
-                                                            TextAlign.right,
+                                                            textAlign: TextAlign.right,
                                                             style: TextStyle(
                                                                 letterSpacing: 1.0,
                                                                 color:
@@ -2028,6 +2029,7 @@ class OngoingProjectState extends State<OngoingProject> {
                       ))
               ],
             )),
+       // bottomNavigationBar: bottombar(context,counter!=null?counter:0),
         bottomNavigationBar: bottombar(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(

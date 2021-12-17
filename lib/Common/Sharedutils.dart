@@ -50,14 +50,14 @@ class SharedUtils {
     return pref.getString(key);
   }
 
-  static writenoficationcounter(String key, String value) async {
+  static writenoficationcounter(String key, int value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(key, value);
+    pref.setInt(key, value);
   }
 
   static readnoficationcounter(String key) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString(key);
+    return pref.getInt(key);
   }
 
 

@@ -40,6 +40,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   var storelist_length;
   Notificationpojo listing;
   String deleteval;
+  String markasreadval;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   int pageNumber = 1;
   int totalPage = 1;
@@ -140,6 +141,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
+            SharedUtils.writenoficationcounter("Counternot",listing.unreadnotificaiton);
             if (listing.result.data.isEmpty) {
               resultvalue = false;
             } else {
@@ -247,6 +249,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
+            SharedUtils.writenoficationcounter("Counternot",listing.unreadnotificaiton);
             if (listing.result.data.isEmpty) {
               resultvalue = false;
             } else {
@@ -349,11 +352,12 @@ class NotificationScreenState extends State<NotificationScreen> {
                         ? 0 : storelist_length.length,
                     /*physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,*/
+
                     itemBuilder: (BuildContext context, int index)
                     {
                       return  Container(
                           margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                          child:
+                       child:
                         Card(
                           shape: RoundedRectangleBorder(
                           side: BorderSide(
@@ -538,8 +542,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                     backgroundColor: AppColors.whiteColor,
                                                     child: new Container(
                                                       margin: EdgeInsets.all(5),
-                                                      width: 320.0,
-                                                      height: 290.0,
+                                                       width: SizeConfig.blockSizeHorizontal * 80,
+                                                                  height: SizeConfig.blockSizeVertical *40,
                                                       child: Column(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -557,8 +561,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                             ),
                                                           ),
                                                           Container(
-                                                            height: SizeConfig.blockSizeVertical *15,
-                                                            width: SizeConfig.blockSizeHorizontal *30,
+                                                           height: SizeConfig.blockSizeVertical *10,
+                                                           width: SizeConfig.blockSizeHorizontal *25,
                                                             margin: EdgeInsets.only(
                                                               left: SizeConfig.blockSizeHorizontal *5,
                                                               right: SizeConfig.blockSizeHorizontal *5,
@@ -571,13 +575,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                             ),
                                                           ),
                                                           Container(
+                                                            height: SizeConfig.blockSizeVertical *9,
                                                             margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                             color: AppColors.whiteColor,
                                                             alignment: Alignment.center,
                                                             child: Text(
                                                               'paymentalert'.tr,
                                                               style: TextStyle(
-                                                                  fontSize: 14.0,
+                                                                  fontSize: 12.0,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.normal),
                                                             ),
@@ -646,12 +651,11 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                     return alert;
                                                                   },
                                                                 );
-
                                                               });
                                                             },
                                                             child: Container(
                                                               alignment: Alignment.center,
-                                                              height: SizeConfig.blockSizeVertical * 6,
+                                                              height: SizeConfig.blockSizeVertical * 5,
                                                               margin: EdgeInsets.only(
                                                                   top: SizeConfig.blockSizeVertical * 3,
                                                                   bottom: SizeConfig.blockSizeVertical * 3,
@@ -665,11 +669,12 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                 ),
                                                               ),
                                                               child: Text('okay'.tr,
+                                                                  textAlign: TextAlign.center,
                                                                   style: TextStyle(
                                                                     color: Colors.white,
                                                                     fontWeight: FontWeight.normal,
                                                                     fontFamily: 'Poppins-Regular',
-                                                                    fontSize: 15,
+                                                                    fontSize: 14,
                                                                   )),
                                                             ),
                                                           ),
@@ -678,7 +683,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                     ),
                                                   ),
                                                 );
-
                                               }else{
                                                 print("falseValue");
                                                 warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Notification", context);
@@ -1150,7 +1154,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                               listing.result.data
                                   .elementAt(index)
                                   .giftPicture==''? Container() :
-
                               Container(
                                   height: SizeConfig
                                       .blockSizeVertical *
@@ -1186,7 +1189,38 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       new Image.asset(
                                           'assets/images/dummyplace.jpg')
                                   )),
-
+                              GestureDetector(
+                                onTap: ()
+                                {
+                                  setState(() {
+                                    markasreadItem(listing.result.data.elementAt(index).id.toString());
+                                  });
+                                },
+                                child: Container(
+                                    height: SizeConfig.blockSizeVertical *5,
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical *1,
+                                        bottom: SizeConfig.blockSizeVertical *2),
+                                    decoration: BoxDecoration(
+                                      image: new DecorationImage(
+                                        image: new AssetImage(
+                                            "assets/images/sendbutton.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text('markasread'.tr,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: AppColors.whiteColor,
+                                            fontSize: 14,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            fontFamily:
+                                            'Poppins-Regular')
+                                    )
+                                ),
+                              )
                             ],
                           )))
                       );
@@ -1202,7 +1236,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                   child: Text('norecordsfound'.tr,style: TextStyle(
                       letterSpacing: 1.0,
                       color: AppColors.black,
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight:
                       FontWeight.normal,
                       fontFamily:
@@ -1319,11 +1353,11 @@ class NotificationScreenState extends State<NotificationScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: bottombar(context),
+      bottomNavigationBar: bottombar(context,storelist_length != null?listing.unreadnotificaiton:0),
     );
   }
 
-  bottombar(context) {
+  bottombar(context, int unreadnotificaiton) {
     return Container(
       height: SizeConfig.blockSizeVertical * 8,
       color: AppColors.whiteColor,
@@ -1347,8 +1381,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                   children: [
                     Image.asset(
                       "assets/images/homeicon.png",
-                      height: 15,
-                      width: 15,
+                      height: 19,
+                      width: 19,
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -1378,8 +1412,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                   children: [
                     Image.asset(
                       "assets/images/nav_mytranscaton.png",
-                      height: 15,
-                      width: 15,
+                      height: 19,
+                      width: 19,
                       color: AppColors.grey,
                     ),
                     Container(
@@ -1408,12 +1442,40 @@ class NotificationScreenState extends State<NotificationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      "assets/images/notificationicon.png",
-                      height: 15,
-                      width: 15,
-                      color: AppColors.selectedcolor,
+
+                    new Stack(
+                      children: <Widget>[
+                        Image.asset(
+                          "assets/images/notificationicon.png",
+                          height: 19,
+                          width: 19,
+                          color: AppColors.selectedcolor,
+                        ),
+                        new Positioned(
+                          right: 0,
+                          child: new Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 10,
+                              minHeight: 10,
+                            ),
+                            child: new Text(
+                              '$unreadnotificaiton',
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
+
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
@@ -1443,8 +1505,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                   children: [
                     Image.asset(
                       "assets/images/nav_contactus.png",
-                      height: 15,
-                      width: 15,
+                      height: 19,
+                      width: 19,
                       color: AppColors.greyColor,
                     ),
                     Container(
@@ -1498,38 +1560,10 @@ class NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  Widget _buildFab(BuildContext context) {
-    // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddScreen()));
-      },
-      child: Image.asset("assets/images/addpost.png"),
-      elevation: 3.0,
-    );
-  }
 
-  void _selectedTab(int index) {
-    index = -1;
-    setState(() {
-      if (index == 0) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      } else if (index == 1) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => mytranscation()));
-      } else if (index == 2) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NotificationScreen()));
-      } else if (index == 3) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SettingScreen()));
-      }
-    });
-  }
 
   Future<void> deleteItem(String id) async {
+
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': id.toString(),
@@ -1565,6 +1599,45 @@ class NotificationScreenState extends State<NotificationScreen> {
     } else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       errorDialog(jsonDecode(deleteval)["message"]);
+    }
+  }
+
+  Future<void> markasreadItem(String id) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'id': id.toString(),
+    };
+    print("ID: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http
+        .post(Network.BaseApi + Network.update_notifications, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      markasreadval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        errorDialog(jsonDecode(markasreadval)["message"]);
+      } else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        if (jsonResponse != null) {
+          print(" if Item mark Successfully");
+          setState(() {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => NotificationScreen()));
+          });
+        } else {
+          print("if Item is not mark Successfully");
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          errorDialog(jsonDecode(markasreadval)["message"]);
+          setState(() {
+            resultvalue = false;
+            //getData();
+          });
+        }
+      }
+    } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      errorDialog(jsonDecode(markasreadval)["message"]);
     }
   }
 }
