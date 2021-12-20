@@ -176,8 +176,9 @@ class registerState extends State<register> {
       if (jsonResponse["success"] == false) {
         setState(() {
           countryresultvalue = false;
+          countrylist=null;
         });
-        errorDialog(jsonDecode(contryval)["message"]);
+       // errorDialog(jsonDecode(contryval)["message"]);
       } else {
         listingCountry = new CountrylistPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -186,14 +187,15 @@ class registerState extends State<register> {
 
             if (listingCountry.resultPush.isEmpty) {
               countryresultvalue = false;
+              countrylist=null;
             } else {
               countryresultvalue = true;
               print("SSSS");
               countrylist = listingCountry.resultPush;
-              List<dynamic> data1 = jsonResponse["result_push"];
+            /*  List<dynamic> data1 = jsonResponse["result_push"];
               setState(() {
                 currentcountryTypes = data1;
-              });
+              });*/
             }
           });
         } else {
@@ -220,8 +222,9 @@ class registerState extends State<register> {
       if (jsonResponse["success"] == false) {
         setState(() {
           resultvalue = false;
+          nationalitylist=null;
         });
-        errorDialog(jsonDecode(val)["message"]);
+        //errorDialog(jsonDecode(val)["message"]);
       } else {
         listing = new NationalitylistPojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
@@ -230,14 +233,15 @@ class registerState extends State<register> {
 
             if (listing.resultPush.isEmpty) {
               resultvalue = false;
+              nationalitylist=null;
             } else {
               resultvalue = true;
               print("SSSS");
               nationalitylist = listing.resultPush;
-              List<dynamic> data1 = jsonResponse["result_push"];
+            /*  List<dynamic> data1 = jsonResponse["result_push"];
               setState(() {
                 nationalityTypes = data1;
-              });
+              });*/
             }
 
           });
