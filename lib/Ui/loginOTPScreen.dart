@@ -357,7 +357,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                       onSaved: (val) => _otp = val,
                       textAlign: TextAlign.center,
                       style:
-                      TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
+                      TextStyle(letterSpacing: 1.0,   fontSize: 14, fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',color: Colors.black),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -365,7 +365,7 @@ class loginOTPScreenState extends State<loginOTPScreen>{
                         hintStyle: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          fontFamily: 'Poppins-Regular',  fontSize: 14,
                           decoration: TextDecoration.none,
                         ),
                         hintText: StringConstant.Otp,

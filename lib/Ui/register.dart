@@ -473,7 +473,7 @@ class registerState extends State<register> {
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -482,7 +482,7 @@ class registerState extends State<register> {
                               color: Colors.grey,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               decoration: TextDecoration.none,
                             ),
                             hintText: StringConstant.nickname,
@@ -595,7 +595,7 @@ class registerState extends State<register> {
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -604,7 +604,7 @@ class registerState extends State<register> {
                               color: Colors.grey,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               decoration: TextDecoration.none,
                             ),
                             hintText: StringConstant.fullname,
@@ -720,7 +720,7 @@ class registerState extends State<register> {
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -729,7 +729,7 @@ class registerState extends State<register> {
                               color: Colors.grey,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               decoration: TextDecoration.none,
                             ),
                             hintText: StringConstant.emailaddres,
@@ -844,7 +844,7 @@ class registerState extends State<register> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               letterSpacing: 1.0,
-                              fontSize: 10,
+                              fontSize: 14,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
                               color: Colors.black),
@@ -855,7 +855,7 @@ class registerState extends State<register> {
                               color: Colors.grey,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 10,
+                              fontSize: 14,
                               decoration: TextDecoration.none,
                             ),
                             hintText: StringConstant.password,
@@ -1042,7 +1042,7 @@ class registerState extends State<register> {
                                 letterSpacing: 1.0,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
+                                fontSize: 14,
                                 color: selected?Colors.black:Colors.grey),
                           ),
                           /*Row(
@@ -1113,7 +1113,7 @@ class registerState extends State<register> {
                                 color: Colors.grey,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
+                                fontSize: 14,
                                 decoration: TextDecoration.none,
                               ),
                               hintText: StringConstant.mobile,
@@ -1123,7 +1123,7 @@ class registerState extends State<register> {
                                 letterSpacing: 1.0,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular',
-                                fontSize: 10,
+                                fontSize: 14,
                                 color: Colors.black),
                             initialCountryCode: 'NP', //default contry code, NP for Nepal
                             onChanged: (phone) {
@@ -1177,14 +1177,14 @@ class registerState extends State<register> {
                                     letterSpacing: 1.0,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Poppins-Regular',
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: Colors.black),
                                   decoration: new InputDecoration(
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Montserrat-Bold'),
                                       hintText: 'please select nationality'),
@@ -1331,14 +1331,14 @@ class registerState extends State<register> {
                                       letterSpacing: 1.0,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Poppins-Regular',
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Colors.black),
                                   decoration: new InputDecoration(
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Montserrat-Bold'),
                                       hintText: 'please select country'),
@@ -1650,10 +1650,14 @@ class registerState extends State<register> {
                     GestureDetector(
                       onTap: ()
                       {
-                        mycontroller.text =listing.resultPush.elementAt(index).nationality;
-                        print("Selection: "+listing.resultPush.elementAt(index).nationality);
-                        print("SelectionController: "+mycontroller.text);
-                        print("Selectioncode: "+listing.resultPush.elementAt(index).numCode.toString());
+                        setState(() {
+                          expandFlag0 = !expandFlag0;
+                          mycontroller.text =listing.resultPush.elementAt(index).nationality;
+                          print("Selection: "+listing.resultPush.elementAt(index).nationality);
+                          print("SelectionController: "+mycontroller.text);
+                          print("Selectioncode: "+listing.resultPush.elementAt(index).numCode.toString());
+                        });
+
                       },
                       child: Container(
                         height: SizeConfig.blockSizeVertical *7,
@@ -1723,10 +1727,15 @@ class registerState extends State<register> {
                     GestureDetector(
                       onTap: ()
                       {
-                        myCountrycontroller.text =listingCountry.resultPush.elementAt(index).country;
-                        print("Selection: "+listingCountry.resultPush.elementAt(index).country);
-                        print("SelectionController: "+myCountrycontroller.text);
-                        print("Selectioncode: "+listingCountry.resultPush.elementAt(index).numCode.toString());
+                        setState(() {
+                          expandFlag1 = !expandFlag1;
+                          myCountrycontroller.text =listingCountry.resultPush.elementAt(index).country;
+                          print("Selection: "+listingCountry.resultPush.elementAt(index).country);
+                          print("SelectionController: "+myCountrycontroller.text);
+                          print("Selectioncode: "+listingCountry.resultPush.elementAt(index).numCode.toString());
+                        });
+
+
                       },
                       child: Container(
                         height: SizeConfig.blockSizeVertical *7,

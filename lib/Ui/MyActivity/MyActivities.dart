@@ -352,7 +352,7 @@ class MyActivitiesState extends State<MyActivities> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -6057,6 +6057,7 @@ class MyActivitiesState extends State<MyActivities> {
             ],
           )
       ),
+      bottomNavigationBar: bottombar(context),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),
@@ -6141,7 +6142,7 @@ class MyActivitiesState extends State<MyActivities> {
 
 
   Future<void> PayTicketamount(String id, String requiredAmount,String qtyval, String userid) async {
-     Dialogs.showLoadingDialog(context, _keyLoaderticket);
+   Dialogs.showLoadingDialog(context, _keyLoaderticket);
     Map data = {
       'userid': userid.toString(),
       'ticket_id': id.toString(),
@@ -6154,10 +6155,10 @@ class MyActivitiesState extends State<MyActivities> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       ticketupdateval = response.body; //store response as string
-      if (jsonResponse["status"] == false) {
+      if (jsonResponse["status"] == false)
+      {
         Navigator.of(context, rootNavigator: true).pop();
         errorDialog(jsonDecode(ticketupdateval)["message"]);
-
       }
       else {
         Navigator.of(context, rootNavigator: true).pop();
@@ -6211,7 +6212,7 @@ class MyActivitiesState extends State<MyActivities> {
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,
@@ -6307,7 +6308,7 @@ class MyActivitiesState extends State<MyActivities> {
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,
@@ -6403,7 +6404,7 @@ class MyActivitiesState extends State<MyActivities> {
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,
@@ -6498,7 +6499,7 @@ class MyActivitiesState extends State<MyActivities> {
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,

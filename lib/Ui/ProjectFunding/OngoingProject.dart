@@ -93,13 +93,7 @@ class OngoingProjectState extends State<OngoingProject> {
         paginationApi();
       });
     });
-    SharedUtils.readloginId("Counternot").then((val) {
-      print("UserId: " + val);
-      setState(() {
-        counter = val;
-        print("counter: " + counter.toString());
-      });
-    });
+
   }
 
   /*  super.initState();
@@ -2297,7 +2291,7 @@ class OngoingProjectState extends State<OngoingProject> {
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,

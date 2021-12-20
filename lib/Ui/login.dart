@@ -190,7 +190,7 @@ class loginState extends State<login>{
                           letterSpacing: 1.0,
                           fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',
-                          fontSize: 10,
+                          fontSize: 14,
                           color: Colors.black),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -198,7 +198,7 @@ class loginState extends State<login>{
                         hintStyle: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          fontFamily: 'Poppins-Regular',  fontSize: 14,
                           decoration: TextDecoration.none,
                         ),
                         hintText: StringConstant.emailaddres,
@@ -314,7 +314,7 @@ class loginState extends State<login>{
                       obscureText: !this._showPassword,
                       textAlign: TextAlign.center,
                       style:
-                      TextStyle(letterSpacing: 1.0,   fontSize: 10, fontWeight: FontWeight.normal,
+                      TextStyle(letterSpacing: 1.0,   fontSize: 14, fontWeight: FontWeight.normal,
                           fontFamily: 'Poppins-Regular',color: Colors.black),
                       decoration: InputDecoration(
 
@@ -323,7 +323,7 @@ class loginState extends State<login>{
                         hintStyle: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          fontFamily: 'Poppins-Regular',  fontSize: 14,
                           decoration: TextDecoration.none,
                         ),
                         hintText: StringConstant.password,

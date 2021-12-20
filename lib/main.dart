@@ -214,7 +214,6 @@ class _MyHomePageState extends State<MyHomePage> {
           if (deepLink != null) {
             print('new deep link onLink******${deepLink}');
             List<String> product_id_list = split(deepLink.toString(), "/");
-
             setState(() {
               product_id = product_id_list.elementAt(5);
                isId=true;
@@ -225,24 +224,20 @@ class _MyHomePageState extends State<MyHomePage> {
       print('onLinkError');
       print(e.message);
     });
-
     final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
     if(data.link!=null)
       {
         final Uri deepLink = data.link;
         if (deepLink != null) {
           print('---new deep found************************************************');
-
           List<String> product_id_list = split(deepLink.toString(), "/");
           setState(() {
             product_id = product_id_list.elementAt(5);
             isId=true;
             print('product_id2'+product_id);
-
           });
         }
       }
-
   }
 
   List<String> split(String string, String separator, {int max = 0}) {
@@ -263,6 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     return result;
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -270,6 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),

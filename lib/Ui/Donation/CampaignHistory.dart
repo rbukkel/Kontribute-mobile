@@ -18,10 +18,8 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
 
 class CampaignHistory extends StatefulWidget {
-
   @override
   CampaignHistoryState createState() => CampaignHistoryState();
-
 }
 
 class CampaignHistoryState extends State<CampaignHistory> {
@@ -44,8 +42,8 @@ class CampaignHistoryState extends State<CampaignHistory> {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
-
     });
+
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         getdata(userid);

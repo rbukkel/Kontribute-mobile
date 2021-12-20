@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:favorite_button/favorite_button.dart';
@@ -9,14 +8,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/PostcommentPojo.dart';
 import 'package:kontribute/Pojo/donationDetails.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Ui/Donation/donation.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProductVideoPlayerScreen.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -24,9 +21,7 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:kontribute/viewdetail_Eventprofile.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 

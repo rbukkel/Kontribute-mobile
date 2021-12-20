@@ -309,7 +309,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
 
       } else {
         if (jsonResponse != null) {
-          showToast(updateval);
+        //  showToast(updateval);
           setState(() {
             getFollowing(userid,searchvalue);
           });

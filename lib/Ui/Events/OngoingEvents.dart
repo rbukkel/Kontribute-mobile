@@ -130,7 +130,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -1787,7 +1787,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                         alignment: Alignment.center,
                         height: 50,
                         child: Text(
-                          "'ok'.tr",
+                          'okay'.tr,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.black,

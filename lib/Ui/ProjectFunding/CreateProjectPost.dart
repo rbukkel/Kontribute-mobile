@@ -325,7 +325,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -2620,7 +2620,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     request.fields["members"] = connection.toString();
 
     print("Request: "+request.fields.toString());
-
         for (int i = 0; i < images.length; i++)
         {
           request.files.add(
@@ -2629,8 +2628,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             ),
           );
         }
-
-
     for (int i = 0; i < documentList.length; i++) {
       request.files.add(
         http.MultipartFile(
@@ -2641,17 +2638,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         ),
       );
     }
-    /* if (documentPath != null) {
-      print("DocumentPATH: " + documentPath);
-      request.files.add(await http.MultipartFile.fromPath(
-          "file[]", documentPath,
-          filename: documentPath));
-    }*/
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
-        if (jsonData["status"] == false) {
+        if (jsonData["success"] == false) {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           errorDialog(jsonData["message"]);
         } else {
@@ -2665,9 +2656,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingProject()), (route) => false);
           } else {
             Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-            setState(() {
-              Navigator.of(context).pop();
-            });
+            errorDialog(jsonData["message"]);
+
           }
         }
       } else if (response.statusCode == 500) {
@@ -2680,8 +2670,8 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     });
   }
 
-
-  costValidation(String val) {
+  costValidation(String val)
+  {
     if (val.length == 0) {
       return '*';
     }

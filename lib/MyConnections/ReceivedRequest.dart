@@ -142,7 +142,7 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -538,7 +538,6 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
       }
     } else {
       errorDialog( jsonDecode(requestval)["message"]);
-
     }
   }
 }

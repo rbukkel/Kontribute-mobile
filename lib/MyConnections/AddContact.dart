@@ -104,7 +104,7 @@ class _AddContactState extends State<AddContact> {
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -558,7 +558,7 @@ class _AddContactState extends State<AddContact> {
 
       } else {
         if (jsonResponse != null) {
-          showToast(updateval);
+         // showToast(updateval);
           setState(() {
             getFollowing(userid,searchvalue);
           });
@@ -621,15 +621,17 @@ class _AddContactState extends State<AddContact> {
     {
       jsonResponse = json.decode(response.body);
       requestval = response.body;
-      if (jsonResponse["success"] == false) {
+      if (jsonResponse["success"] == false)
+      {
        errorDialog(jsonDecode(requestval)["message"]);
       } else {
         followupdatepojo = new follow_Request_updatePojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
-        if (jsonResponse != null) {
+        if (jsonResponse != null)
+        {
           print("response");
-
-          setState(() {
+          setState(()
+          {
             getdata(userid);
           });
         }

@@ -152,7 +152,7 @@ class OngoingCampaignDetailsscreenState
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(
-                    'ok'.tr,
+                    'okay'.tr,
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
@@ -243,16 +243,11 @@ class OngoingCampaignDetailsscreenState
           setState(() {
             productlist_length = projectdetailspojo.commentsdata;
             storelist_length = projectdetailspojo.commentsdata.commentslist;
-            imageslist_length =
-                projectdetailspojo.commentsdata.donationimagesdata;
+            imageslist_length = projectdetailspojo.commentsdata.donationimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
-            paymentdetails_length =
-                projectdetailspojo.commentsdata.donationpaymentdetails;
+            paymentdetails_length = projectdetailspojo.commentsdata.donationpaymentdetails;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            double amount = double.parse(
-                    projectdetailspojo.commentsdata.totalcollectedamount) /
-                double.parse(projectdetailspojo.commentsdata.budget) *
-                100;
+            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) / double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
           });

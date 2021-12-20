@@ -69,7 +69,7 @@ class NotificationScreenState extends State<NotificationScreen> {
       print("UserId: " + val);
       setState(() {
         userid = val;
-        print("PAge: "+pageNumber.toString());
+        print("PAge: " + pageNumber.toString());
         getdata(userid, pageNumber);
         print("Login userid: " + userid.toString());
         paginationApi();
@@ -89,7 +89,9 @@ class NotificationScreenState extends State<NotificationScreen> {
 
   void paginationApi() {
     _scrollController.addListener(() {
-      if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
+      if (_scrollController.offset >=
+              _scrollController.position.maxScrollExtent &&
+          !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber < listing.result.lastPage) {
             pageNumber += 1;
@@ -97,8 +99,9 @@ class NotificationScreenState extends State<NotificationScreen> {
           }
         });
       }
-      if (_scrollController.offset <= _scrollController.position.minScrollExtent && !_scrollController.position.outOfRange)
-      {
+      if (_scrollController.offset <=
+              _scrollController.position.minScrollExtent &&
+          !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber >= 1) {
             pageNumber = pageNumber - 1;
@@ -112,7 +115,7 @@ class NotificationScreenState extends State<NotificationScreen> {
           }
         });
       }
-      });
+    });
   }
 
   void getSUBdata(String user_id, int page) async {
@@ -122,7 +125,8 @@ class NotificationScreenState extends State<NotificationScreen> {
     print("Subuser: " + data.toString());
     var jsonResponse = null;
     print(Network.BaseApi +
-        Network.notificationlisting + "?page=" +
+        Network.notificationlisting +
+        "?page=" +
         page.toString());
     http.Response response = await http.post(
         Network.BaseApi + Network.notificationlisting + "?page=$page",
@@ -135,13 +139,14 @@ class NotificationScreenState extends State<NotificationScreen> {
           resultvalue = false;
         });
         errorDialog(jsonDecode(val)["message"]);
-      }  else {
+      } else {
         listing = new Notificationpojo.fromJson(jsonResponse);
         print("Json User: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            SharedUtils.writenoficationcounter("Counternot",listing.unreadnotificaiton);
+            SharedUtils.writenoficationcounter(
+                "Counternot", listing.unreadnotificaiton);
             if (listing.result.data.isEmpty) {
               resultvalue = false;
             } else {
@@ -220,36 +225,41 @@ class NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-
   void getdata(String user_id, int page) async {
     setState(() {
-      storelist_length =null;
+      storelist_length = null;
     });
     Map data = {
       'userid': user_id.toString(),
     };
-   // Dialogs.showLoadingDialog(context, _keyLoader);
+    // Dialogs.showLoadingDialog(context, _keyLoader);
     print("user: " + data.toString());
     var jsonResponse = null;
-    print(Network.BaseApi + Network.notificationlisting + "?page=" +page.toString());
-    http.Response response = await http.post(Network.BaseApi + Network.notificationlisting + "?page=$page", body: data);
+    print(Network.BaseApi +
+        Network.notificationlisting +
+        "?page=" +
+        page.toString());
+    http.Response response = await http.post(
+        Network.BaseApi + Network.notificationlisting + "?page=$page",
+        body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
       if (jsonResponse["status"] == false) {
-       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         setState(() {
           resultvalue = false;
         });
         errorDialog(jsonDecode(val)["message"]);
       } else {
-       // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         listing = new Notificationpojo.fromJson(jsonResponse);
         print("Json User: " + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            SharedUtils.writenoficationcounter("Counternot",listing.unreadnotificaiton);
+            SharedUtils.writenoficationcounter(
+                "Counternot", listing.unreadnotificaiton);
             if (listing.result.data.isEmpty) {
               resultvalue = false;
             } else {
@@ -259,17 +269,16 @@ class NotificationScreenState extends State<NotificationScreen> {
             }
           });
         } else {
-        //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           errorDialog(listing.message);
         }
       }
     } else {
-     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       errorDialog(jsonDecode(val)["message"]);
     }
     paginationApi();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +337,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                 ],
               ),
             ),
-           /* Container(
+            /* Container(
               alignment: Alignment.centerLeft,
               margin:
               EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2,left: SizeConfig.blockSizeHorizontal * 5),
@@ -345,905 +354,950 @@ class NotificationScreenState extends State<NotificationScreen> {
               ),
             ),*/
             Expanded(
-              child: storelist_length != null ?
-                ListView.builder(
-                    controller: _scrollController,
-                    itemCount: storelist_length.length == null
-                        ? 0 : storelist_length.length,
-                    /*physics: NeverScrollableScrollPhysics(),
+                child: storelist_length != null
+                    ? ListView.builder(
+                        controller: _scrollController,
+                        itemCount: storelist_length.length == null
+                            ? 0
+                            : storelist_length.length,
+                        /*physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,*/
 
-                    itemBuilder: (BuildContext context, int index)
-                    {
-                      return  Container(
-                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                       child:
-                        Card(
-                          shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                          color: Colors.grey.withOpacity(0.2),
-                          width: 1,
-                          ),
-                          ),
-                          child:
-                          Container(
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical *2,
-                            left: SizeConfig.blockSizeHorizontal*5,
-                            right: SizeConfig.blockSizeHorizontal *5),
-                          child:
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  listing.result.data.elementAt(index).profilePic == null ||
-                                      listing.result.data.elementAt(index).profilePic == ""
-                                      ? GestureDetector(
-                                    onTap: () {
-                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                    },
-                                    child: Container(
-                                        height: SizeConfig
-                                            .blockSizeVertical *
-                                            9,
-                                        width: SizeConfig
-                                            .blockSizeVertical *
-                                            9,
-                                        alignment: Alignment
-                                            .centerLeft,
-                                        margin: EdgeInsets.only(
-                                            bottom: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                           ),
-                                        decoration:
-                                        BoxDecoration(
-                                          border: Border.all(
-                                            width: 1,
-                                            color: AppColors
-                                                .themecolor,
-                                            style: BorderStyle.solid,
-                                          ),
-                                          image:
-                                          new DecorationImage(
-                                            image: new AssetImage(
-                                                "assets/images/account_circle.png"),
-                                            fit: BoxFit
-                                                .fill,
-                                          ),
-                                        )),
-                                  )
-                                      : listing.result.data
-                                      .elementAt(
-                                      index)
-                                      .facebookId ==
-                                      null ||
-                                      listing.result
-                                          .data
-                                          .elementAt(
-                                          index)
-                                          .facebookId ==
-                                          ""
-                                      ? GestureDetector(
-                                    onTap: () {
-                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                    },
-                                    child: Container(
-                                      height: SizeConfig
-                                          .blockSizeVertical *
-                                          9,
-                                      width: SizeConfig
-                                          .blockSizeVertical *
-                                          9,
-                                      alignment: Alignment
-                                          .centerLeft,
-                                      margin: EdgeInsets.only(
-                                          bottom:
-                                          SizeConfig.blockSizeVertical *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                         ),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 1,
-                                            color: AppColors
-                                                .themecolor,
-                                            style: BorderStyle.solid,
-                                          ),
-                                          shape: BoxShape
-                                              .circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(Network.BaseApiprofile +
-                                                  listing.result.data.elementAt(index).profilePic),
-                                              fit: BoxFit.fill)),
-                                    ),
-                                  )
-                                      : GestureDetector(
-                                    onTap: () {
-                                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                    },
-                                    child: Container(
-                                      height: SizeConfig
-                                          .blockSizeVertical *
-                                          9,
-                                      width: SizeConfig
-                                          .blockSizeVertical *
-                                          9,
-                                      alignment: Alignment
-                                          .centerLeft,
-                                      margin: EdgeInsets.only(
-                                          bottom:
-                                          SizeConfig.blockSizeVertical *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                         ),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 1,
-                                            color: AppColors
-                                                .themecolor,
-                                            style: BorderStyle.solid,
-                                          ),
-                                          shape: BoxShape
-                                              .circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(listing
-                                                  .result
-                                                  .data
-                                                  .elementAt(
-                                                  index)
-                                                  .profilePic),
-                                              fit: BoxFit
-                                                  .fill)),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                              margin: EdgeInsets.only(
+                                  bottom: SizeConfig.blockSizeVertical * 2),
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      width: 1,
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="like" ||
-                                          listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="comment"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="follow_request"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="donation"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="project"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="payment"?Container():
-                                      GestureDetector(
-                                        onTap: () {
-
-                                          SharedUtils.readTerms("Terms").then((result){
-                                            if(result!=null){
-                                              if(result){
-                                                showDialog(
-                                                  context: context,
-                                                  child: Dialog(
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(10.0),
-                                                    ),
-                                                    backgroundColor: AppColors.whiteColor,
-                                                    child: new Container(
-                                                      margin: EdgeInsets.all(5),
-                                                       width: SizeConfig.blockSizeHorizontal * 80,
-                                                                  height: SizeConfig.blockSizeVertical *40,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: [
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                                                            color: AppColors.whiteColor,
-                                                            alignment: Alignment.center,
-                                                            child: Text(
-                                                              'confirmation'.tr,
-                                                              style: TextStyle(
-                                                                  fontSize: 14.0,
-                                                                  color: Colors.black,
-                                                                  fontWeight: FontWeight.normal),
-                                                            ),
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 2,
+                                          left: SizeConfig.blockSizeHorizontal *
+                                              5,
+                                          right:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              listing.result.data
+                                                              .elementAt(index)
+                                                              .profilePic ==
+                                                          null ||
+                                                      listing.result.data
+                                                              .elementAt(index)
+                                                              .profilePic ==
+                                                          ""
+                                                  ? GestureDetector(
+                                                      onTap: () {
+                                                        //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                      },
+                                                      child: Container(
+                                                          height: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              9,
+                                                          width: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              9,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            bottom: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1,
                                                           ),
-                                                          Container(
-                                                           height: SizeConfig.blockSizeVertical *10,
-                                                           width: SizeConfig.blockSizeHorizontal *25,
-                                                            margin: EdgeInsets.only(
-                                                              left: SizeConfig.blockSizeHorizontal *5,
-                                                              right: SizeConfig.blockSizeHorizontal *5,
-                                                              top: SizeConfig.blockSizeVertical *2,),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              width: 1,
+                                                              color: AppColors
+                                                                  .themecolor,
+                                                              style: BorderStyle
+                                                                  .solid,
+                                                            ),
+                                                            image:
+                                                                new DecorationImage(
+                                                              image: new AssetImage(
+                                                                  "assets/images/account_circle.png"),
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          )),
+                                                    )
+                                                  : listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .facebookId ==
+                                                              null ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .facebookId ==
+                                                              ""
+                                                      ? GestureDetector(
+                                                          onTap: () {
+                                                            //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                          },
+                                                          child: Container(
+                                                            height: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                9,
+                                                            width: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                9,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              bottom: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  1,
+                                                              right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
+                                                            ),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      width: 1,
+                                                                      color: AppColors
+                                                                          .themecolor,
+                                                                      style: BorderStyle
+                                                                          .solid,
+                                                                    ),
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(Network.BaseApiprofile +
+                                                                            listing.result.data.elementAt(index).profilePic),
+                                                                        fit: BoxFit.fill)),
+                                                          ),
+                                                        )
+                                                      : GestureDetector(
+                                                          onTap: () {
+                                                            // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                          },
+                                                          child: Container(
+                                                            height: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                9,
+                                                            width: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                9,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              bottom: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  1,
+                                                              right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
+                                                            ),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      width: 1,
+                                                                      color: AppColors
+                                                                          .themecolor,
+                                                                      style: BorderStyle
+                                                                          .solid,
+                                                                    ),
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(listing
+                                                                            .result
+                                                                            .data
+                                                                            .elementAt(
+                                                                                index)
+                                                                            .profilePic),
+                                                                        fit: BoxFit
+                                                                            .fill)),
+                                                          ),
+                                                        ),
+                                              Row(
+                                                children: [
+                                                  listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "like" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "comment" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "follow_request" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "donation" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "project" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "payment"
+                                                      ? Container()
+                                                      : GestureDetector(
+                                                          onTap: () {
+                                                            SharedUtils
+                                                                    .readTerms(
+                                                                        "Terms")
+                                                                .then((result) {
+                                                              if (result !=
+                                                                  null) {
+                                                                if (result) {
+                                                                  showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    child:
+                                                                        Dialog(
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10.0),
+                                                                      ),
+                                                                      backgroundColor:
+                                                                          AppColors
+                                                                              .whiteColor,
+                                                                      child:
+                                                                          new Container(
+                                                                        margin:
+                                                                            EdgeInsets.all(5),
+                                                                        width: SizeConfig.blockSizeHorizontal *
+                                                                            80,
+                                                                        height:
+                                                                            SizeConfig.blockSizeVertical *
+                                                                                40,
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Container(
+                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                              color: AppColors.whiteColor,
+                                                                              alignment: Alignment.center,
+                                                                              child: Text(
+                                                                                'confirmation'.tr,
+                                                                                style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.normal),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              height: SizeConfig.blockSizeVertical * 10,
+                                                                              width: SizeConfig.blockSizeHorizontal * 25,
+                                                                              margin: EdgeInsets.only(
+                                                                                left: SizeConfig.blockSizeHorizontal * 5,
+                                                                                right: SizeConfig.blockSizeHorizontal * 5,
+                                                                                top: SizeConfig.blockSizeVertical * 2,
+                                                                              ),
+                                                                              decoration: BoxDecoration(
+                                                                                image: new DecorationImage(
+                                                                                  image: new AssetImage("assets/images/caution.png"),
+                                                                                  fit: BoxFit.fill,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              height: SizeConfig.blockSizeVertical * 9,
+                                                                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                              color: AppColors.whiteColor,
+                                                                              alignment: Alignment.center,
+                                                                              child: Text(
+                                                                                'paymentalert'.tr,
+                                                                                style: TextStyle(fontSize: 12.0, color: Colors.black, fontWeight: FontWeight.normal),
+                                                                              ),
+                                                                            ),
+                                                                            InkWell(
+                                                                              onTap: () {
+                                                                                Navigator.of(context).pop();
+                                                                                setState(() {
+                                                                                  Widget cancelButton = FlatButton(
+                                                                                    child: Text('no'.tr),
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                  );
+                                                                                  Widget continueButton = FlatButton(
+                                                                                    child: Text('yes'.tr),
+                                                                                    onPressed: () async {
+                                                                                      listing.result.data.elementAt(index).price == "0" ? Payamount(listing.result.data.elementAt(index).updateId, listing.result.data.elementAt(index).id.toString(), userid) : Payamount(listing.result.data.elementAt(index).updateId, listing.result.data.elementAt(index).id.toString(), userid);
+                                                                                    },
+                                                                                  );
+                                                                                  // set up the AlertDialog
+                                                                                  AlertDialog alert = AlertDialog(
+                                                                                    title: Text('paynow'.tr),
+                                                                                    content: Text('areyousureyouwanttoPaythisproject'.tr),
+                                                                                    actions: [
+                                                                                      cancelButton,
+                                                                                      continueButton,
+                                                                                    ],
+                                                                                  );
+                                                                                  // show the dialog
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (BuildContext context) {
+                                                                                      return alert;
+                                                                                    },
+                                                                                  );
+                                                                                });
+                                                                              },
+                                                                              child: Container(
+                                                                                alignment: Alignment.center,
+                                                                                height: SizeConfig.blockSizeVertical * 5,
+                                                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3, bottom: SizeConfig.blockSizeVertical * 3, left: SizeConfig.blockSizeHorizontal * 25, right: SizeConfig.blockSizeHorizontal * 25),
+                                                                                decoration: BoxDecoration(
+                                                                                  image: new DecorationImage(
+                                                                                    image: new AssetImage("assets/images/sendbutton.png"),
+                                                                                    fit: BoxFit.fill,
+                                                                                  ),
+                                                                                ),
+                                                                                child: Text('okay'.tr,
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontFamily: 'Poppins-Regular',
+                                                                                      fontSize: 14,
+                                                                                    )),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                } else {
+                                                                  print(
+                                                                      "falseValue");
+                                                                  warningDialog(
+                                                                      'pleasereadthetermsandconditionscarefullybeforepaying'
+                                                                          .tr,
+                                                                      "Notification",
+                                                                      context);
+                                                                }
+                                                              } else {
+                                                                print(
+                                                                    "falseValue");
+                                                                warningDialog(
+                                                                    'pleasereadthetermsandconditionscarefullybeforepaying'
+                                                                        .tr,
+                                                                    "Notification",
+                                                                    context);
+                                                              }
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                25,
+                                                            height: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                5,
                                                             decoration: BoxDecoration(
-                                                              image: new DecorationImage(
-                                                                image: new AssetImage("assets/images/caution.png"),
-                                                                fit: BoxFit.fill,
-                                                              ),
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .black)),
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              left: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  1,
+                                                              right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  4,
                                                             ),
-                                                          ),
-                                                          Container(
-                                                            height: SizeConfig.blockSizeVertical *9,
-                                                            margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                                                            color: AppColors.whiteColor,
-                                                            alignment: Alignment.center,
                                                             child: Text(
-                                                              'paymentalert'.tr,
+                                                              'pay'.tr,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                               style: TextStyle(
-                                                                  fontSize: 12.0,
-                                                                  color: Colors.black,
-                                                                  fontWeight: FontWeight.normal),
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      "Poppins-Regular",
+                                                                  color: AppColors
+                                                                      .theme1color),
                                                             ),
                                                           ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Navigator.of(context).pop();
-                                                              setState(() {
-                                                                Widget cancelButton =
-                                                                FlatButton(
-                                                                  child: Text('no'.tr),
-                                                                  onPressed: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                );
-                                                                Widget
-                                                                continueButton =
-                                                                FlatButton(
-                                                                  child: Text('yes'.tr),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    listing.result
-                                                                        .data
-                                                                        .elementAt(
-                                                                        index)
-                                                                        .price ==
-                                                                        "0"
-                                                                        ? Payamount(
-                                                                        listing
-                                                                            .result
-                                                                            .data
-                                                                            .elementAt(
-                                                                            index)
-                                                                            .updateId,
-                                                                        listing.result.data.elementAt(index).id.toString(),
-                                                                        userid)
-                                                                        : Payamount(
-                                                                        listing
-                                                                            .result
-                                                                            .data
-                                                                            .elementAt(
-                                                                            index)
-                                                                            .updateId,
-                                                                        listing.result.data.elementAt(index).id.toString(),
-                                                                        userid);
-                                                                  },
-                                                                );
-                                                                // set up the AlertDialog
-                                                                AlertDialog alert =
-                                                                AlertDialog(
-                                                                  title: Text(
-                                                                      'paynow'.tr),
-                                                                  content: Text('areyousureyouwanttoPaythisproject'.tr),
-                                                                  actions: [
-                                                                    cancelButton,
-                                                                    continueButton,
-                                                                  ],
-                                                                );
-                                                                // show the dialog
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                  context) {
-                                                                    return alert;
-                                                                  },
-                                                                );
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              alignment: Alignment.center,
-                                                              height: SizeConfig.blockSizeVertical * 5,
-                                                              margin: EdgeInsets.only(
-                                                                  top: SizeConfig.blockSizeVertical * 3,
-                                                                  bottom: SizeConfig.blockSizeVertical * 3,
-                                                                  left: SizeConfig.blockSizeHorizontal * 25,
-                                                                  right: SizeConfig.blockSizeHorizontal * 25),
-                                                              decoration: BoxDecoration(
-                                                                image: new DecorationImage(
-                                                                  image: new AssetImage(
-                                                                      "assets/images/sendbutton.png"),
-                                                                  fit: BoxFit.fill,
-                                                                ),
-                                                              ),
-                                                              child: Text('okay'.tr,
-                                                                  textAlign: TextAlign.center,
-                                                                  style: TextStyle(
-                                                                    color: Colors.white,
-                                                                    fontWeight: FontWeight.normal,
-                                                                    fontFamily: 'Poppins-Regular',
-                                                                    fontSize: 14,
-                                                                  )),
-                                                            ),
-                                                          ),
+                                                        ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Widget cancelButton =
+                                                          FlatButton(
+                                                        child: Text('no'.tr),
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      );
+                                                      Widget continueButton =
+                                                          FlatButton(
+                                                        child: Text('yes'.tr),
+                                                        onPressed: () async {
+                                                          setState(() {
+                                                            deleteItem(listing
+                                                                .result.data
+                                                                .elementAt(
+                                                                    index)
+                                                                .id
+                                                                .toString());
+                                                          });
+                                                        },
+                                                      );
+                                                      // set up the AlertDialog
+                                                      AlertDialog alert =
+                                                          AlertDialog(
+                                                        title:
+                                                            Text('delete'.tr),
+                                                        content: Text(
+                                                            'areyousureyouwanttodeletethisnotification'
+                                                                .tr),
+                                                        actions: [
+                                                          cancelButton,
+                                                          continueButton,
                                                         ],
+                                                      );
+                                                      // show the dialog
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return alert;
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.transparent,
+                                                      margin: EdgeInsets.only(
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                      ),
+                                                      child: Image.asset(
+                                                        "assets/images/cross.png",
+                                                        color: AppColors.redbg,
+                                                        width: 15,
+                                                        height: 15,
                                                       ),
                                                     ),
                                                   ),
-                                                );
-                                              }else{
-                                                print("falseValue");
-                                                warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Notification", context);
-                                              }
-                                            }
-                                            else{
-                                              print("falseValue");
-                                              warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Notification", context);
-                                            }
-                                          });
-
-                                        },
-                                        child: Container(
-                                          alignment:
-                                          Alignment.center,
-                                          width: SizeConfig
-                                              .blockSizeHorizontal *
-                                              25,
-                                          height: SizeConfig
-                                              .blockSizeVertical *
-                                              5,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors
-                                                      .black)),
-                                          margin:
-                                          EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                4,
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                          child: Text(
-                                           'pay'.tr,
-                                            textAlign: TextAlign
-                                                .center,
-                                            style: TextStyle(
-                                                decoration:
-                                                TextDecoration
-                                                    .none,
-                                                fontSize: 12,
-                                                fontWeight:
-                                                FontWeight
-                                                    .normal,
-                                                fontFamily:
-                                                "Poppins-Regular",
-                                                color: AppColors
-                                                    .theme1color),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        80,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1),
+                                                    padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .fullName !=
+                                                              null
+                                                          ? listing.result.data
+                                                              .elementAt(index)
+                                                              .fullName
+                                                          : listing.result.data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .groupName !=
+                                                                  null
+                                                              ? listing
+                                                                  .result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .groupName
+                                                              : "",
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily:
+                                                              "Poppins-Regular",
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
+                                                  listing.result.data.elementAt(index).notifyFrom == "like" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "comment" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "follow_request" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "donation" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "project" ||
+                                                          listing.result.data
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .notifyFrom ==
+                                                              "payment"
+                                                      ? Container()
+                                                      : Container(
+                                                          width: SizeConfig.blockSizeHorizontal *
+                                                              40,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1,
+                                                          ),
+                                                          padding: EdgeInsets.only(
+                                                              left: SizeConfig.blockSizeHorizontal * 1,
+                                                              right: SizeConfig.blockSizeHorizontal * 1),
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                'amount'.tr,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style: TextStyle(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .none,
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontFamily:
+                                                                        "Poppins-Regular",
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                              Text(
+                                                                listing.result
+                                                                            .data
+                                                                            .elementAt(
+                                                                                index)
+                                                                            .price ==
+                                                                        "0"
+                                                                    ? listing
+                                                                        .result
+                                                                        .data
+                                                                        .elementAt(
+                                                                            index)
+                                                                        .minCashByParticipant
+                                                                    : listing
+                                                                        .result
+                                                                        .data
+                                                                        .elementAt(
+                                                                            index)
+                                                                        .price,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style: TextStyle(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .none,
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontFamily:
+                                                                        "Poppins-Regular",
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                  Container(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        80,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1),
+                                                    padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      listing.result.data
+                                                          .elementAt(index)
+                                                          .description,
+                                                      textAlign: TextAlign.left,
+                                                      maxLines: 3,
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily:
+                                                              "Poppins-Regular",
+                                                          color:
+                                                              Colors.black54),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ),
-
-                                      GestureDetector(
-                                        onTap: () {
-
-                                          Widget cancelButton =
-                                          FlatButton(
-                                            child:
-                                            Text('no'.tr),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          );
-                                          Widget continueButton =
-                                          FlatButton(
-                                            child: Text(
-                                                'yes'.tr),
-                                            onPressed: () async {
+                                          listing.result.data
+                                                          .elementAt(index)
+                                                          .notifyFrom ==
+                                                      "like" ||
+                                                  listing.result.data
+                                                          .elementAt(index)
+                                                          .notifyFrom ==
+                                                      "comment" ||
+                                                  listing.result.data
+                                                          .elementAt(index)
+                                                          .notifyFrom ==
+                                                      "follow_request" ||
+                                                  listing.result.data
+                                                          .elementAt(index)
+                                                          .notifyFrom ==
+                                                      "donation" ||
+                                                  listing.result.data
+                                                          .elementAt(index)
+                                                          .notifyFrom ==
+                                                      "project" ||
+                                                  listing.result.data
+                                                          .elementAt(index)
+                                                          .notifyFrom ==
+                                                      "payment"
+                                              ? Container()
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            40,
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1,
+                                                            bottom: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                1),
+                                                        padding: EdgeInsets.only(
+                                                            left: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1,
+                                                            right: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                1),
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'startdate'.tr,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      "Poppins-Regular",
+                                                                  color: Colors
+                                                                      .black),
+                                                            ),
+                                                            Text(
+                                                              " :  " +
+                                                                  listing.result
+                                                                      .data
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .postedDate,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      "Poppins-Regular",
+                                                                  color: Colors
+                                                                      .black),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    Container(
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          40,
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              1,
+                                                          bottom: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              1),
+                                                      padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              1,
+                                                          right: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              1),
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Text(
+                                                            'enddate'.tr,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    "Poppins-Regular",
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          Text(
+                                                            " :  " +
+                                                                listing
+                                                                    .result.data
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .postedDate,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    "Poppins-Regular",
+                                                                color: Colors
+                                                                    .black),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                          listing.result.data
+                                                      .elementAt(index)
+                                                      .giftPicture ==
+                                                  ''
+                                              ? Container()
+                                              : Container(
+                                                  height: SizeConfig
+                                                          .blockSizeVertical *
+                                                      25,
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      100,
+                                                  alignment: Alignment.center,
+                                                  child: CachedNetworkImage(
+                                                      fit: BoxFit.scaleDown,
+                                                      imageUrl: Network
+                                                              .BaseApigift +
+                                                          listing.result.data
+                                                              .elementAt(index)
+                                                              .giftPicture,
+                                                      imageBuilder: (context,
+                                                              imageProvider) =>
+                                                          Container(
+                                                            height: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                25,
+                                                            width: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                100,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image:
+                                                                      imageProvider,
+                                                                  fit: BoxFit
+                                                                      .scaleDown),
+                                                            ),
+                                                          ),
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          new Image.asset(
+                                                              'assets/images/dummyplace.jpg'))),
+                                          GestureDetector(
+                                            onTap: () {
                                               setState(() {
-                                                deleteItem(listing
+                                                markasreadItem(listing
                                                     .result.data
                                                     .elementAt(index)
                                                     .id
                                                     .toString());
                                               });
-
                                             },
-                                          );
-                                          // set up the AlertDialog
-                                          AlertDialog alert =
-                                          AlertDialog(
-                                            title: Text('delete'.tr),
-                                            content: Text('areyousureyouwanttodeletethisnotification'.tr),
-                                            actions: [
-                                              cancelButton,
-                                              continueButton,
-                                            ],
-                                          );
-                                          // show the dialog
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext
-                                            context) {
-                                              return alert;
-                                            },
-                                          );
-
-
-                                        },
-                                        child: Container(
-                                          color: Colors
-                                              .transparent,
-                                          margin:
-                                          EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                          ),
-                                          child: Image.asset(
-                                            "assets/images/cross.png",
-                                            color:
-                                            AppColors.redbg,
-                                            width: 15,
-                                            height: 15,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment
-                                    .spaceBetween,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      Container(
-                                        width: SizeConfig
-                                            .blockSizeHorizontal *
-                                            80,
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            bottom: SizeConfig
-                                                .blockSizeVertical *
-                                                1),
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                               1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
-                                        alignment: Alignment
-                                            .centerLeft,
-                                        child: Text(
-                                          listing.result.data
-                                              .elementAt(
-                                              index)
-                                              .fullName !=
-                                              null
-                                              ? listing
-                                              .result.data
-                                              .elementAt(
-                                              index)
-                                              .fullName
-                                              : listing
-                                              .result.data
-                                              .elementAt(
-                                              index)
-                                              .groupName!=null?listing
-                                              .result.data
-                                              .elementAt(
-                                              index)
-                                              .groupName:"",
-                                          textAlign:
-                                          TextAlign.left,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration
-                                                  .none,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight
-                                                  .normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color:
-                                              Colors.black),
-                                        ),
-                                      ),
-                                      listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="like" ||
-                                          listing
-                                              .result.data
-                                              .elementAt(index)
-                                              .notifyFrom=="comment"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="follow_request"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="donation"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="project"||listing
-                                          .result.data
-                                          .elementAt(index)
-                                          .notifyFrom=="payment"?Container():
-                                      Container(
-                                        width: SizeConfig
-                                            .blockSizeHorizontal *
-                                            40,
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig
-                                              .blockSizeVertical *
-                                              1,
-                                        ),
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
-                                        alignment: Alignment
-                                            .centerLeft,
-                                        child: Row(
-                                          children: [
-                                            Text('amount'.tr,
-                                              textAlign:
-                                              TextAlign.left,
-                                              style: TextStyle(
-                                                  decoration:
-                                                  TextDecoration
-                                                      .none,
-                                                  fontSize: 10,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .normal,
-                                                  fontFamily:
-                                                  "Poppins-Regular",
-                                                  color:
-                                                  Colors.black),
-                                            ),
-                                            Text(
-                                              listing.result.data
-                                                  .elementAt(
-                                                  index)
-                                                  .price == "0"
-                                                  ?
-                                                  listing.result
-                                                      .data
-                                                      .elementAt(
-                                                      index)
-                                                      .minCashByParticipant
-                                                  :
-                                                  listing.result
-                                                      .data
-                                                      .elementAt(
-                                                      index)
-                                                      .price,
-                                              textAlign:
-                                              TextAlign.left,
-                                              style: TextStyle(
-                                                  decoration:
-                                                  TextDecoration
-                                                      .none,
-                                                  fontSize: 10,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .normal,
-                                                  fontFamily:
-                                                  "Poppins-Regular",
-                                                  color:
-                                                  Colors.black),
-                                            ),
-                                          ],
-                                        )
-
-
-                                      ),
-                                      Container(
-                                        width: SizeConfig
-                                            .blockSizeHorizontal *
-                                            80,
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            bottom: SizeConfig
-                                                .blockSizeVertical *
-                                                1),
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
-                                        alignment: Alignment
-                                            .centerLeft,
-                                        child: Text(
-                                          listing.result.data
-                                              .elementAt(index)
-                                              .description,
-                                          textAlign:
-                                          TextAlign.left,
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration
-                                                  .none,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight
-                                                  .normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color: Colors
-                                                  .black54),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              listing
-                                  .result.data
-                                  .elementAt(index)
-                                  .notifyFrom=="like" ||
-                                  listing
-                                      .result.data
-                                      .elementAt(index)
-                                      .notifyFrom=="comment"||listing
-                                  .result.data
-                                  .elementAt(index)
-                                  .notifyFrom=="follow_request"||listing
-                                  .result.data
-                                  .elementAt(index)
-                                  .notifyFrom=="donation"||listing
-                                  .result.data
-                                  .elementAt(index)
-                                  .notifyFrom=="project"||listing
-                                  .result.data
-                                  .elementAt(index)
-                                  .notifyFrom=="payment"?Container():
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment
-                                    .spaceBetween,
-                                children: [
-                                  Container(
-                                    width: SizeConfig
-                                        .blockSizeHorizontal *
-                                        40,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig
-                                            .blockSizeVertical *
-                                            1,
-                                        bottom: SizeConfig
-                                            .blockSizeVertical *
-                                            1),
-                                    padding: EdgeInsets.only(
-                                        left: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1,
-                                        right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1),
-                                    alignment:
-                                    Alignment.centerLeft,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'startdate'.tr,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration
-                                                  .none,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color: Colors.black),
-                                        ),
-                                        Text(
-                                          " :  " +
-                                              listing.result.data
-                                                  .elementAt(index)
-                                                  .postedDate,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration
-                                                  .none,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    )
-                                  ),
-                                  Container(
-                                    width: SizeConfig
-                                        .blockSizeHorizontal *
-                                        40,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig
-                                            .blockSizeVertical *
-                                            1,
-                                        bottom: SizeConfig
-                                            .blockSizeVertical *
-                                            1),
-                                    padding: EdgeInsets.only(
-                                        left: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1,
-                                        right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            1),
-                                    alignment:
-                                    Alignment.centerRight,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'enddate'.tr,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration.none,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color: Colors.black),
-                                        ),
-                                        Text(" :  "+
-                                          listing.result.data
-                                                  .elementAt(index)
-                                                  .postedDate,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              decoration:
-                                              TextDecoration.none,
-                                              fontSize: 10,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              "Poppins-Regular",
-                                              color: Colors.black),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-
-                              listing.result.data
-                                  .elementAt(index)
-                                  .giftPicture==''? Container() :
-                              Container(
-                                  height: SizeConfig
-                                      .blockSizeVertical *
-                                      25,
-                                  width: SizeConfig
-                                      .blockSizeHorizontal *
-                                      100,
-                                  alignment: Alignment.center,
-                                  child: CachedNetworkImage(
-                                      fit: BoxFit.scaleDown,
-                                      imageUrl: Network
-                                          .BaseApigift +
-                                          listing.result.data
-                                              .elementAt(index)
-                                              .giftPicture,
-                                      imageBuilder: (context,
-                                          imageProvider) =>
-                                          Container(
-                                            height: SizeConfig
-                                                .blockSizeVertical *
-                                                25,
-                                            width: SizeConfig
-                                                .blockSizeHorizontal *
-                                                100,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.scaleDown),
-                                            ),
-                                          ),
-                                      placeholder: (context,
-                                          url) =>
-                                      new Image.asset(
-                                          'assets/images/dummyplace.jpg')
-                                  )),
-                              GestureDetector(
-                                onTap: ()
-                                {
-                                  setState(() {
-                                    markasreadItem(listing.result.data.elementAt(index).id.toString());
-                                  });
-                                },
-                                child: Container(
-                                    height: SizeConfig.blockSizeVertical *5,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *1,
-                                        bottom: SizeConfig.blockSizeVertical *2),
-                                    decoration: BoxDecoration(
-                                      image: new DecorationImage(
-                                        image: new AssetImage(
-                                            "assets/images/sendbutton.png"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text('markasread'.tr,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: AppColors.whiteColor,
-                                            fontSize: 14,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular')
-                                    )
-                                ),
+                                            child: Container(
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    5,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                            .blockSizeVertical *
+                                                        1,
+                                                    bottom: SizeConfig
+                                                            .blockSizeVertical *
+                                                        2),
+                                                decoration: BoxDecoration(
+                                                  image: new DecorationImage(
+                                                    image: new AssetImage(
+                                                        "assets/images/sendbutton.png"),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text('markasread'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: AppColors
+                                                            .whiteColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontFamily:
+                                                            'Poppins-Regular'))),
+                                          )
+                                        ],
+                                      ))));
+                        })
+                    : Container(
+                        margin: EdgeInsets.only(top: 150),
+                        alignment: Alignment.center,
+                        child: resultvalue == true
+                            ? Center(
+                                child: CircularProgressIndicator(),
                               )
-                            ],
-                          )))
-                      );
-                    })
-                  : Container(
-                margin: EdgeInsets.only(top: 150),
-                alignment: Alignment.center,
-                child: resultvalue == true
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : Center(
-                  child: Text('norecordsfound'.tr,style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: AppColors.black,
-                      fontSize: 14,
-                      fontWeight:
-                      FontWeight.normal,
-                      fontFamily:
-                      'Poppins-Regular')),
-                ),
-              )
-            /*  Container(
+                            : Center(
+                                child: Text('norecordsfound'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: AppColors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular')),
+                              ),
+                      )
+                /*  Container(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1349,11 +1403,12 @@ class NotificationScreenState extends State<NotificationScreen> {
                   ),
 
               ),*/
-            ),
+                ),
           ],
         ),
       ),
-      bottomNavigationBar: bottombar(context,storelist_length != null?listing.unreadnotificaiton:0),
+      bottomNavigationBar: bottombar(
+          context, storelist_length != null ? listing.unreadnotificaiton : 0),
     );
   }
 
@@ -1370,11 +1425,11 @@ class NotificationScreenState extends State<NotificationScreen> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => HomeScreen()));
               });
-
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal * 24,
-                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
+                margin:
+                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1402,10 +1457,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => mytranscation()));
               });
-
             },
             child: Container(
-                width: SizeConfig.blockSizeHorizontal *24,
+                width: SizeConfig.blockSizeHorizontal * 24,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1434,7 +1488,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => NotificationScreen()));
               });
-
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal * 22,
@@ -1442,7 +1495,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     new Stack(
                       children: <Widget>[
                         Image.asset(
@@ -1451,7 +1503,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                           width: 19,
                           color: AppColors.selectedcolor,
                         ),
-                        new Positioned(
+                     /*   new Positioned(
                           right: 0,
                           child: new Container(
                             padding: EdgeInsets.all(2),
@@ -1472,10 +1524,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                        )
+                        )*/
                       ],
                     ),
-
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 1),
@@ -1490,10 +1541,10 @@ class NotificationScreenState extends State<NotificationScreen> {
           ),
           GestureDetector(
             onTap: () {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => ContactUs()));
-    });
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => ContactUs()));
+              });
             },
             child: Container(
                 width: SizeConfig.blockSizeHorizontal * 23,
@@ -1526,7 +1577,8 @@ class NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Future<void> Payamount(String id,String notificationid, String userid) async {
+  Future<void> Payamount(
+      String id, String notificationid, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': id.toString(),
@@ -1536,7 +1588,8 @@ class NotificationScreenState extends State<NotificationScreen> {
 
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(Network.BaseApi + Network.notification_projectpay, body: data);
+    http.Response response = await http
+        .post(Network.BaseApi + Network.notification_projectpay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1546,10 +1599,10 @@ class NotificationScreenState extends State<NotificationScreen> {
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-          Navigator.push(context,
+          Navigator.push(
+              context,
               MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      NotificationScreen()));
+                  builder: (BuildContext context) => NotificationScreen()));
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
         }
@@ -1560,10 +1613,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-
-
   Future<void> deleteItem(String id) async {
-
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': id.toString(),

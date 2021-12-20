@@ -7,6 +7,7 @@ import 'package:kontribute/Pojo/FollowinglistPojo.dart';
 import 'package:kontribute/Pojo/followstatus.dart';
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/Pojo/paymentlist.dart';
+import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -1465,8 +1466,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                             backgroundColor: AppColors.whiteColor,
                                                                             child: new Container(
                                                                               margin: EdgeInsets.all(5),
-                                                                              width: 320.0,
-                                                                              height: 290.0,
+                                                                              width: SizeConfig.blockSizeHorizontal * 80,
+                                                                              height: SizeConfig.blockSizeVertical *40,
                                                                               child: Column(
                                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1484,8 +1485,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                     ),
                                                                                   ),
                                                                                   Container(
-                                                                                    height: SizeConfig.blockSizeVertical *15,
-                                                                                    width: SizeConfig.blockSizeHorizontal *30,
+                                                                                    height: SizeConfig.blockSizeVertical *10,
+                                                                                    width: SizeConfig.blockSizeHorizontal *25,
                                                                                     margin: EdgeInsets.only(
                                                                                       left: SizeConfig.blockSizeHorizontal *5,
                                                                                       right: SizeConfig.blockSizeHorizontal *5,
@@ -1498,13 +1499,14 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                     ),
                                                                                   ),
                                                                                   Container(
+                                                                                    height: SizeConfig.blockSizeVertical *9,
                                                                                     margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                                                     color: AppColors.whiteColor,
                                                                                     alignment: Alignment.center,
                                                                                     child: Text(
                                                                                       'paymentalert'.tr,
                                                                                       style: TextStyle(
-                                                                                          fontSize: 14.0,
+                                                                                          fontSize: 12.0,
                                                                                           color: Colors.black,
                                                                                           fontWeight: FontWeight.normal),
                                                                                     ),
@@ -1552,10 +1554,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                     },
                                                                                     child: Container(
                                                                                       alignment: Alignment.center,
-                                                                                      height: SizeConfig.blockSizeVertical * 6,
+                                                                                      height: SizeConfig.blockSizeVertical * 5,
                                                                                       margin: EdgeInsets.only(
                                                                                           top: SizeConfig.blockSizeVertical * 3,
-                                                                                          bottom: SizeConfig.blockSizeVertical * 3,
+                                                                                          bottom: SizeConfig.blockSizeVertical * 2,
                                                                                           left: SizeConfig.blockSizeHorizontal * 25,
                                                                                           right: SizeConfig.blockSizeHorizontal * 25),
                                                                                       decoration: BoxDecoration(
@@ -1570,7 +1572,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                             color: Colors.white,
                                                                                             fontWeight: FontWeight.normal,
                                                                                             fontFamily: 'Poppins-Regular',
-                                                                                            fontSize: 15,
+                                                                                            fontSize: 14,
                                                                                           )),
                                                                                     ),
                                                                                   ),
@@ -1743,7 +1745,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                     InkWell(
                       onTap: () {
                         setState(() {
-                          getData(a, userid);
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
                         });
                       },
                       child: Container(
@@ -1765,7 +1767,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
               ),
             ),
           );
-
           // getpaymentlist(a);
         } else {
           showToast(updateval);

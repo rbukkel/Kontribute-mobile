@@ -124,14 +124,14 @@ class forget_screenState extends State<forget_screen>{
                       textAlign: TextAlign.center,
                       style:
                       TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 15,color: Colors.black),
+                          fontFamily: 'Poppins-Regular',  fontSize: 14,color: Colors.black),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintStyle: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',  fontSize: 10,
+                          fontFamily: 'Poppins-Regular',  fontSize: 14,
                           decoration: TextDecoration.none,
                         ),
                         hintText: StringConstant.emailaddres,
@@ -283,9 +283,6 @@ class forget_screenState extends State<forget_screen>{
                       ],
                     ),
                   ),
-
-
-
 
                 ],
               ),
