@@ -580,6 +580,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
           final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
           setState(() {
             if (imageFile != null) {
+
               setState(() {
                 _imageFile = imageFile;
                 if(_imageList.length<3)
@@ -604,8 +605,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
       }
       else if (imageSource == ImageSource.gallery) {
         try {
-          final imageFile =
-          await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
+          final imageFile = await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
           setState(() {
             if (imageFile != null) {
               setState(() {
@@ -633,7 +633,9 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         }
       }
     }
-    else {}
+    else {
+
+    }
   }
 
   // Format File Size
@@ -666,31 +668,35 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         double sizeInMb = sizeInBytes / (1024 * 1024);
         if (sizeInMb > 1){
           // This file is Longer the
-          errorDialog("Please select less than 1 mb file");
+          errorDialog('pleaseselectafilelessthan1mb'.tr);
         }
+        else
+          {
+            if (_documentList.length < 2) {
+              _documentList.add(file1);
+              for (int i = 0; i < _documentList.length; i++) {
+                print("ListDoc:" + _documentList[i].toString());
+              }
+              documentPath = file.path.toString();
+              print("File Path1: " + file.path.toString());
+              basename = path.basename(file.path);
+              print("File basename: " + basename.toString());
+              _selecteName.add(basename);
 
+              final input = _selecteName.toString();
+              final removedBrackets = input.substring(1, input.length - 1);
+              final parts = removedBrackets.split(',');
+              catname = parts.map((part) => "$part").join(',').trim();
+              documentsController.text = catname;
+              print("Docname: " + catname.toString());
+            } else {
+              errorDialog('uploadupto2documents'.tr);
 
-        if (_documentList.length < 2) {
-          _documentList.add(file1);
-          for (int i = 0; i < _documentList.length; i++) {
-            print("ListDoc:" + _documentList[i].toString());
+            }
           }
-          documentPath = file.path.toString();
-          print("File Path1: " + file.path.toString());
-          basename = path.basename(file.path);
-          print("File basename: " + basename.toString());
-          _selecteName.add(basename);
 
-          final input = _selecteName.toString();
-          final removedBrackets = input.substring(1, input.length - 1);
-          final parts = removedBrackets.split(',');
-          catname = parts.map((part) => "$part").join(',').trim();
-          documentsController.text = catname;
-          print("Docname: " + catname.toString());
-        } else {
-          errorDialog('uploadupto2documents'.tr);
 
-        }
+
       });
       /* setState(() {
         file1 = file;

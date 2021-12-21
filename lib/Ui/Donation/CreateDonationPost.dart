@@ -283,27 +283,38 @@ class CreateDonationPostState extends State<CreateDonationPost> {
         file1 = file; //file1 is a global variable which i created
         print("File Path: " + file1.toString());
 
-        if (_documentList.length < 2) {
-          _documentList.add(file1);
-          for (int i = 0; i < _documentList.length; i++) {
-            print("ListDoc:" + _documentList[i].toString());
-          }
-          documentPath = file.path.toString();
-          print("File Path1: " + file.path.toString());
-          basename = path.basename(file.path);
-          print("File basename: " + basename.toString());
-          _selecteName.add(basename);
-
-          final input = _selecteName.toString();
-          final removedBrackets = input.substring(1, input.length - 1);
-          final parts = removedBrackets.split(',');
-          catname = parts.map((part) => "$part").join(',').trim();
-          documentsController.text = catname;
-          print("Docname: " + catname.toString());
-        } else {
-          errorDialog('uploadupto2documents'.tr);
-
+        int sizeInBytes = file1.lengthSync();
+        double sizeInMb = sizeInBytes / (1024 * 1024);
+        if (sizeInMb > 1){
+          // This file is Longer the
+          errorDialog('pleaseselectafilelessthan1mb'.tr);
         }
+        else
+          {
+            if (_documentList.length < 2) {
+              _documentList.add(file1);
+              for (int i = 0; i < _documentList.length; i++) {
+                print("ListDoc:" + _documentList[i].toString());
+              }
+              documentPath = file.path.toString();
+              print("File Path1: " + file.path.toString());
+              basename = path.basename(file.path);
+              print("File basename: " + basename.toString());
+              _selecteName.add(basename);
+
+              final input = _selecteName.toString();
+              final removedBrackets = input.substring(1, input.length - 1);
+              final parts = removedBrackets.split(',');
+              catname = parts.map((part) => "$part").join(',').trim();
+              documentsController.text = catname;
+              print("Docname: " + catname.toString());
+            } else {
+              errorDialog('uploadupto2documents'.tr);
+
+            }
+          }
+
+
       });
       /* setState(() {
         file1 = file;

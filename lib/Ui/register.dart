@@ -149,7 +149,6 @@ class registerState extends State<register> {
     });
   }
 
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -184,7 +183,6 @@ class registerState extends State<register> {
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           setState(() {
-
             if (listingCountry.resultPush.isEmpty) {
               countryresultvalue = false;
               countrylist=null;
@@ -251,13 +249,10 @@ class registerState extends State<register> {
             errorDialog(jsonResponse["message"]);
           });
         }
-
       }
     } else {
       errorDialog(jsonDecode(val)["message"]);
     }
-
-
   }
 
   @override
@@ -298,7 +293,6 @@ class registerState extends State<register> {
                   child: Column(
                     children: [
                       Container(
-
                         alignment: Alignment.topCenter,
                         child: Text(
                           StringConstant.signup,
@@ -358,7 +352,6 @@ class registerState extends State<register> {
                                 loginmethod();
                               },
                             ),
-
                           /*  GestureDetector(
                               child: Container(
                                 margin: EdgeInsets.only(

@@ -378,7 +378,6 @@ class HomeScreenState extends State<HomeScreen> {
               height: SizeConfig.blockSizeVertical * 25,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
                   Container(
                     margin:EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5,
@@ -471,7 +470,6 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-
                   tabvalue=="Project"?
                   Container(
                     //color: AppColors.themecolor,
@@ -484,8 +482,8 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                     width: SizeConfig.blockSizeHorizontal * 75,
                     height: SizeConfig.blockSizeVertical * 25,
-                    child: banner_length != null
-                        ? new Swiper(
+                    child: banner_length != null ?
+                    new Swiper(
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
@@ -520,64 +518,30 @@ class HomeScreenState extends State<HomeScreen> {
                       itemWidth: SizeConfig.blockSizeHorizontal *  65,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
-                    )
-                        : new Swiper(
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image(
-                          image: AssetImage(
-                              'assets/images/homebg${index + 1}.png'),
-                          fit: BoxFit.fill,
-                        );
-                      },
-                      itemCount: 4,
-                      itemWidth: SizeConfig.blockSizeHorizontal * 65,
-                      layout: SwiperLayout.STACK,
-                      //pagination: new SwiperPagination(),
-                    ),
-                    /* InfiniteCards(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width * 1.3,
-                controller: _controller,
-              ),*/
-                    /*   Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
-                  PageView.builder(
-                    physics: ClampingScrollPhysics(),
-                    itemCount: introWidgetsList.length,
-                    onPageChanged: (int page) {
-                      getChangedPageAndMoveBar(page);
-                    },
-                    controller: PageController(
-                        initialPage: currentPageValue,
-                        keepPage: true,
-                        viewportFraction: 1),
-                    itemBuilder: (context, index) {
-                      return introWidgetsList[index];
-                    },
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            for (int i = 0; i < introWidgetsList.length; i++)
-                              if (i == currentPageValue) ...[
-                                circleBar(true)
-                              ] else
-                                circleBar(false),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),*/
-                  ):tabvalue=="Donation"?Container(
+                    ) :
+                    Container(
+                        alignment: Alignment.center,
+                        child: resultcatvalue == true
+                            ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                            :  new Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image(
+                              image: AssetImage(
+                                  'assets/images/homebg${index + 1}.png'),
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          itemCount: 4,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          layout: SwiperLayout.STACK,
+                          //pagination: new SwiperPagination(),
+                        )),
+
+                  ):
+                  tabvalue=="Donation"?
+                  Container(
                     //color: AppColors.themecolor,
                     alignment: Alignment.topCenter,
                     margin: EdgeInsets.only(
@@ -625,63 +589,28 @@ class HomeScreenState extends State<HomeScreen> {
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     )
-                        : new Swiper(
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image(
-                          image: AssetImage(
-                              'assets/images/homebg${index + 1}.png'),
-                          fit: BoxFit.fill,
-                        );
-                      },
-                      itemCount: 4,
-                      itemWidth: SizeConfig.blockSizeHorizontal * 65,
-                      layout: SwiperLayout.STACK,
-                      //pagination: new SwiperPagination(),
-                    ),
-                    /* InfiniteCards(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width * 1.3,
-                controller: _controller,
-              ),*/
-                    /*   Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
-                  PageView.builder(
-                    physics: ClampingScrollPhysics(),
-                    itemCount: introWidgetsList.length,
-                    onPageChanged: (int page) {
-                      getChangedPageAndMoveBar(page);
-                    },
-                    controller: PageController(
-                        initialPage: currentPageValue,
-                        keepPage: true,
-                        viewportFraction: 1),
-                    itemBuilder: (context, index) {
-                      return introWidgetsList[index];
-                    },
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            for (int i = 0; i < introWidgetsList.length; i++)
-                              if (i == currentPageValue) ...[
-                                circleBar(true)
-                              ] else
-                                circleBar(false),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),*/
-                  ):tabvalue=="Event"?Container(
+                        :   Container(
+                        alignment: Alignment.center,
+                        child: resultDonationvalue == true
+                            ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                            :  new Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image(
+                              image: AssetImage(
+                                  'assets/images/homebg${index + 1}.png'),
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          itemCount: 4,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          layout: SwiperLayout.STACK,
+                          //pagination: new SwiperPagination(),
+                        )),
+                  ):
+                  tabvalue=="Event"?
+                  Container(
                     //color: AppColors.themecolor,
                     alignment: Alignment.topCenter,
                     margin: EdgeInsets.only(
@@ -729,7 +658,39 @@ class HomeScreenState extends State<HomeScreen> {
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     )
-                        : new Swiper(
+                        :  Container(
+                        alignment: Alignment.center,
+                        child: resultEventvalue == true
+                            ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                            :  new Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image(
+                              image: AssetImage(
+                                  'assets/images/homebg${index + 1}.png'),
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          itemCount: 4,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          layout: SwiperLayout.STACK,
+                          //pagination: new SwiperPagination(),
+                        )
+                    ),
+
+                  ):Container(
+                    //color: AppColors.themecolor,
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 2,
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2,
+                      bottom: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 75,
+                    height: SizeConfig.blockSizeVertical * 25,
+                    child:new Swiper(
                       itemBuilder: (BuildContext context, int index) {
                         return Image(
                           image: AssetImage(
@@ -742,50 +703,7 @@ class HomeScreenState extends State<HomeScreen> {
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     ),
-                    /* InfiniteCards(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width * 1.3,
-                controller: _controller,
-              ),*/
-                    /*   Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
-                  PageView.builder(
-                    physics: ClampingScrollPhysics(),
-                    itemCount: introWidgetsList.length,
-                    onPageChanged: (int page) {
-                      getChangedPageAndMoveBar(page);
-                    },
-                    controller: PageController(
-                        initialPage: currentPageValue,
-                        keepPage: true,
-                        viewportFraction: 1),
-                    itemBuilder: (context, index) {
-                      return introWidgetsList[index];
-                    },
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            for (int i = 0; i < introWidgetsList.length; i++)
-                              if (i == currentPageValue) ...[
-                                circleBar(true)
-                              ] else
-                                circleBar(false),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),*/
-                  ):Container()
+                  )
                 ],
               ),
             ),
