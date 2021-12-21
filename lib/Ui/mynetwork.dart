@@ -275,6 +275,7 @@ class _mynetworkState extends State<mynetwork> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+
                                 children: [
                                   followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
                                     onTap: () {
@@ -294,13 +295,8 @@ class _mynetworkState extends State<mynetwork> {
                                       margin: EdgeInsets.only(
                                           bottom: SizeConfig
                                               .blockSizeVertical *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              5),
+                                              2,
+                                          ),
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 1,
@@ -324,28 +320,16 @@ class _mynetworkState extends State<mynetwork> {
                                           ), context);
                                     },
                                     child: Container(
-                                      height: SizeConfig
-                                          .blockSizeVertical *
-                                          12,
-                                      width: SizeConfig
-                                          .blockSizeVertical *
-                                          12,
+                                      height: SizeConfig.blockSizeVertical * 12,
+                                      width: SizeConfig.blockSizeVertical * 12,
                                       alignment: Alignment.center,
                                       margin: EdgeInsets.only(
-                                          bottom: SizeConfig
-                                              .blockSizeVertical *
-                                              1,
-                                          right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              1,
-                                          left: SizeConfig
-                                              .blockSizeHorizontal *
-                                              5),
+                                          bottom: SizeConfig.blockSizeVertical * 2,
+                                          ),
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 1,
-                                            color: AppColors
-                                                .themecolor,
+                                            color: AppColors.themecolor,
                                             style: BorderStyle.solid,
                                           ),
                                           shape: BoxShape.circle,
@@ -359,18 +343,19 @@ class _mynetworkState extends State<mynetwork> {
                                 ],
                               ),
                               Container(
-                                width: SizeConfig.blockSizeHorizontal * 55,
+                                width: SizeConfig.blockSizeHorizontal * 45,
                                 padding: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 1,
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
                                   followlistpojo.result.elementAt(ind).fullName,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       letterSpacing: 1.0,
                                       color: AppColors.black,
                                       fontSize: 12,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily:
                                       'Poppins-Regular'),
                                 ),
@@ -461,18 +446,19 @@ class _mynetworkState extends State<mynetwork> {
 
   Widget _createSearchView() {
     return new Container(
-      height: SizeConfig.blockSizeVertical * 8,
+     // height: SizeConfig.blockSizeVertical * 8,
       padding: EdgeInsets.only(
           left: SizeConfig.blockSizeHorizontal*1,
           right: SizeConfig.blockSizeHorizontal *1),
       margin: EdgeInsets.only(
           top: SizeConfig.blockSizeVertical *20,
-          left: SizeConfig.blockSizeHorizontal*5,
-          right: SizeConfig.blockSizeHorizontal*5),
+          left: SizeConfig.blockSizeHorizontal*4,
+          right: SizeConfig.blockSizeHorizontal*4),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1.0)
-      ),
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/searchbar.png"),
+            fit: BoxFit.fill,
+          )),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

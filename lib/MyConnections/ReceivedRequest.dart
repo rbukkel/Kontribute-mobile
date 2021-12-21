@@ -246,18 +246,18 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
 
   Widget _createSearchView() {
     return new Container(
-      height: SizeConfig.blockSizeVertical * 8,
       padding: EdgeInsets.only(
           left: SizeConfig.blockSizeHorizontal*1,
           right: SizeConfig.blockSizeHorizontal *1),
       margin: EdgeInsets.only(
           top: SizeConfig.blockSizeVertical *20,
-          left: SizeConfig.blockSizeHorizontal*5,
-          right: SizeConfig.blockSizeHorizontal*5),
+          left: SizeConfig.blockSizeHorizontal*4,
+          right: SizeConfig.blockSizeHorizontal*4),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1.0)
-      ),
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/searchbar.png"),
+            fit: BoxFit.fill,
+          )),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

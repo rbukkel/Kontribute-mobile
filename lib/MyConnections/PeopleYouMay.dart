@@ -222,7 +222,34 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        title: (Text('People You May Know')),
+        title: (Text('People You May Know',
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins-Bold',
+                fontWeight: FontWeight.normal,
+                fontSize: 18,
+                letterSpacing: 1.0)
+        )
+        ),
+        actions: [
+          GestureDetector(
+          onTap: (){
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
+    },
+        child: Container(
+            alignment: Alignment.centerRight,
+            margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *4,),
+            child: Text("Skip",
+                textAlign:TextAlign.right,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Poppins-Bold',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    letterSpacing: 1.0)
+            )
+        ),)
+        ],
         flexibleSpace: Image(
           height: SizeConfig.blockSizeVertical * 12,
           image: AssetImage('assets/images/appbar.png'),
@@ -234,25 +261,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
         color: AppColors.whiteColor,
         child: Column(
           children: [
-            GestureDetector(
-              onTap: (){
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
-              },
-              child: Container(
-                  alignment: Alignment.topRight,
-                  width: SizeConfig.blockSizeHorizontal * 90,
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                  child: Text("Skip",
-                      textAlign:TextAlign.right,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins-Bold',
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          letterSpacing: 1.0)
-                  )
-              ),
-            ),
+
             _createSearchView(),
             SearchView()
           ],
@@ -263,15 +272,19 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
 
   Widget _createSearchView() {
     return new Container(
-        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2,
-            right: SizeConfig.blockSizeHorizontal *2),
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,
-            left: SizeConfig.blockSizeHorizontal*5,
-            right: SizeConfig.blockSizeHorizontal*5),
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 1,
+            right: SizeConfig.blockSizeHorizontal * 1),
+        margin: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 4,
+            right: SizeConfig.blockSizeHorizontal * 4),
+
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1.0)
-        ),
+            image: new DecorationImage(
+              image: new AssetImage("assets/images/searchbar.png"),
+              fit: BoxFit.fill,
+            )),
         child: new
         TextField(
           onChanged: (value){
@@ -280,8 +293,10 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
             });
           },
           decoration: new InputDecoration(
+              prefixIcon: Icon(Icons.search, color: Colors.black),
               border: InputBorder.none,
-              hintStyle: TextStyle(color: Colors.black), hintText: 'Search...'),
+              hintStyle: TextStyle(color: Colors.black, fontSize: 12),
+              hintText: 'Search'),
         )
     );
   }
@@ -393,8 +408,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
             top: SizeConfig.blockSizeVertical * 2,
             left: SizeConfig.blockSizeHorizontal * 2,
             right: SizeConfig.blockSizeHorizontal * 2),
-        child:
-             Container(
+        child: Container(
                height: SizeConfig.blockSizeVertical * 80,
                child:  MediaQuery.removePadding(
                  context: context,
@@ -405,9 +419,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                    childAspectRatio: (aspectWidth / aspectHeight),
                    children: List.generate(followlist_length.length == null ? 0 :
                    followlist_length.length, (ind) {
-
                      reverid =followlistpojo.data.elementAt(ind).id.toString();
-
                      return
                        Container(
                            width: SizeConfig.blockSizeHorizontal * 60,
@@ -455,12 +467,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                                  2,
                                            ),
                                            decoration: BoxDecoration(
-                                               border: Border.all(
-                                                 width: 1,
-                                                 color: AppColors
-                                                     .themecolor,
-                                                 style: BorderStyle.solid,
-                                               ),
                                                shape: BoxShape.circle,
                                                image: DecorationImage(
                                                    image: NetworkImage(
@@ -477,7 +483,9 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                                ), context);
                                          },
                                          child: Container(
-                                           padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,bottom:  SizeConfig.blockSizeVertical *1),
+                                           padding: EdgeInsets.only(
+                                               top: SizeConfig.blockSizeVertical *2,
+                                               bottom:  SizeConfig.blockSizeVertical *1),
                                            height: SizeConfig
                                                .blockSizeVertical *
                                                10,
@@ -491,12 +499,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                            ),
                                            decoration: BoxDecoration(
                                                shape: BoxShape.circle,
-                                               border: Border.all(
-                                                 width: 1,
-                                                 color: AppColors
-                                                     .themecolor,
-                                                 style: BorderStyle.solid,
-                                               ),
                                                image: DecorationImage(
                                                    image: NetworkImage(
                                                      Network.BaseApiprofile + followlistpojo.data.elementAt(ind).profilePic,
@@ -509,15 +511,15 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
 
                                          margin: EdgeInsets.only(
                                              right: SizeConfig.blockSizeHorizontal * 1,
-                                             left: SizeConfig.blockSizeHorizontal * 2),
+                                             left: SizeConfig.blockSizeHorizontal * 1),
                                          alignment: Alignment.center,
                                          child: Text(
-                                           followlistpojo.data.elementAt(ind).fullName,
+                                           followlistpojo.data.elementAt(ind).fullName.toUpperCase(),
                                            style: TextStyle(
                                                letterSpacing: 1.0,
                                                color: AppColors.black,
                                                fontSize: 12,
-                                               fontWeight: FontWeight.normal,
+                                               fontWeight: FontWeight.bold,
                                                fontFamily:
                                                'Poppins-Regular'),
                                          ),
@@ -529,7 +531,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                            Unfollowapi(userid, followlistpojo.data.elementAt(ind).id.toString());
                                          },
                                          child:  Container(
-                                           width: SizeConfig.blockSizeHorizontal * 32,
+                                           width: SizeConfig.blockSizeHorizontal * 34,
                                            padding: EdgeInsets.only(
                                                right: SizeConfig.blockSizeHorizontal * 2,
                                                left: SizeConfig.blockSizeHorizontal * 2,
@@ -543,16 +545,16 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                            margin: EdgeInsets.only(
                                                top: SizeConfig.blockSizeVertical * 2,
                                                bottom: SizeConfig.blockSizeHorizontal * 2,
-                                               right: SizeConfig.blockSizeHorizontal * 2,
-                                               left: SizeConfig.blockSizeHorizontal * 2),
+                                               right: SizeConfig.blockSizeHorizontal * 1,
+                                               left: SizeConfig.blockSizeHorizontal * 1),
                                            alignment:Alignment.center,
                                            child: Text(
                                              "UnFollow",
                                              style: TextStyle(
                                                  letterSpacing: 1.0,
-                                                 color: AppColors.black,
+                                                 color: AppColors.themecolor,
                                                  fontSize: 12,
-                                                 fontWeight: FontWeight.normal,
+                                                 fontWeight: FontWeight.bold,
                                                  fontFamily:
                                                  'Poppins-Regular'),
                                            ),
@@ -560,7 +562,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                        ):
                                        followlistpojo.data.elementAt(ind).followed=="pending"?
                                        Container(
-                                         width: SizeConfig.blockSizeHorizontal * 32,
+                                         width: SizeConfig.blockSizeHorizontal * 34,
                                          padding: EdgeInsets.only(
                                              right: SizeConfig.blockSizeHorizontal * 2,
                                              left: SizeConfig.blockSizeHorizontal * 2,
@@ -574,16 +576,16 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                          margin: EdgeInsets.only(
                                              top: SizeConfig.blockSizeVertical * 2,
                                              bottom: SizeConfig.blockSizeHorizontal * 2,
-                                             right: SizeConfig.blockSizeHorizontal * 2,
-                                             left: SizeConfig.blockSizeHorizontal * 2),
+                                             right: SizeConfig.blockSizeHorizontal * 1,
+                                             left: SizeConfig.blockSizeHorizontal * 1),
                                          alignment:Alignment.center,
                                          child: Text(
                                            "Pending",
                                            style: TextStyle(
                                                letterSpacing: 1.0,
-                                               color: AppColors.black,
+                                               color: AppColors.themecolor,
                                                fontSize: 12,
-                                               fontWeight: FontWeight.normal,
+                                               fontWeight: FontWeight.bold,
                                                fontFamily:
                                                'Poppins-Regular'),
                                          ),
@@ -597,7 +599,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                          child:
                                          Container(
                                            alignment: Alignment.center,
-                                           width: SizeConfig.blockSizeHorizontal * 32,
+                                           width: SizeConfig.blockSizeHorizontal * 34,
                                            padding: EdgeInsets.only(
                                                right: SizeConfig.blockSizeHorizontal * 2,
                                                left: SizeConfig.blockSizeHorizontal * 2,
@@ -609,17 +611,17 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                                border: Border.all(color: AppColors.themecolor)
                                            ),
                                            margin: EdgeInsets.only(
-                                               right: SizeConfig.blockSizeHorizontal * 2,
+                                               right: SizeConfig.blockSizeHorizontal * 1,
                                                top: SizeConfig.blockSizeVertical * 2,
                                                bottom: SizeConfig.blockSizeVertical * 2,
-                                               left: SizeConfig.blockSizeHorizontal * 2),
+                                               left: SizeConfig.blockSizeHorizontal * 1),
                                            child: Text(
                                              'Connect',
                                              style: TextStyle(
                                                  letterSpacing: 1.0,
-                                                 color: AppColors.black,
+                                                 color: AppColors.themecolor,
                                                  fontSize: 12,
-                                                 fontWeight: FontWeight.normal,
+                                                 fontWeight: FontWeight.bold,
                                                  fontFamily:
                                                  'Poppins-Regular'),
                                            ),

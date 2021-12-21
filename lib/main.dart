@@ -183,6 +183,12 @@ class _MyHomePageState extends State<MyHomePage> {
                        Get.updateLocale(locale);
                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
                      }
+                     else
+                       {
+                         var locale = Locale('en', 'US');
+                         Get.updateLocale(locale);
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                       }
                    });
 
                  }

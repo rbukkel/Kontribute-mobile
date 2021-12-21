@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:share/share.dart';
@@ -500,6 +501,13 @@ class OngoingCampaignDetailsscreenState
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         OngoingCampaign()));
+                          }
+                          else if (coming1.toString() == "home") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen()));
                           }
                         },
                         child: Container(

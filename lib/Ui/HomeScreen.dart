@@ -9,7 +9,9 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/Notificationpojo.dart';
 import 'package:kontribute/Pojo/bannerpojo.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
+import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
+import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
@@ -36,7 +38,13 @@ class HomeScreenState extends State<HomeScreen> {
   bool _isTypeSwitch = true;
   int currentPageValue = 0;
   int counter = 0;
+  String tabvalue = "Project";
+  bool project = true;
+  bool donation = false;
+  bool event = false;
   String valcat;
+
+
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
       "assets/images/banner1.png",
@@ -66,7 +74,11 @@ class HomeScreenState extends State<HomeScreen> {
   bool internet = false;
   bannerpojo imageslisting;
   bool resultcatvalue = true;
+  bool resultDonationvalue = true;
+  bool resultEventvalue = true;
   var banner_length;
+  var bannerDonation_length;
+  var bannerEvent_length;
 
   Widget _renderItem(BuildContext context, int index) {
     return Image(
@@ -200,8 +212,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void getBanners() async {
-    var response =
-        await http.get(Uri.encodeFull(Network.BaseApi + Network.bannerimages));
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.bannerimages));
     var jsonResponse = null;
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -209,6 +220,8 @@ class HomeScreenState extends State<HomeScreen> {
       if (jsonResponse["success"] == false) {
         setState(() {
           resultcatvalue = false;
+          resultDonationvalue = false;
+          resultEventvalue = false;
         });
       } else {
         imageslisting = new bannerpojo.fromJson(jsonResponse);
@@ -222,6 +235,22 @@ class HomeScreenState extends State<HomeScreen> {
               resultcatvalue = true;
               print("SSSS");
               banner_length = imageslisting.projectimages;
+            }
+
+            if (imageslisting.donationimages.isEmpty) {
+              resultDonationvalue = false;
+            } else {
+              resultDonationvalue = true;
+              print("SSSS");
+              bannerDonation_length = imageslisting.donationimages;
+            }
+
+            if (imageslisting.eventimages.isEmpty) {
+              resultEventvalue = false;
+            } else {
+              resultEventvalue = true;
+              print("SSSS");
+              bannerEvent_length = imageslisting.eventimages;
             }
           });
         } else {
@@ -346,18 +375,117 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(
-              //color: AppColors.themecolor,
-              alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 2,
-                left: SizeConfig.blockSizeHorizontal * 5,
-                right: SizeConfig.blockSizeHorizontal * 2,
-                bottom: SizeConfig.blockSizeVertical * 1,
-              ),
-              width: SizeConfig.blockSizeHorizontal * 100,
               height: SizeConfig.blockSizeVertical * 25,
-              child: banner_length != null
-                  ? new Swiper(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                children: [
+                  Container(
+                    margin:EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5,
+                    bottom: SizeConfig.blockSizeVertical * 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            setState(() {
+                              tabvalue = "Project";
+                              project = true;
+                              donation = false;
+                              event = false;
+                            });
+
+                            print("Value: " + tabvalue);
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 19,
+                            margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
+                            child: Text(
+                              'projects'.tr.toUpperCase(),
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: project ? AppColors.black : AppColors.greyColor,
+                                  fontFamily: 'Poppins-Bold',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  letterSpacing: 1.0),
+                            ),
+                          ),
+                        ),
+                       GestureDetector(
+                         onTap: ()
+                         {
+                           setState(() {
+                             tabvalue = "Donation";
+                             project = false;
+                             donation = true;
+                             event = false;
+                           });
+
+                           print("Value: " + tabvalue);
+                         },
+                         child:  Container(
+                           width: SizeConfig.blockSizeHorizontal * 19,
+                           margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
+                           child: Text(
+                             'donations'.tr.toUpperCase(),
+                             textAlign: TextAlign.left,
+                             style: TextStyle(
+                                 color: donation ? AppColors.black : AppColors.greyColor,
+                                 fontFamily: 'Poppins-Bold',
+                                 fontWeight: FontWeight.w700,
+                                 fontSize: 10,
+                                 letterSpacing: 1.0),
+                           ),
+                         ),
+                       ),
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            setState(() {
+                              tabvalue = "Event";
+                              project = false;
+                              donation = false;
+                              event = true;
+                            });
+
+                            print("Value: " + tabvalue);
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 19,
+                            margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
+                            child: Text(
+                              'events'.tr.toUpperCase(),
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: event ? AppColors.black : AppColors.greyColor,
+                                  fontFamily: 'Poppins-Bold',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  letterSpacing: 1.0),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+
+                  tabvalue=="Project"?
+                  Container(
+                    //color: AppColors.themecolor,
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 2,
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2,
+                      bottom: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 75,
+                    height: SizeConfig.blockSizeVertical * 25,
+                    child: banner_length != null
+                        ? new Swiper(
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
@@ -371,7 +499,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 context);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 80,
+                            width: SizeConfig.blockSizeHorizontal * 65,
                             height: SizeConfig.blockSizeVertical * 25,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
@@ -389,11 +517,11 @@ class HomeScreenState extends State<HomeScreen> {
                       itemCount: banner_length.length == null
                           ? 0
                           : banner_length.length,
-                      itemWidth: SizeConfig.blockSizeHorizontal * 80,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     )
-                  : new Swiper(
+                        : new Swiper(
                       itemBuilder: (BuildContext context, int index) {
                         return Image(
                           image: AssetImage(
@@ -402,16 +530,16 @@ class HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       itemCount: 4,
-                      itemWidth: SizeConfig.blockSizeHorizontal * 80,
+                      itemWidth: SizeConfig.blockSizeHorizontal * 65,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     ),
-              /* InfiniteCards(
+                    /* InfiniteCards(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 1.3,
                 controller: _controller,
               ),*/
-              /*   Stack(
+                    /*   Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
                   PageView.builder(
@@ -449,6 +577,217 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),*/
+                  ):tabvalue=="Donation"?Container(
+                    //color: AppColors.themecolor,
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 2,
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2,
+                      bottom: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 75,
+                    height: SizeConfig.blockSizeVertical * 25,
+                    child: bannerDonation_length != null
+                        ? new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            callNext(
+                                OngoingCampaignDetailsscreen(
+                                    data: imageslisting.donationimages
+                                        .elementAt(index)
+                                        .donationId
+                                        .toString(),
+                                    coming: "home"),
+                                context);
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 65,
+                            height: SizeConfig.blockSizeVertical * 25,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.transparent),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      Network.BaseApidonation +
+                                          imageslisting.donationimages
+                                              .elementAt(index)
+                                              .imagePath,
+                                    ),
+                                    fit: BoxFit.fill)),
+                          ),
+                        );
+                      },
+                      itemCount: bannerDonation_length.length == null
+                          ? 0
+                          : bannerDonation_length.length,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    )
+                        : new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image(
+                          image: AssetImage(
+                              'assets/images/homebg${index + 1}.png'),
+                          fit: BoxFit.fill,
+                        );
+                      },
+                      itemCount: 4,
+                      itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    ),
+                    /* InfiniteCards(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 1.3,
+                controller: _controller,
+              ),*/
+                    /*   Stack(
+                alignment: AlignmentDirectional.bottomCenter,
+                children: <Widget>[
+                  PageView.builder(
+                    physics: ClampingScrollPhysics(),
+                    itemCount: introWidgetsList.length,
+                    onPageChanged: (int page) {
+                      getChangedPageAndMoveBar(page);
+                    },
+                    controller: PageController(
+                        initialPage: currentPageValue,
+                        keepPage: true,
+                        viewportFraction: 1),
+                    itemBuilder: (context, index) {
+                      return introWidgetsList[index];
+                    },
+                  ),
+                  Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            for (int i = 0; i < introWidgetsList.length; i++)
+                              if (i == currentPageValue) ...[
+                                circleBar(true)
+                              ] else
+                                circleBar(false),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),*/
+                  ):tabvalue=="Event"?Container(
+                    //color: AppColors.themecolor,
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 2,
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2,
+                      bottom: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 75,
+                    height: SizeConfig.blockSizeVertical * 25,
+                    child: bannerEvent_length != null
+                        ? new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            callNext(
+                                OngoingEventsDetailsscreen(
+                                    data: imageslisting.eventimages
+                                        .elementAt(index)
+                                        .eventId
+                                        .toString(),
+                                    coming: "home"),
+                                context);
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 65,
+                            height: SizeConfig.blockSizeVertical * 25,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.transparent),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      Network.BaseApievent +
+                                          imageslisting.eventimages
+                                              .elementAt(index)
+                                              .imagePath,
+                                    ),
+                                    fit: BoxFit.fill)),
+                          ),
+                        );
+                      },
+                      itemCount: bannerEvent_length.length == null
+                          ? 0
+                          : bannerEvent_length.length,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    )
+                        : new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image(
+                          image: AssetImage(
+                              'assets/images/homebg${index + 1}.png'),
+                          fit: BoxFit.fill,
+                        );
+                      },
+                      itemCount: 4,
+                      itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    ),
+                    /* InfiniteCards(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 1.3,
+                controller: _controller,
+              ),*/
+                    /*   Stack(
+                alignment: AlignmentDirectional.bottomCenter,
+                children: <Widget>[
+                  PageView.builder(
+                    physics: ClampingScrollPhysics(),
+                    itemCount: introWidgetsList.length,
+                    onPageChanged: (int page) {
+                      getChangedPageAndMoveBar(page);
+                    },
+                    controller: PageController(
+                        initialPage: currentPageValue,
+                        keepPage: true,
+                        viewportFraction: 1),
+                    itemBuilder: (context, index) {
+                      return introWidgetsList[index];
+                    },
+                  ),
+                  Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            for (int i = 0; i < introWidgetsList.length; i++)
+                              if (i == currentPageValue) ...[
+                                circleBar(true)
+                              ] else
+                                circleBar(false),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),*/
+                  ):Container()
+                ],
+              ),
             ),
             /*  Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -582,7 +582,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
             if (imageFile != null) {
               setState(() {
                 _imageFile = imageFile;
-
                 if(_imageList.length<3)
                 {
                   _imageList.add(_imageFile);
@@ -594,13 +593,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                   errorDialog('uploadupto3images'.tr);
                 }
               });
-
             } else {
               print('No image selected.');
               errorDialog('pleaseselectimage'.tr);
             }
           });
-
         } catch (e) {
           print(e);
         }
@@ -643,9 +640,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   String getFilesizeString({@required int bytes, int decimals = 0}) {
     const suffixes = ["b", "kb", "mb", "gb", "tb"];
     var i = (log(bytes) / log(1024)).floor();
-    print("File Size: " +
-        ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
-        suffixes[i]);
+    print("Sized: "+i.toString());
+    print("File Size: " + ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i]);
 
     return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
@@ -663,7 +659,16 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         //file1 is a global variable which i created
         print("File Path: " + file1.toString());
 
-        print(getFilesizeString(bytes: file1.lengthSync()));
+        getFilesizeString(bytes: file1.lengthSync());
+
+
+        int sizeInBytes = file1.lengthSync();
+        double sizeInMb = sizeInBytes / (1024 * 1024);
+        if (sizeInMb > 1){
+          // This file is Longer the
+          errorDialog("Please select less than 1 mb file");
+        }
+
 
         if (_documentList.length < 2) {
           _documentList.add(file1);

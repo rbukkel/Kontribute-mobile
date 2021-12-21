@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -578,6 +579,13 @@ class OngoingEventsDetailsscreenState
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         OngoingEvents()));
+                          }
+                          else if (coming1.toString() == "home") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen()));
                           }
                         },
                         child: Container(

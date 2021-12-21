@@ -120,52 +120,57 @@ class _ContactlisState extends State<Contactlis>
         centerTitle: true,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        title: (Text('Contacts')),
+        title: (Text('Contacts',
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins-Bold',
+                fontWeight: FontWeight.normal,
+                fontSize: 18,
+                letterSpacing: 1.0))),
         flexibleSpace: Image(
           height: SizeConfig.blockSizeVertical * 12,
           image: AssetImage('assets/images/appbar.png'),
           fit: BoxFit.cover,
         ),
-      ),
-      body: Column(
-        children: [
+        actions: [
           GestureDetector(
-            onTap: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => PeopleYouMay()), (route) => false);
+            onTap: (){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PeopleYouMay()), (route) => false);
             },
             child: Container(
-                alignment: Alignment.topRight,
-                width: SizeConfig.blockSizeHorizontal * 90,
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal *4),
                 child: Text("Skip",
-                    textAlign: TextAlign.right,
+                    textAlign:TextAlign.right,
                     style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontFamily: 'Poppins-Bold',
                         fontWeight: FontWeight.normal,
                         fontSize: 16,
-                        letterSpacing: 1.0))),
-          ),
+                        letterSpacing: 1.0)
+                )
+            ),)
+        ],
+      ),
+      body: Column(
+        children: [
           Container(
             margin: EdgeInsets.only(
               top:  SizeConfig.blockSizeVertical *2,
-                left: SizeConfig.blockSizeHorizontal *5,right: SizeConfig.blockSizeHorizontal *5),
+                left: SizeConfig.blockSizeHorizontal *4,
+                right: SizeConfig.blockSizeHorizontal *4),
+            decoration: BoxDecoration(
+                image: new DecorationImage(
+                  image: new AssetImage("assets/images/searchbar.png"),
+                  fit: BoxFit.fill,
+                )),
             child: TextField(
               controller: searchController,
-              decoration: InputDecoration(
-                  labelText: 'Search...',
-                  border: new OutlineInputBorder(
-                      borderSide: new BorderSide(
-                          color: AppColors.black
-                      )
-                  ),
-                  prefixIcon: Icon(
-                      Icons.search,
-                      color: AppColors.black
-                  ),
-              ),
+              decoration: new InputDecoration(
+                  prefixIcon: Icon(Icons.search, color: Colors.black),
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.black, fontSize: 12),
+                  hintText: 'Search'),
             ),
           ),
           contactsLoaded == true ?  // if the contacts have not been loaded yet
