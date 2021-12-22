@@ -715,8 +715,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
             }
           }
 
-
-
       });
       /* setState(() {
         file1 = file;
