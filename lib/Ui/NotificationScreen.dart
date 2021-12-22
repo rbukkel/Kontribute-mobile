@@ -1198,7 +1198,13 @@ class NotificationScreenState extends State<NotificationScreen> {
                                           listing.result.data
                                                       .elementAt(index)
                                                       .giftPicture ==
-                                                  ''
+                                                  '' ||listing.result.data
+                                              .elementAt(index)
+                                              .giftPicture ==
+                                              '0'||listing.result.data
+                                              .elementAt(index)
+                                              .giftPicture ==
+                                              null
                                               ? Container()
                                               : Container(
                                                   height: SizeConfig

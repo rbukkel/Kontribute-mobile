@@ -592,7 +592,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listing.projectData.elementAt(index).ticketImages;
                       commentlist_length = listing.projectData.elementAt(index).comments;
-                      double amount = listing.projectData.elementAt(index).balanceQtySlot.toDouble() /
+                      double amount = listing.projectData.elementAt(index).ticketsold.toDouble() /
                           double.parse(listing.projectData.elementAt(index).maximumQtySold) * 100;
                       amoun =amount.toInt();
                       reverid = listing.projectData.elementAt(index).userId.toString();

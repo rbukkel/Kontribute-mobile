@@ -3787,7 +3787,7 @@ class MyActivitiesState extends State<MyActivities> {
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listingevent.result.elementAt(index).projectImages;
                       commentlist_length = listingevent.result.elementAt(index).comments;
-                      double amount = listingevent.result.elementAt(index).balanceslot.toDouble() /
+                      double amount = listingevent.result.elementAt(index).totalcollectedamount.toDouble() /
                           double.parse(listingevent.result.elementAt(index).totalslotamount.toString()) * 100;
 
                       amoun =amount.toInt();
@@ -4707,7 +4707,7 @@ class MyActivitiesState extends State<MyActivities> {
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listingticket.result.elementAt(index).ticketImages;
                       commentlist_length = listingticket.result.elementAt(index).comments;
-                      double amount = listingticket.result.elementAt(index).balanceQtySlot.toDouble() /
+                      double amount = listingticket.result.elementAt(index).ticketsold.toDouble() /
                           double.parse(listingticket.result.elementAt(index).maximumQtySold) * 100;
                       amoun =amount.toInt();
                       reverid = listingticket.result.elementAt(index).userId.toString();
@@ -5248,7 +5248,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 9,
+                                                fontSize: 8,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -5259,7 +5259,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 9,
+                                                fontSize: 8,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -5267,35 +5267,15 @@ class MyActivitiesState extends State<MyActivities> {
                                           ),
                                         ],
                                       )
-
                                     ),
-                                    /*Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,
-                                          ),
-                                          child: Text(
-                                            listing.projectData.elementAt(index).maximumQtySold.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 9,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),*/
+
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                       child:  LinearPercentIndicator(
-                                        width: 70.0,
+                                        width: 65.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
-                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
+                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
                                         backgroundColor: AppColors.lightgrey,
                                         progressColor:AppColors.themecolor,
                                       ),
@@ -5305,7 +5285,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       width: SizeConfig.blockSizeHorizontal *32,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                           .blockSizeHorizontal *
-                                          3),
+                                          4),
                                       child:  Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
@@ -5314,7 +5294,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 9,
+                                                fontSize: 8,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:
@@ -5325,7 +5305,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 9,
+                                                fontSize: 8,
                                                 fontWeight:
                                                 FontWeight.normal,
                                                 fontFamily:

@@ -45,6 +45,7 @@ class _AddContactState extends State<AddContact> {
   UserlistingPojo followlistpojo;
   follow_Request_updatePojo followupdatepojo;
   String searchvalue = "";
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
 
   @override
   void initState() {
@@ -509,11 +510,7 @@ class _AddContactState extends State<AddContact> {
                                               )
                                             : GestureDetector(
                                                 onTap: () {
-                                                  print("IDR: " +
-                                                      followlistpojo.data
-                                                          .elementAt(ind)
-                                                          .id
-                                                          .toString());
+
                                                   followapi(
                                                       userid,
                                                       followlistpojo.data
@@ -649,6 +646,7 @@ class _AddContactState extends State<AddContact> {
   }
 
   Future<void> followapi(String useid, String rece) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'sender_id': useid.toString(),
       'receiver_id': rece.toString(),
@@ -661,11 +659,14 @@ class _AddContactState extends State<AddContact> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
+         Navigator.of(context, rootNavigator: true).pop();
         showToast(updateval);
         setState(() {
           getFollowing(userid, searchvalue);
         });
       } else {
+        Navigator.of(context, rootNavigator: true).pop();
+
         if (jsonResponse != null) {
           // showToast(updateval);
           setState(() {
@@ -676,11 +677,14 @@ class _AddContactState extends State<AddContact> {
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
+
       showToast(updateval);
     }
   }
 
   Future<void> Unfollowapi(String useid, String rece) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'senderid': rece.toString(),
       'receiverid': useid.toString(),
@@ -693,13 +697,14 @@ class _AddContactState extends State<AddContact> {
       jsonResponse = json.decode(response.body);
       unfollowval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
+         Navigator.of(context, rootNavigator: true).pop();
         showToast(unfollowval);
         setState(() {
           getFollowing(userid, searchvalue);
         });
       } else {
+        Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-          showToast(unfollowval);
           setState(() {
             getFollowing(userid, searchvalue);
           });
@@ -708,6 +713,7 @@ class _AddContactState extends State<AddContact> {
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
       showToast(unfollowval);
     }
   }

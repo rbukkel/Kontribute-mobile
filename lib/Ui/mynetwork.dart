@@ -495,41 +495,25 @@ class _mynetworkState extends State<mynetwork> {
       jsonResponse = json.decode(response.body);
       requestval = response.body;
       if (jsonResponse["success"] == false) {
-        Fluttertoast.showToast(
-            msg: jsonDecode(requestval)["message"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+        errorDialog(followupdatepojo.message);
       } else {
         followupdatepojo = new follow_Request_updatePojo.fromJson(jsonResponse);
         print("Json User" + jsonResponse.toString());
         if (jsonResponse != null) {
           print("response");
-          Fluttertoast.showToast(
-              msg: followupdatepojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+
           setState(() {
             getFollowing(userid,searchvalue);
             getdata(userid);
           });
         }
         else {
-          Fluttertoast.showToast(
-              msg: followupdatepojo.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
+          errorDialog(followupdatepojo.message);
         }
       }
     } else {
-      Fluttertoast.showToast(
-        msg: jsonDecode(requestval)["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonDecode(requestval)["message"]);
+
     }
   }
 }

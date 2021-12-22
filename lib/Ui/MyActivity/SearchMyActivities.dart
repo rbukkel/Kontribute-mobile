@@ -4398,7 +4398,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 .comments;
                                             double amount = listingevent.result
                                                     .elementAt(index)
-                                                    .balanceslot
+                                                    .totalcollectedamount
                                                     .toDouble() /
                                                 double.parse(listingevent.result
                                                     .elementAt(index)
@@ -5599,7 +5599,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 double amount = listingticket
                                                         .result
                                                         .elementAt(index)
-                                                        .balanceQtySlot
+                                                        .ticketsold
                                                         .toDouble() /
                                                     double.parse(listingticket
                                                         .result
@@ -6083,25 +6083,10 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     .spaceBetween,
                                                             children: [
                                                               Container(
-                                                                  width: SizeConfig
-                                                                          .blockSizeHorizontal *
-                                                                      27,
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .topLeft,
-                                                                  margin:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                    top: SizeConfig
-                                                                            .blockSizeVertical *
-                                                                        1,
-                                                                    left: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                        2,
-                                                                    right: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                        3,
-                                                                  ),
+                                                                  width: SizeConfig.blockSizeHorizontal *34,
+                                                                  alignment: Alignment.topLeft,
+                                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                                      left: SizeConfig.blockSizeHorizontal * 2),
                                                                   child: Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
@@ -6116,7 +6101,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             color: Colors
                                                                                 .black87,
                                                                             fontSize:
-                                                                                9,
+                                                                                8,
                                                                             fontWeight:
                                                                                 FontWeight.normal,
                                                                             fontFamily: 'Poppins-Regular'),
@@ -6130,33 +6115,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             color: Colors
                                                                                 .black87,
                                                                             fontSize:
-                                                                                9,
+                                                                                8,
                                                                             fontWeight:
                                                                                 FontWeight.normal,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                     ],
                                                                   )),
-                                                              /*Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                            right: SizeConfig
-                                                .blockSizeHorizontal *
-                                                3,
-                                          ),
-                                          child: Text(
-                                            listing.projectData.elementAt(index).maximumQtySold.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 9,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),*/
                                                               Container(
                                                                 margin: EdgeInsets.only(
                                                                     top: SizeConfig
@@ -6164,7 +6129,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                         1),
                                                                 child:
                                                                     LinearPercentIndicator(
-                                                                  width: 70.0,
+                                                                  width: 60.0,
                                                                   lineHeight:
                                                                       14.0,
                                                                   percent:
@@ -6175,7 +6140,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                         "%",
                                                                     style: TextStyle(
                                                                         fontSize:
-                                                                            9,
+                                                                            8,
                                                                         color: AppColors
                                                                             .whiteColor),
                                                                   ),
@@ -6188,71 +6153,40 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 ),
                                                               ),
                                                               Container(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .centerRight,
-                                                                  width: SizeConfig
-                                                                          .blockSizeHorizontal *
-                                                                      29,
-                                                                  margin: EdgeInsets.only(
-                                                                      top: SizeConfig
-                                                                              .blockSizeVertical *
-                                                                          1,
-                                                                      right:
-                                                                          SizeConfig.blockSizeHorizontal *
-                                                                              3),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .end,
+                                                                  alignment: Alignment.centerRight,
+                                                                  width: SizeConfig.blockSizeHorizontal *32,
+                                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                      3),
+
+                                                                  child:  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                                     children: [
                                                                       Text(
-                                                                        'availabletickets'
-                                                                            .tr,
+                                                                        'availabletickets'.tr,
                                                                         style: TextStyle(
-                                                                            letterSpacing:
-                                                                                1.0,
-                                                                            color: Colors
-                                                                                .black87,
-                                                                            fontSize:
-                                                                                9,
+                                                                            letterSpacing: 1.0,
+                                                                            color: Colors.black87,
+                                                                            fontSize: 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
-                                                                            fontFamily: 'Poppins-Regular'),
+                                                                            FontWeight.normal,
+                                                                            fontFamily:
+                                                                            'Poppins-Regular'),
                                                                       ),
                                                                       Text(
-                                                                        " - " +
-                                                                            listingticket.result.elementAt(index).balanceQtySlot.toString(),
+                                                                        " - "+ listingticket.result.elementAt(index).balanceQtySlot.toString(),
                                                                         style: TextStyle(
-                                                                            letterSpacing:
-                                                                                1.0,
-                                                                            color: Colors
-                                                                                .black87,
-                                                                            fontSize:
-                                                                                9,
+                                                                            letterSpacing: 1.0,
+                                                                            color: Colors.black87,
+                                                                            fontSize: 9,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
-                                                                            fontFamily: 'Poppins-Regular'),
+                                                                            FontWeight.normal,
+                                                                            fontFamily:
+                                                                            'Poppins-Regular'),
                                                                       ),
                                                                     ],
-                                                                  )),
-                                                              /*  Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
-                                              .blockSizeHorizontal *
-                                              3),
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            listing.projectData.elementAt(index).balanceQtySlot.toString(),
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.lightBlueAccent,
-                                                fontSize: 9,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        )*/
+                                                                  )
+                                                              ),
                                                             ],
                                                           ),
                                                           imageslist_length !=

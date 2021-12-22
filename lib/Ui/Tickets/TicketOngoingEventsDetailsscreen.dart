@@ -225,7 +225,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
             Ticketlist_length = projectdetailspojo.commentsdata.ticketpayemtndetails;
             TicketUserDetails_length = projectdetailspojo.commentsdata.ticketdetailUser;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            double amount = double.parse(projectdetailspojo.commentsdata.balanceQtySlot.toString()) /
+            double amount = double.parse(projectdetailspojo.commentsdata.ticketsold.toString()) /
                 double.parse(projectdetailspojo.commentsdata.maximumQtySold.toString()) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());

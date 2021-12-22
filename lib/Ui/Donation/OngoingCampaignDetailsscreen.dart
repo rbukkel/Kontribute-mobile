@@ -2514,14 +2514,67 @@ class OngoingCampaignDetailsscreenState
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
 
-          errorDialog(jsonDecode(updateval)["message"]);
-          Future.delayed(Duration(seconds: 2),()
-          {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => OngoingCampaign()));
-          });
+          showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              backgroundColor: AppColors.whiteColor,
+              child: new Container(
+                margin: EdgeInsets.all(5),
+                width: 300.0,
+                height: 180.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.error,
+                        size: 50.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      color: AppColors.whiteColor,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        jsonDecode(updateval)["message"],
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => OngoingCampaign()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        color: AppColors.whiteColor,
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          'okay'.tr,
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
         }

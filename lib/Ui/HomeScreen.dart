@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
@@ -315,8 +316,7 @@ class HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 45,
                     alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     // child: Image.asset("assets/images/appicon_circular.png",width:SizeConfig.blockSizeHorizontal *50,height: SizeConfig.blockSizeVertical *7,),
                   ),
@@ -378,10 +378,11 @@ class HomeScreenState extends State<HomeScreen> {
               height: SizeConfig.blockSizeVertical * 25,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                 children: [
                   Container(
                     margin:EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5,
-                    bottom: SizeConfig.blockSizeVertical * 5),
+                        bottom: SizeConfig.blockSizeVertical * 5),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -412,33 +413,33 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                       GestureDetector(
-                         onTap: ()
-                         {
-                           setState(() {
-                             tabvalue = "Donation";
-                             project = false;
-                             donation = true;
-                             event = false;
-                           });
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            setState(() {
+                              tabvalue = "Donation";
+                              project = false;
+                              donation = true;
+                              event = false;
+                            });
 
-                           print("Value: " + tabvalue);
-                         },
-                         child:  Container(
-                           width: SizeConfig.blockSizeHorizontal * 19,
-                           margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
-                           child: Text(
-                             'donations'.tr.toUpperCase(),
-                             textAlign: TextAlign.left,
-                             style: TextStyle(
-                                 color: donation ? AppColors.black : AppColors.greyColor,
-                                 fontFamily: 'Poppins-Bold',
-                                 fontWeight: FontWeight.w700,
-                                 fontSize: 10,
-                                 letterSpacing: 1.0),
-                           ),
-                         ),
-                       ),
+                            print("Value: " + tabvalue);
+                          },
+                          child:  Container(
+                            width: SizeConfig.blockSizeHorizontal * 19,
+                            margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
+                            child: Text(
+                              'donations'.tr.toUpperCase(),
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: donation ? AppColors.black : AppColors.greyColor,
+                                  fontFamily: 'Poppins-Bold',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  letterSpacing: 1.0),
+                            ),
+                          ),
+                        ),
                         GestureDetector(
                           onTap: ()
                           {
@@ -499,7 +500,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             width: SizeConfig.blockSizeHorizontal * 65,
                             height: SizeConfig.blockSizeVertical * 25,
-                            decoration: BoxDecoration(
+                            /*decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
                                 image: DecorationImage(
                                     image: NetworkImage(
@@ -508,7 +509,20 @@ class HomeScreenState extends State<HomeScreen> {
                                               .elementAt(index)
                                               .imagePath,
                                     ),
-                                    fit: BoxFit.fill)),
+                                    fit: BoxFit.fill)),*/
+                            child: CachedNetworkImage(
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical * 25,
+                              fit: BoxFit.fill ,
+                              imageUrl:Network.BaseApiProject +
+                                  imageslisting.projectimages
+                                      .elementAt(index)
+                                      .imagePath,
+                              placeholder: (context, url) => Container(
+                                  height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                  child: Center(child: new CircularProgressIndicator())),
+                              errorWidget: (context, url, error) => new Icon(Icons.error),
+                            ),
                           ),
                         );
                       },
@@ -569,7 +583,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             width: SizeConfig.blockSizeHorizontal * 65,
                             height: SizeConfig.blockSizeVertical * 25,
-                            decoration: BoxDecoration(
+                           /* decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
                                 image: DecorationImage(
                                     image: NetworkImage(
@@ -578,7 +592,22 @@ class HomeScreenState extends State<HomeScreen> {
                                               .elementAt(index)
                                               .imagePath,
                                     ),
-                                    fit: BoxFit.fill)),
+                                    fit: BoxFit.fill)),*/
+
+                           child: CachedNetworkImage(
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical * 25,
+                              fit: BoxFit.fill ,
+                              imageUrl:
+                        Network.BaseApidonation +
+                        imageslisting.donationimages
+                            .elementAt(index)
+                            .imagePath,
+                              placeholder: (context, url) => Container(
+                                  height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                  child: Center(child: new CircularProgressIndicator())),
+                              errorWidget: (context, url, error) => new Icon(Icons.error),
+                            ),
                           ),
                         );
                       },
@@ -638,7 +667,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             width: SizeConfig.blockSizeHorizontal * 65,
                             height: SizeConfig.blockSizeVertical * 25,
-                            decoration: BoxDecoration(
+                            /*decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
                                 image: DecorationImage(
                                     image: NetworkImage(
@@ -647,7 +676,21 @@ class HomeScreenState extends State<HomeScreen> {
                                               .elementAt(index)
                                               .imagePath,
                                     ),
-                                    fit: BoxFit.fill)),
+                                    fit: BoxFit.fill)),*/
+                            child: CachedNetworkImage(
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical * 25,
+                              fit: BoxFit.fill ,
+                              imageUrl:
+                              Network.BaseApievent +
+                                  imageslisting.eventimages
+                                      .elementAt(index)
+                                      .imagePath,
+                              placeholder: (context, url) => Container(
+                                  height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                  child: Center(child: new CircularProgressIndicator())),
+                              errorWidget: (context, url, error) => new Icon(Icons.error),
+                            ),
                           ),
                         );
                       },
@@ -776,8 +819,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     child: Image.asset(
                                       "assets/images/sendreceivegift.png",
                                       height: SizeConfig.blockSizeVertical * 10,
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 15,
+                                      width: SizeConfig.blockSizeHorizontal * 15,
                                     ),
                                   ),
                                   Container(
@@ -803,10 +845,7 @@ class HomeScreenState extends State<HomeScreen> {
                         InkWell(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        OngoingProject()));
+                                context, MaterialPageRoute(builder: (BuildContext context) => OngoingProject()));
                           },
                           child: Container(
                             height: SizeConfig.blockSizeVertical * 18,

@@ -227,7 +227,7 @@ class OngoingEventsDetailsscreenState
             paymentdetails_length =
                 projectdetailspojo.eventsdata.contributerList;
             double amount = double.parse(
-                    projectdetailspojo.eventsdata.balanceslot.toString()) /
+                    projectdetailspojo.eventsdata.totalcollectedamount.toString()) /
                 double.parse(
                     projectdetailspojo.eventsdata.totalslotamount.toString()) *
                 100;

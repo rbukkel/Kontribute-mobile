@@ -47,6 +47,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
   follow_Request_updatePojo followupdatepojo;
   String searchvalue="";
   final GlobalKey _globalKey = GlobalKey();
+  final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
 
   @override
   void initState() {
@@ -121,6 +122,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
   }
 
   Future<void> Unfollowapi(String useid, String rece) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'senderid': rece.toString(),
       'receiverid': useid.toString(),
@@ -133,6 +135,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       jsonResponse = json.decode(response.body);
       unfollowval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
        // showToast(unfollowval);
         setState(() {
           getFollowing(userid,searchvalue);
@@ -140,6 +143,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       }
       else
         {
+          Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
          // showToast(unfollowval);
           setState(() {
@@ -150,6 +154,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
       showToast(unfollowval);
     }
   }
@@ -303,6 +308,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
 
 
   Future<void> followapi(String useid, String rece) async {
+    Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'sender_id': useid.toString(),
       'receiver_id': rece.toString(),
@@ -317,12 +323,14 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["success"] == false) {
+        Navigator.of(context, rootNavigator: true).pop();
         showToast(updateval);
         setState(() {
           getFollowing(userid,searchvalue);
         });
 
       } else {
+        Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
         //  showToast(updateval);
           setState(() {
@@ -333,6 +341,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
         }
       }
     } else {
+      Navigator.of(context, rootNavigator: true).pop();
       showToast(updateval);
     }
   }

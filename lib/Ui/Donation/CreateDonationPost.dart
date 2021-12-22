@@ -496,16 +496,27 @@ class CreateDonationPostState extends State<CreateDonationPost> {
               setState(() {
                 _imageFile = imageFile;
 
-                if(_imageList.length<3)
-                {
-                  _imageList.add(_imageFile);
-                  for (int i = 0; i < _imageList.length; i++) {
-                    print("ListImages:" + _imageList[i].toString());
+                final bytes = _imageFile.readAsBytesSync().lengthInBytes;
+                final kb = bytes / 1024;
+                final mb = kb / 1024;
+                print("mbsize: "+mb.toString());
+                if (mb > 1){
+                  // This file is Longer the
+                  errorDialog('pleaseselectafilelessthan1mb'.tr);
+                }
+                else
+                  {
+                    if(_imageList.length<3)
+                    {
+                      _imageList.add(_imageFile);
+                      for (int i = 0; i < _imageList.length; i++) {
+                        print("ListImages:" + _imageList[i].toString());
+                      }
+                    }
+                    else {
+                      errorDialog('uploadupto3images'.tr);
+                    }
                   }
-                }
-                else {
-                  errorDialog('uploadupto3images'.tr);
-                }
               });
 
             } else {
@@ -525,17 +536,30 @@ class CreateDonationPostState extends State<CreateDonationPost> {
             if (imageFile != null) {
               setState(() {
                 _imageFile = imageFile;
-
-                if(_imageList.length<3)
-                {
-                  _imageList.add(_imageFile);
-                  for (int i = 0; i < _imageList.length; i++) {
-                    print("ListImages:" + _imageList[i].toString());
+                final bytes = _imageFile.readAsBytesSync().lengthInBytes;
+                final kb = bytes / 1024;
+                final mb = kb / 1024;
+                print("mbsize: "+mb.toString());
+                if (mb > 1){
+                  // This file is Longer the
+                  errorDialog('pleaseselectafilelessthan1mb'.tr);
+                }
+                else
+                  {
+                    if(_imageList.length<3)
+                    {
+                      _imageList.add(_imageFile);
+                      for (int i = 0; i < _imageList.length; i++) {
+                        print("ListImages:" + _imageList[i].toString());
+                      }
+                    }
+                    else {
+                      errorDialog('uploadupto3images'.tr);
+                    }
                   }
-                }
-                else {
-                  errorDialog('uploadupto3images'.tr);
-                }
+
+
+
               });
 
             } else {

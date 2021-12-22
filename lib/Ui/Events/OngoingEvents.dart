@@ -651,13 +651,11 @@ class OngoingEventsState extends State<OngoingEvents> {
               Expanded(
                 child:
                 ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
+                    itemCount: storelist_length.length == null ? 0 : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listing.projectData.elementAt(index).projectImages;
                       commentlist_length = listing.projectData.elementAt(index).comments;
-                      double amount = listing.projectData.elementAt(index).balanceslot.toDouble() /
+                      double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                           double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
 
                       amoun =amount.toInt();
@@ -670,7 +668,6 @@ class OngoingEventsState extends State<OngoingEvents> {
                                 width: 1,
                               ),
                             ),
-
                               child:
                               Container(
                                 padding: EdgeInsets.all(5.0),
