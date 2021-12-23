@@ -374,7 +374,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                 style: TextStyle(
                                                                     fontSize: 14.0,
                                                                     color: Colors.black,
-                                                                    fontWeight: FontWeight.normal),
+                                                                    fontWeight: FontWeight.bold),
                                                               ),
                                                             ),
                                                             Container(
@@ -401,7 +401,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                 style: TextStyle(
                                                                     fontSize: 12.0,
                                                                     color: Colors.black,
-                                                                    fontWeight: FontWeight.normal),
+                                                                    fontWeight: FontWeight.bold),
                                                               ),
                                                             ),
                                                             InkWell(
@@ -463,7 +463,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                                 textAlign: TextAlign.left,
                                                                                 style: TextStyle(
                                                                                     letterSpacing: 1.0,
-                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontWeight: FontWeight.bold,
                                                                                     fontFamily: 'Poppins-Regular',
                                                                                     fontSize: 10,
                                                                                     color: Colors.black),
@@ -472,7 +472,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                                   // focusedBorder: InputBorder.none,
                                                                                   hintStyle: TextStyle(
                                                                                     color: Colors.grey,
-                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontWeight: FontWeight.bold,
                                                                                     fontFamily: 'Poppins-Regular',
                                                                                     fontSize: 10,
                                                                                     decoration: TextDecoration.none,
@@ -519,7 +519,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                       color: Colors.white,
-                                                                      fontWeight: FontWeight.normal,
+                                                                      fontWeight: FontWeight.bold,
                                                                       fontFamily: 'Poppins-Regular',
                                                                       fontSize: 14,
                                                                     )),
@@ -571,7 +571,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                   color: AppColors.whiteColor,
                                                   fontSize:12,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -681,7 +681,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                           letterSpacing: 1.0,
                                                           color: AppColors.themecolor,
                                                           fontSize: 13,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ) ,
@@ -706,7 +706,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                           color: AppColors.darkgreen,
                                                           fontSize:8,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -758,9 +758,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -770,9 +770,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -797,8 +797,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize:8,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontSize:9,
+                                                        fontWeight: FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
@@ -825,9 +825,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -837,9 +837,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: AppColors.black,
-                                                              fontSize:8,
+                                                              fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -868,9 +868,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
+                                                    fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -879,9 +879,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
+                                                    fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -903,7 +903,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -911,10 +911,10 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 70.0,
+                                            width: 65.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
-                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
@@ -933,9 +933,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                    FontWeight.normal,
+                                                    fontSize: 8,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -944,9 +943,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
+                                                    fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -965,7 +964,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1110,7 +1109,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
 
@@ -1134,7 +1133,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                               color: Colors.black26,
                                               fontSize: 9,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1153,7 +1152,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1171,7 +1170,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1189,7 +1188,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1208,7 +1207,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1228,7 +1227,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                   color: Colors.black26,
                                                   fontSize: 9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1240,7 +1239,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                   color: Colors.black26,
                                                   fontSize: 9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1263,7 +1262,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                     color: Colors.black87,
                                                     fontSize: 9,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -1281,7 +1280,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                     color: Colors.lightBlueAccent,
                                                     fontSize: 9,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -1311,7 +1310,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                           color: AppColors.black,
                           fontSize: 16,
                           fontWeight:
-                          FontWeight.normal,
+                          FontWeight.bold,
                           fontFamily:
                           'Poppins-Regular')),
                     ),

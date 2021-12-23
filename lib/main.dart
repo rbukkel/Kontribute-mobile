@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         final Uri deepLink = data.link;
         if (deepLink != null) {
-          print('---new deep found************************************************');
+          print('---new deep found************************************************${deepLink}');
           List<String> product_id_list = split(deepLink.toString(), "/");
           setState(() {
             product_id = product_id_list.elementAt(5);

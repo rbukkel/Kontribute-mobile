@@ -26,6 +26,8 @@ import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 
+import 'Tickets/TicketOngoingEventsDetailsscreen.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -43,6 +45,7 @@ class HomeScreenState extends State<HomeScreen> {
   bool project = true;
   bool donation = false;
   bool event = false;
+  bool ticket = false;
   String valcat;
 
 
@@ -77,9 +80,11 @@ class HomeScreenState extends State<HomeScreen> {
   bool resultcatvalue = true;
   bool resultDonationvalue = true;
   bool resultEventvalue = true;
+  bool resultTicketvalue = true;
   var banner_length;
   var bannerDonation_length;
   var bannerEvent_length;
+  var bannerTicket_length;
 
   Widget _renderItem(BuildContext context, int index) {
     return Image(
@@ -223,6 +228,7 @@ class HomeScreenState extends State<HomeScreen> {
           resultcatvalue = false;
           resultDonationvalue = false;
           resultEventvalue = false;
+          resultTicketvalue = false;
         });
       } else {
         imageslisting = new bannerpojo.fromJson(jsonResponse);
@@ -252,6 +258,14 @@ class HomeScreenState extends State<HomeScreen> {
               resultEventvalue = true;
               print("SSSS");
               bannerEvent_length = imageslisting.eventimages;
+            }
+
+            if (imageslisting.ticketimages.isEmpty) {
+              resultTicketvalue = false;
+            } else {
+              resultTicketvalue = true;
+              print("SSSS");
+              bannerTicket_length = imageslisting.ticketimages;
             }
           });
         } else {
@@ -394,6 +408,7 @@ class HomeScreenState extends State<HomeScreen> {
                               project = true;
                               donation = false;
                               event = false;
+                              ticket = false;
                             });
 
                             print("Value: " + tabvalue);
@@ -421,6 +436,7 @@ class HomeScreenState extends State<HomeScreen> {
                               project = false;
                               donation = true;
                               event = false;
+                              ticket = false;
                             });
 
                             print("Value: " + tabvalue);
@@ -448,6 +464,7 @@ class HomeScreenState extends State<HomeScreen> {
                               project = false;
                               donation = false;
                               event = true;
+                              ticket = false;
                             });
 
                             print("Value: " + tabvalue);
@@ -467,6 +484,34 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            setState(() {
+                              tabvalue = "Ticket";
+                              project = false;
+                              donation = false;
+                              event = false;
+                              ticket = true;
+                            });
+
+                            print("Value: " + tabvalue);
+                          },
+                          child:  Container(
+                            width: SizeConfig.blockSizeHorizontal * 19,
+                            margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
+                            child: Text(
+                              'tickets'.tr.toUpperCase(),
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: ticket ? AppColors.black : AppColors.greyColor,
+                                  fontFamily: 'Poppins-Bold',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  letterSpacing: 1.0),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -722,7 +767,91 @@ class HomeScreenState extends State<HomeScreen> {
                         )
                     ),
 
-                  ):Container(
+                  ) :
+                  tabvalue=="Ticket"?
+                  Container(
+                    //color: AppColors.themecolor,
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 2,
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2,
+                      bottom: SizeConfig.blockSizeVertical * 1,
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 75,
+                    height: SizeConfig.blockSizeVertical * 25,
+                    child: bannerTicket_length != null
+                        ? new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            callNext(
+                                TicketOngoingEventsDetailsscreen(
+                                    data: imageslisting.ticketimages
+                                        .elementAt(index)
+                                        .ticketId
+                                        .toString(),
+                                    coming: "home"),
+                                context);
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 65,
+                            height: SizeConfig.blockSizeVertical * 25,
+                            /*decoration: BoxDecoration(
+                                border: Border.all(color: Colors.transparent),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      Network.BaseApievent +
+                                          imageslisting.eventimages
+                                              .elementAt(index)
+                                              .imagePath,
+                                    ),
+                                    fit: BoxFit.fill)),*/
+                            child: CachedNetworkImage(
+                              width: SizeConfig.blockSizeHorizontal * 65,
+                              height: SizeConfig.blockSizeVertical * 25,
+                              fit: BoxFit.fill ,
+                              imageUrl:
+                              Network.BaseApiticket +
+                                  imageslisting.ticketimages
+                                      .elementAt(index)
+                                      .imagePath,
+                              placeholder: (context, url) => Container(
+                                  height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
+                                  child: Center(child: new CircularProgressIndicator())),
+                              errorWidget: (context, url, error) => new Icon(Icons.error),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: bannerTicket_length.length == null ? 0 : bannerTicket_length.length,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      layout: SwiperLayout.STACK,
+                      //pagination: new SwiperPagination(),
+                    )
+                        :  Container(
+                        alignment: Alignment.center,
+                        child: resultTicketvalue == true
+                            ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                            :  new Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image(
+                              image: AssetImage(
+                                  'assets/images/homebg${index + 1}.png'),
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          itemCount: 4,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          layout: SwiperLayout.STACK,
+                          //pagination: new SwiperPagination(),
+                        )
+                    ),
+
+                  ):
+                  Container(
                     //color: AppColors.themecolor,
                     alignment: Alignment.topCenter,
                     margin: EdgeInsets.only(

@@ -3,6 +3,7 @@ class bannerpojo {
   List<Projectimages> projectimages;
   List<Donationimages> donationimages;
   List<Eventimages> eventimages;
+  List<Ticketimages> ticketimages;
   String message;
 
   bannerpojo(
@@ -10,6 +11,7 @@ class bannerpojo {
         this.projectimages,
         this.donationimages,
         this.eventimages,
+        this.ticketimages,
         this.message});
 
   bannerpojo.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,12 @@ class bannerpojo {
         eventimages.add(new Eventimages.fromJson(v));
       });
     }
+    if (json['Ticketimages'] != null) {
+      ticketimages = new List<Ticketimages>();
+      json['Ticketimages'].forEach((v) {
+        ticketimages.add(new Ticketimages.fromJson(v));
+      });
+    }
     message = json['message'];
   }
 
@@ -48,6 +56,9 @@ class bannerpojo {
     }
     if (this.eventimages != null) {
       data['Eventimages'] = this.eventimages.map((v) => v.toJson()).toList();
+    }
+    if (this.ticketimages != null) {
+      data['Ticketimages'] = this.ticketimages.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     return data;
@@ -179,6 +190,51 @@ class Eventimages {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['event_id'] = this.eventId;
+    data['image_path'] = this.imagePath;
+    data['status'] = this.status;
+    data['posted_date'] = this.postedDate;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['event_name'] = this.eventName;
+    return data;
+  }
+}
+
+class Ticketimages {
+  String id;
+  String ticketId;
+  String imagePath;
+  String status;
+  String postedDate;
+  String createdAt;
+  String updatedAt;
+  String eventName;
+
+  Ticketimages(
+      {this.id,
+        this.ticketId,
+        this.imagePath,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt,
+        this.eventName});
+
+  Ticketimages.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    ticketId = json['ticket_id'];
+    imagePath = json['image_path'];
+    status = json['status'];
+    postedDate = json['posted_date'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    eventName = json['event_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['ticket_id'] = this.ticketId;
     data['image_path'] = this.imagePath;
     data['status'] = this.status;
     data['posted_date'] = this.postedDate;

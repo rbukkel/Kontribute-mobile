@@ -172,7 +172,7 @@ class OngoingProjectState extends State<OngoingProject> {
                   style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.black,
-                      fontWeight: FontWeight.normal),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               InkWell(
@@ -188,7 +188,7 @@ class OngoingProjectState extends State<OngoingProject> {
                     style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
-                        fontWeight: FontWeight.normal),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -626,7 +626,7 @@ class OngoingProjectState extends State<OngoingProject> {
               style: TextStyle(
                   decoration: TextDecoration.none,
                   fontSize: 20,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                   fontFamily: "Poppins-Regular",
                   color: Colors.white),
             ),
@@ -899,7 +899,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .normal,
+                                                                      .bold,
                                                               fontFamily:
                                                                   'Poppins-Regular'),
                                                         ),
@@ -942,7 +942,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                     fontSize: 9,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -991,7 +991,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             fontSize: 9,
                                                             fontWeight:
                                                                 FontWeight
-                                                                    .normal,
+                                                                    .bold,
                                                             fontFamily:
                                                                 'Poppins-Regular'),
                                                       ),
@@ -1038,7 +1038,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                       style: TextStyle(
                                                                                           fontSize: 14.0,
                                                                                           color: Colors.black,
-                                                                                          fontWeight: FontWeight.normal),
+                                                                                          fontWeight: FontWeight.bold),
                                                                                     ),
                                                                                   ),
                                                                                   Container(
@@ -1065,7 +1065,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                       style: TextStyle(
                                                                                           fontSize: 12.0,
                                                                                           color: Colors.black,
-                                                                                          fontWeight: FontWeight.normal),
+                                                                                          fontWeight: FontWeight.bold),
                                                                                     ),
                                                                                   ),
                                                                                   InkWell(
@@ -1137,7 +1137,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                       TextAlign.left,
                                                                                                       style: TextStyle(
                                                                                                           letterSpacing: 1.0,
-                                                                                                          fontWeight: FontWeight.normal,
+                                                                                                          fontWeight: FontWeight.bold,
                                                                                                           fontFamily: 'Poppins-Regular',
                                                                                                           fontSize: 10,
                                                                                                           color: Colors.black),
@@ -1147,7 +1147,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                         // focusedBorder: InputBorder.none,
                                                                                                         hintStyle: TextStyle(
                                                                                                           color: Colors.grey,
-                                                                                                          fontWeight: FontWeight.normal,
+                                                                                                          fontWeight: FontWeight.bold,
                                                                                                           fontFamily: 'Poppins-Regular',
                                                                                                           fontSize: 10,
                                                                                                           decoration: TextDecoration.none,
@@ -1196,7 +1196,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                           textAlign: TextAlign.center,
                                                                                           style: TextStyle(
                                                                                             color: Colors.white,
-                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontWeight: FontWeight.bold,
                                                                                             fontFamily: 'Poppins-Regular',
                                                                                             fontSize: 14,
                                                                                           )),
@@ -1262,7 +1262,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                             12,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -1327,7 +1327,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 fontSize: 9,
                                                                 fontWeight:
                                                                 FontWeight
-                                                                    .normal,
+                                                                    .bold,
                                                                 fontFamily:
                                                                 'Poppins-Regular'),
                                                           ),
@@ -1345,7 +1345,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 fontSize: 9,
                                                                 fontWeight:
                                                                 FontWeight
-                                                                    .normal,
+                                                                    .bold,
                                                                 fontFamily:
                                                                 'Poppins-Regular'),
                                                           )
@@ -1382,7 +1382,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             fontSize: 9,
                                                             fontWeight:
                                                                 FontWeight
-                                                                    .normal,
+                                                                    .bold,
                                                             fontFamily:
                                                                 'Poppins-Regular'),
                                                       ),
@@ -1421,7 +1421,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 fontSize: 9,
                                                                 fontWeight:
                                                                 FontWeight
-                                                                    .normal,
+                                                                    .bold,
                                                                 fontFamily:
                                                                 'Poppins-Regular'),
                                                           ),
@@ -1438,7 +1438,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 fontSize: 9,
                                                                 fontWeight:
                                                                 FontWeight
-                                                                    .normal,
+                                                                    .bold,
                                                                 fontFamily:
                                                                 'Poppins-Regular'),
                                                           )
@@ -1478,7 +1478,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'Poppins-Regular'),
                                                   ),
@@ -1505,7 +1505,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             .lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'Poppins-Regular'),
                                                   ),
@@ -1525,6 +1525,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   amoun.toString() + "%",
                                                   style: TextStyle(
                                                       fontSize: 8,
+                                                      fontWeight: FontWeight.bold,
                                                       color:
                                                           AppColors.whiteColor),
                                                 ),
@@ -1552,7 +1553,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'Poppins-Regular'),
                                                   ),
@@ -1578,7 +1579,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                             .lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'Poppins-Regular'),
                                                   ),
@@ -1797,95 +1798,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   ),
                                                 ),
                                               ),
-                                        /*   Container(
-                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                          child: Row(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: (){
-                                                  print("LIke");
-                                                  addlike(listing.projectData.elementAt(index).id);
-                                                },
-                                                child: Container(
-                                                  width: SizeConfig.blockSizeHorizontal*7,
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        child: Image.asset("assets/images/heart.png",height: 20,width: 20,),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  //child: Image.asset("assets/images/flat.png"),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: ()
-                                                {
-
-                                                },
-                                                child: Container(
-                                                  width: SizeConfig.blockSizeHorizontal*7,
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                                  // margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        child: Image.asset("assets/images/message.png",height: 20,width: 20),
-                                                      ),
-
-                                                    ],
-                                                  ),
-                                                  //child: Image.asset("assets/images/like.png"),
-                                                ),
-                                              ),
-
-                                              Spacer(),
-                                          */
-                                        /*    InkWell(
-                                                onTap: (){
-
-                                                },
-                                                child: Container(
-                                                  width: SizeConfig.blockSizeHorizontal*15,
-                                                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                          child: Image.asset("assets/images/color_heart.png",color: Colors.black,height: 15,width: 25,)
-                                                      ),
-                                                      Container(
-                                                        child: Text("1,555",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  //child: Image.asset("assets/images/report.png"),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: (){
-
-                                                },
-                                                child: Container(
-                                                  width: SizeConfig.blockSizeHorizontal*15,
-                                                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                          child: Image.asset("assets/images/color_comment.png",color: Colors.black,height: 15,width: 25,)
-                                                      ),
-                                                      Container(
-                                                        child: Text("22",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  //child: Image.asset("assets/images/save.png"),
-                                                ),
-                                              ),*/
-                                        /*
-                                            ],
-                                          ),
-                                        ),*/
                                         Container(
                                           width:
                                               SizeConfig.blockSizeHorizontal *
@@ -1908,94 +1820,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                             defaultTextStyle: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
-                                                fontSize: 10,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.normal,
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                         ),
-                                        /* commentlist_length!=null?
-                                            Column(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: ()
-                                                  {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                                  },
-                                                  child: Container(
-                                                    width: SizeConfig.blockSizeHorizontal *100,
-                                                    alignment: Alignment.topLeft,
-                                                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                                        top: SizeConfig.blockSizeVertical *1),
-                                                    child: Text(
-                                                     commentlist_length.length.toString(),
-                                                      maxLines: 2,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black26,
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: SizeConfig.blockSizeHorizontal *100,
-                                                  alignment: Alignment.topLeft,
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                                      top: SizeConfig.blockSizeVertical *1),
-                                                  child: Text(
-                                                    listing.projectData.elementAt(index).comments.elementAt(0).comment,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black,
-                                                        fontSize: 9,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'NotoEmoji'),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: SizeConfig.blockSizeHorizontal *100,
-                                                  alignment: Alignment.topLeft,
-                                                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                                      top: SizeConfig.blockSizeVertical *1),
-                                                  child: Text(
-                                                    "itx_kamie_94🤑🤣🤣",
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black,
-                                                        fontSize: 9,
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontFamily:
-                                                        'NotoEmoji'),
-                                                  ),
-                                                )
-                                              ],
-                                            ): Container()*/
-                                        /* Container(
-                                          width: SizeConfig.blockSizeHorizontal *100,
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                              top: SizeConfig.blockSizeVertical *1),
-                                          child: Text(
-                                            "3 Hours ago".toUpperCase(),
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black26,
-                                                fontSize: 9,
-                                                fontWeight:
-                                                FontWeight.normal,
-                                                fontFamily:
-                                                'Poppins-Regular'),
-                                          ),
-                                        ),*/
                                       ],
                                     ),
                                   ),
@@ -2017,7 +1846,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                         letterSpacing: 1.0,
                                         color: AppColors.black,
                                         fontSize: 16,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.bold,
                                         fontFamily: 'Poppins-Regular'),
                               ),
                       ))
@@ -2242,7 +2071,6 @@ class OngoingProjectState extends State<OngoingProject> {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
           AmountController.text ="";
-
           showDialog(
             context: context,
             child: Dialog(
@@ -2304,8 +2132,6 @@ class OngoingProjectState extends State<OngoingProject> {
               ),
             ),
           );
-
-
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
@@ -2369,7 +2195,7 @@ class OngoingProjectState extends State<OngoingProject> {
   void shareproductlink() {
     final RenderBox box = context.findRenderObject() as RenderBox;
     Share.share(shortsharedlink,
-        subject: "Kontribute",
+        subject: "Project",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 

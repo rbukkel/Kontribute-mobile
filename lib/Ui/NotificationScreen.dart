@@ -760,49 +760,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                         ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      Widget cancelButton =
-                                                          FlatButton(
-                                                        child: Text('no'.tr),
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      );
-                                                      Widget continueButton =
-                                                          FlatButton(
-                                                        child: Text('yes'.tr),
-                                                        onPressed: () async {
-                                                          setState(() {
-                                                            deleteItem(listing
-                                                                .result.data
-                                                                .elementAt(
-                                                                    index)
-                                                                .id
-                                                                .toString());
-                                                          });
-                                                        },
-                                                      );
-                                                      // set up the AlertDialog
-                                                      AlertDialog alert =
-                                                          AlertDialog(
-                                                        title:
-                                                            Text('delete'.tr),
-                                                        content: Text(
-                                                            'areyousureyouwanttodeletethisnotification'
-                                                                .tr),
-                                                        actions: [
-                                                          cancelButton,
-                                                          continueButton,
-                                                        ],
-                                                      );
-                                                      // show the dialog
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return alert;
-                                                        },
-                                                      );
+                                                     /**/
+
+                                                      _modalBottomSheetMenu(index);
                                                     },
                                                     child: Container(
                                                       color: Colors.transparent,
@@ -812,10 +772,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                             1,
                                                       ),
                                                       child: Image.asset(
-                                                        "assets/images/cross.png",
-                                                        color: AppColors.redbg,
-                                                        width: 15,
-                                                        height: 15,
+                                                        "assets/images/menudot.png",
+                                                        height: 15, width: 20,
                                                       ),
                                                     ),
                                                   ),
@@ -1618,6 +1576,152 @@ class NotificationScreenState extends State<NotificationScreen> {
       errorDialog(jsonDecode(updateval)["message"]);
     }
   }
+
+
+  void _modalBottomSheetMenu(int index) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Container(
+                height: 150,
+                decoration: BoxDecoration(
+                    image: new DecorationImage(
+                      image: new AssetImage("assets/images/bg_img.png"),
+                      fit: BoxFit.fill,
+                    )), //could change this to Color(0xFF737373),
+                child: Column(
+                  children: [
+
+                    Container(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                               // Navigator.of(context).pop();
+                                Widget cancelButton =
+                                FlatButton(
+                                  child: Text('no'.tr),
+                                  onPressed: () {
+                                    Navigator.pop(
+                                        context);
+                                  },
+                                );
+                                Widget continueButton =
+                                FlatButton(
+                                  child: Text('yes'.tr),
+                                  onPressed: () async {
+                                    setState(() {
+                                      deleteItem(listing
+                                          .result.data
+                                          .elementAt(
+                                          index)
+                                          .id
+                                          .toString());
+                                    });
+                                  },
+                                );
+                                // set up the AlertDialog
+                                AlertDialog alert =
+                                AlertDialog(
+                                  title:
+                                  Text('delete'.tr),
+                                  content: Text(
+                                      'areyousureyouwanttodeletethisnotification'
+                                          .tr),
+                                  actions: [
+                                    cancelButton,
+                                    continueButton,
+                                  ],
+                                );
+                                // show the dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext
+                                  context) {
+                                    return alert;
+                                  },
+                                );
+                              },
+                              child: Container(
+                                  alignment: Alignment.centerRight,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 3,
+                                      left: SizeConfig.blockSizeHorizontal * 5,
+                                      right: SizeConfig.blockSizeHorizontal * 3),
+                                  child: Icon(Icons.delete_forever)
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 3,
+                              ),
+                              width: SizeConfig.blockSizeHorizontal * 45,
+                              child: Text(
+                                'delete'.tr,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+
+                          ]),
+                    ),
+                    Container(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                  alignment: Alignment.centerRight,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 2,
+                                      bottom: SizeConfig.blockSizeVertical * 2,
+                                      left: SizeConfig.blockSizeHorizontal * 5,
+                                      right: SizeConfig.blockSizeHorizontal * 3),
+                                  child: Icon(Icons.mark_chat_read_outlined)
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 2,
+                                bottom: SizeConfig.blockSizeVertical * 2,),
+                              width: SizeConfig.blockSizeHorizontal * 45,
+                              child: Text(
+                                'markasread'.tr,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ),
+
+                          ]),
+                    ),
+                  ],
+                ));
+          });
+        });
+  }
+
+
+
 
   Future<void> deleteItem(String id) async {
     Dialogs.showLoadingDialog(context, _keyLoader);

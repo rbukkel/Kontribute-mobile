@@ -418,7 +418,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                           letterSpacing: 1.0,
                                                           color: AppColors.themecolor,
                                                           fontSize: 13,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ) ,
@@ -440,7 +440,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                           color: AppColors.black,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -476,7 +476,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         color:AppColors.purple,
                                                         fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -514,7 +514,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                         style: TextStyle(
                                                                             fontSize: 14.0,
                                                                             color: Colors.black,
-                                                                            fontWeight: FontWeight.normal),
+                                                                            fontWeight: FontWeight.bold),
                                                                       ),
                                                                     ),
                                                                     Container(
@@ -541,7 +541,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                         style: TextStyle(
                                                                             fontSize: 12.0,
                                                                             color: Colors.black,
-                                                                            fontWeight: FontWeight.normal),
+                                                                            fontWeight: FontWeight.bold),
                                                                       ),
                                                                     ),
                                                                     InkWell(
@@ -569,7 +569,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                                 new Text('eventeentryfees'.tr,
                                                                                     style: TextStyle(
                                                                                         letterSpacing: 1.0,
-                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
                                                                                         fontSize: 10,
                                                                                         color: Colors.black)),
@@ -577,7 +577,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                                 new Text(" \$"+listing.projectData.elementAt(index).entryFee,
                                                                                     style: TextStyle(
                                                                                         letterSpacing: 1.0,
-                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
                                                                                         fontSize: 10,
                                                                                         color: Colors.black))
@@ -618,7 +618,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                               color: Colors.white,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular',
                                                                               fontSize: 15,
                                                                             )),
@@ -667,7 +667,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                           color: AppColors.whiteColor,
                                                           fontSize:12,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -722,7 +722,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                       Text(
@@ -733,7 +733,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                     ],
@@ -758,7 +758,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
                                                         fontSize:9,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight: FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
@@ -783,7 +783,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                       Text(
@@ -794,7 +794,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                     ],
@@ -829,7 +829,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -840,7 +840,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                         color: Colors.lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -879,7 +879,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                       color: Colors.black87,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -890,7 +890,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                       color: Colors.lightBlueAccent,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1030,89 +1030,6 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                         ),
                                       ),
                                     ),
-                                    /*  Container(
-                                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                      child: Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: (){},
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*7,
-                                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    child: Image.asset("assets/images/heart.png",height: 20,width: 20,),
-                                                  ),
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/flat.png"),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: (){
-
-                                            },
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*7,
-                                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                              // margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    child: Image.asset("assets/images/message.png",height: 20,width: 20),
-                                                  ),
-
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/like.png"),
-                                            ),
-                                          ),
-
-                                          Spacer(),
-                                          InkWell(
-                                            onTap: (){
-
-                                            },
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*15,
-                                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                      child: Image.asset("assets/images/color_heart.png",color: Colors.black,height: 15,width: 25,)
-                                                  ),
-                                                  Container(
-                                                    child: Text("1,555",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6 ),),
-                                                  )
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/report.png"),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: (){
-
-                                            },
-                                            child: Container(
-                                              width: SizeConfig.blockSizeHorizontal*15,
-                                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*2),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                      child: Image.asset("assets/images/color_comment.png",color: Colors.black,height: 15,width: 25,)
-                                                  ),
-                                                  Container(
-                                                    child: Text("22",style: TextStyle(fontFamily: 'Montserrat-Bold',fontSize:SizeConfig.blockSizeVertical*1.6  ),),
-                                                  )
-                                                ],
-                                              ),
-                                              //child: Image.asset("assets/images/save.png"),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),*/
                                     Container(
                                       width: SizeConfig.blockSizeHorizontal *100,
                                       alignment: Alignment.topLeft,
@@ -1123,7 +1040,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                         defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
 
@@ -1147,7 +1064,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                               color: Colors.black26,
                                               fontSize: 8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1166,7 +1083,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                             color: Colors.black,
                                             fontSize: 8,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1184,7 +1101,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                             color: Colors.black,
                                             fontSize: 8,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1202,7 +1119,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                             color: Colors.black26,
                                             fontSize: 8,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1228,7 +1145,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                           color: AppColors.black,
                           fontSize: 16,
                           fontWeight:
-                          FontWeight.normal,
+                          FontWeight.bold,
                           fontFamily:
                           'Poppins-Regular')),
                     ),

@@ -255,6 +255,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
       ),
     );
   }
+
   Future<void> _createDynamicLink(String productid) async {
     print("Product: "+productid);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
@@ -450,7 +451,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                         letterSpacing: 1.0,
                                                         color: AppColors.themecolor,
                                                         fontSize: 13,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight: FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ) ,
@@ -487,7 +488,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                       color:AppColors.purple,
                                                       fontSize:9,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -525,7 +526,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                       style: TextStyle(
                                                                           fontSize: 14.0,
                                                                           color: Colors.black,
-                                                                          fontWeight: FontWeight.normal),
+                                                                          fontWeight: FontWeight.bold),
                                                                     ),
                                                                   ),
                                                                   Container(
@@ -552,7 +553,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                       style: TextStyle(
                                                                           fontSize: 12.0,
                                                                           color: Colors.black,
-                                                                          fontWeight: FontWeight.normal),
+                                                                          fontWeight: FontWeight.bold),
                                                                     ),
                                                                   ),
                                                                   InkWell(
@@ -610,7 +611,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                                       textAlign: TextAlign.left,
                                                                                       style: TextStyle(
                                                                                           letterSpacing: 1.0,
-                                                                                          fontWeight: FontWeight.normal,
+                                                                                          fontWeight: FontWeight.bold,
                                                                                           fontFamily: 'Poppins-Regular',
                                                                                           fontSize: 10,
                                                                                           color: Colors.black),
@@ -619,7 +620,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                                         // focusedBorder: InputBorder.none,
                                                                                         hintStyle: TextStyle(
                                                                                           color: Colors.grey,
-                                                                                          fontWeight: FontWeight.normal,
+                                                                                          fontWeight: FontWeight.bold,
                                                                                           fontFamily: 'Poppins-Regular',
                                                                                           fontSize: 10,
                                                                                           decoration: TextDecoration.none,
@@ -665,7 +666,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                             color: Colors.white,
-                                                                            fontWeight: FontWeight.normal,
+                                                                            fontWeight: FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular',
                                                                             fontSize: 14,
                                                                           )),
@@ -710,7 +711,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                         color: AppColors.whiteColor,
                                                         fontSize:12,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -763,7 +764,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                           color: AppColors.black,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -775,7 +776,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                           color: AppColors.black,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -802,7 +803,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
                                                       fontSize:9,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
@@ -831,7 +832,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                           color: AppColors.black,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -843,7 +844,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                           color: AppColors.black,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -882,7 +883,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -893,7 +894,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                         color: Colors.lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -933,7 +934,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -944,7 +945,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                         color: Colors.lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1173,7 +1174,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                       defaultTextStyle: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black87,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Poppins-Regular'),
 
@@ -1276,7 +1277,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                               color: AppColors.black,
                                                                               fontSize:10,
                                                                               fontWeight:
-                                                                              FontWeight.normal,
+                                                                              FontWeight.bold,
                                                                               fontFamily:
                                                                               'Poppins-Regular'),
                                                                         ),
@@ -1308,7 +1309,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                               color: Colors.black87,
                                                                               fontSize: 10,
                                                                               fontWeight:
-                                                                              FontWeight.normal,
+                                                                              FontWeight.bold,
                                                                               fontFamily:
                                                                               'Poppins-Regular'),
                                                                         ),
@@ -1342,7 +1343,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                                                               color:AppColors.darkgreen,
                                                                               fontSize:10,
                                                                               fontWeight:
-                                                                              FontWeight.normal,
+                                                                              FontWeight.bold,
                                                                               fontFamily:
                                                                               'Poppins-Regular'),
                                                                         ),
@@ -1413,7 +1414,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                         color: AppColors.black,
                         fontSize: 16,
                         fontWeight:
-                        FontWeight.normal,
+                        FontWeight.bold,
                         fontFamily:
                         'Poppins-Regular')),
                   ),

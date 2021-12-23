@@ -778,8 +778,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     request.fields["location_details"] = locationdetails.toString();
     request.fields["message"] = message.toString();
     request.fields["sendername"] = username.toString();
-
-    print("Request: " + request.fields.toString());
+    print("Request: " +request.fields.toString());
     for (int i = 0; i < images.length; i++) {
       request.files.add(
         http.MultipartFile(
@@ -800,7 +799,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
         ),
       );
     }
-
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
@@ -814,7 +812,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
             setState(() {
               isLoading = false;
             });
-
             videoList.clear();
             Navigator.pushAndRemoveUntil(
                 context,
@@ -960,21 +957,14 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           children: <Widget>[
                                             Container(
                                               margin: EdgeInsets.only(
-                                                  bottom: SizeConfig
-                                                          .blockSizeVertical *
-                                                      2),
+                                                  bottom: SizeConfig.blockSizeVertical * 2),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  for (int i = 0;
-                                                      i <
-                                                          introWidgetsList
-                                                              .length;
-                                                      i++)
-                                                    if (i ==
-                                                        currentPageValue) ...[
+                                                  for (int i = 0; i < introWidgetsList.length; i++)
+                                                    if (i == currentPageValue) ...[
                                                       circleBar(true)
                                                     ] else
                                                       circleBar(false),
@@ -1064,10 +1054,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                               .topCenter,
                                                           decoration:
                                                               BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
+                                                            borderRadius: BorderRadius.circular(20),
                                                           ),
                                                           width: 60,
                                                           height: 60,

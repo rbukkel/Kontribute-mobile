@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/Tickets/TicketReport.dart';
 import 'package:kontribute/utils/app.dart';
@@ -576,9 +577,13 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         TicketOngoingEvents()));
+                          }else if (coming1.toString() == "home") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen()));
                           }
-
-
                           },
                         child: Container(
                           color: Colors.transparent,
@@ -596,7 +601,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontFamily: "Poppins-Regular",
                             color: Colors.white),
                       ),
@@ -653,7 +658,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                     style: TextStyle(
                                                         fontSize: 14.0,
                                                         color: Colors.black,
-                                                        fontWeight: FontWeight.normal),
+                                                        fontWeight: FontWeight.bold),
                                                   ),
                                                 ),
                                                 Container(
@@ -680,7 +685,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                     style: TextStyle(
                                                         fontSize: 12.0,
                                                         color: Colors.black,
-                                                        fontWeight: FontWeight.normal),
+                                                        fontWeight: FontWeight.bold),
                                                   ),
                                                 ),
                                                 InkWell(
@@ -744,7 +749,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                                     textAlign: TextAlign.left,
                                                                     style: TextStyle(
                                                                         letterSpacing: 1.0,
-                                                                        fontWeight: FontWeight.normal,
+                                                                        fontWeight: FontWeight.bold,
                                                                         fontFamily: 'Poppins-Regular',
                                                                         fontSize: 10,
                                                                         color: Colors.black),
@@ -753,7 +758,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                                       // focusedBorder: InputBorder.none,
                                                                       hintStyle: TextStyle(
                                                                         color: Colors.grey,
-                                                                        fontWeight: FontWeight.normal,
+                                                                        fontWeight: FontWeight.bold,
                                                                         fontFamily: 'Poppins-Regular',
                                                                         fontSize: 10,
                                                                         decoration: TextDecoration.none,
@@ -798,7 +803,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                           color: Colors.white,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular',
                                                           fontSize: 14,
                                                         )),
@@ -850,7 +855,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       color: AppColors.whiteColor,
                                       fontSize:12,
                                       fontWeight:
-                                      FontWeight.normal,
+                                      FontWeight.bold,
                                       fontFamily:
                                       'Poppins-Regular'),
                                 ),
@@ -986,7 +991,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               letterSpacing: 1.0,
                                               color: AppColors.themecolor,
                                               fontSize: 13,
-                                              fontWeight: FontWeight.normal,
+                                              fontWeight: FontWeight.bold,
                                               fontFamily: 'Poppins-Regular'),
                                         ),
                                       ),
@@ -1008,7 +1013,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               color: AppColors.black,
                                               fontSize:8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1056,9 +1061,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.black,
-                                                  fontSize:8,
+                                                  fontSize:9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1068,9 +1073,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.black,
-                                                  fontSize:8,
+                                                  fontSize:9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1098,9 +1103,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.black,
-                                            fontSize:8,
+                                            fontSize:9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1110,9 +1115,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.black,
-                                            fontSize:8,
+                                            fontSize:9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1140,9 +1145,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.black,
-                                                  fontSize:8,
+                                                  fontSize:9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1152,9 +1157,9 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: AppColors.black,
-                                                  fontSize:8,
+                                                  fontSize:9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1189,7 +1194,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         color: Colors.black87,
                                         fontSize: 9,
                                         fontWeight:
-                                        FontWeight.normal,
+                                        FontWeight.bold,
                                         fontFamily:
                                         'Poppins-Regular'),
                                   ),
@@ -1200,7 +1205,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         color: Colors.black87,
                                         fontSize: 9,
                                         fontWeight:
-                                        FontWeight.normal,
+                                        FontWeight.bold,
                                         fontFamily:
                                         'Poppins-Regular'),
                                   ),
@@ -1222,7 +1227,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1254,7 +1259,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         color: Colors.black87,
                                         fontSize: 9,
                                         fontWeight:
-                                        FontWeight.normal,
+                                        FontWeight.bold,
                                         fontFamily:
                                         'Poppins-Regular'),
                                   ),
@@ -1265,7 +1270,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         color: Colors.black87,
                                         fontSize: 9,
                                         fontWeight:
-                                        FontWeight.normal,
+                                        FontWeight.bold,
                                         fontFamily:
                                         'Poppins-Regular'),
                                   ),
@@ -1490,7 +1495,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             defaultTextStyle: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular'),
                           ),
@@ -1507,7 +1512,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             style: TextStyle(
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
-                                fontSize: 10,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Poppins-Regular'),
                           ),
@@ -1521,10 +1526,10 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                           alignment: Alignment.topLeft,
                           child: Text(
                             projectdetailspojo.commentsdata.termsAndCondition,
-                            maxLines: 3,
+                            maxLines: 40,
                             style: TextStyle(letterSpacing: 1.0,
                                 color: Colors.black87,
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Poppins-Regular'),
                           ),
@@ -1542,7 +1547,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 fontFamily: 'Poppins-Regular'),
                           ),
                         ),
@@ -1562,7 +1567,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       letterSpacing: 1.0,
                                       color: Colors.black26,
                                       fontSize: 9,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
                                 Text(
@@ -1576,7 +1581,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       letterSpacing: 1.0,
                                       color: Colors.black26,
                                       fontSize: 9,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
                                 Text('comments'.tr,
@@ -1585,7 +1590,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       letterSpacing: 1.0,
                                       color: Colors.black26,
                                       fontSize: 9,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
                               ],
@@ -1630,7 +1635,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               letterSpacing: 1.0,
                                               color: Colors.black,
                                               fontSize: 9,
-                                              fontWeight: FontWeight.normal,
+                                              fontWeight: FontWeight.bold,
                                               fontFamily: 'NotoEmoji'),
                                         ),
                                       ),
@@ -1685,7 +1690,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.bold,
                                     fontFamily: 'Poppins-Regular',
                                     fontSize: 12,
                                     color: Colors.black),
@@ -1695,7 +1700,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   focusedBorder: InputBorder.none,
                                   hintStyle: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.bold,
                                     fontFamily: 'Poppins-Regular',
                                     fontSize: 12,
                                     decoration: TextDecoration.none,
@@ -1722,7 +1727,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       letterSpacing: 1.0,
                                       color: AppColors.themecolor,
                                       fontSize: 16,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
                               ),
@@ -1861,7 +1866,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                               letterSpacing: 1.0,
                                               color: AppColors.black,
                                               fontSize: 9,
-                                              fontWeight: FontWeight.normal,
+                                              fontWeight: FontWeight.bold,
                                               fontFamily: 'Poppins-Regular'),
                                         ),
                                       ),
@@ -1893,7 +1898,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                 letterSpacing: 1.0,
                                                 color: Colors.blue,
                                                 fontSize: 10,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                         ),
@@ -1924,7 +1929,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     color: Colors.black26,
                                     fontSize: 9,
                                     fontWeight:
-                                    FontWeight.normal,
+                                    FontWeight.bold,
                                     fontFamily:
                                     'Poppins-Regular'),
                               ),
@@ -1936,7 +1941,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     color: Colors.black26,
                                     fontSize: 9,
                                     fontWeight:
-                                    FontWeight.normal,
+                                    FontWeight.bold,
                                     fontFamily:
                                     'Poppins-Regular'),
                               ),
@@ -1959,7 +1964,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         color: Colors.black87,
                                         fontSize: 9,
                                         fontWeight:
-                                        FontWeight.normal,
+                                        FontWeight.bold,
                                         fontFamily:
                                         'Poppins-Regular'),
                                   ),
@@ -1977,7 +1982,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         color: Colors.lightBlueAccent,
                                         fontSize: 9,
                                         fontWeight:
-                                        FontWeight.normal,
+                                        FontWeight.bold,
                                         fontFamily:
                                         'Poppins-Regular'),
                                   ),
@@ -2037,7 +2042,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                             color: AppColors.whiteColor,
                                             fontSize:10,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -2057,7 +2062,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
                                           fontSize: 12,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins-Regular",
                                           color: Colors.black),
                                     ),
@@ -2071,7 +2076,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
                                           fontSize: 12,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins-Regular",
                                           color: Colors.black),
                                     ),
@@ -2117,7 +2122,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   style: TextStyle(
                                       decoration: TextDecoration.none,
                                       fontSize: 12,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily: "Poppins-Regular",
                                       color: Colors.white),
                                 ),
@@ -2134,7 +2139,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         style: TextStyle(
                                             decoration: TextDecoration.none,
                                             fontSize: 12,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: "Poppins-Regular",
                                             color: Colors.white),
                                       ),
@@ -2151,7 +2156,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         style: TextStyle(
                                             decoration: TextDecoration.none,
                                             fontSize: 12,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: "Poppins-Regular",
                                             color: Colors.white),
                                       ),
@@ -2168,7 +2173,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                         style: TextStyle(
                                             decoration: TextDecoration.none,
                                             fontSize: 12,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: "Poppins-Regular",
                                             color: Colors.white),
                                       ),
@@ -2202,7 +2207,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                 style: TextStyle(
                                                     decoration: TextDecoration.none,
                                                     fontSize: 12,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily: "Poppins-Regular",
                                                     color: Colors.black),
                                               ),
@@ -2218,7 +2223,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                         style: TextStyle(
                                                             decoration: TextDecoration.none,
                                                             fontSize: 12,
-                                                            fontWeight: FontWeight.normal,
+                                                            fontWeight: FontWeight.bold,
                                                             fontFamily: "Poppins-Regular",
                                                             color: Colors.black),
                                                       ),
@@ -2234,7 +2239,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                         style: TextStyle(
                                                             decoration: TextDecoration.none,
                                                             fontSize: 12,
-                                                            fontWeight: FontWeight.normal,
+                                                            fontWeight: FontWeight.bold,
                                                             fontFamily: "Poppins-Regular",
                                                             color: Colors.black),
                                                       ),
@@ -2250,7 +2255,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                         style: TextStyle(
                                                             decoration: TextDecoration.none,
                                                             fontSize: 12,
-                                                            fontWeight: FontWeight.normal,
+                                                            fontWeight: FontWeight.bold,
                                                             fontFamily: "Poppins-Regular",
                                                             color: Colors.black),
                                                       ),
@@ -2288,7 +2293,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                               color: AppColors.whiteColor,
                                                               fontSize:8,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -2328,7 +2333,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         decoration: TextDecoration.none,
                                         fontSize: 12,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.bold,
                                         fontFamily: "Poppins-Regular",
                                         color: Colors.black),
                                   ),
@@ -2342,7 +2347,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         decoration: TextDecoration.none,
                                         fontSize: 12,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.bold,
                                         fontFamily: "Poppins-Regular",
                                         color: Colors.black),
                                   ),
@@ -2388,7 +2393,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   style: TextStyle(
                                       decoration: TextDecoration.none,
                                       fontSize: 12,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       fontFamily: "Poppins-Regular",
                                       color: Colors.white),
                                 ),
@@ -2405,7 +2410,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
                                           fontSize: 12,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins-Regular",
                                           color: Colors.white),
                                     ),
@@ -2422,7 +2427,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
                                           fontSize: 12,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins-Regular",
                                           color: Colors.white),
                                     ),
@@ -2439,7 +2444,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
                                           fontSize: 12,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins-Regular",
                                           color: Colors.white),
                                     ),
@@ -2473,7 +2478,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                 style: TextStyle(
                                                     decoration: TextDecoration.none,
                                                     fontSize: 12,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily: "Poppins-Regular",
                                                     color: Colors.black),
                                               ),
@@ -2489,7 +2494,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                       style: TextStyle(
                                                           decoration: TextDecoration.none,
                                                           fontSize: 12,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: "Poppins-Regular",
                                                           color: Colors.black),
                                                     ),
@@ -2505,7 +2510,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                       style: TextStyle(
                                                           decoration: TextDecoration.none,
                                                           fontSize: 12,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: "Poppins-Regular",
                                                           color: Colors.black),
                                                     ),
@@ -2521,7 +2526,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                       style: TextStyle(
                                                           decoration: TextDecoration.none,
                                                           fontSize: 12,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: "Poppins-Regular",
                                                           color: Colors.black),
                                                     ),
@@ -2559,7 +2564,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                             color: AppColors.whiteColor,
                                                             fontSize:8,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -2854,7 +2859,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
                                           fontSize: 14,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins-Regular",
                                           color: Colors.white),
                                     ),
@@ -2886,7 +2891,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         decoration: TextDecoration.none,
                                         fontSize: 14,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.bold,
                                         fontFamily: "Poppins-Regular",
                                         color: Colors.black),
                                   ),
@@ -2900,7 +2905,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         decoration: TextDecoration.none,
                                         fontSize: 14,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.bold,
                                         fontFamily: "Poppins-Regular",
                                         color: Colors.black),
                                   ),
@@ -2950,7 +2955,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                   style: TextStyle(
                                                       decoration: TextDecoration.none,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: "Poppins-Regular",
                                                       color: Colors.black),
                                                 ),

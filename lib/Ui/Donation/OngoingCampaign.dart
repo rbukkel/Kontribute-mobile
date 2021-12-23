@@ -188,7 +188,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   void shareproductlink() {
     final RenderBox box = context.findRenderObject() as RenderBox;
     Share.share(shortsharedlink,
-        subject: "Kontribute",
+        subject: "Donation",
         sharePositionOrigin:
         box.localToGlobal(Offset.zero) &
         box.size);
@@ -273,7 +273,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       errorDialog(jsonDecode(val)["message"]);
     }
   }
-
 
   void getsortdata(String user_id,String sortval) async {
     setState(() {
@@ -396,7 +395,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                 ],
               ),
             ))
-
       ],
       elevation: 8.0,
     );
@@ -417,7 +415,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
       if (jsonResponse["success"] == false) {
         Navigator.of(context, rootNavigator: true).pop();
         errorDialog(jsonDecode(deleteproject)["message"]);
-
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
@@ -550,7 +547,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
             style: TextStyle(
                 decoration: TextDecoration.none,
                 fontSize: 20,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
                 fontFamily: "Poppins-Regular",
                 color: Colors.white),
           ),
@@ -733,7 +730,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                           letterSpacing: 1.0,
                                                           color: AppColors.themecolor,
                                                           fontSize: 13,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ) ,
@@ -759,7 +756,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                           color: AppColors.darkgreen,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -791,7 +788,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         color:AppColors.purple,
                                                         fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -828,7 +825,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                         style: TextStyle(
                                                                             fontSize: 14.0,
                                                                             color: Colors.black,
-                                                                            fontWeight: FontWeight.normal),
+                                                                            fontWeight: FontWeight.bold),
                                                                       ),
                                                                     ),
                                                                     Container(
@@ -855,7 +852,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                         style: TextStyle(
                                                                             fontSize: 12.0,
                                                                             color: Colors.black,
-                                                                            fontWeight: FontWeight.normal),
+                                                                            fontWeight: FontWeight.bold),
                                                                       ),
                                                                     ),
                                                                     InkWell(
@@ -913,7 +910,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                                         textAlign: TextAlign.left,
                                                                                         style: TextStyle(
                                                                                             letterSpacing: 1.0,
-                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontWeight: FontWeight.bold,
                                                                                             fontFamily: 'Poppins-Regular',
                                                                                             fontSize: 10,
                                                                                             color: Colors.black),
@@ -922,7 +919,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                                           // focusedBorder: InputBorder.none,
                                                                                           hintStyle: TextStyle(
                                                                                             color: Colors.grey,
-                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontWeight: FontWeight.bold,
                                                                                             fontFamily: 'Poppins-Regular',
                                                                                             fontSize: 10,
                                                                                             decoration: TextDecoration.none,
@@ -968,7 +965,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                               color: Colors.white,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular',
                                                                               fontSize: 14,
                                                                             )),
@@ -1005,10 +1002,10 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                             .blockSizeHorizontal *
                                                             3,
                                                         bottom: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                            .blockSizeVertical *
                                                             1,
                                                         top: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                            .blockSizeVertical *
                                                             1),
                                                     decoration: BoxDecoration(
                                                       color: AppColors.darkgreen,
@@ -1020,9 +1017,9 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.whiteColor,
-                                                          fontSize:12,
+                                                          fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -1078,7 +1075,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -1090,7 +1087,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -1118,7 +1115,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
                                                         fontSize:9,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight: FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
@@ -1147,7 +1144,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -1159,7 +1156,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -1198,7 +1195,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1209,7 +1206,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         color: Colors.lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1252,7 +1249,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1263,7 +1260,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                         color: Colors.lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1414,222 +1411,12 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                 defaultTextStyle: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black87,
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Poppins-Regular'),
 
                               ),
                             ),
-                                   /* Container(
-
-                                      child:
-                                      ListView.builder(
-                                          itemCount: 2,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return Container(
-                                              child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      color: Colors.grey.withOpacity(0.2),
-                                                      width: 1,
-                                                    ),
-                                                  ),
-                                                  child:
-                                                  InkWell(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(5.0),
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.center,
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
-                                                        children: [
-
-                                                          Row(
-                                                            children: [
-                                                              Container(
-                                                                height:
-                                                                SizeConfig.blockSizeVertical *
-                                                                    8,
-                                                                width:
-                                                                SizeConfig.blockSizeVertical *
-                                                                    8,
-                                                                alignment: Alignment.center,
-                                                                margin: EdgeInsets.only(
-                                                                    top: SizeConfig.blockSizeVertical *1,
-                                                                    bottom: SizeConfig.blockSizeVertical *1,
-                                                                    right: SizeConfig
-                                                                        .blockSizeHorizontal *
-                                                                        1,
-                                                                    left: SizeConfig
-                                                                        .blockSizeHorizontal *
-                                                                        2),
-                                                                decoration: BoxDecoration(
-                                                                    image: DecorationImage(
-                                                                      image:new AssetImage("assets/images/userProfile.png"),
-                                                                      fit: BoxFit.fill,)),
-                                                              ),
-                                                              Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                children: [
-                                                                  Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      Container(
-                                                                        width: SizeConfig.blockSizeHorizontal *47,
-                                                                        alignment: Alignment.topLeft,
-                                                                        padding: EdgeInsets.only(
-                                                                          left: SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                              1,
-                                                                        ),
-                                                                        child: Text(
-                                                                          "Donator Life America",
-                                                                          style: TextStyle(
-                                                                              letterSpacing: 1.0,
-                                                                              color: Colors.black87,
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontFamily: 'Poppins-Regular'),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        width: SizeConfig.blockSizeHorizontal *25,
-                                                                        alignment: Alignment.topRight,
-                                                                        padding: EdgeInsets.only(
-                                                                          left: SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                              1,
-                                                                          right: SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                              2,
-                                                                        ),
-                                                                        child: Text(
-                                                                          "Donates- \$120",
-                                                                          textAlign: TextAlign.right,
-                                                                          style: TextStyle(
-                                                                              letterSpacing: 1.0,
-                                                                              color: AppColors.black,
-                                                                              fontSize:10,
-                                                                              fontWeight:
-                                                                              FontWeight.normal,
-                                                                              fontFamily:
-                                                                              'Poppins-Regular'),
-                                                                        ),
-                                                                      )
-
-                                                                    ],
-                                                                  ),
-
-                                                                  Row(
-                                                                    children: [
-                                                                      Container(
-                                                                        width: SizeConfig.blockSizeHorizontal *52,
-                                                                        alignment: Alignment.topLeft,
-                                                                        padding: EdgeInsets.only(
-                                                                            left: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                                1,
-                                                                            right: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                                3,
-                                                                            top: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                                2),
-                                                                        child: Text(
-                                                                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed..",
-                                                                          maxLines: 2,
-                                                                          style: TextStyle(
-                                                                              letterSpacing: 1.0,
-                                                                              color: Colors.black87,
-                                                                              fontSize: 10,
-                                                                              fontWeight:
-                                                                              FontWeight.normal,
-                                                                              fontFamily:
-                                                                              'Poppins-Regular'),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        width: SizeConfig.blockSizeHorizontal *18,
-                                                                        alignment: Alignment.center,
-                                                                        padding: EdgeInsets.only(
-                                                                            right: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                               1,
-                                                                            left: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                               1,
-                                                                            bottom: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                                2,
-                                                                            top: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                                2),
-                                                                        decoration: BoxDecoration(
-                                                                            color: AppColors.whiteColor,
-                                                                            borderRadius: BorderRadius.circular(20),
-                                                                            border: Border.all(color: AppColors.darkgreen)
-                                                                        ),
-                                                                        child: Text(
-                                                                          "Follow",
-                                                                          textAlign: TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              letterSpacing: 1.0,
-                                                                              color:AppColors.darkgreen,
-                                                                              fontSize:10,
-                                                                              fontWeight:
-                                                                              FontWeight.normal,
-                                                                              fontFamily:
-                                                                              'Poppins-Regular'),
-                                                                        ),
-                                                                      )
-
-                                                                    ],
-                                                                  ),
-
-
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    onTap: () {
-
-                                                    },
-                                                  )
-                                              ),
-                                            );
-                                          }),
-
-                                    ),
-                                    GestureDetector(
-                                      onTap: ()
-                                      {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaignDetailsscreen()));
-
-                                      },
-                                      child:  Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                        alignment: Alignment.bottomCenter,
-                                        child: Text(
-                                          "Load more...",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: AppColors.themecolor,
-                                              fontSize:12,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      ),
-                                    )*/
                         ],
                                 ),
                               ),
@@ -1650,7 +1437,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),

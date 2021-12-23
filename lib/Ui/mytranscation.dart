@@ -231,7 +231,7 @@ class mytranscationState extends State<mytranscation> {
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 20,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                           fontFamily: "Poppins-Regular",
                           color: Colors.white),
                     ),
@@ -353,13 +353,13 @@ class mytranscationState extends State<mytranscation> {
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
                                               Container(
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 26,
+                                                SizeConfig.blockSizeHorizontal * 28,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
@@ -369,15 +369,15 @@ class mytranscationState extends State<mytranscation> {
                                                       1,
                                                   right:
                                                   SizeConfig.blockSizeHorizontal *
-                                                      3,
+                                                     2,
                                                 ),
                                                 child: Text(
                                                   'amountreceived'.tr,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
-                                                      fontSize: 8,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontSize: 9,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               )
@@ -404,8 +404,8 @@ class mytranscationState extends State<mytranscation> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize: 8,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontSize:9,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
@@ -440,7 +440,7 @@ class mytranscationState extends State<mytranscation> {
                                                       letterSpacing: 1.0,
                                                       color: Colors.white,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               )
@@ -470,7 +470,7 @@ class mytranscationState extends State<mytranscation> {
                     color: AppColors.black,
                     fontSize: 16,
                     fontWeight:
-                    FontWeight.normal,
+                    FontWeight.bold,
                     fontFamily:
                     'Poppins-Regular')),
               ),
@@ -515,17 +515,11 @@ class mytranscationState extends State<mytranscation> {
                                               children: [
                                                 Container(
                                                   margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                          .blockSizeVertical *
-                                                          1),
-                                                  width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      68,
+                                                      top: SizeConfig.blockSizeVertical * 1),
+                                                  width: SizeConfig.blockSizeHorizontal * 68,
                                                   alignment: Alignment.topLeft,
                                                   padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
+                                                    left: SizeConfig.blockSizeHorizontal * 1,
                                                   ),
                                                   child: Text(
                                                     listing.paidTransaction.elementAt(index).paidfor,
@@ -535,35 +529,28 @@ class mytranscationState extends State<mytranscation> {
                                                         color: Colors.black87,
                                                         fontSize: 12,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
                                                 ),
                                                 Container(
-
                                                   margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                          .blockSizeVertical *
-                                                          1),
+                                                      top: SizeConfig.blockSizeVertical * 1),
                                                   width:SizeConfig.blockSizeHorizontal * 25,
                                                   alignment: Alignment.center,
                                                   padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3,
+                                                    left: SizeConfig.blockSizeHorizontal * 1,
+                                                    right: SizeConfig.blockSizeHorizontal * 3,
                                                   ),
                                                   child: Text(
                                                     'amountpaid'.tr,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -595,9 +582,9 @@ class mytranscationState extends State<mytranscation> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize: 8,
+                                                        fontSize: 9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -638,7 +625,7 @@ class mytranscationState extends State<mytranscation> {
                                                         color: Colors.white,
                                                         fontSize: 12,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -669,7 +656,7 @@ class mytranscationState extends State<mytranscation> {
                     color: AppColors.black,
                     fontSize: 16,
                     fontWeight:
-                    FontWeight.normal,
+                    FontWeight.bold,
                     fontFamily:
                     'Poppins-Regular')),
               ),

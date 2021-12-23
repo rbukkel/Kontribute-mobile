@@ -548,7 +548,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
             style: TextStyle(
                 decoration: TextDecoration.none,
                 fontSize: 20,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
                 fontFamily: "Poppins-Regular",
                 color: Colors.white),
           ),
@@ -654,7 +654,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                 style: TextStyle(
                                                                     fontSize: 14.0,
                                                                     color: Colors.black,
-                                                                    fontWeight: FontWeight.normal),
+                                                                    fontWeight: FontWeight.bold),
                                                               ),
                                                             ),
                                                             Container(
@@ -681,7 +681,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                 style: TextStyle(
                                                                     fontSize: 12.0,
                                                                     color: Colors.black,
-                                                                    fontWeight: FontWeight.normal),
+                                                                    fontWeight: FontWeight.bold),
                                                               ),
                                                             ),
                                                             InkWell(
@@ -744,7 +744,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                                 textAlign: TextAlign.left,
                                                                                 style: TextStyle(
                                                                                     letterSpacing: 1.0,
-                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontWeight: FontWeight.bold,
                                                                                     fontFamily: 'Poppins-Regular',
                                                                                     fontSize: 10,
                                                                                     color: Colors.black),
@@ -753,7 +753,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                                   // focusedBorder: InputBorder.none,
                                                                                   hintStyle: TextStyle(
                                                                                     color: Colors.grey,
-                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontWeight: FontWeight.bold,
                                                                                     fontFamily: 'Poppins-Regular',
                                                                                     fontSize: 10,
                                                                                     decoration: TextDecoration.none,
@@ -800,7 +800,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                       color: Colors.white,
-                                                                      fontWeight: FontWeight.normal,
+                                                                      fontWeight: FontWeight.bold,
                                                                       fontFamily: 'Poppins-Regular',
                                                                       fontSize: 14,
                                                                     )),
@@ -852,7 +852,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   color: AppColors.whiteColor,
                                                   fontSize:12,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -974,7 +974,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           letterSpacing: 1.0,
                                                           color: AppColors.themecolor,
                                                           fontSize: 13,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ) ,
@@ -999,7 +999,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                           color: AppColors.darkgreen,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -1054,7 +1054,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                               color: AppColors.black,
                                                               fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -1066,7 +1066,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                               color: AppColors.black,
                                                               fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -1092,7 +1092,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
                                                         fontSize:9,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight: FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
@@ -1121,7 +1121,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                               color: AppColors.black,
                                                               fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -1133,7 +1133,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                               color: AppColors.black,
                                                               fontSize:9,
                                                               fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                               fontFamily:
                                                               'Poppins-Regular'),
                                                         ),
@@ -1161,9 +1161,9 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
+                                                    fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -1172,9 +1172,9 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
+                                                    fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -1196,7 +1196,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1204,10 +1204,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 70.0,
+                                            width: 65.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
-                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,
+                                                color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
@@ -1227,9 +1228,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                    FontWeight.normal,
+                                                    fontSize: 8,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -1240,7 +1240,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                     color: Colors.black87,
                                                     fontSize: 9,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -1259,7 +1259,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1404,7 +1404,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
 
@@ -1428,7 +1428,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                               color: Colors.black26,
                                               fontSize: 9,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1447,7 +1447,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1465,7 +1465,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1483,7 +1483,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1502,7 +1502,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1522,7 +1522,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 color: Colors.black26,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1534,7 +1534,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 color: Colors.black26,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1557,7 +1557,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   color: Colors.black87,
                                                   fontSize: 9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1575,7 +1575,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                   color: Colors.lightBlueAccent,
                                                   fontSize: 9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1605,7 +1605,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),

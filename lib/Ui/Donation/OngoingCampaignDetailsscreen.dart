@@ -533,7 +533,7 @@ class OngoingCampaignDetailsscreenState
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontFamily: "Poppins-Regular",
                             color: Colors.white),
                       ),
@@ -713,7 +713,7 @@ class OngoingCampaignDetailsscreenState
                                                     color: AppColors.themecolor,
                                                     fontSize: 14,
                                                     fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                     fontFamily:
                                                         'Poppins-Regular'),
                                               ),
@@ -754,7 +754,7 @@ class OngoingCampaignDetailsscreenState
                                                   letterSpacing: 1.0,
                                                   color: AppColors.purple,
                                                   fontSize: 9,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular'),
                                             ),
@@ -791,7 +791,7 @@ class OngoingCampaignDetailsscreenState
                                                                             style: TextStyle(
                                                                                 fontSize: 14.0,
                                                                                 color: Colors.black,
-                                                                                fontWeight: FontWeight.normal),
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         Container(
@@ -818,7 +818,7 @@ class OngoingCampaignDetailsscreenState
                                                                             style: TextStyle(
                                                                                 fontSize: 12.0,
                                                                                 color: Colors.black,
-                                                                                fontWeight: FontWeight.normal),
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         InkWell(
@@ -972,7 +972,7 @@ class OngoingCampaignDetailsscreenState
                                                                                 textAlign: TextAlign.center,
                                                                                 style: TextStyle(
                                                                                   color: Colors.white,
-                                                                                  fontWeight: FontWeight.normal,
+                                                                                  fontWeight: FontWeight.bold,
                                                                                   fontFamily: 'Poppins-Regular',
                                                                                   fontSize: 14,
                                                                                 )),
@@ -1014,11 +1014,11 @@ class OngoingCampaignDetailsscreenState
                                                                     .blockSizeHorizontal *
                                                                 3,
                                                             bottom: SizeConfig
-                                                                    .blockSizeHorizontal *
+                                                                    .blockSizeVertical *
                                                                 1,
                                                             top: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                1),
+                                                                    .blockSizeVertical *
+                                                               1),
                                                         decoration:
                                                             BoxDecoration(
                                                           color: AppColors
@@ -1034,10 +1034,10 @@ class OngoingCampaignDetailsscreenState
                                                                   1.0,
                                                               color: AppColors
                                                                   .whiteColor,
-                                                              fontSize: 12,
+                                                              fontSize: 9,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .normal,
+                                                                      .bold,
                                                               fontFamily:
                                                                   'Poppins-Regular'),
                                                         ),
@@ -1052,18 +1052,13 @@ class OngoingCampaignDetailsscreenState
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    37,
+                                            width: SizeConfig.blockSizeHorizontal * 37,
                                             alignment: Alignment.topLeft,
                                             margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      1,
+                                              top: SizeConfig.blockSizeVertical * 1,
                                             ),
                                             child: Text(
-                                              projectdetailspojo
-                                                  .commentsdata.campaignName,
+                                              projectdetailspojo.commentsdata.campaignName,
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
@@ -1074,22 +1069,14 @@ class OngoingCampaignDetailsscreenState
                                             ),
                                           ),
                                           Container(
-                                              width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  39,
+                                              width: SizeConfig.blockSizeHorizontal * 39,
                                               alignment: Alignment.topRight,
                                               padding: EdgeInsets.only(
-                                                left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    1,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    2,
+                                                left: SizeConfig.blockSizeHorizontal * 1,
+                                                right: SizeConfig.blockSizeHorizontal * 2,
                                               ),
                                               margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    1,
+                                                top: SizeConfig.blockSizeVertical * 1,
                                               ),
                                               child: Row(
                                                 mainAxisAlignment:
@@ -1103,9 +1090,8 @@ class OngoingCampaignDetailsscreenState
                                                         color: AppColors.black,
                                                         fontSize: 9,
                                                         fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            'Poppins-Regular'),
+                                                            FontWeight.bold,
+                                                            fontFamily: 'Poppins-Regular'),
                                                   ),
                                                   Text(
                                                     " - " +
@@ -1118,7 +1104,7 @@ class OngoingCampaignDetailsscreenState
                                                         color: AppColors.black,
                                                         fontSize: 9,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'Poppins-Regular'),
                                                   ),
@@ -1149,7 +1135,7 @@ class OngoingCampaignDetailsscreenState
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
                                                   fontSize: 9,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular'),
                                             ),
@@ -1183,7 +1169,7 @@ class OngoingCampaignDetailsscreenState
                                                       color: AppColors.black,
                                                       fontSize:8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1197,7 +1183,7 @@ class OngoingCampaignDetailsscreenState
                                                       color: AppColors.black,
                                                       fontSize:8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1232,7 +1218,7 @@ class OngoingCampaignDetailsscreenState
                                               color: Colors.black87,
                                               fontSize: 8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1244,7 +1230,7 @@ class OngoingCampaignDetailsscreenState
                                               color: Colors.lightBlueAccent,
                                               fontSize: 8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1285,7 +1271,7 @@ class OngoingCampaignDetailsscreenState
                                               color: Colors.black87,
                                               fontSize: 8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1297,7 +1283,7 @@ class OngoingCampaignDetailsscreenState
                                               color: Colors.lightBlueAccent,
                                               fontSize: 8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1585,14 +1571,12 @@ class OngoingCampaignDetailsscreenState
                                   defaultTextStyle: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black87,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
                               ),
-                              projectdetailspojo
-                                          .commentsdata.termsAndCondition !=
-                                      null
+                              projectdetailspojo.commentsdata.termsAndCondition != null
                                   ? Container(
                                       width:
                                           SizeConfig.blockSizeHorizontal * 90,
@@ -1609,7 +1593,7 @@ class OngoingCampaignDetailsscreenState
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1632,11 +1616,11 @@ class OngoingCampaignDetailsscreenState
                                       child: Text(
                                         projectdetailspojo
                                             .commentsdata.termsAndCondition,
-                                        maxLines: 3,
+                                        maxLines: 40,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1659,7 +1643,7 @@ class OngoingCampaignDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
                                             fontSize: 10,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
@@ -1679,7 +1663,7 @@ class OngoingCampaignDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
                                             fontSize: 9,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                       Text(" "+(projectdetailspojo
@@ -1691,7 +1675,7 @@ class OngoingCampaignDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
                                             fontSize: 9,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                       Text('comments'.tr,
@@ -1700,7 +1684,7 @@ class OngoingCampaignDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
                                             fontSize: 9,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ],
@@ -1754,7 +1738,7 @@ class OngoingCampaignDetailsscreenState
                                                         color: Colors.black,
                                                         fontSize: 9,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'NotoEmoji'),
                                                   ),
@@ -1820,7 +1804,7 @@ class OngoingCampaignDetailsscreenState
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular',
                                                 fontSize: 12,
                                                 color: Colors.black),
@@ -1830,7 +1814,7 @@ class OngoingCampaignDetailsscreenState
                                               focusedBorder: InputBorder.none,
                                               hintStyle: TextStyle(
                                                 color: Colors.black,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular',
                                                 fontSize: 12,
                                                 decoration: TextDecoration.none,
@@ -1864,7 +1848,7 @@ class OngoingCampaignDetailsscreenState
                                                   letterSpacing: 1.0,
                                                   color: AppColors.themecolor,
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular'),
                                             ),
@@ -2097,7 +2081,7 @@ class OngoingCampaignDetailsscreenState
                                                               AppColors.black,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -2203,7 +2187,7 @@ class OngoingCampaignDetailsscreenState
                                             style: TextStyle(
                                                 decoration: TextDecoration.none,
                                                 fontSize: 14,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: "Poppins-Regular",
                                                 color: Colors.black),
                                           ),
@@ -2378,7 +2362,7 @@ class OngoingCampaignDetailsscreenState
                                                                               letterSpacing: 1.0,
                                                                               color: AppColors.black,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       )
@@ -2406,7 +2390,7 @@ class OngoingCampaignDetailsscreenState
                                                                                   letterSpacing: 1.0,
                                                                                   color: Colors.black87,
                                                                                   fontSize: 10,
-                                                                                  fontWeight: FontWeight.normal,
+                                                                                  fontWeight: FontWeight.bold,
                                                                                   fontFamily: 'Poppins-Regular'),
                                                                             ),
                                                                             Text(
@@ -2416,7 +2400,7 @@ class OngoingCampaignDetailsscreenState
                                                                                   letterSpacing: 1.0,
                                                                                   color: Colors.black87,
                                                                                   fontSize: 10,
-                                                                                  fontWeight: FontWeight.normal,
+                                                                                  fontWeight: FontWeight.bold,
                                                                                   fontFamily: 'Poppins-Regular'),
                                                                             ),
                                                                           ],
@@ -2435,7 +2419,7 @@ class OngoingCampaignDetailsscreenState
                                                                               child: Text(
                                                                                 'pendinguppercase'.tr,
                                                                                 textAlign: TextAlign.center,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             )
                                                                           : projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).status == "1"
@@ -2447,7 +2431,7 @@ class OngoingCampaignDetailsscreenState
                                                                                   child: Text(
                                                                                    'done'.tr,
                                                                                     textAlign: TextAlign.center,
-                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                   ),
                                                                                 )
                                                                               : Container(
@@ -2458,7 +2442,7 @@ class OngoingCampaignDetailsscreenState
                                                                                   child: Text(
                                                                                     'pendinguppercase'.tr,
                                                                                     textAlign: TextAlign.center,
-                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                   ),
                                                                                 )
                                                                     ],
@@ -2513,7 +2497,6 @@ class OngoingCampaignDetailsscreenState
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-
           showDialog(
             context: context,
             child: Dialog(

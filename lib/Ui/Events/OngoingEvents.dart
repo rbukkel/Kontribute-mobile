@@ -145,7 +145,6 @@ class OngoingEventsState extends State<OngoingEvents> {
     );
   }
 
-
   Future<void> _createDynamicLink(String productid) async {
     print("Product: "+productid);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
@@ -610,7 +609,7 @@ class OngoingEventsState extends State<OngoingEvents> {
               style: TextStyle(
                   decoration: TextDecoration.none,
                   fontSize: 20,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                   fontFamily: "Poppins-Regular",
                   color: Colors.white),
             ),
@@ -793,7 +792,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           letterSpacing: 1.0,
                                                           color: AppColors.themecolor,
                                                           fontSize: 13,
-                                                          fontWeight: FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ) ,
@@ -815,7 +814,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           color: AppColors.black,
                                                           fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -853,7 +852,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         color:AppColors.purple,
                                                         fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -947,7 +946,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                                 new Text('eventeentryfees'.tr,
                                                                                     style: TextStyle(
                                                                                         letterSpacing: 1.0,
-                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
                                                                                         fontSize: 14,
                                                                                         color: Colors.black)),
@@ -955,7 +954,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                                 new Text(" \$"+listing.projectData.elementAt(index).entryFee,
                                                                                     style: TextStyle(
                                                                                         letterSpacing: 1.0,
-                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
                                                                                         fontSize: 14,
                                                                                         color: Colors.black))
@@ -997,7 +996,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                               color: Colors.white,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular',
                                                                               fontSize: 14,
                                                                             )),
@@ -1040,7 +1039,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           color: AppColors.whiteColor,
                                                           fontSize:12,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ),
@@ -1088,7 +1087,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                       Text(
@@ -1099,7 +1098,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                     ],
@@ -1122,7 +1121,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
                                                         fontSize:9,
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight: FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ),
@@ -1147,7 +1146,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                       Text(
@@ -1158,7 +1157,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                             color: AppColors.black,
                                                             fontSize:9,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular'),
                                                       ),
                                                     ],
@@ -1194,7 +1193,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         color: Colors.black87,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1205,7 +1204,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                         color: Colors.lightBlueAccent,
                                                         fontSize: 8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1218,10 +1217,10 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 70.0,
+                                            width: 65.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
-                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                            center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: AppColors.whiteColor),),
                                             backgroundColor: AppColors.lightgrey,
                                             progressColor:AppColors.themecolor,
                                           ),
@@ -1242,8 +1241,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           letterSpacing: 1.0,
                                                           color: Colors.black87,
                                                           fontSize: 8,
-                                                          fontWeight:
-                                                          FontWeight.normal,
+                                                          fontWeight: FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -1254,7 +1252,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                           color: Colors.lightBlueAccent,
                                                           fontSize: 8,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -1485,7 +1483,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         defaultTextStyle: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
 
@@ -1509,7 +1507,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                               color: Colors.black26,
                                               fontSize: 8,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -1528,7 +1526,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             color: Colors.black,
                                             fontSize: 8,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1546,7 +1544,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             color: Colors.black,
                                             fontSize: 8,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -1564,7 +1562,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             color: Colors.black26,
                                             fontSize: 8,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -1589,7 +1587,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),
@@ -1902,7 +1900,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                     listingcate.resultPush.elementAt(index).categoryName.toString(),
                                     style: TextStyle(
                                         letterSpacing: 1.0,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.bold,
                                         fontFamily: 'Lato-Bold',
                                         color: AppColors.black,
                                         fontSize: 16),

@@ -464,7 +464,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                 .themecolor,
                                                             fontSize: 13,
                                                             fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -544,7 +544,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                               AppColors.purple,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -582,7 +582,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                           style: TextStyle(
                                                                               fontSize: 14.0,
                                                                               color: Colors.black,
-                                                                              fontWeight: FontWeight.normal),
+                                                                              fontWeight: FontWeight.bold),
                                                                         ),
                                                                       ),
                                                                       Container(
@@ -609,7 +609,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                           style: TextStyle(
                                                                               fontSize: 12.0,
                                                                               color: Colors.black,
-                                                                              fontWeight: FontWeight.normal),
+                                                                              fontWeight: FontWeight.bold),
                                                                         ),
                                                                       ),
                                                                       InkWell(
@@ -688,7 +688,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                                           TextAlign.left,
                                                                                           style: TextStyle(
                                                                                               letterSpacing: 1.0,
-                                                                                              fontWeight: FontWeight.normal,
+                                                                                              fontWeight: FontWeight.bold,
                                                                                               fontFamily: 'Poppins-Regular',
                                                                                               fontSize: 10,
                                                                                               color: Colors.black),
@@ -698,7 +698,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                                             // focusedBorder: InputBorder.none,
                                                                                             hintStyle: TextStyle(
                                                                                               color: Colors.grey,
-                                                                                              fontWeight: FontWeight.normal,
+                                                                                              fontWeight: FontWeight.bold,
                                                                                               fontFamily: 'Poppins-Regular',
                                                                                               fontSize: 10,
                                                                                               decoration: TextDecoration.none,
@@ -746,7 +746,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
                                                                                 color: Colors.white,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular',
                                                                                 fontSize: 14,
                                                                               )),
@@ -777,8 +777,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           right:
                                                           SizeConfig.blockSizeHorizontal *
                                                               2,
-                                                          top: SizeConfig
-                                                              .blockSizeVertical *
+                                                          top: SizeConfig.blockSizeVertical *
                                                               2),
                                                       padding: EdgeInsets.only(
                                                           right:
@@ -788,10 +787,10 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           SizeConfig.blockSizeHorizontal *
                                                               3,
                                                           bottom:
-                                                          SizeConfig.blockSizeHorizontal *
+                                                          SizeConfig.blockSizeVertical *
                                                               1,
                                                           top: SizeConfig
-                                                              .blockSizeHorizontal *
+                                                              .blockSizeVertical *
                                                               1),
                                                       decoration:
                                                       BoxDecoration(
@@ -809,10 +808,10 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             color: AppColors
                                                                 .whiteColor,
                                                             fontSize:
-                                                            12,
+                                                            9,
                                                             fontWeight:
                                                             FontWeight
-                                                                .normal,
+                                                                .bold,
                                                             fontFamily:
                                                             'Poppins-Regular'),
                                                       ),
@@ -935,7 +934,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           color: Colors.black87,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -1030,7 +1029,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       color: Colors.black87,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1057,7 +1056,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           .lightBlueAccent,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1104,7 +1103,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       color: Colors.black87,
                                                       fontSize:8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1130,7 +1129,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           .lightBlueAccent,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1585,7 +1584,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                           defaultTextStyle: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black87,
-                                              fontSize: 10,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.normal,
                                               fontFamily: 'Poppins-Regular'),
                                         ),
@@ -1608,7 +1607,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                   color: Colors.black26,
                                                   fontSize: 9,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -1627,7 +1626,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                 color: Colors.black,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'NotoEmoji'),
                                           ),
@@ -1645,7 +1644,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                 color: Colors.black,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'NotoEmoji'),
                                           ),
@@ -1663,7 +1662,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                 color: Colors.black26,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -1683,10 +1682,15 @@ class SearchbarProjectState extends State<SearchbarProject> {
                               child: CircularProgressIndicator(),
                             )
                           : Center(
-                              child: Image.asset("assets/images/empty.png",
-                                  height: SizeConfig.blockSizeVertical * 30,
-                                  width: SizeConfig.blockSizeVertical * 30),
-                            ),
+                        child: Text('norecordsfound'.tr,style: TextStyle(
+                            letterSpacing: 1.0,
+                            color: AppColors.black,
+                            fontSize: 16,
+                            fontWeight:
+                            FontWeight.bold,
+                            fontFamily:
+                            'Poppins-Regular')),
+                      ),
                     )
             ],
           ),

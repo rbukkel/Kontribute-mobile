@@ -1492,7 +1492,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontFamily: 'Poppins-Regular',
                             color: Colors.white),
                       ),
@@ -1858,7 +1858,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               fontSize: 9,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .normal,
+                                                                      .bold,
                                                               fontFamily:
                                                                   'Poppins-Regular'),
                                                         ),
@@ -1909,7 +1909,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 alignment: Alignment.center,
                                                                                 child: Text(
                                                                                   'confirmation'.tr,
-                                                                                  style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.normal),
+                                                                                  style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
                                                                                 ),
                                                                               ),
                                                                               Container(
@@ -1933,7 +1933,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 alignment: Alignment.center,
                                                                                 child: Text(
                                                                                   'paymentalert'.tr,
-                                                                                  style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.normal),
+                                                                                  style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
                                                                                 ),
                                                                               ),
                                                                               InkWell(
@@ -1987,13 +1987,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                             },
                                                                                             onSaved: (val) => _amount = val,
                                                                                             textAlign: TextAlign.left,
-                                                                                            style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
+                                                                                            style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
                                                                                             decoration: InputDecoration(
                                                                                               // border: InputBorder.none,
                                                                                               // focusedBorder: InputBorder.none,
                                                                                               hintStyle: TextStyle(
                                                                                                 color: Colors.grey,
-                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontWeight: FontWeight.bold,
                                                                                                 fontFamily: 'Poppins-Regular',
                                                                                                 fontSize: 10,
                                                                                                 decoration: TextDecoration.none,
@@ -2032,7 +2032,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                   child: Text('okay'.tr,
                                                                                       style: TextStyle(
                                                                                         color: Colors.white,
-                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
                                                                                         fontSize: 15,
                                                                                       )),
@@ -2224,7 +2224,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               fontSize: 9,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .normal,
+                                                                      .bold,
                                                               fontFamily:
                                                                   'Poppins-Regular'),
                                                         ),
@@ -2329,7 +2329,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                           color: Colors.black87,
                                                           fontSize: 8,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -2357,7 +2357,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               .lightBlueAccent,
                                                           fontSize: 8,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -2404,7 +2404,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                           color: Colors.black87,
                                                           fontSize: 8,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -2431,7 +2431,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               .lightBlueAccent,
                                                           fontSize: 8,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -2549,8 +2549,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                       circleBar(
                                                                           true)
                                                                     ] else
-                                                                      circleBar(
-                                                                          false),
+                                                                      circleBar(false),
                                                                 ],
                                                               ),
                                                             ),
@@ -2676,7 +2675,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               defaultTextStyle: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
-                                                  fontSize: 10,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
                                                       'Poppins-Regular'),
@@ -2702,7 +2701,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                           letterSpacing: 1.0,
                                           color: AppColors.black,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: 'Poppins-Regular')),
                                 ),
                         )
@@ -3095,7 +3094,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                     alignment: Alignment.center,
                                                                                     child: Text(
                                                                                       'confirmation'.tr,
-                                                                                      style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.normal),
+                                                                                      style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
                                                                                     ),
                                                                                   ),
                                                                                   Container(
@@ -3119,7 +3118,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                     alignment: Alignment.center,
                                                                                     child: Text(
                                                                                       'paymentalert'.tr,
-                                                                                      style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.normal),
+                                                                                      style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
                                                                                     ),
                                                                                   ),
                                                                                   InkWell(
@@ -3171,13 +3170,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                               },
                                                                                               onSaved: (val) => _amount = val,
                                                                                               textAlign: TextAlign.left,
-                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
+                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
                                                                                               decoration: InputDecoration(
                                                                                                 // border: InputBorder.none,
                                                                                                 // focusedBorder: InputBorder.none,
                                                                                                 hintStyle: TextStyle(
                                                                                                   color: Colors.grey,
-                                                                                                  fontWeight: FontWeight.normal,
+                                                                                                  fontWeight: FontWeight.bold,
                                                                                                   fontFamily: 'Poppins-Regular',
                                                                                                   fontSize: 10,
                                                                                                   decoration: TextDecoration.none,
@@ -3216,7 +3215,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                       child: Text('okay'.tr,
                                                                                           style: TextStyle(
                                                                                             color: Colors.white,
-                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontWeight: FontWeight.bold,
                                                                                             fontFamily: 'Poppins-Regular',
                                                                                             fontSize: 15,
                                                                                           )),
@@ -3261,7 +3260,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               letterSpacing: 1.0,
                                                                               color: AppColors.whiteColor,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       ),
@@ -3349,7 +3348,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             8,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -3371,7 +3370,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             8,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -3458,7 +3457,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             8,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -3480,7 +3479,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             8,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -3879,7 +3878,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   defaultTextStyle: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize: 10,
+                                                      fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -3906,7 +3905,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               letterSpacing: 1.0,
                                               color: AppColors.black,
                                               fontSize: 16,
-                                              fontWeight: FontWeight.normal,
+                                              fontWeight: FontWeight.bold,
                                               fontFamily: 'Poppins-Regular')),
                                     ),
                             )
@@ -4213,7 +4212,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 letterSpacing: 1.0,
                                                                                 color: AppColors.green,
                                                                                 fontSize: 12,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular'),
                                                                           ),
                                                                         ),
@@ -4275,7 +4274,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.black87,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       ),
@@ -4298,7 +4297,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.lightBlueAccent,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       )
@@ -4321,7 +4320,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.black87,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       ),
@@ -4340,7 +4339,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.lightBlueAccent,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       )
@@ -4373,7 +4372,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                   letterSpacing: 1.0,
                                                   color: AppColors.black,
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular')),
                                         ),
@@ -4601,7 +4600,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                     ),
@@ -4623,7 +4622,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                           color: AppColors.black,
                                                           fontSize:8,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -4720,7 +4719,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                               style: TextStyle(
                                                                                                   fontSize: 14.0,
                                                                                                   color: Colors.black,
-                                                                                                  fontWeight: FontWeight.normal),
+                                                                                                  fontWeight: FontWeight.bold),
                                                                                             ),
                                                                                           ),
                                                                                           Container(
@@ -4746,7 +4745,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                               style: TextStyle(
                                                                                                   fontSize: 14.0,
                                                                                                   color: Colors.black,
-                                                                                                  fontWeight: FontWeight.normal),
+                                                                                                  fontWeight: FontWeight.bold),
                                                                                             ),
                                                                                           ),
                                                                                           InkWell(
@@ -4773,8 +4772,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                   // content: Text("Are you sure you want to Pay this project?"),
                                                                                                   content: new Row(
                                                                                                     children: <Widget>[
-                                                                                                      new Text('eventeentryfees'.tr, style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black)),
-                                                                                                      new Text(" \$" + listingevent.result.elementAt(index).entryFee, style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black))
+                                                                                                      new Text('eventeentryfees'.tr, style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black)),
+                                                                                                      new Text(" \$" + listingevent.result.elementAt(index).entryFee, style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black))
                                                                                                     ],
                                                                                                   ),
                                                                                                   actions: [
@@ -4809,7 +4808,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                               child: Text('okay'.tr,
                                                                                                   style: TextStyle(
                                                                                                     color: Colors.white,
-                                                                                                    fontWeight: FontWeight.normal,
+                                                                                                    fontWeight: FontWeight.bold,
                                                                                                     fontFamily: 'Poppins-Regular',
                                                                                                     fontSize: 15,
                                                                                                   )),
@@ -4831,7 +4830,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 ),
                                                                                 child: Text(
                                                                                   'pay'.tr,
-                                                                                  style: TextStyle(letterSpacing: 1.0, color: AppColors.whiteColor, fontSize: 12, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                  style: TextStyle(letterSpacing: 1.0, color: AppColors.whiteColor, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                 ),
                                                                               ),
                                                                             )
@@ -4911,7 +4910,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 letterSpacing: 1.0,
                                                                                 color: AppColors.black,
                                                                                 fontSize: 8,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular'),
                                                                           ),
                                                                           Text(
@@ -4923,7 +4922,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 letterSpacing: 1.0,
                                                                                 color: AppColors.black,
                                                                                 fontSize: 8,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular'),
                                                                           ),
                                                                         ],
@@ -4997,7 +4996,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 letterSpacing: 1.0,
                                                                                 color: AppColors.black,
                                                                                 fontSize: 8,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular'),
                                                                           ),
                                                                           Text(
@@ -5009,7 +5008,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 letterSpacing: 1.0,
                                                                                 color: AppColors.black,
                                                                                 fontSize: 8,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular'),
                                                                           ),
                                                                         ],
@@ -5060,7 +5059,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                       Text(
@@ -5074,7 +5073,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                     ],
@@ -5140,7 +5139,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                       Text(
@@ -5154,7 +5153,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                     ],
@@ -5463,7 +5462,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                   1.0,
                                                               color: Colors
                                                                   .black87,
-                                                              fontSize: 10,
+                                                              fontSize: 12,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .normal,
@@ -5489,7 +5488,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               color: Colors.black26,
                                               fontSize: 9,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -5508,7 +5507,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -5526,7 +5525,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -5544,7 +5543,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -5571,7 +5570,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                       color: AppColors.black,
                                                       fontSize: 16,
                                                       fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                       fontFamily:
                                                           'Poppins-Regular')),
                                             ),
@@ -5718,13 +5717,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                   },
                                                                                   onSaved: (val) => _amount = val,
                                                                                   textAlign: TextAlign.left,
-                                                                                  style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
+                                                                                  style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
                                                                                   decoration: InputDecoration(
                                                                                     // border: InputBorder.none,
                                                                                     // focusedBorder: InputBorder.none,
                                                                                     hintStyle: TextStyle(
                                                                                       color: Colors.grey,
-                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontWeight: FontWeight.bold,
                                                                                       fontFamily: 'Poppins-Regular',
                                                                                       fontSize: 10,
                                                                                       decoration: TextDecoration.none,
@@ -5769,7 +5768,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             child:
                                                                                 Text(
                                                                               'buy'.tr,
-                                                                              style: TextStyle(letterSpacing: 1.0, color: AppColors.whiteColor, fontSize: 12, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                              style: TextStyle(letterSpacing: 1.0, color: AppColors.whiteColor, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                             ),
                                                                           ),
                                                                         )
@@ -5919,7 +5918,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 letterSpacing: 1.0,
                                                                                 color: AppColors.themecolor,
                                                                                 fontSize: 13,
-                                                                                fontWeight: FontWeight.normal,
+                                                                                fontWeight: FontWeight.bold,
                                                                                 fontFamily: 'Poppins-Regular'),
                                                                           ),
                                                                         ),
@@ -5938,7 +5937,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 ),
                                                                                 child: Text(
                                                                                   Follow,
-                                                                                  style: TextStyle(letterSpacing: 1.0, color: AppColors.darkgreen, fontSize: 8, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                  style: TextStyle(letterSpacing: 1.0, color: AppColors.darkgreen, fontSize: 8, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -5998,12 +5997,12 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               Text(
                                                                                 'startdate'.tr,
                                                                                 textAlign: TextAlign.right,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                               Text(
                                                                                 " - " + listingticket.result.elementAt(index).ticketStartdate,
                                                                                 textAlign: TextAlign.right,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             ],
                                                                           ))
@@ -6033,7 +6032,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.black87,
                                                                               fontSize: 8,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       ),
@@ -6062,12 +6061,12 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                               Text(
                                                                                 'enddate'.tr,
                                                                                 textAlign: TextAlign.right,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                               Text(
                                                                                 " - " + listingticket.result.elementAt(index).ticketEnddate,
                                                                                 textAlign: TextAlign.right,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.black, fontSize: 8, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             ],
                                                                           )),
@@ -6103,7 +6102,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                       Text(
@@ -6117,7 +6116,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             fontSize:
                                                                                 8,
                                                                             fontWeight:
-                                                                                FontWeight.normal,
+                                                                                FontWeight.bold,
                                                                             fontFamily: 'Poppins-Regular'),
                                                                       ),
                                                                     ],
@@ -6169,7 +6168,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             color: Colors.black87,
                                                                             fontSize: 8,
                                                                             fontWeight:
-                                                                            FontWeight.normal,
+                                                                            FontWeight.bold,
                                                                             fontFamily:
                                                                             'Poppins-Regular'),
                                                                       ),
@@ -6180,7 +6179,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             color: Colors.black87,
                                                                             fontSize: 9,
                                                                             fontWeight:
-                                                                            FontWeight.normal,
+                                                                            FontWeight.bold,
                                                                             fontFamily:
                                                                             'Poppins-Regular'),
                                                                       ),
@@ -6372,7 +6371,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                       1.0,
                                                                   color: Colors
                                                                       .black87,
-                                                                  fontSize: 10,
+                                                                  fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -6398,7 +6397,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                               color: Colors.black26,
                                               fontSize: 9,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -6417,7 +6416,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -6435,7 +6434,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -6453,7 +6452,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -6472,7 +6471,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -6508,7 +6507,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             9,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -6528,7 +6527,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             9,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .normal,
+                                                                                .bold,
                                                                         fontFamily:
                                                                             'Poppins-Regular'),
                                                                   ),
@@ -6626,7 +6625,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               AppColors.black,
                                                           fontSize: 16,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular')),
                                                 ),
@@ -6713,7 +6712,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 Text(
                                                                               listinginvite.result.elementAt(index).receiverEndDate.toString(),
                                                                               textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Regular', fontWeight: FontWeight.normal, fontSize: 8),
+                                                                              style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Regular', fontWeight: FontWeight.bold, fontSize: 8),
                                                                             ),
                                                                           ),
                                                                         ],
@@ -6743,7 +6742,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                       right: SizeConfig.blockSizeHorizontal * 3,
                                                                                     ),
                                                                                     child: Text(
-                                                                                      listinginvite.result.elementAt(index).receiverName != null ? listinginvite.result.elementAt(index).receiverName : "",
+                                                                                      listinginvite.result.elementAt(index).receiverName != null ?
+                                                                                      listinginvite.result.elementAt(index).receiverName : "",
                                                                                       style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                     ),
                                                                                   ),
@@ -6803,7 +6803,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 child: Text(
                                                                                   listinginvite.result.elementAt(index).receiverMessage.toString(),
                                                                                   maxLines: 2,
-                                                                                  style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 9, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                  style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 9, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                 ),
                                                                               ),
                                                                               Row(
@@ -6816,7 +6816,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                     padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3, top: SizeConfig.blockSizeHorizontal * 2),
                                                                                     child: Text(
                                                                                       listinginvite.result.elementAt(index).receiverMobile != null ? listinginvite.result.elementAt(index).receiverMobile : "",
-                                                                                      style: TextStyle(letterSpacing: 1.0, color: Colors.black, fontSize: 12, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                      style: TextStyle(letterSpacing: 1.0, color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                     ),
                                                                                   ),
                                                                                   Container(
@@ -6828,11 +6828,11 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                       children: [
                                                                                         Text(
                                                                                           'amount'.tr,
-                                                                                          style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                          style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                         ),
                                                                                         Text(
                                                                                           listinginvite.result.elementAt(index).receiverRequestPrice != null ? " \$" + listinginvite.result.elementAt(index).receiverRequestPrice : "",
-                                                                                          style: TextStyle(letterSpacing: 1.0, color: Colors.lightBlueAccent, fontSize: 12, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                          style: TextStyle(letterSpacing: 1.0, color: Colors.lightBlueAccent, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                         ),
                                                                                       ],
                                                                                     ),
@@ -6872,7 +6872,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .normal,
+                                                                      .bold,
                                                               fontFamily:
                                                                   'Poppins-Regular')),
                                                     ),

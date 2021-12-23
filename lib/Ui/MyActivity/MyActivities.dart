@@ -1376,7 +1376,7 @@ class MyActivitiesState extends State<MyActivities> {
             style: TextStyle(
                 decoration: TextDecoration.none,
                 fontSize: 20,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
                 fontFamily: "Poppins-Regular",
                 color: Colors.white),
           ),
@@ -1640,7 +1640,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                             .darkgreen,
                                                         fontSize: 9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1685,7 +1685,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: AppColors.purple,
                                                       fontSize: 9,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -1724,7 +1724,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                 style: TextStyle(
                                                                     fontSize: 14.0,
                                                                     color: Colors.black,
-                                                                    fontWeight: FontWeight.normal),
+                                                                    fontWeight: FontWeight.bold),
                                                               ),
                                                             ),
                                                             Container(
@@ -1750,7 +1750,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                 style: TextStyle(
                                                                     fontSize: 12.0,
                                                                     color: Colors.black,
-                                                                    fontWeight: FontWeight.normal),
+                                                                    fontWeight: FontWeight.bold),
                                                               ),
                                                             ),
                                                             InkWell(
@@ -1874,7 +1874,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                       color: Colors.white,
-                                                                      fontWeight: FontWeight.normal,
+                                                                      fontWeight: FontWeight.bold,
                                                                       fontFamily: 'Poppins-Regular',
                                                                       fontSize: 14,
                                                                     )),
@@ -1931,7 +1931,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                             .whiteColor,
                                                         fontSize: 12,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -1992,7 +1992,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -2007,7 +2007,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -2071,7 +2071,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -2086,7 +2086,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -2123,7 +2123,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   color: Colors.black87,
                                                   fontSize: 8,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -2147,7 +2147,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   color: Colors.lightBlueAccent,
                                                   fontSize: 8,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -2186,7 +2186,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   color: Colors.black87,
                                                   fontSize: 8,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -2208,7 +2208,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                   color: Colors.lightBlueAccent,
                                                   fontSize: 8,
                                                   fontWeight:
-                                                  FontWeight.normal,
+                                                  FontWeight.bold,
                                                   fontFamily:
                                                   'Poppins-Regular'),
                                             ),
@@ -2396,7 +2396,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       defaultTextStyle: TextStyle(
                                           letterSpacing: 1.0,
                                           color: Colors.black87,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                           fontFamily: 'Poppins-Regular'),
                                     ),
@@ -2422,7 +2422,7 @@ class MyActivitiesState extends State<MyActivities> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),
@@ -2564,7 +2564,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       letterSpacing: 1.0,
                                                       color: AppColors.themecolor,
                                                       fontSize: 13,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ) ,
@@ -2590,7 +2590,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: AppColors.darkgreen,
                                                       fontSize:8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -2622,7 +2622,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color:AppColors.purple,
                                                     fontSize:8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -2656,7 +2656,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               style: TextStyle(
                                                                   fontSize: 14.0,
                                                                   color: Colors.black,
-                                                                  fontWeight: FontWeight.normal),
+                                                                  fontWeight: FontWeight.bold),
                                                             ),
                                                           ),
                                                           Container(
@@ -2682,7 +2682,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               style: TextStyle(
                                                                   fontSize: 12.0,
                                                                   color: Colors.black,
-                                                                  fontWeight: FontWeight.normal),
+                                                                  fontWeight: FontWeight.bold),
                                                             ),
                                                           ),
                                                           InkWell(
@@ -2740,7 +2740,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                       textAlign: TextAlign.left,
                                                                       style: TextStyle(
                                                                           letterSpacing: 1.0,
-                                                                          fontWeight: FontWeight.normal,
+                                                                          fontWeight: FontWeight.bold,
                                                                           fontFamily: 'Poppins-Regular',
                                                                           fontSize: 10,
                                                                           color: Colors.black),
@@ -2749,7 +2749,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                         // focusedBorder: InputBorder.none,
                                                                         hintStyle: TextStyle(
                                                                           color: Colors.grey,
-                                                                          fontWeight: FontWeight.normal,
+                                                                          fontWeight: FontWeight.bold,
                                                                           fontFamily: 'Poppins-Regular',
                                                                           fontSize: 10,
                                                                           decoration: TextDecoration.none,
@@ -2796,7 +2796,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                   textAlign:TextAlign.center,
                                                                   style: TextStyle(
                                                                     color: Colors.white,
-                                                                    fontWeight: FontWeight.normal,
+                                                                    fontWeight: FontWeight.bold,
                                                                     fontFamily: 'Poppins-Regular',
                                                                     fontSize: 14,
                                                                   )),
@@ -2839,7 +2839,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: AppColors.whiteColor,
                                                       fontSize:12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -2893,7 +2893,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                          color: AppColors.black,
                                                          fontSize:9,
                                                          fontWeight:
-                                                         FontWeight.normal,
+                                                         FontWeight.bold,
                                                          fontFamily:
                                                          'Poppins-Regular'),
                                                    ),
@@ -2905,7 +2905,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                          color: AppColors.black,
                                                          fontSize:9,
                                                          fontWeight:
-                                                         FontWeight.normal,
+                                                         FontWeight.bold,
                                                          fontFamily:
                                                          'Poppins-Regular'),
                                                    ),
@@ -2934,7 +2934,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
                                                     fontSize:9,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily: 'Poppins-Regular'),
                                               ),
                                             ),
@@ -2964,7 +2964,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                         color: AppColors.black,
                                                         fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -2976,7 +2976,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                         color: AppColors.black,
                                                         fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -3013,7 +3013,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color: Colors.black87,
                                                     fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -3024,7 +3024,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color: Colors.lightBlueAccent,
                                                     fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -3069,7 +3069,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: Colors.black87,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -3080,7 +3080,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: Colors.lightBlueAccent,
                                                       fontSize: 8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -3232,7 +3232,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     defaultTextStyle: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Poppins-Regular'),
 
@@ -3259,7 +3259,7 @@ class MyActivitiesState extends State<MyActivities> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),
@@ -3773,7 +3773,7 @@ class MyActivitiesState extends State<MyActivities> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),
@@ -3914,7 +3914,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       letterSpacing: 1.0,
                                                       color: AppColors.themecolor,
                                                       fontSize: 13,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ) ,
@@ -3936,7 +3936,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize:8,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -3972,7 +3972,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color:AppColors.purple,
                                                     fontSize:8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -4006,7 +4006,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               style: TextStyle(
                                                                   fontSize: 14.0,
                                                                   color: Colors.black,
-                                                                  fontWeight: FontWeight.normal),
+                                                                  fontWeight: FontWeight.bold),
                                                             ),
                                                           ),
                                                           Container(
@@ -4032,7 +4032,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               style: TextStyle(
                                                                   fontSize: 12.0,
                                                                   color: Colors.black,
-                                                                  fontWeight: FontWeight.normal),
+                                                                  fontWeight: FontWeight.bold),
                                                             ),
                                                           ),
                                                           InkWell(
@@ -4061,14 +4061,14 @@ class MyActivitiesState extends State<MyActivities> {
                                                                       new Text('eventeentryfees'.tr,
                                                                           style: TextStyle(
                                                                               letterSpacing: 1.0,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular',
                                                                               fontSize: 10,
                                                                               color: Colors.black)) ,
                                                                       new Text(" \$"+listingevent.result.elementAt(index).entryFee,
                                                                           style: TextStyle(
                                                                               letterSpacing: 1.0,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular',
                                                                               fontSize: 10,
                                                                               color: Colors.black))
@@ -4109,7 +4109,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                   textAlign:TextAlign.center,
                                                                   style: TextStyle(
                                                                     color: Colors.white,
-                                                                    fontWeight: FontWeight.normal,
+                                                                    fontWeight: FontWeight.bold,
                                                                     fontFamily: 'Poppins-Regular',
                                                                     fontSize: 14,
                                                                   )),
@@ -4144,7 +4144,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: AppColors.whiteColor,
                                                       fontSize:12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
@@ -4192,7 +4192,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize:8,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                     Text(
@@ -4203,7 +4203,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           color: AppColors.black,
                                                           fontSize:8,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily: 'Poppins-Regular'),
                                                     ),
                                                   ],
@@ -4227,7 +4227,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
                                                     fontSize:8,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily: 'Poppins-Regular'),
                                               ),
                                             ),
@@ -4252,7 +4252,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                         color: AppColors.black,
                                                         fontSize:8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                   Text(
@@ -4263,7 +4263,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                         color: AppColors.black,
                                                         fontSize:8,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily: 'Poppins-Regular'),
                                                   ),
                                                 ],
@@ -4298,7 +4298,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color: Colors.black87,
                                                     fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -4309,7 +4309,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color: Colors.lightBlueAccent,
                                                     fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -4346,7 +4346,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color: Colors.black87,
                                                     fontSize: 8,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -4357,7 +4357,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                     color: Colors.lightBlueAccent,
                                                     fontSize: 9,
                                                     fontWeight:
-                                                    FontWeight.normal,
+                                                    FontWeight.bold,
                                                     fontFamily:
                                                     'Poppins-Regular'),
                                               ),
@@ -4588,7 +4588,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     defaultTextStyle: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Poppins-Regular'),
 
@@ -4612,7 +4612,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               color: Colors.black26,
                                               fontSize: 9,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -4631,7 +4631,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -4649,7 +4649,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             color: Colors.black,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'NotoEmoji'),
                                       ),
@@ -4667,7 +4667,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -4693,7 +4693,7 @@ class MyActivitiesState extends State<MyActivities> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),
@@ -4764,7 +4764,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           fontSize: 14.0,
                                                           color: Colors.black,
-                                                          fontWeight: FontWeight.normal),
+                                                          fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
@@ -4791,7 +4791,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           fontSize: 12.0,
                                                           color: Colors.black,
-                                                          fontWeight: FontWeight.normal),
+                                                          fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   InkWell(
@@ -4858,7 +4858,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               textAlign: TextAlign.left,
                                                               style: TextStyle(
                                                                   letterSpacing: 1.0,
-                                                                  fontWeight: FontWeight.normal,
+                                                                  fontWeight: FontWeight.bold,
                                                                   fontFamily: 'Poppins-Regular',
                                                                   fontSize: 10,
                                                                   color: Colors.black),
@@ -4867,7 +4867,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                 // focusedBorder: InputBorder.none,
                                                                 hintStyle: TextStyle(
                                                                   color: Colors.grey,
-                                                                  fontWeight: FontWeight.normal,
+                                                                  fontWeight: FontWeight.bold,
                                                                   fontFamily: 'Poppins-Regular',
                                                                   fontSize: 10,
                                                                   decoration: TextDecoration.none,
@@ -4914,7 +4914,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                             color: Colors.white,
-                                                            fontWeight: FontWeight.normal,
+                                                            fontWeight: FontWeight.bold,
                                                             fontFamily: 'Poppins-Regular',
                                                             fontSize: 14,
                                                           )),
@@ -4957,7 +4957,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               color: AppColors.whiteColor,
                                               fontSize:12,
                                               fontWeight:
-                                              FontWeight.normal,
+                                              FontWeight.bold,
                                               fontFamily:
                                               'Poppins-Regular'),
                                         ),
@@ -5063,7 +5063,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       letterSpacing: 1.0,
                                                       color: AppColors.themecolor,
                                                       fontSize: 13,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ) ,
@@ -5088,7 +5088,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                       color: AppColors.darkgreen,
                                                       fontSize:8,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                      FontWeight.bold,
                                                       fontFamily:
                                                       'Poppins-Regular'),
                                                 ),
@@ -5138,9 +5138,9 @@ class MyActivitiesState extends State<MyActivities> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -5150,9 +5150,9 @@ class MyActivitiesState extends State<MyActivities> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize:8,
+                                                        fontSize:9,
                                                         fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                         fontFamily:
                                                         'Poppins-Regular'),
                                                   ),
@@ -5178,8 +5178,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                 style: TextStyle(
                                                     letterSpacing: 1.0,
                                                     color: Colors.black87,
-                                                    fontSize:8,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontSize:9,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily: 'Poppins-Regular'),
                                               ),
                                             ),
@@ -5206,9 +5206,9 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize:8,
+                                                          fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -5218,9 +5218,9 @@ class MyActivitiesState extends State<MyActivities> {
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color: AppColors.black,
-                                                          fontSize:8,
+                                                          fontSize:9,
                                                           fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                           fontFamily:
                                                           'Poppins-Regular'),
                                                     ),
@@ -5250,7 +5250,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 color: Colors.black87,
                                                 fontSize: 8,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5261,7 +5261,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 color: Colors.black87,
                                                 fontSize: 8,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5275,7 +5275,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         width: 65.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
-                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
+                                        center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: AppColors.whiteColor),),
                                         backgroundColor: AppColors.lightgrey,
                                         progressColor:AppColors.themecolor,
                                       ),
@@ -5295,8 +5295,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
                                                 fontSize: 8,
-                                                fontWeight:
-                                                FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5307,7 +5306,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 color: Colors.black87,
                                                 fontSize: 8,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5326,7 +5325,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5471,109 +5470,13 @@ class MyActivitiesState extends State<MyActivities> {
                                     defaultTextStyle: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.normal,
                                         fontFamily: 'Poppins-Regular'),
 
                                   ),
                                 ),
-                                /*  GestureDetector(
-                                      onTap: ()
-                                      {
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TicketOngoingEventsDetailsscreen()));
-                                      },
-                                      child: Container(
-                                        width: SizeConfig.blockSizeHorizontal *100,
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                            top: SizeConfig.blockSizeVertical *1),
-                                        child: Text(
-                                          "View all 29 comments",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black26,
-                                              fontSize: 9,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              fontFamily:
-                                              'Poppins-Regular'),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "thekratos carry killed it🤑🤑🤣",
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 9,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'NotoEmoji'),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "itx_kamie_94🤑🤣🤣",
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 9,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'NotoEmoji'),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "3 Hours ago".toUpperCase(),
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black26,
-                                            fontSize: 9,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
-                                    ),
 
-                                    Container(
-                                      width: SizeConfig.blockSizeHorizontal *100,
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
-                                          top: SizeConfig.blockSizeVertical *1),
-                                      child: Text(
-                                        "No. of Persons joined- "+listing.projectData.elementAt(index).totalcontributor.toString(),
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black26,
-                                            fontSize: 9,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            fontFamily:
-                                            'Poppins-Regular'),
-                                      ),
-                                    ),*/
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal *100,
                                   alignment: Alignment.topLeft,
@@ -5589,7 +5492,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -5601,7 +5504,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             color: Colors.black26,
                                             fontSize: 9,
                                             fontWeight:
-                                            FontWeight.normal,
+                                            FontWeight.bold,
                                             fontFamily:
                                             'Poppins-Regular'),
                                       ),
@@ -5626,7 +5529,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 color: Colors.black87,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5644,7 +5547,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 9,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                                 fontFamily:
                                                 'Poppins-Regular'),
                                           ),
@@ -5673,7 +5576,7 @@ class MyActivitiesState extends State<MyActivities> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),
@@ -6028,7 +5931,7 @@ class MyActivitiesState extends State<MyActivities> {
                       color: AppColors.black,
                       fontSize: 16,
                       fontWeight:
-                      FontWeight.normal,
+                      FontWeight.bold,
                       fontFamily:
                       'Poppins-Regular')),
                 ),

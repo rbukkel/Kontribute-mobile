@@ -742,7 +742,7 @@ class OngoingProjectDetailsscreenState
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontFamily: "Poppins-Regular",
                             color: Colors.white),
                       ),
@@ -922,7 +922,7 @@ class OngoingProjectDetailsscreenState
                                                     color: AppColors.themecolor,
                                                     fontSize: 14,
                                                     fontWeight:
-                                                        FontWeight.normal,
+                                                        FontWeight.bold,
                                                     fontFamily:
                                                         'Poppins-Regular'),
                                               ),
@@ -957,7 +957,7 @@ class OngoingProjectDetailsscreenState
                                                               .darkgreen,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -1000,7 +1000,7 @@ class OngoingProjectDetailsscreenState
                                                   letterSpacing: 1.0,
                                                   color: AppColors.purple,
                                                   fontSize: 9,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular'),
                                             ),
@@ -1062,7 +1062,7 @@ class OngoingProjectDetailsscreenState
                                                                                 color: Colors
                                                                                     .black,
                                                                                 fontWeight:
-                                                                                FontWeight.normal),
+                                                                                FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         Container(
@@ -1114,7 +1114,7 @@ class OngoingProjectDetailsscreenState
                                                                                 color: Colors
                                                                                     .black,
                                                                                 fontWeight:
-                                                                                FontWeight.normal),
+                                                                                FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         InkWell(
@@ -1180,13 +1180,13 @@ class OngoingProjectDetailsscreenState
                                                                                               },
                                                                                               onSaved: (val) => _amount = val,
                                                                                               textAlign: TextAlign.left,
-                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
+                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
                                                                                               decoration: InputDecoration(
                                                                                                 // border: InputBorder.none,
                                                                                                 // focusedBorder: InputBorder.none,
                                                                                                 hintStyle: TextStyle(
                                                                                                   color: Colors.grey,
-                                                                                                  fontWeight: FontWeight.normal,
+                                                                                                  fontWeight: FontWeight.bold,
                                                                                                   fontFamily: 'Poppins-Regular',
                                                                                                   fontSize: 10,
                                                                                                   decoration: TextDecoration.none,
@@ -1250,7 +1250,7 @@ class OngoingProjectDetailsscreenState
                                                                                   color:
                                                                                   Colors.white,
                                                                                   fontWeight:
-                                                                                  FontWeight.normal,
+                                                                                  FontWeight.bold,
                                                                                   fontFamily:
                                                                                   'Poppins-Regular',
                                                                                   fontSize:
@@ -1383,7 +1383,7 @@ class OngoingProjectDetailsscreenState
                                                       color: AppColors.black,
                                                       fontSize: 9,
                                                       fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                       fontFamily:
                                                           'Poppins-Regular'),
                                                 ),
@@ -1398,7 +1398,7 @@ class OngoingProjectDetailsscreenState
                                                       color: AppColors.black,
                                                       fontSize: 9,
                                                       fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                       fontFamily:
                                                           'Poppins-Regular'),
                                                 ),
@@ -1429,7 +1429,7 @@ class OngoingProjectDetailsscreenState
                                                   letterSpacing: 1.0,
                                                   color: Colors.black87,
                                                   fontSize: 9,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular'),
                                             ),
@@ -1464,7 +1464,7 @@ class OngoingProjectDetailsscreenState
                                                       color: AppColors.black,
                                                       fontSize: 9,
                                                       fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                       fontFamily:
                                                           'Poppins-Regular'),
                                                 ),
@@ -1479,7 +1479,7 @@ class OngoingProjectDetailsscreenState
                                                       color: AppColors.black,
                                                       fontSize: 9,
                                                       fontWeight:
-                                                          FontWeight.normal,
+                                                          FontWeight.bold,
                                                       fontFamily:
                                                           'Poppins-Regular'),
                                                 ),
@@ -1513,7 +1513,7 @@ class OngoingProjectDetailsscreenState
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
                                                 fontSize: 8,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                           Text(
@@ -1524,7 +1524,7 @@ class OngoingProjectDetailsscreenState
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 8,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                         ],
@@ -1564,7 +1564,7 @@ class OngoingProjectDetailsscreenState
                                                 letterSpacing: 1.0,
                                                 color: Colors.black87,
                                                 fontSize: 8,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                           Text(
@@ -1575,7 +1575,7 @@ class OngoingProjectDetailsscreenState
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
                                                 fontSize: 8,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                         ],
@@ -1861,7 +1861,7 @@ class OngoingProjectDetailsscreenState
                                   defaultTextStyle: TextStyle(
                                       letterSpacing: 1.0,
                                       color: Colors.black87,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Poppins-Regular'),
                                 ),
@@ -1885,7 +1885,7 @@ class OngoingProjectDetailsscreenState
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1908,11 +1908,11 @@ class OngoingProjectDetailsscreenState
                                       child: Text(
                                         projectdetailspojo
                                             .commentsdata.termsAndCondition,
-                                        maxLines: 3,
+                                        maxLines: 40,
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
@@ -1935,7 +1935,7 @@ class OngoingProjectDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black87,
                                             fontSize: 10,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
@@ -1946,7 +1946,7 @@ class OngoingProjectDetailsscreenState
                                 letterSpacing: 1.0,
                                 color: Colors.black87,
                                 fontSize: 10,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 fontFamily: 'Poppins-Regular'),
                           ),*/
 
@@ -1966,7 +1966,7 @@ class OngoingProjectDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
                                             fontSize: 9,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                       Text(
@@ -1980,7 +1980,7 @@ class OngoingProjectDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
                                             fontSize: 9,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                       Text(
@@ -1990,7 +1990,7 @@ class OngoingProjectDetailsscreenState
                                             letterSpacing: 1.0,
                                             color: Colors.black26,
                                             fontSize: 9,
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ],
@@ -2041,7 +2041,7 @@ class OngoingProjectDetailsscreenState
                                                         color: Colors.black,
                                                         fontSize: 9,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                            FontWeight.bold,
                                                         fontFamily:
                                                             'NotoEmoji'),
                                                   ),
@@ -2078,7 +2078,7 @@ class OngoingProjectDetailsscreenState
                                 letterSpacing: 1.0,
                                 color: Colors.black26,
                                 fontSize: 9,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 fontFamily: 'Poppins-Regular'),
                           ),
                         ),*/
@@ -2125,7 +2125,7 @@ class OngoingProjectDetailsscreenState
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular',
                                                 fontSize: 12,
                                                 color: Colors.black),
@@ -2135,7 +2135,7 @@ class OngoingProjectDetailsscreenState
                                               focusedBorder: InputBorder.none,
                                               hintStyle: TextStyle(
                                                 color: Colors.black,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: 'Poppins-Regular',
                                                 fontSize: 12,
                                                 decoration: TextDecoration.none,
@@ -2169,7 +2169,7 @@ class OngoingProjectDetailsscreenState
                                                   letterSpacing: 1.0,
                                                   color: AppColors.themecolor,
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
+                                                  fontWeight: FontWeight.bold,
                                                   fontFamily:
                                                       'Poppins-Regular'),
                                             ),
@@ -2407,7 +2407,7 @@ class OngoingProjectDetailsscreenState
                                                               AppColors.black,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
                                                               'Poppins-Regular'),
                                                     ),
@@ -2514,7 +2514,7 @@ class OngoingProjectDetailsscreenState
                                             style: TextStyle(
                                                 decoration: TextDecoration.none,
                                                 fontSize: 14,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontFamily: "Poppins-Regular",
                                                 color: Colors.black),
                                           ),
@@ -2691,7 +2691,7 @@ class OngoingProjectDetailsscreenState
                                                                               letterSpacing: 1.0,
                                                                               color: AppColors.black,
                                                                               fontSize: 12,
-                                                                              fontWeight: FontWeight.normal,
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       )
@@ -2712,11 +2712,11 @@ class OngoingProjectDetailsscreenState
                                                                             children: [
                                                                               Text(
                                                                                 'contribute'.tr,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                               Text(
                                                                                 "  -\$" + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toString(),
-                                                                                style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             ],
                                                                           )),
@@ -2730,7 +2730,7 @@ class OngoingProjectDetailsscreenState
                                                                               child: Text(
                                                                                 'pendinguppercase'.tr,
                                                                                 textAlign: TextAlign.center,
-                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             )
                                                                           : projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status == "1"
@@ -2742,7 +2742,7 @@ class OngoingProjectDetailsscreenState
                                                                                   child: Text(
                                                                                     'done'.tr,
                                                                                     textAlign: TextAlign.center,
-                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                   ),
                                                                                 )
                                                                               : Container(
@@ -2753,7 +2753,7 @@ class OngoingProjectDetailsscreenState
                                                                                   child: Text(
                                                                                     'pendinguppercase'.tr,
                                                                                     textAlign: TextAlign.center,
-                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular'),
+                                                                                    style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                   ),
                                                                                 )
                                                                     ],
