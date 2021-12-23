@@ -1981,23 +1981,32 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         }
                                         else {
                                           print("LENGTH:" +  _imageList.length.toString());
-                                          createproject(
-                                              context,
-                                              ProjectNameController.text,
-                                              DescriptionController.text,
-                                              myFormat.format(currentDate),
-                                              myFormat.format(currentEndDate),
-                                              TermsController.text,
-                                              EnterRequiredAmountController.text,
-                                              TotalBudgetController.text,
-                                              emailController.text,
-                                              nameController.text,
-                                              mobileController.text,
-                                              messageController.text,
-                                              followingvalues.toString(),
-                                              VideoController.text,
-                                              _imageList,
-                                              _documentList);
+
+                                          if(currentid == 0)
+                                            {
+                                              errorDialog('pleaseselectwhocanseethispost'.tr);
+                                            }
+                                          else
+                                            {
+                                              createproject(
+                                                  context,
+                                                  ProjectNameController.text,
+                                                  DescriptionController.text,
+                                                  myFormat.format(currentDate),
+                                                  myFormat.format(currentEndDate),
+                                                  TermsController.text,
+                                                  EnterRequiredAmountController.text,
+                                                  TotalBudgetController.text,
+                                                  emailController.text,
+                                                  nameController.text,
+                                                  mobileController.text,
+                                                  messageController.text,
+                                                  followingvalues.toString(),
+                                                  VideoController.text,
+                                                  _imageList,
+                                                  _documentList);
+                                            }
+
                                         }
 
                                       }

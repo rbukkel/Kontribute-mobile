@@ -2040,43 +2040,52 @@ class CreateDonationPostState extends State<CreateDonationPost> {
 
                                     }
                                     else {
-                                      if (followingvalues == null) {
-                                        createproject(
-                                            context,
-                                            ProjectNameController.text,
-                                            DescriptionController.text,
-                                            myFormat.format(currentDate),
-                                            myFormat.format(currentEndDate),
-                                            TermsController.text,
-                                            EnterRequiredAmountController.text,
-                                            TotalBudgetController.text,
-                                            emailController.text,
-                                            nameController.text,
-                                            mobileController.text,
-                                            messageController.text,
-                                            "",
-                                            VideoController.text,
-                                            _imageList,
-                                            _documentList);
-                                      } else {
-                                        createproject(
-                                            context,
-                                            ProjectNameController.text,
-                                            DescriptionController.text,
-                                            myFormat.format(currentDate),
-                                            myFormat.format(currentEndDate),
-                                            TermsController.text,
-                                            EnterRequiredAmountController.text,
-                                            TotalBudgetController.text,
-                                            emailController.text,
-                                            nameController.text,
-                                            mobileController.text,
-                                            messageController.text,
-                                            followingvalues.toString(),
-                                            VideoController.text,
-                                            _imageList,
-                                            _documentList);
+                                      if(currentid == 0)
+                                      {
+                                        errorDialog('pleaseselectwhocanseethispost'.tr);
                                       }
+                                      else
+                                        {
+                                          if (followingvalues == null) {
+                                            createproject(
+                                                context,
+                                                ProjectNameController.text,
+                                                DescriptionController.text,
+                                                myFormat.format(currentDate),
+                                                myFormat.format(currentEndDate),
+                                                TermsController.text,
+                                                EnterRequiredAmountController.text,
+                                                TotalBudgetController.text,
+                                                emailController.text,
+                                                nameController.text,
+                                                mobileController.text,
+                                                messageController.text,
+                                                "",
+                                                VideoController.text,
+                                                _imageList,
+                                                _documentList);
+                                          }
+                                          else {
+                                            createproject(
+                                                context,
+                                                ProjectNameController.text,
+                                                DescriptionController.text,
+                                                myFormat.format(currentDate),
+                                                myFormat.format(currentEndDate),
+                                                TermsController.text,
+                                                EnterRequiredAmountController.text,
+                                                TotalBudgetController.text,
+                                                emailController.text,
+                                                nameController.text,
+                                                mobileController.text,
+                                                messageController.text,
+                                                followingvalues.toString(),
+                                                VideoController.text,
+                                                _imageList,
+                                                _documentList);
+                                          }
+                                        }
+
                                     }
                                   } else {
                                     errorDialog('pleaseselectdonationimages'.tr);

@@ -258,8 +258,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         if (jsonResponse != null) {
           print("response");
           setState(() {
-            SharedUtils.writenoficationcounter(
-                "Counternot", listing.unreadnotificaiton);
+            SharedUtils.writenoficationcounter("Counternot", listing.unreadnotificaiton);
             if (listing.result.data.isEmpty) {
               resultvalue = false;
             } else {
@@ -761,8 +760,14 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                   GestureDetector(
                                                     onTap: () {
                                                      /**/
+                                                      setState(() {
+                                                        _modalBottomSheetMenu(index,listing
+                                                            .result.data
+                                                            .elementAt(index)
+                                                            .id
+                                                            .toString());
+                                                      });
 
-                                                      _modalBottomSheetMenu(index);
                                                     },
                                                     child: Container(
                                                       color: Colors.transparent,
@@ -1201,46 +1206,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                               url) =>
                                                           new Image.asset(
                                                               'assets/images/dummyplace.jpg'))),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                markasreadItem(listing
-                                                    .result.data
-                                                    .elementAt(index)
-                                                    .id
-                                                    .toString());
-                                              });
-                                            },
-                                            child: Container(
-                                                height: SizeConfig
-                                                        .blockSizeVertical *
-                                                    5,
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .blockSizeVertical *
-                                                        1,
-                                                    bottom: SizeConfig
-                                                            .blockSizeVertical *
-                                                        2),
-                                                decoration: BoxDecoration(
-                                                  image: new DecorationImage(
-                                                    image: new AssetImage(
-                                                        "assets/images/sendbutton.png"),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text('markasread'.tr,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: AppColors
-                                                            .whiteColor,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            'Poppins-Regular'))),
-                                          )
+
                                         ],
                                       ))));
                         })
@@ -1261,112 +1227,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                         fontFamily: 'Poppins-Regular')),
                               ),
                       )
-                /*  Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
 
-             Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *3, bottom: SizeConfig.blockSizeVertical *3,
-                            left: SizeConfig.blockSizeHorizontal *3, right: SizeConfig.blockSizeHorizontal *3),
-
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black26)
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-
-                              alignment:Alignment.topLeft,
-                              padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical *2,
-                                bottom: SizeConfig.blockSizeVertical *1,
-                                left: SizeConfig.blockSizeHorizontal *4,
-                                right: SizeConfig.blockSizeHorizontal *4,
-                              ),
-                              child: Text(
-                                "Today",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: AppColors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 1),
-                              child: Divider(
-                                thickness: 1,
-                                color: Colors.black12,
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical *10,
-                              width: SizeConfig.blockSizeHorizontal *95,
-                              alignment:Alignment.topLeft,
-                              padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical *1,
-                                bottom: SizeConfig.blockSizeVertical *1,
-                                left: SizeConfig.blockSizeHorizontal *4,
-                                right: SizeConfig.blockSizeHorizontal *4,
-                              ),
-                              child: Text(
-                                "No new notifications",
-                                maxLines: 4,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black12,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 3,
-                            bottom: SizeConfig.blockSizeVertical * 3,
-                            left: SizeConfig.blockSizeHorizontal * 3,
-                            right: SizeConfig.blockSizeHorizontal * 3),
-                        padding: EdgeInsets.only(
-                            bottom: SizeConfig.blockSizeVertical * 1),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black26)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                left: SizeConfig.blockSizeHorizontal * 4,
-                                right: SizeConfig.blockSizeHorizontal * 4,
-                              ),
-                              child: Text(
-                                "Earlier",
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: AppColors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Regular'),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-
-              ),*/
                 ),
           ],
         ),
@@ -1541,8 +1402,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Future<void> Payamount(
-      String id, String notificationid, String userid) async {
+  Future<void> Payamount(String id, String notificationid, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': id.toString(),
@@ -1578,7 +1438,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   }
 
 
-  void _modalBottomSheetMenu(int index) {
+  void _modalBottomSheetMenu(int index, String id) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
@@ -1587,7 +1447,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         builder: (builder) {
           return StatefulBuilder(builder: (context, setState) {
             return Container(
-                height: 150,
+                height: 130,
                 decoration: BoxDecoration(
                     image: new DecorationImage(
                       image: new AssetImage("assets/images/bg_img.png"),
@@ -1595,125 +1455,108 @@ class NotificationScreenState extends State<NotificationScreen> {
                     )), //could change this to Color(0xFF737373),
                 child: Column(
                   children: [
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        Navigator.of(context).pop();
+                      },
+                      child:  Container(
+                        decoration: BoxDecoration(
+                          color:  Colors.black26,
+                          borderRadius: BorderRadius.circular(20),
 
-                    Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                               // Navigator.of(context).pop();
-                                Widget cancelButton =
-                                FlatButton(
-                                  child: Text('no'.tr),
-                                  onPressed: () {
-                                    Navigator.pop(
-                                        context);
-                                  },
-                                );
-                                Widget continueButton =
-                                FlatButton(
-                                  child: Text('yes'.tr),
-                                  onPressed: () async {
-                                    setState(() {
-                                      deleteItem(listing
-                                          .result.data
-                                          .elementAt(
-                                          index)
-                                          .id
-                                          .toString());
-                                    });
-                                  },
-                                );
-                                // set up the AlertDialog
-                                AlertDialog alert =
-                                AlertDialog(
-                                  title:
-                                  Text('delete'.tr),
-                                  content: Text(
-                                      'areyousureyouwanttodeletethisnotification'
-                                          .tr),
-                                  actions: [
-                                    cancelButton,
-                                    continueButton,
-                                  ],
-                                );
-                                // show the dialog
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext
-                                  context) {
-                                    return alert;
-                                  },
-                                );
-                              },
-                              child: Container(
+                        ),
+                        width: SizeConfig.blockSizeHorizontal * 20,
+                        height: SizeConfig.blockSizeVertical *1,
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 2),
+                      ),
+                    ),
+                   GestureDetector(
+                     onTap: ()
+                       {
+                         Navigator.of(context).pop();
+                         setState(() {
+                           deleteDialog(index);
+                         });
+                       },
+                     child:Container(
+                       child: Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: [
+                             Container(
+                                 alignment: Alignment.centerRight,
+                                 margin: EdgeInsets.only(
+                                     top: SizeConfig.blockSizeVertical * 3,
+                                     left: SizeConfig.blockSizeHorizontal * 5,
+                                     right: SizeConfig.blockSizeHorizontal * 3),
+                                 child: Icon(Icons.delete_forever)
+                             ),
+
+                             Container(
+                               margin: EdgeInsets.only(
+                                 left: SizeConfig.blockSizeHorizontal * 3,
+                                 right: SizeConfig.blockSizeHorizontal * 3,
+                                 top: SizeConfig.blockSizeVertical * 3,
+                               ),
+                               width: SizeConfig.blockSizeHorizontal * 45,
+                               child: Text(
+                                 'delete'.tr,
+                                 style: TextStyle(
+                                     letterSpacing: 1.0,
+                                     color: Colors.black,
+                                     fontSize: 14,
+                                     fontWeight: FontWeight.bold,
+                                     fontFamily: 'Poppins-Bold'),
+                               ),
+                             ),
+
+                           ]),
+                     )
+                   ),
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        setState(() {
+                          markasreadItem(id);
+                        });
+                      },
+                      child: Container(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
                                   alignment: Alignment.centerRight,
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 3,
-                                      left: SizeConfig.blockSizeHorizontal * 5,
-                                      right: SizeConfig.blockSizeHorizontal * 3),
-                                  child: Icon(Icons.delete_forever)
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 3,
-                                  right: SizeConfig.blockSizeHorizontal * 3,
-                                  top: SizeConfig.blockSizeVertical * 3,
-                              ),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'delete'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
-
-                          ]),
-                    ),
-                    Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                  alignment: Alignment.centerRight,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 2,
                                       bottom: SizeConfig.blockSizeVertical * 2,
                                       left: SizeConfig.blockSizeHorizontal * 5,
                                       right: SizeConfig.blockSizeHorizontal * 3),
                                   child: Icon(Icons.mark_chat_read_outlined)
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 3,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                                top: SizeConfig.blockSizeVertical * 2,
-                                bottom: SizeConfig.blockSizeVertical * 2,),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'markasread'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
-                            ),
 
-                          ]),
-                    ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 3,
+                                  right: SizeConfig.blockSizeHorizontal * 3,
+                                  top: SizeConfig.blockSizeVertical * 2,
+                                  bottom: SizeConfig.blockSizeVertical * 2,),
+                                width: SizeConfig.blockSizeHorizontal * 45,
+                                child: Text(
+                                  'markasread'.tr,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins-Bold'),
+                                ),
+                              ),
+
+                            ]),
+                      ),
+                    )
+
                   ],
                 ));
           });
@@ -1799,5 +1642,51 @@ class NotificationScreenState extends State<NotificationScreen> {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       errorDialog(jsonDecode(markasreadval)["message"]);
     }
+  }
+
+  void deleteDialog(int index) {
+    Widget cancelButton =
+    FlatButton(
+      child: Text('no'.tr),
+      onPressed: () {
+        Navigator.pop(
+            context);
+      },
+    );
+    Widget continueButton =
+    FlatButton(
+      child: Text('yes'.tr),
+      onPressed: () async {
+        setState(() {
+          deleteItem(listing
+              .result.data
+              .elementAt(
+              index)
+              .id
+              .toString());
+        });
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert =
+    AlertDialog(
+      title:
+      Text('delete'.tr),
+      content: Text(
+          'areyousureyouwanttodeletethisnotification'
+              .tr),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext
+      context) {
+        return alert;
+      },
+    );
   }
 }

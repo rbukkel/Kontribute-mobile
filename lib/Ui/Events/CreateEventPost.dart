@@ -167,7 +167,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   String userid;
   String username;
   String searchvalue = "";
-  int catid;
+  int catid=0;
   EventCategoryPojo listing;
   DateTime currentDate = DateTime.now();
   var myFormat = DateFormat('yyyy/MM/dd');
@@ -434,18 +434,21 @@ class CreateEventPostState extends State<CreateEventPost> {
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                  catid =
-                                      listing.resultPush.elementAt(index).catId;
-                                  print("categoryid: " + catid.toString());
-                                  print("categoryname: " +
-                                      listing.resultPush
-                                          .elementAt(index)
-                                          .categoryName
-                                          .toString());
-                                  changeText(listing.resultPush
-                                      .elementAt(index)
-                                      .categoryName
-                                      .toString());
+                                  setState(() {
+                                    catid =
+                                        listing.resultPush.elementAt(index).catId;
+                                    print("categoryid: " + catid.toString());
+                                    print("categoryname: " +
+                                        listing.resultPush
+                                            .elementAt(index)
+                                            .categoryName
+                                            .toString());
+                                    changeText(listing.resultPush
+                                        .elementAt(index)
+                                        .categoryName
+                                        .toString());
+                                  });
+
                                 },
                                 child: Container(
                                   width: SizeConfig.blockSizeHorizontal * 80,
@@ -2513,73 +2516,90 @@ class CreateEventPostState extends State<CreateEventPost> {
                                               'Theenddatemustbeafterthestartdate'
                                                   .tr);
                                         } else {
-                                          if (followingvalues == null) {
-                                            createproject(
-                                                context,
-                                                EventNameController.text,
-                                                DescriptionController.text,
-                                                catid,
-                                                selectedTime == ""
-                                                    ? TimeOfDay.now()
-                                                    .toString()
-                                                    .substring(
-                                                    10, 15)
-                                                    : selectedTime,
-                                                selectedEndTime == ""
-                                                    ? TimeOfDay.now()
-                                                    .toString()
-                                                    .substring(
-                                                    10, 15)
-                                                    : selectedEndTime,
-                                                myFormat.format(currentDate),
-                                                myFormat.format(currentEndDate),
-                                                EnterRequiredAmountController
-                                                    .text,
-                                                Maximumnoparticipantcontroller
-                                                    .text,
-                                                TermsController.text,
-                                                emailController.text,
-                                                nameController.text,
-                                                mobileController.text,
-                                                messageController.text,
-                                                "",
-                                                VideoController.text,
-                                                _imageList,
-                                                _documentList);
-                                          } else {
-                                            createproject(
-                                                context,
-                                                EventNameController.text,
-                                                DescriptionController.text,
-                                                catid,
-                                                selectedTime == ""
-                                                    ? TimeOfDay.now()
-                                                    .toString()
-                                                    .substring(
-                                                    10, 15)
-                                                    : selectedTime,
-                                                selectedEndTime == ""
-                                                    ? TimeOfDay.now()
-                                                    .toString()
-                                                    .substring(
-                                                    10, 15)
-                                                    : selectedEndTime,
-                                                myFormat.format(currentDate),
-                                                myFormat.format(currentEndDate),
-                                                EnterRequiredAmountController
-                                                    .text,
-                                                Maximumnoparticipantcontroller
-                                                    .text,
-                                                TermsController.text,
-                                                emailController.text,
-                                                nameController.text,
-                                                mobileController.text,
-                                                messageController.text,
-                                                followingvalues.toString(),
-                                                VideoController.text,
-                                                _imageList,
-                                                _documentList);
+                                          if(catid==0)
+                                          {
+
+                                            errorDialog('pleaseselectevents'.tr);
                                           }
+                                          else
+                                            {
+                                              if(currentid == 0)
+                                              {
+                                                errorDialog('pleaseselectwhocanseethispost'.tr);
+                                              }
+                                              else
+                                              {
+                                                if (followingvalues == null) {
+                                                  createproject(
+                                                      context,
+                                                      EventNameController.text,
+                                                      DescriptionController.text,
+                                                      catid,
+                                                      selectedTime == ""
+                                                          ? TimeOfDay.now()
+                                                          .toString()
+                                                          .substring(
+                                                          10, 15)
+                                                          : selectedTime,
+                                                      selectedEndTime == ""
+                                                          ? TimeOfDay.now()
+                                                          .toString()
+                                                          .substring(
+                                                          10, 15)
+                                                          : selectedEndTime,
+                                                      myFormat.format(currentDate),
+                                                      myFormat.format(currentEndDate),
+                                                      EnterRequiredAmountController
+                                                          .text,
+                                                      Maximumnoparticipantcontroller
+                                                          .text,
+                                                      TermsController.text,
+                                                      emailController.text,
+                                                      nameController.text,
+                                                      mobileController.text,
+                                                      messageController.text,
+                                                      "",
+                                                      VideoController.text,
+                                                      _imageList,
+                                                      _documentList);
+                                                }
+                                                else {
+                                                  createproject(
+                                                      context,
+                                                      EventNameController.text,
+                                                      DescriptionController.text,
+                                                      catid,
+                                                      selectedTime == ""
+                                                          ? TimeOfDay.now()
+                                                          .toString()
+                                                          .substring(
+                                                          10, 15)
+                                                          : selectedTime,
+                                                      selectedEndTime == ""
+                                                          ? TimeOfDay.now()
+                                                          .toString()
+                                                          .substring(
+                                                          10, 15)
+                                                          : selectedEndTime,
+                                                      myFormat.format(currentDate),
+                                                      myFormat.format(currentEndDate),
+                                                      EnterRequiredAmountController
+                                                          .text,
+                                                      Maximumnoparticipantcontroller
+                                                          .text,
+                                                      TermsController.text,
+                                                      emailController.text,
+                                                      nameController.text,
+                                                      mobileController.text,
+                                                      messageController.text,
+                                                      followingvalues.toString(),
+                                                      VideoController.text,
+                                                      _imageList,
+                                                      _documentList);
+                                                }
+                                              }
+                                            }
+
                                         }
                                       } else {
                                         errorDialog(

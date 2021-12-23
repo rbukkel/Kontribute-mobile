@@ -408,7 +408,6 @@ bottombar(context) {
                 width: 19,
                 color: AppColors.grey,
               ),
-
               Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                 child: Text(
@@ -417,7 +416,8 @@ bottombar(context) {
                 ),
               )
             ],
-          )),
+          )
+          ),
         ),
         GestureDetector(
           onTap: () {
@@ -477,8 +477,7 @@ bottombar(context) {
 }
 
 class Dialogs {
-  static Future<void> showLoadingDialog(
-      BuildContext context, GlobalKey key) async {
+  static Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
     return showDialog<void>(
         context: context,
         barrierDismissible: false,
@@ -492,14 +491,12 @@ class Dialogs {
                     Center(
                       child: Column(children: [
                         CircularProgressIndicator(),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Text(
                           'loading'.tr,
                           style: TextStyle(color: Color(0xFF009247)),
                         )
-                      ]),
+                       ]),
                     )
                   ]));
         });
