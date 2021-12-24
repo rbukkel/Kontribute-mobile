@@ -457,7 +457,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTap: () {
                       Navigator.of(context).pop();
                       StoreRedirect.redirect(
-                        androidAppId: "com.eghil.eghil",
+                        androidAppId: "com.kont.kontribute",
                         //  iOSAppId: "585027354"
                       );
                     },
