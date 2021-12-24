@@ -21,6 +21,7 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/MyConnections/ContactsPage.dart';
 import 'package:kontribute/Ui/loginOTPScreen.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 class login extends StatefulWidget{
   @override
@@ -425,8 +426,11 @@ class loginState extends State<login>{
                         });
                         Internet_check().check().then((intenet) {
                           if (intenet != null && intenet) {
-                            signIn(
-                                emailController.text, passwordController.text,token);
+                          signIn(emailController.text, passwordController.text,token);
+                           /* StoreRedirect.redirect(
+                                androidAppId: "com.eghil.eghil",
+                              //  iOSAppId: "585027354"
+                            );*/
                           } else {
                            errorDialog("No Internet Connection");
                           }
@@ -635,6 +639,7 @@ class loginState extends State<login>{
     }
     return null;
   }
+
   void errorDialog(String text) {
     showDialog(
       context: context,
@@ -696,7 +701,6 @@ class loginState extends State<login>{
     );
   }
 
-
   void loginmethod() {
     Internet_check().check().then((intenet) async {
       if (intenet != null && intenet) {
@@ -717,6 +721,7 @@ class loginState extends State<login>{
   void initiateFacebookLogin() async {
     var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'public_profile']);
     switch (facebookLoginResult.status) {
+
       case FacebookLoginStatus.error:
         print("Facebook error: ");
         onLoginStatusChanged(false);
@@ -745,7 +750,6 @@ class loginState extends State<login>{
             profile['picture']['data']['url'].toString(),
             );
         SharedUtils.writeloginId("login_type", "facebook");
-
         // Navigator.of(context).pop();
         break;
     }
@@ -774,7 +778,6 @@ class loginState extends State<login>{
       if (jsonResponse["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         errorDialog(jsonResponse["message"]);
-
       }
       else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -791,12 +794,7 @@ class loginState extends State<login>{
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
           SharedUtils.writeloginId("Usename", login.resultPush.fullName);
           errorDialog(login.message);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      selectlangauge()),
-                  (route) => false);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
           /*Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(

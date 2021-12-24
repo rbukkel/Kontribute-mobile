@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,10 +14,13 @@ import 'package:kontribute/Ui/LocaleString.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
+import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 void main() async {
@@ -71,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     gettoken();
+
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -92,6 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
+
+
+
     super.initState();
 
     SharedUtils.readToken("Token").then((val) {
@@ -99,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       token = val;
       print("token: " + token.toString());
     });
+
     initPlatformState();
     Timer timer;
     timer = Timer.periodic(Duration(seconds: 3), (_) {
@@ -106,7 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
         percent += 1;
         if (percent >= 2) {
           timer.cancel();
-          nextScreen();
+          getVersionCode();
+
         }
       });
     });
@@ -167,32 +179,38 @@ class _MyHomePageState extends State<MyHomePage> {
                    }*/
 
                    SharedUtils.readLangaunage("Langauge").then((val) {
-                     print("Langauge: " + val);
-                    String langu = val;
-                     print("Login Langauge: " + langu.toString());
-                     if(langu =="Arabic")
-                       {
-                         var locale = Locale('ar', 'SA');
-                         Get.updateLocale(locale);
+                    // print("Langauge: " + val);
 
-                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
-                       }
-                     else if(langu =="English")
-                     {
-                       var locale = Locale('en', 'US');
-                       Get.updateLocale(locale);
-                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
-                     }
-                     else
+                     if(val == null || val =="")
                        {
                          var locale = Locale('en', 'US');
                          Get.updateLocale(locale);
                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
                        }
+                     else{
+                       String langu = val;
+                       print("Login Langauge: " + langu.toString());
+                       if(langu =="Arabic")
+                       {
+                         var locale = Locale('ar', 'SA');
+                         Get.updateLocale(locale);
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                       }
+                       else if(langu =="English")
+                       {
+                         var locale = Locale('en', 'US');
+                         Get.updateLocale(locale);
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                       }
+                       else
+                       {
+                         var locale = Locale('en', 'US');
+                         Get.updateLocale(locale);
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                       }
+                     }
                    });
-
                  }
-
          //
           });
         }else{
@@ -314,4 +332,168 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  Future<void> getVersionCode() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String code = packageInfo.buildNumber;
+
+    checkVersion(version);
+
+    print("VersionCode: "+version.toString());
+    print("Code: "+code.toString());
+  }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  checkVersion(String version1) async {
+    Map data = {
+      'version': version1.toString(),
+    };
+    print("Social: "+data.toString());
+    var jsonResponse = null;
+    var response =
+    await http.post(Network.BaseApi + Network.versioncheck, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"] == false) {
+
+        showDialog(
+          context: context,
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            backgroundColor: AppColors.whiteColor,
+            child: new Container(
+              margin: EdgeInsets.all(5),
+              width: 300.0,
+              height: 180.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.error,
+                      size: 50.0,
+                      color: Colors.red,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                    color: AppColors.whiteColor,
+                    alignment: Alignment.center,
+                    height: 50,
+                    child: Text(
+                      jsonResponse["message"],
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      StoreRedirect.redirect(
+                        androidAppId: "com.eghil.eghil",
+                        //  iOSAppId: "585027354"
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      color: AppColors.whiteColor,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        'OK',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+      else {
+        if (jsonResponse != null) {
+          nextScreen();
+        //  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => selectlangauge()), (route) => false);
+        } else {
+          errorDialog(jsonResponse["message"]);
+        }
+      }
+    }
+    else {
+      errorDialog(jsonResponse["message"]);
+    }
+  }
+
+
 }

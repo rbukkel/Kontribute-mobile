@@ -1563,9 +1563,6 @@ class NotificationScreenState extends State<NotificationScreen> {
         });
   }
 
-
-
-
   Future<void> deleteItem(String id) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
@@ -1658,10 +1655,10 @@ class NotificationScreenState extends State<NotificationScreen> {
       child: Text('yes'.tr),
       onPressed: () async {
         setState(() {
-          deleteItem(listing
+          deleteItem(
+              listing
               .result.data
-              .elementAt(
-              index)
+              .elementAt(index)
               .id
               .toString());
         });

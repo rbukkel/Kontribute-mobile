@@ -118,8 +118,6 @@ class mytranscationState extends State<mytranscation> {
     );
   }
 
-
-
   void getdata(String user_id) async {
     setState(() {
       transactions_received = null;
@@ -307,6 +305,8 @@ class mytranscationState extends State<mytranscation> {
                       ? 0
                       : transactions_received.length,
                   itemBuilder: (BuildContext context, int idex) {
+                    var dateTime = DateTime.parse(listing.transactionsReceived.elementAt(idex).paiddate);
+                    var formate2 = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
                     return Container(
                       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
                       child: Card(
@@ -340,7 +340,7 @@ class mytranscationState extends State<mytranscation> {
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 65,
+                                                SizeConfig.blockSizeHorizontal * 64,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal *
@@ -352,14 +352,14 @@ class mytranscationState extends State<mytranscation> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize: 12,
+                                                      fontSize: 14,
                                                       fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
                                               ),
                                               Container(
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 28,
+                                                SizeConfig.blockSizeHorizontal * 30,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
@@ -376,7 +376,7 @@ class mytranscationState extends State<mytranscation> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: AppColors.black,
-                                                      fontSize: 9,
+                                                      fontSize: 10,
                                                       fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
@@ -392,19 +392,19 @@ class mytranscationState extends State<mytranscation> {
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 68,
+                                                SizeConfig.blockSizeHorizontal * 66,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal *
                                                       1,
                                                 ),
                                                 child: Text(
-                                                  listing.transactionsReceived.elementAt(idex).paiddate,
+                                                  formate2,
                                                   maxLines: 2,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black87,
-                                                      fontSize:9,
+                                                      fontSize:10,
                                                       fontWeight: FontWeight.bold,
                                                       fontFamily: 'Poppins-Regular'),
                                                 ),
@@ -481,6 +481,8 @@ class mytranscationState extends State<mytranscation> {
                         ? 0
                         : paid_transaction.length,
                     itemBuilder: (BuildContext context, int index) {
+                      var dateTime = DateTime.parse(listing.paidTransaction.elementAt(index).paiddate);
+                      var formate2 = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
                       return Container(
                         margin: EdgeInsets.only(
                             bottom: SizeConfig.blockSizeVertical * 2),
@@ -516,7 +518,7 @@ class mytranscationState extends State<mytranscation> {
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical * 1),
-                                                  width: SizeConfig.blockSizeHorizontal * 68,
+                                                  width: SizeConfig.blockSizeHorizontal * 65,
                                                   alignment: Alignment.topLeft,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig.blockSizeHorizontal * 1,
@@ -527,7 +529,7 @@ class mytranscationState extends State<mytranscation> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize: 12,
+                                                        fontSize: 14,
                                                         fontWeight:
                                                         FontWeight.bold,
                                                         fontFamily:
@@ -537,7 +539,7 @@ class mytranscationState extends State<mytranscation> {
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical * 1),
-                                                  width:SizeConfig.blockSizeHorizontal * 25,
+                                                  width:SizeConfig.blockSizeHorizontal * 26,
                                                   alignment: Alignment.center,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig.blockSizeHorizontal * 1,
@@ -548,7 +550,7 @@ class mytranscationState extends State<mytranscation> {
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: AppColors.black,
-                                                        fontSize: 9,
+                                                        fontSize: 10,
                                                         fontWeight:
                                                         FontWeight.bold,
                                                         fontFamily:
@@ -569,7 +571,7 @@ class mytranscationState extends State<mytranscation> {
                                                           1),
                                                   width: SizeConfig
                                                       .blockSizeHorizontal *
-                                                      68,
+                                                      66,
                                                   alignment: Alignment.topLeft,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig
@@ -577,12 +579,12 @@ class mytranscationState extends State<mytranscation> {
                                                         1,
                                                   ),
                                                   child: Text(
-                                                    listing.paidTransaction.elementAt(index).paiddate,
+                                                    formate2,
                                                     maxLines: 2,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black87,
-                                                        fontSize: 9,
+                                                        fontSize: 10,
                                                         fontWeight:
                                                         FontWeight.bold,
                                                         fontFamily:
