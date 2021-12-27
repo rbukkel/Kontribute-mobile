@@ -338,15 +338,28 @@ class SendIndividaulState extends State<SendIndividaul>{
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 32,
-                        child: Text(
-                          'searchcontact'.tr,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
-                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'searchcontact'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                            Text(
+                              '  *',
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ],
+                        )
                       ),
                       Container(
                         width: SizeConfig.blockSizeHorizontal * 60,
@@ -431,15 +444,29 @@ class SendIndividaulState extends State<SendIndividaul>{
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
-                        child: Text(
-                          'enteramount'.tr,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
-                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'enteramount'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                            Text(
+                              '  *',
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ],
+                        )
+
                       ),
                       Container(
                           width: SizeConfig.blockSizeHorizontal * 42,
@@ -538,15 +565,28 @@ class SendIndividaulState extends State<SendIndividaul>{
                     margin: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal * 3,
                         top: SizeConfig.blockSizeVertical * 2),
-                    child: Text(
-                      'message'.tr,
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Bold'),
-                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'message'.tr,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Bold'),
+                        ),
+                        Text(
+                          '  *',
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Bold'),
+                        ),
+                      ],
+                    )
                   ),
                   Container(
                     margin: EdgeInsets.only(

@@ -1078,15 +1078,29 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'eventname'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'eventname'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
+
                             ),
                             Container(
                               margin: EdgeInsets.only(
@@ -1151,15 +1165,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'eventdescription'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'eventdescription'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
                             ),
                             Container(
                                 margin: EdgeInsets.only(
@@ -1279,15 +1306,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                               top:
                                                   SizeConfig.blockSizeVertical *
                                                       2),
-                                          child: Text(
-                                            'startdate'.tr,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Bold'),
-                                          ),
+                                          child: Row(
+                                              children: [
+                                                Text(
+                                                  'startdate'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                                Text(
+                                                  '  *',
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.red,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                              ],
+                                          )
                                         ),
                                         Container(
                                             height:
@@ -1384,15 +1424,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'enddate'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  'enddate'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                                Text(
+                                                  '  *',
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.red,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                              ],
+                                            )
                                           ),
                                           Container(
                                               height:
@@ -1501,15 +1554,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'starttime'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                                children: [
+                                                  Text(
+                                                    'starttime'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                  Text(
+                                                    '  *',
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.red,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                ],
+                                            )
                                           ),
                                           GestureDetector(
                                             onTap: () {
@@ -1611,15 +1677,29 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'endtime'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                                children: [
+                                                  Text(
+                                                    'endtime'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                  Text(
+                                                    '  *',
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.red,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                ],
+                                            )
+
                                           ),
                                           GestureDetector(
                                             onTap: () {
@@ -1733,15 +1813,29 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   2,
                                           top:
                                               SizeConfig.blockSizeVertical * 2),
-                                      child: Text(
-                                        'location'.tr,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),
-                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'location'.tr,
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Bold'),
+                                          ),
+                                          Text(
+                                            '  *',
+                                            style: TextStyle(
+                                                letterSpacing: 1.0,
+                                                color: Colors.red,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'Poppins-Bold'),
+                                          ),
+                                        ],
+                                      )
+
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(
@@ -1822,15 +1916,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           2,
                                       top:
                                       SizeConfig.blockSizeVertical * 2),
-                                  child: Text(
-                                    'locationdetails'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  child: Row(
+                                      children: [
+                                        Text(
+                                          'locationdetails'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                  )
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(
@@ -2097,15 +2204,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       2,
                                   top:
                                   SizeConfig.blockSizeVertical * 2),
-                              child: Text(
-                                'contactno'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                  children: [
+                                    Text(
+                                      'contactno'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
                             ),
                             Container(
                                 margin: EdgeInsets.only(
@@ -2169,15 +2289,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       2,
                                   top:
                                   SizeConfig.blockSizeVertical * 2),
-                              child: Text(
-                                'email'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child:  Row(
+                                children: [
+                                  Text(
+                                    'email'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
                             ),
                             Container(
                               margin: EdgeInsets.only(
@@ -2256,15 +2389,29 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'timeframeforSale'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'timeframeforSale'.tr,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                      Text(
+                                        '  *',
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.red,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                    ],
+                                  )
+
                                 ),
                                 Container(
                                     width: SizeConfig.blockSizeHorizontal * 42,
@@ -2339,15 +2486,28 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'costofticket'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  child: Row(
+                                      children: [
+                                        Text(
+                                          'costofticket'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                  )
                                 ),
                                 Container(
                                     width: SizeConfig.blockSizeHorizontal * 42,
@@ -2460,19 +2620,32 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'maximumquantitytobesold'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  width: SizeConfig.blockSizeHorizontal * 57,
+                                  child: Row(
+                                      children: [
+                                        Text(
+                                          'maximumquantitytobesold'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                  )
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  width: SizeConfig.blockSizeHorizontal * 30,
                                   height: SizeConfig.blockSizeVertical * 7,
                                   margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2,
@@ -2708,7 +2881,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           /* Container(
                                         width: SizeConfig.blockSizeHorizontal * 60,
                                         child:
-                                       */ /* Text(
+                                       */
+                                          /* Text(
                                           catname != null ? catname.toString() : "",
                                           maxLines: 5,
                                           textAlign: TextAlign.left,
@@ -2719,7 +2893,8 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             fontSize: 10,
                                             color: AppColors.black,
                                           ),
-                                        ),*/ /*
+                                        ),*/
+                                          /*
                                         TextFormField(
                                           autofocus: false,
                                           focusNode: documentsFocus,
@@ -2899,19 +3074,37 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'whocanseethisticket'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+
+                                    width: SizeConfig.blockSizeHorizontal * 48,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'whocanseethisticket'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                    )
+
+
+
+
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  width: SizeConfig.blockSizeHorizontal * 40,
                                   height: SizeConfig.blockSizeVertical * 7,
                                   margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2,
@@ -2945,7 +3138,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black,
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -3002,15 +3195,29 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 80,
-                              child: Text(
-                                'addyourspecialtermscondition'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                  children: [
+                                    Text(
+                                      'addyourspecialtermscondition'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
                             ),
                             Container(
                               margin: EdgeInsets.only(

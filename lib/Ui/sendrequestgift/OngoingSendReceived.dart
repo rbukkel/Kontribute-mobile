@@ -391,6 +391,24 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
+                                                      requestpojo.result.data.elementAt(index).senderId != userid?Container(
+                                                        width: SizeConfig.blockSizeHorizontal * 72,
+                                                        margin: EdgeInsets.only(
+                                                            left: SizeConfig.blockSizeHorizontal * 2),
+                                                        child: Text(
+                                                          requestpojo.result.data.elementAt(index).status == "request" ? 'requesttoreceivefrom'.tr
+                                                              : "",
+                                                          style: TextStyle(
+                                                              color:
+                                                              Colors.black,
+                                                              fontFamily:
+                                                              'Poppins-Bold',
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .bold,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ):
                                                       Container(
                                                         width: SizeConfig.blockSizeHorizontal * 72,
                                                         margin: EdgeInsets.only(

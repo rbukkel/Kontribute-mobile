@@ -554,15 +554,28 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 32,
-                        child: Text(
-                          "findin".tr,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
-                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "findin".tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                            Text(
+                              '  *',
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ],
+                        )
                       ),
                       radioVal=="1"? Container(
                         width: SizeConfig.blockSizeHorizontal * 45,
@@ -667,15 +680,29 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
                         width: SizeConfig.blockSizeHorizontal * 45,
-                        child: Text(
-                          'enterrequiredamount'.tr,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
-                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'enterrequiredamount'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                            Text(
+                              '  *',
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ],
+                        )
+
                       ),
                       Container(
                           width: SizeConfig.blockSizeHorizontal * 42,
@@ -765,19 +792,32 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                         margin: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 3,
                             top: SizeConfig.blockSizeVertical * 2),
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        child: Text(
-                          'timeframeforcollection'.tr,
-                          style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Poppins-Bold'),
-                        ),
+                        width: SizeConfig.blockSizeHorizontal * 53,
+                        child: Row(
+                          children: [
+                            Text(
+                              'timeframeforcollection'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                            Text(
+                              '  *',
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ],
+                        )
                       ),
                       Container(
-                          width: SizeConfig.blockSizeHorizontal * 42,
+                          width: SizeConfig.blockSizeHorizontal * 38,
                           height: SizeConfig.blockSizeVertical * 7,
                           margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 2,
@@ -804,7 +844,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 30,
+                                  width: SizeConfig.blockSizeHorizontal * 26,
                                   child: Text(
                                     myFormat.format(currentDate),
                                     textAlign: TextAlign.left,
@@ -834,15 +874,28 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                     margin: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal * 3,
                         top: SizeConfig.blockSizeVertical * 2),
-                    child: Text(
-                     'message'.tr,
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Bold'),
-                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'message'.tr,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Bold'),
+                        ),
+                        Text(
+                          '  *',
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Bold'),
+                        ),
+                      ],
+                    )
                   ),
                   Container(
                     margin: EdgeInsets.only(
@@ -1336,6 +1389,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                 padding: EdgeInsets.only(
                   left: SizeConfig.blockSizeHorizontal * 3,
                   right: SizeConfig.blockSizeHorizontal * 3,
+                  bottom: SizeConfig.blockSizeVertical *1
                 ),
                 child:
                 TextField(
