@@ -1288,7 +1288,6 @@ class registerState extends State<register> {
                         ),
                       ),*/
 
-
                       Container(
                         height: SizeConfig.blockSizeVertical * 14.5,
                         margin: EdgeInsets.only(

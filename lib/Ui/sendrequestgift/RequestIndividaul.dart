@@ -1098,6 +1098,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     return Column(
       children: [
         isSearching == true ? contactsFiltered!=null?
+
         Container(
             alignment: Alignment.topLeft,
             height: SizeConfig.blockSizeVertical * 30,
@@ -1108,7 +1109,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   itemCount:contactsFiltered == null ? 0 : contactsFiltered.length,
                   itemBuilder: (BuildContext context, int index) {
                     AppContacts contact = contactsFiltered[index];
-                    return CheckboxListTile(
+                    return  contact.info.phones.isNotEmpty?
+                      CheckboxListTile(
                       activeColor: AppColors.theme1color,
                       value: _selecteContact.contains(contact.info.phones.length==null || contact.info.phones.length==0?"":contact.info.phones.first.value),
                       onChanged: (bool selected) {
@@ -1124,10 +1126,11 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Montserrat-Bold'),
                       ),
-                    );
+                    ):Container();
                   }),
             )
-        ):
+        )
+            :
         Center(
           child: CircularProgressIndicator(),
         ) :
@@ -1142,12 +1145,24 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                   itemCount:_contacts == null ? 0 : _contacts.length,
                   itemBuilder: (BuildContext context, int index) {
                     AppContacts contact = _contacts[index];
-                    return CheckboxListTile(
+                    return contact.info.phones.isNotEmpty?
+                      CheckboxListTile(
                       activeColor: AppColors.theme1color,
-                      value: _selecteContact.contains(contact.info.phones.length==null || contact.info.phones.length==0?"":contact.info.phones.first.value),
+                      value: _selecteContact.contains(contact.info.phones.length==null || contact.info.phones.length==0 ||contact.info.phones.isEmpty?"":contact.info.phones.first.value),
                       onChanged: (bool selected) {
-                        _onCateSelected(selected, contact.info.phones.first.value==null?"":contact.info.phones.first.value,
-                            contact.info.displayName??'');
+
+
+
+
+                        if(contact.info.phones.isEmpty)
+                          {
+                            print("no value here");
+                          }
+                        else{
+                          _onCateSelected(selected, contact.info.phones.first.value,
+                              contact.info.displayName??'');
+                        }
+
                       },
                       title: Text(
                         contact.info.displayName ??'',
@@ -1158,7 +1173,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Montserrat-Bold'),
                       ),
-                    );
+                    ):Container();
                   }),
             )
         ):
@@ -1229,8 +1244,16 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   void _onCateSelected(bool selected, category_id, category_name) {
     if (selected == true) {
       setState(() {
-        _selecteContact.add(category_id);
-        _seleName.add(category_name);
+        if(category_id==null||category_id=="")
+          {
+            print("NO valkue");
+          }
+        else
+          {
+            _selecteContact.add(category_id);
+            _seleName.add(category_name);
+          }
+
       });
     } else {
       setState(() {
@@ -1242,6 +1265,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
     final removedBrackets = input.substring(1, input.length - 1);
     final parts = removedBrackets.split(',');
     contactname = parts.map((part) => "$part").join(',').trim();
+
     final input1 = _selecteContact.toString();
     final removedBrackets1 = input1.substring(1, input1.length - 1);
     final parts1 = removedBrackets1.split(',');

@@ -999,15 +999,29 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'eventname'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                  children: [
+                                    Text(
+                                      'eventname'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
+
                             ),
                             Container(
                               margin: EdgeInsets.only(
@@ -1072,15 +1086,28 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'eventdescription'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'eventdescription'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
                             ),
                             Container(
                                 margin: EdgeInsets.only(
@@ -1191,15 +1218,28 @@ class CreateEventPostState extends State<CreateEventPost> {
                                         right:
                                             SizeConfig.blockSizeHorizontal * 2,
                                         top: SizeConfig.blockSizeVertical * 2),
-                                    child: Text(
-                                      'events'.tr,
-                                      style: TextStyle(
-                                          letterSpacing: 1.0,
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'Poppins-Bold'),
-                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'events'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                    )
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -1294,15 +1334,28 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'eventstarttime'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  'eventstarttime'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                                Text(
+                                                  '  *',
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.red,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                              ],
+                                            )
                                           ),
                                           Container(
                                               height:
@@ -1407,15 +1460,28 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'eventendtime'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                                children: [
+                                                  Text(
+                                                    'eventendtime'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                  Text(
+                                                    '  *',
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.red,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                ],
+                                            )
                                           ),
                                           Container(
                                               height:
@@ -1527,15 +1593,28 @@ class CreateEventPostState extends State<CreateEventPost> {
                                               top:
                                                   SizeConfig.blockSizeVertical *
                                                       2),
-                                          child: Text(
-                                            'startdate'.tr,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Bold'),
-                                          ),
+                                          child: Row(
+                                              children: [
+                                                Text(
+                                                  'startdate'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                                Text(
+                                                  '  *',
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.red,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                              ],
+                                          )
                                         ),
                                         Container(
                                             height:
@@ -1633,15 +1712,30 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'enddate'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                                children: [
+                                                  Text(
+                                                    'enddate'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                  Text(
+                                                    '  *',
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.red,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Bold'),
+                                                  ),
+                                                ],
+                                            )
+
+
                                           ),
                                           Container(
                                               height:
@@ -1743,15 +1837,29 @@ class CreateEventPostState extends State<CreateEventPost> {
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'entryfees'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'entryfees'.tr,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                      Text(
+                                        '  *',
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.red,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                    ],
+                                  )
+
                                 ),
                                 Container(
                                     width: SizeConfig.blockSizeHorizontal * 42,
@@ -1867,19 +1975,33 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'maximumnumberofparticipant'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  width: SizeConfig.blockSizeHorizontal *62,
+                                  child:
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'maximumnumberofparticipant'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                    )
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  width: SizeConfig.blockSizeHorizontal * 28,
                                   height: SizeConfig.blockSizeVertical * 7,
                                   margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2,
@@ -2112,61 +2234,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                       onTap: () {},
                                       child: Row(
                                         children: [
-                                          /*  Container(
-                                        width: SizeConfig.blockSizeHorizontal * 60,
-                                        child:
-                                       */
-                                          /* Text(
-                                          catname != null ? catname.toString() : "",
-                                          maxLines: 5,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 10,
-                                            color: AppColors.black,
-                                          ),
-                                        ),*/
-                                          /*
-                                        TextFormField(
-                                          autofocus: false,
-                                          focusNode: documentsFocus,
-                                          controller: documentsController,
-                                          maxLines:6,
-                                          textInputAction: TextInputAction.done,
-                                          keyboardType: TextInputType.url,
-                                          validator: (val) {
-                                            if (val.length == 0)
-                                              return "Please enter video url";
-                                            else
-                                              return null;
-                                          },
-                                          onFieldSubmitted: (v) {
-                                            documentsFocus.unfocus();
-                                          },
-                                          onSaved: (val) => _documents = val,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 10,
-                                            color: AppColors.black,
-                                          ),
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              hintStyle: TextStyle(
-                                                color: AppColors.themecolor,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',
-                                                fontSize: 10,
-                                                decoration: TextDecoration.none,
-                                              ),
-                                              hintText: ""),
-                                        ),
-                                      ),*/
+
                                           Container(
                                             height:
                                                 SizeConfig.blockSizeVertical *
@@ -2315,19 +2383,32 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'whocanseethisevent'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  width: SizeConfig.blockSizeHorizontal * 48,
+                                  child: Row(
+                                      children: [
+                                        Text(
+                                          'whocanseethisevent'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                  )
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  width: SizeConfig.blockSizeHorizontal * 40,
                                   height: SizeConfig.blockSizeVertical * 7,
                                   margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2,
@@ -2361,7 +2442,7 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.black,
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontFamily:
@@ -2418,15 +2499,28 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 80,
-                              child: Text(
-                                'addyourspecialtermscondition'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                  children: [
+                                    Text(
+                                      'addyourspecialtermscondition'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
                             ),
                             Container(
                               margin: EdgeInsets.only(

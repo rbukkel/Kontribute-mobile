@@ -389,10 +389,10 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(
-              height: SizeConfig.blockSizeVertical * 25,
+              height: SizeConfig.blockSizeVertical * 30,
+              alignment: Alignment.topCenter,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
                   Container(
                     margin:EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5,
@@ -414,7 +414,9 @@ class HomeScreenState extends State<HomeScreen> {
                             print("Value: " + tabvalue);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 19,
+                            width: SizeConfig.blockSizeHorizontal * 22,
+                            height: SizeConfig.blockSizeVertical *5,
+                            alignment: Alignment.center,
                             margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
                             child: Text(
                               'projects'.tr.toUpperCase(),
@@ -423,7 +425,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   color: project ? AppColors.black : AppColors.greyColor,
                                   fontFamily: 'Poppins-Bold',
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   letterSpacing: 1.0),
                             ),
                           ),
@@ -442,7 +444,9 @@ class HomeScreenState extends State<HomeScreen> {
                             print("Value: " + tabvalue);
                           },
                           child:  Container(
-                            width: SizeConfig.blockSizeHorizontal * 19,
+                            width: SizeConfig.blockSizeHorizontal * 22,
+                            height: SizeConfig.blockSizeVertical *5,
+                            alignment: Alignment.center,
                             margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
                             child: Text(
                               'donations'.tr.toUpperCase(),
@@ -451,7 +455,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   color: donation ? AppColors.black : AppColors.greyColor,
                                   fontFamily: 'Poppins-Bold',
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   letterSpacing: 1.0),
                             ),
                           ),
@@ -470,7 +474,9 @@ class HomeScreenState extends State<HomeScreen> {
                             print("Value: " + tabvalue);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 19,
+                            width: SizeConfig.blockSizeHorizontal * 22,
+                            height: SizeConfig.blockSizeVertical *5,
+                            alignment: Alignment.center,
                             margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
                             child: Text(
                               'events'.tr.toUpperCase(),
@@ -479,7 +485,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   color: event ? AppColors.black : AppColors.greyColor,
                                   fontFamily: 'Poppins-Bold',
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   letterSpacing: 1.0),
                             ),
                           ),
@@ -498,7 +504,9 @@ class HomeScreenState extends State<HomeScreen> {
                             print("Value: " + tabvalue);
                           },
                           child:  Container(
-                            width: SizeConfig.blockSizeHorizontal * 19,
+                            width: SizeConfig.blockSizeHorizontal * 22,
+                            height: SizeConfig.blockSizeVertical *5,
+                            alignment: Alignment.center,
                             margin:EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *2),
                             child: Text(
                               'tickets'.tr.toUpperCase(),
@@ -507,7 +515,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   color: ticket ? AppColors.black : AppColors.greyColor,
                                   fontFamily: 'Poppins-Bold',
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   letterSpacing: 1.0),
                             ),
                           ),
@@ -526,7 +534,7 @@ class HomeScreenState extends State<HomeScreen> {
                       right: SizeConfig.blockSizeHorizontal * 2,
                       bottom: SizeConfig.blockSizeVertical * 1,
                     ),
-                    width: SizeConfig.blockSizeHorizontal * 75,
+                    width: SizeConfig.blockSizeHorizontal * 72,
                     height: SizeConfig.blockSizeVertical * 25,
                     child: banner_length != null ?
                     new Swiper(
@@ -543,7 +551,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 context);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 65,
+                            width: SizeConfig.blockSizeHorizontal * 62,
                             height: SizeConfig.blockSizeVertical * 25,
                             /*decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
@@ -556,7 +564,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     ),
                                     fit: BoxFit.fill)),*/
                             child: CachedNetworkImage(
-                              width: SizeConfig.blockSizeHorizontal * 65,
+                              width: SizeConfig.blockSizeHorizontal * 62,
                               height: SizeConfig.blockSizeVertical * 25,
                               fit: BoxFit.fill ,
                               imageUrl:Network.BaseApiProject +
@@ -574,7 +582,7 @@ class HomeScreenState extends State<HomeScreen> {
                       itemCount: banner_length.length == null
                           ? 0
                           : banner_length.length,
-                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  62,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     ) :
@@ -593,7 +601,7 @@ class HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           itemCount: 4,
-                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 62,
                           layout: SwiperLayout.STACK,
                           //pagination: new SwiperPagination(),
                         )),
@@ -609,7 +617,7 @@ class HomeScreenState extends State<HomeScreen> {
                       right: SizeConfig.blockSizeHorizontal * 2,
                       bottom: SizeConfig.blockSizeVertical * 1,
                     ),
-                    width: SizeConfig.blockSizeHorizontal * 75,
+                    width: SizeConfig.blockSizeHorizontal * 72,
                     height: SizeConfig.blockSizeVertical * 25,
                     child: bannerDonation_length != null
                         ? new Swiper(
@@ -626,7 +634,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 context);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 65,
+                            width: SizeConfig.blockSizeHorizontal * 62,
                             height: SizeConfig.blockSizeVertical * 25,
                            /* decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
@@ -640,7 +648,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     fit: BoxFit.fill)),*/
 
                            child: CachedNetworkImage(
-                              width: SizeConfig.blockSizeHorizontal * 65,
+                              width: SizeConfig.blockSizeHorizontal * 62,
                               height: SizeConfig.blockSizeVertical * 25,
                               fit: BoxFit.fill ,
                               imageUrl:
@@ -659,7 +667,7 @@ class HomeScreenState extends State<HomeScreen> {
                       itemCount: bannerDonation_length.length == null
                           ? 0
                           : bannerDonation_length.length,
-                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  62,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     )
@@ -678,7 +686,7 @@ class HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           itemCount: 4,
-                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 62,
                           layout: SwiperLayout.STACK,
                           //pagination: new SwiperPagination(),
                         )),
@@ -693,7 +701,7 @@ class HomeScreenState extends State<HomeScreen> {
                       right: SizeConfig.blockSizeHorizontal * 2,
                       bottom: SizeConfig.blockSizeVertical * 1,
                     ),
-                    width: SizeConfig.blockSizeHorizontal * 75,
+                    width: SizeConfig.blockSizeHorizontal * 72,
                     height: SizeConfig.blockSizeVertical * 25,
                     child: bannerEvent_length != null
                         ? new Swiper(
@@ -710,7 +718,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 context);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 65,
+                            width: SizeConfig.blockSizeHorizontal * 62,
                             height: SizeConfig.blockSizeVertical * 25,
                             /*decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
@@ -723,7 +731,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     ),
                                     fit: BoxFit.fill)),*/
                             child: CachedNetworkImage(
-                              width: SizeConfig.blockSizeHorizontal * 65,
+                              width: SizeConfig.blockSizeHorizontal * 62,
                               height: SizeConfig.blockSizeVertical * 25,
                               fit: BoxFit.fill ,
                               imageUrl:
@@ -742,7 +750,7 @@ class HomeScreenState extends State<HomeScreen> {
                       itemCount: bannerEvent_length.length == null
                           ? 0
                           : bannerEvent_length.length,
-                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  62,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     )
@@ -761,7 +769,7 @@ class HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           itemCount: 4,
-                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 62,
                           layout: SwiperLayout.STACK,
                           //pagination: new SwiperPagination(),
                         )
@@ -778,7 +786,7 @@ class HomeScreenState extends State<HomeScreen> {
                       right: SizeConfig.blockSizeHorizontal * 2,
                       bottom: SizeConfig.blockSizeVertical * 1,
                     ),
-                    width: SizeConfig.blockSizeHorizontal * 75,
+                    width: SizeConfig.blockSizeHorizontal * 72,
                     height: SizeConfig.blockSizeVertical * 25,
                     child: bannerTicket_length != null
                         ? new Swiper(
@@ -795,7 +803,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 context);
                           },
                           child: Container(
-                            width: SizeConfig.blockSizeHorizontal * 65,
+                            width: SizeConfig.blockSizeHorizontal * 62,
                             height: SizeConfig.blockSizeVertical * 25,
                             /*decoration: BoxDecoration(
                                 border: Border.all(color: Colors.transparent),
@@ -808,7 +816,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     ),
                                     fit: BoxFit.fill)),*/
                             child: CachedNetworkImage(
-                              width: SizeConfig.blockSizeHorizontal * 65,
+                              width: SizeConfig.blockSizeHorizontal * 62,
                               height: SizeConfig.blockSizeVertical * 25,
                               fit: BoxFit.fill ,
                               imageUrl:
@@ -825,7 +833,7 @@ class HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       itemCount: bannerTicket_length.length == null ? 0 : bannerTicket_length.length,
-                      itemWidth: SizeConfig.blockSizeHorizontal *  65,
+                      itemWidth: SizeConfig.blockSizeHorizontal *  62,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     )
@@ -844,7 +852,7 @@ class HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           itemCount: 4,
-                          itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                          itemWidth: SizeConfig.blockSizeHorizontal * 62,
                           layout: SwiperLayout.STACK,
                           //pagination: new SwiperPagination(),
                         )
@@ -860,7 +868,7 @@ class HomeScreenState extends State<HomeScreen> {
                       right: SizeConfig.blockSizeHorizontal * 2,
                       bottom: SizeConfig.blockSizeVertical * 1,
                     ),
-                    width: SizeConfig.blockSizeHorizontal * 75,
+                    width: SizeConfig.blockSizeHorizontal * 72,
                     height: SizeConfig.blockSizeVertical * 25,
                     child:new Swiper(
                       itemBuilder: (BuildContext context, int index) {
@@ -871,7 +879,7 @@ class HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       itemCount: 4,
-                      itemWidth: SizeConfig.blockSizeHorizontal * 65,
+                      itemWidth: SizeConfig.blockSizeHorizontal * 62,
                       layout: SwiperLayout.STACK,
                       //pagination: new SwiperPagination(),
                     ),

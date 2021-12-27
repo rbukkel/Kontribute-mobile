@@ -14,8 +14,7 @@ class ContactFromKontribute extends StatelessWidget {
   List<AppContact> contacts;
   Function() reloadContacts;
 
-  ContactFromKontribute({Key key, this.contacts, this.reloadContacts})
-      : super(key: key);
+  ContactFromKontribute({Key key, this.contacts, this.reloadContacts}) : super(key: key);
 
   Iterable<Contact> _contacts;
   String userid;
@@ -28,8 +27,6 @@ class ContactFromKontribute extends StatelessWidget {
   bool _firstSearch = true;
   String _query = "";
 
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -39,7 +36,8 @@ class ContactFromKontribute extends StatelessWidget {
         itemCount: contacts.length,
         itemBuilder: (context, index) {
           AppContact contact = contacts[index];
-          return ListTile(
+          return contact.info.phones.isNotEmpty?
+            ListTile(
             onTap: () {
               Share.share( "Let's join on Kontribute! Get it at http://kontribute.knickglobal.com/signup");
               /* SmsSender sender = SmsSender();
@@ -101,7 +99,7 @@ class ContactFromKontribute extends StatelessWidget {
                     'Poppins-Regular'),
               ),
             ),
-          );
+          ):Container();
         },
       ),
     );

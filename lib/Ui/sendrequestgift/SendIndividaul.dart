@@ -678,10 +678,8 @@ class SendIndividaulState extends State<SendIndividaul>{
                           });
                         } else {
                           errorDialog('pleaseselectcontacts'.tr);
-
                         }
                       }
-
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -698,7 +696,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                           fit: BoxFit.fill,
                         ),
                       ),
-                      child: Text('invite'.tr,
+                      child: Text('send'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.normal,

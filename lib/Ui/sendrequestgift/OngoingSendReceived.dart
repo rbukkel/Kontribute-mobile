@@ -396,7 +396,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                         margin: EdgeInsets.only(
                                                             left: SizeConfig.blockSizeHorizontal * 2),
                                                         child: Text(
-                                                          requestpojo.result.data.elementAt(index).status == "request" ? 'requestreceivedfrom'.tr
+                                                          requestpojo.result.data.elementAt(index).status == "request" ? 'sendarequest'.tr
                                                               : requestpojo.result.data.elementAt(index).status == "sent" ? 'sendto'.tr
                                                                   : requestpojo.result.data.elementAt(index).status == "group" ? 'grouprequest'.tr
                                                                       : "",
@@ -945,7 +945,7 @@ class OngoingSendReceivedState extends State<OngoingSendReceived> with TickerPro
                                                                               index)
                                                                           .status ==
                                                                       "request"
-                                                                  ? 'requestreceivedfrom'.tr
+                                                                  ? 'sendarequest'.tr
                                                                   : requestpojo
                                                                               .result
                                                                               .data

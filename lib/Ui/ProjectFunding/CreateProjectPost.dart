@@ -514,6 +514,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                   final kb = bytes / 1024;
                   final mb = kb / 1024;
                   print("mbsize: "+mb.toString());
+
                   if (mb > 1){
                     // This file is Longer the
                     errorDialog('pleaseselectafilelessthan1mb'.tr);
@@ -531,9 +532,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         errorDialog('uploadupto3images'.tr);
                       }
                     }
-
                 });
-
               } else {
                 print('No image selected.');
               }
@@ -551,7 +550,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               if (imageFile != null) {
                 setState(() {
                   _imageFile = imageFile;
-
 
                   final bytes = _imageFile.readAsBytesSync().lengthInBytes;
                   final kb = bytes / 1024;
@@ -574,11 +572,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                         errorDialog('uploadupto3images'.tr);
                       }
                     }
-
-
-
                 });
-
               } else {
                 print('No image selected.');
               }
@@ -828,15 +822,29 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'projectname'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'projectname'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
+
                             ),
                             Container(
                               margin: EdgeInsets.only(
@@ -901,15 +909,28 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'projectdescription'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'projectdescription'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
                             ),
                             Container(
                                 margin: EdgeInsets.only(
@@ -1011,15 +1032,30 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               left: SizeConfig.blockSizeHorizontal * 3,
                                               right: SizeConfig.blockSizeHorizontal * 2,
                                               top: SizeConfig.blockSizeVertical * 2),
-                                          child: Text(
-                                            'startdate'.tr,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Bold'),
-                                          ),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                'startdate'.tr,
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily: 'Poppins-Bold'),
+                                              ),
+                                              Text(
+                                                '  *',
+                                                style: TextStyle(
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.red,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily: 'Poppins-Bold'),
+                                              ),
+                                            ],
+                                          )
+
+
                                         ),
                                         Container(
                                             height:
@@ -1098,15 +1134,28 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                     3,
                                                 top: SizeConfig.blockSizeVertical *
                                                     2),
-                                            child: Text(
-                                              'enddate'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Bold'),
-                                            ),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  'enddate'.tr,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                                Text(
+                                                  '  *',
+                                                  style: TextStyle(
+                                                      letterSpacing: 1.0,
+                                                      color: Colors.red,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal,
+                                                      fontFamily: 'Poppins-Bold'),
+                                                ),
+                                              ],
+                                            )
                                           ),
                                           Container(
                                               height:
@@ -1200,19 +1249,34 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'minimumcashbyparticipant'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  width: SizeConfig.blockSizeHorizontal * 55,
+                                  child: Row(
+                                      children: [
+                                        Text(
+                                          'minimumcashbyparticipant'.tr,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                  )
+
                                 ),
                                 Container(
-                                    width: SizeConfig.blockSizeHorizontal * 42,
+                                    width: SizeConfig.blockSizeHorizontal * 35,
                                     height: SizeConfig.blockSizeVertical * 7,
                                     margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 2,
@@ -1257,7 +1321,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                           ),
                                           Container(
                                             width:
-                                            SizeConfig.blockSizeHorizontal * 30,
+                                            SizeConfig.blockSizeHorizontal * 23,
                                             padding: EdgeInsets.only(
                                                 left:
                                                 SizeConfig.blockSizeHorizontal *
@@ -1327,15 +1391,29 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'totalbudget'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  child: Row(
+                                      children: [
+                                        Text(
+                                          'totalbudget'.tr,
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                        Text(
+                                          '  *',
+                                          style: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Bold'),
+                                        ),
+                                      ],
+                                  )
+
                                 ),
                                 Container(
                                     width: SizeConfig.blockSizeHorizontal * 42,
@@ -1454,30 +1532,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         fontFamily: 'Poppins-Bold'),
                                   ),
                                 ),
-                                /*Container(
-                              width: SizeConfig.blockSizeHorizontal * 75,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2,
-                                right: SizeConfig.blockSizeHorizontal * 3,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeVertical * 1,
-                                right: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.black26,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                                color: Colors.transparent,
-                              ),
-                              child: Column(
-                                children: [..._getVideoLink()],
-                              ),
-                            )*/
+
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 65,
                                   height: SizeConfig.blockSizeVertical *10,
@@ -1602,66 +1657,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       child: Row(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          /* Container(
-                                          width: SizeConfig.blockSizeHorizontal * 60,
-                                            child:
-
-
-
-                                           */
-                                          /* Text(
-                                              catname != null ? catname.toString() : "",
-                                              maxLines: 5,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',
-                                                fontSize: 10,
-                                                color: AppColors.black,
-                                              ),
-                                            ),*/
-                                          /*
-
-                                            TextFormField(
-                                              autofocus: false,
-                                              focusNode: documentsFocus,
-                                              controller: documentsController,
-                                              maxLines:6,
-                                              textInputAction: TextInputAction.done,
-                                              keyboardType: TextInputType.url,
-                                              validator: (val) {
-                                                if (val.length == 0)
-                                                  return "Please enter video url";
-                                                else
-                                                  return null;
-                                              },
-                                              onFieldSubmitted: (v) {
-                                                documentsFocus.unfocus();
-                                              },
-                                              onSaved: (val) => _documents = val,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: 'Poppins-Regular',
-                                                fontSize: 10,
-                                                color: AppColors.black,
-                                              ),
-                                              decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  focusedBorder: InputBorder.none,
-                                                  hintStyle: TextStyle(
-                                                    color: AppColors.themecolor,
-                                                    fontWeight: FontWeight.normal,
-                                                    fontFamily: 'Poppins-Regular',
-                                                    fontSize: 10,
-                                                    decoration: TextDecoration.none,
-                                                  ),
-                                                  hintText: ""),
-                                            ),
-
-                                      ),*/
                                           Container(
                                             height: SizeConfig.blockSizeVertical * 25,
                                             width: SizeConfig.blockSizeHorizontal * 59,
@@ -1775,19 +1770,32 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
                                       top: SizeConfig.blockSizeVertical * 2),
-                                  width: SizeConfig.blockSizeHorizontal * 45,
-                                  child: Text(
-                                    'whocanseethisproject'.tr,
-                                    style: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Bold'),
-                                  ),
+                                  width: SizeConfig.blockSizeHorizontal * 50,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'whocanseethisproject'.tr,
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                      Text(
+                                        '  *',
+                                        style: TextStyle(
+                                            letterSpacing: 1.0,
+                                            color: Colors.red,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'Poppins-Bold'),
+                                      ),
+                                    ],
+                                  )
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 42,
+                                  width: SizeConfig.blockSizeHorizontal * 38,
                                   height: SizeConfig.blockSizeVertical * 7,
                                   margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2,
@@ -1821,7 +1829,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               style: TextStyle(
                                                   letterSpacing: 1.0,
                                                   color: Colors.black,
-                                                  fontSize: 12,
+                                                  fontSize: 10,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily: 'Poppins-Bold'),
                                             ),
@@ -1887,15 +1895,30 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   right: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 80,
-                              child: Text(
-                                'addyourspecialtermscondition'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                  children: [
+                                    Text(
+                                      'addyourspecialtermscondition'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
+
+
                             ),
                             Container(
                               margin: EdgeInsets.only(

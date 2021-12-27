@@ -811,15 +811,28 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            'campaignname'.tr,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'campaignname'.tr,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                              Text(
+                                '  *',
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.red,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ],
+                          )
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -884,15 +897,29 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 45,
-                          child: Text(
-                            'campaigndescription'.tr,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'campaigndescription'.tr,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                              Text(
+                                '  *',
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.red,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Bold'),
+                              ),
+                            ],
+                          )
+
                         ),
                         Container(
                             margin: EdgeInsets.only(
@@ -1003,15 +1030,29 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                                   2,
                                           top:
                                               SizeConfig.blockSizeVertical * 2),
-                                      child: Text(
-                                       'startdate'.tr,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),
-                                      ),
+                                      child: Row(
+                                          children: [
+                                            Text(
+                                              'startdate'.tr,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                            Text(
+                                              '  *',
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.red,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                          ],
+                                      )
+
                                     ),
                                     Container(
                                         height:
@@ -1101,15 +1142,29 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                                     3,
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
-                                        child: Text(
-                                          'enddate'.tr,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'enddate'.tr,
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                            Text(
+                                              '  *',
+                                              style: TextStyle(
+                                                  letterSpacing: 1.0,
+                                                  color: Colors.red,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: 'Poppins-Bold'),
+                                            ),
+                                          ],
+                                        )
+
                                       ),
                                       Container(
                                           height:
@@ -1205,19 +1260,32 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'minimumcashbyparticipant'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                                width: SizeConfig.blockSizeHorizontal * 55,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'minimumcashbyparticipant'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
                             ),
                             Container(
-                                width: SizeConfig.blockSizeHorizontal * 42,
+                                width: SizeConfig.blockSizeHorizontal * 35,
                                 height: SizeConfig.blockSizeVertical * 7,
                                 margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2,
@@ -1262,7 +1330,7 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                       ),
                                       Container(
                                         width:
-                                            SizeConfig.blockSizeHorizontal * 30,
+                                            SizeConfig.blockSizeHorizontal * 23,
                                         padding: EdgeInsets.only(
                                             left:
                                                 SizeConfig.blockSizeHorizontal *
@@ -1330,15 +1398,28 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
                               width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                               'totalbudget'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              child: Row(
+                                  children: [
+                                    Text(
+                                      'totalbudget'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
                             ),
                             Container(
                                 width: SizeConfig.blockSizeHorizontal * 42,
@@ -1814,16 +1895,29 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
                                   top: SizeConfig.blockSizeVertical * 2),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: Text(
-                                'whocanseethisevent'.tr,
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'Poppins-Bold'),
-                              ),
+                              width: SizeConfig.blockSizeHorizontal * 48,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'whocanseethisevent'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                  Text(
+                                    '  *',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ],
+                              )
                             ),
                             Container(
                               width: SizeConfig.blockSizeHorizontal * 42,
@@ -1923,15 +2017,29 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               right: SizeConfig.blockSizeHorizontal * 3,
                               top: SizeConfig.blockSizeVertical * 2),
                           width: SizeConfig.blockSizeHorizontal * 80,
-                          child: Text(
-                            'addyourspecialtermscondition'.tr,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'Poppins-Bold'),
-                          ),
+                          child:
+                              Row(
+                                  children: [
+                                    Text(
+                                      'addyourspecialtermscondition'.tr,
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    Text(
+                                      '  *',
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'Poppins-Bold'),
+                                    ),
+                                  ],
+                              )
                         ),
                         Container(
                           margin: EdgeInsets.only(
