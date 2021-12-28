@@ -24,6 +24,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.transparent, // navigation bar color
+    statusBarColor: Colors.transparent, // status bar color
+  ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -285,11 +289,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+   SizeConfig().init(context);
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    /*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-    ));
+    ));*/
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -317,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     right: SizeConfig.blockSizeHorizontal * 15),
                 child: LinearPercentIndicator(
                   animation: true,
-                  lineHeight: 20.0,
+                  lineHeight: 10.0,
                   animationDuration: 3000,
                   percent: 1.0,
                   linearStrokeCap: LinearStrokeCap.roundAll,
@@ -337,9 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     String code = packageInfo.buildNumber;
-
     checkVersion(version);
-
     print("VersionCode: "+version.toString());
     print("Code: "+code.toString());
   }

@@ -1495,7 +1495,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
         title: appBarTitle,
         backgroundColor: Colors.white,
         flexibleSpace: Image(
-          height: SizeConfig.blockSizeVertical * 13,
+          height: SizeConfig.blockSizeVertical * 15,
           image: AssetImage('assets/images/appbar.png'),
           fit: BoxFit.cover,
         ),

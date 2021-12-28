@@ -10,9 +10,20 @@ import io.flutter.embedding.android.FlutterActivity
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+import android.os.Build
+import android.view.ViewTreeObserver
+import android.view.WindowManager
 class MainActivity: FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    val flutter_native_splash = true
+    var originalStatusBarColor = 0
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        originalStatusBarColor = window.statusBarColor
+        window.statusBarColor = 0xffcee1ea.toInt()
+    }
+    val originalStatusBarColorFinal = originalStatusBarColor
+
         printHashKey(this@MainActivity)
     }
     fun printHashKey(pContext: Context) {

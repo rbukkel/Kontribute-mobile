@@ -2,4 +2,5 @@
 <resources>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorPrimary">#2BACC8</color>
+	<color name="splash_color">#ffffff</color>
 </resources>

@@ -86,6 +86,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^0.1.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -98,8 +99,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+
   fonts:
-  - family: Montserrat
+  - family: Poppins
     fonts:
       - asset: assets/fontstyle/Poppins-Regular.ttf
       - asset: assets/fontstyle/Poppins-Bold.ttf
@@ -202,6 +204,7 @@ flutter:
     - assets/images/registerbtn.png
     - assets/images/caution.png
     - assets/images/searchbar.png
+    - assets/images/spalsh.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -228,3 +231,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+flutter_native_splash:
+  image: assets/images/spalsh.png
+  color: "#ffffff"
+  android_disable_fullscreen: true
+  android: true

@@ -2253,7 +2253,8 @@ class OngoingEventsDetailsscreenState
                                       );
                                     }),
                               ),
-
+                              projectdetailspojo.eventsdata.contributerList.isEmpty
+                                  ? Container():
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
@@ -2262,8 +2263,7 @@ class OngoingEventsDetailsscreenState
                                   color: Colors.black12,
                                 ),
                               ),
-                              projectdetailspojo
-                                      .eventsdata.contributerList.isEmpty
+                              projectdetailspojo.eventsdata.contributerList.isEmpty
                                   ? Container()
                                   : Row(
                                       mainAxisAlignment:
@@ -2712,9 +2712,7 @@ class OngoingEventsDetailsscreenState
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => OngoingEvents()));
+                            context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),
@@ -2735,7 +2733,6 @@ class OngoingEventsDetailsscreenState
               ),
             ),
           );
-
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
@@ -2804,16 +2801,13 @@ class OngoingEventsDetailsscreenState
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");
       Fluttertoast.showToast(
-        msg: "Downloading file " +
-            (received / total * 100).toStringAsFixed(0) +
-            "%",
+        msg: "Downloading file " + (received / total * 100).toStringAsFixed(0) + "%",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
       );
       if ((received / total * 100).toStringAsFixed(0) + "%" == "100%") {
         errorDialog('savedindownloadfolder'.tr);
-
       }
     }
   }

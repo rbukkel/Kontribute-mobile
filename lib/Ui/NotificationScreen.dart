@@ -226,9 +226,11 @@ class NotificationScreenState extends State<NotificationScreen> {
   }
 
   void getdata(String user_id, int page) async {
+
     setState(() {
       storelist_length = null;
     });
+
     Map data = {
       'userid': user_id.toString(),
     };
@@ -313,8 +315,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 60,
                     alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                     // margin: EdgeInsets.only(top: 10, left: 40),
                     child: Text(
                       'notification'.tr,
@@ -337,22 +338,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                 ],
               ),
             ),
-            /* Container(
-              alignment: Alignment.centerLeft,
-              margin:
-              EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2,left: SizeConfig.blockSizeHorizontal * 5),
-              // margin: EdgeInsets.only(top: 10, left: 40),
-              child: Text(
-                "Earlier",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    decoration: TextDecoration.none,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Poppins-Regular',
-                    color: Colors.black),
-              ),
-            ),*/
             Expanded(
                 child: storelist_length != null
                     ? ListView.builder(
@@ -360,8 +345,6 @@ class NotificationScreenState extends State<NotificationScreen> {
                         itemCount: storelist_length.length == null
                             ? 0
                             : storelist_length.length,
-                        /*physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,*/
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                               margin: EdgeInsets.only(
@@ -384,6 +367,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                       child: Column(
                                         children: [
                                           Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
@@ -534,6 +518,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                               Row(
                                                 children: [
                                                   Container(
+                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                     width: SizeConfig
                                                             .blockSizeHorizontal *
                                                         60,
@@ -597,7 +582,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                       margin: EdgeInsets.only(
                                                         right: SizeConfig
                                                                 .blockSizeHorizontal *
-                                                            1,
+                                                            1,top: SizeConfig.blockSizeVertical *2
                                                       ),
                                                       child: Image.asset(
                                                         "assets/images/menudot.png",
@@ -1108,9 +1093,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                     TextDecoration
                                                                         .none,
                                                                 fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
+                                                                fontWeight: FontWeight.normal,
                                                                 fontFamily:
                                                                     "Poppins-Regular",
                                                                 color: Colors
@@ -1156,19 +1139,22 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                             width: SizeConfig
                                                                     .blockSizeHorizontal *
                                                                 100,
-                                                            decoration:
-                                                                BoxDecoration(
+                                                            decoration: BoxDecoration(
                                                               image: DecorationImage(
-                                                                  image:
-                                                                      imageProvider,
+                                                                  image:imageProvider,
                                                                   fit: BoxFit
                                                                       .scaleDown),
                                                             ),
                                                           ),
                                                       placeholder: (context, url) =>
-                                                          new Image.asset('assets/images/dummyplace.jpg'))),
+                                                          new Image.asset('assets/images/dummyplace.jpg')
+                                                  )
+                                          ),
                                         ],
-                                      ))));
+                                      )
+                                  )
+                              )
+                          );
                         })
                     : Container(
                         margin: EdgeInsets.only(top: 150),
@@ -1467,6 +1453,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                 ),
                               ]),
                         )),
+
+                    listing.result.data.elementAt(index).seen=="y"?Container():
                     GestureDetector(
                       onTap: () {
                         setState(() {

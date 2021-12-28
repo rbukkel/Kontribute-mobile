@@ -601,7 +601,7 @@ class OngoingEventsState extends State<OngoingEvents> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.shadow,
-          toolbarHeight: SizeConfig.blockSizeVertical * 8,
+          toolbarHeight: SizeConfig.blockSizeVertical * 12,
           title: Container(
             child: Text(
               'events'.tr,
@@ -616,7 +616,7 @@ class OngoingEventsState extends State<OngoingEvents> {
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
           flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 12,
+            height: SizeConfig.blockSizeVertical * 15,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),

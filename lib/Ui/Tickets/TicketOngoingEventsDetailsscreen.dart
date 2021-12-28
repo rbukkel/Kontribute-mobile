@@ -2181,8 +2181,11 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   ],
                                 ),
                               ),
+
                               Ticketlist_length!=null?
                               Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical*2),
                                 child:
                                 ListView.builder(
                                     itemCount: Ticketlist_length.length == null
@@ -2193,25 +2196,12 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     itemBuilder: (BuildContext context, int ix) {
                                       return
                                         Container(
+
                                             child: Column(
                                               children: [
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    /* Container(
-                                              alignment: Alignment.center,
-                                              width: SizeConfig.blockSizeHorizontal *8,
-                                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3),
-                                              child: Text(
-                                                projectdetailspojo.commentsdata.ticketpayemtndetails.elementAt(ix).toString(), textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "Poppins-Regular",
-                                                    color: Colors.black),
-                                              ),
-                                            ),*/
                                                     Container(
                                                       alignment: Alignment.center,
                                                       width: SizeConfig.blockSizeHorizontal *38,
@@ -2454,6 +2444,8 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             ),
                             TicketUserDetails_length!=null?
                             Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical*2),
                               child:
                               ListView.builder(
                                   itemCount: TicketUserDetails_length.length == null
@@ -2588,7 +2580,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             ):Container(),
                           ],
                         )
-
                       ],
                     ),
                   ),
@@ -2627,7 +2618,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
           getData(userid, a);
         } else {
           errorDialog(prolike.message);
-
         }
       }
     } else {
@@ -2663,7 +2653,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
           getData(userid, a);
         } else {
           errorDialog(postcom.message);
-
         }
       }
     } else {
@@ -2981,10 +2970,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
        errorDialog(jsonDecode(ticketval)["message"]);
       }
-    
-
-
-
   }
 
 

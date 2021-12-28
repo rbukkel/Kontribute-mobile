@@ -1939,16 +1939,6 @@ class OngoingProjectDetailsscreenState
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-                              /*Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed....",
-                            maxLines: 8,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black87,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins-Regular'),
-                          ),*/
 
                               Container(
                                   width: SizeConfig.blockSizeHorizontal * 100,
@@ -2481,6 +2471,7 @@ class OngoingProjectDetailsscreenState
                                             );
                                           }),
                                     ),
+                              projectdetailspojo.commentsdata.projectpaymentdetails.isEmpty?Container():
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),

@@ -2146,15 +2146,11 @@ class OngoingCampaignDetailsscreenState
                                                 ],
                                               ),
 
-                                              /*   decoration: BoxDecoration(
-                                    image: new DecorationImage(
-                                      image: new AssetImage("assets/images/files.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),*/
+
                                             );
                                           }),
                                     ),
+                              projectdetailspojo.commentsdata.donationpaymentdetails.isEmpty?Container():
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),

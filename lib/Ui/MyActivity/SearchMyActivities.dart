@@ -3504,18 +3504,10 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                             .spaceBetween,
                                                     children: [
                                                       Container(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              35,
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          margin: EdgeInsets.only(
-                                                              top: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  1,
-                                                              left: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  2),
+                                                          width: SizeConfig.blockSizeHorizontal *35,
+                                                          alignment: Alignment.topLeft,
+                                                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
+                                                              left: SizeConfig.blockSizeHorizontal * 1),
                                                           child: Row(
                                                             children: [
                                                               Text(
@@ -3563,7 +3555,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                             1),
                                                     child:
                                                         LinearPercentIndicator(
-                                                      width: 70.0,
+                                                      width: 60.0,
                                                       lineHeight: 14.0,
                                                       percent: amoun / 100,
                                                       center: Text(
@@ -3584,18 +3576,12 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                         MainAxisAlignment.end,
                                                     children: [
                                                       Container(
-                                                          width: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              33,
-                                                          alignment: Alignment
-                                                              .centerRight,
+                                                          width: SizeConfig.blockSizeHorizontal *35,
+                                                          alignment: Alignment.bottomRight,
                                                           margin: EdgeInsets.only(
-                                                              top: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  1,
-                                                              right: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  5),
+                                                              top: SizeConfig.blockSizeVertical *1,right: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                              4),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment

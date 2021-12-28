@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:kontribute/Terms.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -612,13 +613,14 @@ class OngoingProjectState extends State<OngoingProject> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     return Scaffold(
-        extendBodyBehindAppBar: true,
+        //extendBodyBehindAppBar: true,
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-          toolbarHeight: SizeConfig.blockSizeVertical * 8,
+          toolbarHeight: SizeConfig.blockSizeVertical * 12,
           title: Container(
             child: Text(
               'projectfunding'.tr,
@@ -633,7 +635,7 @@ class OngoingProjectState extends State<OngoingProject> {
           ),
           //Text("heello", textAlign:TextAlign.center,style: TextStyle(color: Colors.black)),
           flexibleSpace: Image(
-            height: SizeConfig.blockSizeVertical * 12,
+            height: SizeConfig.blockSizeVertical * 15,
             image: AssetImage('assets/images/appbar.png'),
             fit: BoxFit.cover,
           ),
