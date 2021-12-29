@@ -1179,7 +1179,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: SizeConfig.blockSizeHorizontal *33,
+                              width: SizeConfig.blockSizeHorizontal *36,
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                 left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig
@@ -1192,7 +1192,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 9,
+                                        fontSize: 8,
                                         fontWeight:
                                         FontWeight.bold,
                                         fontFamily:
@@ -1203,7 +1203,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 9,
+                                        fontSize: 8,
                                         fontWeight:
                                         FontWeight.bold,
                                         fontFamily:
@@ -1235,17 +1235,17 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                               child:  LinearPercentIndicator(
-                                width: 70.0,
+                                width: 60.0,
                                 lineHeight: 14.0,
                                 percent: amoun/100,
-                                center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 9,color: AppColors.whiteColor),),
+                                center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
                                 backgroundColor: AppColors.lightgrey,
                                 progressColor:AppColors.themecolor,
                               ),
                             ),
                             Container(
                               alignment: Alignment.centerRight,
-                              width: SizeConfig.blockSizeHorizontal *32,
+                              width: SizeConfig.blockSizeHorizontal *36,
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                   .blockSizeHorizontal *
                                   6),
@@ -1257,7 +1257,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 9,
+                                        fontSize: 8,
                                         fontWeight:
                                         FontWeight.bold,
                                         fontFamily:
@@ -1268,7 +1268,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black87,
-                                        fontSize: 9,
+                                        fontSize: 8,
                                         fontWeight:
                                         FontWeight.bold,
                                         fontFamily:

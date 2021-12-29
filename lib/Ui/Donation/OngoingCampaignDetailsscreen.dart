@@ -1203,7 +1203,7 @@ class OngoingCampaignDetailsscreenState
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    width: SizeConfig.blockSizeHorizontal *34,
+                                    width: SizeConfig.blockSizeHorizontal *36,
                                     alignment: Alignment.topLeft,
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1,
@@ -1257,7 +1257,7 @@ class OngoingCampaignDetailsscreenState
                                   ),
                                   Container(
                                     alignment: Alignment.centerRight,
-                                    width: SizeConfig.blockSizeHorizontal *34,
+                                    width: SizeConfig.blockSizeHorizontal *36,
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical *1,
                                         right: SizeConfig.blockSizeHorizontal * 5),

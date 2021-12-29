@@ -869,7 +869,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                              width: SizeConfig.blockSizeHorizontal *34,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *1,
@@ -919,7 +919,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Container(
-                                              width: SizeConfig.blockSizeHorizontal *34,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.centerRight,
                                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                                   .blockSizeHorizontal *

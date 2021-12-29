@@ -1270,7 +1270,7 @@ class OngoingEventsDetailsscreenState
                                   Row(
                                     children: [
                                       Container(
-                                        width: SizeConfig.blockSizeHorizontal *36,
+                                        width: SizeConfig.blockSizeHorizontal *35,
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *

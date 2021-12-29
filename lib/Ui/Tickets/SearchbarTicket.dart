@@ -856,7 +856,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *34,
+                                          width: SizeConfig.blockSizeHorizontal *36,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                             left: SizeConfig.blockSizeHorizontal * 2, ),
@@ -911,7 +911,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 65.0,
+                                            width: 60.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
                                             center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: AppColors.whiteColor),),
@@ -921,7 +921,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         ),
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *32,
+                                          width: SizeConfig.blockSizeHorizontal *36,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                               .blockSizeHorizontal *
                                               3),

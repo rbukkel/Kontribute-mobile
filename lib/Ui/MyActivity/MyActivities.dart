@@ -1368,7 +1368,7 @@ class MyActivitiesState extends State<MyActivities> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.shadow,
-        toolbarHeight: SizeConfig.blockSizeVertical *8,
+        toolbarHeight: SizeConfig.blockSizeVertical *12,
         title: Container(
           child: Text(
             'myActivity'.tr,
@@ -2110,47 +2110,39 @@ class MyActivitiesState extends State<MyActivities> {
                                             .start,
                                         children: [
                                           Container(
-                                            alignment: Alignment.topLeft,
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical * 1,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal * 2),
-                                            child: Text(
-                                              'collectiontarget'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical * 1),
-                                            alignment: Alignment.topLeft,
-                                            padding: EdgeInsets.only(
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                            ),
-                                            child: Text(
-                                              "  \$" + listing.result
-                                                  .elementAt(index)
-                                                  .budget,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
+                                              width: SizeConfig.blockSizeHorizontal *36,
+                                              alignment: Alignment.topLeft,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *1,
+                                                  left: SizeConfig.blockSizeHorizontal * 1),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'collectiontarget'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " \$"+listing.result
+                                                        .elementAt(index)
+                                                        .budget,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                           ),
                                         ],
                                       ),
@@ -2160,7 +2152,7 @@ class MyActivitiesState extends State<MyActivities> {
                                             top: SizeConfig.blockSizeVertical *
                                                 1),
                                         child: LinearPercentIndicator(
-                                          width: 65.0,
+                                          width: 60.0,
                                           lineHeight: 14.0,
                                           percent: amoun / 100,
                                           center: Text(amoun.toString() + "%",
@@ -2175,44 +2167,43 @@ class MyActivitiesState extends State<MyActivities> {
                                             .end,
                                         children: [
                                           Container(
-                                            alignment: Alignment.centerRight,
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical * 1),
-                                            child: Text(
-                                              'collectedamount'.tr,
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.black87,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
+                                              width: SizeConfig.blockSizeHorizontal *36,
+                                              alignment: Alignment.centerRight,
+                                              margin: EdgeInsets.only(
+                                                  top: SizeConfig.blockSizeVertical *1,
+                                                  right: SizeConfig.blockSizeHorizontal * 4),
+                                              child:  Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'collectedamount'.tr,
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.black87,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                  Text(
+                                                    " \$"+listing.result
+                                                        .elementAt(index)
+                                                        .totalcollectedamount
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        letterSpacing: 1.0,
+                                                        color: Colors.lightBlueAccent,
+                                                        fontSize: 8,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontFamily:
+                                                        'Poppins-Regular'),
+                                                  ),
+                                                ],
+                                              )
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical * 1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal * 4),
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              "  \$" + listing.result
-                                                  .elementAt(index)
-                                                  .totalcollectedamount
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  letterSpacing: 1.0,
-                                                  color: Colors.lightBlueAccent,
-                                                  fontSize: 8,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontFamily:
-                                                  'Poppins-Regular'),
-                                            ),
-                                          )
+
                                         ],
                                       )
 
@@ -3000,7 +2991,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *35,
+                                          width: SizeConfig.blockSizeHorizontal *36,
                                           alignment: Alignment.topLeft,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                               left: SizeConfig.blockSizeHorizontal * 1),
@@ -3052,7 +3043,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *35,
+                                          width: SizeConfig.blockSizeHorizontal *36,
                                           alignment: Alignment.bottomRight,
                                           margin: EdgeInsets.only(
                                               top: SizeConfig.blockSizeVertical *1,right: SizeConfig
@@ -4282,7 +4273,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     Row(
                                       children: [
                                         Container(
-                                          width: SizeConfig.blockSizeHorizontal *33,
+                                          width: SizeConfig.blockSizeHorizontal *35,
                                           alignment: Alignment.topLeft,
                                           margin:
                                           EdgeInsets.only(
@@ -4321,7 +4312,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                       child:  LinearPercentIndicator(
-                                        width: 70.0,
+                                        width: 60.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
                                         center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -4333,7 +4324,7 @@ class MyActivitiesState extends State<MyActivities> {
                                       children: [
                                         Container(
                                           alignment: Alignment.centerRight,
-                                          width: SizeConfig.blockSizeHorizontal *35,
+                                          width: SizeConfig.blockSizeHorizontal *37,
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                               right: SizeConfig.blockSizeHorizontal * 3),
                                           child: Row(
@@ -5237,7 +5228,7 @@ class MyActivitiesState extends State<MyActivities> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: SizeConfig.blockSizeHorizontal *34,
+                                      width: SizeConfig.blockSizeHorizontal *36,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                         left: SizeConfig.blockSizeHorizontal * 2),
@@ -5272,7 +5263,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     Container(
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                       child:  LinearPercentIndicator(
-                                        width: 65.0,
+                                        width: 60.0,
                                         lineHeight: 14.0,
                                         percent: amoun/100,
                                         center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: AppColors.whiteColor),),
@@ -5282,7 +5273,7 @@ class MyActivitiesState extends State<MyActivities> {
                                     ),
                                     Container(
                                       alignment: Alignment.centerRight,
-                                      width: SizeConfig.blockSizeHorizontal *32,
+                                      width: SizeConfig.blockSizeHorizontal *36,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                           .blockSizeHorizontal *
                                           4),

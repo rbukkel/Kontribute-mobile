@@ -24,11 +24,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.transparent, // navigation bar color
-    statusBarColor: Colors.transparent, // status bar color
-  ));
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom, SystemUiOverlay.top]);
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -290,11 +287,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
    SizeConfig().init(context);
-
     /*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));*/
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),

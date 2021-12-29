@@ -1217,7 +1217,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 65.0,
+                                            width: 60.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
                                             center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: AppColors.whiteColor),),
@@ -1229,7 +1229,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           children: [
                                             Container(
                                                 alignment: Alignment.centerRight,
-                                                width: SizeConfig.blockSizeHorizontal *33,
+                                                width: SizeConfig.blockSizeHorizontal *37,
                                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                                     right: SizeConfig.blockSizeHorizontal * 3),
                                                 child: Row(

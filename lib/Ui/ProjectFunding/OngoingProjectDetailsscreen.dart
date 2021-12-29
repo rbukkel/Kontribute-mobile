@@ -1499,7 +1499,7 @@ class OngoingProjectDetailsscreenState
                                 children: [
                                   Container(
                                       width:
-                                          SizeConfig.blockSizeHorizontal * 35,
+                                          SizeConfig.blockSizeHorizontal * 36,
                                       alignment: Alignment.topLeft,
                                       margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
@@ -1533,7 +1533,7 @@ class OngoingProjectDetailsscreenState
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1),
                                     child: LinearPercentIndicator(
-                                      width: 65.0,
+                                      width: 60.0,
                                       lineHeight: 14.0,
                                       percent: amoun / 100,
                                       center: Text(
@@ -1548,7 +1548,7 @@ class OngoingProjectDetailsscreenState
                                   ),
                                   Container(
                                       width:
-                                          SizeConfig.blockSizeHorizontal * 35,
+                                          SizeConfig.blockSizeHorizontal * 36,
                                       margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical * 1,
                                           right:

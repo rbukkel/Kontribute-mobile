@@ -53,8 +53,8 @@ class NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Future<void> initState() {
-    _scrollController = new ScrollController()..addListener(function);
     super.initState();
+    _scrollController = new ScrollController()..addListener(function);
     _loadID();
   }
 
@@ -907,7 +907,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                             1,
                                                         bottom: SizeConfig
                                                                 .blockSizeVertical *
-                                                            1),
+                                                            2),
                                                     padding: EdgeInsets.only(
                                                         left: SizeConfig
                                                                 .blockSizeHorizontal *
@@ -979,7 +979,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                 1,
                                                             bottom: SizeConfig
                                                                     .blockSizeVertical *
-                                                                1),
+                                                                2),
                                                         padding: EdgeInsets.only(
                                                             left: SizeConfig
                                                                     .blockSizeHorizontal *
@@ -1047,7 +1047,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                               1,
                                                           bottom: SizeConfig
                                                                   .blockSizeVertical *
-                                                              1),
+                                                              2),
                                                       padding: EdgeInsets.only(
                                                           left: SizeConfig
                                                                   .blockSizeHorizontal *
@@ -1105,14 +1105,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                   ],
                                                 ),
                                           listing.result.data.elementAt(index).giftPicture == '' ||
-                                                  listing.result.data
-                                                          .elementAt(index)
-                                                          .giftPicture ==
-                                                      '0' ||
-                                                  listing.result.data
-                                                          .elementAt(index)
-                                                          .giftPicture ==
-                                                      null
+                                                  listing.result.data.elementAt(index).giftPicture == '0' ||
+                                                  listing.result.data.elementAt(index).giftPicture == null
                                               ? Container()
                                               : Container(
                                                   margin: EdgeInsets.only(

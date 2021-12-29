@@ -854,7 +854,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                         Container(
                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
                                           child:  LinearPercentIndicator(
-                                            width: 70.0,
+                                            width: 60.0,
                                             lineHeight: 14.0,
                                             percent: amoun/100,
                                             center: Text(amoun.toString()+"%",style: TextStyle(fontSize: 8,color: AppColors.whiteColor),),
@@ -865,7 +865,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                         Row(children: [
                                           Container(
                                               alignment: Alignment.centerRight,
-                                              width: SizeConfig.blockSizeHorizontal *33,
+                                              width: SizeConfig.blockSizeHorizontal *37,
                                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                                   right: SizeConfig.blockSizeHorizontal * 3),
                                             child:

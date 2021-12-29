@@ -1759,7 +1759,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 fontSize: 13,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .normal,
+                                                                        .bold,
                                                                 fontFamily:
                                                                     'Poppins-Regular'),
                                                           ),
@@ -1804,7 +1804,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                           9,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .normal,
+                                                                              .bold,
                                                                       fontFamily:
                                                                           'Poppins-Regular'),
                                                                 ),
@@ -2083,7 +2083,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                           fontSize:
                                                                               12,
                                                                           fontWeight: FontWeight
-                                                                              .normal,
+                                                                              .bold,
                                                                           fontFamily:
                                                                               'Poppins-Regular'),
                                                                     ),
@@ -2165,7 +2165,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 9,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -2187,7 +2187,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 9,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -2268,7 +2268,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 9,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -2290,7 +2290,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 9,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -2313,54 +2313,39 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                        left: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1),
-                                                    child: Text(
-                                                      'collectiontarget'.tr,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black87,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              'Poppins-Regular'),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1),
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    padding: EdgeInsets.only(
-                                                      right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          1,
-                                                    ),
-                                                    child: Text(
-                                                      "  \$" +
-                                                          listing.result
-                                                              .elementAt(index)
-                                                              .budget,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              'Poppins-Regular'),
-                                                    ),
+                                                      width: SizeConfig.blockSizeHorizontal *36,
+                                                      alignment: Alignment.topLeft,
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig.blockSizeVertical *1,
+                                                          left: SizeConfig.blockSizeHorizontal * 1),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            'collectiontarget'.tr,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color: Colors.black87,
+                                                                fontSize: 8,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                fontFamily:
+                                                                'Poppins-Regular'),
+                                                          ),
+                                                          Text(
+                                                            " \$"+listing.result
+                                                                .elementAt(index)
+                                                                .budget,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color: Colors.lightBlueAccent,
+                                                                fontSize: 8,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                fontFamily:
+                                                                'Poppins-Regular'),
+                                                          ),
+                                                        ],
+                                                      )
                                                   ),
                                                 ],
                                               ),
@@ -2391,51 +2376,42 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                     MainAxisAlignment.end,
                                                 children: [
                                                   Container(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1),
-                                                    child: Text(
-                                                      'collectedamount'.tr,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors.black87,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              'Poppins-Regular'),
-                                                    ),
+                                                      width: SizeConfig.blockSizeHorizontal *36,
+                                                      alignment: Alignment.centerRight,
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig.blockSizeVertical *1,
+                                                          right: SizeConfig.blockSizeHorizontal * 4),
+                                                      child:  Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                            'collectedamount'.tr,
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color: Colors.black87,
+                                                                fontSize: 8,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                fontFamily:
+                                                                'Poppins-Regular'),
+                                                          ),
+                                                          Text(
+                                                            " \$"+listing.result
+                                                                .elementAt(index)
+                                                                .totalcollectedamount
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                letterSpacing: 1.0,
+                                                                color: Colors.lightBlueAccent,
+                                                                fontSize: 8,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                fontFamily:
+                                                                'Poppins-Regular'),
+                                                          ),
+                                                        ],
+                                                      )
                                                   ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: SizeConfig
-                                                                .blockSizeVertical *
-                                                            1,
-                                                        right: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            4),
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Text(
-                                                      "  \$" +
-                                                          listing.result
-                                                              .elementAt(index)
-                                                              .totalcollectedamount
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              'Poppins-Regular'),
-                                                    ),
-                                                  )
                                                 ],
                                               )
                                             ],
@@ -2948,7 +2924,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                         13,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -2991,7 +2967,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                           fontSize:
                                                                               8,
                                                                           fontWeight: FontWeight
-                                                                              .normal,
+                                                                              .bold,
                                                                           fontFamily:
                                                                               'Poppins-Regular'),
                                                                     ),
@@ -3048,7 +3024,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                   fontSize: 8,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
+                                                                          .bold,
                                                                   fontFamily:
                                                                       'Poppins-Regular'),
                                                             ),
@@ -3409,7 +3385,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                   fontSize: 8,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
+                                                                          .bold,
                                                                   fontFamily:
                                                                       'Poppins-Regular'),
                                                             ),
@@ -3504,7 +3480,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                             .spaceBetween,
                                                     children: [
                                                       Container(
-                                                          width: SizeConfig.blockSizeHorizontal *35,
+                                                          width: SizeConfig.blockSizeHorizontal *36,
                                                           alignment: Alignment.topLeft,
                                                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                                               left: SizeConfig.blockSizeHorizontal * 1),
@@ -3521,7 +3497,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 8,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -3540,7 +3516,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 8,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -3562,8 +3538,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                         amoun.toString() + "%",
                                                         style: TextStyle(
                                                             fontSize: 8,
-                                                            color: AppColors
-                                                                .whiteColor),
+                                                            color: AppColors.whiteColor,
+                                                        fontWeight: FontWeight.bold),
                                                       ),
                                                       backgroundColor:
                                                           AppColors.lightgrey,
@@ -3576,7 +3552,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                         MainAxisAlignment.end,
                                                     children: [
                                                       Container(
-                                                          width: SizeConfig.blockSizeHorizontal *35,
+                                                          width: SizeConfig.blockSizeHorizontal *36,
                                                           alignment: Alignment.bottomRight,
                                                           margin: EdgeInsets.only(
                                                               top: SizeConfig.blockSizeVertical *1,right: SizeConfig
@@ -3598,7 +3574,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 8,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -3618,7 +3594,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     fontSize: 8,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .normal,
+                                                                            .bold,
                                                                     fontFamily:
                                                                         'Poppins-Regular'),
                                                               ),
@@ -5018,7 +4994,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               Container(
                                                                   width: SizeConfig
                                                                           .blockSizeHorizontal *
-                                                                      33,
+                                                                      35,
                                                                   alignment:
                                                                       Alignment
                                                                           .topLeft,
@@ -5073,7 +5049,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     1),
                                                             child:
                                                                 LinearPercentIndicator(
-                                                              width: 70.0,
+                                                              width: 60.0,
                                                               lineHeight: 14.0,
                                                               percent:
                                                                   amoun / 100,
@@ -5101,7 +5077,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                           .centerRight,
                                                                   width: SizeConfig
                                                                           .blockSizeHorizontal *
-                                                                      35,
+                                                                      37,
                                                                   margin: EdgeInsets.only(
                                                                       top: SizeConfig
                                                                               .blockSizeVertical *
@@ -6068,7 +6044,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     .spaceBetween,
                                                             children: [
                                                               Container(
-                                                                  width: SizeConfig.blockSizeHorizontal *34,
+                                                                  width: SizeConfig.blockSizeHorizontal *36,
                                                                   alignment: Alignment.topLeft,
                                                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                                                                       left: SizeConfig.blockSizeHorizontal * 2),
@@ -6139,7 +6115,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                               ),
                                                               Container(
                                                                   alignment: Alignment.centerRight,
-                                                                  width: SizeConfig.blockSizeHorizontal *32,
+                                                                  width: SizeConfig.blockSizeHorizontal *36,
                                                                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig
                                                                       .blockSizeHorizontal *
                                                                       3),

@@ -244,7 +244,6 @@ class HomeScreenState extends State<HomeScreen> {
               print("SSSS");
               banner_length = imageslisting.projectimages;
             }
-
             if (imageslisting.donationimages.isEmpty) {
               resultDonationvalue = false;
             } else {
@@ -260,7 +259,6 @@ class HomeScreenState extends State<HomeScreen> {
               print("SSSS");
               bannerEvent_length = imageslisting.eventimages;
             }
-
             if (imageslisting.ticketimages.isEmpty) {
               resultTicketvalue = false;
             } else {
@@ -280,6 +278,11 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent, // navigation bar color
+      statusBarColor: Colors.transparent, // status bar color
+    ));*/
+
     SizeConfig().init(context);
     return Scaffold(
       key: _scaffoldKey,
@@ -411,7 +414,6 @@ class HomeScreenState extends State<HomeScreen> {
                               event = false;
                               ticket = false;
                             });
-
                             print("Value: " + tabvalue);
                           },
                           child: Container(
@@ -441,7 +443,6 @@ class HomeScreenState extends State<HomeScreen> {
                               event = false;
                               ticket = false;
                             });
-
                             print("Value: " + tabvalue);
                           },
                           child:  Container(
@@ -501,7 +502,6 @@ class HomeScreenState extends State<HomeScreen> {
                               event = false;
                               ticket = true;
                             });
-
                             print("Value: " + tabvalue);
                           },
                           child:  Container(
@@ -569,9 +569,7 @@ class HomeScreenState extends State<HomeScreen> {
                               height: SizeConfig.blockSizeVertical * 25,
                               fit: BoxFit.fill ,
                               imageUrl:Network.BaseApiProject +
-                                  imageslisting.projectimages
-                                      .elementAt(index)
-                                      .imagePath,
+                                  imageslisting.projectimages.elementAt(index).imagePath,
                               placeholder: (context, url) => Container(
                                   height: SizeConfig.blockSizeVertical * 5, width: SizeConfig.blockSizeVertical * 5,
                                   child: Center(child: new CircularProgressIndicator())),
@@ -647,7 +645,6 @@ class HomeScreenState extends State<HomeScreen> {
                                               .imagePath,
                                     ),
                                     fit: BoxFit.fill)),*/
-
                            child: CachedNetworkImage(
                               width: SizeConfig.blockSizeHorizontal * 62,
                               height: SizeConfig.blockSizeVertical * 25,

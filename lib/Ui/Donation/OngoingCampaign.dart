@@ -673,8 +673,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                   fit: BoxFit.fill,
                                                 ),
                                               )),
-                                        )
-                                            :
+                                        ) :
                                         GestureDetector(
                                           onTap: () {
                                             callNext(
@@ -1181,7 +1180,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: SizeConfig.blockSizeHorizontal *34,
+                                              width: SizeConfig.blockSizeHorizontal *36,
                                               alignment: Alignment.topLeft,
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical *1,
@@ -1234,7 +1233,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                                width: SizeConfig.blockSizeHorizontal *34,
+                                                width: SizeConfig.blockSizeHorizontal *36,
                                                 alignment: Alignment.centerRight,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *1,

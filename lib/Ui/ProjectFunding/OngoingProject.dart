@@ -71,9 +71,8 @@ class OngoingProjectState extends State<OngoingProject> {
 
   @override
   Future<void> initState() {
-    _scrollController = new ScrollController()..addListener(function);
     super.initState();
-
+    _scrollController = new ScrollController()..addListener(function);
     _loadID();
   }
 
@@ -1465,52 +1464,39 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  alignment: Alignment.topLeft,
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                              .blockSizeVertical *
-                                                          1,
-                                                      left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          2),
-                                                  child: Text(
-                                                   'collectiontarget'.tr,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            'Poppins-Regular'),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                              .blockSizeVertical *
-                                                          1),
-                                                  alignment: Alignment.topLeft,
-                                                  padding: EdgeInsets.only(
-                                                    right: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                       1,
-                                                  ),
-                                                  child: Text(
-                                                    "  \$" +
-                                                        listing.projectData
-                                                            .elementAt(index)
-                                                            .budget,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            'Poppins-Regular'),
-                                                  ),
+                                                    width: SizeConfig.blockSizeHorizontal *36,
+                                                    alignment: Alignment.topLeft,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig.blockSizeVertical *1,
+                                                        left: SizeConfig.blockSizeHorizontal * 1),
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          'collectiontarget'.tr,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.black87,
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                        Text(
+                                                          " \$"+listing.projectData
+                                                              .elementAt(index)
+                                                              .budget,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.lightBlueAccent,
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ],
+                                                    )
                                                 ),
                                               ],
                                             ),
@@ -1520,7 +1506,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                           .blockSizeVertical *
                                                       1),
                                               child: LinearPercentIndicator(
-                                                width: 65.0,
+                                                width: 60.0,
                                                 lineHeight: 14.0,
                                                 percent: amoun / 100,
                                                 center: Text(
@@ -1542,50 +1528,43 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Container(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                              .blockSizeVertical *
-                                                          1),
-                                                  child: Text(
-                                                    'collectedamount'.tr,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors.black87,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            'Poppins-Regular'),
-                                                  ),
+                                                    width: SizeConfig.blockSizeHorizontal *36,
+                                                    alignment: Alignment.centerRight,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig.blockSizeVertical *1,
+                                                        right: SizeConfig.blockSizeHorizontal * 4),
+                                                    child:  Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Text(
+                                                          'collectedamount'.tr,
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.black87,
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                        Text(
+                                                          " \$"+listing.projectData
+                                                              .elementAt(index)
+                                                              .totalcollectedamount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              letterSpacing: 1.0,
+                                                              color: Colors.lightBlueAccent,
+                                                              fontSize: 8,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontFamily:
+                                                              'Poppins-Regular'),
+                                                        ),
+                                                      ],
+                                                    )
                                                 ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                              .blockSizeVertical *
-                                                          1,
-                                                      right: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          4),
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    "  \$" +
-                                                        listing.projectData
-                                                            .elementAt(index)
-                                                            .totalcollectedamount
-                                                            .toString(),
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.0,
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            'Poppins-Regular'),
-                                                  ),
-                                                )
+
                                               ],
                                             )
                                           ],
