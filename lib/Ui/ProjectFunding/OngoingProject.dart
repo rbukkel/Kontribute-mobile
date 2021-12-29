@@ -65,6 +65,11 @@ class OngoingProjectState extends State<OngoingProject> {
   String deleteproject;
   final _formmainKey = GlobalKey<FormState>();
 
+
+  //double percent=(prod_old_price - prod_price)/prod_old_price*100;
+
+  //double.tryParse(data[numberdata].toString())*(5/100).toString()
+
   void function() {
     print("scrolling");
   }
@@ -108,9 +113,7 @@ class OngoingProjectState extends State<OngoingProject> {
 
   void paginationApi() {
     _scrollController.addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber < listing.lastPage) {
             pageNumber += 1;
@@ -118,9 +121,7 @@ class OngoingProjectState extends State<OngoingProject> {
           }
         });
       }
-      if (_scrollController.offset <=
-              _scrollController.position.minScrollExtent &&
-          !_scrollController.position.outOfRange) {
+      if (_scrollController.offset <= _scrollController.position.minScrollExtent && !_scrollController.position.outOfRange) {
         setState(() {
           if (pageNumber >= 1) {
             pageNumber = pageNumber - 1;

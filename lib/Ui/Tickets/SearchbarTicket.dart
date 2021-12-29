@@ -935,8 +935,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                     color: Colors.black87,
                                                     fontSize: 8,
                                                     fontWeight: FontWeight.bold,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
+                                                    fontFamily: 'Poppins-Regular'),
                                               ),
                                               Text(
                                                 " - "+listing.projectData.elementAt(index).balanceQtySlot.toString(),
@@ -1215,9 +1214,11 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                     Container(
                                         width: SizeConfig.blockSizeHorizontal *100,
                                         alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockSizeHorizontal *3,
+                                            right: SizeConfig.blockSizeHorizontal *3,
                                             top: SizeConfig.blockSizeVertical *1),
-                                        child:  Row(
+                                        child: Row(
                                           children: [
                                             Text(
                                               'noofpersonsjoined'.tr,
@@ -1292,8 +1293,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                   ],
                                 ),
                               ),
-
-
                             ),
                           );
                         }),
@@ -1315,11 +1314,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                           'Poppins-Regular')),
                     ),
                   )
-
                 ],
               ),
-
-
         ));
   }
   Future<void> _createDynamicLink(String productid) async {
@@ -1568,7 +1564,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
       if (jsonResponse["success"] == false) {
         Navigator.of(context, rootNavigator: true).pop();
         errorDialog(jsonDecode(deleteproject)["message"]);
-
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
@@ -1587,7 +1582,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
       errorDialog(jsonDecode(deleteproject)["message"]);
     }
   }
-
 
   void deleteDialog(String id) {
     Widget cancelButton = FlatButton
@@ -1622,8 +1616,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
       },
     );
   }
-
-
 
   Future<void> Payamount(String id, String requiredAmount,String qtyval, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
@@ -1708,7 +1700,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
               ),
             ),
           );
-
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
