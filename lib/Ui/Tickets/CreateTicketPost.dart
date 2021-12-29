@@ -51,26 +51,21 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   FileType fileType;
   var basename = null;
   var catname = null;
-  final TextEditingController searchpostController =
-      new TextEditingController();
+  final TextEditingController searchpostController = new TextEditingController();
   final TextEditingController EventNameController = new TextEditingController();
   final TextEditingController LocationController = new TextEditingController();
-  final TextEditingController LocationDetailsController =
-      new TextEditingController();
-  final TextEditingController DescriptionController =
-      new TextEditingController();
+  final TextEditingController LocationDetailsController = new TextEditingController();
+  final TextEditingController DescriptionController = new TextEditingController();
   final TextEditingController DateController = new TextEditingController();
   final TextEditingController TimeController = new TextEditingController();
   final TextEditingController ContactNoController = new TextEditingController();
-  final TextEditingController CostofTicketController =
-      new TextEditingController();
-  final TextEditingController MaximumNoofquantityController =
-      new TextEditingController();
+  final TextEditingController CostofTicketController = new TextEditingController();
+  final TextEditingController MaximumNoofquantityController = new TextEditingController();
   final TextEditingController EmailController = new TextEditingController();
   final TextEditingController TermsController = new TextEditingController();
-  final documentsFocus = FocusNode();
   final TextEditingController documentsController = new TextEditingController();
   final TextEditingController VideoController = new TextEditingController();
+  final documentsFocus = FocusNode();
   String _Video;
   String _documents;
   String selectedTime = "";
@@ -98,11 +93,13 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   List<File> _imageList = [];
   List<File> _documentList = [];
   List _selecteName = List();
+
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
     "Invite",
   ];
+
   String mobile, countrycode;
   final List<String> _dropdownprivecyvalue = ["Private", "Public"];
 

@@ -189,9 +189,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
         currentDate = picked;
       });
   }
-
-
-
   EndDateView(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
@@ -236,7 +233,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     });
   }
 
-
   Future<void> getData(String a,String search) async {
     setState(() {
       categoryfollowinglist =null;
@@ -273,12 +269,13 @@ class CreateProjectPostState extends State<CreateProjectPost> {
           //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
             errorDialog(jsonResponse["message"]);
-
-          });
+          }
+          );
         }
       }
     }
   }
+
   void errorDialog(String text) {
     showDialog(
       context: context,

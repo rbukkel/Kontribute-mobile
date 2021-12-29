@@ -2601,18 +2601,14 @@ class CreateEventPostState extends State<CreateEventPost> {
                                   Internet_check().check().then((intenet) {
                                     if (intenet != null && intenet) {
                                       if (_imageList.isNotEmpty && _imageList.length!=null) {
-                                        if (currentDate
-                                                .compareTo(currentEndDate) >
+                                        if (currentDate.compareTo(currentEndDate) >
                                             0) {
                                           print('date is befor');
                                           //peform logic here.....
-                                          errorDialog(
-                                              'Theenddatemustbeafterthestartdate'
-                                                  .tr);
+                                          errorDialog('Theenddatemustbeafterthestartdate'.tr);
                                         } else {
                                           if(catid==0)
                                           {
-
                                             errorDialog('pleaseselectevents'.tr);
                                           }
                                           else
@@ -2643,10 +2639,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                           : selectedEndTime,
                                                       myFormat.format(currentDate),
                                                       myFormat.format(currentEndDate),
-                                                      EnterRequiredAmountController
-                                                          .text,
-                                                      Maximumnoparticipantcontroller
-                                                          .text,
+                                                      EnterRequiredAmountController.text,
+                                                      Maximumnoparticipantcontroller.text,
                                                       TermsController.text,
                                                       emailController.text,
                                                       nameController.text,
@@ -2691,13 +2685,11 @@ class CreateEventPostState extends State<CreateEventPost> {
                                                       _imageList,
                                                       _documentList);
                                                 }
-                                              }
+                                               }
                                             }
-
                                         }
                                       } else {
-                                        errorDialog(
-                                            'pleaseselecteventimages'.tr);
+                                        errorDialog('pleaseselecteventimages'.tr);
                                       }
                                     } else {
                                       errorDialog('nointernetconnection'.tr);
@@ -2731,7 +2723,8 @@ class CreateEventPostState extends State<CreateEventPost> {
                               ),
                             )
                           ],
-                        )),
+                        )
+                    ),
                   ),
                 ),
               )

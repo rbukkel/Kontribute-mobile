@@ -57,6 +57,7 @@ class OngoingProjectState extends State<OngoingProject> {
   bool isLoading = false;
   static ScrollController _scrollController;
   final AmountFocus = FocusNode();
+  String onchangeval = "";
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
   String shortsharedlink = '';
@@ -1123,6 +1124,17 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                       TextInputAction.next,
                                                                                                       keyboardType:
                                                                                                       TextInputType.number,
+                                                                                                      onChanged: (text) {
+                                                                                                        setState(() {
+                                                                                                          onchangeval = text;
+
+                                                                                                          double tectString = double.parse(onchangeval)*0.05;
+                                                                                                          print("PrintSring: "+tectString.toString());
+                                                                                                        });
+                                                                                                        print("value_1 : " + onchangeval);
+
+
+                                                                                                      },
                                                                                                       validator: (val) {
                                                                                                         if (val.length == 0)
                                                                                                           return 'pleaseenterpaymentamount'.tr;
@@ -1168,11 +1180,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                         );
                                                                                         // show the dialog
                                                                                         showDialog(
-                                                                                          context:
-                                                                                          context,
-                                                                                          builder:
-                                                                                              (BuildContext
-                                                                                          context) {
+                                                                                          context: context,
+                                                                                          builder: (BuildContext context) {
                                                                                             return alert;
                                                                                           },
                                                                                         );
