@@ -1653,7 +1653,6 @@ class registerState extends State<register> {
                           print("SelectionController: "+mycontroller.text);
                           print("Selectioncode: "+listing.resultPush.elementAt(index).numCode.toString());
                         });
-
                       },
                       child: Container(
                         height: SizeConfig.blockSizeVertical *7,

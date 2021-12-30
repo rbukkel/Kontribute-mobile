@@ -28,9 +28,9 @@ class sendfollow_RequestlistingPojo {
 }
 
 class Result {
-  String id;
-  String senderId;
-  String receiverId;
+  int id;
+  int senderId;
+  int receiverId;
   String status;
   String postedDate;
   String createdAt;
@@ -38,20 +38,20 @@ class Result {
   String fullName;
   String profilePic;
   String facebookId;
-  String connectionId;
+  int connectionId;
 
   Result(
       {this.id,
-      this.senderId,
-      this.receiverId,
-      this.status,
-      this.postedDate,
-      this.createdAt,
-      this.updatedAt,
-      this.fullName,
-      this.profilePic,
-      this.facebookId,
-      this.connectionId});
+        this.senderId,
+        this.receiverId,
+        this.status,
+        this.postedDate,
+        this.createdAt,
+        this.updatedAt,
+        this.fullName,
+        this.profilePic,
+        this.facebookId,
+        this.connectionId});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -6793,7 +6793,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                           style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                         ),
                                                                                         Text(
-                                                                                          listinginvite.result.elementAt(index).receiverRequestPrice != null ? " \$" + listinginvite.result.elementAt(index).receiverRequestPrice : "",
+                                                                                          listinginvite.result.elementAt(index).receiverRequestPrice != null ? " \$" + listinginvite.result.elementAt(index).receiverRequestPrice.toString() : "",
                                                                                           style: TextStyle(letterSpacing: 1.0, color: Colors.lightBlueAccent, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                                         ),
                                                                                       ],

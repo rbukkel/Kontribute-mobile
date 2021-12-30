@@ -39,7 +39,7 @@ class ContactFromKontribute extends StatelessWidget {
           return contact.info.phones.isNotEmpty?
             ListTile(
             onTap: () {
-              Share.share( "Let's join on Kontribute! Get it at http://kontribute.knickglobal.com/signup");
+              Share.share( "Let's join on Kontribute! Get it at http://kontribute.biz/signup");
               /* SmsSender sender = SmsSender();
               String address = contact.info.phones.first.value.toString();
               print("no. "+ address);

@@ -4666,7 +4666,6 @@ class MyActivitiesState extends State<MyActivities> {
                               ],
                             ),
                           ),
-
                         ),
                       );
                     }),
@@ -5576,9 +5575,7 @@ class MyActivitiesState extends State<MyActivities> {
               storelist_length != null ?
               Expanded(
                 child: ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
+                    itemCount: storelist_length.length == null ? 0 : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -5874,7 +5871,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                               listinginvite.result.elementAt(index).receiverRequestPrice !=
                                                                   null
                                                                   ? " \$" +
-                                                                  listinginvite.result.elementAt(index).receiverRequestPrice
+                                                                  listinginvite.result.elementAt(index).receiverRequestPrice.toString()
                                                                   : "",
                                                               style: TextStyle(
                                                                   letterSpacing:

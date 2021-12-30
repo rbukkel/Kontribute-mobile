@@ -378,7 +378,7 @@ class _SendRequestState extends State<SendRequest> {
                                   GestureDetector(
                                     onTap: ()
                                     {
-                                     Removefromlisting(requestpojo.result.elementAt(index).id);
+                                     Removefromlisting(requestpojo.result.elementAt(index).id.toString());
                                     },
                                     child: Container(
                                       alignment: Alignment.center,

@@ -1,12 +1,12 @@
 class Network{
-  static String BaseApi = "http://kontribute.knickglobal.com/api/";
-  static String BaseApipics = "http://kontribute.knickglobal.com/";
-  static String BaseApiprofile = "http://kontribute.knickglobal.com/uploads/profile_pic/";
-  static String BaseApigift = "http://kontribute.knickglobal.com/uploads/gifts/";
-  static String BaseApiProject = "http://kontribute.knickglobal.com/uploads/project/";
-  static String BaseApidonation = "http://kontribute.knickglobal.com/uploads/donation/";
-  static String BaseApiticket = "http://kontribute.knickglobal.com/uploads/tickets/";
-  static String BaseApievent = "http://kontribute.knickglobal.com/uploads/events/";
+  static String BaseApi = "http://kontribute.biz/api/";
+  static String BaseApipics = "http://kontribute.biz/";
+  static String BaseApiprofile = "http://kontribute.biz/uploads/profile_pic/";
+  static String BaseApigift = "http://kontribute.biz/uploads/gifts/";
+  static String BaseApiProject = "http://kontribute.biz/uploads/project/";
+  static String BaseApidonation = "http://kontribute.biz/uploads/donation/";
+  static String BaseApiticket = "http://kontribute.biz/uploads/tickets/";
+  static String BaseApievent = "http://kontribute.biz/uploads/events/";
   static String sharelin = "https://admin.kontirbute.com/api/sharedproduct/";
   static String register = "register";
   static String countrylist = "countrylist";
@@ -70,7 +70,7 @@ class Network{
   static String get_donation = "get_donation";
   static String invitation = "invitation";
   static String invitationListing = "invitationListing";
-  static String sharelink = "http://kontribute.knickglobal.com/signup";
+  static String sharelink = "http://kontribute.biz/signup";
   static String create_events = "create_events";
   static String categorylisting = "categorylisting";
   static String eventListing = "eventListing";

@@ -28,15 +28,15 @@ class myactivitiesinvitepojo {
 }
 
 class Result {
-  String id;
+  int id;
   String receiverName;
   String receiverMobile;
-  String senderId;
+  int senderId;
   String senderName;
   String senderProfilePic;
   String senderFacebookId;
   String receiverMessage;
-  String receiverRequestPrice;
+  int receiverRequestPrice;
   String receiverEndDate;
   String receiverInvitationFrom;
   String receiverStatus;
@@ -44,18 +44,18 @@ class Result {
 
   Result(
       {this.id,
-      this.receiverName,
-      this.receiverMobile,
-      this.senderId,
-      this.senderName,
-      this.senderProfilePic,
-      this.senderFacebookId,
-      this.receiverMessage,
-      this.receiverRequestPrice,
-      this.receiverEndDate,
-      this.receiverInvitationFrom,
-      this.receiverStatus,
-      this.receiverCreatedAt});
+        this.receiverName,
+        this.receiverMobile,
+        this.senderId,
+        this.senderName,
+        this.senderProfilePic,
+        this.senderFacebookId,
+        this.receiverMessage,
+        this.receiverRequestPrice,
+        this.receiverEndDate,
+        this.receiverInvitationFrom,
+        this.receiverStatus,
+        this.receiverCreatedAt});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];

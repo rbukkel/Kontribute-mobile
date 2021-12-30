@@ -15,14 +15,10 @@ class CountrylistPojo {
     success = json['success'];
     message = json['message'];
   }
-  static List<CountrylistPojo> fromJsonList(List list) {
-    if (list == null) return null;
-    return list.map((item) => CountrylistPojo.fromJson(item)).toList();
-  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.resultPush != null)
-    {
+    if (this.resultPush != null) {
       data['result_push'] = this.resultPush.map((v) => v.toJson()).toList();
     }
     data['success'] = this.success;
@@ -33,7 +29,7 @@ class CountrylistPojo {
 
 class ResultPush {
   String country;
-  String numCode;
+  int numCode;
 
   ResultPush({this.country, this.numCode});
 
@@ -42,20 +38,10 @@ class ResultPush {
     numCode = json['num_code'];
   }
 
-
-
-  ///this method will prevent the override of toString
-  String userAsString() {
-    return '#${this.numCode} ${this.country}';
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['country'] = this.country;
     data['num_code'] = this.numCode;
     return data;
   }
-
-  @override
-  String toString() => country;
 }

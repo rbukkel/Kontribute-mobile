@@ -73,7 +73,7 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
     Map data = {
       'userid': id.toString(),
     };
-    print("profile data: " + data.toString());
+    print("profile data: " +data.toString());
     var jsonResponse = null;
     http.Response response =
         await http.post(Network.BaseApi + Network.get_profiledata, body: data);
@@ -104,13 +104,10 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
             } else {
               email = loginResponse.resultPush.email;
             }
-            if (loginResponse.resultPush.facebookId == null ||
-                loginResponse.resultPush.facebookId == "") {
-              if (loginResponse.resultPush.profilePic != null ||
-                  loginResponse.resultPush.profilePic != "") {
+            if (loginResponse.resultPush.facebookId == null || loginResponse.resultPush.facebookId == "") {
+              if (loginResponse.resultPush.profilePic != null || loginResponse.resultPush.profilePic != "") {
                 setState(() {
-                  image = Network.BaseApiprofile +
-                      loginResponse.resultPush.profilePic;
+                  image = Network.BaseApiprofile + loginResponse.resultPush.profilePic;
                   if (image.isNotEmpty) {
                     imageUrl = true;
                     _loading = true;

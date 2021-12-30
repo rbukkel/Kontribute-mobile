@@ -46,7 +46,7 @@ class ConnectionsState extends State<Connections> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
-            toolbarHeight: SizeConfig.blockSizeVertical *15,
+            toolbarHeight: SizeConfig.blockSizeVertical *18,
             title: Container(
               child: Text(
                'mynetwork'.tr,
@@ -74,7 +74,7 @@ class ConnectionsState extends State<Connections> {
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,right: SizeConfig.blockSizeHorizontal *1),
-                    child: Image.asset("assets/images/menu.png",height: 10,width: 10, color: AppColors.whiteColor,),
+                    child: Icon(Icons.menu,color: Colors.white,),
                   ),
                 )
             ),

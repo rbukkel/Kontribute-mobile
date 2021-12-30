@@ -29,7 +29,7 @@ class NationalitylistPojo {
 
 class ResultPush {
   String nationality;
-  String numCode;
+  int numCode;
 
   ResultPush({this.nationality, this.numCode});
 
