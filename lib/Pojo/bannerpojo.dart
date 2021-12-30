@@ -66,8 +66,8 @@ class bannerpojo {
 }
 
 class Projectimages {
-  String id;
-  String projectId;
+  int id;
+  int projectId;
   String imagePath;
   String status;
   String postedDate;
@@ -111,8 +111,8 @@ class Projectimages {
 }
 
 class Donationimages {
-  String id;
-  String donationId;
+  int id;
+  int donationId;
   String imagePath;
   String status;
   String postedDate;
@@ -156,8 +156,8 @@ class Donationimages {
 }
 
 class Eventimages {
-  String id;
-  String eventId;
+  int id;
+  int eventId;
   String imagePath;
   String status;
   String postedDate;
@@ -201,8 +201,8 @@ class Eventimages {
 }
 
 class Ticketimages {
-  String id;
-  String ticketId;
+  int id;
+  int ticketId;
   String imagePath;
   String status;
   String postedDate;

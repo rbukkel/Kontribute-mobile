@@ -678,8 +678,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                   .projectImages;
                               commentlist_length =
                                   listing.projectData.elementAt(index).comments;
-                              double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount) /
-                                  double.parse(listing.projectData.elementAt(index).budget) * 100;
+                              double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount.toString()) /
+                                  double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
                               amoun = amount.toInt();
                               reverid = listing.projectData
                                   .elementAt(index)
@@ -999,19 +999,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 'Poppins-Regular'),
                                                       ),
                                                     ),
-                                                    listing.projectData
-                                                                .elementAt(
-                                                                    index)
-                                                                .userId
-                                                                .toString() !=
-                                                            userid
+                                                    listing.projectData.elementAt(index).userId.toString() != userid
                                                         ? listing.projectData
                                                                     .elementAt(
                                                                         index)
-                                                                    .status ==
-                                                                "pending"
-                                                            ?
-                                                    GestureDetector(
+                                                                    .status == "pending"? GestureDetector(
                                                                 onTap: () {
 
                                                                   SharedUtils.readTerms("Terms").then((result){
@@ -1096,7 +1088,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                     listing
                                                                                                         .projectData
                                                                                                         .elementAt(index)
-                                                                                                        .id,
+                                                                                                        .id.toString(),
                                                                                                     AmountController.text,
                                                                                                     userid);
                                                                                               });
@@ -1495,7 +1487,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                         Text(
                                                           " \$"+listing.projectData
                                                               .elementAt(index)
-                                                              .budget,
+                                                              .budget.toString(),
                                                           style: TextStyle(
                                                               letterSpacing: 1.0,
                                                               color: Colors.lightBlueAccent,

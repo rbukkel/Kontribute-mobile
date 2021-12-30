@@ -275,8 +275,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                             imageslist_length = listing.projectData
                                 .elementAt(index)
                                 .projectImages;
-                            double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) /
-                                double.parse(listing.projectData.elementAt(index).budget) * 100;
+                            double amount = double.parse(listing.projectData.elementAt(index).requiredAmount.toString()) /
+                                double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
                             amoun = amount.toInt();
                             return Container(
                               margin: EdgeInsets.only(
@@ -639,7 +639,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                                         listing
                                                                                             .projectData
                                                                                             .elementAt(index)
-                                                                                            .id,
+                                                                                            .id.toString(),
                                                                                         AmountController.text,
                                                                                         userid);
                                                                                   }
@@ -1036,7 +1036,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                       Text(
                                                         " \$"+ listing.projectData
                                                             .elementAt(index)
-                                                            .budget,
+                                                            .budget.toString(),
                                                         style: TextStyle(
                                                             letterSpacing: 1.0,
                                                             color: Colors.lightBlueAccent,

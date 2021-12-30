@@ -283,8 +283,8 @@ class OngoingProjectDetailsscreenState
             paymentdetails_length =
                 projectdetailspojo.commentsdata.projectpaymentdetails;
             double amount = double.parse(
-                    projectdetailspojo.commentsdata.totalcollectedamount) /
-                double.parse(projectdetailspojo.commentsdata.budget) *
+                    projectdetailspojo.commentsdata.totalcollectedamount.toString()) /
+                double.parse(projectdetailspojo.commentsdata.budget.toString()) *
                 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
@@ -1145,7 +1145,7 @@ class OngoingProjectDetailsscreenState
                                                                                         () async {
                                                                                       if (_formmainKey.currentState.validate()) {
                                                                                         setState(() {
-                                                                                          Payamount(projectdetailspojo.commentsdata.id, AmountController.text, userid);
+                                                                                          Payamount(projectdetailspojo.commentsdata.id.toString(), AmountController.text, userid);
                                                                                         });
                                                                                       }
                                                                                     },
@@ -1519,7 +1519,7 @@ class OngoingProjectDetailsscreenState
                                           Text(
                                             "  \$" +
                                                 projectdetailspojo
-                                                    .commentsdata.budget,
+                                                    .commentsdata.budget.toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -1570,7 +1570,7 @@ class OngoingProjectDetailsscreenState
                                           Text(
                                             "  \$" +
                                                 projectdetailspojo.commentsdata
-                                                    .totalcollectedamount,
+                                                    .totalcollectedamount.toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,

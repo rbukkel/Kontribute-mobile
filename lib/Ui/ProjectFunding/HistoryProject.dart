@@ -240,7 +240,7 @@ class HistoryProjectState extends State<HistoryProject> {
                         : storelist_length.length,
                     itemBuilder: (BuildContext context, int index) {
                       imageslist_length = listing.projectData.elementAt(index).projectImages;
-                      double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) / double.parse(listing.projectData.elementAt(index).budget) * 100;
+                      double amount = double.parse(listing.projectData.elementAt(index).requiredAmount.toString()) / double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
                       amoun =amount.toInt();
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
@@ -547,7 +547,7 @@ class HistoryProjectState extends State<HistoryProject> {
                                                 3,
                                           ),
                                           child: Text(
-                                            "\$"+listing.projectData.elementAt(index).budget,
+                                            "\$"+listing.projectData.elementAt(index).budget.toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -592,7 +592,7 @@ class HistoryProjectState extends State<HistoryProject> {
                                           alignment: Alignment.topLeft,
 
                                           child: Text(
-                                            "\$"+listing.projectData.elementAt(index).totalcollectedamount,
+                                            "\$"+listing.projectData.elementAt(index).totalcollectedamount.toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,

@@ -25,15 +25,15 @@ class Projectdetailspojo {
 }
 
 class Commentsdata {
-  String id;
+  int id;
   String projectName;
   String projectStartdate;
   String projectEnddate;
   String description;
   String tags;
-  String userId;
-  String budget;
-  String requiredAmount;
+  int userId;
+  int budget;
+  int requiredAmount;
   List<VideoLink> videoLink;
   List<Documents> documents;
   String viewType;
@@ -48,7 +48,7 @@ class Commentsdata {
   List<Commentslist> commentslist;
   List<Projectimagesdata> projectimagesdata;
   List<Projectpaymentdetails> projectpaymentdetails;
-  String totalcollectedamount;
+  int totalcollectedamount;
   String fullName;
   String profilePic;
 
@@ -129,13 +129,7 @@ class Commentsdata {
         projectpaymentdetails.add(new Projectpaymentdetails.fromJson(v));
       });
     }
-    if(json['totalcollectedamount'] is int)
-      {
-        totalcollectedamount = json['totalcollectedamount'].toString();
-      }
-    else{
-      totalcollectedamount = json['totalcollectedamount'];
-    }
+    totalcollectedamount = json['totalcollectedamount'];
 
     fullName = json['full_name'];
     profilePic = json['profile_pic'];
@@ -225,7 +219,7 @@ class Documents {
 
 class Projectimagesdata {
   int id;
-  String projectId;
+  int projectId;
   String imagePath;
   String status;
   String postedDate;
@@ -265,7 +259,7 @@ class Projectimagesdata {
 }
 class Commentslist {
   int id;
-  String projectId;
+  int projectId;
   String comment;
   String userId;
   String postedDate;
@@ -305,10 +299,10 @@ class Commentslist {
 }
 
 class Projectpaymentdetails {
-  String id;
-  String projectId;
-  String senderId;
-  String amount;
+  int id;
+  int projectId;
+  int senderId;
+  int amount;
   String status;
   String createdAt;
   String updatedAt;

@@ -169,8 +169,8 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
             paymentdetails_length = projectdetailspojo.commentsdata.projectpaymentdetails;
-            double amount = double.parse(projectdetailspojo.commentsdata.requiredAmount) /
-                    double.parse(projectdetailspojo.commentsdata.budget) * 100;
+            double amount = double.parse(projectdetailspojo.commentsdata.requiredAmount.toString()) /
+                    double.parse(projectdetailspojo.commentsdata.budget.toString()) * 100;
             amoun = amount.toInt();
             reverid = projectdetailspojo.commentsdata.userId.toString();
             print("Amountval: " + amoun.toString());
@@ -610,7 +610,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                                     1,
                               ),
                               child: Text(
-                                "\$" + projectdetailspojo.commentsdata.budget,
+                                "\$" + projectdetailspojo.commentsdata.budget.toString(),
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,
@@ -665,7 +665,7 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                               child: Text(
                                 "\$" +
                                     projectdetailspojo
-                                        .commentsdata.totalcollectedamount,
+                                        .commentsdata.totalcollectedamount.toString(),
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.lightBlueAccent,

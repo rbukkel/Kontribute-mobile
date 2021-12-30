@@ -51,15 +51,15 @@ class projectlisting {
 }
 
 class ProjectData {
-  String id;
+  int id;
   String projectName;
   String projectStartdate;
   String projectEnddate;
   String description;
   String tags;
-  String userId;
-  String budget;
-  String requiredAmount;
+  int userId;
+  int budget;
+  int requiredAmount;
   String videoLink;
   String viewType;
   String members;
@@ -72,7 +72,7 @@ class ProjectData {
   String profilePic;
   List<ProjectImages> projectImages;
   List<Comments> comments;
-  String totalcollectedamount;
+  int totalcollectedamount;
   String projectPath;
 
   ProjectData(
@@ -132,14 +132,7 @@ class ProjectData {
         comments.add(new Comments.fromJson(v));
       });
     }
-    if(json['totalcollectedamount'] is int)
-      {
-        totalcollectedamount = json['totalcollectedamount'].toString();
-      }
-    else
-      {
-        totalcollectedamount = json['totalcollectedamount'];
-      }
+    totalcollectedamount = json['totalcollectedamount'];
 
     projectPath = json['project_path'];
   }
@@ -180,7 +173,7 @@ class ProjectData {
 
 class ProjectImages {
   int id;
-  String projectId;
+  int projectId;
   String imagePath;
   String status;
   String postedDate;
@@ -221,10 +214,12 @@ class ProjectImages {
 
 class Comments {
   int id;
-  String projectId;
-  String donationId;
+  int projectId;
+  int donationId;
+  int eventId;
+  int ticketId;
   String comment;
-  String userId;
+  int userId;
   String postedDate;
   String createdAt;
   String updatedAt;
