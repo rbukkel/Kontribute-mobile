@@ -43,7 +43,7 @@ class Result {
   String acceptTerms;
   String giftStatus;
   String groupId;
-  Null viewType;
+  String viewType;
   String postedDate;
   String createdAt;
   String updatedAt;

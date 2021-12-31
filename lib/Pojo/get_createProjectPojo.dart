@@ -157,9 +157,34 @@ class ProjectData {
     projectEnddate = json['project_enddate'];
     description = json['description'];
     tags = json['tags'];
-    userId = json['user_id'];
-    budget = json['budget'];
-    requiredAmount = json['required_amount'];
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else
+    {
+      userId = json['user_id'];
+    }
+
+    if(json['budget'] is int)
+    {
+      budget = json['budget'].toString();
+    }
+    else
+    {
+      budget = json['budget'];
+    }
+
+    if(json['required_amount'] is int)
+    {
+      requiredAmount = json['required_amount'].toString();
+    }
+    else
+    {
+      requiredAmount = json['required_amount'];
+    }
+
     if (json['video_link'] != null) {
       videoLink = new List<VideoLink>();
       json['video_link'].forEach((v) {
@@ -267,7 +292,14 @@ class ProjectImagesdata {
 
   ProjectImagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else
+    {
+      projectId = json['project_id'];
+    }
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];

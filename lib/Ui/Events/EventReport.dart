@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
-import 'package:kontribute/Pojo/ReportDonationPojo.dart';
+import 'package:kontribute/Pojo/ReportEventPojo.dart';
 import 'package:kontribute/Pojo/ReportcommentPojo.dart';
 import 'package:kontribute/Pojo/UserListResponse.dart';
 import 'package:kontribute/Pojo/get_send_gift_request.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
+import 'package:kontribute/Ui/Events/OngoingEvents.dart';
 import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -43,7 +44,7 @@ class EventReportState extends State<EventReport> {
   String userid;
   bool internet = false;
   String valPost;
-  ReportDonationPojo reportcommentPojo;
+  ReportEventPojo reportcommentPojo;
 
   @override
   void initState() {
@@ -295,14 +296,14 @@ class EventReportState extends State<EventReport> {
 
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        reportcommentPojo = new ReportDonationPojo.fromJson(jsonResponse);
+        reportcommentPojo = new ReportEventPojo.fromJson(jsonResponse);
         print("Json UserLike: " + jsonResponse.toString());
         if (jsonResponse != null)
         {
           print("responseLIke: ");
           errorDialog(reportcommentPojo.message);
           CommentController.text =null;
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingCampaign()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingEvents()));
         }
         else {
           errorDialog(reportcommentPojo.message);

@@ -625,7 +625,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                       },
                                       onTap: ()
                                       {
-                                        listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
+                                        listing.projectData.elementAt(index).userId.toString()==userid? _showEditPopupMenu(index):
                                         _showPopupMenu(index);
                                       },
                                       child:  Container(

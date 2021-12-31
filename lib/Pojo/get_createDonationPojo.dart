@@ -100,9 +100,33 @@ class ProjectData {
     campaignEnddate = json['campaign_enddate'];
     description = json['description'];
     tags = json['tags'];
-    userId = json['user_id'];
-    budget = json['budget'];
-    requiredAmount = json['required_amount'];
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else
+    {
+      userId = json['user_id'];
+    }
+
+    if(json['budget'] is int)
+    {
+      budget = json['budget'].toString();
+    }
+    else
+    {
+      budget = json['budget'];
+    }
+
+    if(json['required_amount'] is int)
+    {
+      requiredAmount = json['required_amount'].toString();
+    }
+    else
+    {
+      requiredAmount = json['required_amount'];
+    }
     if (json['video_link'] != null) {
       videoLink = new List<VideoLink>();
       json['video_link'].forEach((v) {
@@ -223,9 +247,35 @@ class Invitationdata {
     mobile = json['mobile'];
     message = json['message'];
     status = json['status'];
-    senderid = json['senderid'];
-    projectId = json['project_id'];
-    donationId = json['donation_id'];
+    if(json['senderid'] is int)
+    {
+      senderid = json['senderid'].toString();
+    }
+    else
+    {
+      senderid = json['senderid'];
+    }
+
+
+
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else
+    {
+      projectId = json['project_id'];
+    }
+
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else
+    {
+      donationId = json['donation_id'];
+    }
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -267,7 +317,15 @@ class ProjectImagesdata {
 
   ProjectImagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    donationId = json['donation_id'];
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else
+    {
+      donationId = json['donation_id'];
+    }
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];

@@ -639,7 +639,7 @@ class OngoingEventsDetailsscreenState
                                   _tapDownPosition = details.globalPosition;
                                 },
                                 onTap: () {
-                                  projectdetailspojo.eventsdata.userId == userid
+                                  projectdetailspojo.eventsdata.userId.toString() == userid
                                       ? _showEditPopupMenu()
                                       : _showPopupMenu();
                                 },
@@ -1870,7 +1870,7 @@ class OngoingEventsDetailsscreenState
                                   color: Colors.black12,
                                 ),
                               ),
-                              projectdetailspojo.eventsdata.userId == userid
+                              projectdetailspojo.eventsdata.userId.toString() == userid
                                   ? Container()
                                   : Column(
                                       children: [
@@ -1983,6 +1983,8 @@ class OngoingEventsDetailsscreenState
                                       return Container(
                                           margin: EdgeInsets.only(
                                               top: SizeConfig
+                                                  .blockSizeVertical *
+                                                  2, bottom: SizeConfig
                                                   .blockSizeVertical *
                                                   2,
                                               left: SizeConfig
@@ -2110,7 +2112,9 @@ class OngoingEventsDetailsscreenState
                                         margin: EdgeInsets.only(
                                             top: SizeConfig
                                                 .blockSizeVertical *
-                                                3,
+                                                3,bottom: SizeConfig
+                                                .blockSizeVertical *
+                                                2,
                                             left: SizeConfig
                                                 .blockSizeHorizontal *
                                                 3,
@@ -2342,9 +2346,7 @@ class OngoingEventsDetailsscreenState
                                   ? Container(
                                       child: ListView.builder(
                                           itemCount: paymentdetails_length
-                                                      .length ==
-                                                  null
-                                              ? 0
+                                                      .length == null ? 0
                                               : paymentdetails_length.length,
                                           physics:
                                               NeverScrollableScrollPhysics(),

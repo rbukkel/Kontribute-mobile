@@ -718,7 +718,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   "index: " + index.toString());
                                               listing.projectData
                                                           .elementAt(index)
-                                                          .userId ==
+                                                          .userId.toString() ==
                                                       userid
                                                   ? _showEditPopupMenu(index)
                                                   : _showPopupMenu(index);

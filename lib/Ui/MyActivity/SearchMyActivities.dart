@@ -3807,8 +3807,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                           circleBar(
                                                                               true)
                                                                         ] else
-                                                                          circleBar(
-                                                                              false),
+                                                                          circleBar(false),
                                                                     ],
                                                                   ),
                                                                 ),

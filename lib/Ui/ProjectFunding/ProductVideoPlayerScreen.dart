@@ -129,40 +129,41 @@ class _ProductVideoPlayerScreenState extends State<ProductVideoPlayerScreen> {
       setState(()
       {
         videoId = YoutubePlayer.convertUrlToId(urlLik);
+
         if(videoId==null|| videoId=="")
-          errorDialog('videolinkisnotvalid'.tr);
-
-        if(come=="Project")
-        {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      OngoingProject()));
-        }
-        else if(come=="Ticket")
-        {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      TicketOngoingEvents()));
-        } else if(come=="Event")
-        {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      OngoingEvents()));
-        }else if(come=="Donation")
-        {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      OngoingCampaign()));
-        }
-
+          {
+            errorDialog('videolinkisnotvalid'.tr);
+            if(come=="Project")
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          OngoingProject()));
+            }
+            else if(come=="Ticket")
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          TicketOngoingEvents()));
+            } else if(come=="Event")
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          OngoingEvents()));
+            }else if(come=="Donation")
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          OngoingCampaign()));
+            }
+          }
         else{
           {
             print("ID: "+videoId);

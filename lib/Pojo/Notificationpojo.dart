@@ -139,17 +139,73 @@ class Data {
         this.groupName});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    senderId = json['sender_id'];
-    groupId = json['group_id'];
-    receiverId = json['receiver_id'];
+
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
+
+    if(json['sender_id'] is int)
+    {
+      senderId = json['sender_id'].toString();
+    }
+    else{
+      senderId = json['sender_id'];
+    }
+
+    if(json['group_id'] is int)
+    {
+      groupId = json['group_id'].toString();
+    }
+    else{
+      groupId = json['group_id'];
+    }
+
+    if(json['receiver_id'] is int)
+    {
+      receiverId = json['receiver_id'].toString();
+    }
+    else{
+      receiverId = json['receiver_id'];
+    }
     description = json['description'];
     seen = json['seen'];
-    price = json['price'];
-    minCashByParticipant = json['min_cash_by_participant'];
-    collectionTarget = json['collection_target'];
+
+    if(json['price'] is int)
+    {
+      price = json['price'].toString();
+    }
+    else{
+      price = json['price'];
+    }
+
+    if(json['min_cash_by_participant'] is int)
+    {
+      minCashByParticipant = json['min_cash_by_participant'].toString();
+    }
+    else{
+      minCashByParticipant = json['min_cash_by_participant'];
+    }
+
+    if(json['collection_target'] is int)
+    {
+      collectionTarget = json['collection_target'].toString();
+    }
+    else{
+      collectionTarget = json['collection_target'];
+    }
     giftPicture = json['gift_picture'];
-    updateId = json['update_id'];
+
+    if(json['update_id'] is int)
+    {
+      updateId = json['update_id'].toString();
+    }
+    else{
+      updateId = json['update_id'];
+    }
     endDate = json['end_date'];
     notifyFrom = json['notify_from'];
     postedDate = json['posted_date'];

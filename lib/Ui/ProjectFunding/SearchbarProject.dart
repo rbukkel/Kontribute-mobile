@@ -275,7 +275,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                             imageslist_length = listing.projectData
                                 .elementAt(index)
                                 .projectImages;
-                            double amount = double.parse(listing.projectData.elementAt(index).requiredAmount.toString()) /
+                            double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount.toString()) /
                                 double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
                             amoun = amount.toInt();
                             return Container(
@@ -304,7 +304,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                               details.globalPosition;
                                         },
                                         onTap: () {
-                                          listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
+                                          listing.projectData.elementAt(index).userId.toString()==userid? _showEditPopupMenu(index):
                                           _showPopupMenu(index);
                                         },
                                         child: Container(

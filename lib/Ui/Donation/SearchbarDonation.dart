@@ -307,7 +307,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                       itemBuilder: (BuildContext context, int index) {
                         imageslist_length = listing.projectData.elementAt(index).projectImages;
                         commentlist_length = listing.projectData.elementAt(index).comments;
-                        double amount = double.parse(listing.projectData.elementAt(index).requiredAmount) /
+                        double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                             double.parse(listing.projectData.elementAt(index).budget) * 100;
                         amoun =amount.toInt();
                         return Container(

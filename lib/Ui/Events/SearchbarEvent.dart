@@ -310,7 +310,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                       },
                                       onTap: ()
                                       {
-                                        listing.projectData.elementAt(index).userId==userid? _showEditPopupMenu(index):
+                                        listing.projectData.elementAt(index).userId.toString()==userid? _showEditPopupMenu(index):
                                         _showPopupMenu(index);
                                       },
                                       child:  Container(
@@ -486,7 +486,6 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                 GestureDetector(
                                                   onTap: ()
                                                   {
-
                                                     SharedUtils.readTerms("Terms").then((result){
                                                       if(result!=null){
                                                         if(result){

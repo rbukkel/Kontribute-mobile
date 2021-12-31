@@ -48,7 +48,7 @@ class Commentsdata {
   List<Commentslist> commentslist;
   List<Projectimagesdata> projectimagesdata;
   List<Projectpaymentdetails> projectpaymentdetails;
-  int totalcollectedamount;
+  String totalcollectedamount;
   String fullName;
   String profilePic;
 
@@ -129,7 +129,16 @@ class Commentsdata {
         projectpaymentdetails.add(new Projectpaymentdetails.fromJson(v));
       });
     }
-    totalcollectedamount = json['totalcollectedamount'];
+   // totalcollectedamount = json['totalcollectedamount'];
+
+
+    if(json['totalcollectedamount'] is int)
+    {
+      totalcollectedamount = json['totalcollectedamount'].toString();
+    }
+    else{
+      totalcollectedamount = json['totalcollectedamount'];
+    }
 
     fullName = json['full_name'];
     profilePic = json['profile_pic'];

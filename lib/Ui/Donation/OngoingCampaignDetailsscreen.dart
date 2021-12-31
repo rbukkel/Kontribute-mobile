@@ -561,7 +561,7 @@ class OngoingCampaignDetailsscreenState
                                   _tapDownPosition = details.globalPosition;
                                 },
                                 onTap: () {
-                                  projectdetailspojo.commentsdata.userId ==
+                                  projectdetailspojo.commentsdata.userId.toString() ==
                                           userid
                                       ? _showEditPopupMenu()
                                       : _showPopupMenu();
@@ -1769,7 +1769,7 @@ class OngoingCampaignDetailsscreenState
                                   color: Colors.black12,
                                 ),
                               ),
-                              projectdetailspojo.commentsdata.userId == userid
+                              projectdetailspojo.commentsdata.userId.toString() == userid
                                   ? Container()
                                   : Column(
                                       children: [
@@ -1882,6 +1882,9 @@ class OngoingCampaignDetailsscreenState
                                       return Container(
                                           margin: EdgeInsets.only(
                                               top: SizeConfig
+                                                  .blockSizeVertical *
+                                                  2,
+                                              bottom: SizeConfig
                                                   .blockSizeVertical *
                                                   2,
                                               left: SizeConfig
@@ -2010,6 +2013,9 @@ class OngoingCampaignDetailsscreenState
                                                   top: SizeConfig
                                                           .blockSizeVertical *
                                                       3,
+                                                  bottom: SizeConfig
+                                                      .blockSizeVertical *
+                                                      2,
                                                   left: SizeConfig
                                                           .blockSizeHorizontal *
                                                       3,
