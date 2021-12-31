@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:favorite_button/favorite_button.dart';
@@ -250,8 +249,6 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
       );
     }
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -293,7 +290,8 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                       // margin: EdgeInsets.only(top: 10, left: 40),
                       child: Text(
-                        StringConstant.historyproject, textAlign: TextAlign.center,
+                        StringConstant.historyproject,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 20,
@@ -321,13 +319,10 @@ class HistoryProjectDetailsscreenState extends State<HistoryProjectDetailsscreen
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            projectdetailspojo.commentsdata.profilePic == null || projectdetailspojo.commentsdata.profilePic == ""
-                                ? GestureDetector(
+                            projectdetailspojo.commentsdata.profilePic == null ||
+                                projectdetailspojo.commentsdata.profilePic == "" ? GestureDetector(
                               onTap: () {
-                                callNext(
-                                    viewdetail_profile(
-                                        data: projectdetailspojo.commentsdata.userId.toString()
-                                    ), context);
+                                callNext(viewdetail_profile(data: projectdetailspojo.commentsdata.userId.toString()), context);
                               },
                               child: Container(
                                   height:

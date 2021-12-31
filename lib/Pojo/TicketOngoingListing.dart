@@ -104,7 +104,13 @@ class ProjectData {
         this.eventPath});
 
   ProjectData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
     ticketName = json['ticket_name'];
     ticketStartdate = json['ticket_startdate'];
     ticketEnddate = json['ticket_enddate'];
@@ -115,9 +121,28 @@ class ProjectData {
     ticketEmail = json['ticket_email'];
     location = json['location'];
     locationDetails = json['location_details'];
-    userId = json['user_id'];
-    ticketCost = json['ticket_cost'];
-    maximumQtySold = json['maximum_qty_sold'];
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
+    if(json['ticket_cost'] is int)
+    {
+      ticketCost = json['ticket_cost'].toString();
+    }
+    else{
+      ticketCost = json['ticket_cost'];
+    }
+    if(json['maximum_qty_sold'] is int)
+    {
+      maximumQtySold = json['maximum_qty_sold'].toString();
+    }
+    else{
+      maximumQtySold = json['maximum_qty_sold'];
+    }
+
     timeframeForSale = json['timeframe_for_sale'];
     videoLink = json['video_link'];
     viewType = json['view_type'];
@@ -214,7 +239,14 @@ class TicketImages {
 
   TicketImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    ticketId = json['ticket_id'];
+
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];
@@ -261,12 +293,47 @@ class Comments {
 
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
-    donationId = json['donation_id'];
-    eventId = json['event_id'];
-    ticketId = json['ticket_id'];
+
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else{
+      projectId = json['project_id'];
+    }
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else{
+      donationId = json['donation_id'];
+    }
+
+    if(json['event_id'] is int)
+    {
+      eventId = json['event_id'].toString();
+    }
+    else{
+      eventId = json['event_id'];
+    }
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
+
     comment = json['comment'];
-    userId = json['user_id'];
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

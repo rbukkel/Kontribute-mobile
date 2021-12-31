@@ -313,9 +313,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                         itemBuilder: (BuildContext context, int index) {
                           imageslist_length = listing.projectData.elementAt(index).ticketImages;
                           commentlist_length = listing.projectData.elementAt(index).comments;
-                          double amount = listing.projectData.elementAt(index).balanceQtySlot.toDouble() /
-                              double.parse(listing.projectData.elementAt(index).maximumQtySold) * 100;
-                          amoun =amount.toInt();
+                          double amount = double.parse(listing.projectData.elementAt(index).ticketsold.toString()) /
+                              double.parse(listing.projectData.elementAt(index).maximumQtySold.toString()) * 100;
+                          amoun = amount.toInt();
                           reverid = listing.projectData.elementAt(index).userId.toString();
                           return Container(
                             margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),

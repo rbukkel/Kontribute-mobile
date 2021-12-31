@@ -117,9 +117,29 @@ class TicketData {
     ticketEmail = json['ticket_email'];
     location = json['location'];
     locationDetails = json['location_details'];
-    userId = json['user_id'];
-    ticketCost = json['ticket_cost'];
-    maximumQtySold = json['maximum_qty_sold'];
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
+    if(json['ticket_cost'] is int)
+    {
+      ticketCost = json['ticket_cost'].toString();
+    }
+    else{
+      ticketCost = json['ticket_cost'];
+    }
+
+
+    if(json['maximum_qty_sold'] is int)
+    {
+      maximumQtySold = json['maximum_qty_sold'].toString();
+    }
+    else{
+      maximumQtySold = json['maximum_qty_sold'];
+    }
     timeframeForSale = json['timeframe_for_sale'];
     if (json['video_link'] != null) {
       videoLink = new List<VideoLink>();
@@ -225,7 +245,7 @@ class Invitationdata {
   String projectId;
   String donationId;
   String eventId;
-  Null ticketId;
+  String ticketId;
   String createdAt;
   String updatedAt;
 
@@ -251,11 +271,45 @@ class Invitationdata {
     mobile = json['mobile'];
     message = json['message'];
     status = json['status'];
-    senderid = json['senderid'];
-    projectId = json['project_id'];
-    donationId = json['donation_id'];
-    eventId = json['event_id'];
-    ticketId = json['ticket_id'];
+
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else{
+      projectId = json['project_id'];
+    }
+   if(json['senderid'] is int)
+    {
+      senderid = json['senderid'].toString();
+    }
+    else{
+     senderid = json['senderid'];
+    }
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else{
+      donationId = json['donation_id'];
+    }
+
+    if(json['event_id'] is int)
+    {
+      eventId = json['event_id'].toString();
+    }
+    else{
+      eventId = json['event_id'];
+    }
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
+
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -299,7 +353,13 @@ class TicketImagesdata {
 
   TicketImagesdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    ticketId = json['ticket_id'];
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];

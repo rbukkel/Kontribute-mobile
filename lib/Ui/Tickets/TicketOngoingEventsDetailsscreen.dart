@@ -868,7 +868,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                               },
                               onTap: ()
                               {
-                                projectdetailspojo.commentsdata.userId==userid?
+                                projectdetailspojo.commentsdata.userId.toString()==userid?
                                 _showEditPopupMenu(): _showPopupMenu();
                               },
                               child:  Container(
@@ -1661,7 +1661,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                             color: Colors.black12,
                           ),
                         ),
-                        projectdetailspojo.commentsdata.userId==userid?Container():
+                        projectdetailspojo.commentsdata.userId.toString()==userid?Container():
                         Column(
                           children: [
                             Container(
