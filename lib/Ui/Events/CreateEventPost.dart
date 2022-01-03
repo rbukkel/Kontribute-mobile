@@ -3338,11 +3338,11 @@ class CreateEventPostState extends State<CreateEventPost> {
                     return CheckboxListTile(
                       activeColor: AppColors.theme1color,
                       value: _selecteFollowing.contains(
-                          categoryfollowinglist[index]['connection_id']),
+                          categoryfollowinglist[index]['connection_id'].toString()),
                       onChanged: (bool selected) {
                         _onCategoryFollowingSelected(
                             selected,
-                            categoryfollowinglist[index]['connection_id'],
+                            categoryfollowinglist[index]['connection_id'].toString(),
                             categoryfollowinglist[index]['full_name']);
                       },
                       title: Text(

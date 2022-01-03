@@ -110,4 +110,5 @@ class Network{
   static String giftdelete = "giftdelete";
   static String update_notifications = "update_notifications";
   static String versioncheck = "versioncheck";
+  static String admincommission = "admincommission";
 }

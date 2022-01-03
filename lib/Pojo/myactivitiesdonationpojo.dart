@@ -78,15 +78,41 @@ class Result {
       this.donationPath});
 
   Result.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
     campaignName = json['campaign_name'];
     campaignStartdate = json['campaign_startdate'];
     campaignEnddate = json['campaign_enddate'];
     description = json['description'];
     tags = json['tags'];
-    userId = json['user_id'];
-    budget = json['budget'];
-    requiredAmount = json['required_amount'];
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
+
+    if(json['budget'] is int)
+    {
+      budget = json['budget'].toString();
+    }
+    else{
+      budget = json['budget'];
+    }
+    if(json['required_amount'] is int)
+    {
+      requiredAmount = json['required_amount'].toString();
+    }
+    else{
+      requiredAmount = json['required_amount'];
+    }
     videoLink = json['video_link'];
     viewType = json['view_type'];
     members = json['members'];
@@ -167,7 +193,14 @@ class ProjectImages {
 
   ProjectImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    donationId = json['donation_id'];
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else{
+      donationId = json['donation_id'];
+    }
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];
@@ -214,12 +247,45 @@ class Comments {
 
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
-    donationId = json['donation_id'];
-    eventId = json['event_id'];
-    ticketId = json['ticket_id'];
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else{
+      projectId = json['project_id'];
+    }
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else{
+      donationId = json['donation_id'];
+    }
+    if(json['event_id'] is int)
+    {
+      eventId = json['event_id'].toString();
+    }
+    else{
+      eventId = json['event_id'];
+    }
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
+
     comment = json['comment'];
-    userId = json['user_id'];
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

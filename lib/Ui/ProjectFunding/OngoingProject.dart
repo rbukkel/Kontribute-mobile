@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Terms.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -41,7 +42,9 @@ class OngoingProjectState extends State<OngoingProject> {
   bool resultvalue = true;
   bool internet = false;
   String val;
+  String valcommision;
   var storelist_length;
+  var commisionlist_length;
   var imageslist_length;
   var commentlist_length;
   projectlisting listing;
@@ -58,6 +61,7 @@ class OngoingProjectState extends State<OngoingProject> {
   static ScrollController _scrollController;
   final AmountFocus = FocusNode();
   String onchangeval = "";
+  double totalamount;
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
   String shortsharedlink = '';
@@ -65,7 +69,7 @@ class OngoingProjectState extends State<OngoingProject> {
   final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
   String deleteproject;
   final _formmainKey = GlobalKey<FormState>();
-
+  commisionpojo commission;
 
   //double percent=(prod_old_price - prod_price)/prod_old_price*100;
 
@@ -84,8 +88,8 @@ class OngoingProjectState extends State<OngoingProject> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
+    _scrollController.dispose();
   }
 
   _loadID() async {
@@ -97,6 +101,7 @@ class OngoingProjectState extends State<OngoingProject> {
         getdata(userid, pageNumber);
         print("Login userid: " + userid.toString());
         paginationApi();
+        getCommision();
       });
     });
 
@@ -111,6 +116,33 @@ class OngoingProjectState extends State<OngoingProject> {
       }
     });
   }*/
+
+
+  void getCommision() async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            commisionlist_length = commission.commisiondata;
+          });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
+  }
+
 
   void paginationApi() {
     _scrollController.addListener(() {
@@ -676,8 +708,7 @@ class OngoingProjectState extends State<OngoingProject> {
                               imageslist_length = listing.projectData
                                   .elementAt(index)
                                   .projectImages;
-                              commentlist_length =
-                                  listing.projectData.elementAt(index).comments;
+                              commentlist_length = listing.projectData.elementAt(index).comments;
                               double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount.toString()) /
                                   double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
                               amoun = amount.toInt();
@@ -1084,12 +1115,19 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                           onPressed: () async {
                                                                                             if (_formmainKey.currentState.validate()){
                                                                                               setState(() {
-                                                                                                Payamount(
+                                                                                                /*Payamount(
                                                                                                     listing
                                                                                                         .projectData
                                                                                                         .elementAt(index)
                                                                                                         .id.toString(),
                                                                                                     AmountController.text,
+                                                                                                    userid);*/
+                                                                                                Payamount(
+                                                                                                    listing
+                                                                                                        .projectData
+                                                                                                        .elementAt(index)
+                                                                                                        .id.toString(),
+                                                                                                    totalamount.toString(),
                                                                                                     userid);
                                                                                               });
                                                                                             }
@@ -1119,13 +1157,11 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                       onChanged: (text) {
                                                                                                         setState(() {
                                                                                                           onchangeval = text;
-
-                                                                                                          double tectString = double.parse(onchangeval)*0.05;
-                                                                                                          print("PrintSring: "+tectString.toString());
+                                                                                                          double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                          totalamount = double.parse(onchangeval) + tectString;
+                                                                                                          print("PrintSring: "+totalamount.toString());
                                                                                                         });
-                                                                                                        print("value_1 : " + onchangeval);
-
-
+                                                                                                        print("value_1 : "+onchangeval);
                                                                                                       },
                                                                                                       validator: (val) {
                                                                                                         if (val.length == 0)
@@ -1133,14 +1169,12 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                         else
                                                                                                           return null;
                                                                                                       },
-                                                                                                      onFieldSubmitted:
-                                                                                                          (v) {
+                                                                                                      onFieldSubmitted: (v) {
                                                                                                         AmountFocus.unfocus();
                                                                                                       },
                                                                                                       onSaved: (val) =>
                                                                                                       _amount = val,
-                                                                                                      textAlign:
-                                                                                                      TextAlign.left,
+                                                                                                      textAlign: TextAlign.left,
                                                                                                       style: TextStyle(
                                                                                                           letterSpacing: 1.0,
                                                                                                           fontWeight: FontWeight.bold,
@@ -1222,8 +1256,7 @@ class OngoingProjectState extends State<OngoingProject> {
 
                                                                 },
                                                                 child:
-                                                                    Container(
-                                                                  margin: EdgeInsets.only(
+                                                                    Container(margin: EdgeInsets.only(
                                                                       left:
                                                                           SizeConfig.blockSizeHorizontal *
                                                                               1,

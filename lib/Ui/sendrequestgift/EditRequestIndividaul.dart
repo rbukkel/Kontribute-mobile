@@ -442,8 +442,8 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                               ),*/
 
                               image_value==false?Container(
-                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *15),
-                                  height: SizeConfig.blockSizeVertical * 35,
+                                 // margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *12),
+                                  height: SizeConfig.blockSizeVertical * 25,
                                   width: SizeConfig.blockSizeHorizontal * 100,
                                   alignment: Alignment.center,
                                   child:  CachedNetworkImage(
@@ -457,7 +457,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: imageProvider,
-                                                fit: BoxFit.cover),
+                                                fit: BoxFit.scaleDown),
                                           ),
                                         ),
                                     placeholder: (context, url) =>
@@ -470,13 +470,13 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                 alignment: Alignment.center,
                                 child:ClipRect(child: _imageFile!=null?
                                 Image.file(_imageFile,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.scaleDown,
                                     height: SizeConfig.blockSizeVertical * 25,
                                     width: SizeConfig.blockSizeHorizontal * 100) :
                                 new Image.asset("assets/images/banner1.png",
                                     height: SizeConfig.blockSizeVertical * 25,
                                     width: SizeConfig.blockSizeHorizontal * 100,
-                                    fit: BoxFit.fill)
+                                    fit: BoxFit.scaleDown)
                                 ),
                               ),
                               InkWell(
@@ -487,7 +487,7 @@ class EditRequestIndividaulState extends State<EditRequestIndividaul> {
                                 child: Container(
                                   alignment: Alignment.topRight,
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 5,
+                                      top: SizeConfig.blockSizeVertical * 4,
                                       right: SizeConfig.blockSizeHorizontal * 2),
                                   child: Image.asset(
                                     "assets/images/camera.png",

@@ -402,7 +402,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                   onChanged: (newValue) {
                                     setState(() {
                                       currentSelectedValue = newValue;
-                                      userid = (newValue["connection_id"]);
+                                      userid = (newValue["connection_id"].toString());
                                       if(newValue["full_name"]==null)
                                         {
                                           userName="";
@@ -706,7 +706,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                     MoneyCashController.text,
                                     DescriptionController.text,
                                     _imageFile,
-                                    userid
+                                    userid.toString()
                                 );
                               }
                               else {

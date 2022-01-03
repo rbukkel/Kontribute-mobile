@@ -2555,9 +2555,9 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               itemBuilder: (BuildContext context, int index) {
                 return CheckboxListTile(
                   activeColor: AppColors.theme1color,
-                  value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id']),
+                  value: _selecteFollowing.contains(categoryfollowinglist[index]['connection_id'].toString()),
                   onChanged: (bool selected) {
-                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'],
+                    _onCategoryFollowingSelected(selected, categoryfollowinglist[index]['connection_id'].toString(),
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(

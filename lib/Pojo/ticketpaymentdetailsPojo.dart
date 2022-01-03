@@ -45,8 +45,22 @@ class TicketQrlisting {
       this.buyDate});
 
   TicketQrlisting.fromJson(Map<String, dynamic> json) {
-    ticketId = json['ticket_id'];
-    paymentId = json['payment_id'];
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
+
+    if(json['payment_id'] is int)
+    {
+      paymentId = json['payment_id'].toString();
+    }
+    else{
+      paymentId = json['payment_id'];
+    }
+
     ticketNo = json['ticket_no'];
     status = json['status'];
     imagePath = json['image_path'];

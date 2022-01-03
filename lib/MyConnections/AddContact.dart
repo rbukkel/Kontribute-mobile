@@ -384,7 +384,7 @@ class _AddContactState extends State<AddContact> {
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.black,
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),

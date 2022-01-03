@@ -279,7 +279,8 @@ class VideoLink {
 
   VideoLink({this.vlink});
 
-  VideoLink.fromJson(Map<String, dynamic> json) {
+  VideoLink.fromJson(Map<String, dynamic> json)
+  {
     vlink = json['vlink'];
   }
 

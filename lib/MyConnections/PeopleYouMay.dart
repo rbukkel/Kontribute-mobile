@@ -517,7 +517,6 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                        ),
                                        Container(
                                          width: SizeConfig.blockSizeHorizontal * 43,
-
                                          margin: EdgeInsets.only(
                                              right: SizeConfig.blockSizeHorizontal * 1,
                                              left: SizeConfig.blockSizeHorizontal * 1),
@@ -527,7 +526,7 @@ class _PeopleYouMayState extends State<PeopleYouMay> {
                                            style: TextStyle(
                                                letterSpacing: 1.0,
                                                color: AppColors.black,
-                                               fontSize: 12,
+                                               fontSize: 10,
                                                fontWeight: FontWeight.bold,
                                                fontFamily:
                                                'Poppins-Regular'),

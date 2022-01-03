@@ -2665,11 +2665,11 @@ class EditDonationPostState extends State<EditDonationPost> {
                 return CheckboxListTile(
                   activeColor: AppColors.theme1color,
                   value: _selecteFollowing
-                      .contains(categoryfollowinglist[index]['sender_id']),
+                      .contains(categoryfollowinglist[index]['sender_id'].toString()),
                   onChanged: (bool selected) {
                     _onCategoryFollowingSelected(
                         selected,
-                        categoryfollowinglist[index]['sender_id'],
+                        categoryfollowinglist[index]['sender_id'].toString(),
                         categoryfollowinglist[index]['full_name']);
                   },
                   title: Text(

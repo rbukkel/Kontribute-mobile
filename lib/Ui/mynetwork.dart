@@ -251,7 +251,7 @@ class _mynetworkState extends State<mynetwork> {
                               GestureDetector(
                                 onTap: ()
                                 {
-                                  followaccept(userid, followlistpojo.result.elementAt(ind).id, "2");
+                                  followaccept(userid, followlistpojo.result.elementAt(ind).id.toString(), "2");
                                 },
                                 child: Container(
                                   alignment: Alignment.topRight,

@@ -5,7 +5,8 @@ class myactivitieseventpojo {
 
   myactivitieseventpojo({this.success, this.message, this.result});
 
-  myactivitieseventpojo.fromJson(Map<String, dynamic> json) {
+  myactivitieseventpojo.fromJson(Map<String, dynamic> json)
+  {
     success = json['success'];
     message = json['message'];
     if (json['result'] != null) {
@@ -86,17 +87,50 @@ class Result {
       this.eventPath});
 
   Result.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
     eventName = json['event_name'];
     eventStartdate = json['event_startdate'];
     eventEnddate = json['event_enddate'];
     eventStarttime = json['event_starttime'];
     eventEndtime = json['event_endtime'];
     description = json['description'];
-    categoryId = json['category_id'];
-    userId = json['user_id'];
-    entryFee = json['entry_fee'];
-    maximumParticipant = json['maximum_participant'];
+
+    if(json['category_id'] is int)
+    {
+      categoryId = json['category_id'].toString();
+    }
+    else{
+      categoryId = json['category_id'];
+    }
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
+    if(json['entry_fee'] is int)
+    {
+      entryFee = json['entry_fee'].toString();
+    }
+    else{
+      entryFee = json['entry_fee'];
+    }
+    if(json['maximum_participant'] is int)
+    {
+      maximumParticipant = json['maximum_participant'].toString();
+    }
+    else{
+      maximumParticipant = json['maximum_participant'];
+    }
+
     videoLink = json['video_link'];
     viewType = json['view_type'];
     members = json['members'];
@@ -183,7 +217,15 @@ class ProjectImages {
 
   ProjectImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    eventId = json['event_id'];
+
+    if(json['event_id'] is int)
+    {
+      eventId = json['event_id'].toString();
+    }
+    else{
+      eventId = json['event_id'];
+    }
+
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];
@@ -230,12 +272,45 @@ class Comments {
 
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
-    donationId = json['donation_id'];
-    eventId = json['event_id'];
-    ticketId = json['ticket_id'];
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else{
+      projectId = json['project_id'];
+    }
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else{
+      donationId = json['donation_id'];
+    }
+    if(json['event_id'] is int)
+    {
+      eventId = json['event_id'].toString();
+    }
+    else{
+      eventId = json['event_id'];
+    }
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
+
     comment = json['comment'];
-    userId = json['user_id'];
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

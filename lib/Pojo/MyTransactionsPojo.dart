@@ -52,8 +52,22 @@ class TransactionsReceived {
   TransactionsReceived({this.id, this.amount, this.paiddate, this.paidfor});
 
   TransactionsReceived.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    amount = json['amount'];
+
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
+    if(json['amount'] is int)
+    {
+      amount = json['amount'].toString();
+    }
+    else{
+      amount = json['amount'];
+    }
+
     paiddate = json['paiddate'];
     paidfor = json['paidfor'];
   }
@@ -77,8 +91,20 @@ class PaidTransaction {
   PaidTransaction({this.id, this.amount, this.paiddate, this.paidfor});
 
   PaidTransaction.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    amount = json['amount'];
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
+    if(json['amount'] is int)
+    {
+      amount = json['amount'].toString();
+    }
+    else{
+      amount = json['amount'];
+    }
     paiddate = json['paiddate'];
     paidfor = json['paidfor'];
   }
