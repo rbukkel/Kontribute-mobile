@@ -26,7 +26,7 @@ class payment extends StatefulWidget{
 }
 
 class _payment  extends State<payment>{
-
+  var isFlutterInAppWebViewReady = false;
  InAppWebViewController _webViewController;
  bool internet = false;
  String data1;
@@ -238,7 +238,10 @@ class _payment  extends State<payment>{
 
             Container(
               height: SizeConfig.blockSizeVertical *80,
-              child:  InAppWebView(
+              child:
+
+
+              InAppWebView(
                   initialUrl: Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid,
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
@@ -248,6 +251,18 @@ class _payment  extends State<payment>{
                   ),
                   onWebViewCreated: (InAppWebViewController controller) {
                     _webViewController = controller;
+
+                    controller.addJavaScriptHandler(handlerName: 'handlerFoo', callback: (args) async{
+                      print(args.length.toString());
+                      print("Arg: "+args.toString());
+                    });
+                  },
+                  onLoadStart: (InAppWebViewController controller, String url) {
+                    print("onLoadStart popup $url");
+                  },
+                  onLoadStop: (InAppWebViewController controller, String url) {
+                    print("onLoadStop popup $url");
+
                   },
                   androidOnPermissionRequest: (InAppWebViewController controller,
                       String origin, List<String> resources) async {
