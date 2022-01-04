@@ -140,6 +140,7 @@ class ProjectData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+
     data['project_name'] = this.projectName;
     data['project_startdate'] = this.projectStartdate;
     data['project_enddate'] = this.projectEnddate;

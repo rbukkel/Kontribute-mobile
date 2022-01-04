@@ -111,4 +111,5 @@ class Network{
   static String update_notifications = "update_notifications";
   static String versioncheck = "versioncheck";
   static String admincommission = "admincommission";
+  static String payment = "http://kontribute.biz/paywithpaypal_mob/";
 }

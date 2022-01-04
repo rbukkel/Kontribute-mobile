@@ -723,8 +723,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                               decoration: BoxDecoration(
                                                 border: Border.all(
                                                   width: 1,
-                                                  color: AppColors
-                                                      .themecolor,
+                                                  color: AppColors.themecolor,
                                                   style: BorderStyle.solid,
                                                 ),
                                                 image: new DecorationImage(
@@ -754,8 +753,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                             decoration: BoxDecoration(
                                                 border: Border.all(
                                                   width: 1,
-                                                  color: AppColors
-                                                      .themecolor,
+                                                  color: AppColors.themecolor,
                                                   style: BorderStyle.solid,
                                                 ),
                                                 shape: BoxShape.circle,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:kontribute/Payment/payment.dart';
 import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Terms.dart';
 import 'package:kontribute/Ui/ProjectFunding/CreateProjectPost.dart';
@@ -1122,6 +1123,8 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                         .id.toString(),
                                                                                                     AmountController.text,
                                                                                                     userid);*/
+
+
                                                                                                 Payamount(
                                                                                                     listing
                                                                                                         .projectData
@@ -1537,9 +1540,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                             ),
                                             Container(
                                               margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                          .blockSizeVertical *
-                                                      1),
+                                                  top: SizeConfig.blockSizeVertical * 1),
                                               child: LinearPercentIndicator(
                                                 width: 60.0,
                                                 lineHeight: 14.0,
@@ -2087,7 +2088,19 @@ class OngoingProjectState extends State<OngoingProject> {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
           AmountController.text ="";
-          showDialog(
+
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                  data: jsonDecode(updateval)["data"]["id"].toString(),
+                  amount:totalamount.toString(),
+                  coming:"pjt",
+                ), context);
+          });
+
+
+         /* showDialog(
             context: context,
             child: Dialog(
               shape: RoundedRectangleBorder(
@@ -2147,7 +2160,7 @@ class OngoingProjectState extends State<OngoingProject> {
                 ),
               ),
             ),
-          );
+          );*/
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
