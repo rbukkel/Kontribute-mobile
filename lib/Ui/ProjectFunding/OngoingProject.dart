@@ -1141,66 +1141,84 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                           title: Text('paynow'.tr),
                                                                                           // content: Text("Are you sure you want to Pay this project?"),
                                                                                           content:
-                                                                                          new Row(
-                                                                                            children: <Widget>[
-                                                                                              new Expanded(
-                                                                                                  child: new Form(
+                                                                                          new Container(
+                                                                                              width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                              height: SizeConfig.blockSizeVertical *15,
+                                                                                           child:
+                                                                                                  new Form(
                                                                                                     key: _formmainKey,
-                                                                                                    child:TextFormField(
-                                                                                                      autofocus:
-                                                                                                      false,
-                                                                                                      focusNode:
-                                                                                                      AmountFocus,
-                                                                                                      controller:
-                                                                                                      AmountController,
-                                                                                                      textInputAction:
-                                                                                                      TextInputAction.next,
-                                                                                                      keyboardType:
-                                                                                                      TextInputType.number,
-                                                                                                      onChanged: (text) {
-                                                                                                        setState(() {
-                                                                                                          onchangeval = text;
-                                                                                                          double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                          totalamount = double.parse(onchangeval) + tectString;
-                                                                                                          print("PrintSring: "+totalamount.toString());
-                                                                                                        });
-                                                                                                        print("value_1 : "+onchangeval);
-                                                                                                      },
-                                                                                                      validator: (val) {
-                                                                                                        if (val.length == 0)
-                                                                                                          return 'pleaseenterpaymentamount'.tr;
-                                                                                                        else
-                                                                                                          return null;
-                                                                                                      },
-                                                                                                      onFieldSubmitted: (v) {
-                                                                                                        AmountFocus.unfocus();
-                                                                                                      },
-                                                                                                      onSaved: (val) =>
-                                                                                                      _amount = val,
-                                                                                                      textAlign: TextAlign.left,
-                                                                                                      style: TextStyle(
-                                                                                                          letterSpacing: 1.0,
-                                                                                                          fontWeight: FontWeight.bold,
-                                                                                                          fontFamily: 'Poppins-Regular',
-                                                                                                          fontSize: 10,
-                                                                                                          color: Colors.black),
-                                                                                                      decoration:
-                                                                                                      InputDecoration(
-                                                                                                        // border: InputBorder.none,
-                                                                                                        // focusedBorder: InputBorder.none,
-                                                                                                        hintStyle: TextStyle(
-                                                                                                          color: Colors.grey,
-                                                                                                          fontWeight: FontWeight.bold,
-                                                                                                          fontFamily: 'Poppins-Regular',
-                                                                                                          fontSize: 10,
-                                                                                                          decoration: TextDecoration.none,
-                                                                                                        ),
-                                                                                                        hintText: 'enterpaymentamount'.tr,
-                                                                                                      ),
-                                                                                                    ),
+                                                                                                    child:
+                                                                                                        Column(
+                                                                                                          children: [
+                                                                                                            TextFormField(
+                                                                                                              autofocus:
+                                                                                                              false,
+                                                                                                              focusNode:
+                                                                                                              AmountFocus,
+                                                                                                              controller:
+                                                                                                              AmountController,
+                                                                                                              textInputAction:
+                                                                                                              TextInputAction.next,
+                                                                                                              keyboardType:
+                                                                                                              TextInputType.number,
+                                                                                                              onChanged: (text) {
+                                                                                                                setState(() {
+                                                                                                                  onchangeval = text;
+                                                                                                                  double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                                  totalamount = double.parse(onchangeval) + tectString;
+                                                                                                                  print("PrintSring: "+totalamount.toString());
+                                                                                                                });
+                                                                                                                print("value_1 : "+onchangeval);
+                                                                                                              },
+                                                                                                              validator: (val) {
+                                                                                                                if (val.length == 0)
+                                                                                                                  return 'pleaseenterpaymentamount'.tr;
+                                                                                                                else
+                                                                                                                  return null;
+                                                                                                              },
+                                                                                                              onFieldSubmitted: (v) {
+                                                                                                                AmountFocus.unfocus();
+                                                                                                              },
+                                                                                                              onSaved: (val) =>
+                                                                                                              _amount = val,
+                                                                                                              textAlign: TextAlign.left,
+                                                                                                              style: TextStyle(
+                                                                                                                  letterSpacing: 1.0,
+                                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                                  fontSize: 12,
+                                                                                                                  color: Colors.black),
+                                                                                                              decoration:
+                                                                                                              InputDecoration(
+                                                                                                                // border: InputBorder.none,
+                                                                                                                // focusedBorder: InputBorder.none,
+                                                                                                                hintStyle: TextStyle(
+                                                                                                                  color: Colors.grey,
+                                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                                  fontSize: 12,
+                                                                                                                  decoration: TextDecoration.none,
+                                                                                                                ),
+                                                                                                                hintText: 'enterpaymentamount'.tr,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                                              alignment: Alignment.centerLeft,
+                                                                                                              child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
+                                                                                                                  letterSpacing: 1.0,
+                                                                                                                  fontWeight: FontWeight.normal,
+                                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                                  fontSize: 10,
+                                                                                                                  color: Colors.black),),
+                                                                                                            )
+
+                                                                                                          ],
+                                                                                                        )
+
                                                                                                   )
-                                                                                              )
-                                                                                            ],
+
+
                                                                                           ),
                                                                                           actions: [
                                                                                             cancelButton,
@@ -2088,7 +2106,7 @@ class OngoingProjectState extends State<OngoingProject> {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
           AmountController.text ="";
-
+          Navigator.of(context).pop();
           Future.delayed(Duration(seconds: 1),()
           {
             callNext(
@@ -2096,6 +2114,7 @@ class OngoingProjectState extends State<OngoingProject> {
                   data: jsonDecode(updateval)["data"]["id"].toString(),
                   amount:totalamount.toString(),
                   coming:"pjt",
+                  backto:"Project"
                 ), context);
           });
 

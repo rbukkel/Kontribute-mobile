@@ -160,7 +160,7 @@ class LocaleString extends Translations {
           'maximumnumberofparticipant' : 'Maximum Number of Participant',
           'pleaseentermaximumnoofparticipant' : 'Please enter maximum no. of participant',
           'pleaseselecteventimages' : 'Please Select Event Images',
-          'eventeentryfees' : 'Event entry fees',
+          'eventeentryfees' : 'Event Entry Fees',
           'soldslots' : 'Sold slots',
           'remainingslots' : 'Remaining slots',
           'eventstartdate' : 'Event Start Date',

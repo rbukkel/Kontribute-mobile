@@ -6,7 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Payment/payment.dart';
 import 'package:kontribute/Pojo/EventOngoingPojo.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
@@ -67,11 +69,16 @@ class SearchbarEventState extends State<SearchbarEvent> {
   searchsendreceivedpojo searchpojo;
   List<searchsendreceivedpojo> searchproductListing = new List<searchsendreceivedpojo>();
   EventOngoingPojo listing;
+  String onchangeval = "";
+  double totalamount;
   String vallike;
   projectlike prolike;
   int amoun;
   String updateval;
   int currentPageValue = 0;
+  var commisionlist_length;
+  String valcommision;
+  commisionpojo commission;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
       "assets/images/banner5.png",
@@ -192,11 +199,36 @@ class SearchbarEventState extends State<SearchbarEvent> {
       print("UserId: " + val);
       userid = val;
       getdata(userid,"");
+      getCommision();
       print("Login userid: " + userid.toString());
     });
     _IsSearching = false;
   }
 
+  void getCommision() async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            commisionlist_length = commission.commisiondata;
+          });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
+  }
 
 
   void getdata(String user_id,String search) async {
@@ -486,6 +518,12 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                 GestureDetector(
                                                   onTap: ()
                                                   {
+
+                                                    double tectString = double.parse(listing.projectData.elementAt(index).entryFee)*(commission.commisiondata.senderCommision/100);
+                                                    totalamount = double.parse(listing.projectData.elementAt(index).entryFee) + tectString;
+                                                    print("PrintSring: "+totalamount.toString());
+                                                    print("PrintSringpers: "+tectString.toString());
+
                                                     SharedUtils.readTerms("Terms").then((result){
                                                       if(result!=null){
                                                         if(result){
@@ -496,7 +534,8 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                 borderRadius: BorderRadius.circular(10.0),
                                                               ),
                                                               backgroundColor: AppColors.whiteColor,
-                                                              child: new Container(
+                                                              child:
+                                                              new Container(
                                                                 margin: EdgeInsets.all(5),
                                                                  width: SizeConfig.blockSizeHorizontal * 80,
                                                                   height: SizeConfig.blockSizeVertical *40,
@@ -556,31 +595,63 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                           Widget continueButton = FlatButton(
                                                                             child: Text('continue'.tr),
                                                                             onPressed: () async {
-                                                                              Payamount( listing.projectData.elementAt(index).id, listing.projectData.elementAt(index).entryFee,userid);
+                                                                              Payamount(listing.projectData.elementAt(index).id, totalamount.toString(),userid);
                                                                             },
                                                                           );
                                                                           // set up the AlertDialog
                                                                           AlertDialog alert = AlertDialog(
                                                                             title: Text('paynow'.tr),
                                                                             // content: Text("Are you sure you want to Pay this project?"),
-                                                                            content: new Row(
-                                                                              children: <Widget>[
-                                                                                new Text('eventeentryfees'.tr,
-                                                                                    style: TextStyle(
-                                                                                        letterSpacing: 1.0,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontFamily: 'Poppins-Regular',
-                                                                                        fontSize: 10,
-                                                                                        color: Colors.black)),
+                                                                            content:
+                                                                            Container(
+                                                                              width: SizeConfig.blockSizeHorizontal * 80,
+                                                                              height: SizeConfig.blockSizeVertical *15,
+                                                                              child:
+                                                                              new Column(
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: <Widget>[
+                                                                                      new Text('eventeentryfees'.tr,
+                                                                                          style: TextStyle(
+                                                                                              letterSpacing: 1.0,
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontFamily: 'Poppins-Regular',
+                                                                                              fontSize: 14,
+                                                                                              color: Colors.black)),
 
-                                                                                new Text(" \$"+listing.projectData.elementAt(index).entryFee,
-                                                                                    style: TextStyle(
+                                                                                      new Text(" \$"+listing.projectData.elementAt(index).entryFee,
+                                                                                          style: TextStyle(
+                                                                                              letterSpacing: 1.0,
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontFamily: 'Poppins-Regular',
+                                                                                              fontSize: 14,
+                                                                                              color: Colors.black))
+
+                                                                                    ],
+                                                                                  ),
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                    alignment: Alignment.centerLeft,
+                                                                                    child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
                                                                                         letterSpacing: 1.0,
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
-                                                                                        fontSize: 10,
-                                                                                        color: Colors.black))
-                                                                              ],
+                                                                                        fontSize: 14,
+                                                                                        color: Colors.black),),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                    alignment: Alignment.centerLeft,
+                                                                                    child: Text("Total Pay Fees \$"+totalamount.toString(),
+                                                                                        style: TextStyle(
+                                                                                            letterSpacing: 1.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                            fontSize: 14,
+                                                                                            color: Colors.black)),
+                                                                                  )
+                                                                                ],
+                                                                              ),
                                                                             ),
                                                                             actions: [
                                                                               cancelButton,
@@ -1407,7 +1478,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
 
-          showDialog(
+         /* showDialog(
             context: context,
             child: Dialog(
               shape: RoundedRectangleBorder(
@@ -1467,7 +1538,19 @@ class SearchbarEventState extends State<SearchbarEvent> {
                 ),
               ),
             ),
-          );
+          );*/
+
+          Navigator.of(context).pop();
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                    data: jsonDecode(updateval)["data"]["id"].toString(),
+                    amount:totalamount.toString(),
+                    coming:"evt",
+                    backto:"Event"
+                ), context);
+          });
 
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
@@ -1478,7 +1561,6 @@ class SearchbarEventState extends State<SearchbarEvent> {
       errorDialog(jsonDecode(updateval)["message"]);
     }
   }
-
 
   Future<void> deleteProject(String id) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);

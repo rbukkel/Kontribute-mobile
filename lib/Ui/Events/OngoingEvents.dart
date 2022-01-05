@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kontribute/Payment/payment.dart';
 import 'package:kontribute/Pojo/EventCategoryPojo.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Ui/Events/CreateEventPost.dart';
 import 'package:kontribute/Ui/Events/EditEventPost.dart';
 import 'package:kontribute/Ui/Events/EventReport.dart';
@@ -43,14 +45,19 @@ class OngoingEventsState extends State<OngoingEvents> {
   String product_id = '';
   EventOngoingPojo listing;
   EventCategoryPojo listingcate;
+  var commentlist_length;
   var storelist_length;
   var imageslist_length;
-  var commentlist_length;
+  var commisionlist_length;
   String updateval;
+  String onchangeval = "";
+  double totalamount;
   int amoun;
   var category_length;
   bool resultvalue = true;
   bool resultcatvalue = true;
+  String valcommision;
+  commisionpojo commission;
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset("assets/images/chrimasevents.png",
       height: SizeConfig.blockSizeVertical * 30,fit: BoxFit.fitHeight,),
@@ -434,6 +441,7 @@ class OngoingEventsState extends State<OngoingEvents> {
       if (intenet != null && intenet) {
         getEventCategory();
         getdata(userid);
+        getCommision();
         setState(() {
           internet = true;
         });
@@ -446,6 +454,32 @@ class OngoingEventsState extends State<OngoingEvents> {
       }
     });
   }
+
+  void getCommision() async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            commisionlist_length = commission.commisiondata;
+          });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
+  }
+
 
   void getdata(String user_id) async {
     setState(() {
@@ -656,8 +690,8 @@ class OngoingEventsState extends State<OngoingEvents> {
                       commentlist_length = listing.projectData.elementAt(index).comments;
                       double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                           double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
-
                       amoun =amount.toInt();
+
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -860,6 +894,11 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                 GestureDetector(
                                                   onTap: ()
                                                   {
+                                                    double tectString = double.parse(listing.projectData.elementAt(index).entryFee)*(commission.commisiondata.senderCommision/100);
+                                                    totalamount = double.parse(listing.projectData.elementAt(index).entryFee) + tectString;
+                                                    print("PrintSring: "+totalamount.toString());
+                                                    print("PrintSringpers: "+tectString.toString());
+
                                                     SharedUtils.readTerms("Terms").then((result){
                                                       if(result!=null){
                                                         if(result){
@@ -931,33 +970,66 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                           Widget continueButton = FlatButton(
                                                                             child: Text('continue'.tr),
                                                                             onPressed: () async {
-                                                                              Payamount( listing.projectData.elementAt(index).id, listing.projectData.elementAt(index).entryFee,userid);
+                                                                              setState(() {
+                                                                                Payamount( listing.projectData.elementAt(index).id, totalamount.toString(),userid);
+                                                                              });
+
                                                                             },
                                                                           );
                                                                           // set up the AlertDialog
                                                                           AlertDialog alert = AlertDialog(
                                                                             title: Text('paynow'.tr),
                                                                             // content: Text("Are you sure you want to Pay this project?"),
-                                                                            content: new Row(
-                                                                              children: <Widget>[
+                                                                            content:
+                                                                            Container(
+                                                                              width: SizeConfig.blockSizeHorizontal * 80,
+                                                                              height: SizeConfig.blockSizeVertical *15,
+                                                                              child:
+                                                                              new Column(
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: <Widget>[
+                                                                                      new Text('eventeentryfees'.tr,
+                                                                                          style: TextStyle(
+                                                                                              letterSpacing: 1.0,
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontFamily: 'Poppins-Regular',
+                                                                                              fontSize: 14,
+                                                                                              color: Colors.black)),
 
-                                                                                new Text('eventeentryfees'.tr,
-                                                                                    style: TextStyle(
+                                                                                      new Text(" \$"+listing.projectData.elementAt(index).entryFee,
+                                                                                          style: TextStyle(
+                                                                                              letterSpacing: 1.0,
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontFamily: 'Poppins-Regular',
+                                                                                              fontSize: 14,
+                                                                                              color: Colors.black))
+
+                                                                                    ],
+                                                                                  ),
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                    alignment: Alignment.centerLeft,
+                                                                                    child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
                                                                                         letterSpacing: 1.0,
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontFamily: 'Poppins-Regular',
                                                                                         fontSize: 14,
-                                                                                        color: Colors.black)),
-
-                                                                                new Text(" \$"+listing.projectData.elementAt(index).entryFee,
-                                                                                    style: TextStyle(
-                                                                                        letterSpacing: 1.0,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontFamily: 'Poppins-Regular',
-                                                                                        fontSize: 14,
-                                                                                        color: Colors.black))
-
-                                                                              ],
+                                                                                        color: Colors.black),),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                    alignment: Alignment.centerLeft,
+                                                                                    child: Text("Total Pay Fees \$"+totalamount.toString(),
+                                                                                        style: TextStyle(
+                                                                                            letterSpacing: 1.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                            fontSize: 14,
+                                                                                            color: Colors.black)),
+                                                                                  )
+                                                                                ],
+                                                                              ),
                                                                             ),
                                                                             actions:
                                                                             [
@@ -1735,7 +1807,7 @@ class OngoingEventsState extends State<OngoingEvents> {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
 
-          showDialog(
+          /*showDialog(
             context: context,
             child: Dialog(
               shape: RoundedRectangleBorder(
@@ -1792,7 +1864,19 @@ class OngoingEventsState extends State<OngoingEvents> {
                 ),
               ),
             ),
-          );
+          );*/
+
+          Navigator.of(context).pop();
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                    data: jsonDecode(updateval)["data"]["id"].toString(),
+                    amount:totalamount.toString(),
+                    coming:"evt",
+                    backto:"Event"
+                ), context);
+          });
 
           // getpaymentlist(a);
         } else {

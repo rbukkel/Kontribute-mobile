@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:kontribute/Payment/payment.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -86,7 +88,11 @@ class OngoingCampaignDetailsscreenState
   final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
   String deleteproject;
   final _formmainKey = GlobalKey<FormState>();
-
+  String onchangeval = "";
+  double totalamount;
+  String valcommision;
+  var commisionlist_length;
+  commisionpojo commission;
 
   /* void getPermission() async {
     print("getPermission");
@@ -168,6 +174,31 @@ class OngoingCampaignDetailsscreenState
     );
   }
 
+  void getCommision() async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            commisionlist_length = commission.commisiondata;
+          });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -175,6 +206,7 @@ class OngoingCampaignDetailsscreenState
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       userid = val;
+
       print("Login userid: " + userid.toString());
     });
 
@@ -186,7 +218,7 @@ class OngoingCampaignDetailsscreenState
         print("receiverComing: " + a.toString());
         print("rececome: " + coming1.toString());
         getData(userid, a);
-
+        getCommision();
         setState(() {
           internet = true;
         });
@@ -847,7 +879,7 @@ class OngoingCampaignDetailsscreenState
                                                                                     setState(() {
                                                                                       Payamount(
                                                                                           projectdetailspojo.commentsdata.id,
-                                                                                          AmountController.text,
+                                                                                          totalamount.toString(),
                                                                                           userid);
                                                                                     });
                                                                                   }
@@ -860,11 +892,18 @@ class OngoingCampaignDetailsscreenState
                                                                                 title:
                                                                                 Text('paynow'.tr),
                                                                                 // content: Text("Are you sure you want to Pay this project?"),
-                                                                                content: new Row(
-                                                                                  children: <Widget>[
-                                                                                    new Expanded(
-                                                                                        child: Form(
-                                                                                            child:new TextFormField(
+                                                                                content:
+
+                                                                                new Container(
+                                                                                    width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                    height: SizeConfig.blockSizeVertical *15,
+                                                                                    child:
+                                                                                    new Form(
+                                                                                        key: _formmainKey,
+                                                                                        child:
+                                                                                        Column(
+                                                                                          children: [
+                                                                                            TextFormField(
                                                                                               autofocus:
                                                                                               false,
                                                                                               focusNode:
@@ -872,71 +911,67 @@ class OngoingCampaignDetailsscreenState
                                                                                               controller:
                                                                                               AmountController,
                                                                                               textInputAction:
-                                                                                              TextInputAction
-                                                                                                  .next,
+                                                                                              TextInputAction.next,
                                                                                               keyboardType:
-                                                                                              TextInputType
-                                                                                                  .number,
-                                                                                              validator:
-                                                                                                  (val) {
-                                                                                                if (val.length ==
-                                                                                                    0)
-                                                                                                  return 'pleaseenterpaymentamount'
-                                                                                                      .tr;
+                                                                                              TextInputType.number,
+                                                                                              onChanged: (text) {
+                                                                                                setState(() {
+                                                                                                  onchangeval = text;
+                                                                                                  double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                  totalamount = double.parse(onchangeval) + tectString;
+                                                                                                  print("PrintSring: "+totalamount.toString());
+                                                                                                });
+                                                                                                print("value_1 : "+onchangeval);
+                                                                                              },
+                                                                                              validator: (val) {
+                                                                                                if (val.length == 0)
+                                                                                                  return 'pleaseenterpaymentamount'.tr;
                                                                                                 else
                                                                                                   return null;
                                                                                               },
-                                                                                              onFieldSubmitted:
-                                                                                                  (v) {
-                                                                                                AmountFocus
-                                                                                                    .unfocus();
+                                                                                              onFieldSubmitted: (v) {
+                                                                                                AmountFocus.unfocus();
                                                                                               },
                                                                                               onSaved: (val) =>
-                                                                                              _amount =
-                                                                                                  val,
-                                                                                              textAlign:
-                                                                                              TextAlign
-                                                                                                  .left,
+                                                                                              _amount = val,
+                                                                                              textAlign: TextAlign.left,
                                                                                               style: TextStyle(
-                                                                                                  letterSpacing:
-                                                                                                  1.0,
-                                                                                                  fontWeight:
-                                                                                                  FontWeight
-                                                                                                      .normal,
-                                                                                                  fontFamily:
-                                                                                                  'Poppins-Regular',
-                                                                                                  fontSize:
-                                                                                                  10,
-                                                                                                  color: Colors
-                                                                                                      .black),
+                                                                                                  letterSpacing: 1.0,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                  fontSize: 12,
+                                                                                                  color: Colors.black),
                                                                                               decoration:
                                                                                               InputDecoration(
                                                                                                 // border: InputBorder.none,
                                                                                                 // focusedBorder: InputBorder.none,
-                                                                                                hintStyle:
-                                                                                                TextStyle(
-                                                                                                  color: Colors
-                                                                                                      .grey,
-                                                                                                  fontWeight:
-                                                                                                  FontWeight
-                                                                                                      .normal,
-                                                                                                  fontFamily:
-                                                                                                  'Poppins-Regular',
-                                                                                                  fontSize:
-                                                                                                  10,
-                                                                                                  decoration:
-                                                                                                  TextDecoration
-                                                                                                      .none,
+                                                                                                hintStyle: TextStyle(
+                                                                                                  color: Colors.grey,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                  fontSize: 12,
+                                                                                                  decoration: TextDecoration.none,
                                                                                                 ),
-                                                                                                hintText:
-                                                                                                'enterpaymentamount'
-                                                                                                    .tr,
+                                                                                                hintText: 'enterpaymentamount'.tr,
                                                                                               ),
                                                                                             ),
-                                                                                            key:_formmainKey
+                                                                                            Container(
+                                                                                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                              alignment: Alignment.centerLeft,
+                                                                                              child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
+                                                                                                  letterSpacing: 1.0,
+                                                                                                  fontWeight: FontWeight.normal,
+                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                  fontSize: 10,
+                                                                                                  color: Colors.black),),
+                                                                                            )
+
+                                                                                          ],
                                                                                         )
+
                                                                                     )
-                                                                                  ],
+
+
                                                                                 ),
                                                                                 actions: [
                                                                                   cancelButton,
@@ -2499,7 +2534,18 @@ class OngoingCampaignDetailsscreenState
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-          showDialog(
+          Navigator.of(context).pop();
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                    data: jsonDecode(updateval)["data"]["id"].toString(),
+                    amount:totalamount.toString(),
+                    coming:"dnt",
+                    backto:"Donation"
+                ), context);
+          });
+          /*showDialog(
             context: context,
             child: Dialog(
               shape: RoundedRectangleBorder(
@@ -2559,7 +2605,7 @@ class OngoingCampaignDetailsscreenState
                 ),
               ),
             ),
-          );
+          );*/
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
         }

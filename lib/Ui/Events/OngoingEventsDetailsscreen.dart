@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:kontribute/Payment/payment.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:share/share.dart';
 import 'package:favorite_button/favorite_button.dart';
@@ -64,6 +66,9 @@ class OngoingEventsDetailsscreenState
   String val;
   String vallike;
   String valPost;
+  var commisionlist_length;
+  String valcommision;
+  commisionpojo commission;
   int amoun;
   var productlist_length;
   var storelist_length;
@@ -72,6 +77,8 @@ class OngoingEventsDetailsscreenState
   var videolist_length;
   var paymentdetails_length;
   List<String> imagestore = [];
+  String onchangeval = "";
+  double totalamount;
   EventDetailsPojo projectdetailspojo;
   final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
   String deleteproject;
@@ -125,7 +132,7 @@ class OngoingEventsDetailsscreenState
         print("receiverComing: " + a.toString());
         print("recCome: " + coming1.toString());
         getData(userid, a);
-
+        getCommision();
         setState(() {
           internet = true;
         });
@@ -136,6 +143,30 @@ class OngoingEventsDetailsscreenState
         errorDialog('nointernetconnection'.tr);
       }
     });
+  }
+  void getCommision() async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            commisionlist_length = commission.commisiondata;
+          });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
   }
 
   void errorDialog(String text) {
@@ -868,6 +899,10 @@ class OngoingEventsDetailsscreenState
                                                       "pending"
                                                   ? GestureDetector(
                                                       onTap: () {
+                                                        double tectString = double.parse(projectdetailspojo.eventsdata.entryFee,)*(commission.commisiondata.senderCommision/100);
+                                                        totalamount = double.parse(projectdetailspojo.eventsdata.entryFee,) + tectString;
+                                                        print("PrintSring: "+totalamount.toString());
+                                                        print("PrintSringpers: "+tectString.toString());
                                                         SharedUtils.readTerms("Terms").then((result){
                                                           if(result!=null){
                                                             if(result){
@@ -944,12 +979,8 @@ class OngoingEventsDetailsscreenState
                                                                                     'continue'.tr),
                                                                                 onPressed: () async {
                                                                                   Payamount(
-                                                                                      projectdetailspojo
-                                                                                          .eventsdata
-                                                                                          .id,
-                                                                                      projectdetailspojo
-                                                                                          .eventsdata
-                                                                                          .entryFee,
+                                                                                      projectdetailspojo.eventsdata.id,
+                                                                                      totalamount.toString(),
                                                                                       userid);
                                                                                 },
                                                                               );
@@ -2676,7 +2707,18 @@ class OngoingEventsDetailsscreenState
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-          showDialog(
+          Navigator.of(context).pop();
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                    data: jsonDecode(updateval)["data"]["id"].toString(),
+                    amount:totalamount.toString(),
+                    coming:"evt",
+                    backto:"Event"
+                ), context);
+          });
+         /* showDialog(
             context: context,
             child: Dialog(
               shape: RoundedRectangleBorder(
@@ -2734,7 +2776,7 @@ class OngoingEventsDetailsscreenState
                 ),
               ),
             ),
-          );
+          );*/
           // getpaymentlist(a);
         } else {
           errorDialog(jsonDecode(updateval)["message"]);
