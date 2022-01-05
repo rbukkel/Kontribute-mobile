@@ -990,42 +990,60 @@ class OngoingEventsDetailsscreenState
                                                                                 title:
                                                                                 Text('paynow'.tr),
                                                                                 // content: Text("Are you sure you want to Pay this project?"),
-                                                                                content: new Row(
-                                                                                  children: <Widget>[
-                                                                                    new Text(
-                                                                                        'eventeentryfees'
-                                                                                            .tr,
-                                                                                        style: TextStyle(
-                                                                                            letterSpacing:
-                                                                                            1.0,
-                                                                                            fontWeight:
-                                                                                            FontWeight
-                                                                                                .normal,
-                                                                                            fontFamily:
-                                                                                            'Poppins-Regular',
-                                                                                            fontSize:
-                                                                                            10,
-                                                                                            color: Colors
-                                                                                                .black)),
-                                                                                    new Text(
-                                                                                        " \$" +
-                                                                                            projectdetailspojo
-                                                                                                .eventsdata
-                                                                                                .entryFee,
-                                                                                        style: TextStyle(
-                                                                                            letterSpacing:
-                                                                                            1.0,
-                                                                                            fontWeight:
-                                                                                            FontWeight
-                                                                                                .normal,
-                                                                                            fontFamily:
-                                                                                            'Poppins-Regular',
-                                                                                            fontSize:
-                                                                                            10,
-                                                                                            color: Colors
-                                                                                                .black))
-                                                                                  ],
+                                                                                content:
+                                                                                Container(
+                                                                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                  height: SizeConfig.blockSizeVertical *15,
+                                                                                  child:
+                                                                                  new Column(
+                                                                                    children: [
+                                                                                      Row(
+                                                                                        children: <Widget>[
+                                                                                          new Text('eventeentryfees'.tr,
+                                                                                              style: TextStyle(
+                                                                                                  letterSpacing: 1.0,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                  fontSize: 14,
+                                                                                                  color: Colors.black)),
+
+                                                                                          new Text(" \$"+projectdetailspojo
+                                                                                              .eventsdata
+                                                                                              .entryFee,
+                                                                                              style: TextStyle(
+                                                                                                  letterSpacing: 1.0,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                  fontSize: 14,
+                                                                                                  color: Colors.black))
+
+                                                                                        ],
+                                                                                      ),
+                                                                                      Container(
+                                                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                        alignment: Alignment.centerLeft,
+                                                                                        child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
+                                                                                            letterSpacing: 1.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                            fontSize: 14,
+                                                                                            color: Colors.black),),
+                                                                                      ),
+                                                                                      Container(
+                                                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                        alignment: Alignment.centerLeft,
+                                                                                        child: Text("Total Pay Fees \$"+totalamount.toString(),
+                                                                                            style: TextStyle(
+                                                                                                letterSpacing: 1.0,
+                                                                                                fontWeight: FontWeight.bold,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 14,
+                                                                                                color: Colors.black)),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
+
                                                                                 actions: [
                                                                                   cancelButton,
                                                                                   continueButton,

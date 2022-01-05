@@ -16,7 +16,6 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-
 class payment extends StatefulWidget{
   final String data;
   final String amount;
@@ -31,8 +30,7 @@ class payment extends StatefulWidget{
 class _payment  extends State<payment>{
   var isFlutterInAppWebViewReady = false;
 // InAppWebViewController _webViewController;
-
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+ final Completer<WebViewController> _controller = Completer<WebViewController>();
  bool internet = false;
  String data1;
  String amount1;
@@ -49,12 +47,12 @@ class _payment  extends State<payment>{
       print("Login userid: " + userid.toString());
     });
     Internet_check().check().then((intenet) {
-      if (intenet != null && intenet) {
+      if (intenet != null && intenet)
+      {
         data1 = widget.data;
         amount1 = widget.amount;
         coming1 = widget.coming;
         backto1 = widget.backto;
-
         print("receiverdata1: " + data1.toString());
         print("receiveramount1: " + amount1.toString());
         print("receivercoming1: " + coming1.toString());
@@ -132,7 +130,6 @@ class _payment  extends State<payment>{
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -87,6 +87,7 @@ class MyActivitiesState extends State<MyActivities> {
   String onchangedonationval = "";
   double totalamount;
   double totaldonationamount;
+  double totalEventamount;
   String valcommision;
   var commisionlist_length;
   commisionpojo commission;
@@ -4068,8 +4069,8 @@ class MyActivitiesState extends State<MyActivities> {
                                               onTap: ()
                                               {
                                                 double tectString = double.parse(listingevent.result.elementAt(index).entryFee)*(commission.commisiondata.senderCommision/100);
-                                                totalamount = double.parse(listingevent.result.elementAt(index).entryFee) + tectString;
-                                                print("PrintSring: "+totalamount.toString());
+                                                totalEventamount = double.parse(listingevent.result.elementAt(index).entryFee) + tectString;
+                                                print("PrintSring: "+totalEventamount.toString());
                                                 print("PrintSringpers: "+tectString.toString());
 
                                                 SharedUtils.readTerms("Terms").then((result){
@@ -4143,31 +4144,65 @@ class MyActivitiesState extends State<MyActivities> {
                                                                       Widget continueButton = FlatButton(
                                                                         child: Text('continue'.tr),
                                                                         onPressed: () async {
-                                                                          PayEventamount( listingevent.result.elementAt(index).id, totalamount.toString(),userid);
+                                                                          PayEventamount( listingevent.result.elementAt(index).id, totalEventamount.toString(),userid);
                                                                         },
                                                                       );
                                                                       // set up the AlertDialog
                                                                       AlertDialog alert = AlertDialog(
                                                                         title: Text('paynow'.tr),
                                                                         // content: Text("Are you sure you want to Pay this project?"),
-                                                                        content: new Row(
-                                                                          children: <Widget>[
-                                                                            new Text('eventeentryfees'.tr,
-                                                                                style: TextStyle(
+                                                                        content:
+                                                                        Container(
+                                                                          width: SizeConfig.blockSizeHorizontal * 80,
+                                                                          height: SizeConfig.blockSizeVertical *15,
+                                                                          child:
+                                                                          new Column(
+                                                                            children: [
+                                                                              Row(
+                                                                                children: <Widget>[
+                                                                                  new Text('eventeentryfees'.tr,
+                                                                                      style: TextStyle(
+                                                                                          letterSpacing: 1.0,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                          fontSize: 14,
+                                                                                          color: Colors.black)),
+
+                                                                                  new Text(" \$"+listingevent.result.elementAt(index).entryFee,
+                                                                                      style: TextStyle(
+                                                                                          letterSpacing: 1.0,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                          fontSize: 14,
+                                                                                          color: Colors.black))
+
+                                                                                ],
+                                                                              ),
+                                                                              Container(
+                                                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
                                                                                     letterSpacing: 1.0,
                                                                                     fontWeight: FontWeight.bold,
                                                                                     fontFamily: 'Poppins-Regular',
-                                                                                    fontSize: 10,
-                                                                                    color: Colors.black)) ,
-                                                                            new Text(" \$"+listingevent.result.elementAt(index).entryFee,
-                                                                                style: TextStyle(
-                                                                                    letterSpacing: 1.0,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    fontFamily: 'Poppins-Regular',
-                                                                                    fontSize: 10,
-                                                                                    color: Colors.black))
-                                                                          ],
+                                                                                    fontSize: 14,
+                                                                                    color: Colors.black),),
+                                                                              ),
+                                                                              Container(
+                                                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: Text("Total Pay Fees \$"+totalamount.toString(),
+                                                                                    style: TextStyle(
+                                                                                        letterSpacing: 1.0,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontFamily: 'Poppins-Regular',
+                                                                                        fontSize: 14,
+                                                                                        color: Colors.black)),
+                                                                              )
+                                                                            ],
+                                                                          ),
                                                                         ),
+
                                                                         actions:
                                                                         [
                                                                           cancelButton,
@@ -6350,7 +6385,17 @@ class MyActivitiesState extends State<MyActivities> {
       else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
-
+          Navigator.of(context).pop();
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                    data: jsonDecode(eventupdateval)["data"]["id"].toString(),
+                    amount:totalEventamount.toString(),
+                    coming:"evt",
+                    backto:"MyActivity"
+                ), context);
+          });
           /*showDialog(
             context: context,
             child: Dialog(
