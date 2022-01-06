@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kontribute/Common/Sharedutils.dart';
+import 'package:kontribute/Payment/payment.dart';
 import 'package:kontribute/Pojo/FollowinglistPojo.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Pojo/followstatus.dart';
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/Pojo/paymentlist.dart';
@@ -42,6 +44,10 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   String Follow = "Follow";
   int a;
   String updateval;
+  double totalamount;
+  String valcommision;
+  var commisionlist_length;
+  commisionpojo commission;
   String userid;
   individualRequestDetailspojo senddetailsPojo;
   followstatus followstatusPojo;
@@ -68,6 +74,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
           print("UserId: " + val);
           userid = val;
           getData(a, userid);
+          getCommision();
           print("Login userid: " + userid.toString());
         });
         // getpaymentlist(a);
@@ -82,6 +89,33 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
       }
     });
   }
+
+
+  void getCommision() async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          setState(() {
+            commisionlist_length = commission.commisiondata;
+          });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
+  }
+
 
   void getfollowstatus(String userid, String rec) async {
     Map data = {
@@ -1453,6 +1487,20 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                         senddetailsPojo.memberlist.elementAt(index).paymentStatus==0?
                                                         GestureDetector(
                                                                 onTap: () {
+                                                                  if(senddetailsPojo.result.price != null)
+                                                                    {
+                                                                      double tectString = double.parse(senddetailsPojo.result.price)*(commission.commisiondata.senderCommision/100);
+                                                                      totalamount = double.parse(senddetailsPojo.result.price) + tectString;
+                                                                      print("PrintSring: "+totalamount.toString());
+                                                                      print("PrintSringpers: "+tectString.toString());
+                                                                    }
+                                                                  else
+                                                                    {
+                                                                      double tectString = double.parse(senddetailsPojo.result.collectionTarget)*(commission.commisiondata.senderCommision/100);
+                                                                      totalamount = double.parse(senddetailsPojo.result.collectionTarget) + tectString;
+                                                                      print("PrintSring: "+totalamount.toString());
+                                                                      print("PrintSringpers: "+tectString.toString());
+                                                                    }
 
                                                                   SharedUtils.readTerms("Terms").then((result){
                                                                     if(result!=null){
@@ -1689,15 +1737,28 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   }
 
   Future<void> payamount() async {
+    String price;
+    if(senddetailsPojo.result.price != null)
+      {
+        price =senddetailsPojo.result.price.toString();
+      }
+    else
+      {
+        price = senddetailsPojo.result.collectionTarget.toString();
+      }
+    print("Price: "+price.toString());
+
+
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': senddetailsPojo.result.id.toString(),
       'sender_id': userid.toString(),
+      'price_money': price.toString(),
+      'updated_price': totalamount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
-    http.Response response =
-        await http.post(Network.BaseApi + Network.pay_money, body: data);
+    http.Response response = await http.post(Network.BaseApi + Network.pay_money, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
@@ -1707,6 +1768,18 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
       } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
+          Navigator.of(context).pop();
+          Future.delayed(Duration(seconds: 1),()
+          {
+            callNext(
+                payment(
+                    data: jsonDecode(updateval)["data"]["id"].toString(),
+                    amount:totalamount.toString(),
+                    coming:"gift",
+                    backto:"GIFT"
+                ), context);
+          });
+         /*
           showDialog(
             context: context,
             child: Dialog(
@@ -1766,7 +1839,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                 ),
               ),
             ),
-          );
+          );*/
           // getpaymentlist(a);
         } else {
           showToast(updateval);

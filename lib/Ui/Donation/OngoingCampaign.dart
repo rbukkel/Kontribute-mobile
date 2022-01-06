@@ -943,7 +943,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                                                             setState(() {
                                                                                               onchangeval = text;
                                                                                               double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                              totalamount = double.parse(onchangeval) + tectString;
+                                                                                              totalamount = double.parse(onchangeval) - tectString;
                                                                                               print("PrintSring: "+totalamount.toString());
                                                                                             });
                                                                                             print("value_1 : "+onchangeval);

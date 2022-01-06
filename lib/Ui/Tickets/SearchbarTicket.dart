@@ -7,7 +7,6 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:kontribute/Ui/Tickets/EditTicketPost.dart';
-
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/EventOngoingPojo.dart';
@@ -1723,7 +1722,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                     data: jsonDecode(updateval)["data"]["id"].toString(),
                     amount:totalamount.toString(),
                     coming:"tkt",
-                    backto:"Ticket"
+                    backto:"SearchTicket"
                 ), context);
           });
           /*showDialog(

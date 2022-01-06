@@ -186,7 +186,8 @@ class Data {
     {
       minCashByParticipant = json['min_cash_by_participant'].toString();
     }
-    else{
+    else
+    {
       minCashByParticipant = json['min_cash_by_participant'];
     }
 
@@ -224,6 +225,8 @@ class Data {
     data['group_id'] = this.groupId;
     data['receiver_id'] = this.receiverId;
     data['description'] = this.description;
+
+
     data['seen'] = this.seen;
     data['price'] = this.price;
     data['min_cash_by_participant'] = this.minCashByParticipant;

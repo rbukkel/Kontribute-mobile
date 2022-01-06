@@ -150,6 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+
+
   void nextScreen() {
     SharedUtils.writeloginData("login").then((result){
       if(result!=null){

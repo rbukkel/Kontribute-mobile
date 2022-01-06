@@ -660,16 +660,16 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         GestureDetector(
                                           onTap: ()
                                           {
-
                                             double tectString = double.parse(listing.projectData.elementAt(index).ticketCost)*(commission.commisiondata.senderCommision/100);
                                             totalamount = double.parse(listing.projectData.elementAt(index).ticketCost) + tectString;
                                             print("PrintSring: "+totalamount.toString());
                                             print("PrintSringpers: "+tectString.toString());
 
-
                                             SharedUtils.readTerms("Terms").then((result){
                                               if(result!=null){
                                                 if(result){
+
+
                                                   showDialog(
                                                     context: context,
                                                     child: Dialog(
@@ -890,6 +890,8 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                       ),
                                                     ),
                                                   );
+
+
                                                 }else{
                                                   print("falseValue");
                                                   warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Ticket", context);
