@@ -1564,15 +1564,14 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                         Widget cancelButton =
                                                                                         FlatButton(
                                                                                           child:
-                                                                                          Text('no'.tr),
+                                                                                          Text('cancel'.tr),
                                                                                           onPressed: () {
                                                                                             Navigator.pop(context);
                                                                                           },
                                                                                         );
                                                                                         Widget continueButton =
                                                                                         FlatButton(
-                                                                                          child: Text(
-                                                                                              'yes'.tr),
+                                                                                          child: Text('continue'.tr),
                                                                                           onPressed: () async {
                                                                                             payamount();
                                                                                           },
@@ -1581,7 +1580,68 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                         AlertDialog alert =
                                                                                         AlertDialog(
                                                                                           title: Text('paynow'.tr),
-                                                                                          content: Text('areyousureyouwanttoPay'.tr),
+                                                                                          content:
+                                                                                          //Text('areyousureyouwanttoPay'.tr),
+                                                                                          Container(
+                                                                                            width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                            height: SizeConfig.blockSizeVertical *15,
+                                                                                            child:
+                                                                                            new Column(
+                                                                                              children: [
+                                                                                              /*  new Text('areyousureyouwanttoPay'.tr,
+                                                                                                    style: TextStyle(
+                                                                                                        letterSpacing: 1.0,
+                                                                                                        fontWeight: FontWeight.bold,
+                                                                                                        fontFamily: 'Poppins-Regular',
+                                                                                                        fontSize: 14,
+                                                                                                        color: Colors.black)),*/
+                                                                                                senddetailsPojo.result.price != null?
+                                                                                                Container(
+                                                                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                                  alignment: Alignment.centerLeft,
+                                                                                                  child: Text("Pay Amount   \$"+senddetailsPojo.result.price.toString(),
+                                                                                                      style: TextStyle(
+                                                                                                          letterSpacing: 1.0,
+                                                                                                          fontWeight: FontWeight.normal,
+                                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                                          fontSize: 14,
+                                                                                                          color: Colors.black))
+                                                                                                ):
+                                                                                                Container(
+                                                                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                                    alignment: Alignment.centerLeft,
+                                                                                                    child: new Text("Pay Amount   \$"+senddetailsPojo.result.collectionTarget.toString(),
+                                                                                                        style: TextStyle(
+                                                                                                            letterSpacing: 1.0,
+                                                                                                            fontWeight: FontWeight.normal,
+                                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                                            fontSize: 14,
+                                                                                                            color: Colors.black))
+                                                                                                ),
+                                                                                                Container(
+                                                                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                                  alignment: Alignment.centerLeft,
+                                                                                                  child: Text("Extra Charges   "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
+                                                                                                      letterSpacing: 1.0,
+                                                                                                      fontWeight: FontWeight.normal,
+                                                                                                      fontFamily: 'Poppins-Regular',
+                                                                                                      fontSize: 14,
+                                                                                                      color: Colors.black),),
+                                                                                                ),
+                                                                                                Container(
+                                                                                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                                  alignment: Alignment.centerLeft,
+                                                                                                  child: Text("Total Pay   \$"+totalamount.toString(),
+                                                                                                      style: TextStyle(
+                                                                                                          letterSpacing: 1.0,
+                                                                                                          fontWeight: FontWeight.normal,
+                                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                                          fontSize: 14,
+                                                                                                          color: Colors.black)),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
                                                                                           actions: [
                                                                                             cancelButton,
                                                                                             continueButton,

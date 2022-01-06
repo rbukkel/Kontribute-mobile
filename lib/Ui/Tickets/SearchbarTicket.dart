@@ -340,8 +340,9 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                   Expanded(
                     child:
                     ListView.builder(
-                        itemCount: storelist_length.length == null ? 0 : storelist_length.length,
-                        itemBuilder: (BuildContext context, int index) {
+                        itemCount: storelist_length.length == null? 0 : storelist_length.length,
+                        itemBuilder: (BuildContext context, int index)
+                        {
                           imageslist_length = listing.projectData.elementAt(index).ticketImages;
                           commentlist_length = listing.projectData.elementAt(index).comments;
                           double amount = double.parse(listing.projectData.elementAt(index).ticketsold.toString()) /
@@ -369,7 +370,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
-
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
@@ -382,7 +382,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             totalamount = double.parse(listing.projectData.elementAt(index).ticketCost) + tectString;
                                             print("PrintSring: "+totalamount.toString());
                                             print("PrintSringpers: "+tectString.toString());
-
                                             SharedUtils.readTerms("Terms").then((result){
                                               if(result!=null){
                                                 if(result){
@@ -396,7 +395,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                       child: new Container(
                                                         margin: EdgeInsets.all(5),
                                                         width: SizeConfig.blockSizeHorizontal * 80,
-                                                                  height: SizeConfig.blockSizeVertical *40,
+                                                        height: SizeConfig.blockSizeVertical *40,
                                                         child: Column(
                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                           crossAxisAlignment: CrossAxisAlignment.center,
