@@ -1130,6 +1130,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                         .projectData
                                                                                                         .elementAt(index)
                                                                                                         .id.toString(),
+                                                                                                    AmountController.text,
                                                                                                     totalamount.toString(),
                                                                                                     userid);
                                                                                               });
@@ -1145,7 +1146,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                               width: SizeConfig.blockSizeHorizontal * 80,
                                                                                               height: SizeConfig.blockSizeVertical *15,
                                                                                            child:
-                                                                                                  new Form(
+                                                                                           new Form(
                                                                                                     key: _formmainKey,
                                                                                                     child:
                                                                                                         Column(
@@ -1164,9 +1165,21 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                               onChanged: (text) {
                                                                                                                 setState(() {
                                                                                                                   onchangeval = text;
-                                                                                                                  double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                                  totalamount = double.parse(onchangeval) + tectString;
-                                                                                                                  print("PrintSring: "+totalamount.toString());
+                                                                                                                  if(onchangeval == listing.projectData.elementAt(index).requiredAmount.toString())
+                                                                                                                    {
+                                                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                                      totalamount = double.parse(onchangeval) + tectString;
+                                                                                                                      print("PrintUpdated: "+totalamount.toString());
+                                                                                                                      print("PrintActual: "+onchangeval.toString());
+                                                                                                                    }
+                                                                                                                  else
+                                                                                                                    {
+                                                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                                      totalamount = double.parse(onchangeval) - tectString;
+                                                                                                                      print("PrintUpdated: "+totalamount.toString());
+                                                                                                                      print("PrintActual: "+onchangeval.toString());
+                                                                                                                    }
+
                                                                                                                 });
                                                                                                                 print("value_1 : "+onchangeval);
                                                                                                               },
@@ -2085,12 +2098,13 @@ class OngoingProjectState extends State<OngoingProject> {
     }
   }
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount,String updatedAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
       'amount': requiredAmount.toString(),
+      'updated_amount': updatedAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;

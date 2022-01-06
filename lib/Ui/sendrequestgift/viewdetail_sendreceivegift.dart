@@ -9,6 +9,7 @@ import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Pojo/followstatus.dart';
 import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
 import 'package:kontribute/Pojo/paymentlist.dart';
+import 'package:kontribute/Pojo/sendmoneypojo.dart';
 import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -59,6 +60,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   FollowinglistPojo followlistpojo;
   String followval;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  sendmoneypojo moneypojo;
 
   @override
   void initState() {
@@ -1382,12 +1384,8 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                               .topRight,
                                                           padding:
                                                               EdgeInsets.only(
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                1,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                3,
+                                                            left: SizeConfig.blockSizeHorizontal * 1,
+                                                            right: SizeConfig.blockSizeHorizontal * 3,
                                                           ),
                                                           child: Text(
                                                             senddetailsPojo
@@ -1767,14 +1765,16 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
         showToast(updateval);
       } else {
         Navigator.of(context, rootNavigator: true).pop();
+        moneypojo = new sendmoneypojo.fromJson(jsonResponse);
+
         if (jsonResponse != null) {
           Navigator.of(context).pop();
           Future.delayed(Duration(seconds: 1),()
           {
             callNext(
                 payment(
-                    data: jsonDecode(updateval)["data"]["id"].toString(),
-                    amount:totalamount.toString(),
+                    data: moneypojo.paymentId.toString(),
+                    amount:moneypojo.paypalAmount.toString(),
                     coming:"gift",
                     backto:"GIFT"
                 ), context);

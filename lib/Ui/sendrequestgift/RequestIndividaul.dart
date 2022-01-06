@@ -1089,7 +1089,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                             ),
                           )
               ),
-
       ),
     );
   }
