@@ -311,7 +311,7 @@ class Projectpaymentdetails {
   int id;
   int projectId;
   int senderId;
-  int amount;
+  double amount;
   String status;
   String createdAt;
   String updatedAt;
@@ -335,7 +335,14 @@ class Projectpaymentdetails {
     id = json['id'];
     projectId = json['project_id'];
     senderId = json['sender_id'];
-    amount = json['amount'];
+
+    if(json['amount'] is int)
+    {
+      amount = double.parse(json['amount'].toString());
+    }
+    else{
+      amount = json['amount'];
+    }
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

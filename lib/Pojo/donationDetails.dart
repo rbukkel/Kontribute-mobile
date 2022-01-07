@@ -322,7 +322,7 @@ class Donationpaymentdetails {
   String id;
   String donationId;
   String senderId;
-  String amount;
+  double amount;
   String status;
   String createdAt;
   String updatedAt;
@@ -371,10 +371,9 @@ class Donationpaymentdetails {
     }
     if(json['amount'] is int)
     {
-      amount = json['amount'].toString();
+      amount = double.parse(json['amount'].toString());
     }
-    else
-    {
+    else{
       amount = json['amount'];
     }
 

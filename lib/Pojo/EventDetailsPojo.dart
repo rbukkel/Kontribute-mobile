@@ -413,7 +413,7 @@ class ContributerList {
   String id;
   String eventId;
   String senderId;
-  String amount;
+  double amount;
   String status;
   String paymentfor;
   String createdAt;
@@ -463,11 +463,12 @@ class ContributerList {
 
     if(json['amount'] is int)
     {
-      amount = json['amount'].toString();
+      amount = double.parse(json['amount'].toString());
     }
     else{
       amount = json['amount'];
     }
+
     status = json['status'];
     paymentfor = json['paymentfor'];
     createdAt = json['created_at'];

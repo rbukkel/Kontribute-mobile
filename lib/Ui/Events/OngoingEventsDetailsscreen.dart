@@ -980,6 +980,7 @@ class OngoingEventsDetailsscreenState
                                                                                 onPressed: () async {
                                                                                   Payamount(
                                                                                       projectdetailspojo.eventsdata.id,
+                                                                                      projectdetailspojo.eventsdata.entryFee,
                                                                                       totalamount.toString(),
                                                                                       userid);
                                                                                 },
@@ -2705,12 +2706,13 @@ class OngoingEventsDetailsscreenState
     }
   }
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id,String fees, String requiredAmount, String userid) async {
      Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'userid': userid.toString(),
       'event_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': fees.toString(),
+      'updated_amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;

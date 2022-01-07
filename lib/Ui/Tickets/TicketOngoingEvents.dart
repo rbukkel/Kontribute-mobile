@@ -743,6 +743,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                         if (_formmainKey.currentState.validate()) {
                                                                           Payamount(
                                                                               listing.projectData.elementAt(index).id,
+                                                                              listing.projectData.elementAt(index).ticketCost,
                                                                               totalamount.toString(), AmountController.text,
                                                                               userid);
                                                                         }
@@ -1784,12 +1785,13 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
     );
   }
 
-  Future<void> Payamount(String id, String requiredAmount,String qtyval, String userid) async {
+  Future<void> Payamount(String id, String cost,String requiredAmount,String qtyval, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'userid': userid.toString(),
       'ticket_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': cost.toString(),
+      'updated_amount': requiredAmount.toString(),
       'qty': qtyval.toString(),
     };
     print("DATA: " + data.toString());

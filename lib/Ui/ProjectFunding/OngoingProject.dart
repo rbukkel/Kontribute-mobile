@@ -1131,7 +1131,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                                         .elementAt(index)
                                                                                                         .id.toString(),
                                                                                                     AmountController.text,
-                                                                                                    totalamount.toString(),
+                                                                                                    totalamount,
                                                                                                     userid);
                                                                                               });
                                                                                             }
@@ -1573,7 +1573,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                               margin: EdgeInsets.only(
                                                   top: SizeConfig.blockSizeVertical * 1),
                                               child: LinearPercentIndicator(
-                                                width: 60.0,
+                                                width: 58.0,
                                                 lineHeight: 14.0,
                                                 percent: amoun / 100,
                                                 center: Text(
@@ -1581,13 +1581,10 @@ class OngoingProjectState extends State<OngoingProject> {
                                                   style: TextStyle(
                                                       fontSize: 8,
                                                       fontWeight: FontWeight.bold,
-                                                      color:
-                                                          AppColors.whiteColor),
+                                                      color: AppColors.whiteColor),
                                                 ),
-                                                backgroundColor:
-                                                    AppColors.lightgrey,
-                                                progressColor:
-                                                    AppColors.themecolor,
+                                                backgroundColor: AppColors.lightgrey,
+                                                progressColor: AppColors.themecolor,
                                               ),
                                             ),
                                             Row(
@@ -2098,15 +2095,32 @@ class OngoingProjectState extends State<OngoingProject> {
     }
   }
 
-  Future<void> Payamount(String id, String requiredAmount,String updatedAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount,double updatedAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+      {
+        originalamount = actualamount;
+        commisionamount = updatedAmount;
+      }
+    else
+      {
+        originalamount = updatedAmount;
+        commisionamount = actualamount;
+      }
+
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
-      'amount': requiredAmount.toString(),
-      'updated_amount': updatedAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
+
     print("DATA: " + data.toString());
+
     var jsonResponse = null;
     http.Response response =
         await http.post(Network.BaseApi + Network.project_pay, body: data);
@@ -2126,7 +2140,7 @@ class OngoingProjectState extends State<OngoingProject> {
             callNext(
                 payment(
                   data: jsonDecode(updateval)["data"]["id"].toString(),
-                  amount:totalamount.toString(),
+                  amount:commisionamount.toString(),
                   coming:"pjt",
                   backto:"Project"
                 ), context);

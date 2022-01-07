@@ -1813,7 +1813,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                                               listing.result
                                                                                   .elementAt(index)
                                                                                   .id,
-                                                                              totalamount.toString(),
+                                                                              AmountController.text,
+                                                                              totalamount,
                                                                               userid);
                                                                         }
 
@@ -1847,8 +1848,22 @@ class MyActivitiesState extends State<MyActivities> {
                                                                                   onChanged: (text) {
                                                                                     setState(() {
                                                                                       onchangeval = text;
-                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                      totalamount = double.parse(onchangeval) + tectString;
+
+                                                                                      if(onchangeval == listing.result.elementAt(index).requiredAmount.toString())
+                                                                                      {
+                                                                                        double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                        totalamount = double.parse(onchangeval) + tectString;
+                                                                                        print("PrintUpdated: "+totalamount.toString());
+                                                                                        print("PrintActual: "+onchangeval.toString());
+                                                                                      }
+                                                                                      else
+                                                                                      {
+                                                                                        double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                        totalamount = double.parse(onchangeval) - tectString;
+                                                                                        print("PrintUpdated: "+totalamount.toString());
+                                                                                        print("PrintActual: "+onchangeval.toString());
+                                                                                      }
+
                                                                                       print("PrintSring: "+totalamount.toString());
                                                                                     });
                                                                                     print("value_1 : "+onchangeval);
@@ -2759,7 +2774,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                                     if (_formmainKeyDonation.currentState.validate()){
                                                                       setState(() {
                                                                         PayDonationamount(listingdonation.result.elementAt(index).id,
-                                                                            totaldonationamount.toString(),
+                                                                            AmountController.text,
+                                                                            totaldonationamount,
                                                                             userid);
                                                                       });
                                                                     }
@@ -2794,9 +2810,22 @@ class MyActivitiesState extends State<MyActivities> {
                                                                                 onChanged: (text) {
                                                                                   setState(() {
                                                                                     onchangedonationval = text;
-                                                                                    double tectString = double.parse(onchangedonationval)*(commission.commisiondata.senderCommision/100);
-                                                                                    totaldonationamount = double.parse(onchangedonationval) + tectString;
-                                                                                    print("PrintSring: "+totaldonationamount.toString());
+
+                                                                                    if(onchangedonationval == listingdonation.result.elementAt(index).requiredAmount.toString())
+                                                                                    {
+                                                                                      double tectString = double.parse(onchangedonationval)*(commission.commisiondata.senderCommision/100);
+                                                                                      totaldonationamount = double.parse(onchangedonationval) + tectString;
+                                                                                      print("PrintUpdated: "+totaldonationamount.toString());
+                                                                                      print("PrintActual: "+onchangedonationval.toString());
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                      double tectString = double.parse(onchangedonationval)*(commission.commisiondata.senderCommision/100);
+                                                                                      totaldonationamount = double.parse(onchangedonationval) - tectString;
+                                                                                      print("PrintUpdated: "+totaldonationamount.toString());
+                                                                                      print("PrintActual: "+onchangedonationval.toString());
+                                                                                    }
+
                                                                                   });
                                                                                   print("value_1 : "+onchangedonationval);
                                                                                 },
@@ -4145,7 +4174,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                       Widget continueButton = FlatButton(
                                                                         child: Text('continue'.tr),
                                                                         onPressed: () async {
-                                                                          PayEventamount( listingevent.result.elementAt(index).id, totalEventamount.toString(),userid);
+                                                                          PayEventamount( listingevent.result.elementAt(index).id,listingevent.result.elementAt(index).entryFee, totalEventamount.toString(),userid);
                                                                         },
                                                                       );
                                                                       // set up the AlertDialog
@@ -4192,7 +4221,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                               Container(
                                                                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                                 alignment: Alignment.centerLeft,
-                                                                                child: Text("Total Pay Fees \$"+totalamount.toString(),
+                                                                                child: Text("Total Pay Fees \$"+totalEventamount.toString(),
                                                                                     style: TextStyle(
                                                                                         letterSpacing: 1.0,
                                                                                         fontWeight: FontWeight.bold,
@@ -4966,6 +4995,7 @@ class MyActivitiesState extends State<MyActivities> {
                                                                     if (_formmainKeyTicket.currentState.validate()){
                                                                       PayTicketamount(
                                                                           listingticket.result.elementAt(index).id,
+                                                                          listingticket.result.elementAt(index).ticketCost,
                                                                           totalticketamount.toString(),
                                                                           AmountController.text,
                                                                           userid);
@@ -6224,12 +6254,13 @@ class MyActivitiesState extends State<MyActivities> {
   }
 
 
-  Future<void> PayTicketamount(String id, String requiredAmount,String qtyval, String userid) async {
+  Future<void> PayTicketamount(String id,String cost, String requiredAmount,String qtyval, String userid) async {
    Dialogs.showLoadingDialog(context, _keyLoaderticket);
     Map data = {
       'userid': userid.toString(),
       'ticket_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': cost.toString(),
+      'updated_amount': requiredAmount.toString(),
       'qty': qtyval.toString(),
     };
     print("DATA: " + data.toString());
@@ -6332,13 +6363,30 @@ class MyActivitiesState extends State<MyActivities> {
     }
   }
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount,double updatedAmount,  String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+    {
+      originalamount = actualamount;
+      commisionamount = updatedAmount;
+    }
+    else
+    {
+      originalamount = updatedAmount;
+      commisionamount = actualamount;
+    }
+
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
+
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
@@ -6359,7 +6407,7 @@ class MyActivitiesState extends State<MyActivities> {
             callNext(
                 payment(
                     data: jsonDecode(updateval)["data"]["id"].toString(),
-                    amount:totalamount.toString(),
+                    amount:commisionamount.toString(),
                     coming:"pjt",
                     backto:"MyActivity"
                 ), context);
@@ -6437,12 +6485,13 @@ class MyActivitiesState extends State<MyActivities> {
     }
   }
 
-  Future<void> PayEventamount(String id, String requiredAmount, String userid) async {
+  Future<void> PayEventamount(String id, String fees,String requiredAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderevent);
     Map data = {
       'userid': userid.toString(),
       'event_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': fees.toString(),
+      'updated_amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
@@ -6541,13 +6590,30 @@ class MyActivitiesState extends State<MyActivities> {
     }
   }
 
-  Future<void> PayDonationamount(String id, String requiredAmount, String userid) async {
+  Future<void> PayDonationamount(String id, String requiredAmount,double updatedAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderdonation);
+
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+    {
+      originalamount = actualamount;
+      commisionamount = updatedAmount;
+    }
+    else
+    {
+      originalamount = updatedAmount;
+      commisionamount = actualamount;
+    }
     Map data = {
       'userid': userid.toString(),
       'donation_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
+
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.donation_pay, body: data);
@@ -6568,7 +6634,7 @@ class MyActivitiesState extends State<MyActivities> {
             callNext(
                 payment(
                     data: jsonDecode(donationupdateval)["data"]["id"].toString(),
-                    amount:totaldonationamount.toString(),
+                    amount:commisionamount.toString(),
                     coming:"dnt",
                     backto:"MyActivity"
                 ), context);

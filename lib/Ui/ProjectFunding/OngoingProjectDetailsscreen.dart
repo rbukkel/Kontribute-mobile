@@ -1177,7 +1177,8 @@ class OngoingProjectDetailsscreenState
                                                                                         () async {
                                                                                       if (_formmainKey.currentState.validate()) {
                                                                                         setState(() {
-                                                                                          Payamount(projectdetailspojo.commentsdata.id.toString(),totalamount.toString(), userid);
+                                                                                          Payamount(projectdetailspojo.commentsdata.id.toString(), AmountController.text,
+                                                                                              totalamount, userid);
                                                                                         });
                                                                                       }
                                                                                     },
@@ -1213,9 +1214,22 @@ class OngoingProjectDetailsscreenState
                                                                                                 onChanged: (text) {
                                                                                                   setState(() {
                                                                                                     onchangeval = text;
-                                                                                                    double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                    totalamount = double.parse(onchangeval) + tectString;
-                                                                                                    print("PrintSring: "+totalamount.toString());
+
+                                                                                                    if(onchangeval == projectdetailspojo.commentsdata.requiredAmount.toString())
+                                                                                                    {
+                                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                      totalamount = double.parse(onchangeval) + tectString;
+                                                                                                      print("PrintUpdated: "+totalamount.toString());
+                                                                                                      print("PrintActual: "+onchangeval.toString());
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                      totalamount = double.parse(onchangeval) - tectString;
+                                                                                                      print("PrintUpdated: "+totalamount.toString());
+                                                                                                      print("PrintActual: "+onchangeval.toString());
+                                                                                                    }
+
                                                                                                   });
                                                                                                   print("value_1 : "+onchangeval);
                                                                                                 },
@@ -1588,7 +1602,7 @@ class OngoingProjectDetailsscreenState
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                           Text(
-                                            "  \$" +
+                                            " \$" +
                                                 projectdetailspojo
                                                     .commentsdata.budget.toString(),
                                             style: TextStyle(
@@ -1604,13 +1618,14 @@ class OngoingProjectDetailsscreenState
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 1),
                                     child: LinearPercentIndicator(
-                                      width: 60.0,
+                                      width: 58.0,
                                       lineHeight: 14.0,
                                       percent: amoun / 100,
                                       center: Text(
                                         amoun.toString() + "%",
                                         style: TextStyle(
                                             fontSize: 8,
+                                            fontWeight: FontWeight.bold,
                                             color: AppColors.whiteColor),
                                       ),
                                       backgroundColor: AppColors.lightgrey,
@@ -1639,7 +1654,7 @@ class OngoingProjectDetailsscreenState
                                                 fontFamily: 'Poppins-Regular'),
                                           ),
                                           Text(
-                                            "  \$" +
+                                            " \$" +
                                                 projectdetailspojo.commentsdata
                                                     .totalcollectedamount.toString(),
                                             style: TextStyle(
@@ -2783,7 +2798,7 @@ class OngoingProjectDetailsscreenState
                                                                                 style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                               Text(
-                                                                                "  -\$" + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toString(),
+                                                                                "  -\$" + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toStringAsFixed(2),
                                                                                 style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             ],
@@ -2857,13 +2872,30 @@ class OngoingProjectDetailsscreenState
   }
 
   Future<void> Payamount(
-      String id, String requiredAmount, String userid) async {
+      String id, String requiredAmount,double updatedAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+    {
+      originalamount = actualamount;
+      commisionamount = updatedAmount;
+    }
+    else
+    {
+      originalamount = updatedAmount;
+      commisionamount = actualamount;
+    }
+
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
+
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response =
@@ -2884,7 +2916,7 @@ class OngoingProjectDetailsscreenState
             callNext(
                 payment(
                     data: jsonDecode(updateval)["data"]["id"].toString(),
-                    amount:totalamount.toString(),
+                    amount:commisionamount.toString(),
                     coming:"pjt",
                     backto:"Project"
                 ), context);

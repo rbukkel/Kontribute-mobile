@@ -971,7 +971,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                             child: Text('continue'.tr),
                                                                             onPressed: () async {
                                                                               setState(() {
-                                                                                Payamount( listing.projectData.elementAt(index).id, totalamount.toString(),userid);
+                                                                                Payamount( listing.projectData.elementAt(index).id,listing.projectData.elementAt(index).entryFee, totalamount.toString(),userid);
                                                                               });
 
                                                                             },
@@ -1786,12 +1786,13 @@ class OngoingEventsState extends State<OngoingEvents> {
     );
   }
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String fees,String requiredAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
       'userid': userid.toString(),
       'event_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': fees.toString(),
+      'updated_amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;

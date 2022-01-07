@@ -435,7 +435,7 @@ class TicketdetailUser {
   String id;
   String ticketId;
   String senderId;
-  String amount;
+  double amount;
   String qty;
   String status;
   String paymentfor;
@@ -485,11 +485,12 @@ class TicketdetailUser {
     }
     if(json['amount'] is int)
     {
-      amount = json['amount'].toString();
+      amount = double.parse(json['amount'].toString());
     }
     else{
       amount = json['amount'];
     }
+
     if(json['qty'] is int)
     {
       qty = json['qty'].toString();

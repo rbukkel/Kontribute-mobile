@@ -879,7 +879,8 @@ class OngoingCampaignDetailsscreenState
                                                                                     setState(() {
                                                                                       Payamount(
                                                                                           projectdetailspojo.commentsdata.id,
-                                                                                          totalamount.toString(),
+                                                                                          AmountController.text,
+                                                                                          totalamount,
                                                                                           userid);
                                                                                     });
                                                                                   }
@@ -917,9 +918,21 @@ class OngoingCampaignDetailsscreenState
                                                                                               onChanged: (text) {
                                                                                                 setState(() {
                                                                                                   onchangeval = text;
-                                                                                                  double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                  totalamount = double.parse(onchangeval) + tectString;
-                                                                                                  print("PrintSring: "+totalamount.toString());
+                                                                                                  if(onchangeval == projectdetailspojo.commentsdata.requiredAmount.toString())
+                                                                                                  {
+                                                                                                    double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                    totalamount = double.parse(onchangeval) + tectString;
+                                                                                                    print("PrintUpdated: "+totalamount.toString());
+                                                                                                    print("PrintActual: "+onchangeval.toString());
+                                                                                                  }
+                                                                                                  else
+                                                                                                  {
+                                                                                                    double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                    totalamount = double.parse(onchangeval) - tectString;
+                                                                                                    print("PrintUpdated: "+totalamount.toString());
+                                                                                                    print("PrintActual: "+onchangeval.toString());
+                                                                                                  }
+
                                                                                                 });
                                                                                                 print("value_1 : "+onchangeval);
                                                                                               },
@@ -2432,7 +2445,7 @@ class OngoingCampaignDetailsscreenState
                                                                             ),
                                                                             Text(
                                                                               "-  \$" +
-                                                                                  projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).amount.toString(),
+                                                                                  projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).amount.toStringAsFixed(2),
                                                                               style: TextStyle(
                                                                                   letterSpacing: 1.0,
                                                                                   color: Colors.black87,
@@ -2442,9 +2455,6 @@ class OngoingCampaignDetailsscreenState
                                                                             ),
                                                                           ],
                                                                         )
-
-
-
                                                                       ),
                                                                       projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).status ==
                                                                               "0"
@@ -2514,14 +2524,30 @@ class OngoingCampaignDetailsscreenState
     );
   }
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount,double updatedAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+    {
+      originalamount = actualamount;
+      commisionamount = updatedAmount;
+    }
+    else
+    {
+      originalamount = updatedAmount;
+      commisionamount = actualamount;
+    }
     Map data = {
       'userid': userid.toString(),
       'donation_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
     print("DATA: " + data.toString());
+
     var jsonResponse = null;
     http.Response response =
         await http.post(Network.BaseApi + Network.donation_pay, body: data);
@@ -2540,7 +2566,7 @@ class OngoingCampaignDetailsscreenState
             callNext(
                 payment(
                     data: jsonDecode(updateval)["data"]["id"].toString(),
-                    amount:totalamount.toString(),
+                    amount:commisionamount.toString(),
                     coming:"dnt",
                     backto:"Donation"
                 ), context);

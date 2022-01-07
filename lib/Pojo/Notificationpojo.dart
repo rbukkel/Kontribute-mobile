@@ -101,7 +101,7 @@ class Data {
   String receiverId;
   String description;
   String seen;
-  String price;
+  double price;
   String minCashByParticipant;
   String collectionTarget;
   String giftPicture;

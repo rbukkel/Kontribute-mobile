@@ -1994,7 +1994,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                             setState(() {
                                                                                               Payamount(
                                                                                                   listing.result.elementAt(index).id,
-                                                                                                  totalamount.toString(),
+                                                                                                  AmountController.text,
+                                                                                                  totalamount,
                                                                                                   userid);
                                                                                             });
                                                                                           }
@@ -2029,9 +2030,22 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                     onChanged: (text) {
                                                                                                       setState(() {
                                                                                                         onchangeval = text;
-                                                                                                        double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                        totalamount = double.parse(onchangeval) + tectString;
-                                                                                                        print("PrintSring: "+totalamount.toString());
+
+                                                                                                        if(onchangeval == listing.result.elementAt(index).requiredAmount.toString())
+                                                                                                        {
+                                                                                                          double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                          totalamount = double.parse(onchangeval) + tectString;
+                                                                                                          print("PrintUpdated: "+totalamount.toString());
+                                                                                                          print("PrintActual: "+onchangeval.toString());
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                          double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
+                                                                                                          totalamount = double.parse(onchangeval) - tectString;
+                                                                                                          print("PrintUpdated: "+totalamount.toString());
+                                                                                                          print("PrintActual: "+onchangeval.toString());
+                                                                                                        }
+
                                                                                                       });
                                                                                                       print("value_1 : "+onchangeval);
                                                                                                     },
@@ -3195,7 +3209,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                           onPressed: () async {
                                                                                             if (_formmainKeyDonation.currentState.validate()) {
                                                                                               setState(() {
-                                                                                                PayDonationamount(listingdonation.result.elementAt(index).id, totaldonationamount.toString(), userid);
+                                                                                                PayDonationamount(listingdonation.result.elementAt(index).id,AmountController.text, totaldonationamount, userid);
                                                                                               });
                                                                                             }
                                                                                           },
@@ -3227,9 +3241,20 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                         onChanged: (text) {
                                                                                                           setState(() {
                                                                                                             onchangedonationval = text;
-                                                                                                            double tectString = double.parse(onchangedonationval)*(commission.commisiondata.senderCommision/100);
-                                                                                                            totaldonationamount = double.parse(onchangedonationval) + tectString;
-                                                                                                            print("PrintSring: "+totaldonationamount.toString());
+                                                                                                            if(onchangedonationval == listingdonation.result.elementAt(index).requiredAmount.toString())
+                                                                                                            {
+                                                                                                              double tectString = double.parse(onchangedonationval)*(commission.commisiondata.senderCommision/100);
+                                                                                                              totaldonationamount = double.parse(onchangedonationval) + tectString;
+                                                                                                              print("PrintUpdated: "+totaldonationamount.toString());
+                                                                                                              print("PrintActual: "+onchangedonationval.toString());
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+                                                                                                              double tectString = double.parse(onchangedonationval)*(commission.commisiondata.senderCommision/100);
+                                                                                                              totaldonationamount = double.parse(onchangedonationval) - tectString;
+                                                                                                              print("PrintUpdated: "+totaldonationamount.toString());
+                                                                                                              print("PrintActual: "+onchangedonationval.toString());
+                                                                                                            }
                                                                                                           });
                                                                                                           print("value_1 : "+onchangedonationval);
                                                                                                         },
@@ -4762,12 +4787,14 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                     ),
                                                                   ),
                                                                   listingevent.result.elementAt(index).userId.toString() != userid
-                                                                      ? listingevent.result.elementAt(index).status == "pending"? GestureDetector(
+                                                                      ? listingevent.result.elementAt(index).status == "pending"?
+                                                                  GestureDetector(
                                                                               onTap: () {
                                                                                 double tectString = double.parse(listingevent.result.elementAt(index).entryFee)*(commission.commisiondata.senderCommision/100);
                                                                                 totalEventamount = double.parse(listingevent.result.elementAt(index).entryFee) + tectString;
                                                                                 print("PrintSring: "+totalEventamount.toString());
                                                                                 print("PrintSringpers: "+tectString.toString());
+
                                                                                 SharedUtils.readTerms("Terms").then((result){
                                                                                   if(result!=null){
                                                                                     if(result){
@@ -4778,10 +4805,11 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                             borderRadius: BorderRadius.circular(10.0),
                                                                                           ),
                                                                                           backgroundColor: AppColors.whiteColor,
-                                                                                          child: new Container(
+                                                                                          child:
+                                                                                          new Container(
                                                                                             margin: EdgeInsets.all(5),
-                                                                                            width: 320.0,
-                                                                                            height: 290.0,
+                                                                                            width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                            height: SizeConfig.blockSizeVertical *40,
                                                                                             child: Column(
                                                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                                                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -4799,8 +4827,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                   ),
                                                                                                 ),
                                                                                                 Container(
-                                                                                                  height: SizeConfig.blockSizeVertical *15,
-                                                                                                  width: SizeConfig.blockSizeHorizontal *30,
+                                                                                                  height: SizeConfig.blockSizeVertical *10,
+                                                                                                  width: SizeConfig.blockSizeHorizontal *25,
                                                                                                   margin: EdgeInsets.only(
                                                                                                     left: SizeConfig.blockSizeHorizontal *5,
                                                                                                     right: SizeConfig.blockSizeHorizontal *5,
@@ -4812,14 +4840,14 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
-                                                                                                Container(
+                                                                                                Container(height: SizeConfig.blockSizeVertical *9,
                                                                                                   margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                                                                                   color: AppColors.whiteColor,
                                                                                                   alignment: Alignment.center,
                                                                                                   child: Text(
                                                                                                     'paymentalert'.tr,
                                                                                                     style: TextStyle(
-                                                                                                        fontSize: 14.0,
+                                                                                                        fontSize: 12.0,
                                                                                                         color: Colors.black,
                                                                                                         fontWeight: FontWeight.bold),
                                                                                                   ),
@@ -4830,19 +4858,19 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                     setState(() {
                                                                                                       Widget cancelButton = FlatButton(
                                                                                                         child: Text('cancel'.tr),
-                                                                                                        onPressed: () {
+                                                                                                        onPressed: ()
+                                                                                                        {
                                                                                                           Navigator.pop(context);
                                                                                                         },
                                                                                                       );
                                                                                                       Widget continueButton = FlatButton(
                                                                                                         child: Text('continue'.tr),
                                                                                                         onPressed: () async {
-                                                                                                          PayEventamount(listingevent.result.elementAt(index).id, totalEventamount.toString(), userid);
+                                                                                                          PayEventamount(listingevent.result.elementAt(index).id, listingevent.result.elementAt(index).entryFee,totalEventamount.toString(), userid);
                                                                                                         },
                                                                                                       );
                                                                                                       // set up the AlertDialog
-                                                                                                      AlertDialog alert =
-                                                                                                      AlertDialog(
+                                                                                                      AlertDialog alert = AlertDialog(
                                                                                                         title: Text('paynow'.tr),
                                                                                                         // content: Text("Are you sure you want to Pay this project?"),
                                                                                                         content:
@@ -4885,7 +4913,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                               Container(
                                                                                                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                                                                 alignment: Alignment.centerLeft,
-                                                                                                                child: Text("Total Pay Fees \$"+totalamount.toString(),
+                                                                                                                child: Text("Total Pay Fees \$"+totalEventamount.toString(),
                                                                                                                     style: TextStyle(
                                                                                                                         letterSpacing: 1.0,
                                                                                                                         fontWeight: FontWeight.bold,
@@ -4896,7 +4924,9 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                             ],
                                                                                                           ),
                                                                                                         ),
-                                                                                                        actions: [
+
+                                                                                                        actions:
+                                                                                                        [
                                                                                                           cancelButton,
                                                                                                           continueButton,
                                                                                                         ],
@@ -4904,7 +4934,8 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                       // show the dialog
                                                                                                       showDialog(
                                                                                                         context: context,
-                                                                                                        builder: (BuildContext context) {
+                                                                                                        builder: (BuildContext context)
+                                                                                                        {
                                                                                                           return alert;
                                                                                                         },
                                                                                                       );
@@ -4912,7 +4943,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                   },
                                                                                                   child: Container(
                                                                                                     alignment: Alignment.center,
-                                                                                                    height: SizeConfig.blockSizeVertical * 6,
+                                                                                                    height: SizeConfig.blockSizeVertical * 5,
                                                                                                     margin: EdgeInsets.only(
                                                                                                         top: SizeConfig.blockSizeVertical * 3,
                                                                                                         bottom: SizeConfig.blockSizeVertical * 3,
@@ -4926,11 +4957,12 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                       ),
                                                                                                     ),
                                                                                                     child: Text('okay'.tr,
+                                                                                                        textAlign:TextAlign.center,
                                                                                                         style: TextStyle(
                                                                                                           color: Colors.white,
                                                                                                           fontWeight: FontWeight.bold,
                                                                                                           fontFamily: 'Poppins-Regular',
-                                                                                                          fontSize: 15,
+                                                                                                          fontSize: 14,
                                                                                                         )),
                                                                                                   ),
                                                                                                 ),
@@ -4948,6 +4980,9 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                     warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"SearchEvent", context);
                                                                                   }
                                                                                 });
+
+
+
                                                                               },
                                                                               child: Container(
                                                                                 margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2, right: SizeConfig.blockSizeHorizontal * 2, top: SizeConfig.blockSizeVertical * 2),
@@ -5876,6 +5911,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                               if (_formmainKeyTicket.currentState.validate()){
                                                                                                 PayTicketamount(
                                                                                                     listingticket.result.elementAt(index).id,
+                                                                                                    listingticket.result.elementAt(index).ticketCost,
                                                                                                     totalticketamount.toString(),
                                                                                                     AmountController.text,
                                                                                                     userid);
@@ -7309,12 +7345,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
   }
 
 
-  Future<void> PayTicketamount(String id, String requiredAmount,String qtyval, String userid) async {
+  Future<void> PayTicketamount(String id, String cost,String requiredAmount,String qtyval, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderticket);
     Map data = {
       'userid': userid.toString(),
       'ticket_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': cost.toString(),
+      'updated_amount': requiredAmount.toString(),
       'qty': qtyval.toString(),
     };
     print("DATA: " + data.toString());
@@ -7356,13 +7393,29 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     }
   }
 
-  Future<void> Payamount(String id, String requiredAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount,double updatedAmount,String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+    {
+      originalamount = actualamount;
+      commisionamount = updatedAmount;
+    }
+    else
+    {
+      originalamount = updatedAmount;
+      commisionamount = actualamount;
+    }
     Map data = {
       'userid': userid.toString(),
       'project_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
+
     print("DATA: " + data.toString());
     var jsonResponse = null;
     http.Response response = await http.post(Network.BaseApi + Network.project_pay, body: data);
@@ -7383,7 +7436,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
             callNext(
                 payment(
                     data: jsonDecode(updateval)["data"]["id"].toString(),
-                    amount:totalamount.toString(),
+                    amount:commisionamount.toString(),
                     coming:"pjt",
                     backto:"SEarchMyActivity"
                 ), context);
@@ -7460,12 +7513,13 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     }
   }
 
-  Future<void> PayEventamount(String id, String requiredAmount, String userid) async {
+  Future<void> PayEventamount(String id,String fees, String requiredAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderevent);
     Map data = {
       'userid': userid.toString(),
       'event_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': fees.toString(),
+      'updated_amount': requiredAmount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
@@ -7565,12 +7619,27 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     }
   }
 
-  Future<void> PayDonationamount(String id, String requiredAmount, String userid) async {
+  Future<void> PayDonationamount(String id, String requiredAmount,double updatedAmount, String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderdonation);
+    double actualamount = double.parse(requiredAmount);
+    double originalamount;
+    double commisionamount;
+
+    if(actualamount < updatedAmount)
+    {
+      originalamount = actualamount;
+      commisionamount = updatedAmount;
+    }
+    else
+    {
+      originalamount = updatedAmount;
+      commisionamount = actualamount;
+    }
     Map data = {
       'userid': userid.toString(),
       'donation_id': id.toString(),
-      'amount': requiredAmount.toString(),
+      'amount': originalamount.toString(),
+      'updated_amount': commisionamount.toString(),
     };
     print("DATA: " + data.toString());
     var jsonResponse = null;
@@ -7592,7 +7661,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
             callNext(
                 payment(
                     data: jsonDecode(donationupdateval)["data"]["id"].toString(),
-                    amount:totaldonationamount.toString(),
+                    amount:commisionamount.toString(),
                     coming:"dnt",
                     backto:"SEarchMyActivity"
                 ), context);
