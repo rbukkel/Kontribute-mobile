@@ -45,7 +45,7 @@ class MyTransactionsPojo {
 
 class TransactionsReceived {
   String id;
-  String amount;
+  double amount;
   String paiddate;
   String paidfor;
 
@@ -62,7 +62,7 @@ class TransactionsReceived {
     }
     if(json['amount'] is int)
     {
-      amount = json['amount'].toString();
+      amount = double.parse(json['amount'].toString());
     }
     else{
       amount = json['amount'];
@@ -84,7 +84,7 @@ class TransactionsReceived {
 
 class PaidTransaction {
   String id;
-  String amount;
+  double amount;
   String paiddate;
   String paidfor;
 
@@ -100,7 +100,7 @@ class PaidTransaction {
     }
     if(json['amount'] is int)
     {
-      amount = json['amount'].toString();
+      amount = double.parse(json['amount'].toString());
     }
     else{
       amount = json['amount'];

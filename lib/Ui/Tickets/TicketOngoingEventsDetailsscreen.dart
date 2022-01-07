@@ -764,7 +764,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                         content:
                                                         new Container(
                                                           width: SizeConfig.blockSizeHorizontal * 80,
-                                                          height: SizeConfig.blockSizeVertical *20,
+                                                          height: SizeConfig.blockSizeVertical *23,
                                                           child:
                                                           new Column(
                                                             children: [
@@ -781,12 +781,26 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                                               Container(
                                                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                 alignment: Alignment.centerLeft,
-                                                                child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
-                                                                    letterSpacing: 1.0,
-                                                                    fontWeight: FontWeight.normal,
-                                                                    fontFamily: 'Poppins-Regular',
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text('extracharges'.tr,
+                                                                      style: TextStyle(
+                                                                          letterSpacing: 1.0,
+                                                                          fontWeight: FontWeight.normal,
+                                                                          fontFamily: 'Poppins-Regular',
+                                                                          fontSize: 14,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                    Text(" "+commission.commisiondata.senderCommision.toString()+"%",
+                                                                      style: TextStyle(
+                                                                          letterSpacing: 1.0,
+                                                                          fontWeight: FontWeight.normal,
+                                                                          fontFamily: 'Poppins-Regular',
+                                                                          fontSize: 14,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                  ],
+                                                                )
                                                               ),
                                                               Container(
                                                                 margin: EdgeInsets.only(

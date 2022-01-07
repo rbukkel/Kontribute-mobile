@@ -340,7 +340,7 @@ class mytranscationState extends State<mytranscation> {
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 64,
+                                                SizeConfig.blockSizeHorizontal * 60,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal *
@@ -359,7 +359,7 @@ class mytranscationState extends State<mytranscation> {
                                               ),
                                               Container(
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 30,
+                                                SizeConfig.blockSizeHorizontal * 34,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
@@ -392,7 +392,7 @@ class mytranscationState extends State<mytranscation> {
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 66,
+                                                SizeConfig.blockSizeHorizontal * 60,
                                                 alignment: Alignment.topLeft,
                                                 padding: EdgeInsets.only(
                                                   left: SizeConfig.blockSizeHorizontal *
@@ -411,7 +411,7 @@ class mytranscationState extends State<mytranscation> {
                                               ),
                                               Container(
                                                 width:
-                                                SizeConfig.blockSizeHorizontal * 22,
+                                                SizeConfig.blockSizeHorizontal * 30,
                                                 margin: EdgeInsets.only(
                                                     top: SizeConfig.blockSizeVertical *
                                                         1),
@@ -435,7 +435,7 @@ class mytranscationState extends State<mytranscation> {
                                                     BorderRadius.circular(20),
                                                     border: Border.all(width: 1.0)),
                                                 child: Text(
-                                                  "\$"+listing.transactionsReceived.elementAt(idex).amount.toString(),
+                                                  "\$"+listing.transactionsReceived.elementAt(idex).amount.toStringAsFixed(2),
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       color: Colors.white,
@@ -518,7 +518,7 @@ class mytranscationState extends State<mytranscation> {
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical * 1),
-                                                  width: SizeConfig.blockSizeHorizontal * 65,
+                                                  width: SizeConfig.blockSizeHorizontal * 60,
                                                   alignment: Alignment.topLeft,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig.blockSizeHorizontal * 1,
@@ -539,7 +539,7 @@ class mytranscationState extends State<mytranscation> {
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig.blockSizeVertical * 1),
-                                                  width:SizeConfig.blockSizeHorizontal * 26,
+                                                  width:SizeConfig.blockSizeHorizontal * 30,
                                                   alignment: Alignment.center,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig.blockSizeHorizontal * 1,
@@ -571,7 +571,7 @@ class mytranscationState extends State<mytranscation> {
                                                           1),
                                                   width: SizeConfig
                                                       .blockSizeHorizontal *
-                                                      66,
+                                                      60,
                                                   alignment: Alignment.topLeft,
                                                   padding: EdgeInsets.only(
                                                     left: SizeConfig
@@ -594,7 +594,7 @@ class mytranscationState extends State<mytranscation> {
                                                 Container(
                                                   width: SizeConfig
                                                       .blockSizeHorizontal *
-                                                      22,
+                                                      30,
                                                   margin: EdgeInsets.only(
                                                       top: SizeConfig
                                                           .blockSizeVertical *
@@ -621,7 +621,7 @@ class mytranscationState extends State<mytranscation> {
                                                       border: Border.all(
                                                           width: 1.0)),
                                                   child: Text(
-                                                    "\$"+listing.paidTransaction.elementAt(index).amount.toString(),
+                                                    "\$"+listing.paidTransaction.elementAt(index).amount.toStringAsFixed(2),
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.white,

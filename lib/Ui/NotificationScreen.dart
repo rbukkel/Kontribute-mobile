@@ -645,15 +645,26 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                               left: SizeConfig.blockSizeHorizontal * 1,
                                                               right: SizeConfig.blockSizeHorizontal * 1),
                                                           alignment: Alignment.centerLeft,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
+                                                          child:
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
                                                               Row(
                                                                 children: [
                                                                   Text(
                                                                     'amount'.tr,
+                                                                    textAlign: TextAlign.left,
+                                                                    style: TextStyle(
+                                                                        decoration: TextDecoration.none,
+                                                                        fontSize: 12,
+                                                                        fontWeight: FontWeight.normal,
+                                                                        fontFamily: "Poppins-Regular",
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                  Text(
+                                                                    listing.result.data.elementAt(index).price == "0"? " \$" +
+                                                                            listing.result.data.elementAt(index).minCashByParticipant
+                                                                        : " \$" +listing.result.data.elementAt(index).price.toStringAsFixed(2),
                                                                     textAlign:
                                                                         TextAlign
                                                                             .left,
@@ -671,77 +682,20 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                         color: Colors
                                                                             .black),
                                                                   ),
-                                                                  Text(
-                                                                    listing.result.data.elementAt(index).price ==
-                                                                            "0"
-                                                                        ? " \$" +
-                                                                            listing.result.data
-                                                                                .elementAt(
-                                                                                    index)
-                                                                                .minCashByParticipant
-                                                                        : " \$" +
-                                                                            listing.result.data.elementAt(index).price,
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .left,
-                                                                    style: TextStyle(
-                                                                        decoration:
-                                                                            TextDecoration
-                                                                                .none,
-                                                                        fontSize:
-                                                                            12,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .normal,
-                                                                        fontFamily:
-                                                                            "Poppin s-Regular",
-                                                                        color: Colors
-                                                                            .black),
-                                                                  ),
                                                                 ],
                                                               ),
-                                                              listing.result
-                                                                              .data
-                                                                              .elementAt(
-                                                                                  index)
-                                                                              .notifyFrom ==
-                                                                          "like" ||
-                                                                      listing.result.data
-                                                                              .elementAt(
-                                                                                  index)
-                                                                              .notifyFrom ==
-                                                                          "comment" ||
-                                                                      listing.result.data
-                                                                              .elementAt(
-                                                                                  index)
-                                                                              .notifyFrom ==
-                                                                          "follow_request" ||
-                                                                      listing
-                                                                              .result
-                                                                              .data
-                                                                              .elementAt(
-                                                                                  index)
-                                                                              .notifyFrom ==
-                                                                          "donation" ||
-                                                                      listing.result
-                                                                              .data
-                                                                              .elementAt(
-                                                                                  index)
-                                                                              .notifyFrom ==
-                                                                          "project" ||
-                                                                      listing.result
-                                                                              .data
-                                                                              .elementAt(index)
-                                                                              .notifyFrom ==
-                                                                          "payment"
+                                                                      listing.result.data.elementAt(index).notifyFrom == "like" ||
+                                                                      listing.result.data.elementAt(index).notifyFrom == "comment" ||
+                                                                      listing.result.data.elementAt(index).notifyFrom =="follow_request" ||
+                                                                      listing.result.data.elementAt(index).notifyFrom == "donation" ||
+                                                                      listing.result.data.elementAt(index).notifyFrom =="project" ||
+                                                                      listing.result.data.elementAt(index).notifyFrom == "payment"
                                                                   ? Container()
                                                                   : GestureDetector(
                                                                       onTap:
                                                                           () {
-                                                                        SharedUtils.readTerms("Terms")
-                                                                            .then((result) {
-                                                                          if (result !=
-                                                                              null) {
+                                                                        SharedUtils.readTerms("Terms").then((result) {
+                                                                          if (result != null) {
                                                                             if (result) {
                                                                               showDialog(
                                                                                 context: context,

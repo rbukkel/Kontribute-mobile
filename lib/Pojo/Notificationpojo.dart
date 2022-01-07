@@ -139,7 +139,6 @@ class Data {
         this.groupName});
 
   Data.fromJson(Map<String, dynamic> json) {
-
     if(json['id'] is int)
     {
       id = json['id'].toString();
@@ -152,7 +151,8 @@ class Data {
     {
       senderId = json['sender_id'].toString();
     }
-    else{
+    else
+    {
       senderId = json['sender_id'];
     }
 
@@ -171,14 +171,16 @@ class Data {
     else{
       receiverId = json['receiver_id'];
     }
+
     description = json['description'];
     seen = json['seen'];
 
     if(json['price'] is int)
     {
-      price = json['price'].toString();
+      price = double.parse(json['price'].toString());
     }
-    else{
+    else
+    {
       price = json['price'];
     }
 
@@ -198,13 +200,15 @@ class Data {
     else{
       collectionTarget = json['collection_target'];
     }
+
     giftPicture = json['gift_picture'];
 
     if(json['update_id'] is int)
     {
       updateId = json['update_id'].toString();
     }
-    else{
+    else
+    {
       updateId = json['update_id'];
     }
     endDate = json['end_date'];
@@ -225,8 +229,6 @@ class Data {
     data['group_id'] = this.groupId;
     data['receiver_id'] = this.receiverId;
     data['description'] = this.description;
-
-
     data['seen'] = this.seen;
     data['price'] = this.price;
     data['min_cash_by_participant'] = this.minCashByParticipant;

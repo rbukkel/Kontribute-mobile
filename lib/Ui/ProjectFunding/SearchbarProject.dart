@@ -764,12 +764,26 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                                                           Container(
                                                                                             margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                                             alignment: Alignment.centerLeft,
-                                                                                            child: Text("Extra Charges "+commission.commisiondata.senderCommision.toString()+"%",style: TextStyle(
-                                                                                                letterSpacing: 1.0,
-                                                                                                fontWeight: FontWeight.normal,
-                                                                                                fontFamily: 'Poppins-Regular',
-                                                                                                fontSize: 10,
-                                                                                                color: Colors.black),),
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                Text('extracharges'.tr,
+                                                                                                  style: TextStyle(
+                                                                                                      letterSpacing: 1.0,
+                                                                                                      fontWeight: FontWeight.normal,
+                                                                                                      fontFamily: 'Poppins-Regular',
+                                                                                                      fontSize: 10,
+                                                                                                      color: Colors.black),
+                                                                                                ),
+                                                                                                Text(" "+commission.commisiondata.senderCommision.toString()+"%",
+                                                                                                  style: TextStyle(
+                                                                                                      letterSpacing: 1.0,
+                                                                                                      fontWeight: FontWeight.normal,
+                                                                                                      fontFamily: 'Poppins-Regular',
+                                                                                                      fontSize: 10,
+                                                                                                      color: Colors.black),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )
                                                                                           )
 
                                                                                         ],
