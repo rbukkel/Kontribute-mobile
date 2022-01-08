@@ -802,7 +802,6 @@ class OngoingEventsState extends State<OngoingEvents> {
                                           children: [
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                                               children: [
                                                 GestureDetector(
                                                   onTap: ()
@@ -973,7 +972,6 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                               setState(() {
                                                                                 Payamount( listing.projectData.elementAt(index).id,listing.projectData.elementAt(index).entryFee, totalamount.toString(),userid);
                                                                               });
-
                                                                             },
                                                                           );
                                                                           // set up the AlertDialog

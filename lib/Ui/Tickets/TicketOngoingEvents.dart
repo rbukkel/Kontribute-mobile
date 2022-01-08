@@ -47,7 +47,9 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
   String Follow = "Follow";
   TicketOngoingListing listing;
   int amoun;
+  String textHolder="0";
   String onchangeval = "";
+  int mutliply;
   double totalamount;
   String valcommision;
   commisionpojo commission;
@@ -84,6 +86,12 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
         errorDialog('nointernetconnection'.tr);
 
       }
+    });
+  }
+
+  changeText(String valueRadio) {
+    setState(() {
+      textHolder = valueRadio;
     });
   }
 
@@ -660,10 +668,6 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                         GestureDetector(
                                           onTap: ()
                                           {
-                                            double tectString = double.parse(listing.projectData.elementAt(index).ticketCost)*(commission.commisiondata.senderCommision/100);
-                                            totalamount = double.parse(listing.projectData.elementAt(index).ticketCost) + tectString;
-                                            print("PrintSring: "+totalamount.toString());
-                                            print("PrintSringpers: "+tectString.toString());
 
                                             SharedUtils.readTerms("Terms").then((result){
                                               if(result!=null){
@@ -741,9 +745,11 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                       child: Text('continue'.tr),
                                                                       onPressed: () async {
                                                                         if (_formmainKey.currentState.validate()) {
+
+
                                                                           Payamount(
                                                                               listing.projectData.elementAt(index).id,
-                                                                              listing.projectData.elementAt(index).ticketCost,
+                                                                              mutliply.toString(),
                                                                               totalamount.toString(), AmountController.text,
                                                                               userid);
                                                                         }
@@ -808,13 +814,24 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                                 top: SizeConfig.blockSizeVertical *2,
                                                                                 bottom: SizeConfig.blockSizeVertical *1),
                                                                             alignment: Alignment.centerLeft,
-                                                                            child: Text("Total Ticket Price \$"+totalamount.toString(),
-                                                                                style: TextStyle(
-                                                                                    letterSpacing: 1.0,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontFamily: 'Poppins-Regular',
-                                                                                    fontSize: 14,
-                                                                                    color: Colors.black)),
+                                                                            child: Row(
+                                                                              children: [
+                                                                                Text("Total Ticket Price",
+                                                                                    style: TextStyle(
+                                                                                        letterSpacing: 1.0,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontFamily: 'Poppins-Regular',
+                                                                                        fontSize: 14,
+                                                                                        color: Colors.black)),
+                                                                                Text(" \$"+'$textHolder',
+                                                                                    style: TextStyle(
+                                                                                        letterSpacing: 1.0,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontFamily: 'Poppins-Regular',
+                                                                                        fontSize: 14,
+                                                                                        color: Colors.black)),
+                                                                              ],
+                                                                            )
                                                                           ),
                                                                           Form(
                                                                             key:_formmainKey,
@@ -822,6 +839,26 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                                               autofocus: false,
                                                                               focusNode: AmountFocus,
                                                                               controller: AmountController,
+
+                                                                              onChanged: (text) {
+                                                                                setState(() {
+                                                                                  onchangeval = text;
+                                                                                    mutliply = int.parse(listing.projectData.elementAt(index).ticketCost) * int.parse(onchangeval);
+                                                                                   print("Multi: "+mutliply.toString());
+
+
+                                                                                  double tectString = double.parse(mutliply.toString())*(commission.commisiondata.senderCommision/100);
+                                                                                  totalamount = double.parse(mutliply.toString()) + tectString;
+
+                                                                                  changeText(totalamount.toString());
+                                                                                  print("PrintSring: "+totalamount.toString());
+                                                                                  print("PrintSringpers: "+tectString.toString());
+
+
+
+                                                                                });
+                                                                                print("value_1 : "+onchangeval);
+                                                                              },
                                                                               textInputAction: TextInputAction.next,
                                                                               keyboardType: TextInputType.number,
                                                                               validator: (val) {
