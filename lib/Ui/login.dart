@@ -921,7 +921,6 @@ class loginState extends State<login>{
               ),
             ),
           );
-
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {
@@ -931,6 +930,9 @@ class loginState extends State<login>{
           errorDialog(login.message);
         }
       }
+    } else if (response.statusCode == 500){
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      errorDialog("Internal Server Error");
     }
     else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

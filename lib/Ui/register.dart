@@ -2022,6 +2022,10 @@ class registerState extends State<register> {
         }
       }
     }
+    else if (response.statusCode == 500){
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      errorDialog("Internal Server Error");
+    }
     else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       errorDialog(jsonResponse["message"]);

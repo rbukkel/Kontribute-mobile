@@ -7,9 +7,7 @@ class EventCommentPojo {
 
   EventCommentPojo.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    commentsdata = json['commentsdata'] != null
-        ? new Commentsdata.fromJson(json['commentsdata'])
-        : null;
+    commentsdata = json['commentsdata'] != null ? new Commentsdata.fromJson(json['commentsdata']) : null;
     message = json['message'];
   }
 
