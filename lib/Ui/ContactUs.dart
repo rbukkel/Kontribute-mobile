@@ -715,25 +715,18 @@ class ContactUsState extends State<ContactUs>{
           {
             Navigator.of(context).pop();
           });
-          Fluttertoast.showToast(
-            msg: contactpojo.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-          );
+
+
         }
       }
+    } else if (response.statusCode == 500){
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      errorDialog("Internal Server Error");
     }
     else {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Fluttertoast.showToast(
-        msg: jsonResponse["message"],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      errorDialog(jsonResponse["message"]);
     }
   }
-
 
 }
