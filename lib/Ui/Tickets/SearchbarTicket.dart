@@ -64,6 +64,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
   final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   double totalamount;
+  int mutliply;
+  String onchangeval = "";
   String valcommision;
   commisionpojo commission;
   var commisionlist_length;
@@ -81,6 +83,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
   String _amount;
   final _formmainKey = GlobalKey<FormState>();
   String vallike;
+  String textHolder="0";
   projectlike prolike;
   String updateval;
   String updatefollowval;
@@ -378,13 +381,12 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                         GestureDetector(
                                           onTap: ()
                                           {
-                                            double tectString = double.parse(listing.projectData.elementAt(index).ticketCost)*(commission.commisiondata.senderCommision/100);
-                                            totalamount = double.parse(listing.projectData.elementAt(index).ticketCost) + tectString;
-                                            print("PrintSring: "+totalamount.toString());
-                                            print("PrintSringpers: "+tectString.toString());
+                                            
                                             SharedUtils.readTerms("Terms").then((result){
                                               if(result!=null){
                                                 if(result){
+
+
                                                   showDialog(
                                                     context: context,
                                                     child: Dialog(
@@ -413,8 +415,8 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                               ),
                                                             ),
                                                             Container(
-                                                             height: SizeConfig.blockSizeVertical *10,
-                                                             width: SizeConfig.blockSizeHorizontal *25,
+                                                              height: SizeConfig.blockSizeVertical *10,
+                                                              width: SizeConfig.blockSizeHorizontal *25,
                                                               margin: EdgeInsets.only(
                                                                 left: SizeConfig.blockSizeHorizontal *5,
                                                                 right: SizeConfig.blockSizeHorizontal *5,
@@ -448,25 +450,28 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                     onPressed: () {
                                                                       Navigator.pop(context);
                                                                       setState(() {
-                                                                        AmountController.text="";
+                                                                        AmountController.text ="";
                                                                       });
                                                                     },
                                                                   );
                                                                   Widget continueButton = FlatButton(
-                                                                    child: Text('continue'.tr),
-                                                                    onPressed: () async {
-                                                                      if (_formmainKey.currentState.validate())
-                                                                      {
-                                                                        Payamount( listing.projectData.elementAt(index).id,
-                                                                            listing.projectData.elementAt(index).ticketCost,
-                                                                            totalamount.toString(),AmountController.text,userid);
+                                                                      child: Text('continue'.tr),
+                                                                      onPressed: () async {
+                                                                        if (_formmainKey.currentState.validate()) {
+
+
+                                                                          Payamount(
+                                                                              listing.projectData.elementAt(index).id,
+                                                                              mutliply.toString(),
+                                                                              totalamount.toString(), AmountController.text,
+                                                                              userid);
+                                                                        }
                                                                       }
 
-                                                                    },
                                                                   );
                                                                   // set up the AlertDialog
                                                                   AlertDialog alert = AlertDialog(
-                                                                    title: Text("Buy Ticket",
+                                                                    title: Text('buyticket'.tr,
                                                                       textAlign: TextAlign.center,
                                                                       style:
                                                                       TextStyle(
@@ -477,102 +482,148 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                                           color: Colors.black),),
                                                                     // content: Text("Are you sure you want to Pay this project?"),
                                                                     content:
-                                                                    new Container(
-                                                                      width: SizeConfig.blockSizeHorizontal * 80,
-                                                                      height: SizeConfig.blockSizeVertical *23,
-                                                                      child:
-                                                                      new Column(
-                                                                        children: [
-                                                                          Container(
-                                                                            // margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
-                                                                            alignment: Alignment.centerLeft,
-                                                                            child: Text("Buy Now Ticket Price \$"+listing.projectData.elementAt(index).ticketCost.toString(),style: TextStyle(
-                                                                                letterSpacing: 1.0,
-                                                                                fontWeight: FontWeight.normal,
-                                                                                fontFamily: 'Poppins-Regular',
-                                                                                fontSize: 14,
-                                                                                color: Colors.black),),
-                                                                          ),
-                                                                          Container(
-                                                                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
-                                                                            alignment: Alignment.centerLeft,
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Text('extracharges'.tr,
-                                                                                  style: TextStyle(
-                                                                                      letterSpacing: 1.0,
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontFamily: 'Poppins-Regular',
-                                                                                      fontSize: 14,
-                                                                                      color: Colors.black),
-                                                                                ),
-                                                                                Text(" "+commission.commisiondata.senderCommision.toString()+"%",
-                                                                                  style: TextStyle(
-                                                                                      letterSpacing: 1.0,
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontFamily: 'Poppins-Regular',
-                                                                                      fontSize: 14,
-                                                                                      color: Colors.black),
-                                                                                ),
-                                                                              ],
-                                                                            )
-                                                                          ),
-                                                                          Container(
-                                                                            margin: EdgeInsets.only(
-                                                                                top: SizeConfig.blockSizeVertical *2,
-                                                                                bottom: SizeConfig.blockSizeVertical *1),
-                                                                            alignment: Alignment.centerLeft,
-                                                                            child: Text("Total Ticket Price \$"+totalamount.toString(),
+                                                                    StatefulBuilder(builder: (BuildContext context, StateSetter setState)
+                                                                    {
+                                                                      return new Container(
+                                                                        width: SizeConfig.blockSizeHorizontal * 80,
+                                                                        height: SizeConfig.blockSizeVertical *25,
+                                                                        child:
+                                                                        new Column(
+                                                                          children: [
+                                                                            Container(
+                                                                              // margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1),
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text('ticketprice'.tr,style: TextStyle(
+                                                                                        letterSpacing: 1.0,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontFamily: 'Poppins-Regular',
+                                                                                        fontSize: 14,
+                                                                                        color: Colors.black),),
+                                                                                    Text(" \$"+listing.projectData.elementAt(index).ticketCost.toString(),style: TextStyle(
+                                                                                        letterSpacing: 1.0,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontFamily: 'Poppins-Regular',
+                                                                                        fontSize: 14,
+                                                                                        color: Colors.black),),
+                                                                                  ],
+                                                                                )
+                                                                            ),
+                                                                            Container(
+                                                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text('extracharges'.tr,
+                                                                                      style: TextStyle(
+                                                                                          letterSpacing: 1.0,
+                                                                                          fontWeight: FontWeight.normal,
+                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                          fontSize: 14,
+                                                                                          color: Colors.black),
+                                                                                    ),
+                                                                                    Text(" "+commission.commisiondata.senderCommision.toString()+"%",
+                                                                                      style: TextStyle(
+                                                                                          letterSpacing: 1.0,
+                                                                                          fontWeight: FontWeight.normal,
+                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                          fontSize: 14,
+                                                                                          color: Colors.black),
+                                                                                    ),
+                                                                                  ],
+                                                                                )
+                                                                            ),
+                                                                            Container(
+                                                                                margin: EdgeInsets.only(
+                                                                                    top: SizeConfig.blockSizeVertical *2,
+                                                                                    bottom: SizeConfig.blockSizeVertical *1),
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text('totalticketprice'.tr,
+                                                                                        style: TextStyle(
+                                                                                            letterSpacing: 1.0,
+                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                            fontSize: 14,
+                                                                                            color: Colors.black)),
+                                                                                    Text(" \$"+'$textHolder',
+                                                                                        style: TextStyle(
+                                                                                            letterSpacing: 1.0,
+                                                                                            fontWeight: FontWeight.normal,
+                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                            fontSize: 14,
+                                                                                            color: Colors.black)),
+                                                                                  ],
+                                                                                )
+                                                                            ),
+                                                                            Form(
+                                                                              key:_formmainKey,
+                                                                              child: new TextFormField(
+                                                                                autofocus: false,
+                                                                                focusNode: AmountFocus,
+                                                                                controller: AmountController,
+
+                                                                                onChanged: (text) {
+                                                                                  setState(() {
+                                                                                    onchangeval = text;
+                                                                                    mutliply = int.parse(listing.projectData.elementAt(index).ticketCost) * int.parse(onchangeval);
+                                                                                    print("Multi: "+mutliply.toString());
+
+
+                                                                                    double tectString = double.parse(mutliply.toString())*(commission.commisiondata.senderCommision/100);
+                                                                                    totalamount = double.parse(mutliply.toString()) + tectString;
+                                                                                    setState(() {
+                                                                                      textHolder = totalamount.toString();
+                                                                                    });
+                                                                                    //  UpdateText(totalamount.toString());
+                                                                                    print("PrintSring: "+totalamount.toString());
+                                                                                    print("PrintSringpers: "+tectString.toString());
+
+
+
+                                                                                  });
+                                                                                  print("value_1 : "+onchangeval);
+                                                                                },
+                                                                                textInputAction: TextInputAction.next,
+                                                                                keyboardType: TextInputType.number,
+                                                                                validator: (val) {
+                                                                                  if (val.length == 0)
+                                                                                    return 'pleaseenterticketqty'.tr;
+                                                                                  else
+                                                                                    return null;
+                                                                                },
+                                                                                onFieldSubmitted: (v) {
+                                                                                  AmountFocus.unfocus();
+                                                                                },
+                                                                                onSaved: (val) => _amount = val,
+                                                                                textAlign: TextAlign.left,
                                                                                 style: TextStyle(
                                                                                     letterSpacing: 1.0,
-                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontWeight: FontWeight.bold,
                                                                                     fontFamily: 'Poppins-Regular',
-                                                                                    fontSize: 14,
-                                                                                    color: Colors.black)),
-                                                                          ),
-                                                                          Form(
-                                                                            key:_formmainKey,
-                                                                            child: new TextFormField(
-                                                                              autofocus: false,
-                                                                              focusNode: AmountFocus,
-                                                                              controller: AmountController,
-                                                                              textInputAction: TextInputAction.next,
-                                                                              keyboardType: TextInputType.number,
-                                                                              validator: (val) {
-                                                                                if (val.length == 0)
-                                                                                  return 'pleaseenterticketqty'.tr;
-                                                                                else
-                                                                                  return null;
-                                                                              },
-                                                                              onFieldSubmitted: (v) {
-                                                                                AmountFocus.unfocus();
-                                                                              },
-                                                                              onSaved: (val) => _amount = val,
-                                                                              textAlign: TextAlign.left,
-                                                                              style: TextStyle(
-                                                                                  letterSpacing: 1.0,
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontFamily: 'Poppins-Regular',
-                                                                                  fontSize: 12,
-                                                                                  color: Colors.black),
-                                                                              decoration: InputDecoration(
-                                                                                // border: InputBorder.none,
-                                                                                // focusedBorder: InputBorder.none,
-                                                                                hintStyle: TextStyle(
-                                                                                  color: Colors.grey,
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontFamily: 'Poppins-Regular',
-                                                                                  fontSize: 12,
-                                                                                  decoration: TextDecoration.none,
+                                                                                    fontSize: 12,
+                                                                                    color: Colors.black),
+                                                                                decoration: InputDecoration(
+                                                                                  // border: InputBorder.none,
+                                                                                  // focusedBorder: InputBorder.none,
+                                                                                  hintStyle: TextStyle(
+                                                                                    color: Colors.grey,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontFamily: 'Poppins-Regular',
+                                                                                    fontSize: 12,
+                                                                                    decoration: TextDecoration.none,
+                                                                                  ),
+                                                                                  hintText:'enterticketqty'.tr,
                                                                                 ),
-                                                                                hintText:'enterticketqty'.tr,
                                                                               ),
                                                                             ),
-                                                                          ),
 
-                                                                        ],
-                                                                      ),
-                                                                    ),
+                                                                          ],
+                                                                        ),
+                                                                      );
+                                                                    }),
                                                                     actions: [
                                                                       cancelButton,
                                                                       continueButton,
@@ -619,15 +670,19 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                                       ),
                                                     ),
                                                   );
+
+
                                                 }else{
                                                   print("falseValue");
-                                                  warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"SearchTicket", context);
+                                                  warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Ticket", context);
                                                 }
                                               }else{
                                                 print("falseValue");
-                                                warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"SearchTicket", context);
+                                                warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Ticket", context);
                                               }
                                             });
+
+
 
                                           },
                                           child:  Container(

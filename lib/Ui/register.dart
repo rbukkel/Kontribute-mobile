@@ -1752,7 +1752,6 @@ class registerState extends State<register> {
                         ),
                       ),
                     ) ;
-
                 }),
           ),
         )
@@ -1870,8 +1869,6 @@ class registerState extends State<register> {
       if (jsonData["status"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         errorDialog(jsonData["message"]);
-
-
       } else {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         LoginResponse login = new LoginResponse.fromJson(jsonData);
@@ -2133,7 +2130,7 @@ class registerState extends State<register> {
     if (imageSource == ImageSource.camera) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {
@@ -2152,7 +2149,7 @@ class registerState extends State<register> {
     } else if (imageSource == ImageSource.gallery) {
       try {
         final imageFile =
-            await ImagePicker.pickImage(source: imageSource, imageQuality: 80);
+            await ImagePicker.pickImage(source: imageSource, imageQuality: 25);
         setState(() async {
           _imageFile = imageFile;
           if (_imageFile != null && await _imageFile.exists()) {

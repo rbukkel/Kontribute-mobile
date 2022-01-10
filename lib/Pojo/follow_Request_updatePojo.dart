@@ -43,8 +43,24 @@ class Result {
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    senderId = json['sender_id'];
-    receiverId = json['receiver_id'];
+
+    if(json['sender_id'] is int)
+    {
+      senderId = json['sender_id'].toString();
+    }
+    else
+    {
+      senderId = json['sender_id'];
+    }
+
+    if(json['receiver_id'] is int)
+    {
+      receiverId = json['receiver_id'].toString();
+    }
+    else
+    {
+      receiverId = json['receiver_id'];
+    }
     status = json['status'];
     postedDate = json['posted_date'];
     createdAt = json['created_at'];

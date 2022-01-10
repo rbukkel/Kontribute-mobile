@@ -515,7 +515,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                   child: Stack(
                                     children: [
                                       Container(
-                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *15),
+                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *13),
                                         height: SizeConfig.blockSizeVertical * 35,
                                         width: SizeConfig.blockSizeHorizontal * 100,
                                         alignment: Alignment.center,
