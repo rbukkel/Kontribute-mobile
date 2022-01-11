@@ -1492,7 +1492,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                                       style: TextStyle(
                                                                                           fontSize: 12.0,
                                                                                           color: Colors.black,
-                                                                                          fontWeight: FontWeight.normal),
+                                                                                          fontWeight: FontWeight.bold),
                                                                                     ),
                                                                                   ),
                                                                                   InkWell(

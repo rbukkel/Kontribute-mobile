@@ -1973,7 +1973,9 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                 alignment: Alignment.center,
                                                                                 child: Text(
                                                                                   'paymentalert'.tr,
-                                                                                  style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
+                                                                                  style: TextStyle(fontSize: 14.0,
+                                                                                      color: Colors.black,
+                                                                                      fontWeight: FontWeight.bold),
                                                                                 ),
                                                                               ),
                                                                               InkWell(
@@ -4902,7 +4904,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                       );
                                                                                                       // set up the AlertDialog
                                                                                                       AlertDialog alert = AlertDialog(
-                                                                                                        title: Text('paynow'.tr),
+                                                                                                        title: Text('paynow'.tr,textAlign: TextAlign.center,),
                                                                                                         // content: Text("Are you sure you want to Pay this project?"),
                                                                                                         content:
                                                                                                         Container(
@@ -4916,7 +4918,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                                   new Text('eventeentryfees'.tr,
                                                                                                                       style: TextStyle(
                                                                                                                           letterSpacing: 1.0,
-                                                                                                                          fontWeight: FontWeight.bold,
+                                                                                                                          fontWeight: FontWeight.normal,
                                                                                                                           fontFamily: 'Poppins-Regular',
                                                                                                                           fontSize: 14,
                                                                                                                           color: Colors.black)),
@@ -4924,7 +4926,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                                   new Text(" \$"+listingevent.result.elementAt(index).entryFee,
                                                                                                                       style: TextStyle(
                                                                                                                           letterSpacing: 1.0,
-                                                                                                                          fontWeight: FontWeight.bold,
+                                                                                                                          fontWeight: FontWeight.normal,
                                                                                                                           fontFamily: 'Poppins-Regular',
                                                                                                                           fontSize: 14,
                                                                                                                           color: Colors.black))
@@ -4958,13 +4960,24 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                                                               Container(
                                                                                                                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                                                                 alignment: Alignment.centerLeft,
-                                                                                                                child: Text("Total Pay Fees \$"+totalEventamount.toString(),
-                                                                                                                    style: TextStyle(
-                                                                                                                        letterSpacing: 1.0,
-                                                                                                                        fontWeight: FontWeight.bold,
-                                                                                                                        fontFamily: 'Poppins-Regular',
-                                                                                                                        fontSize: 14,
-                                                                                                                        color: Colors.black)),
+                                                                                                                child: Row(
+                                                                                                                  children: [
+                                                                                                                    Text('totalpayfees'.tr,
+                                                                                                                        style: TextStyle(
+                                                                                                                            letterSpacing: 1.0,
+                                                                                                                            fontWeight: FontWeight.normal,
+                                                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                                                            fontSize: 14,
+                                                                                                                            color: Colors.black)),
+                                                                                                                    Text(" \$"+totalEventamount.toString(),
+                                                                                                                        style: TextStyle(
+                                                                                                                            letterSpacing: 1.0,
+                                                                                                                            fontWeight: FontWeight.normal,
+                                                                                                                            fontFamily: 'Poppins-Regular',
+                                                                                                                            fontSize: 14,
+                                                                                                                            color: Colors.black)),
+                                                                                                                  ],
+                                                                                                                )
                                                                                                               )
                                                                                                             ],
                                                                                                           ),

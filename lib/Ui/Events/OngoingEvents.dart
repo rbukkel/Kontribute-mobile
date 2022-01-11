@@ -952,7 +952,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                         style: TextStyle(
                                                                             fontSize: 12.0,
                                                                             color: Colors.black,
-                                                                            fontWeight: FontWeight.normal),
+                                                                            fontWeight: FontWeight.bold),
                                                                       ),
                                                                     ),
                                                                     InkWell(
@@ -976,7 +976,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                           );
                                                                           // set up the AlertDialog
                                                                           AlertDialog alert = AlertDialog(
-                                                                            title: Text('paynow'.tr),
+                                                                            title: Text('paynow'.tr,textAlign: TextAlign.center,),
                                                                             // content: Text("Are you sure you want to Pay this project?"),
                                                                             content:
                                                                             Container(
@@ -990,7 +990,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                                       new Text('eventeentryfees'.tr,
                                                                                           style: TextStyle(
                                                                                               letterSpacing: 1.0,
-                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontWeight: FontWeight.normal,
                                                                                               fontFamily: 'Poppins-Regular',
                                                                                               fontSize: 14,
                                                                                               color: Colors.black)),
@@ -998,7 +998,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                                       new Text(" \$"+listing.projectData.elementAt(index).entryFee,
                                                                                           style: TextStyle(
                                                                                               letterSpacing: 1.0,
-                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontWeight: FontWeight.normal,
                                                                                               fontFamily: 'Poppins-Regular',
                                                                                               fontSize: 14,
                                                                                               color: Colors.black))
@@ -1032,13 +1032,24 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                                                   Container(
                                                                                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                                     alignment: Alignment.centerLeft,
-                                                                                    child: Text("Total Pay Fees \$"+totalamount.toString(),
-                                                                                        style: TextStyle(
-                                                                                            letterSpacing: 1.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontFamily: 'Poppins-Regular',
-                                                                                            fontSize: 14,
-                                                                                            color: Colors.black)),
+                                                                                    child: Row(
+                                                                                      children: [
+                                                                                        Text('totalpayfees'.tr,
+                                                                                            style: TextStyle(
+                                                                                                letterSpacing: 1.0,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 14,
+                                                                                                color: Colors.black)),
+                                                                                        Text(" \$"+totalamount.toString(),
+                                                                                            style: TextStyle(
+                                                                                                letterSpacing: 1.0,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 14,
+                                                                                                color: Colors.black)),
+                                                                                      ],
+                                                                                    )
                                                                                   )
                                                                                 ],
                                                                               ),

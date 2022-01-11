@@ -2006,12 +2006,7 @@ class registerState extends State<register> {
           SharedUtils.writeloginId("UserId", login.resultPush.userId.toString());
           SharedUtils.writeloginId("Usename", login.resultPush.fullName);
           errorDialog(login.message);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      Contactlis()),
-                  (route) => false);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Contactlis()), (route) => false);
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           setState(() {

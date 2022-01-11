@@ -39,7 +39,7 @@ class Paymentdetails {
   String senderId;
   int receiverId;
   int amountRequested;
-  int amountPaid;
+  double amountPaid;
   String groupId;
   String payDate;
   String status;
@@ -65,7 +65,15 @@ class Paymentdetails {
     senderId = json['sender_id'];
     receiverId = json['receiver_id'];
     amountRequested = json['amount_requested'];
-    amountPaid = json['amount_paid'];
+    if(json['amount_paid'] is int)
+    {
+      amountPaid = double.parse(json['amount_paid']);
+    }
+    else
+    {
+      amountPaid = json['amount_paid'];
+    }
+
     groupId = json['group_id'];
     payDate = json['pay_date'];
     status = json['status'];

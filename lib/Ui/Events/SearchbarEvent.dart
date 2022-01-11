@@ -311,7 +311,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                         itemBuilder: (BuildContext context, int index) {
                           imageslist_length = listing.projectData.elementAt(index).projectImages;
                           commentlist_length = listing.projectData.elementAt(index).comments;
-                          double amount = listing.projectData.elementAt(index).balanceslot.toDouble() /
+                          double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                               double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
 
                           amoun =amount.toInt();
@@ -600,7 +600,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                           );
                                                                           // set up the AlertDialog
                                                                           AlertDialog alert = AlertDialog(
-                                                                            title: Text('paynow'.tr),
+                                                                            title: Text('paynow'.tr,textAlign: TextAlign.center,),
                                                                             // content: Text("Are you sure you want to Pay this project?"),
                                                                             content:
                                                                             Container(
@@ -614,7 +614,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                                       new Text('eventeentryfees'.tr,
                                                                                           style: TextStyle(
                                                                                               letterSpacing: 1.0,
-                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontWeight: FontWeight.normal,
                                                                                               fontFamily: 'Poppins-Regular',
                                                                                               fontSize: 14,
                                                                                               color: Colors.black)),
@@ -622,7 +622,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                                       new Text(" \$"+listing.projectData.elementAt(index).entryFee,
                                                                                           style: TextStyle(
                                                                                               letterSpacing: 1.0,
-                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontWeight: FontWeight.normal,
                                                                                               fontFamily: 'Poppins-Regular',
                                                                                               fontSize: 14,
                                                                                               color: Colors.black))
@@ -656,13 +656,24 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                                                   Container(
                                                                                     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                                                                     alignment: Alignment.centerLeft,
-                                                                                    child: Text("Total Pay Fees \$"+totalamount.toString(),
-                                                                                        style: TextStyle(
-                                                                                            letterSpacing: 1.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontFamily: 'Poppins-Regular',
-                                                                                            fontSize: 14,
-                                                                                            color: Colors.black)),
+                                                                                    child: Row(
+                                                                                      children: [
+                                                                                        Text('totalpayfees'.tr,
+                                                                                            style: TextStyle(
+                                                                                                letterSpacing: 1.0,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 14,
+                                                                                                color: Colors.black)),
+                                                                                        Text(" \$"+totalamount.toString(),
+                                                                                            style: TextStyle(
+                                                                                                letterSpacing: 1.0,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontFamily: 'Poppins-Regular',
+                                                                                                fontSize: 14,
+                                                                                                color: Colors.black)),
+                                                                                      ],
+                                                                                    )
                                                                                   )
                                                                                 ],
                                                                               ),
