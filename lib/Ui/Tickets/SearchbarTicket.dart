@@ -385,8 +385,6 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             SharedUtils.readTerms("Terms").then((result){
                                               if(result!=null){
                                                 if(result){
-
-
                                                   showDialog(
                                                     context: context,
                                                     child: Dialog(

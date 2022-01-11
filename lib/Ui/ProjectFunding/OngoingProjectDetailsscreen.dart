@@ -2657,13 +2657,7 @@ class OngoingProjectDetailsscreenState
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              projectdetailspojo
-                                                                          .commentsdata
-                                                                          .projectpaymentdetails
-                                                                          .elementAt(
-                                                                              idex)
-                                                                          .facebookId ==
-                                                                      null
+                                                              projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).facebookId == null
                                                                   ? GestureDetector(
                                                                       onTap:
                                                                           () {
@@ -2693,7 +2687,8 @@ class OngoingProjectDetailsscreenState
                                                                         decoration: BoxDecoration(
                                                                             shape:
                                                                                 BoxShape.circle,
-                                                                            image: DecorationImage(image: NetworkImage(Network.BaseApiprofile + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
+                                                                            image: DecorationImage
+                                                                              (image: NetworkImage(Network.BaseApiprofile + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
                                                                       ),
                                                                     )
                                                                   : GestureDetector(
