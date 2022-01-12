@@ -8,7 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
 import 'package:kontribute/Pojo/loginotp.dart';
-
 import 'package:kontribute/Ui/forget_screen.dart';
 import 'package:kontribute/Ui/register.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
@@ -284,7 +283,7 @@ class loginState extends State<login>{
                     ),
                     padding: EdgeInsets.only(
                       left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeHorizontal * 5,
+                      right: SizeConfig.blockSizeHorizontal * 3,
                      // bottom: SizeConfig.blockSizeVertical *1,
                     ),
                     alignment: Alignment.center,

@@ -663,6 +663,7 @@ class ContactUsState extends State<ContactUs>{
                 child: Container(
                   margin: EdgeInsets.all(10),
                   color: AppColors.whiteColor,
+
                   alignment: Alignment.center,
                   height: 50,
                   child: Text(

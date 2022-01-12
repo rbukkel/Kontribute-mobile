@@ -96,6 +96,7 @@ class MyActivitiesState extends State<MyActivities> {
   commisionpojo commission;
   String _amount;
   String shortsharedlink = '';
+  String shortDonationsharedlink = '';
   String product_id = '';
   bool _dialVisible = true;
   int currentPageValue = 0;
@@ -1021,7 +1022,7 @@ class MyActivitiesState extends State<MyActivities> {
               onTap: () {
                 setState(() {
                   print("Copy: "+listingdonation.result.elementAt(index).id.toString());
-                  _createDynamicLink(listingdonation.result.elementAt(index).id.toString());
+                  _createDonationDynamicLink(listingdonation.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -1100,7 +1101,7 @@ class MyActivitiesState extends State<MyActivities> {
               onTap: () {
                 setState(() {
                   print("Copy: "+listingdonation.result.elementAt(index).id.toString());
-                  _createDynamicLink(listingdonation.result.elementAt(index).id.toString());
+                  _createDonationDynamicLink(listingdonation.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -6903,6 +6904,30 @@ class MyActivitiesState extends State<MyActivities> {
         box.size);
   }
 
+  Future<void> _createDonationDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kont.page.link',
+        link: Uri.parse(Network.sharelindonation + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortDonationsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareDonationproductlink();
+  }
 
+  void shareDonationproductlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortDonationsharedlink,
+        subject: "Donation",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
 
 }

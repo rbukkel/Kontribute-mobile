@@ -232,14 +232,15 @@ class OngoingCampaignDetailsscreenState
   }
 
   Future<void> _createDynamicLink(String productid) async {
-    print("Product: " + productid);
+    print("Product: "+productid);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: 'https://kontribute.page.link',
-        link: Uri.parse(Network.sharelin + productid),
+        uriPrefix: 'https://kont.page.link',
+        link: Uri.parse(Network.sharelindonation + productid),
         androidParameters: AndroidParameters(
           packageName: 'com.kont.kontribute',
           minimumVersion: 1,
-        ));
+        )
+    );
     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
     final Uri shortUrl = shortDynamicLink.shortUrl;
     shortsharedlink = shortUrl.toString();
@@ -250,8 +251,10 @@ class OngoingCampaignDetailsscreenState
   void shareproductlink() {
     final RenderBox box = context.findRenderObject() as RenderBox;
     Share.share(shortsharedlink,
-        subject: "Kontribute",
-        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+        subject: "Donation",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
   }
 
   void getData(String id, int projectid) async {

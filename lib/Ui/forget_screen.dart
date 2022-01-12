@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/login.dart';
+import 'package:kontribute/Ui/ForgotOTPScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:kontribute/utils/InternetCheck.dart';
+import 'package:kontribute/utils/Network.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:kontribute/Pojo/ForgotPasswordPojo.dart';
 
 class forget_screen extends StatefulWidget{
   @override
@@ -20,6 +26,9 @@ class forget_screenState extends State<forget_screen>{
   bool _showPassword = false;
   String _email;
   String _password;
+  bool isLoading = false;
+  ForgotPasswordPojo forgotpass;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -205,30 +214,19 @@ class forget_screenState extends State<forget_screen>{
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => login()),(route) => false);
-/*
                       if (_formKey.currentState.validate()) {
                         setState(() {
                           isLoading = true;
                         });
                         Internet_check().check().then((intenet) {
                           if (intenet != null && intenet) {
-                            signIn(
-                                emailController.text, passwordController.text,token);
+                            signIn(emailController.text,context);
                           } else {
-                            Fluttertoast.showToast(
-                              msg: "No Internet Connection",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                            );
+                            errorDialog("No Internet Connection");
                           }
                           // No-Internet Case
                         });
                       }
-*/
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -293,4 +291,226 @@ class forget_screenState extends State<forget_screen>{
     );
 
   }
+  
+  signIn(String emal, BuildContext context) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      "email":emal,
+    };
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.forgetPassword_user, body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse["status"] == false) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        errorDialog(jsonResponse["message"]);
+      }
+      else {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        forgotpass = new ForgotPasswordPojo.fromJson(jsonResponse);
+        if (jsonResponse != null) {
+
+          emailController.text =" ";
+
+
+          showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              backgroundColor: AppColors.whiteColor,
+              child: new Container(
+                margin: EdgeInsets.all(5),
+                width: 300.0,
+                height: 180.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.error,
+                        size: 50.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      color: AppColors.whiteColor,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        forgotpass.message,
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (BuildContext context) => ForgotOTPScreen()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        color: AppColors.whiteColor,
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+
+        } else {
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+          errorDialog(forgotpass.message);
+        }
+      }
+    } else if (response.statusCode == 500){
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      errorDialog("Internal Server Error");
+    }
+    else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      errorDialog(jsonResponse["message"]);
+    }
+  }
+
+  void errorDialog(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void errorDialog1(String text) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        backgroundColor: AppColors.whiteColor,
+        child: new Container(
+          margin: EdgeInsets.all(5),
+          width: 300.0,
+          height: 180.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                child: Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: AppColors.whiteColor,
+                alignment: Alignment.center,
+                height: 50,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: AppColors.whiteColor,
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }

@@ -10,6 +10,7 @@ class StringConstant {
   static const String emailaddres = "Email Address";
   static const String proceedtopay = "Proceed to Payment";
   static const String password = "Password";
+  static const String confirmpassword = "Confirm Password";
   static const String Otp = "OTP";
   static const String nickname = "Nick Name";
   static const String fullname = "Full Name";

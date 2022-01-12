@@ -15,6 +15,8 @@ class Network{
   static String login = "login";
   static String socailLogin = "socailLogin";
   static String loginrequest = "loginrequest";
+  static String forgetPassword_user = "forgetPassword_user";
+  static String newPassworduser = "newPassworduser";
   static String username_listing = "username_listing";
   static String send_gift_request = "send_gift_request";
   static String requestgiftlist = "requestgiftlist";

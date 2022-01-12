@@ -183,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
                    }
                    else if(isDonation == true)
                    {
-                     print("donation");
+                     print("Donation");
                      callNext(
                          OngoingCampaignDetailsscreen(
                              data:
@@ -313,15 +313,21 @@ class _MyHomePageState extends State<MyHomePage> {
           String linked = deepLink.toString();
           if(linked.contains("sharedproduct"))
           {
-            isProject= true;
-            isDonation= false;
+            setState(() {
+              isProject= true;
+              isDonation= false;
+            });
+
 
             print("Product");
           }
           else if(linked.contains("shareddonation"))
           {
-            isProject= false;
-            isDonation= true;
+            setState(() {
+              isProject= false;
+              isDonation= true;
+            });
+
 
             print("donation");
           }
