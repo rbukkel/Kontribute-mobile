@@ -105,7 +105,6 @@ class OngoingProjectState extends State<OngoingProject> {
         getCommision();
       });
     });
-
   }
 
   /*  super.initState();
@@ -2159,8 +2158,6 @@ class OngoingProjectState extends State<OngoingProject> {
                   backto:"Project"
                 ), context);
           });
-
-
          /* showDialog(
             context: context,
             child: Dialog(

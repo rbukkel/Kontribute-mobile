@@ -100,7 +100,7 @@ class OngoingProjectDetailsscreenState
   commisionpojo commission;
   String valcommision;
   var commisionlist_length;
-
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
   /* Future<void> downloadFile(String imgUrl) async {
     Dio dio = Dio();
     bool checkPermission1 =
@@ -1568,10 +1568,7 @@ class OngoingProjectDetailsscreenState
                                                           'Poppins-Regular'),
                                                 ),
                                                 Text(
-                                                  " " +
-                                                      projectdetailspojo
-                                                          .commentsdata
-                                                          .projectEnddate,
+                                                  " " + projectdetailspojo.commentsdata.projectEnddate,
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,

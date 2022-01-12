@@ -844,7 +844,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                             print("falseValue");
                                                             warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"SearchProject", context);
                                                           }
-                                                        }else{
+                                                        }
+                                                        else{
                                                           print("falseValue");
                                                           warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"SearchProject", context);
                                                         }

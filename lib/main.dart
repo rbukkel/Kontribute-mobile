@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -56,6 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
   String product_id;
   bool isId=false;
+  bool isProject=false;
+  bool isDonation=false;
+  bool isEvent=false;
+  bool isTicket=false;
   String _appBadgeSupported = 'Unknown';
 
   gettoken() {
@@ -162,13 +167,33 @@ class _MyHomePageState extends State<MyHomePage> {
           {
             print('hereid'+isId.toString());
                  if(isId){
-                   callNext(
-                       OngoingProjectDetailsscreen(
-                           data:
-                           product_id
-                               .toString(),
-                           coming:"main"
-                       ), context);
+
+                   print("Project: "+isProject.toString());
+                   print("Donation: "+isDonation.toString());
+                   if(isProject == true)
+                   {
+                     print("Product");
+                     callNext(
+                         OngoingProjectDetailsscreen(
+                             data:
+                             product_id
+                                 .toString(),
+                             coming:"main"
+                         ), context);
+                   }
+                   else if(isDonation == true)
+                   {
+                     print("donation");
+                     callNext(
+                         OngoingCampaignDetailsscreen(
+                             data:
+                             product_id
+                                 .toString(),
+                             coming:"main"
+                         ), context);
+                   }
+
+
                  }
                  else {
                   /* if (lang == 'English') {
@@ -240,8 +265,33 @@ class _MyHomePageState extends State<MyHomePage> {
           final Uri deepLink = dynamicLink.link;
           if (deepLink != null) {
             print('new deep link onLink******${deepLink}');
+            String linked = deepLink.toString();
+               if(linked.contains("sharedproduct"))
+                 {
+                   setState(() {
+                     isProject= true;
+                     isDonation= false;
+                   });
+
+
+                   print("Product");
+                 }
+               else if(linked.contains("shareddonation"))
+               {
+                 setState(() {
+                   isProject= false;
+                   isDonation= true;
+                 });
+
+
+                 print("donation");
+               }
             List<String> product_id_list = split(deepLink.toString(), "/");
+            print("URL: "+deepLink.toString());
+            print("URLid: "+product_id_list.toString());
+
             setState(() {
+
               product_id = product_id_list.elementAt(5);
                isId=true;
             print('product_id1'+product_id);
@@ -251,14 +301,35 @@ class _MyHomePageState extends State<MyHomePage> {
       print('onLinkError');
       print(e.message);
     });
+
+
+
     final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
     if(data.link!=null)
       {
         final Uri deepLink = data.link;
         if (deepLink != null) {
           print('---new deep found************************************************${deepLink}');
+          String linked = deepLink.toString();
+          if(linked.contains("sharedproduct"))
+          {
+            isProject= true;
+            isDonation= false;
+
+            print("Product");
+          }
+          else if(linked.contains("shareddonation"))
+          {
+            isProject= false;
+            isDonation= true;
+
+            print("donation");
+          }
           List<String> product_id_list = split(deepLink.toString(), "/");
+          print("URLid: "+product_id_list.toString());
+          print("URL: "+deepLink.toString());
           setState(() {
+
             product_id = product_id_list.elementAt(5);
             isId=true;
             print('product_id2'+product_id);
