@@ -1254,8 +1254,8 @@ class SearchbarEventState extends State<SearchbarEvent> {
   Future<void> _createDynamicLink(String productid) async {
     print("Product: "+productid);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: 'https://kontribute.page.link',
-        link: Uri.parse(Network.sharelin + productid),
+        uriPrefix: 'https://kontri.page.link',
+        link: Uri.parse(Network.sharelinevent + productid),
         androidParameters: AndroidParameters(
           packageName: 'com.kont.kontribute',
           minimumVersion: 1,

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
+import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
+import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -57,10 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging();
   String product_id;
   bool isId=false;
-  bool isProject=false;
-  bool isDonation=false;
-  bool isEvent=false;
-  bool isTicket=false;
+  bool Project=false;
+  bool Donation=false;
+  bool Event = false;
+  bool Ticket = false;
+
   String _appBadgeSupported = 'Unknown';
 
   gettoken() {
@@ -98,16 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>NotificationScreen()), (route) => false);
       },
     );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
+    _firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
-
-
-
     super.initState();
 
     SharedUtils.readToken("Token").then((val) {
@@ -168,9 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
             print('hereid'+isId.toString());
                  if(isId){
 
-                   print("Project: "+isProject.toString());
-                   print("Donation: "+isDonation.toString());
-                   if(isProject == true)
+                   print("Project: "+Project.toString());
+                   print("Donation: "+Donation.toString());
+                   if(Project == true)
                    {
                      print("Product");
                      callNext(
@@ -181,18 +178,32 @@ class _MyHomePageState extends State<MyHomePage> {
                              coming:"main"
                          ), context);
                    }
-                   else if(isDonation == true)
+                   else if(Donation == true)
                    {
                      print("Donation");
+
                      callNext(
                          OngoingCampaignDetailsscreen(
-                             data:
-                             product_id
-                                 .toString(),
-                             coming:"main"
+                           data: product_id.toString(),
+                           coming: "main",
+                         ), context);
+                   } else if(Event == true)
+                   {
+                     print("Event");
+
+                     callNext(OngoingEventsDetailsscreen(
+                           data: product_id.toString(),
+                           coming: "main",
+                         ), context);
+                   }else if(Ticket == true)
+                   {
+                     print("Ticket");
+
+                     callNext(TicketOngoingEventsDetailsscreen(
+                           data: product_id.toString(),
+                           coming: "main",
                          ), context);
                    }
-
 
                  }
                  else {
@@ -265,27 +276,6 @@ class _MyHomePageState extends State<MyHomePage> {
           final Uri deepLink = dynamicLink.link;
           if (deepLink != null) {
             print('new deep link onLink******${deepLink}');
-            String linked = deepLink.toString();
-               if(linked.contains("sharedproduct"))
-                 {
-                   setState(() {
-                     isProject= true;
-                     isDonation= false;
-                   });
-
-
-                   print("Product");
-                 }
-               else if(linked.contains("shareddonation"))
-               {
-                 setState(() {
-                   isProject= false;
-                   isDonation= true;
-                 });
-
-
-                 print("donation");
-               }
             List<String> product_id_list = split(deepLink.toString(), "/");
             print("URL: "+deepLink.toString());
             print("URLid: "+product_id_list.toString());
@@ -293,9 +283,48 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {
 
               product_id = product_id_list.elementAt(5);
-               isId=true;
-            print('product_id1'+product_id);
+              isId=true;
+
+              print('product_id1'+product_id);
             });
+            String linked = deepLink.toString();
+            print("linked: "+linked);
+            if(linked.contains("https://kontribute.biz/api/sharedproduct/"))
+            {
+              setState(() {
+                Project= true;
+                Donation= false;
+                Event= false;
+                Ticket= false;
+              });
+              print("Product");
+            }
+            else if(linked.contains("https://kontribute.biz/api/shareddonation/")) {
+              setState(() {
+                Project = false;
+                Donation = true;
+                Event= false;
+                Ticket= false;
+              });
+              print("donation");
+            }else if(linked.contains("https://kontribute.biz/api/sharedevent/")) {
+              setState(() {
+                Project = false;
+                Donation = false;
+                Event= true;
+                Ticket= false;
+              });
+              print("Events");
+            }else if(linked.contains("https://kontribute.biz/api/sharedticket/")) {
+              setState(() {
+                Project = false;
+                Donation = false;
+                Event= false;
+                Ticket= true;
+              });
+              print("Tickets");
+            }
+
           }
         }, onError: (OnLinkErrorException e) async {
       print('onLinkError');
@@ -310,36 +339,54 @@ class _MyHomePageState extends State<MyHomePage> {
         final Uri deepLink = data.link;
         if (deepLink != null) {
           print('---new deep found************************************************${deepLink}');
-          String linked = deepLink.toString();
-          if(linked.contains("sharedproduct"))
-          {
-            setState(() {
-              isProject= true;
-              isDonation= false;
-            });
-
-
-            print("Product");
-          }
-          else if(linked.contains("shareddonation"))
-          {
-            setState(() {
-              isProject= false;
-              isDonation= true;
-            });
-
-
-            print("donation");
-          }
           List<String> product_id_list = split(deepLink.toString(), "/");
           print("URLid: "+product_id_list.toString());
           print("URL: "+deepLink.toString());
           setState(() {
-
             product_id = product_id_list.elementAt(5);
             isId=true;
+
             print('product_id2'+product_id);
           });
+          String linked = deepLink.toString();
+          print("linked: "+linked);
+          if(linked.contains("https://kontribute.biz/api/sharedproduct/"))
+          {
+            setState(() {
+              Project= true;
+              Donation= false;
+              Event= false;
+              Ticket= false;
+            });
+            print("Product");
+          }
+          else if(linked.contains("https://kontribute.biz/api/shareddonation/"))
+          {
+            setState(() {
+              Project= false;
+              Donation= true;
+              Event= false;
+              Ticket= false;
+            });
+            print("donation");
+          }else if(linked.contains("https://kontribute.biz/api/sharedevent/")) {
+            setState(() {
+              Project = false;
+              Donation = false;
+              Event= true;
+              Ticket= false;
+            });
+            print("Events");
+          }else if(linked.contains("https://kontribute.biz/api/sharedticket/")) {
+            setState(() {
+              Project = false;
+              Donation = false;
+              Event= false;
+              Ticket= true;
+            });
+            print("Tickets");
+          }
+
         }
       }
   }

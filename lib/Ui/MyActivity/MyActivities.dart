@@ -97,6 +97,8 @@ class MyActivitiesState extends State<MyActivities> {
   String _amount;
   String shortsharedlink = '';
   String shortDonationsharedlink = '';
+  String shortEventsharedlink = '';
+  String shortTicketsharedlink = '';
   String product_id = '';
   bool _dialVisible = true;
   int currentPageValue = 0;
@@ -1157,7 +1159,7 @@ class MyActivitiesState extends State<MyActivities> {
               onTap: () {
                 setState(() {
                   print("Copy: "+listingevent.result.elementAt(index).id.toString());
-                  _createDynamicLink(listingevent.result.elementAt(index).id.toString());
+                  _createEventDynamicLink(listingevent.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -1233,7 +1235,7 @@ class MyActivitiesState extends State<MyActivities> {
               onTap: () {
                 setState(() {
                   print("Copy: "+listingevent.result.elementAt(index).id.toString());
-                  _createDynamicLink(listingevent.result.elementAt(index).id.toString());
+                  _createEventDynamicLink(listingevent.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -1288,7 +1290,7 @@ class MyActivitiesState extends State<MyActivities> {
               onTap: () {
                 setState(() {
                   print("Copy: "+listingticket.result.elementAt(index).id.toString());
-                  _createDynamicLink(listingticket.result.elementAt(index).id.toString());
+                  _createTicketDynamicLink(listingticket.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -1361,7 +1363,7 @@ class MyActivitiesState extends State<MyActivities> {
               onTap: () {
                 setState(() {
                   print("Copy: "+listingticket.result.elementAt(index).id.toString());
-                  _createDynamicLink(listingticket.result.elementAt(index).id.toString());
+                  _createTicketDynamicLink(listingticket.result.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -6898,6 +6900,57 @@ class MyActivitiesState extends State<MyActivities> {
   void shareproductlink() {
     final RenderBox box = context.findRenderObject() as RenderBox;
     Share.share(shortsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+ Future<void> _createEventDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontri.page.link',
+        link: Uri.parse(Network.sharelinevent + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortEventsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareeventlink();
+  }
+
+  void shareeventlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortEventsharedlink,
+        subject: "Kontribute",
+        sharePositionOrigin:
+        box.localToGlobal(Offset.zero) &
+        box.size);
+  }
+
+  Future<void> _createTicketDynamicLink(String productid) async {
+    print("Product: "+productid);
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+        uriPrefix: 'https://kontribu.page.link',
+        link: Uri.parse(Network.sharelinticket + productid),
+        androidParameters: AndroidParameters(
+          packageName: 'com.kont.kontribute',
+          minimumVersion: 1,
+        )
+    );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    shortTicketsharedlink = shortUrl.toString();
+    print("Shorturl2:-" + shortUrl.toString());
+    shareticketlink();
+  }
+
+  void shareticketlink() {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    Share.share(shortTicketsharedlink,
         subject: "Kontribute",
         sharePositionOrigin:
         box.localToGlobal(Offset.zero) &

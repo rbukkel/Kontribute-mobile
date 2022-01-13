@@ -9,6 +9,8 @@ class Network{
   static String BaseApievent = "http://kontribute.biz/uploads/events/";
   static String sharelin = "https://kontribute.biz/api/sharedproduct/";
   static String sharelindonation = "https://kontribute.biz/api/shareddonation/";
+  static String sharelinevent = "https://kontribute.biz/api/sharedevent/";
+  static String sharelinticket = "https://kontribute.biz/api/sharedticket/";
   static String register = "register";
   static String countrylist = "countrylist";
   static String nationality = "nationality";
