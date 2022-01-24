@@ -114,9 +114,20 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                   }
                 });
               }
-            } else {
-              if (loginResponse.resultPush.profilePic != null ||
-                  loginResponse.resultPush.profilePic != "") {
+            }
+            else{
+              if (!loginResponse.resultPush.profilePic.startsWith("https://"))
+              {
+                setState(() {
+                  image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    imageUrl = true;
+                    _loading = true;
+                  }
+                });
+              }
+              else
+              {
                 setState(() {
                   image = loginResponse.resultPush.profilePic;
                   if (image.isNotEmpty) {

@@ -57,6 +57,10 @@ class MyActivitiesState extends State<MyActivities> {
   bool resultvalue = true;
   bool internet = false;
   String val;
+  String projectimage;
+  String donationimage;
+  String eventimage;
+  String ticketimage;
   var storelist_length;
   var imageslist_length;
   var commentlist_length;
@@ -1474,6 +1478,15 @@ class MyActivitiesState extends State<MyActivities> {
                           .elementAt(index)
                           .userId
                           .toString();
+                      if (!listing.result.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        projectimage=Network.BaseApiprofile+listing.result.elementAt(index).profilePic;
+
+                      }
+                      else
+                      {
+                        projectimage=listing.result.elementAt(index).profilePic;
+                      }
                       return
                         Container(
                           margin: EdgeInsets.only(
@@ -1601,10 +1614,7 @@ class MyActivitiesState extends State<MyActivities> {
                                               ),
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      listing.result
-                                                          .elementAt(index)
-                                                          .profilePic),
+                                                  image: NetworkImage(projectimage),
                                                   fit: BoxFit.fill)),
                                         ),
                                       ),
@@ -2531,6 +2541,15 @@ class MyActivitiesState extends State<MyActivities> {
                           double.parse(listingdonation.result.elementAt(index).budget) * 100;
                       amoun =amount.toInt();
                       reverid = listingdonation.result.elementAt(index).userId.toString();
+                      if (!listingdonation.result.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        donationimage=Network.BaseApiprofile+listingdonation.result.elementAt(index).profilePic;
+
+                      }
+                      else
+                      {
+                        donationimage=listingdonation.result.elementAt(index).profilePic;
+                      }
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -2622,8 +2641,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: NetworkImage(
-                                                    listingdonation.result.elementAt(index).profilePic),
+                                                image: NetworkImage(donationimage),
                                                 fit: BoxFit.fill)),
                                       ),
                                     ),
@@ -3586,15 +3604,37 @@ class MyActivitiesState extends State<MyActivities> {
                                             listinggift.result
                                                 .elementAt(
                                                 index)
-                                                .profilePic !=
+                                                .profilePic ==
                                                 null ||
                                                 listinggift
                                                     .result
                                                     .elementAt(
                                                     index)
-                                                    .profilePic !=
+                                                    .profilePic ==
                                                     ""
                                                 ? Container(
+                                                height:
+                                                SizeConfig.blockSizeVertical *
+                                                    10,
+                                                width: SizeConfig
+                                                    .blockSizeVertical *
+                                                    10,
+                                                alignment:
+                                                Alignment
+                                                    .center,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical * 1,
+                                                    bottom: SizeConfig.blockSizeVertical * 1,
+                                                    right: SizeConfig.blockSizeHorizontal * 1,
+                                                    left: SizeConfig.blockSizeHorizontal * 2),
+                                                decoration: BoxDecoration(
+                                                  image:
+                                                  new DecorationImage(
+                                                    image: new AssetImage("assets/images/account_circle.png"),
+                                                    fit: BoxFit
+                                                        .fill,
+                                                  ),
+                                                )): Container(
                                               height: SizeConfig
                                                   .blockSizeVertical *
                                                   10,
@@ -3626,30 +3666,8 @@ class MyActivitiesState extends State<MyActivities> {
                                                       ),
                                                       fit: BoxFit.fill)),
                                             )
-                                                : Container(
-                                                height:
-                                                SizeConfig.blockSizeVertical *
-                                                    10,
-                                                width: SizeConfig
-                                                    .blockSizeVertical *
-                                                    10,
-                                                alignment:
-                                                Alignment
-                                                    .center,
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig.blockSizeVertical * 1,
-                                                    bottom: SizeConfig.blockSizeVertical * 1,
-                                                    right: SizeConfig.blockSizeHorizontal * 1,
-                                                    left: SizeConfig.blockSizeHorizontal * 2),
-                                                decoration: BoxDecoration(
-                                                  image:
-                                                  new DecorationImage(
-                                                    image: new AssetImage(
-                                                        "assets/images/account_circle.png"),
-                                                    fit: BoxFit
-                                                        .fill,
-                                                  ),
-                                                ))
+
+
                                                 :
 
                                             Container(
@@ -3940,6 +3958,15 @@ class MyActivitiesState extends State<MyActivities> {
                           double.parse(listingevent.result.elementAt(index).totalslotamount.toString()) * 100;
 
                       amoun =amount.toInt();
+                      if (!listingevent.result.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        eventimage=Network.BaseApiprofile+listingevent.result.elementAt(index).profilePic;
+
+                      }
+                      else
+                      {
+                        eventimage=listingevent.result.elementAt(index).profilePic;
+                      }
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -4031,8 +4058,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: NetworkImage(
-                                                    listingevent.result.elementAt(index).profilePic),
+                                                image: NetworkImage(eventimage),
                                                 fit: BoxFit.fill)),
                                       ),
                                     ),
@@ -4940,6 +4966,15 @@ class MyActivitiesState extends State<MyActivities> {
                           double.parse(listingticket.result.elementAt(index).maximumQtySold) * 100;
                       amoun =amount.toInt();
                       reverid = listingticket.result.elementAt(index).userId.toString();
+                      if (!listingticket.result.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        ticketimage=Network.BaseApiprofile+listingticket.result.elementAt(index).profilePic;
+
+                      }
+                      else
+                      {
+                        ticketimage=listingticket.result.elementAt(index).profilePic;
+                      }
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -5372,8 +5407,7 @@ class MyActivitiesState extends State<MyActivities> {
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: NetworkImage(
-                                                    listingticket.result.elementAt(index).profilePic),
+                                                image: NetworkImage(ticketimage),
                                                 fit: BoxFit.fill)),
                                       ),
                                     ),
@@ -6905,6 +6939,8 @@ class MyActivitiesState extends State<MyActivities> {
         box.localToGlobal(Offset.zero) &
         box.size);
   }
+
+
  Future<void> _createEventDynamicLink(String productid) async {
     print("Product: "+productid);
     final DynamicLinkParameters parameters = DynamicLinkParameters(

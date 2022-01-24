@@ -50,6 +50,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
   var commisionlist_length;
   commisionpojo commission;
   String userid;
+  String imageprofile;
   individualRequestDetailspojo senddetailsPojo;
   followstatus followstatusPojo;
   paymentlist paymentlistpojo;
@@ -259,6 +260,18 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                 image = senddetailsPojo.result.receiverProfilePic;
               });
             }
+
+            if (!senddetailsPojo.result.profilePic.startsWith("https://"))
+            {
+              image=Network.BaseApiprofile+senddetailsPojo.result.profilePic;
+
+            }
+            else
+            {
+              image=senddetailsPojo.result.profilePic;
+            }
+
+
           });
         } else {
           errorDialog(senddetailsPojo.message);
@@ -438,7 +451,6 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
 
                                   Row(
                                     children: [
-                                      senddetailsPojo.result.facebookId==null?
                                       senddetailsPojo.result.profilePic == null || senddetailsPojo.result.profilePic == "" ?
                                       Container(
                                               height: SizeConfig.blockSizeVertical * 12,
@@ -463,8 +475,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                       "assets/images/account_circle.png"),
                                                   fit: BoxFit.fill,
                                                 ),
-                                              ))
-                                          :
+                                              )) :
                                       Container(
                                         height:
                                         SizeConfig.blockSizeVertical *
@@ -495,34 +506,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                   ),
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
-                                                      image: NetworkImage(Network.BaseApiprofile+
-                                                          senddetailsPojo.result
-                                                              .profilePic),
+                                                      image: NetworkImage(image),
                                                       fit: BoxFit.fill)),
-                                            ):
-                                      Container(
-                                        height: SizeConfig.blockSizeVertical * 12,
-                                        width: SizeConfig.blockSizeVertical * 12,
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *12,
-                                            bottom: SizeConfig.blockSizeVertical * 1,
-                                            right: SizeConfig.blockSizeHorizontal * 1,
-                                            left: SizeConfig.blockSizeHorizontal * 4),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              width: 1,
-                                              color: AppColors
-                                                  .themecolor,
-                                              style: BorderStyle.solid,
                                             ),
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    senddetailsPojo.result
-                                                        .profilePic),
-                                                fit: BoxFit.fill)),
-                                      ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -1258,11 +1244,40 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                           children: [
                                             Row(
                                               children: [
-                                                senddetailsPojo.memberlist
-                                                            .elementAt(index)
-                                                            .memberProfilePic !=
-                                                        null
-                                                    ? Container(
+                                                senddetailsPojo.memberlist.elementAt(index).memberProfilePic == null ||senddetailsPojo.memberlist.elementAt(index).memberProfilePic ==""
+                                                    ?  Container(
+                                                    height: SizeConfig
+                                                        .blockSizeVertical *
+                                                        8,
+                                                    width: SizeConfig
+                                                        .blockSizeVertical *
+                                                        8,
+                                                    alignment:
+                                                    Alignment.center,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                            .blockSizeVertical *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                            .blockSizeVertical *
+                                                            1,
+                                                        right: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            1,
+                                                        left: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            2),
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      image:
+                                                      new DecorationImage(
+                                                        image: new AssetImage(
+                                                            "assets/images/account_circle.png"),
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    )):
+
+                                                Container(
                                                         height: SizeConfig
                                                                 .blockSizeVertical *
                                                             8,
@@ -1295,38 +1310,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
                                                                     .memberProfilePic),
                                                                 fit: BoxFit
                                                                     .fill)),
-                                                      )
-                                                    : Container(
-                                                        height: SizeConfig
-                                                                .blockSizeVertical *
-                                                            8,
-                                                        width: SizeConfig
-                                                                .blockSizeVertical *
-                                                            8,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        margin: EdgeInsets.only(
-                                                            top: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1,
-                                                            bottom: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                1,
-                                                            right: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                1,
-                                                            left: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                2),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          image:
-                                                              new DecorationImage(
-                                                            image: new AssetImage(
-                                                                "assets/images/account_circle.png"),
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        )),
+                                                      ),
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.start,

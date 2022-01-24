@@ -263,11 +263,10 @@ class _AddContactState extends State<AddContact> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    followlistpojo.data
-                                                .elementAt(ind)
-                                                .facebookId !=
-                                            null
-                                        ? GestureDetector(
+                                    followlistpojo.data.elementAt(ind).profilePic != null ||followlistpojo.data.elementAt(ind).profilePic!=""
+                                        ?
+                                    !followlistpojo.data.elementAt(ind).profilePic.startsWith("https://")?
+                                    GestureDetector(
                                             onTap: () {
                                               callNext(
                                                   viewdetail_profile(
@@ -310,6 +309,7 @@ class _AddContactState extends State<AddContact> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
+                                                        Network.BaseApiprofile+
                                                         followlistpojo.data
                                                             .elementAt(ind)
                                                             .profilePic,
@@ -317,6 +317,57 @@ class _AddContactState extends State<AddContact> {
                                                       fit: BoxFit.fill)),
                                             ),
                                           )
+                                    :
+                                    GestureDetector(
+                                      onTap: () {
+                                        callNext(
+                                            viewdetail_profile(
+                                                data: followlistpojo.data
+                                                    .elementAt(ind)
+                                                    .id
+                                                    .toString()),
+                                            context);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            top: SizeConfig
+                                                .blockSizeVertical *
+                                                2,
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
+                                                1),
+                                        height:
+                                        SizeConfig.blockSizeVertical *
+                                            10,
+                                        width:
+                                        SizeConfig.blockSizeVertical *
+                                            10,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                          bottom: SizeConfig
+                                              .blockSizeVertical *
+                                              1,
+                                          top: SizeConfig
+                                              .blockSizeVertical *
+                                              2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          /*border: Border.all(
+                                                width: 1,
+                                                color: AppColors
+                                                    .themecolor,
+                                                style: BorderStyle.solid,
+                                              ),*/
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                  followlistpojo.data
+                                                      .elementAt(ind)
+                                                      .profilePic,
+                                                ),
+                                                fit: BoxFit.fill)),
+                                      ),
+                                    )
                                         : GestureDetector(
                                             onTap: () {
                                               callNext(
@@ -357,14 +408,12 @@ class _AddContactState extends State<AddContact> {
                                                 style: BorderStyle.solid,
                                               ),*/
                                                   shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        Network.BaseApiprofile +
-                                                            followlistpojo.data
-                                                                .elementAt(ind)
-                                                                .profilePic,
-                                                      ),
-                                                      fit: BoxFit.fill)),
+                                                image:
+                                                new DecorationImage(
+                                                  image: new AssetImage(
+                                                      "assets/images/account_circle.png"),
+                                                  fit: BoxFit.fill,
+                                                ),),
                                             ),
                                           ),
                                     Container(
@@ -380,7 +429,9 @@ class _AddContactState extends State<AddContact> {
                                       child: Text(
                                         followlistpojo.data
                                             .elementAt(ind)
-                                            .fullName,
+                                            .fullName!=null?followlistpojo.data
+                                            .elementAt(ind)
+                                            .fullName:"",
                                         style: TextStyle(
                                             letterSpacing: 1.0,
                                             color: AppColors.black,

@@ -72,6 +72,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
   String onchangeval = "";
   double totalamount;
   String vallike;
+  String image;
   projectlike prolike;
   int amoun;
   String updateval;
@@ -315,6 +316,15 @@ class SearchbarEventState extends State<SearchbarEvent> {
                               double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
 
                           amoun =amount.toInt();
+                          if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                          {
+                            image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                          }
+                          else
+                          {
+                            image=listing.projectData.elementAt(index).profilePic;
+                          }
                           return Container(
                             margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                             child: Card(
@@ -419,7 +429,7 @@ class SearchbarEventState extends State<SearchbarEvent> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                        listing.projectData.elementAt(index).profilePic),
+                                                        image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),

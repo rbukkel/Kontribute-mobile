@@ -58,6 +58,10 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
   var storelist_length;
   var imageslist_length;
   var commentlist_length;
+  String projectimage;
+  String donationimage;
+  String eventimage;
+  String ticketimage;
   myactivitiesprojectpojo listing;
   myactivitiesdonationpojo listingdonation;
   myactivitieseventpojo listingevent;
@@ -738,11 +742,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                 Navigator.of(context).pop();
                 callNext(
                     DonationReport(
-                        data: listingdonation.result
-                            .elementAt(index)
-                            .id
-                            .toString()),
-                    context);
+                        data: listingdonation.result.elementAt(index).id.toString()), context);
               },
               child: Row(
                 children: <Widget>[
@@ -804,10 +804,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
               onTap: () {
                 Navigator.of(context).pop();
                 callNext(
-                    EditEventPost(
-                        data:
-                            listingevent.result.elementAt(index).id.toString()),
-                    context);
+                    EditEventPost(data: listingevent.result.elementAt(index).id.toString()), context);
               },
               child: Row(
                 children: <Widget>[
@@ -1576,6 +1573,15 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                     .elementAt(index)
                                     .userId
                                     .toString();
+                                if (!listing.result.elementAt(index).profilePic.startsWith("https://"))
+                                {
+                                  projectimage=Network.BaseApiprofile+listing.result.elementAt(index).profilePic;
+
+                                }
+                                else
+                                {
+                                  projectimage=listing.result.elementAt(index).profilePic;
+                                }
                                 return Container(
                                   margin: EdgeInsets.only(
                                       bottom: SizeConfig.blockSizeVertical * 2),
@@ -1745,11 +1751,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 shape: BoxShape
                                                                     .circle,
                                                                 image: DecorationImage(
-                                                                    image: NetworkImage(listing
-                                                                        .result
-                                                                        .elementAt(
-                                                                            index)
-                                                                        .profilePic),
+                                                                    image: NetworkImage(projectimage),
                                                                     fit: BoxFit
                                                                         .fill)),
                                                       ),
@@ -2825,6 +2827,15 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                         .elementAt(index)
                                         .userId
                                         .toString();
+                                    if (!listingdonation.result.elementAt(index).profilePic.startsWith("https://"))
+                                    {
+                                      donationimage=Network.BaseApiprofile+listingdonation.result.elementAt(index).profilePic;
+
+                                    }
+                                    else
+                                    {
+                                      donationimage=listingdonation.result.elementAt(index).profilePic;
+                                    }
                                     return Container(
                                       margin: EdgeInsets.only(
                                           bottom:
@@ -2979,11 +2990,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 shape: BoxShape
                                                                     .circle,
                                                                 image: DecorationImage(
-                                                                    image: NetworkImage(listingdonation
-                                                                        .result
-                                                                        .elementAt(
-                                                                            index)
-                                                                        .profilePic),
+                                                                    image: NetworkImage(donationimage),
                                                                     fit: BoxFit
                                                                         .fill)),
                                                           ),
@@ -4543,6 +4550,16 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                 100;
 
                                             amoun = amount.toInt();
+
+                                            if (!listingevent.result.elementAt(index).profilePic.startsWith("https://"))
+                                            {
+                                              eventimage=Network.BaseApiprofile+listingevent.result.elementAt(index).profilePic;
+
+                                            }
+                                            else
+                                            {
+                                              eventimage=listingevent.result.elementAt(index).profilePic;
+                                            }
                                             return Container(
                                               margin: EdgeInsets.only(
                                                   bottom: SizeConfig
@@ -4688,7 +4705,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                             .circle,
                                                                         image: DecorationImage(
                                                                             image:
-                                                                                NetworkImage(listingevent.result.elementAt(index).profilePic),
+                                                                                NetworkImage(eventimage),
                                                                             fit: BoxFit.fill)),
                                                                   ),
                                                                 ),
@@ -5834,6 +5851,15 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                     .elementAt(index)
                                                     .userId
                                                     .toString();
+                                                if (!listingticket.result.elementAt(index).profilePic.startsWith("https://"))
+                                                {
+                                                  ticketimage=Network.BaseApiprofile+listingticket.result.elementAt(index).profilePic;
+
+                                                }
+                                                else
+                                                {
+                                                  ticketimage=listingticket.result.elementAt(index).profilePic;
+                                                }
                                                 return Container(
                                                   margin: EdgeInsets.only(
                                                       bottom: SizeConfig
@@ -6320,7 +6346,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                         decoration: BoxDecoration(
                                                                             shape:
                                                                                 BoxShape.circle,
-                                                                            image: DecorationImage(image: NetworkImage(listingticket.result.elementAt(index).profilePic), fit: BoxFit.fill)),
+                                                                            image: DecorationImage(image: NetworkImage(ticketimage), fit: BoxFit.fill)),
                                                                       ),
                                                                     ),
                                                               Column(

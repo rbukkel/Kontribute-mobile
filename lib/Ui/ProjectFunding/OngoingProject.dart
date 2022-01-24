@@ -43,6 +43,7 @@ class OngoingProjectState extends State<OngoingProject> {
   bool resultvalue = true;
   bool internet = false;
   String val;
+  String image;
   String valcommision;
   var storelist_length;
   var commisionlist_length;
@@ -705,9 +706,7 @@ class OngoingProjectState extends State<OngoingProject> {
                                 ? 0
                                 : storelist_length.length,
                             itemBuilder: (BuildContext context, int index) {
-                              imageslist_length = listing.projectData
-                                  .elementAt(index)
-                                  .projectImages;
+                              imageslist_length = listing.projectData.elementAt(index).projectImages;
                               commentlist_length = listing.projectData.elementAt(index).comments;
                               double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount.toString()) /
                                   double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
@@ -716,6 +715,16 @@ class OngoingProjectState extends State<OngoingProject> {
                                   .elementAt(index)
                                   .userId
                                   .toString();
+                              if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                                {
+                                  image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                                }
+                              else
+                                {
+                                  image=listing.projectData.elementAt(index).profilePic;
+                                }
+
                               return Container(
                                 margin: EdgeInsets.only(
                                     bottom: SizeConfig.blockSizeVertical * 2),
@@ -773,15 +782,13 @@ class OngoingProjectState extends State<OngoingProject> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            listing.projectData
-                                                            .elementAt(index)
-                                                            .profilePic ==
-                                                        null ||
+                                            listing.projectData.elementAt(index).profilePic == null ||
                                                     listing.projectData
                                                             .elementAt(index)
                                                             .profilePic ==
                                                         ""
-                                                ? GestureDetector(
+                                                ?
+                                            GestureDetector(
                                                     onTap: () {
                                                       // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                                       callNext(
@@ -873,17 +880,10 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                 .themecolor,
                                                             style: BorderStyle.solid,
                                                           ),
-                                                          shape:
-                                                              BoxShape.circle,
+                                                          shape: BoxShape.circle,
                                                           image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                  listing
-                                                                      .projectData
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .profilePic),
-                                                              fit:
-                                                                  BoxFit.fill)),
+                                                              image: NetworkImage(image),
+                                                              fit: BoxFit.fill)),
                                                     ),
                                                   ),
                                             Column(

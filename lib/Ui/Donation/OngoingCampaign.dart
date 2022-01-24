@@ -43,6 +43,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
   String onchangeval = "";
   double totalamount;
   String reverid;
+  String image;
   int currentPageValue = 0;
   bool resultvalue = true;
   donationlistingPojo listing;
@@ -226,9 +227,6 @@ class OngoingCampaignState extends State<OngoingCampaign> {
         box.localToGlobal(Offset.zero) &
         box.size);
   }
-
-
-
 
   Future<void> followapi(String useid, String rece) async {
     Map data = {
@@ -634,6 +632,15 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                           double.parse(listing.projectData.elementAt(index).budget) * 100;
                       amoun =amount.toInt();
                       reverid = listing.projectData.elementAt(index).userId.toString();
+                      if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                      }
+                      else
+                      {
+                        image=listing.projectData.elementAt(index).profilePic;
+                      }
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -735,7 +742,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                        listing.projectData.elementAt(index).profilePic),
+                                                        image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),

@@ -85,8 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     gettoken();
-
-
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -140,19 +138,14 @@ class _MyHomePageState extends State<MyHomePage> {
     } on PlatformException {
       appBadgeSupported = 'Failed to get badge support.';
     }
-
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-
     setState(() {
       _appBadgeSupported = appBadgeSupported;
     });
   }
-
-
-
 
   void nextScreen() {
     SharedUtils.writeloginData("login").then((result){
@@ -163,8 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Future.delayed(Duration(seconds: 3),()
           {
             print('hereid'+isId.toString());
-                 if(isId){
-
+                 if(isId)
+                 {
                    print("Project: "+Project.toString());
                    print("Donation: "+Donation.toString());
                    if(Project == true)
@@ -172,9 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      print("Product");
                      callNext(
                          OngoingProjectDetailsscreen(
-                             data:
-                             product_id
-                                 .toString(),
+                             data: product_id.toString(),
                              coming:"main"
                          ), context);
                    }
@@ -307,15 +298,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 Ticket= false;
               });
               print("donation");
-            }else if(linked.contains("https://kontribute.biz/api/sharedevent/")) {
-              setState(() {
+            }else if(linked.contains("https://kontribute.biz/api/sharedevent/"))
+            {
+             setState(() {
                 Project = false;
                 Donation = false;
                 Event= true;
                 Ticket= false;
               });
               print("Events");
-            }else if(linked.contains("https://kontribute.biz/api/sharedticket/")) {
+            }else if(linked.contains("https://kontribute.biz/api/sharedticket/"))
+            {
               setState(() {
                 Project = false;
                 Donation = false;

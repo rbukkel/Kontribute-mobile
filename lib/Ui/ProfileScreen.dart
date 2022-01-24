@@ -193,16 +193,39 @@ class ProfileScreenState extends State<ProfileScreen> {
               country = loginResponse.resultPush.currentCountry;
             }
 
-            if (loginResponse.resultPush.profilePic != null ||
-                loginResponse.resultPush.profilePic != "") {
-              setState(() {
-                image = loginResponse.resultPush.profilePic;
-                if (image.isNotEmpty) {
-                  imageUrl = true;
-                  _loading = true;
+            if(loginResponse.resultPush.facebookId== null)
+              {
+                setState(() {
+                  image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    imageUrl = true;
+                    _loading = true;
+                  }
+                });
+              }
+            else{
+              if (!loginResponse.resultPush.profilePic.startsWith("https://"))
+              {
+                setState(() {
+                  image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    imageUrl = true;
+                    _loading = true;
+                  }
+                });
+              }
+              else
+                {
+                  setState(() {
+                    image = loginResponse.resultPush.profilePic;
+                    if (image.isNotEmpty) {
+                      imageUrl = true;
+                      _loading = true;
+                    }
+                  });
                 }
-              });
             }
+
           });
         } else {
           errorDialog(loginResponse.message);
@@ -309,41 +332,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                                     width: 120,
                                   )),
                                 )
-                              : loginResponse.resultPush.facebookId == ""
-                                  ? Container(
-                                      margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 2),
-                                      child: _loading
-                                          ? ClipOval(
-                                              child: CachedNetworkImage(
-                                                height: 120,
-                                                width: 120,
-                                                fit: BoxFit.fill,
-                                                imageUrl:
-                                                    Network.BaseApiprofile +
-                                                        image,
-                                                placeholder: (context, url) => Container(
-                                                    height: SizeConfig
-                                                            .blockSizeVertical *
-                                                        5,
-                                                    width: SizeConfig
-                                                            .blockSizeVertical *
-                                                        5,
-                                                    child: Center(
-                                                        child:
-                                                            new CircularProgressIndicator())),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        new Icon(Icons.error),
-                                              ),
-                                            )
-                                          : CircularProgressIndicator(
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                      Color>(Colors.grey),
-                                            ),
-                                    )
-                                  : Container(
+                              :
+
+
+                          Container(
                                       margin: EdgeInsets.only(
                                           top:
                                               SizeConfig.blockSizeVertical * 2),

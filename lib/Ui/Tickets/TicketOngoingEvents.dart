@@ -42,6 +42,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
   Offset _tapDownPosition;
   bool resultvalue = true;
   String userid;
+  String image;
   String updateval;
   String updatefollowval;
   String Follow = "Follow";
@@ -633,6 +634,15 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                           double.parse(listing.projectData.elementAt(index).maximumQtySold) * 100;
                       amoun =amount.toInt();
                       reverid = listing.projectData.elementAt(index).userId.toString();
+                      if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                      }
+                      else
+                      {
+                        image=listing.projectData.elementAt(index).profilePic;
+                      }
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -1084,8 +1094,7 @@ class TicketOngoingEventsState extends State<TicketOngoingEvents> {
                                                 ),
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        listing.projectData.elementAt(index).profilePic),
+                                                    image: NetworkImage(image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),

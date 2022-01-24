@@ -277,7 +277,41 @@ class _mynetworkState extends State<mynetwork> {
                                 mainAxisAlignment: MainAxisAlignment.center,
 
                                 children: [
-                                  followlistpojo.result.elementAt(ind).facebookId!=null?GestureDetector(
+                                  followlistpojo.result.elementAt(ind).profilePic==null|| followlistpojo.result.elementAt(ind).profilePic==""?
+                                  GestureDetector(
+                                    onTap: () {
+                                      //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                    },
+                                    child:Container(
+                                        height: SizeConfig
+                                            .blockSizeVertical *
+                                            12,
+                                        width: SizeConfig
+                                            .blockSizeVertical *
+                                            12,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.only(
+                                          bottom: SizeConfig
+                                              .blockSizeVertical *
+                                              2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppColors
+                                                .themecolor,
+                                            style: BorderStyle.solid,
+                                          ),
+                                          image:
+                                          new DecorationImage(
+                                            image: new AssetImage(
+                                                "assets/images/account_circle.png"),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        )),
+                                  ):
+                                  !followlistpojo.result.elementAt(ind).profilePic.startsWith("https://")?
+                                  GestureDetector(
                                     onTap: () {
                                       callNext(
                                           viewdetail_profile(
@@ -307,7 +341,7 @@ class _mynetworkState extends State<mynetwork> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                followlistpojo.result.elementAt(ind).profilePic,
+                                                Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
                                               ),
                                               fit: BoxFit.fill)),
                                     ),
@@ -335,7 +369,7 @@ class _mynetworkState extends State<mynetwork> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                Network.BaseApiprofile+followlistpojo.result.elementAt(ind).profilePic,
+                                               followlistpojo.result.elementAt(ind).profilePic,
                                               ),
                                               fit: BoxFit.fill)),
                                     ),
@@ -349,7 +383,7 @@ class _mynetworkState extends State<mynetwork> {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  followlistpojo.result.elementAt(ind).fullName,
+                                  followlistpojo.result.elementAt(ind).fullName!=null?followlistpojo.result.elementAt(ind).fullName:"",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       letterSpacing: 1.0,

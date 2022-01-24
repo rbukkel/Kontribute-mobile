@@ -48,8 +48,7 @@ class OngoingCampaignDetailsscreen extends StatefulWidget {
       OngoingCampaignDetailsscreenState();
 }
 
-class OngoingCampaignDetailsscreenState
-    extends State<OngoingCampaignDetailsscreen> {
+class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscreen> {
   Offset _tapDownPosition;
   String data1;
   String coming1;
@@ -93,6 +92,8 @@ class OngoingCampaignDetailsscreenState
   String valcommision;
   var commisionlist_length;
   commisionpojo commission;
+  String image;
+  String imagecontribute;
 
   /* void getPermission() async {
     print("getPermission");
@@ -286,6 +287,16 @@ class OngoingCampaignDetailsscreenState
             double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount) / double.parse(projectdetailspojo.commentsdata.budget) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
+            if (!projectdetailspojo.commentsdata.profilePic.startsWith("https://"))
+            {
+              image=Network.BaseApiprofile+projectdetailspojo.commentsdata.profilePic;
+
+            }
+            else
+            {
+              image=projectdetailspojo.commentsdata.profilePic;
+            }
+
           });
         } else {
           errorDialog(projectdetailspojo.message);
@@ -703,10 +714,7 @@ class OngoingCampaignDetailsscreenState
                                                 ),
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        projectdetailspojo
-                                                            .commentsdata
-                                                            .profilePic),
+                                                    image: NetworkImage(image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),
@@ -2301,14 +2309,45 @@ class OngoingCampaignDetailsscreenState
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              projectdetailspojo
-                                                                          .commentsdata
-                                                                          .donationpaymentdetails
-                                                                          .elementAt(
-                                                                              idex)
-                                                                          .facebookId ==
-                                                                      null
-                                                                  ? GestureDetector(
+                                                              projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic==null?
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () {
+                                                                      callNext(
+                                                                          viewdetail_profile(data: projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).senderId.toString()),
+                                                                          context);
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  width:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  alignment:
+                                                                  Alignment.center,
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      bottom: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      right: SizeConfig.blockSizeHorizontal *
+                                                                          1,
+                                                                      left:
+                                                                      SizeConfig.blockSizeHorizontal * 2),
+                                                                  child: ClipOval(child: Image.asset("assets/images/userProfile.png", height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                    width:
+                                                                    SizeConfig.blockSizeVertical *
+                                                                        8,)),
+
+                                                                ),
+                                                              ):
+
+                                                              !projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic.startsWith("https://")?
+                                                              GestureDetector(
                                                                       onTap:
                                                                           () {
                                                                         callNext(
@@ -2337,41 +2376,46 @@ class OngoingCampaignDetailsscreenState
                                                                         decoration: BoxDecoration(
                                                                             shape:
                                                                                 BoxShape.circle,
-                                                                            image: DecorationImage(image: projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic == null ? new AssetImage("assets/images/account_circle.png") : NetworkImage(Network.BaseApiprofile + projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
+                                                                            image:
+                                                                            DecorationImage(image:
+                                                                            NetworkImage(Network.BaseApiprofile+projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
                                                                       ),
-                                                                    )
-                                                                  : GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        callNext(
-                                                                            viewdetail_profile(data: projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).senderId.toString()),
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        height:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        width:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        alignment:
-                                                                            Alignment.center,
-                                                                        margin: EdgeInsets.only(
-                                                                            top: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            bottom: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            right: SizeConfig.blockSizeHorizontal *
-                                                                                1,
-                                                                            left:
-                                                                                SizeConfig.blockSizeHorizontal * 2),
-                                                                        decoration: BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                            image: DecorationImage(image: projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic == null ? new AssetImage("assets/images/account_circle.png") : NetworkImage(projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
-                                                                      ),
-                                                                    ),
+                                                                    ):
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () {
+                                                                  callNext(
+                                                                      viewdetail_profile(data: projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).senderId.toString()),
+                                                                      context);
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  width:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  alignment:
+                                                                  Alignment.center,
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      bottom: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      right: SizeConfig.blockSizeHorizontal *
+                                                                          1,
+                                                                      left:
+                                                                      SizeConfig.blockSizeHorizontal * 2),
+                                                                  decoration: BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
+                                                                      image:
+                                                                      DecorationImage(image:
+                                                                      NetworkImage(projectdetailspojo.commentsdata.donationpaymentdetails.elementAt(idex).profilePic)
+                                                                          , fit: BoxFit.fill)),
+                                                                ),
+                                                              ),
                                                               Column(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment

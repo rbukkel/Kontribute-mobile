@@ -94,6 +94,7 @@ class OngoingProjectDetailsscreenState
   String _amount;
   final GlobalKey<State> _keyLoaderproject = new GlobalKey<State>();
   String deleteproject;
+  String image;
   final _formmainKey = GlobalKey<FormState>();
   String onchangeval = "";
   double totalamount;
@@ -322,6 +323,18 @@ class OngoingProjectDetailsscreenState
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
             reverid = projectdetailspojo.commentsdata.userId.toString();
+
+            if (!projectdetailspojo.commentsdata.profilePic.startsWith("https://"))
+            {
+              image=Network.BaseApiprofile+projectdetailspojo.commentsdata.profilePic;
+
+            }
+            else
+            {
+              image=projectdetailspojo.commentsdata.profilePic;
+            }
+
+
             getfollowstatus(userid, reverid);
           });
         } else {
@@ -909,10 +922,7 @@ class OngoingProjectDetailsscreenState
                                                 ),
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        projectdetailspojo
-                                                            .commentsdata
-                                                            .profilePic),
+                                                    image: NetworkImage(image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),
@@ -2655,7 +2665,44 @@ class OngoingProjectDetailsscreenState
                                                           Row(
                                                             children: [
                                                               projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).facebookId == null
-                                                                  ? GestureDetector(
+                                                                  ?
+                                                              projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).profilePic==null?
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () {
+                                                                  callNext(
+                                                                      viewdetail_profile(data: projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()),
+                                                                      context);
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  width:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  alignment:
+                                                                  Alignment.center,
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      bottom: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      right: SizeConfig.blockSizeHorizontal *
+                                                                          1,
+                                                                      left:
+                                                                      SizeConfig.blockSizeHorizontal * 2),
+                                                                  child: ClipOval(child: Image.asset("assets/images/userProfile.png", height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                    width:
+                                                                    SizeConfig.blockSizeVertical *
+                                                                        8,)),
+                                                                
+                                                                ),
+                                                              ):
+                                                              GestureDetector(
                                                                       onTap:
                                                                           () {
                                                                         callNext(
@@ -2749,7 +2796,11 @@ class OngoingProjectDetailsscreenState
                                                                               .commentsdata
                                                                               .projectpaymentdetails
                                                                               .elementAt(idex)
-                                                                              .fullName,
+                                                                              .fullName!=null?projectdetailspojo
+                                                                              .commentsdata
+                                                                              .projectpaymentdetails
+                                                                              .elementAt(idex)
+                                                                              .fullName:"",
                                                                           style: TextStyle(
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.black87,

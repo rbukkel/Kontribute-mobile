@@ -178,13 +178,26 @@ class viewdetail_profileState extends State<viewdetail_profile>{
             pproject = loginResponse.data.copleteProjects;
 
             if(loginResponse.data.profilepic !=null || loginResponse.data.profilepic !=""){
-              setState(() {
-                image = loginResponse.data.profilepic;
-                if(image.isNotEmpty){
-                  imageUrl = true;
-                  _loading = true;
+              if (!loginResponse.data.profilepic.startsWith("https://"))
+              {
+                setState(() {
+                  image = Network.BaseApiprofile+loginResponse.data.profilepic;
+                  if (image.isNotEmpty) {
+                    imageUrl = true;
+                    _loading = true;
+                  }
+                });
+              }
+              else
+                {
+                  setState(() {
+                    image = loginResponse.data.profilepic;
+                    if(image.isNotEmpty){
+                      imageUrl = true;
+                      _loading = true;
+                    }
+                  });
                 }
-              });
             }
 
           });
@@ -822,7 +835,7 @@ class viewdetail_profileState extends State<viewdetail_profile>{
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2,left: SizeConfig.blockSizeHorizontal *3),
-                                       width: SizeConfig.blockSizeHorizontal *20,
+                                       width: SizeConfig.blockSizeHorizontal *21,
                                         alignment: Alignment.center,
                                         padding: EdgeInsets.only(
                                             right: SizeConfig

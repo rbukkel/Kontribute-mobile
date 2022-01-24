@@ -97,6 +97,7 @@ class OngoingEventsDetailsscreenState
   final AmountFocus = FocusNode();
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
+  String image;
   String shortsharedlink = '';
   String product_id = '';
 
@@ -263,6 +264,16 @@ class OngoingEventsDetailsscreenState
                     projectdetailspojo.eventsdata.totalslotamount.toString()) *
                 100;
             amoun = amount.toInt();
+
+            if (!projectdetailspojo.eventsdata.profilePic.startsWith("https://"))
+            {
+              image=Network.BaseApiprofile+projectdetailspojo.eventsdata.profilePic;
+
+            }
+            else
+            {
+              image=projectdetailspojo.eventsdata.profilePic;
+            }
             print("Amountval: " + amoun.toString());
           });
         } else {
@@ -776,10 +787,7 @@ class OngoingEventsDetailsscreenState
                                                 ),
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        projectdetailspojo
-                                                            .eventsdata
-                                                            .profilePic),
+                                                    image: NetworkImage(image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),
@@ -2451,77 +2459,112 @@ class OngoingEventsDetailsscreenState
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              projectdetailspojo
-                                                                          .eventsdata
-                                                                          .contributerList
-                                                                          .elementAt(
-                                                                              idex)
-                                                                          .facebookId ==
-                                                                      null
-                                                                  ? GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        callNext(
-                                                                            viewdetail_profile(data: projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()),
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        height:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        width:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        alignment:
-                                                                            Alignment.center,
-                                                                        margin: EdgeInsets.only(
-                                                                            top: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            bottom: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            right: SizeConfig.blockSizeHorizontal *
-                                                                                1,
-                                                                            left:
-                                                                                SizeConfig.blockSizeHorizontal * 2),
-                                                                        decoration: BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                            image: DecorationImage(image: NetworkImage(Network.BaseApiprofile + projectdetailspojo.eventsdata.contributerList.elementAt(idex).profilePic), fit: BoxFit.fill)),
-                                                                      ),
-                                                                    )
-                                                                  : GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        callNext(
-                                                                            viewdetail_profile(data: projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()),
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        height:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        width:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        alignment:
-                                                                            Alignment.center,
-                                                                        margin: EdgeInsets.only(
-                                                                            top: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            bottom: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            right: SizeConfig.blockSizeHorizontal *
-                                                                                1,
-                                                                            left:
-                                                                                SizeConfig.blockSizeHorizontal * 2),
-                                                                        decoration: BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                            image: DecorationImage(image: NetworkImage(projectdetailspojo.eventsdata.contributerList.elementAt(idex).profilePic), fit: BoxFit.fill)),
-                                                                      ),
-                                                                    ),
+                                                              projectdetailspojo.eventsdata.contributerList.elementAt(idex).profilePic==null?
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () {
+                                                                      callNext(
+                                                                          viewdetail_profile(data: projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()),
+                                                                          context);
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  width:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  alignment:
+                                                                  Alignment.center,
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      bottom: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      right: SizeConfig.blockSizeHorizontal *
+                                                                          1,
+                                                                      left:
+                                                                      SizeConfig.blockSizeHorizontal * 2),
+                                                                  child: ClipOval(child: Image.asset("assets/images/userProfile.png", height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                    width:
+                                                                    SizeConfig.blockSizeVertical *
+                                                                        8,)),
+
+                                                                ),
+                                                              ):
+                                                              !projectdetailspojo.eventsdata.contributerList.elementAt(idex).profilePic.startsWith("https://")?
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () {
+                                                                      callNext(
+                                                                          viewdetail_profile(data: projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()),
+                                                                          context);
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  width:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  alignment:
+                                                                  Alignment.center,
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      bottom: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      right: SizeConfig.blockSizeHorizontal *
+                                                                          1,
+                                                                      left:
+                                                                      SizeConfig.blockSizeHorizontal * 2),
+                                                                  decoration: BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
+                                                                      image:
+                                                                      DecorationImage(image:
+                                                                      NetworkImage(Network.BaseApiprofile+projectdetailspojo.eventsdata.contributerList.elementAt(idex).profilePic), fit: BoxFit.fill)),
+                                                                ),
+                                                              ):
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () {
+                                                                      callNext(
+                                                                          viewdetail_profile(data: projectdetailspojo.eventsdata.contributerList.elementAt(idex).senderId.toString()),
+                                                                          context);
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  width:
+                                                                  SizeConfig.blockSizeVertical *
+                                                                      8,
+                                                                  alignment:
+                                                                  Alignment.center,
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      bottom: SizeConfig.blockSizeVertical *
+                                                                          1,
+                                                                      right: SizeConfig.blockSizeHorizontal *
+                                                                          1,
+                                                                      left:
+                                                                      SizeConfig.blockSizeHorizontal * 2),
+                                                                  decoration: BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
+                                                                      image:
+                                                                      DecorationImage(image:
+                                                                      NetworkImage(projectdetailspojo.eventsdata.contributerList.elementAt(idex).profilePic)
+                                                                          , fit: BoxFit.fill)),
+                                                                ),
+                                                              ),
                                                               Column(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
@@ -2551,7 +2594,11 @@ class OngoingEventsDetailsscreenState
                                                                               .eventsdata
                                                                               .contributerList
                                                                               .elementAt(idex)
-                                                                              .fullName,
+                                                                              .fullName!=null?projectdetailspojo
+                                                                              .eventsdata
+                                                                              .contributerList
+                                                                              .elementAt(idex)
+                                                                              .fullName:"",
                                                                           style: TextStyle(
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.black87,

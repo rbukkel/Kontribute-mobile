@@ -302,16 +302,40 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   loginResponse.resultPush.currentCountry;
             }
 
-            if (loginResponse.resultPush.profilePic != null ||
-                loginResponse.resultPush.profilePic != "") {
+            if(loginResponse.resultPush.facebookId== null)
+            {
               setState(() {
-                image = loginResponse.resultPush.profilePic;
+                image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
                 if (image.isNotEmpty) {
                   image_value = true;
                   _loading = true;
                 }
               });
             }
+            else{
+              if (!loginResponse.resultPush.profilePic.startsWith("https://"))
+              {
+                setState(() {
+                  image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    image_value = true;
+                    _loading = true;
+                  }
+                });
+              }
+              else
+              {
+                setState(() {
+                  image = loginResponse.resultPush.profilePic;
+                  if (image.isNotEmpty) {
+                    image_value = true;
+                    _loading = true;
+                  }
+                });
+              }
+            }
+
+
           });
         } else {
           errorDialog(loginResponse.message);
@@ -571,33 +595,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                                       "assets/images/person.png")),
                                         ),
                                       )
-                                    : loginResponse.resultPush.facebookId == ""
-                                        ? Container(
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    2),
-                                            width: 120.0,
-                                            height: 120.0,
-                                            child: CachedNetworkImage(
-                                              fit: BoxFit.fill,
-                                              imageUrl: Network.BaseApiprofile +
-                                                  image,
-                                              imageBuilder:
-                                                  (context, imageProvider) =>
-                                                      Container(
-                                                width: 120.0,
-                                                height: 120.0,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.cover),
-                                                ),
-                                              ),
-                                              placeholder: (context, url) =>
-                                                  CircularProgressIndicator(),
-                                            ))
+
                                         : Container(
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig

@@ -1,12 +1,12 @@
 class Network{
-  static String BaseApi = "http://kontribute.biz/api/";
-  static String BaseApipics = "http://kontribute.biz/";
-  static String BaseApiprofile = "http://kontribute.biz/uploads/profile_pic/";
-  static String BaseApigift = "http://kontribute.biz/uploads/gifts/";
-  static String BaseApiProject = "http://kontribute.biz/uploads/project/";
-  static String BaseApidonation = "http://kontribute.biz/uploads/donation/";
-  static String BaseApiticket = "http://kontribute.biz/uploads/tickets/";
-  static String BaseApievent = "http://kontribute.biz/uploads/events/";
+  static String BaseApi = "https://kontribute.biz/api/";
+  static String BaseApipics = "https://kontribute.biz/";
+  static String BaseApiprofile = "https://kontribute.biz/uploads/profile_pic/";
+  static String BaseApigift = "https://kontribute.biz/uploads/gifts/";
+  static String BaseApiProject = "https://kontribute.biz/uploads/project/";
+  static String BaseApidonation = "https://kontribute.biz/uploads/donation/";
+  static String BaseApiticket = "https://kontribute.biz/uploads/tickets/";
+  static String BaseApievent = "https://kontribute.biz/uploads/events/";
   static String sharelin = "https://kontribute.biz/api/sharedproduct/";
   static String sharelindonation = "https://kontribute.biz/api/shareddonation/";
   static String sharelinevent = "https://kontribute.biz/api/sharedevent/";

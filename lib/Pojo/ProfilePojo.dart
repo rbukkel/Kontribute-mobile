@@ -23,7 +23,7 @@ class ProfilePojo {
 }
 
 class Data {
-  int id;
+  String id;
   String fullName;
   String email;
   String nickName;
@@ -49,7 +49,13 @@ class Data {
         this.copleteProjects});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
     fullName = json['full_name'];
     email = json['email'];
     nickName = json['nick_name'];
@@ -138,15 +144,40 @@ class CopleteProjects {
         this.commentslist});
 
   CopleteProjects.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    if(json['id'] is int)
+    {
+      id = json['id'].toString();
+    }
+    else{
+      id = json['id'];
+    }
     projectName = json['project_name'];
     projectStartdate = json['project_startdate'];
     projectEnddate = json['project_enddate'];
     description = json['description'];
     tags = json['tags'];
-    userId = json['user_id'];
-    budget = json['budget'];
-    requiredAmount = json['required_amount'];
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
+    if(json['budget'] is int)
+    {
+      budget = json['budget'].toString();
+    }
+    else{
+      budget = json['budget'];
+    }
+    if(json['required_amount'] is int)
+    {
+      requiredAmount = json['required_amount'].toString();
+    }
+    else{
+      requiredAmount = json['required_amount'];
+    }
+
     videoLink = json['video_link'];
     viewType = json['view_type'];
     members = json['members'];
@@ -227,7 +258,14 @@ class ProjectImages {
 
   ProjectImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
+
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else{
+      projectId = json['project_id'];
+    }
     imagePath = json['image_path'];
     status = json['status'];
     postedDate = json['posted_date'];
@@ -251,6 +289,9 @@ class ProjectImages {
 class Commentslist {
   int id;
   String projectId;
+  String donationId;
+  String eventId;
+  String ticketId;
   String comment;
   String userId;
   String postedDate;
@@ -260,6 +301,9 @@ class Commentslist {
   Commentslist(
       {this.id,
         this.projectId,
+        this.donationId,
+        this.eventId,
+        this.ticketId,
         this.comment,
         this.userId,
         this.postedDate,
@@ -268,9 +312,47 @@ class Commentslist {
 
   Commentslist.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
+
+    if(json['project_id'] is int)
+    {
+      projectId = json['project_id'].toString();
+    }
+    else{
+      projectId = json['project_id'];
+    }
+
+    if(json['donation_id'] is int)
+    {
+      donationId = json['donation_id'].toString();
+    }
+    else{
+      donationId = json['donation_id'];
+    }
+
+    if(json['event_id'] is int)
+    {
+      eventId = json['event_id'].toString();
+    }
+    else{
+      eventId = json['event_id'];
+    }
+
+    if(json['ticket_id'] is int)
+    {
+      ticketId = json['ticket_id'].toString();
+    }
+    else{
+      ticketId = json['ticket_id'];
+    }
     comment = json['comment'];
-    userId = json['user_id'];
+
+    if(json['user_id'] is int)
+    {
+      userId = json['user_id'].toString();
+    }
+    else{
+      userId = json['user_id'];
+    }
     postedDate = json['posted_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

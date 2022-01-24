@@ -298,42 +298,9 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 3),
                       child: Row(
                         children: [
-                          requestpojo.result.elementAt(index).facebookId!=null?
+                          requestpojo.result.elementAt(index).profilePic!=null?
+                          !requestpojo.result.elementAt(index).profilePic.startsWith("https://")?
                           GestureDetector(
-                            onTap: () {
-                              callNext(viewdetail_profile(data: requestpojo.result.elementAt(index).senderId.toString()), context);
-                            },
-                            child: Container(
-                              height:
-                              SizeConfig.blockSizeVertical * 9,
-                              width: SizeConfig.blockSizeVertical * 9,
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  bottom: SizeConfig.blockSizeVertical * 1,
-                                  top: SizeConfig.blockSizeVertical *
-                                      1,
-                                  right:
-                                  SizeConfig.blockSizeHorizontal *
-                                      1,
-                                  left:
-                                  SizeConfig.blockSizeHorizontal *
-                                      5),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 1,
-                                    color: AppColors
-                                        .themecolor,
-                                    style: BorderStyle.solid,
-                                  ),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        requestpojo.result.elementAt(index).profilePic,
-                                      ),
-                                      fit: BoxFit.fill)),
-                            ),
-                          ):
-                          requestpojo.result.elementAt(index).profilePic!=null?GestureDetector(
                             onTap: ()
                             {
                               callNext(
@@ -369,6 +336,46 @@ class _ReceivedRequestState extends State<ReceivedRequest> {
                                   image: DecorationImage(
                                       image: NetworkImage(
                                         Network.BaseApiprofile+requestpojo.result.elementAt(index).profilePic,
+                                      ),
+                                      fit: BoxFit.fill)),
+                            ),
+                          ):
+                          GestureDetector(
+                            onTap: ()
+                            {
+                              callNext(
+                                  viewdetail_profile(
+                                      data: requestpojo.result.elementAt(index).senderId.toString()
+                                  ), context);
+                            },
+                            child: Container(
+                              height:
+                              SizeConfig.blockSizeVertical * 9,
+                              width: SizeConfig.blockSizeVertical * 9,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                  bottom:
+                                  SizeConfig.blockSizeVertical *
+                                      1,
+                                  top: SizeConfig.blockSizeVertical *
+                                      1,
+                                  right:
+                                  SizeConfig.blockSizeHorizontal *
+                                      1,
+                                  left:
+                                  SizeConfig.blockSizeHorizontal *
+                                      5),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 1,
+                                    color: AppColors
+                                        .themecolor,
+                                    style: BorderStyle.solid,
+                                  ),
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                        requestpojo.result.elementAt(index).profilePic,
                                       ),
                                       fit: BoxFit.fill)),
                             ),

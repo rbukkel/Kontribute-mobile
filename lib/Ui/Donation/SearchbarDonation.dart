@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kontribute/Payment/payment.dart';
 import 'package:kontribute/Pojo/commisionpojo.dart';
@@ -12,17 +9,10 @@ import 'package:kontribute/Ui/Donation/EditDonationPost.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/donationlistingPojo.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
-import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Pojo/searchsendreceivedpojo.dart';
-import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
-import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
-import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
-import 'package:kontribute/Ui/sendrequestgift/viewdetail_sendreceivegift.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
-import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
@@ -32,21 +22,16 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SearchbarDonation extends StatefulWidget {
-
   @override
   SearchbarDonationState createState() => SearchbarDonationState();
 }
 
 class SearchbarDonationState extends State<SearchbarDonation> {
-  Widget appBarTitle = new Text(
-    "",
-    style: new TextStyle(color: Colors.white),
-  );
+  Widget appBarTitle = new Text("", style: new TextStyle(color: Colors.white));
 
   Icon actionIcon = new Icon(
     Icons.search,
-    color: Colors.white,
-  );
+    color: Colors.white);
   String onchangeval = "";
   double totalamount;
   String valcommision;
@@ -75,6 +60,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
   var imageslist_length;
   var commentlist_length;
   String vallike;
+  String image;
   final AmountFocus = FocusNode();
   final _formmainKey = GlobalKey<FormState>();
   final TextEditingController AmountController = new TextEditingController();
@@ -322,6 +308,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
         children: _IsSearching ? _buildSearchList() : _buildList(),
       ),*/
         body: Container(
+
           height: double.infinity,
           color: AppColors.shadow,
             child: Column(
@@ -339,6 +326,15 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                         double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                             double.parse(listing.projectData.elementAt(index).budget) * 100;
                         amoun =amount.toInt();
+                        if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                        {
+                          image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                        }
+                        else
+                        {
+                          image=listing.projectData.elementAt(index).profilePic;
+                        }
                         return Container(
                           margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                           child: Card(
@@ -450,7 +446,7 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
                                                   image: NetworkImage(
-                                                      listing.projectData.elementAt(index).profilePic),
+                                                      image),
                                                   fit: BoxFit.fill)),
                                         ),
                                       ),

@@ -37,6 +37,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   bool internet = false;
   String val;
   String updateval;
+  String image;
   var storelist_length;
   Notificationpojo listing;
   String deleteval;
@@ -346,6 +347,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             ? 0
                             : storelist_length.length,
                         itemBuilder: (BuildContext context, int index) {
+
                           return Container(
                               margin: EdgeInsets.only(
                                   bottom: SizeConfig.blockSizeVertical * 2),
@@ -379,7 +381,8 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                               .elementAt(index)
                                                               .profilePic ==
                                                           ""
-                                                  ? GestureDetector(
+                                                  ?
+                                              GestureDetector(
                                                       onTap: () {
                                                         //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                                       },
@@ -418,17 +421,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                             ),
                                                           )),
                                                     )
-                                                  : listing.result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .facebookId ==
-                                                              null ||
-                                                          listing.result.data
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .facebookId ==
-                                                              ""
-                                                      ? GestureDetector(
+                                                  :
+                                              !listing.result.data.elementAt(index).profilePic.startsWith("https://")?
+                                              GestureDetector(
                                                           onTap: () {
                                                             //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
                                                           },
@@ -464,57 +459,49 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                     shape: BoxShape
                                                                         .circle,
                                                                     image: DecorationImage(
-                                                                        image: NetworkImage(Network.BaseApiprofile +
-                                                                            listing.result.data.elementAt(index).profilePic),
+                                                                        image: NetworkImage(Network.BaseApiprofile+listing.result.data.elementAt(index).profilePic),
                                                                         fit: BoxFit.fill)),
                                                           ),
-                                                        )
-                                                      : GestureDetector(
-                                                          onTap: () {
-                                                            // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
-                                                          },
-                                                          child: Container(
-                                                            height: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                9,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                              bottom: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                  1,
-                                                              right: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                  1,
-                                                            ),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    border:
-                                                                        Border
-                                                                            .all(
-                                                                      width: 1,
-                                                                      color: AppColors
-                                                                          .themecolor,
-                                                                      style: BorderStyle
-                                                                          .solid,
-                                                                    ),
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(listing
-                                                                            .result
-                                                                            .data
-                                                                            .elementAt(
-                                                                                index)
-                                                                            .profilePic),
-                                                                        fit: BoxFit
-                                                                            .fill)),
-                                                          ),
-                                                        ),
+                                                        ):GestureDetector(
+                                                onTap: () {
+                                                  //  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewdetail_profile()));
+                                                },
+                                                child: Container(
+                                                  height: SizeConfig
+                                                      .blockSizeVertical *
+                                                      9,
+                                                  width: SizeConfig
+                                                      .blockSizeVertical *
+                                                      9,
+                                                  alignment: Alignment
+                                                      .centerLeft,
+                                                  margin:
+                                                  EdgeInsets.only(
+                                                    bottom: SizeConfig
+                                                        .blockSizeVertical *
+                                                        1,
+                                                    right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                        1,
+                                                  ),
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      border:
+                                                      Border
+                                                          .all(
+                                                        width: 1,
+                                                        color: AppColors
+                                                            .themecolor,
+                                                        style: BorderStyle
+                                                            .solid,
+                                                      ),
+                                                      shape: BoxShape
+                                                          .circle,
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(listing.result.data.elementAt(index).profilePic),
+                                                          fit: BoxFit.fill)),
+                                                ),
+                                              ),
                                               Row(
                                                 children: [
                                                   Container(

@@ -41,6 +41,7 @@ class OngoingEventsState extends State<OngoingEvents> {
   String val;
   String valcat;
   String catid;
+  String image;
   String shortsharedlink = '';
   String product_id = '';
   EventOngoingPojo listing;
@@ -691,7 +692,15 @@ class OngoingEventsState extends State<OngoingEvents> {
                       double amount = listing.projectData.elementAt(index).totalcollectedamount.toDouble() /
                           double.parse(listing.projectData.elementAt(index).totalslotamount.toString()) * 100;
                       amoun =amount.toInt();
+                      if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                      {
+                        image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
 
+                      }
+                      else
+                      {
+                        image=listing.projectData.elementAt(index).profilePic;
+                      }
                       return Container(
                         margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                         child: Card(
@@ -793,7 +802,7 @@ class OngoingEventsState extends State<OngoingEvents> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                        listing.projectData.elementAt(index).profilePic),
+                                                        image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),

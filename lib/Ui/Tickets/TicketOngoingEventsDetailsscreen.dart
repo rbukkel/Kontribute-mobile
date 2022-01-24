@@ -96,7 +96,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
   final _formmainKey = GlobalKey<FormState>();
   String textHolder="0";
   int mutliply;
-
+ String image;
   String _amount;
 
   Future<PermissionStatus> getPermission() async {
@@ -265,6 +265,16 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                 double.parse(projectdetailspojo.commentsdata.maximumQtySold.toString()) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
+
+            if (!projectdetailspojo.commentsdata.profilePic.startsWith("https://"))
+            {
+              image=Network.BaseApiprofile+projectdetailspojo.commentsdata.profilePic;
+
+            }
+            else
+            {
+              image=projectdetailspojo.commentsdata.profilePic;
+            }
           });
         } else {
           errorDialog(projectdetailspojo.message);
@@ -1104,9 +1114,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                     ),
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                        image: NetworkImage(
-                                            projectdetailspojo
-                                                .commentsdata.profilePic),
+                                        image: NetworkImage(image),
                                         fit: BoxFit.fill)),
                               ),
                             ),

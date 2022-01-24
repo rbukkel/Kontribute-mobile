@@ -53,6 +53,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
   bool search = true;
   bool internet = false;
   String val;
+  String image;
   String userid;
   var storelist_length;
   bool resultvalue = true;
@@ -311,6 +312,15 @@ class SearchbarProjectState extends State<SearchbarProject> {
                             double amount = double.parse(listing.projectData.elementAt(index).totalcollectedamount.toString()) /
                                 double.parse(listing.projectData.elementAt(index).budget.toString()) * 100;
                             amoun = amount.toInt();
+                            if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                            {
+                              image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                            }
+                            else
+                            {
+                              image=listing.projectData.elementAt(index).profilePic;
+                            }
                             return Container(
                               margin: EdgeInsets.only(
                                   bottom: SizeConfig.blockSizeVertical * 2),
@@ -448,11 +458,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                           style: BorderStyle.solid,
                                                         ),
                                                         image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                     listing
-                                                                    .projectData
-                                                                    .elementAt(index)
-                                                                    .profilePic),
+                                                            image: NetworkImage(image),
                                                             fit: BoxFit.fill)),
                                                   ),
                                                 ),

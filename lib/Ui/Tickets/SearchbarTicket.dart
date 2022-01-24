@@ -90,6 +90,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
   String Follow = "Follow";
   int amoun;
   String reverid;
+  String image;
   int currentPageValue = 0;
   String shortsharedlink = '';
 
@@ -352,6 +353,15 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                               double.parse(listing.projectData.elementAt(index).maximumQtySold.toString()) * 100;
                           amoun = amount.toInt();
                           reverid = listing.projectData.elementAt(index).userId.toString();
+                          if (!listing.projectData.elementAt(index).profilePic.startsWith("https://"))
+                          {
+                            image=Network.BaseApiprofile+listing.projectData.elementAt(index).profilePic;
+
+                          }
+                          else
+                          {
+                            image=listing.projectData.elementAt(index).profilePic;
+                          }
                           return Container(
                             margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical *2),
                             child: Card(
@@ -791,8 +801,7 @@ class SearchbarTicketState extends State<SearchbarTicket> {
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        listing.projectData.elementAt(index).profilePic),
+                                                    image: NetworkImage(image),
                                                     fit: BoxFit.fill)),
                                           ),
                                         ),
