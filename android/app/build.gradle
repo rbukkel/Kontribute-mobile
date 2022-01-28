@@ -21,9 +21,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-
-
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
@@ -44,7 +41,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.kont.kontribute"
         multiDexEnabled true
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -96,4 +93,12 @@ dependencies {
 // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.firebase:firebase-dynamic-links:20.1.1'
+
+    constraints {
+        implementation('net.minidev:json-smart') {
+            version {
+                strictly '2.3.1'
+            }
+        }
+    }
 }

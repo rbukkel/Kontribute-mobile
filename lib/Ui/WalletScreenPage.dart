@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:kontribute/Ui/mytranscation.dart';
-import 'package:kontribute/Ui/Payment.dart';
+import 'package:kontribute/Common/fab_bottom_app_bar.dart';
+import 'package:kontribute/Ui/AddScreen.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
+import 'package:kontribute/Ui/NotificationScreen.dart';
+import 'package:kontribute/Ui/SettingScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
+import 'package:get/get.dart';
 
-class WalletScreen extends StatefulWidget {
-
+class WalletScreenPage extends StatefulWidget {
   @override
-  WalletScreenState createState() => WalletScreenState();
+  WalletScreenPageState createState() => WalletScreenPageState();
 }
 
-class WalletScreenState extends State<WalletScreen> {
+class WalletScreenPageState extends State<WalletScreenPage> {
   int _index = 0;
   bool home = false;
   bool wallet = false;
@@ -124,19 +127,8 @@ class WalletScreenState extends State<WalletScreen> {
                           left: SizeConfig.blockSizeHorizontal * 6,
                           top: SizeConfig.blockSizeVertical * 2),
                       child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) => mytranscation()));
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Image.asset(
-                            "assets/images/back.png",
-                            color: AppColors.whiteColor,
-                            width: 20,
-                            height: 20,
-                          ),
-                        ),
+                        onTap: () {},
+                        child: Container(),
                       ),
                     ),
                     Container(
@@ -259,28 +251,35 @@ class WalletScreenState extends State<WalletScreen> {
                     onTap: () {
                       setState(() {
                         tabvalue = "Debit";
+                        debit = true;
+                        credit = false;
+                        withdraw = false;
+                        addmoney = false;
                       });
+
                       print("Value: " + tabvalue);
                     },
                     child: Container(
                       margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 4,
+                          left: SizeConfig.blockSizeHorizontal * 2,
                           right: SizeConfig.blockSizeHorizontal * 1),
-                      child: Container(
-                        width: SizeConfig.blockSizeHorizontal * 35,
-                        height: SizeConfig.blockSizeVertical * 5,
-                        child: Text(StringConstant.withdraw.toUpperCase(),
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.black87,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins-Regular')
-                        ),
-                      )
+                      child: Card(
+                          color:
+                          debit ? AppColors.light_grey : AppColors.whiteColor,
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            height: SizeConfig.blockSizeVertical * 5,
+                            child: Text(StringConstant.debit,
+                                style: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.black87,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Poppins-Regular')),
+                          )),
                     ),
                   ),
-
                   /*  GestureDetector(
                   onTap: ()
                   {
@@ -310,219 +309,61 @@ class WalletScreenState extends State<WalletScreen> {
                                 fontFamily: 'Poppins-Regular')),
                           ))) ,
                 ),*/
-
                   GestureDetector(
                     onTap: () {
                       setState(() {
-
-                        showDialog(
-                          context: context,
-                          child: Dialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              backgroundColor: AppColors.whiteColor,
-                              child:
-                                  Container(
-                                    margin: EdgeInsets.all(2),
-                                    width: SizeConfig.blockSizeHorizontal * 80,
-                                    height: SizeConfig.blockSizeVertical *45,
-                                    child:new Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: ()
-                                          {
-                                            setState(() {
-                                              amountController.text ="";
-                                            });
-
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                right: SizeConfig.blockSizeHorizontal * 3,
-                                                top: SizeConfig.blockSizeVertical * 2),
-                                            alignment:Alignment.topRight,
-                                            child: Icon(
-                                              Icons.close,
-                                              size: 20.0,
-                                              color: Colors.black45,
-                                            ),
-
-                                          ),
-                                        ),
-
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: SizeConfig.blockSizeHorizontal * 3,
-                                              right: SizeConfig.blockSizeHorizontal * 3,
-                                              top: SizeConfig.blockSizeVertical * 2),
-                                          alignment: Alignment.topCenter,
-                                          width: SizeConfig.blockSizeHorizontal * 100,
-                                          child: Text(
-                                            StringConstant.withdrawrequest,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Poppins-Bold'),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: SizeConfig.blockSizeHorizontal * 3,
-                                              right: SizeConfig.blockSizeHorizontal * 3,
-                                              top: SizeConfig.blockSizeVertical * 5),
-                                          alignment: Alignment.topCenter,
-                                          width: SizeConfig.blockSizeHorizontal * 100,
-                                          child: Text(
-                                            StringConstant.enteramount,
-                                            style: TextStyle(
-                                                letterSpacing: 1.0,
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Poppins-Bold'),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: SizeConfig.blockSizeVertical * 6,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical * 2,
-                                            left: SizeConfig.blockSizeHorizontal * 8,
-                                            right: SizeConfig.blockSizeHorizontal * 8,
-                                          ),
-                                          padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeVertical * 1,
-                                            right: SizeConfig.blockSizeVertical * 1,
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                            color: Colors.transparent,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width:SizeConfig.blockSizeHorizontal * 5,
-                                                child:Text(
-                                                  "\$",
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontFamily: 'Poppins-Bold'),
-                                                ),
-                                              ),
-
-                                              Container(
-                                                alignment: Alignment.center,
-                                                padding:  EdgeInsets.only(
-                                                  bottom: SizeConfig.blockSizeVertical * 0.5),
-                                                width:SizeConfig.blockSizeHorizontal * 45,
-                                                child: TextFormField(
-                                                  autofocus: false,
-                                                  focusNode: AmountFocus,
-                                                  controller: amountController,
-                                                  textInputAction: TextInputAction.next,
-                                                  keyboardType: TextInputType.number,
-                                                  validator: (val) {
-                                                    if (val.length == 0)
-                                                      return "Please enter amount";
-                                                    else
-                                                      return null;
-                                                  },
-                                                  onFieldSubmitted: (v) {
-                                                    FocusScope.of(context).requestFocus(MobileFocus);
-                                                  },
-                                                  onSaved: (val) => _amount = val,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily: 'Poppins-Regular',
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    focusedBorder: InputBorder.none,
-                                                    hintStyle: TextStyle(
-                                                      color: Colors.black12,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontFamily: 'Poppins-Regular',
-                                                      fontSize: 12,
-                                                      decoration: TextDecoration.none,
-                                                    ),
-                                                    hintText: "30000",
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext context) => Payment()));
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            width: MediaQuery.of(context).size.width,
-                                            height: SizeConfig.blockSizeVertical * 6,
-                                            margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical * 5,
-                                              bottom: SizeConfig.blockSizeVertical * 6,
-                                              left: SizeConfig.blockSizeHorizontal * 15,
-                                              right: SizeConfig.blockSizeHorizontal * 15,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              image: new DecorationImage(
-                                                image: new AssetImage("assets/images/sendbutton.png"),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                            child: Text(StringConstant.withdraw,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: 'Poppins-Regular',
-                                                  fontSize: 15,
-                                                )),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-
-                          ),
-                        );
-
+                        tabvalue = "Withdraw";
+                        debit = false;
+                        credit = false;
+                        withdraw = true;
+                        addmoney = false;
                       });
+                      print("Value: " + tabvalue);
                     },
                     child: Container(
                         margin: EdgeInsets.only(
-                            right: SizeConfig.blockSizeHorizontal * 4),
+                            right: SizeConfig.blockSizeHorizontal * 1),
+                        child: Card(
+                            color: withdraw
+                                ? AppColors.light_grey
+                                : AppColors.whiteColor,
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: SizeConfig.blockSizeHorizontal * 25,
+                              height: SizeConfig.blockSizeVertical * 5,
+                              child: Text(StringConstant.withdraw,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.black87,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular')),
+                            ))),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        tabvalue = "AddMoney";
+                        debit = false;
+                        credit = false;
+                        withdraw = false;
+                        addmoney = true;
+                      });
+                      print("Value: " + tabvalue);
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(
+                            right: SizeConfig.blockSizeHorizontal * 2),
                         child: Card(
                             color: addmoney
                                 ? AppColors.light_grey
                                 : AppColors.whiteColor,
                             child: Container(
                               alignment: Alignment.center,
-                              width: SizeConfig.blockSizeHorizontal * 35,
+                              width: SizeConfig.blockSizeHorizontal * 25,
                               height: SizeConfig.blockSizeVertical * 5,
                               child: Text(
-                                StringConstant.withdrawrequest,
+                                StringConstant.addmoney,
                                 style: TextStyle(
                                     letterSpacing: 1.0,
                                     color: Colors.black87,
@@ -534,18 +375,193 @@ class WalletScreenState extends State<WalletScreen> {
                   ),
                 ],
               ),
-              tabDebitList()
+              tabvalue == "Debit"
+                  ? tabDebitList()
+                  : tabvalue == "Credit"
+                  ? tabCreditlist()
+                  : tabvalue == "Withdraw"
+                  ? tabWithdraw()
+                  : tabvalue == "AddMoney"
+                  ? tabAddMoney()
+                  : Container()
             ],
           ),
+
+      ),
+      bottomNavigationBar: bottombar(context),
+    );
+  }
+
+  bottombar(context) {
+    return Container(
+      height: SizeConfig.blockSizeVertical * 8,
+      color: AppColors.whiteColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => HomeScreen()));
+              });
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 15,
+                margin:
+                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/homeicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        'home'.tr,
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => WalletScreenPage()));
+              });
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 15,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/walleticon.png",
+                      height: 20,
+                      width: 20,
+                      color: AppColors.selectedcolor,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "Wallet",
+                        style: TextStyle(
+                            color: AppColors.selectedcolor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => NotificationScreen()));
+              });
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 15,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/notificationicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "Notification",
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          ),
+          GestureDetector(
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => SettingScreen()));
+              });
+            },
+            child: Container(
+                width: SizeConfig.blockSizeHorizontal * 15,
+                margin:
+                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/settingicon.png",
+                      height: 20,
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 1),
+                      child: Text(
+                        "Setting",
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 10),
+                      ),
+                    )
+                  ],
+                )),
+          )
+        ],
       ),
     );
   }
 
+  Widget _buildFab(BuildContext context) {
+    // final icons = [ Icons.sms, Icons.mail, Icons.phone ];
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AddScreen()));
+      },
+      child: Image.asset("assets/images/addpost.png"),
+      elevation: 3.0,
+    );
+  }
+
+  void _selectedTab(int index) {
+    index = -1;
+    setState(() {
+      if (index == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else if (index == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WalletScreenPage()));
+      } else if (index == 2) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NotificationScreen()));
+      } else if (index == 3) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SettingScreen()));
+      }
+    });
+  }
 
   tabDebitList() {
-    return
-
-      Expanded(
+    return Expanded(
       child: ListView.builder(
           itemCount: 8,
          /* physics: NeverScrollableScrollPhysics(),
@@ -1675,16 +1691,214 @@ class WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  /*tabAddMoney() {
-    return
+  tabAddMoney() {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeHorizontal * 3,
+                  top: SizeConfig.blockSizeVertical * 4),
+              alignment: Alignment.topCenter,
+              width: SizeConfig.blockSizeHorizontal * 100,
+              child: Text(
+                StringConstant.enteramountadd,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+              child: Divider(
+                thickness: 1,
+                color: Colors.black12,
+              ),
+            ),
+            /*  Container(
+              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal *3,right: SizeConfig.blockSizeHorizontal *3,top: SizeConfig.blockSizeVertical * 2),
+              alignment: Alignment.topCenter,
+              width: SizeConfig.blockSizeHorizontal * 100,
+              child: Text(
+                StringConstant.enterupimobileno,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical *2,
+                left: SizeConfig.blockSizeHorizontal * 12,
+                right: SizeConfig.blockSizeHorizontal * 12,
+              ),
+              padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeVertical * 1,
+                right: SizeConfig.blockSizeVertical * 1,
+              ),
+              alignment: Alignment.topLeft,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: Colors.black,
+                  style: BorderStyle.solid,
+                  width: 1.0,
+                ),
+                color: Colors.transparent,
+              ),
+              child: TextFormField(
+                autofocus: false,
+                focusNode: MobileFocus,
+                controller: mobileController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.phone,
+                validator: (val) {
+                  if (val.length == 0)
+                    return "Please enter mobile number";
+                  else if (val.length != 10)
+                    return "Please enter valid mobile number";
+                  else
+                    return null;
+                },
+                onFieldSubmitted: (v)
+                {
+                  MobileFocus.unfocus();
+                },
+                onSaved: (val) => _mobile = val,
+                textAlign: TextAlign.center,
+                style:
+                TextStyle(letterSpacing: 1.0,  fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',  fontSize: 12,color: Colors.black),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',  fontSize: 12,
+                    decoration: TextDecoration.none,
+                  ),
+                  hintText: "00-000-000-00",
+                ),
+              ),
+            ),*/
 
-
-
-
-
-
-
-  }*/
+            Container(
+              margin: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeHorizontal * 3,
+                  top: SizeConfig.blockSizeVertical * 2),
+              alignment: Alignment.topCenter,
+              width: SizeConfig.blockSizeHorizontal * 100,
+              child: Text(
+                StringConstant.enteramount,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Bold'),
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockSizeVertical * 7,
+              margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 12,
+                right: SizeConfig.blockSizeHorizontal * 12,
+              ),
+              padding: EdgeInsets.only(
+                left: SizeConfig.blockSizeVertical * 1,
+                right: SizeConfig.blockSizeVertical * 1,
+              ),
+              alignment: Alignment.topLeft,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: Colors.black26,
+                  style: BorderStyle.solid,
+                  width: 1.0,
+                ),
+                color: Colors.transparent,
+              ),
+              child: TextFormField(
+                autofocus: false,
+                focusNode: AmountFocus,
+                controller: amountController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                validator: (val) {
+                  if (val.length == 0)
+                    return "Please enter amount";
+                  else
+                    return null;
+                },
+                onFieldSubmitted: (v) {
+                  FocusScope.of(context).requestFocus(MobileFocus);
+                },
+                onSaved: (val) => _amount = val,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 12,
+                    color: Colors.black),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 12,
+                    decoration: TextDecoration.none,
+                  ),
+                  hintText: "30000",
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                height: SizeConfig.blockSizeVertical * 7,
+                margin: EdgeInsets.only(
+                  top: SizeConfig.blockSizeVertical * 5,
+                  bottom: SizeConfig.blockSizeVertical * 6,
+                  left: SizeConfig.blockSizeHorizontal * 20,
+                  right: SizeConfig.blockSizeHorizontal * 20,
+                ),
+                decoration: BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/images/sendbutton.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Text(StringConstant.proceedtopay,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 15,
+                    )),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class RadioItem extends StatelessWidget {

@@ -10,18 +10,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/Pojo/projectlisting.dart';
 import 'package:kontribute/Ui/ProjectFunding/EditCreateProjectPost.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProjectDetailsscreen.dart';
 import 'package:kontribute/Ui/ProjectFunding/ProjectReport.dart';
-import 'package:kontribute/Ui/ProjectFunding/projectfunding.dart';
 import 'package:kontribute/Ui/viewdetail_profile.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
-import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
@@ -1115,14 +1112,6 @@ class OngoingProjectState extends State<OngoingProject> {
                                                                                           onPressed: () async {
                                                                                             if (_formmainKey.currentState.validate()){
                                                                                               setState(() {
-                                                                                                /*Payamount(
-                                                                                                    listing
-                                                                                                        .projectData
-                                                                                                        .elementAt(index)
-                                                                                                        .id.toString(),
-                                                                                                    AmountController.text,
-                                                                                                    userid);*/
-
 
                                                                                                 Payamount(
                                                                                                     listing

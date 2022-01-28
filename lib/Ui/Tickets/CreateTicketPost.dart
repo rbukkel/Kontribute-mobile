@@ -601,7 +601,6 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                       errorDialog('uploadupto3images'.tr);
                     }
                   }
-
               });
             } else {
               print('No image selected.');

@@ -106,7 +106,7 @@ class StringConstant {
   static const String sendandreceivehistorygift = "History Send/Receive Gifts";
   static const String createnewgift = "Create New Gift";
   static const String receivegift = "Request Received from:";
-  static const String wallet = "wallet";
+  static const String wallet = "Wallet";
   static const String notification = "Notification";
   static const String setting = "Settings";
   static const String projectfunding = "Project Funding";
@@ -128,7 +128,8 @@ class StringConstant {
   static const String amountreceive = "Amount Received";
   static const String debit = "Debit/Credit";
   static const String credit = "Credit";
-  static const String withdraw = "Withdraw";
+  static const String withdraw = "Withdrawal";
+  static const String withdrawrequest = "Withdrawal Request";
   static const String addmoney = "Add Money";
   static const String searchcontact = "Search Contact";
   static const String enterrequiredamount = "Enter Required Amount";

@@ -3,6 +3,7 @@ import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Ui/ContactUs.dart';
 import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/NotificationScreen.dart';
+import 'package:kontribute/Ui/WalletScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -235,11 +236,25 @@ class mytranscationState extends State<mytranscation> {
                     ),
                   ),
                   Container(
-                    width: 25,
-                    height: 25,
+                    width: 22,
+                    height: 22,
                     margin: EdgeInsets.only(
-                        right: SizeConfig.blockSizeHorizontal * 3,
+                        right: SizeConfig.blockSizeHorizontal * 6,
                         top: SizeConfig.blockSizeVertical * 2),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WalletScreen()));
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Image.asset(
+                          "assets/images/walleticon.png",
+                          color: AppColors.whiteColor,
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
