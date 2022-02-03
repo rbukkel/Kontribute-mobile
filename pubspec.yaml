@@ -85,6 +85,7 @@ dependencies:
   flutter_inappwebview: ^4.0.0
   webview_flutter: ^1.0.7
   stripe_payment: ^1.0.6
+  virtual_keyboard_multi_language: ^0.2.2
 
 dev_dependencies:
   flutter_test:

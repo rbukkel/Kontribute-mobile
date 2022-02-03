@@ -4,8 +4,7 @@ class TicketOngoingListing {
   String message;
   List<ProjectData> projectData;
 
-  TicketOngoingListing(
-      {this.success, this.totalrecord, this.message, this.projectData});
+  TicketOngoingListing({this.success, this.totalrecord, this.message, this.projectData});
 
   TicketOngoingListing.fromJson(Map<String, dynamic> json) {
     success = json['success'];

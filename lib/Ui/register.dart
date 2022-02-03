@@ -190,10 +190,6 @@ class registerState extends State<register> {
               countryresultvalue = true;
               print("SSSS");
               countrylist = listingCountry.resultPush;
-            /*  List<dynamic> data1 = jsonResponse["result_push"];
-              setState(() {
-                currentcountryTypes = data1;
-              });*/
             }
           });
         } else {

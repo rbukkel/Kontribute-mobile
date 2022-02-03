@@ -2,22 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:kontribute/Pojo/EventCategoryPojo.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
-import 'package:kontribute/Ui/Tickets/tickets.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
 import 'package:kontribute/utils/Network.dart';
-import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -622,8 +618,7 @@ class CreateEventPostState extends State<CreateEventPost> {
   }
 
   void getEventCategory() async {
-    var response = await http
-        .get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.categorylisting));
     var jsonResponse = null;
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);

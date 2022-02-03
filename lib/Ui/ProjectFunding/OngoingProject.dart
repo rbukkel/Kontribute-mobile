@@ -231,7 +231,6 @@ class OngoingProjectState extends State<OngoingProject> {
     );
   }
 
-
   void getSUBdata(String user_id, int page) async {
     setState(() {
       storelist_length = null;

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -37,6 +38,7 @@ import 'package:ext_storage/ext_storage.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class OngoingProjectDetailsscreen extends StatefulWidget {
   final String data;
@@ -58,7 +60,11 @@ class OngoingProjectDetailsscreenState
   String coming1;
   String userid;
   int a;
+  String text = '';
+  bool showkeyboard = false;
+  bool shiftEnabled = false;
   bool internet = false;
+  bool isNumericMode = false;
   String val;
   String vallike;
   String valPost;
@@ -86,6 +92,7 @@ class OngoingProjectDetailsscreenState
   Directory externalDir;
   String updateval;
   var dio = Dio();
+  Timer timer;
   String reverid;
   final AmountFocus = FocusNode();
   String shortsharedlink = '';
@@ -102,6 +109,7 @@ class OngoingProjectDetailsscreenState
   String valcommision;
   var commisionlist_length;
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
   /* Future<void> downloadFile(String imgUrl) async {
     Dio dio = Dio();
     bool checkPermission1 =
@@ -201,9 +209,11 @@ class OngoingProjectDetailsscreenState
       }
     });
   }
+
   void getCommision() async {
     var jsonResponse = null;
-    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    var response = await http
+        .get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valcommision = response.body;
@@ -225,7 +235,6 @@ class OngoingProjectDetailsscreenState
       errorDialog(jsonDecode(valcommision)["message"]);
     }
   }
-
 
   void errorDialog(String text) {
     showDialog(
@@ -316,24 +325,23 @@ class OngoingProjectDetailsscreenState
             videolist_length = projectdetailspojo.commentsdata.videoLink;
             paymentdetails_length =
                 projectdetailspojo.commentsdata.projectpaymentdetails;
-            double amount = double.parse(
-                    projectdetailspojo.commentsdata.totalcollectedamount.toString()) /
-                double.parse(projectdetailspojo.commentsdata.budget.toString()) *
+            double amount = double.parse(projectdetailspojo
+                    .commentsdata.totalcollectedamount
+                    .toString()) /
+                double.parse(
+                    projectdetailspojo.commentsdata.budget.toString()) *
                 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
             reverid = projectdetailspojo.commentsdata.userId.toString();
 
-            if (!projectdetailspojo.commentsdata.profilePic.startsWith("https://"))
-            {
-              image=Network.BaseApiprofile+projectdetailspojo.commentsdata.profilePic;
-
+            if (!projectdetailspojo.commentsdata.profilePic
+                .startsWith("https://")) {
+              image = Network.BaseApiprofile +
+                  projectdetailspojo.commentsdata.profilePic;
+            } else {
+              image = projectdetailspojo.commentsdata.profilePic;
             }
-            else
-            {
-              image=projectdetailspojo.commentsdata.profilePic;
-            }
-
 
             getfollowstatus(userid, reverid);
           });
@@ -816,7 +824,9 @@ class OngoingProjectDetailsscreenState
                                   _tapDownPosition = details.globalPosition;
                                 },
                                 onTap: () {
-                                  projectdetailspojo.commentsdata.userId.toString() == userid
+                                  projectdetailspojo.commentsdata.userId
+                                              .toString() ==
+                                          userid
                                       ? _showEditPopupMenu()
                                       : _showPopupMenu();
                                 },
@@ -963,8 +973,7 @@ class OngoingProjectDetailsscreenState
                                                     letterSpacing: 1.0,
                                                     color: AppColors.themecolor,
                                                     fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontFamily:
                                                         'Poppins-Regular'),
                                               ),
@@ -1050,320 +1059,249 @@ class OngoingProjectDetailsscreenState
                                           projectdetailspojo.commentsdata.userId
                                                       .toString() !=
                                                   userid
-                                              ? projectdetailspojo.commentsdata.status == "pending"
+                                              ? projectdetailspojo.commentsdata
+                                                          .status ==
+                                                      "pending"
                                                   ? GestureDetector(
                                                       onTap: () {
-                                                        SharedUtils.readTerms("Terms").then((result){
-                                                          if(result!=null){
-                                                            if(result){
+                                                        SharedUtils.readTerms(
+                                                                "Terms")
+                                                            .then((result) {
+                                                          if (result != null) {
+                                                            if (result) {
                                                               showDialog(
-                                                                context: context,
+                                                                context:
+                                                                    context,
                                                                 child: Dialog(
                                                                   shape:
-                                                                  RoundedRectangleBorder(
+                                                                      RoundedRectangleBorder(
                                                                     borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        10.0),
+                                                                        BorderRadius.circular(
+                                                                            10.0),
                                                                   ),
                                                                   backgroundColor:
-                                                                  AppColors
-                                                                      .whiteColor,
+                                                                      AppColors
+                                                                          .whiteColor,
                                                                   child:
-                                                                  new Container(
+                                                                      new Container(
                                                                     margin: EdgeInsets
                                                                         .all(5),
-                                                                    width: SizeConfig.blockSizeHorizontal * 80,
-                                                                    height: SizeConfig.blockSizeVertical *40,
-                                                                    child: Column(
+                                                                    width: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        80,
+                                                                    height:
+                                                                        SizeConfig.blockSizeVertical *
+                                                                            40,
+                                                                    child:
+                                                                        Column(
                                                                       mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
+                                                                          MainAxisAlignment
+                                                                              .start,
                                                                       crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
+                                                                          CrossAxisAlignment
+                                                                              .center,
                                                                       children: [
                                                                         Container(
                                                                           margin: EdgeInsets.only(
                                                                               top: 10,
-                                                                              left:
-                                                                              10,
-                                                                              right:
-                                                                              10),
-                                                                          color: AppColors
-                                                                              .whiteColor,
+                                                                              left: 10,
+                                                                              right: 10),
+                                                                          color:
+                                                                              AppColors.whiteColor,
                                                                           alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                          child: Text(
-                                                                            'confirmation'
-                                                                                .tr,
+                                                                              Alignment.center,
+                                                                          child:
+                                                                              Text(
+                                                                            'confirmation'.tr,
                                                                             style: TextStyle(
-                                                                                fontSize:
-                                                                                14.0,
-                                                                                color: Colors
-                                                                                    .black,
-                                                                                fontWeight:
-                                                                                FontWeight.bold),
+                                                                                fontSize: 14.0,
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         Container(
-                                                                          height: SizeConfig.blockSizeVertical *10,
-                                                                          width: SizeConfig.blockSizeHorizontal *25,
+                                                                          height:
+                                                                              SizeConfig.blockSizeVertical * 10,
+                                                                          width:
+                                                                              SizeConfig.blockSizeHorizontal * 25,
                                                                           margin:
-                                                                          EdgeInsets
-                                                                              .only(
+                                                                              EdgeInsets.only(
                                                                             left:
-                                                                            SizeConfig.blockSizeHorizontal *
-                                                                                5,
+                                                                                SizeConfig.blockSizeHorizontal * 5,
                                                                             right:
-                                                                            SizeConfig.blockSizeHorizontal *
-                                                                                5,
-                                                                            top: SizeConfig
-                                                                                .blockSizeVertical *
-                                                                                2,
+                                                                                SizeConfig.blockSizeHorizontal * 5,
+                                                                            top:
+                                                                                SizeConfig.blockSizeVertical * 2,
                                                                           ),
                                                                           decoration:
-                                                                          BoxDecoration(
+                                                                              BoxDecoration(
                                                                             image:
-                                                                            new DecorationImage(
-                                                                              image: new AssetImage(
-                                                                                  "assets/images/caution.png"),
-                                                                              fit: BoxFit
-                                                                                  .fill,
+                                                                                new DecorationImage(
+                                                                              image: new AssetImage("assets/images/caution.png"),
+                                                                              fit: BoxFit.fill,
                                                                             ),
                                                                           ),
                                                                         ),
                                                                         Container(
-                                                                          height: SizeConfig.blockSizeVertical *9,
+                                                                          height:
+                                                                              SizeConfig.blockSizeVertical * 9,
                                                                           margin: EdgeInsets.only(
                                                                               top: 10,
-                                                                              left:
-                                                                              10,
-                                                                              right:
-                                                                              10),
-                                                                          color: AppColors
-                                                                              .whiteColor,
+                                                                              left: 10,
+                                                                              right: 10),
+                                                                          color:
+                                                                              AppColors.whiteColor,
                                                                           alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                          child: Text(
-                                                                            'paymentalert'
-                                                                                .tr,
+                                                                              Alignment.center,
+                                                                          child:
+                                                                              Text(
+                                                                            'paymentalert'.tr,
                                                                             style: TextStyle(
-                                                                                fontSize:
-                                                                                12.0,
-                                                                                color: Colors
-                                                                                    .black,
-                                                                                fontWeight:
-                                                                                FontWeight.bold),
+                                                                                fontSize: 12.0,
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         InkWell(
-                                                                          onTap: () {
-                                                                            Navigator.of(
-                                                                                context)
-                                                                                .pop();
-                                                                            setState(
-                                                                                    () {
-                                                                                  Widget
-                                                                                  cancelButton =
-                                                                                  FlatButton(
-                                                                                    child:
-                                                                                    Text('cancel'.tr),
-                                                                                    onPressed: () {
-                                                                                      Navigator.pop(context);
-                                                                                      setState(() {
-                                                                                        AmountController.text ="";
-                                                                                      });
-                                                                                    },
-                                                                                  );
-                                                                                  Widget
-                                                                                  continueButton =
-                                                                                  FlatButton(
-                                                                                    child:
-                                                                                    Text('continue'.tr),
-                                                                                    onPressed:
-                                                                                        () async {
-                                                                                      if (_formmainKey.currentState.validate()) {
-                                                                                        setState(() {
-                                                                                          Payamount(projectdetailspojo.commentsdata.id.toString(), AmountController.text,
-                                                                                              totalamount, userid);
-                                                                                        });
-                                                                                      }
-                                                                                    },
-                                                                                  );
-                                                                                  // set up the AlertDialog
-                                                                                  AlertDialog
-                                                                                  alert =
-                                                                                  AlertDialog(
-                                                                                    title:
-                                                                                    Text('paynow'.tr),
-                                                                                    // content: Text("Are you sure you want to Pay this project?"),
-                                                                                    content:
-                                                                                    new  Container(
-                                                                                      width: SizeConfig.blockSizeHorizontal * 80,
-                                                                                      height: SizeConfig.blockSizeVertical *15,
-                                                                                      child:
-                                                                                      new Form(
-                                                                                          key: _formmainKey,
-                                                                                          child:
-                                                                                          Column(
-                                                                                            children: [
-                                                                                              TextFormField(
-                                                                                                autofocus:
-                                                                                                false,
-                                                                                                focusNode:
-                                                                                                AmountFocus,
-                                                                                                controller:
-                                                                                                AmountController,
-                                                                                                textInputAction:
-                                                                                                TextInputAction.next,
-                                                                                                keyboardType:
-                                                                                                TextInputType.number,
-                                                                                                onChanged: (text) {
-                                                                                                  setState(() {
-                                                                                                    onchangeval = text;
+                                                                          onTap:
+                                                                              () {
+                                                                            Navigator.of(context).pop();
+                                                                            setState(() {
+                                                                              Widget cancelButton = FlatButton(
+                                                                                child: Text('cancel'.tr),
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                  setState(() {
+                                                                                    AmountController.text = "";
+                                                                                  });
+                                                                                },
+                                                                              );
+                                                                              Widget continueButton = FlatButton(
+                                                                                child: Text('continue'.tr),
+                                                                                onPressed: () async {
+                                                                                  if (_formmainKey.currentState.validate()) {
+                                                                                    setState(() {
+                                                                                      Payamount(projectdetailspojo.commentsdata.id.toString(), AmountController.text, totalamount, userid);
+                                                                                    });
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                              // set up the AlertDialog
+                                                                              AlertDialog alert = AlertDialog(
+                                                                                title: Text('paynow'.tr),
+                                                                                // content: Text("Are you sure you want to Pay this project?"),
+                                                                                content: new Container(
+                                                                                    width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                    height: SizeConfig.blockSizeVertical * 15,
+                                                                                    child: new Form(
+                                                                                        key: _formmainKey,
+                                                                                        child: Column(
+                                                                                          children: [
+                                                                                            TextFormField(
+                                                                                              autofocus: false,
+                                                                                              focusNode: AmountFocus,
+                                                                                              controller: AmountController,
+                                                                                              textInputAction: TextInputAction.next,
+                                                                                              keyboardType: TextInputType.number,
+                                                                                              onChanged: (text) {
+                                                                                                setState(() {
+                                                                                                  onchangeval = text;
 
-                                                                                                    if(onchangeval == projectdetailspojo.commentsdata.requiredAmount.toString())
-                                                                                                    {
-                                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                      totalamount = double.parse(onchangeval) + tectString;
-                                                                                                      print("PrintUpdated: "+totalamount.toString());
-                                                                                                      print("PrintActual: "+onchangeval.toString());
-                                                                                                    }
-                                                                                                    else
-                                                                                                    {
-                                                                                                      double tectString = double.parse(onchangeval)*(commission.commisiondata.senderCommision/100);
-                                                                                                      totalamount = double.parse(onchangeval) - tectString;
-                                                                                                      print("PrintUpdated: "+totalamount.toString());
-                                                                                                      print("PrintActual: "+onchangeval.toString());
-                                                                                                    }
-
-                                                                                                  });
-                                                                                                  print("value_1 : "+onchangeval);
-                                                                                                },
-                                                                                                validator: (val) {
-                                                                                                  if (val.length == 0)
-                                                                                                    return 'pleaseenterpaymentamount'.tr;
-                                                                                                  else
-                                                                                                    return null;
-                                                                                                },
-                                                                                                onFieldSubmitted: (v) {
-                                                                                                  AmountFocus.unfocus();
-                                                                                                },
-                                                                                                onSaved: (val) =>
-                                                                                                _amount = val,
-                                                                                                textAlign: TextAlign.left,
-                                                                                                style: TextStyle(
-                                                                                                    letterSpacing: 1.0,
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontFamily: 'Poppins-Regular',
-                                                                                                    fontSize: 12,
-                                                                                                    color: Colors.black),
-                                                                                                decoration:
-                                                                                                InputDecoration(
-                                                                                                  // border: InputBorder.none,
-                                                                                                  // focusedBorder: InputBorder.none,
-                                                                                                  hintStyle: TextStyle(
-                                                                                                    color: Colors.grey,
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontFamily: 'Poppins-Regular',
-                                                                                                    fontSize: 12,
-                                                                                                    decoration: TextDecoration.none,
-                                                                                                  ),
-                                                                                                  hintText: 'enterpaymentamount'.tr,
+                                                                                                  if (onchangeval == projectdetailspojo.commentsdata.requiredAmount.toString()) {
+                                                                                                    double tectString = double.parse(onchangeval) * (commission.commisiondata.senderCommision / 100);
+                                                                                                    totalamount = double.parse(onchangeval) + tectString;
+                                                                                                    print("PrintUpdated: " + totalamount.toString());
+                                                                                                    print("PrintActual: " + onchangeval.toString());
+                                                                                                  } else {
+                                                                                                    double tectString = double.parse(onchangeval) * (commission.commisiondata.senderCommision / 100);
+                                                                                                    totalamount = double.parse(onchangeval) - tectString;
+                                                                                                    print("PrintUpdated: " + totalamount.toString());
+                                                                                                    print("PrintActual: " + onchangeval.toString());
+                                                                                                  }
+                                                                                                });
+                                                                                                print("value_1 : " + onchangeval);
+                                                                                              },
+                                                                                              validator: (val) {
+                                                                                                if (val.length == 0)
+                                                                                                  return 'pleaseenterpaymentamount'.tr;
+                                                                                                else
+                                                                                                  return null;
+                                                                                              },
+                                                                                              onFieldSubmitted: (v) {
+                                                                                                AmountFocus.unfocus();
+                                                                                              },
+                                                                                              onSaved: (val) => _amount = val,
+                                                                                              textAlign: TextAlign.left,
+                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 12, color: Colors.black),
+                                                                                              decoration: InputDecoration(
+                                                                                                // border: InputBorder.none,
+                                                                                                // focusedBorder: InputBorder.none,
+                                                                                                hintStyle: TextStyle(
+                                                                                                  color: Colors.grey,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                                  fontSize: 12,
+                                                                                                  decoration: TextDecoration.none,
                                                                                                 ),
+                                                                                                hintText: 'enterpaymentamount'.tr,
                                                                                               ),
-                                                                                              Container(
-                                                                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
+                                                                                            ),
+                                                                                            Container(
+                                                                                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
                                                                                                 alignment: Alignment.centerLeft,
                                                                                                 child: Row(
                                                                                                   children: [
-                                                                                                    Text('extracharges'.tr,
-                                                                                                      style: TextStyle(
-                                                                                                          letterSpacing: 1.0,
-                                                                                                          fontWeight: FontWeight.normal,
-                                                                                                          fontFamily: 'Poppins-Regular',
-                                                                                                          fontSize: 10,
-                                                                                                          color: Colors.black),
+                                                                                                    Text(
+                                                                                                      'extracharges'.tr,
+                                                                                                      style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
                                                                                                     ),
-                                                                                                    Text(" "+commission.commisiondata.senderCommision.toString()+"%",
-                                                                                                      style: TextStyle(
-                                                                                                          letterSpacing: 1.0,
-                                                                                                          fontWeight: FontWeight.normal,
-                                                                                                          fontFamily: 'Poppins-Regular',
-                                                                                                          fontSize: 10,
-                                                                                                          color: Colors.black),
+                                                                                                    Text(
+                                                                                                      " " + commission.commisiondata.senderCommision.toString() + "%",
+                                                                                                      style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
                                                                                                     ),
                                                                                                   ],
-                                                                                                )
-                                                                                              )
-
-                                                                                            ],
-                                                                                          )
-
-                                                                                      )
-
-
-                                                                                  ),
-                                                                                    actions: [
-                                                                                      cancelButton,
-                                                                                      continueButton,
-                                                                                    ],
-                                                                                  );
-                                                                                  // show the dialog
-                                                                                  showDialog(
-                                                                                    context:
-                                                                                    context,
-                                                                                    builder:
-                                                                                        (BuildContext context) {
-                                                                                      return alert;
-                                                                                    },
-                                                                                  );
-                                                                                });
+                                                                                                ))
+                                                                                          ],
+                                                                                        ))),
+                                                                                actions: [
+                                                                                  cancelButton,
+                                                                                  continueButton,
+                                                                                ],
+                                                                              );
+                                                                              // show the dialog
+                                                                              showDialog(
+                                                                                context: context,
+                                                                                builder: (BuildContext context) {
+                                                                                  return alert;
+                                                                                },
+                                                                              );
+                                                                            });
                                                                           },
                                                                           child:
-                                                                          Container(
+                                                                              Container(
                                                                             alignment:
-                                                                            Alignment
-                                                                                .center,
+                                                                                Alignment.center,
                                                                             height:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                5,
+                                                                                SizeConfig.blockSizeVertical * 5,
                                                                             margin: EdgeInsets.only(
-                                                                                top: SizeConfig.blockSizeVertical *
-                                                                                    3,
-                                                                                bottom: SizeConfig.blockSizeVertical *
-                                                                                    3,
-                                                                                left: SizeConfig.blockSizeHorizontal *
-                                                                                    25,
-                                                                                right:
-                                                                                SizeConfig.blockSizeHorizontal * 25),
+                                                                                top: SizeConfig.blockSizeVertical * 3,
+                                                                                bottom: SizeConfig.blockSizeVertical * 3,
+                                                                                left: SizeConfig.blockSizeHorizontal * 25,
+                                                                                right: SizeConfig.blockSizeHorizontal * 25),
                                                                             decoration:
-                                                                            BoxDecoration(
-                                                                              image:
-                                                                              new DecorationImage(
-                                                                                image:
-                                                                                new AssetImage("assets/images/sendbutton.png"),
-                                                                                fit: BoxFit
-                                                                                    .fill,
+                                                                                BoxDecoration(
+                                                                              image: new DecorationImage(
+                                                                                image: new AssetImage("assets/images/sendbutton.png"),
+                                                                                fit: BoxFit.fill,
                                                                               ),
                                                                             ),
-                                                                            child: Text(
-                                                                                'okay'
-                                                                                    .tr,
+                                                                            child: Text('okay'.tr,
                                                                                 textAlign: TextAlign.center,
-                                                                                style:
-                                                                                TextStyle(
-                                                                                  color:
-                                                                                  Colors.white,
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold,
-                                                                                  fontFamily:
-                                                                                  'Poppins-Regular',
-                                                                                  fontSize:
-                                                                                  14,
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  fontFamily: 'Poppins-Regular',
+                                                                                  fontSize: 14,
                                                                                 )),
                                                                           ),
                                                                         ),
@@ -1372,17 +1310,24 @@ class OngoingProjectDetailsscreenState
                                                                   ),
                                                                 ),
                                                               );
-                                                            }else{
-                                                              print("falseValue");
-                                                              warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Project", context);
+                                                            } else {
+                                                              print(
+                                                                  "falseValue");
+                                                              warningDialog(
+                                                                  'pleasereadthetermsandconditionscarefullybeforepaying'
+                                                                      .tr,
+                                                                  "Project",
+                                                                  context);
                                                             }
-                                                          }else{
+                                                          } else {
                                                             print("falseValue");
-                                                            warningDialog('pleasereadthetermsandconditionscarefullybeforepaying'.tr,"Project", context);
+                                                            warningDialog(
+                                                                'pleasereadthetermsandconditionscarefullybeforepaying'
+                                                                    .tr,
+                                                                "Project",
+                                                                context);
                                                           }
                                                         });
-
-
                                                       },
                                                       child: Container(
                                                         margin: EdgeInsets.only(
@@ -1578,7 +1523,10 @@ class OngoingProjectDetailsscreenState
                                                           'Poppins-Regular'),
                                                 ),
                                                 Text(
-                                                  " " + projectdetailspojo.commentsdata.projectEnddate,
+                                                  " " +
+                                                      projectdetailspojo
+                                                          .commentsdata
+                                                          .projectEnddate,
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
@@ -1625,7 +1573,8 @@ class OngoingProjectDetailsscreenState
                                           Text(
                                             " \$" +
                                                 projectdetailspojo
-                                                    .commentsdata.budget.toString(),
+                                                    .commentsdata.budget
+                                                    .toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -1677,7 +1626,8 @@ class OngoingProjectDetailsscreenState
                                           Text(
                                             " \$" +
                                                 projectdetailspojo.commentsdata
-                                                    .totalcollectedamount.toString(),
+                                                    .totalcollectedamount
+                                                    .toString(),
                                             style: TextStyle(
                                                 letterSpacing: 1.0,
                                                 color: Colors.lightBlueAccent,
@@ -2046,7 +1996,6 @@ class OngoingProjectDetailsscreenState
                                             fontFamily: 'Poppins-Regular'),
                                       ),
                                     ),
-
                               Container(
                                   width: SizeConfig.blockSizeHorizontal * 100,
                                   alignment: Alignment.topLeft,
@@ -2187,8 +2136,7 @@ class OngoingProjectDetailsscreenState
                                   color: Colors.black12,
                                 ),
                               ),
-                              projectdetailspojo.commentsdata.userId.toString() == userid
-                                  ? Container()
+                              projectdetailspojo.commentsdata.userId.toString() == userid ? Container()
                                   : Column(
                                       children: [
                                         Container(
@@ -2202,7 +2150,12 @@ class OngoingProjectDetailsscreenState
                                           ),
                                           alignment: Alignment.centerLeft,
                                           child: TextFormField(
+                                            onTap: () =>
+                                              setState(() {
+                                                showkeyboard = true;
+                                              }),
                                             autofocus: false,
+                                            readOnly: true,
                                             focusNode: CommentFocus,
                                             controller: CommentController,
                                             textInputAction:
@@ -2241,9 +2194,34 @@ class OngoingProjectDetailsscreenState
                                             ),
                                           ),
                                         ),
+                                        Visibility(
+                                            maintainSize: true,
+                                            maintainAnimation: true,
+                                            maintainState: true,
+                                            child: Container()),
+                                     showkeyboard == true? Container(
+                                       color: Colors.white54,
+                                       child: VirtualKeyboard(
+                                           height: 250,
+                                           //width: 500,
+                                           textColor: Colors.black,
+                                           textController: CommentController,
+                                           //customLayoutKeys: _customLayoutKeys,
+                                           defaultLayouts: [
+                                             VirtualKeyboardDefaultLayouts.Arabic,
+                                             VirtualKeyboardDefaultLayouts.English
+                                           ],
+                                           //reverseLayout :true,
+                                           type: isNumericMode
+                                               ? VirtualKeyboardType.Numeric
+                                               : VirtualKeyboardType.Alphanumeric,
+                                           onKeyPress: _onKeyPress),
+                                     ):Container(),
                                         GestureDetector(
                                           onTap: () {
                                             addPost(CommentController.text);
+                                            print("clikc");
+                                            showkeyboard = false;
                                           },
                                           child: Container(
                                             width:
@@ -2274,8 +2252,7 @@ class OngoingProjectDetailsscreenState
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
+                                              top: SizeConfig.blockSizeVertical *
                                                       2),
                                           child: Divider(
                                             thickness: 1,
@@ -2305,7 +2282,7 @@ class OngoingProjectDetailsscreenState
                                                             .blockSizeVertical *
                                                         2,
                                                     bottom: SizeConfig
-                                                        .blockSizeVertical *
+                                                            .blockSizeVertical *
                                                         2,
                                                     left: SizeConfig
                                                             .blockSizeHorizontal *
@@ -2437,7 +2414,7 @@ class OngoingProjectDetailsscreenState
                                                           .blockSizeVertical *
                                                       3,
                                                   bottom: SizeConfig
-                                                      .blockSizeVertical *
+                                                          .blockSizeVertical *
                                                       2,
                                                   left: SizeConfig
                                                           .blockSizeHorizontal *
@@ -2584,15 +2561,18 @@ class OngoingProjectDetailsscreenState
                                             );
                                           }),
                                     ),
-                              projectdetailspojo.commentsdata.projectpaymentdetails.isEmpty?Container():
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 2),
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Colors.black12,
-                                ),
-                              ),
+                              projectdetailspojo.commentsdata
+                                      .projectpaymentdetails.isEmpty
+                                  ? Container()
+                                  : Container(
+                                      margin: EdgeInsets.only(
+                                          top:
+                                              SizeConfig.blockSizeVertical * 2),
+                                      child: Divider(
+                                        thickness: 1,
+                                        color: Colors.black12,
+                                      ),
+                                    ),
                               projectdetailspojo.commentsdata
                                       .projectpaymentdetails.isEmpty
                                   ? Container()
@@ -2664,77 +2644,69 @@ class OngoingProjectDetailsscreenState
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).facebookId == null
-                                                                  ?
-                                                              projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).profilePic==null?
-                                                              GestureDetector(
-                                                                onTap:
-                                                                    () {
-                                                                  callNext(
-                                                                      viewdetail_profile(data: projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()),
-                                                                      context);
-                                                                },
-                                                                child:
-                                                                Container(
-                                                                  height:
-                                                                  SizeConfig.blockSizeVertical *
-                                                                      8,
-                                                                  width:
-                                                                  SizeConfig.blockSizeVertical *
-                                                                      8,
-                                                                  alignment:
-                                                                  Alignment.center,
-                                                                  margin: EdgeInsets.only(
-                                                                      top: SizeConfig.blockSizeVertical *
-                                                                          1,
-                                                                      bottom: SizeConfig.blockSizeVertical *
-                                                                          1,
-                                                                      right: SizeConfig.blockSizeHorizontal *
-                                                                          1,
-                                                                      left:
-                                                                      SizeConfig.blockSizeHorizontal * 2),
-                                                                  child: ClipOval(child: Image.asset("assets/images/userProfile.png", height:
-                                                                  SizeConfig.blockSizeVertical *
-                                                                      8,
-                                                                    width:
-                                                                    SizeConfig.blockSizeVertical *
-                                                                        8,)),
-                                                                
-                                                                ),
-                                                              ):
-                                                              GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        callNext(
-                                                                            viewdetail_profile(data: projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()),
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        height:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        width:
-                                                                            SizeConfig.blockSizeVertical *
-                                                                                8,
-                                                                        alignment:
-                                                                            Alignment.center,
-                                                                        margin: EdgeInsets.only(
-                                                                            top: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            bottom: SizeConfig.blockSizeVertical *
-                                                                                1,
-                                                                            right: SizeConfig.blockSizeHorizontal *
-                                                                                1,
-                                                                            left:
-                                                                                SizeConfig.blockSizeHorizontal * 2),
-                                                                        decoration: BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                            image: DecorationImage
-                                                                              (image: NetworkImage(Network.BaseApiprofile + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
-                                                                      ),
-                                                                    )
+                                                              projectdetailspojo
+                                                                          .commentsdata
+                                                                          .projectpaymentdetails
+                                                                          .elementAt(
+                                                                              idex)
+                                                                          .facebookId ==
+                                                                      null
+                                                                  ? projectdetailspojo
+                                                                              .commentsdata
+                                                                              .projectpaymentdetails
+                                                                              .elementAt(idex)
+                                                                              .profilePic ==
+                                                                          null
+                                                                      ? GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            callNext(viewdetail_profile(data: projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()),
+                                                                                context);
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                SizeConfig.blockSizeVertical * 8,
+                                                                            width:
+                                                                                SizeConfig.blockSizeVertical * 8,
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            margin: EdgeInsets.only(
+                                                                                top: SizeConfig.blockSizeVertical * 1,
+                                                                                bottom: SizeConfig.blockSizeVertical * 1,
+                                                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                                                left: SizeConfig.blockSizeHorizontal * 2),
+                                                                            child: ClipOval(
+                                                                                child: Image.asset(
+                                                                              "assets/images/userProfile.png",
+                                                                              height: SizeConfig.blockSizeVertical * 8,
+                                                                              width: SizeConfig.blockSizeVertical * 8,
+                                                                            )),
+                                                                          ),
+                                                                        )
+                                                                      : GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            callNext(viewdetail_profile(data: projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).senderId.toString()),
+                                                                                context);
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                SizeConfig.blockSizeVertical * 8,
+                                                                            width:
+                                                                                SizeConfig.blockSizeVertical * 8,
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            margin: EdgeInsets.only(
+                                                                                top: SizeConfig.blockSizeVertical * 1,
+                                                                                bottom: SizeConfig.blockSizeVertical * 1,
+                                                                                right: SizeConfig.blockSizeHorizontal * 1,
+                                                                                left: SizeConfig.blockSizeHorizontal * 2),
+                                                                            decoration:
+                                                                                BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: NetworkImage(Network.BaseApiprofile + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).profilePic), fit: BoxFit.fill)),
+                                                                          ),
+                                                                        )
                                                                   : GestureDetector(
                                                                       onTap:
                                                                           () {
@@ -2792,15 +2764,9 @@ class OngoingProjectDetailsscreenState
                                                                         ),
                                                                         child:
                                                                             Text(
-                                                                          projectdetailspojo
-                                                                              .commentsdata
-                                                                              .projectpaymentdetails
-                                                                              .elementAt(idex)
-                                                                              .fullName!=null?projectdetailspojo
-                                                                              .commentsdata
-                                                                              .projectpaymentdetails
-                                                                              .elementAt(idex)
-                                                                              .fullName:"",
+                                                                          projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).fullName != null
+                                                                              ? projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).fullName
+                                                                              : "",
                                                                           style: TextStyle(
                                                                               letterSpacing: 1.0,
                                                                               color: Colors.black87,
@@ -2928,20 +2894,17 @@ class OngoingProjectDetailsscreenState
     );
   }
 
-  Future<void> Payamount(
-      String id, String requiredAmount,double updatedAmount, String userid) async {
+  Future<void> Payamount(String id, String requiredAmount, double updatedAmount,
+      String userid) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
     double actualamount = double.parse(requiredAmount);
     double originalamount;
     double commisionamount;
 
-    if(actualamount < updatedAmount)
-    {
+    if (actualamount < updatedAmount) {
       originalamount = actualamount;
       commisionamount = updatedAmount;
-    }
-    else
-    {
+    } else {
       originalamount = updatedAmount;
       commisionamount = actualamount;
     }
@@ -2968,17 +2931,16 @@ class OngoingProjectDetailsscreenState
         if (jsonResponse != null) {
           AmountController.text = "";
           Navigator.of(context).pop();
-          Future.delayed(Duration(seconds: 1),()
-          {
+          Future.delayed(Duration(seconds: 1), () {
             callNext(
                 payment(
                     data: jsonDecode(updateval)["data"]["id"].toString(),
-                    amount:commisionamount.toString(),
-                    coming:"pjt",
-                    backto:"Project"
-                ), context);
+                    amount: commisionamount.toString(),
+                    coming: "pjt",
+                    backto: "Project"),
+                context);
           });
-         /* showDialog(
+          /* showDialog(
             context: context,
             child: Dialog(
               shape: RoundedRectangleBorder(
@@ -3146,7 +3108,71 @@ class OngoingProjectDetailsscreenState
     }
   }
 
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabled ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabled = !shiftEnabled;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
+  _modalBottomSheetMenu(BuildContext cont1) {
+
+
+
+  }
+
   void showToast(String updateval) {
     errorDialog(jsonDecode(updateval)["message"]);
+  }
+
+  bottomsh() {
+    return Future.delayed(Duration.zero, () async {
+      showModalBottomSheet(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+          ),
+          context: context,
+          builder: (builder) {
+            return  StatefulBuilder(builder: (context, setState) {
+              return Container(
+                  height: MediaQuery.of(context).size.height * 50,
+                  child: Container(
+                    color: Colors.white54,
+                    child: VirtualKeyboard(
+                        height: 250,
+                        //width: 500,
+                        textColor: Colors.black,
+                        textController: CommentController,
+                        //customLayoutKeys: _customLayoutKeys,
+                        defaultLayouts: [
+                          VirtualKeyboardDefaultLayouts.Arabic,
+                          VirtualKeyboardDefaultLayouts.English
+                        ],
+                        //reverseLayout :true,
+                        type: isNumericMode
+                            ? VirtualKeyboardType.Numeric
+                            : VirtualKeyboardType.Alphanumeric,
+                        onKeyPress: _onKeyPress),
+                  ));
+            });
+          });
+    });
   }
 }
