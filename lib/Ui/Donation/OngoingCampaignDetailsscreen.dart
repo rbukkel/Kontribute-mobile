@@ -34,6 +34,7 @@ import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class OngoingCampaignDetailsscreen extends StatefulWidget {
   final String data;
@@ -495,7 +496,10 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
       elevation: 8.0,
     );
   }
-
+  String text = '';
+  bool showkeyboard = false;
+  bool shiftEnabled = false;
+  bool isNumericMode = false;
   final CommentFocus = FocusNode();
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
@@ -1848,16 +1852,17 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                       children: [
                                         Container(
                                           padding: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
                                           ),
                                           alignment: Alignment.centerLeft,
                                           child: TextFormField(
+                                            onTap: () =>
+                                                setState(() {
+                                                  showkeyboard = true;
+                                                }),
                                             autofocus: false,
+                                            readOnly: true,
                                             focusNode: CommentFocus,
                                             controller: CommentController,
                                             textInputAction:
@@ -1896,22 +1901,40 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                             ),
                                           ),
                                         ),
+
+                                        Visibility(
+                                            maintainSize: true,
+                                            maintainAnimation: true,
+                                            maintainState: true,
+                                            child: Container()),
+                                        showkeyboard == true? Container(
+                                          color: Colors.white54,
+                                          child: VirtualKeyboard(
+                                              height: 250,
+                                              textColor: Colors.black,
+                                              textController: CommentController,
+                                              defaultLayouts: [
+                                                VirtualKeyboardDefaultLayouts.Arabic,
+                                                VirtualKeyboardDefaultLayouts.English
+                                              ],
+                                              //reverseLayout :true,
+                                              type: isNumericMode
+                                                  ? VirtualKeyboardType.Numeric
+                                                  : VirtualKeyboardType.Alphanumeric,
+                                              onKeyPress: _onKeyPress),
+                                        ):Container(),
                                         GestureDetector(
                                           onTap: () {
                                             addPost(CommentController.text);
+                                            print("clikc");
+                                            showkeyboard = false;
                                           },
                                           child: Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    100,
+                                            width: SizeConfig.blockSizeHorizontal * 100,
                                             alignment: Alignment.topRight,
                                             margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    5,
+                                                left: SizeConfig.blockSizeHorizontal * 3,
+                                                right: SizeConfig.blockSizeHorizontal * 5,
                                                 top: SizeConfig
                                                         .blockSizeVertical *
                                                     1),
@@ -2888,4 +2911,30 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
       errorDialog(jsonDecode(valPost)["message"]);
     }
   }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabled ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabled = !shiftEnabled;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
+
 }

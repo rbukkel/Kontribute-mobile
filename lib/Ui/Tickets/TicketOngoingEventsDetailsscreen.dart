@@ -36,6 +36,7 @@ import 'package:ext_storage/ext_storage.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:kontribute/Pojo/projectlike.dart';
 import 'package:kontribute/utils/Network.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class TicketOngoingEventsDetailsscreen extends StatefulWidget {
   final String data;
@@ -96,9 +97,12 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
   final _formmainKey = GlobalKey<FormState>();
   String textHolder="0";
   int mutliply;
- String image;
+  String image;
   String _amount;
-
+  String text = '';
+  bool showkeyboard = false;
+  bool shiftEnabled = false;
+  bool isNumericMode = false;
   Future<PermissionStatus> getPermission() async {
     print("getPermission");
     final PermissionStatus permission = await Permission.storage.status;
@@ -1677,7 +1681,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                           width: SizeConfig.blockSizeHorizontal * 90,
                           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *1,
                             left: SizeConfig.blockSizeHorizontal *3,
-                            right: SizeConfig.blockSizeHorizontal * 3,),
+                            right: SizeConfig.blockSizeHorizontal * 3),
                           alignment: Alignment.topLeft,
                           child: Text(
                             projectdetailspojo.commentsdata.termsAndCondition,
@@ -1826,7 +1830,12 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                               ),
                               alignment: Alignment.centerLeft,
                               child: TextFormField(
+                                onTap: () =>
+                                    setState(() {
+                                      showkeyboard = true;
+                                    }),
                                 autofocus: false,
+                                readOnly: true,
                                 focusNode: CommentFocus,
                                 controller: CommentController,
                                 textInputAction: TextInputAction.done,
@@ -1864,10 +1873,32 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                 ),
                               ),
                             ),
+                            Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: Container()),
+                            showkeyboard == true? Container(
+                              color: Colors.white54,
+                              child: VirtualKeyboard(
+                                  height: 250,
+                                  textColor: Colors.black,
+                                  textController: CommentController,
+                                  defaultLayouts: [
+                                    VirtualKeyboardDefaultLayouts.Arabic,
+                                    VirtualKeyboardDefaultLayouts.English
+                                  ],
+                                  //reverseLayout :true,
+                                  type: isNumericMode
+                                      ? VirtualKeyboardType.Numeric
+                                      : VirtualKeyboardType.Alphanumeric,
+                                  onKeyPress: _onKeyPress),
+                            ):Container(),
                             GestureDetector(
-                              onTap: ()
-                              {
+                              onTap: () {
                                 addPost(CommentController.text);
+                                print("clikc");
+                                showkeyboard = false;
                               },
                               child: Container(
                                 width: SizeConfig.blockSizeHorizontal * 100,
@@ -2960,6 +2991,31 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
       errorDialog(jsonDecode(updateval)["message"]);
     }
   }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabled ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabled = !shiftEnabled;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
 
   void TicketDetails(String id) async {
       Map data = {

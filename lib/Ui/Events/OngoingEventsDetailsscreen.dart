@@ -41,6 +41,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class OngoingEventsDetailsscreen extends StatefulWidget {
   final String data;
@@ -569,7 +570,10 @@ class OngoingEventsDetailsscreenState
       },
     );
   }
-
+  String text = '';
+  bool showkeyboard = false;
+  bool shiftEnabled = false;
+  bool isNumericMode = false;
   final CommentFocus = FocusNode();
   final TextEditingController CommentController = new TextEditingController();
   String _Comment;
@@ -1968,11 +1972,15 @@ class OngoingEventsDetailsscreenState
                                           ),
                                           alignment: Alignment.centerLeft,
                                           child: TextFormField(
+                                            onTap: () =>
+                                                setState(() {
+                                                  showkeyboard = true;
+                                                }),
                                             autofocus: false,
+                                            readOnly: true,
                                             focusNode: CommentFocus,
                                             controller: CommentController,
-                                            textInputAction:
-                                                TextInputAction.done,
+                                            textInputAction: TextInputAction.done,
                                             keyboardType: TextInputType.text,
                                             maxLines: 10,
                                             validator: (val) {
@@ -2007,9 +2015,32 @@ class OngoingEventsDetailsscreenState
                                             ),
                                           ),
                                         ),
+                                        Visibility(
+                                            maintainSize: true,
+                                            maintainAnimation: true,
+                                            maintainState: true,
+                                            child: Container()),
+                                        showkeyboard == true? Container(
+                                          color: Colors.white54,
+                                          child: VirtualKeyboard(
+                                              height: 250,
+                                              textColor: Colors.black,
+                                              textController: CommentController,
+                                              defaultLayouts: [
+                                                VirtualKeyboardDefaultLayouts.Arabic,
+                                                VirtualKeyboardDefaultLayouts.English
+                                              ],
+                                              //reverseLayout :true,
+                                              type: isNumericMode
+                                                  ? VirtualKeyboardType.Numeric
+                                                  : VirtualKeyboardType.Alphanumeric,
+                                              onKeyPress: _onKeyPress),
+                                        ):Container(),
                                         GestureDetector(
                                           onTap: () {
                                             addPost(CommentController.text);
+                                            print("clikc");
+                                            showkeyboard = false;
                                           },
                                           child: Container(
                                             width:
@@ -2050,19 +2081,15 @@ class OngoingEventsDetailsscreenState
                                         ),
                                       ],
                                     ),
-
                               videolist_length == null || projectdetailspojo.eventsdata.videoLink.isEmpty?
                               Container():  Container(
                                 height: SizeConfig.blockSizeVertical * 25,
                                 child: ListView.builder(
                                     itemCount:
-                                    videolist_length.length == null
-                                        ? 0
-                                        : videolist_length.length,
+                                    videolist_length.length == null ? 0 : videolist_length.length,
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder:
-                                        (BuildContext context, int indx) {
+                                    itemBuilder: (BuildContext context, int indx) {
                                       return Container(
                                           margin: EdgeInsets.only(
                                               top: SizeConfig
@@ -2081,17 +2108,13 @@ class OngoingEventsDetailsscreenState
                                               projectdetailspojo
                                                   .eventsdata
                                                   .videoLink
-                                                  .elementAt(
-                                                  indx)
-                                                  .videoThumbnail ==
-                                                  null ||
+                                                  .elementAt(indx)
+                                                  .videoThumbnail == null ||
                                                   projectdetailspojo
                                                       .eventsdata
                                                       .videoLink
-                                                      .elementAt(
-                                                      indx)
-                                                      .videoThumbnail ==
-                                                      ""
+                                                      .elementAt(indx)
+                                                      .videoThumbnail == ""
                                                   ? Container(
                                                 height: SizeConfig
                                                     .blockSizeVertical *
@@ -2107,8 +2130,7 @@ class OngoingEventsDetailsscreenState
                                                   new DecorationImage(
                                                     image: new AssetImage(
                                                         "assets/images/events1.png"),
-                                                    fit:
-                                                    BoxFit.fill,
+                                                    fit: BoxFit.fill,
                                                   ),
                                                 ),
                                               )
@@ -2879,6 +2901,31 @@ class OngoingEventsDetailsscreenState
       errorDialog(jsonDecode(updateval)["message"]);
     }
   }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabled ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabled = !shiftEnabled;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
 
   void addlike() async {
     Map data = {

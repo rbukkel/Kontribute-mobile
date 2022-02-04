@@ -2203,10 +2203,8 @@ class OngoingProjectDetailsscreenState
                                        color: Colors.white54,
                                        child: VirtualKeyboard(
                                            height: 250,
-                                           //width: 500,
                                            textColor: Colors.black,
                                            textController: CommentController,
-                                           //customLayoutKeys: _customLayoutKeys,
                                            defaultLayouts: [
                                              VirtualKeyboardDefaultLayouts.Arabic,
                                              VirtualKeyboardDefaultLayouts.English
@@ -2821,7 +2819,7 @@ class OngoingProjectDetailsscreenState
                                                                                 style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                               Text(
-                                                                                "  -\$" + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toStringAsFixed(2),
+                                                                                " -\$" + projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).amount.toStringAsFixed(2),
                                                                                 style: TextStyle(letterSpacing: 1.0, color: Colors.black87, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
                                                                               ),
                                                                             ],
