@@ -319,18 +319,12 @@ class OngoingProjectDetailsscreenState
           setState(() {
             productlist_length = projectdetailspojo.commentsdata;
             storelist_length = projectdetailspojo.commentsdata.commentslist;
-            imageslist_length =
-                projectdetailspojo.commentsdata.projectimagesdata;
+            imageslist_length = projectdetailspojo.commentsdata.projectimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            paymentdetails_length =
-                projectdetailspojo.commentsdata.projectpaymentdetails;
-            double amount = double.parse(projectdetailspojo
-                    .commentsdata.totalcollectedamount
-                    .toString()) /
-                double.parse(
-                    projectdetailspojo.commentsdata.budget.toString()) *
-                100;
+            paymentdetails_length = projectdetailspojo.commentsdata.projectpaymentdetails;
+            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount.toString()) /
+            double.parse(projectdetailspojo.commentsdata.budget.toString()) * 100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
             reverid = projectdetailspojo.commentsdata.userId.toString();
@@ -2015,11 +2009,7 @@ class OngoingProjectDetailsscreenState
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
-                                      Text(
-                                        " " +
-                                            (projectdetailspojo.commentsdata
-                                                    .commentslist.length)
-                                                .toString() +
+                                      Text(" " + (projectdetailspojo.commentsdata.commentslist.length).toString() +
                                             " ",
                                         maxLines: 2,
                                         style: TextStyle(
@@ -2154,6 +2144,13 @@ class OngoingProjectDetailsscreenState
                                               setState(() {
                                                 showkeyboard = true;
                                               }),
+                                            enableInteractiveSelection: true,
+                                            toolbarOptions: ToolbarOptions(
+                                              copy: true,
+                                              cut: true,
+                                              paste: true,
+                                              selectAll: true,
+                                            ),
                                             autofocus: false,
                                             readOnly: true,
                                             focusNode: CommentFocus,
@@ -3128,12 +3125,6 @@ class OngoingProjectDetailsscreenState
       }
     }
     // Update the screen
-  }
-
-  _modalBottomSheetMenu(BuildContext cont1) {
-
-
-
   }
 
   void showToast(String updateval) {

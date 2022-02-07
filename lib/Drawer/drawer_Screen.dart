@@ -138,7 +138,8 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
               }
             }
           });
-        } else {
+        }
+        else {
         /*  Fluttertoast.showToast(
             msg: loginResponse.message,
             toastLength: Toast.LENGTH_SHORT,
@@ -160,11 +161,9 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
-
     return Scaffold(
         body: Container(
       height: double.infinity,
@@ -209,25 +208,17 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
                                           fit: BoxFit.fill,
                                           imageUrl: image,
                                           placeholder: (context, url) => Container(
-                                              height:
-                                                  SizeConfig.blockSizeVertical *
-                                                      5,
-                                              width:
-                                                  SizeConfig.blockSizeVertical *
-                                                      5,
-                                              child: Center(
-                                                  child:
-                                                      new CircularProgressIndicator())),
+                                              height: SizeConfig.blockSizeVertical * 5,
+                                              width: SizeConfig.blockSizeVertical * 5,
+                                              child: Center(child: new CircularProgressIndicator())),
                                           errorWidget: (context, url, error) =>
                                               new Icon(Icons.error),
                                         ),
                                       )
                                     : Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 5,
+                                        height: SizeConfig.blockSizeVertical * 5,
                                         width: SizeConfig.blockSizeVertical * 5,
-                                        child: Center(
-                                            child: new CircularProgressIndicator())),
+                                        child: Center(child: new CircularProgressIndicator())),
                               ),
                             ),
                             Container(

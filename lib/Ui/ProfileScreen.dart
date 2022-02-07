@@ -225,7 +225,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                   });
                 }
             }
-
           });
         } else {
           errorDialog(loginResponse.message);
@@ -234,7 +233,6 @@ class ProfileScreenState extends State<ProfileScreen> {
       }
     } else {
       errorDialog(jsonDecode(val)["message"]);
-
     }
   }
 
@@ -333,32 +331,23 @@ class ProfileScreenState extends State<ProfileScreen> {
                                   )),
                                 )
                               :
-
-
                           Container(
                                       margin: EdgeInsets.only(
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
+                                          top: SizeConfig.blockSizeVertical * 2),
                                       child: _loading
-                                          ? ClipOval(
+                                          ?
+                                      ClipOval(
                                               child: CachedNetworkImage(
                                                 height: 120,
                                                 width: 120,
                                                 fit: BoxFit.fill,
                                                 imageUrl: image,
                                                 placeholder: (context, url) => Container(
-                                                    height: SizeConfig
-                                                            .blockSizeVertical *
-                                                        5,
-                                                    width: SizeConfig
-                                                            .blockSizeVertical *
-                                                        5,
+                                                    height: SizeConfig.blockSizeVertical * 5,
+                                                    width: SizeConfig.blockSizeVertical * 5,
                                                     child: Center(
-                                                        child:
-                                                            new CircularProgressIndicator())),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        new Icon(Icons.error),
+                                                        child: new CircularProgressIndicator())),
+                                                errorWidget: (context, url, error) => new Icon(Icons.error),
                                               ),
                                             )
                                           : CircularProgressIndicator(

@@ -352,7 +352,6 @@ class WalletScreenState extends State<WalletScreen> {
 
                                           ),
                                         ),
-
                                         Container(
                                           margin: EdgeInsets.only(
                                               left: SizeConfig.blockSizeHorizontal * 3,
