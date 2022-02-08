@@ -3146,7 +3146,23 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 color: Colors.transparent,
                               ),
                               child: TextFormField(
+                                onTap: ()
+                                {
+                                  setState(() {
+                                    showkeyboardTermsAndCondition = true;
+                                    showkeyboardProjectname = false;
+                                    showkeyboardDescription = false;
+                                  });
+                                },
+                                enableInteractiveSelection: true,
+                                toolbarOptions: ToolbarOptions(
+                                  copy: true,
+                                  cut: true,
+                                  paste: true,
+                                  selectAll: true,
+                                ),
                                 autofocus: false,
+                                readOnly: true,
                                 focusNode: TermsFocus,
                                 controller: TermsController,
                                 textInputAction: TextInputAction.done,
@@ -3181,6 +3197,27 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 ),
                               ),
                             ),
+                            Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: Container()),
+                            showkeyboardTermsAndCondition == true? Container(
+                              color: Colors.white54,
+                              child: VirtualKeyboard(
+                                  height: 250,
+                                  textColor: Colors.black,
+                                  textController: TermsController,
+                                  defaultLayouts: [
+                                    VirtualKeyboardDefaultLayouts.English,
+                                    VirtualKeyboardDefaultLayouts.Arabic
+                                  ],
+                                  //reverseLayout :true,
+                                  type: isNumericMode
+                                      ? VirtualKeyboardType.Numeric
+                                      : VirtualKeyboardType.Alphanumeric,
+                                  onKeyPress: _onKeyPress),
+                            ):Container(),
                             Container(
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2),
@@ -3196,7 +3233,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                             final parts = removedBrackets.split(',');
                             vidoname = parts.map((part) => "$part").join(',').trim();
                             print("Vidoname: "+vidoname.toString());*/
-
+                                setState(() {
+                                  showkeyboardTermsAndCondition = false;
+                                  showkeyboardProjectname = false;
+                                  showkeyboardDescription = false;
+                                });
                                 if (_formmainKey.currentState.validate()) {
                                   setState(() {
                                     isLoading = true;

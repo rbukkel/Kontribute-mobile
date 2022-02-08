@@ -23,6 +23,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class EditTicketPost extends StatefulWidget {
 
@@ -53,6 +54,15 @@ class EditTicketPostState extends State<EditTicketPost> {
   var file1;
   String link;
   String linkdocuments;
+  bool isNumericMode = false;
+  String text = '';
+
+  bool showkeyboardProjectname = false;
+  bool showkeyboardDescription = false;
+  bool showkeyboardTermsAndCondition = false;
+
+  bool shiftEnabledProjectname = false;
+
   static List<String> videoList = [null];
   static List<String> newvideoList = [null];
   static List<String> newdocList = [null];
@@ -185,6 +195,31 @@ class EditTicketPostState extends State<EditTicketPost> {
   var productlist_length;
   var imageslist_length;
   String searchvalue = "";
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
 
   @override
   void initState() {
@@ -1200,7 +1235,21 @@ class EditTicketPostState extends State<EditTicketPost> {
                             color: Colors.transparent,
                           ),
                           child: TextFormField(
+                            onTap: () =>
+                                setState(() {
+                                  showkeyboardProjectname = true;
+                                  showkeyboardDescription = false;
+                                  showkeyboardTermsAndCondition = false;
+                                }),
+                            enableInteractiveSelection: true,
+                            toolbarOptions: ToolbarOptions(
+                              copy: true,
+                              cut: true,
+                              paste: true,
+                              selectAll: true,
+                            ),
                             autofocus: false,
+                            readOnly: true,
                             focusNode: EventNameFocus,
                             controller: EventNameController,
                             textInputAction: TextInputAction.next,
@@ -1236,6 +1285,27 @@ class EditTicketPostState extends State<EditTicketPost> {
                             ),
                           ),
                         ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        showkeyboardProjectname == true? Container(
+                          color: Colors.white54,
+                          child: VirtualKeyboard(
+                              height: 250,
+                              textColor: Colors.black,
+                              textController: EventNameController,
+                              defaultLayouts: [
+                                VirtualKeyboardDefaultLayouts.English,
+                                VirtualKeyboardDefaultLayouts.Arabic
+                              ],
+                              //reverseLayout :true,
+                              type: isNumericMode
+                                  ? VirtualKeyboardType.Numeric
+                                  : VirtualKeyboardType.Alphanumeric,
+                              onKeyPress: _onKeyPress),
+                        ):Container(),
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
@@ -1275,7 +1345,23 @@ class EditTicketPostState extends State<EditTicketPost> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  onTap: ()
+                                  {
+                                    setState(() {
+                                      showkeyboardProjectname = false;
+                                      showkeyboardDescription = true;
+                                      showkeyboardTermsAndCondition = false;
+                                    });
+                                  },
+                                  enableInteractiveSelection: true,
+                                  toolbarOptions: ToolbarOptions(
+                                    copy: true,
+                                    cut: true,
+                                    paste: true,
+                                    selectAll: true,
+                                  ),
                                   autofocus: false,
+                                  readOnly: true,
                                   maxLines: 4,
                                   focusNode: DescriptionFocus,
                                   controller: DescriptionController,
@@ -1312,12 +1398,18 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    DescriptionController.text =
-                                        DescriptionController.text + "#";
-                                    DescriptionController.selection =
-                                        TextSelection.fromPosition(TextPosition(
-                                            offset: DescriptionController
-                                                .text.length));
+                                    if(VirtualKeyboardDefaultLayouts.Arabic == true)
+                                    {
+                                      DescriptionController.text = "#" +DescriptionController.text ;
+                                      DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                          offset: DescriptionController.text.length));
+                                    }
+                                    else
+                                    {
+                                      DescriptionController.text = DescriptionController.text + "#";
+                                      DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                          offset: DescriptionController.text.length));
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.topLeft,
@@ -1341,6 +1433,27 @@ class EditTicketPostState extends State<EditTicketPost> {
                                 )
                               ],
                             )),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        showkeyboardDescription == true? Container(
+                          color: Colors.white54,
+                          child: VirtualKeyboard(
+                              height: 250,
+                              textColor: Colors.black,
+                              textController: DescriptionController,
+                              defaultLayouts: [
+                                VirtualKeyboardDefaultLayouts.English,
+                                VirtualKeyboardDefaultLayouts.Arabic
+                              ],
+                              //reverseLayout :true,
+                              type: isNumericMode
+                                  ? VirtualKeyboardType.Numeric
+                                  : VirtualKeyboardType.Alphanumeric,
+                              onKeyPress: _onKeyPress),
+                        ):Container(),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1400,6 +1513,11 @@ class EditTicketPostState extends State<EditTicketPost> {
                                         ),
                                         child: GestureDetector(
                                           onTap: () {
+                                            setState(() {
+                                              showkeyboardProjectname = false;
+                                              showkeyboardDescription = false;
+                                              showkeyboardTermsAndCondition = false;
+                                            });
                                             DateView(context);
                                           },
                                           child: Row(
@@ -1489,6 +1607,11 @@ class EditTicketPostState extends State<EditTicketPost> {
                                           ),
                                           child: GestureDetector(
                                             onTap: () {
+                                              setState(() {
+                                                showkeyboardProjectname = false;
+                                                showkeyboardDescription = false;
+                                                showkeyboardTermsAndCondition = false;
+                                              });
                                               EndDateView(context);
                                             },
                                             child: Row(
@@ -1564,6 +1687,11 @@ class EditTicketPostState extends State<EditTicketPost> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
+                                          setState(() {
+                                            showkeyboardProjectname = false;
+                                            showkeyboardDescription = false;
+                                            showkeyboardTermsAndCondition = false;
+                                          });
                                           _showTimePicker();
                                         },
                                         child: Container(
@@ -1661,6 +1789,11 @@ class EditTicketPostState extends State<EditTicketPost> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
+                                          setState(() {
+                                            showkeyboardProjectname = false;
+                                            showkeyboardDescription = false;
+                                            showkeyboardTermsAndCondition = false;
+                                          });
                                           _showEndTimePicker();
                                         },
                                         child: Container(
@@ -1750,6 +1883,11 @@ class EditTicketPostState extends State<EditTicketPost> {
                         ),
                         GestureDetector(
                           onTap: (){
+                            setState(() {
+                              showkeyboardProjectname = false;
+                              showkeyboardDescription = false;
+                              showkeyboardTermsAndCondition = false;
+                            });
                             _getCurrentLocation();
                           },
                           child: Container(
@@ -3035,7 +3173,23 @@ class EditTicketPostState extends State<EditTicketPost> {
                             color: Colors.transparent,
                           ),
                           child: TextFormField(
+                            onTap: ()
+                            {
+                              setState(() {
+                                showkeyboardTermsAndCondition = true;
+                                showkeyboardProjectname = false;
+                                showkeyboardDescription = false;
+                              });
+                            },
+                            enableInteractiveSelection: true,
+                            toolbarOptions: ToolbarOptions(
+                              copy: true,
+                              cut: true,
+                              paste: true,
+                              selectAll: true,
+                            ),
                             autofocus: false,
+                            readOnly: true,
                             focusNode: TermsFocus,
                             controller: TermsController,
                             textInputAction: TextInputAction.done,
@@ -3070,6 +3224,27 @@ class EditTicketPostState extends State<EditTicketPost> {
                             ),
                           ),
                         ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        showkeyboardTermsAndCondition == true? Container(
+                          color: Colors.white54,
+                          child: VirtualKeyboard(
+                              height: 250,
+                              textColor: Colors.black,
+                              textController: TermsController,
+                              defaultLayouts: [
+                                VirtualKeyboardDefaultLayouts.English,
+                                VirtualKeyboardDefaultLayouts.Arabic
+                              ],
+                              //reverseLayout :true,
+                              type: isNumericMode
+                                  ? VirtualKeyboardType.Numeric
+                                  : VirtualKeyboardType.Alphanumeric,
+                              onKeyPress: _onKeyPress),
+                        ):Container(),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -3080,6 +3255,11 @@ class EditTicketPostState extends State<EditTicketPost> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            setState(() {
+                              showkeyboardTermsAndCondition = false;
+                              showkeyboardProjectname = false;
+                              showkeyboardDescription = false;
+                            });
                             final input2 = videoList.toString();
                             final removedBrackets = input2.substring(1, input2.length - 1);
                             final parts = removedBrackets.split(',');

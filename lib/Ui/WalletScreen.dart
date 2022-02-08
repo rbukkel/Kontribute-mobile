@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kontribute/Ui/mytranscation.dart';
-import 'package:kontribute/Ui/Payment.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/screen.dart';
@@ -469,10 +468,7 @@ class WalletScreenState extends State<WalletScreen> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext context) => Payment()));
+
                                           },
                                           child: Container(
                                             alignment: Alignment.center,

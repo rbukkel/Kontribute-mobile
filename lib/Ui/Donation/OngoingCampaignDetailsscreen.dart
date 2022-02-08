@@ -1374,12 +1374,10 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                       color: Colors.transparent,
                                       alignment: Alignment.topCenter,
                                       margin: EdgeInsets.only(
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
+                                          top: SizeConfig.blockSizeVertical * 2),
                                       height: SizeConfig.blockSizeVertical * 30,
                                       child: Stack(
-                                        alignment:
-                                            AlignmentDirectional.bottomCenter,
+                                        alignment: AlignmentDirectional.bottomCenter,
                                         children: <Widget>[
                                           PageView.builder(
                                             physics: ClampingScrollPhysics(),
@@ -1396,16 +1394,11 @@ class OngoingCampaignDetailsscreenState extends State<OngoingCampaignDetailsscre
                                                 viewportFraction: 1),
                                             itemBuilder: (context, ind) {
                                               return Container(
-                                                width: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    80,
-                                                height: SizeConfig
-                                                        .blockSizeVertical *
-                                                    50,
+                                                width: SizeConfig.blockSizeHorizontal * 80,
+                                                height: SizeConfig.blockSizeVertical * 50,
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color:
-                                                            Colors.transparent),
+                                                        color: Colors.transparent),
                                                     image: DecorationImage(
                                                         image: NetworkImage(
                                                           Network.BaseApidonation +

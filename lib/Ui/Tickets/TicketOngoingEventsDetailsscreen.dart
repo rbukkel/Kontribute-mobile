@@ -1730,9 +1730,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                       fontFamily: 'Poppins-Regular'),
                                 ),
                                 Text(
-                                  " " +
-                                      (projectdetailspojo
-                                          .commentsdata.commentslist.length)
+                                  " " + (projectdetailspojo.commentsdata.commentslist.length)
                                           .toString() +
                                       " ",
                                   maxLines: 2,
@@ -1758,7 +1756,6 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                         storelist_length != null
                             ?
                         Container(
-
                           child: ListView.builder(
                               itemCount: storelist_length.length == null
                                   ? 0
@@ -1771,18 +1768,13 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                   Column(
                                     children: [
                                       Container(
-
-                                        width: SizeConfig.blockSizeHorizontal *
-                                            100,
+                                        width: SizeConfig.blockSizeHorizontal * 100,
                                         alignment: Alignment.topLeft,
                                         margin: EdgeInsets.only(
                                           top: SizeConfig.blockSizeVertical *1,
                                           bottom: SizeConfig.blockSizeVertical *1,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                          SizeConfig.blockSizeHorizontal *
-                                              3,
+                                          left: SizeConfig.blockSizeHorizontal * 3,
+                                          right: SizeConfig.blockSizeHorizontal * 3,
                                         ),
                                         child: Text(
                                           projectdetailspojo
