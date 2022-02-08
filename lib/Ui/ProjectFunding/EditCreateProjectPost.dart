@@ -25,6 +25,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:kontribute/Pojo/sendinvitationpojo.dart';
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class EditCreateProjectPost extends StatefulWidget {
   final String data;
@@ -54,6 +55,16 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
   List _selecteName = List();
   List _selectlink = List();
   String data1;
+
+  bool isNumericMode = false;
+  String text = '';
+
+  bool showkeyboardProjectname = false;
+  bool showkeyboardDescription = false;
+  bool showkeyboardTermsAndCondition = false;
+
+  bool shiftEnabledProjectname = false;
+
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -988,7 +999,21 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   color: Colors.transparent,
                                 ),
                                 child: TextFormField(
+                                  onTap: () =>
+                                      setState(() {
+                                        showkeyboardProjectname = true;
+                                        showkeyboardDescription = false;
+                                        showkeyboardTermsAndCondition = false;
+                                      }),
+                                  enableInteractiveSelection: true,
+                                  toolbarOptions: ToolbarOptions(
+                                    copy: true,
+                                    cut: true,
+                                    paste: true,
+                                    selectAll: true,
+                                  ),
                                   autofocus: false,
+                                  readOnly: true,
                                   focusNode: ProjectNameFocus,
                                   controller: ProjectNameController,
                                   textInputAction: TextInputAction.next,
@@ -1024,6 +1049,28 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              showkeyboardProjectname == true? Container(
+                                color: Colors.white54,
+                                child: VirtualKeyboard(
+                                    height: 250,
+                                    textColor: Colors.black,
+                                    textController: ProjectNameController,
+                                    defaultLayouts: [
+                                      VirtualKeyboardDefaultLayouts.English,
+                                      VirtualKeyboardDefaultLayouts.Arabic
+                                    ],
+                                    //reverseLayout :true,
+                                    type: isNumericMode
+                                        ? VirtualKeyboardType.Numeric
+                                        : VirtualKeyboardType.Alphanumeric,
+                                    onKeyPress: _onKeyPress),
+                              ):Container(),
+
                               Container(
                                 margin: EdgeInsets.only(
                                     left: SizeConfig.blockSizeHorizontal * 3,
@@ -1063,7 +1110,25 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   child: Column(
                                     children: [
                                       TextFormField(
+                                        onTap: ()
+                                        {
+                                          setState(() {
+                                            showkeyboardProjectname = false;
+                                            showkeyboardDescription = true;
+                                            showkeyboardTermsAndCondition = false;
+
+
+                                          });
+                                        },
+                                        enableInteractiveSelection: true,
+                                        toolbarOptions: ToolbarOptions(
+                                          copy: true,
+                                          cut: true,
+                                          paste: true,
+                                          selectAll: true,
+                                        ),
                                         autofocus: false,
+                                        readOnly: true,
                                         maxLines: 4,
                                         focusNode: DescriptionFocus,
                                         controller: DescriptionController,
@@ -1101,14 +1166,18 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          DescriptionController.text =
-                                              DescriptionController.text + "#";
-                                          DescriptionController.selection =
-                                              TextSelection.fromPosition(
-                                                  TextPosition(
-                                                      offset:
-                                                          DescriptionController
-                                                              .text.length));
+                                          if(VirtualKeyboardDefaultLayouts.Arabic == true)
+                                          {
+                                            DescriptionController.text = "#" +DescriptionController.text ;
+                                            DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                                offset: DescriptionController.text.length));
+                                          }
+                                          else
+                                          {
+                                            DescriptionController.text = DescriptionController.text + "#";
+                                            DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                                offset: DescriptionController.text.length));
+                                          }
                                         },
                                         child: Container(
                                           alignment: Alignment.topLeft,
@@ -1138,6 +1207,27 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                       )
                                     ],
                                   )),
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              showkeyboardDescription == true? Container(
+                                color: Colors.white54,
+                                child: VirtualKeyboard(
+                                    height: 250,
+                                    textColor: Colors.black,
+                                    textController: DescriptionController,
+                                    defaultLayouts: [
+                                      VirtualKeyboardDefaultLayouts.English,
+                                      VirtualKeyboardDefaultLayouts.Arabic
+                                    ],
+                                    //reverseLayout :true,
+                                    type: isNumericMode
+                                        ? VirtualKeyboardType.Numeric
+                                        : VirtualKeyboardType.Alphanumeric,
+                                    onKeyPress: _onKeyPress),
+                              ):Container(),
                               Container(
                                 child: Row(
                                   mainAxisAlignment:
@@ -1205,6 +1295,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    showkeyboardProjectname = false;
+                                                    showkeyboardDescription = false;
+                                                    showkeyboardTermsAndCondition = false;
+                                                  });
                                                   DateView(context);
                                                 },
                                                 child: Row(
@@ -1314,6 +1409,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                                 ),
                                                 child: GestureDetector(
                                                   onTap: () {
+                                                    setState(() {
+                                                      showkeyboardProjectname = false;
+                                                      showkeyboardDescription = false;
+                                                      showkeyboardTermsAndCondition = false;
+                                                    });
                                                     EndDateView(context);
                                                   },
                                                   child: Row(
@@ -2198,7 +2298,23 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   color: Colors.transparent,
                                 ),
                                 child: TextFormField(
+                                  onTap: ()
+                                  {
+                                    setState(() {
+                                      showkeyboardTermsAndCondition = true;
+                                      showkeyboardProjectname = false;
+                                      showkeyboardDescription = false;
+                                    });
+                                  },
+                                  enableInteractiveSelection: true,
+                                  toolbarOptions: ToolbarOptions(
+                                    copy: true,
+                                    cut: true,
+                                    paste: true,
+                                    selectAll: true,
+                                  ),
                                   autofocus: false,
+                                  readOnly: true,
                                   focusNode: TermsFocus,
                                   controller: TermsController,
                                   textInputAction: TextInputAction.done,
@@ -2233,6 +2349,27 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              showkeyboardTermsAndCondition == true? Container(
+                                color: Colors.white54,
+                                child: VirtualKeyboard(
+                                    height: 250,
+                                    textColor: Colors.black,
+                                    textController: TermsController,
+                                    defaultLayouts: [
+                                      VirtualKeyboardDefaultLayouts.English,
+                                      VirtualKeyboardDefaultLayouts.Arabic
+                                    ],
+                                    //reverseLayout :true,
+                                    type: isNumericMode
+                                        ? VirtualKeyboardType.Numeric
+                                        : VirtualKeyboardType.Alphanumeric,
+                                    onKeyPress: _onKeyPress),
+                              ):Container(),
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
@@ -2243,6 +2380,11 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  setState(() {
+                                    showkeyboardTermsAndCondition = false;
+                                    showkeyboardProjectname = false;
+                                    showkeyboardDescription = false;
+                                  });
                                   final input2 = videoList.toString();
                                   final removedBrackets =
                                       input2.substring(1, input2.length - 1);
@@ -2939,4 +3081,29 @@ class EditCreateProjectPostState extends State<EditCreateProjectPost> {
       ),
     );
   }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
 }

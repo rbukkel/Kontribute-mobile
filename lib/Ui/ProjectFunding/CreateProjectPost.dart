@@ -21,6 +21,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:get/get.dart';
 import 'package:share/share.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class CreateProjectPost extends StatefulWidget {
   @override
@@ -48,6 +49,18 @@ class CreateProjectPostState extends State<CreateProjectPost> {
   List<File> _imageList = [];
   List<File> _documentList = [];
   List _selecteName = List();
+
+  bool isNumericMode = false;
+  String text = '';
+
+  bool showkeyboardProjectname = false;
+  bool showkeyboardDescription = false;
+  bool showkeyboardTermsAndCondition = false;
+
+  bool shiftEnabledProjectname = false;
+  bool shiftEnabledDescription = false;
+  bool shiftEnabledTermsAndCondition = false;
+
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -183,7 +196,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
       firstDate: currentDate,
       lastDate: DateTime(2050),
     );
-
     if (picked != null && picked != currentDate)
       setState(() {
         currentDate = picked;
@@ -384,9 +396,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
               errorDialog('uploadupto2documents'.tr);
             }
           }
-
-
-
       });
       /* setState(() {
         file1 = file;
@@ -534,7 +543,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                 print('No image selected.');
               }
             });
-
           } catch (e) {
             print(e);
           }
@@ -670,7 +678,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                   child: Center(
                     child: SingleChildScrollView(
                         child:
-
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -868,7 +875,21 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   color: Colors.transparent,
                                 ),
                                 child: TextFormField(
+                                  onTap: () =>
+                                      setState(() {
+                                        showkeyboardProjectname = true;
+                                        showkeyboardDescription = false;
+                                        showkeyboardTermsAndCondition = false;
+                                      }),
+                                  enableInteractiveSelection: true,
+                                  toolbarOptions: ToolbarOptions(
+                                    copy: true,
+                                    cut: true,
+                                    paste: true,
+                                    selectAll: true,
+                                  ),
                                   autofocus: false,
+                                  readOnly: true,
                                   focusNode: ProjectNameFocus,
                                   controller: ProjectNameController,
                                   textInputAction: TextInputAction.next,
@@ -880,8 +901,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       return null;
                                   },
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(DescriptionFocus);
+                                    FocusScope.of(context).requestFocus(DescriptionFocus);
                                   },
                                   onSaved: (val) => _ProjectName = val,
                                   textAlign: TextAlign.left,
@@ -904,6 +924,28 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              showkeyboardProjectname == true? Container(
+                                color: Colors.white54,
+                                child: VirtualKeyboard(
+                                    height: 250,
+                                    textColor: Colors.black,
+                                    textController: ProjectNameController,
+                                    defaultLayouts: [
+                                      VirtualKeyboardDefaultLayouts.English,
+                                      VirtualKeyboardDefaultLayouts.Arabic
+                                    ],
+                                    //reverseLayout :true,
+                                    type: isNumericMode
+                                        ? VirtualKeyboardType.Numeric
+                                        : VirtualKeyboardType.Alphanumeric,
+                                    onKeyPress: _onKeyPress),
+                              ):Container(),
+
                               Container(
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 3,
@@ -956,7 +998,25 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   child: Column(
                                     children: [
                                       TextFormField(
+                                        onTap: ()
+                                        {
+                                          setState(() {
+                                            showkeyboardProjectname = false;
+                                            showkeyboardDescription = true;
+                                            showkeyboardTermsAndCondition = false;
+
+
+                                          });
+                                        },
+                                        enableInteractiveSelection: true,
+                                        toolbarOptions: ToolbarOptions(
+                                          copy: true,
+                                          cut: true,
+                                          paste: true,
+                                          selectAll: true,
+                                        ),
                                         autofocus: false,
+                                        readOnly: true,
                                         maxLines: 4,
                                         focusNode: DescriptionFocus,
                                         controller: DescriptionController,
@@ -969,8 +1029,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                             return null;
                                         },
                                         onFieldSubmitted: (v) {
-                                          FocusScope.of(context)
-                                              .requestFocus(DateFocus);
+                                          FocusScope.of(context).requestFocus(DateFocus);
                                         },
                                         onSaved: (val) => _description = val,
                                         textAlign: TextAlign.left,
@@ -994,10 +1053,19 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          DescriptionController.text = DescriptionController.text + "#";
-                                          DescriptionController.selection = TextSelection.fromPosition(TextPosition(
-                                              offset: DescriptionController
-                                                  .text.length));
+                                          if(VirtualKeyboardDefaultLayouts.Arabic == true)
+                                            {
+                                              DescriptionController.text = "#" +DescriptionController.text ;
+                                              DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                                  offset: DescriptionController.text.length));
+                                            }
+                                          else
+                                            {
+                                              DescriptionController.text = DescriptionController.text + "#";
+                                              DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                                  offset: DescriptionController.text.length));
+                                            }
+
                                         },
                                         child: Container(
                                           alignment: Alignment.topLeft,
@@ -1019,6 +1087,27 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       )
                                     ],
                                   )),
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              showkeyboardDescription == true? Container(
+                                color: Colors.white54,
+                                child: VirtualKeyboard(
+                                    height: 250,
+                                    textColor: Colors.black,
+                                    textController: DescriptionController,
+                                    defaultLayouts: [
+                                      VirtualKeyboardDefaultLayouts.English,
+                                      VirtualKeyboardDefaultLayouts.Arabic
+                                    ],
+                                    //reverseLayout :true,
+                                    type: isNumericMode
+                                        ? VirtualKeyboardType.Numeric
+                                        : VirtualKeyboardType.Alphanumeric,
+                                    onKeyPress: _onKeyPress),
+                              ):Container(),
                               Container(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1055,8 +1144,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                   ),
                                                 ],
                                               )
-
-
                                           ),
                                           Container(
                                               height:
@@ -1084,6 +1171,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    showkeyboardProjectname = false;
+                                                    showkeyboardDescription = false;
+                                                    showkeyboardTermsAndCondition = false;
+                                                  });
                                                   DateView(context);
                                                 },
                                                 child: Row(
@@ -1191,6 +1283,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                                 ),
                                                 child: GestureDetector(
                                                   onTap: () {
+                                                    setState(() {
+                                                      showkeyboardProjectname = false;
+                                                      showkeyboardDescription = false;
+                                                      showkeyboardTermsAndCondition = false;
+                                                    });
                                                     EndDateView(context);
                                                   },
                                                   child: Row(
@@ -1562,7 +1659,6 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       maxLines:6,
                                       textInputAction: TextInputAction.done,
                                       keyboardType: TextInputType.url,
-
                                       onFieldSubmitted: (v) {
                                         VideoFocus.unfocus();
                                       },
@@ -1940,7 +2036,23 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   color: Colors.transparent,
                                 ),
                                 child: TextFormField(
+                                  onTap: ()
+                                  {
+                                    setState(() {
+                                      showkeyboardTermsAndCondition = true;
+                                      showkeyboardProjectname = false;
+                                      showkeyboardDescription = false;
+                                    });
+                                  },
+                                  enableInteractiveSelection: true,
+                                  toolbarOptions: ToolbarOptions(
+                                    copy: true,
+                                    cut: true,
+                                    paste: true,
+                                    selectAll: true,
+                                  ),
                                   autofocus: false,
+                                  readOnly: true,
                                   focusNode: TermsFocus,
                                   controller: TermsController,
                                   textInputAction: TextInputAction.done,
@@ -1975,6 +2087,29 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                   ),
                                 ),
                               ),
+
+                              Visibility(
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  child: Container()),
+                              showkeyboardTermsAndCondition == true? Container(
+                                color: Colors.white54,
+                                child: VirtualKeyboard(
+                                    height: 250,
+                                    textColor: Colors.black,
+                                    textController: TermsController,
+                                    defaultLayouts: [
+                                      VirtualKeyboardDefaultLayouts.English,
+                                      VirtualKeyboardDefaultLayouts.Arabic
+                                    ],
+                                    //reverseLayout :true,
+                                    type: isNumericMode
+                                        ? VirtualKeyboardType.Numeric
+                                        : VirtualKeyboardType.Alphanumeric,
+                                    onKeyPress: _onKeyPress),
+                              ):Container(),
+
                               Container(
                                 margin: EdgeInsets.only(
                                     top: SizeConfig.blockSizeVertical * 2),
@@ -1985,6 +2120,11 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  setState(() {
+                                    showkeyboardTermsAndCondition = false;
+                                    showkeyboardProjectname = false;
+                                    showkeyboardDescription = false;
+                                  });
 
                                   if (_formmainKey.currentState.validate()) {
                                     setState(() {
@@ -2652,6 +2792,32 @@ class CreateProjectPostState extends State<CreateProjectPost> {
     print("CatFollowName: "+catFollowingname);
   }
 
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
+
   void createproject(
       BuildContext context,
       String projectname,
@@ -2805,4 +2971,7 @@ class _FriendTextFieldsState extends State<FriendTextFields>
       },
     );
   }
+
+
+
 }

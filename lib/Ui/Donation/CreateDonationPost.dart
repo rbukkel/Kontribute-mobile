@@ -18,6 +18,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class CreateDonationPost extends StatefulWidget {
   @override
@@ -41,6 +42,16 @@ class CreateDonationPostState extends State<CreateDonationPost> {
   List<File> _imageList = [];
   List<File> _documentList = [];
   List _selecteName = List();
+
+  bool isNumericMode = false;
+  String text = '';
+
+  bool showkeyboardProjectname = false;
+  bool showkeyboardDescription = false;
+  bool showkeyboardTermsAndCondition = false;
+
+  bool shiftEnabledProjectname = false;
+
   final ProjectNameFocus = FocusNode();
   final LocationFocus = FocusNode();
   final LocationDetailsFocus = FocusNode();
@@ -855,7 +866,21 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             color: Colors.transparent,
                           ),
                           child: TextFormField(
+                            onTap: () =>
+                                setState(() {
+                                  showkeyboardProjectname = true;
+                                  showkeyboardDescription = false;
+                                  showkeyboardTermsAndCondition = false;
+                                }),
+                            enableInteractiveSelection: true,
+                            toolbarOptions: ToolbarOptions(
+                              copy: true,
+                              cut: true,
+                              paste: true,
+                              selectAll: true,
+                            ),
                             autofocus: false,
+                            readOnly: true,
                             focusNode: ProjectNameFocus,
                             controller: ProjectNameController,
                             textInputAction: TextInputAction.next,
@@ -891,6 +916,27 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             ),
                           ),
                         ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        showkeyboardProjectname == true? Container(
+                          color: Colors.white54,
+                          child: VirtualKeyboard(
+                              height: 250,
+                              textColor: Colors.black,
+                              textController: ProjectNameController,
+                              defaultLayouts: [
+                                VirtualKeyboardDefaultLayouts.English,
+                                VirtualKeyboardDefaultLayouts.Arabic
+                              ],
+                              //reverseLayout :true,
+                              type: isNumericMode
+                                  ? VirtualKeyboardType.Numeric
+                                  : VirtualKeyboardType.Alphanumeric,
+                              onKeyPress: _onKeyPress),
+                        ):Container(),
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockSizeHorizontal * 3,
@@ -944,7 +990,24 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  onTap: ()
+                                  {
+                                    setState(() {
+                                      showkeyboardProjectname = false;
+                                      showkeyboardDescription = true;
+                                      showkeyboardTermsAndCondition = false;
+
+                                    });
+                                  },
+                                  enableInteractiveSelection: true,
+                                  toolbarOptions: ToolbarOptions(
+                                    copy: true,
+                                    cut: true,
+                                    paste: true,
+                                    selectAll: true,
+                                  ),
                                   autofocus: false,
+                                  readOnly: true,
                                   maxLines: 4,
                                   focusNode: DescriptionFocus,
                                   controller: DescriptionController,
@@ -982,12 +1045,18 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    DescriptionController.text =
-                                        DescriptionController.text + "#";
-                                    DescriptionController.selection =
-                                        TextSelection.fromPosition(TextPosition(
-                                            offset: DescriptionController
-                                                .text.length));
+                                    if(VirtualKeyboardDefaultLayouts.Arabic == true)
+                                    {
+                                      DescriptionController.text = "#" +DescriptionController.text ;
+                                      DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                          offset: DescriptionController.text.length));
+                                    }
+                                    else
+                                    {
+                                      DescriptionController.text = DescriptionController.text + "#";
+                                      DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                          offset: DescriptionController.text.length));
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.topLeft,
@@ -1012,6 +1081,27 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                 )
                               ],
                             )),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        showkeyboardDescription == true? Container(
+                          color: Colors.white54,
+                          child: VirtualKeyboard(
+                              height: 250,
+                              textColor: Colors.black,
+                              textController: DescriptionController,
+                              defaultLayouts: [
+                                VirtualKeyboardDefaultLayouts.English,
+                                VirtualKeyboardDefaultLayouts.Arabic
+                              ],
+                              //reverseLayout :true,
+                              type: isNumericMode
+                                  ? VirtualKeyboardType.Numeric
+                                  : VirtualKeyboardType.Alphanumeric,
+                              onKeyPress: _onKeyPress),
+                        ):Container(),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1086,6 +1176,9 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
+                                              showkeyboardProjectname = false;
+                                              showkeyboardDescription = false;
+                                              showkeyboardTermsAndCondition = false;
                                               DateView(context);
                                             });
                                           },
@@ -1200,6 +1293,9 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
+                                                showkeyboardProjectname = false;
+                                                showkeyboardDescription = false;
+                                                showkeyboardTermsAndCondition = false;
                                                 EndDateView(context);
                                               });
                                             },
@@ -1207,33 +1303,24 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                               children: [
                                                 Container(
                                                   alignment: Alignment.center,
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      30,
+                                                  width: SizeConfig.blockSizeHorizontal * 30,
                                                   padding: EdgeInsets.only(
-                                                      left: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          1),
+                                                      left: SizeConfig.blockSizeHorizontal * 1),
                                                   child: Text(
                                                     myFormatEndDate.format(currentEndDate),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            'Poppins-Regular',
+                                                        fontWeight: FontWeight.normal,
+                                                        fontFamily: 'Poppins-Regular',
                                                         fontSize: 12,
                                                         color: Colors.black),
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      5,
+                                                  width: SizeConfig.blockSizeHorizontal * 5,
                                                   child: Icon(
-                                                    Icons
-                                                        .calendar_today_outlined,
+                                                    Icons.calendar_today_outlined,
                                                     color: AppColors.greyColor,
                                                   ),
                                                 )
@@ -2062,7 +2149,23 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             color: Colors.transparent,
                           ),
                           child: TextFormField(
+                            onTap: ()
+                            {
+                              setState(() {
+                                showkeyboardTermsAndCondition = true;
+                                showkeyboardProjectname = false;
+                                showkeyboardDescription = false;
+                              });
+                            },
+                            enableInteractiveSelection: true,
+                            toolbarOptions: ToolbarOptions(
+                              copy: true,
+                              cut: true,
+                              paste: true,
+                              selectAll: true,
+                            ),
                             autofocus: false,
+                            readOnly: true,
                             focusNode: TermsFocus,
                             controller: TermsController,
                             textInputAction: TextInputAction.done,
@@ -2097,6 +2200,27 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                             ),
                           ),
                         ),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Container()),
+                        showkeyboardTermsAndCondition == true? Container(
+                          color: Colors.white54,
+                          child: VirtualKeyboard(
+                              height: 250,
+                              textColor: Colors.black,
+                              textController: TermsController,
+                              defaultLayouts: [
+                                VirtualKeyboardDefaultLayouts.English,
+                                VirtualKeyboardDefaultLayouts.Arabic
+                              ],
+                              //reverseLayout :true,
+                              type: isNumericMode
+                                  ? VirtualKeyboardType.Numeric
+                                  : VirtualKeyboardType.Alphanumeric,
+                              onKeyPress: _onKeyPress),
+                        ):Container(),
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 2),
@@ -2130,7 +2254,11 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                     vidoname,
                                     _imageList,
                                     _documentList);          */
-
+                            setState(() {
+                              showkeyboardTermsAndCondition = false;
+                              showkeyboardProjectname = false;
+                              showkeyboardDescription = false;
+                            });
                             if (_formmainKey.currentState.validate()) {
                               setState(() {
                                 isLoading = true;
@@ -2145,7 +2273,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                                       print('date is befor');
                                       //peform logic here.....
                                       errorDialog('Theenddatemustbeafterthestartdate'.tr);
-
                                     }
                                     else {
                                       if(currentid == 0)
@@ -2846,6 +2973,31 @@ class CreateDonationPostState extends State<CreateDonationPost> {
     } else
       return null;
   }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
 }
 
 class videoTextFields extends StatefulWidget {

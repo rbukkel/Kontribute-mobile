@@ -369,7 +369,6 @@ class WalletScreenState extends State<WalletScreen> {
                                                 fontFamily: 'Poppins-Bold'),
                                           ),
                                         ),
-
                                         Container(
                                           margin: EdgeInsets.only(
                                               left: SizeConfig.blockSizeHorizontal * 3,
@@ -506,7 +505,6 @@ class WalletScreenState extends State<WalletScreen> {
 
                           ),
                         );
-
                       });
                     },
                     child: Container(
@@ -543,7 +541,6 @@ class WalletScreenState extends State<WalletScreen> {
 
   tabDebitList() {
     return
-
       Expanded(
       child: ListView.builder(
           itemCount: 8,

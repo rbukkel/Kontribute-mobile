@@ -19,10 +19,10 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:intl/intl.dart';
-import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class CreateTicketPost extends StatefulWidget {
   @override
@@ -94,6 +94,16 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   List<File> _documentList = [];
   List _selecteName = List();
 
+
+  bool isNumericMode = false;
+  String text = '';
+
+  bool showkeyboardProjectname = false;
+  bool showkeyboardDescription = false;
+  bool showkeyboardTermsAndCondition = false;
+
+  bool shiftEnabledProjectname = false;
+
   final List<String> _dropdownCategoryValues = [
     "Anyone",
     "Connections only",
@@ -110,20 +120,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
   }
 
   String textHolder = 'pleaseselect'.tr;
-  final List<String> _dropdownEventCategory = [
-    "New year",
-    "Halloween",
-    "Anniversary",
-    "Bridal Shower",
-    "Baby Shower",
-    "Bachelor Party",
-    "Bachelorette Party",
-    "Party",
-    "Lunch",
-    "Dinner",
-    "Graduation",
-    "Other"
-  ];
+
   String currentSelectedValue;
   int currentid = 0;
   String currentSelectedValueprivacy;
@@ -1119,7 +1116,21 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 color: Colors.transparent,
                               ),
                               child: TextFormField(
+                                onTap: () =>
+                                    setState(() {
+                                      showkeyboardProjectname = true;
+                                      showkeyboardDescription = false;
+                                      showkeyboardTermsAndCondition = false;
+                                    }),
+                                enableInteractiveSelection: true,
+                                toolbarOptions: ToolbarOptions(
+                                  copy: true,
+                                  cut: true,
+                                  paste: true,
+                                  selectAll: true,
+                                ),
                                 autofocus: false,
+                                readOnly: true,
                                 focusNode: EventNameFocus,
                                 controller: EventNameController,
                                 textInputAction: TextInputAction.next,
@@ -1155,6 +1166,27 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 ),
                               ),
                             ),
+                            Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: Container()),
+                            showkeyboardProjectname == true? Container(
+                              color: Colors.white54,
+                              child: VirtualKeyboard(
+                                  height: 250,
+                                  textColor: Colors.black,
+                                  textController: EventNameController,
+                                  defaultLayouts: [
+                                    VirtualKeyboardDefaultLayouts.English,
+                                    VirtualKeyboardDefaultLayouts.Arabic
+                                  ],
+                                  //reverseLayout :true,
+                                  type: isNumericMode
+                                      ? VirtualKeyboardType.Numeric
+                                      : VirtualKeyboardType.Alphanumeric,
+                                  onKeyPress: _onKeyPress),
+                            ):Container(),
                             Container(
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockSizeHorizontal * 3,
@@ -1207,7 +1239,23 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 child: Column(
                                   children: [
                                     TextFormField(
+                                      onTap: ()
+                                      {
+                                        setState(() {
+                                          showkeyboardProjectname = false;
+                                          showkeyboardDescription = true;
+                                          showkeyboardTermsAndCondition = false;
+                                        });
+                                      },
+                                      enableInteractiveSelection: true,
+                                      toolbarOptions: ToolbarOptions(
+                                        copy: true,
+                                        cut: true,
+                                        paste: true,
+                                        selectAll: true,
+                                      ),
                                       autofocus: false,
+                                      readOnly: true,
                                       maxLines: 4,
                                       focusNode: DescriptionFocus,
                                       controller: DescriptionController,
@@ -1245,14 +1293,18 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        DescriptionController.text =
-                                            DescriptionController.text + "#";
-                                        DescriptionController.selection =
-                                            TextSelection.fromPosition(
-                                                TextPosition(
-                                                    offset:
-                                                        DescriptionController
-                                                            .text.length));
+                                        if(VirtualKeyboardDefaultLayouts.Arabic == true)
+                                        {
+                                          DescriptionController.text = "#" +DescriptionController.text ;
+                                          DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                              offset: DescriptionController.text.length));
+                                        }
+                                        else
+                                        {
+                                          DescriptionController.text = DescriptionController.text + "#";
+                                          DescriptionController.selection = TextSelection.fromPosition(TextPosition(
+                                              offset: DescriptionController.text.length));
+                                        }
                                       },
                                       child: Container(
                                         alignment: Alignment.topLeft,
@@ -1281,6 +1333,27 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                     )
                                   ],
                                 )),
+                            Visibility(
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: Container()),
+                            showkeyboardDescription == true? Container(
+                              color: Colors.white54,
+                              child: VirtualKeyboard(
+                                  height: 250,
+                                  textColor: Colors.black,
+                                  textController: DescriptionController,
+                                  defaultLayouts: [
+                                    VirtualKeyboardDefaultLayouts.English,
+                                    VirtualKeyboardDefaultLayouts.Arabic
+                                  ],
+                                  //reverseLayout :true,
+                                  type: isNumericMode
+                                      ? VirtualKeyboardType.Numeric
+                                      : VirtualKeyboardType.Alphanumeric,
+                                  onKeyPress: _onKeyPress),
+                            ):Container(),
                             Container(
                               child: Row(
                                 mainAxisAlignment:
@@ -1360,6 +1433,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                             ),
                                             child: GestureDetector(
                                               onTap: () {
+                                                setState(() {
+                                                  showkeyboardProjectname = false;
+                                                  showkeyboardDescription = false;
+                                                  showkeyboardTermsAndCondition = false;
+                                                });
                                                 DateView(context);
                                               },
                                               child: Row(
@@ -1479,6 +1557,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    showkeyboardProjectname = false;
+                                                    showkeyboardDescription = false;
+                                                    showkeyboardTermsAndCondition = false;
+                                                  });
                                                   EndDateView(context);
                                                 },
                                                 child: Row(
@@ -1575,6 +1658,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
+                                              setState(() {
+                                                showkeyboardProjectname = false;
+                                                showkeyboardDescription = false;
+                                                showkeyboardTermsAndCondition = false;
+                                              });
                                               _showTimePicker();
                                             },
                                             child: Container(
@@ -1699,6 +1787,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
+                                              setState(() {
+                                                showkeyboardProjectname = false;
+                                                showkeyboardDescription = false;
+                                                showkeyboardTermsAndCondition = false;
+                                              });
                                               _showEndTimePicker();
                                             },
                                             child: Container(
@@ -1712,9 +1805,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                                 left: SizeConfig
                                                         .blockSizeHorizontal *
                                                     2,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3,
+                                                right: SizeConfig.blockSizeHorizontal * 3,
                                               ),
                                               padding: EdgeInsets.only(
                                                 left: SizeConfig
@@ -1793,6 +1884,11 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                setState(() {
+                                  showkeyboardProjectname = false;
+                                  showkeyboardDescription = false;
+                                  showkeyboardTermsAndCondition = false;
+                                });
                                 _getCurrentLocation();
                               },
                               child: Container(
@@ -1995,193 +2091,7 @@ class CreateTicketPostState extends State<CreateTicketPost> {
                                 ),
                               ],
                             )),
-                            /* Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 50,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 2),
-                                      child: Text(
-                                        StringConstant.location,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Bold'),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  2,
-                                          top:
-                                              SizeConfig.blockSizeVertical * 1),
-                                      padding: EdgeInsets.only(
-                                        left: SizeConfig.blockSizeVertical * 1,
-                                        right: SizeConfig.blockSizeVertical * 1,
-                                      ),
-                                      alignment: Alignment.topLeft,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Colors.black26,
-                                          style: BorderStyle.solid,
-                                          width: 1.0,
-                                        ),
-                                        color: Colors.transparent,
-                                      ),
-                                      child: TextFormField(
-                                        autofocus: false,
-                                        focusNode: LocationFocus,
-                                        controller: LocationController,
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType:
-                                            TextInputType.streetAddress,
-                                        validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter location";
-                                          else
-                                            return null;
-                                        },
-                                        onFieldSubmitted: (v) {
-                                          FocusScope.of(context).requestFocus(
-                                              LocationDetailsFocus);
-                                        },
-                                        onSaved: (val) => _location = val,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 15,
-                                            color: Colors.black),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          hintStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'Poppins-Regular',
-                                            fontSize: 15,
-                                            decoration: TextDecoration.none,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                  width: SizeConfig.blockSizeHorizontal * 50,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    3,
-                                            top: SizeConfig.blockSizeVertical *
-                                                2),
-                                        child: Text(
-                                          StringConstant.locationdetails,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Bold'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 1,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              2,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  3,
-                                        ),
-                                        padding: EdgeInsets.only(
-                                          left:
-                                              SizeConfig.blockSizeVertical * 1,
-                                          right:
-                                              SizeConfig.blockSizeVertical * 1,
-                                        ),
-                                        alignment: Alignment.topLeft,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: Colors.black26,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
-                                          ),
-                                          color: Colors.transparent,
-                                        ),
-                                        child: TextFormField(
-                                          autofocus: false,
-                                          focusNode: LocationDetailsFocus,
-                                          controller: LocationDetailsController,
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                              TextInputType.streetAddress,
-                                          validator: (val) {
-                                            if (val.length == 0)
-                                              return "Please enter location details";
-                                            else
-                                              return null;
-                                          },
-                                          onFieldSubmitted: (v) {
-                                            FocusScope.of(context)
-                                                .requestFocus(ContactNoFocus);
-                                          },
-                                          onSaved: (val) =>
-                                              _locationdetails = val,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              letterSpacing: 1.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            hintStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Poppins-Regular',
-                                              fontSize: 15,
-                                              decoration: TextDecoration.none,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        ),*/
+
                             Container(
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockSizeVertical * 2),
@@ -3968,6 +3878,31 @@ class CreateTicketPostState extends State<CreateTicketPost> {
     print(followingvalues);
     print("CatFollowName: " + catFollowingname);
   }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
+  }
+
 }
 
 class videoTextFields extends StatefulWidget {

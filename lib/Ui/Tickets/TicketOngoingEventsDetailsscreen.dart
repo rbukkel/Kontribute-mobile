@@ -1793,7 +1793,7 @@ class TicketOngoingEventsDetailsscreenState extends State<TicketOngoingEventsDet
                                           style: TextStyle(
                                               letterSpacing: 1.0,
                                               color: Colors.black,
-                                              fontSize: 9,
+                                              fontSize: 10,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: 'NotoEmoji'),
                                         ),

@@ -2075,7 +2075,7 @@ class OngoingProjectDetailsscreenState
                                                     style: TextStyle(
                                                         letterSpacing: 1.0,
                                                         color: Colors.black,
-                                                        fontSize: 9,
+                                                        fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontFamily:
@@ -2131,12 +2131,8 @@ class OngoingProjectDetailsscreenState
                                       children: [
                                         Container(
                                           padding: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2,
+                                            left: SizeConfig.blockSizeHorizontal * 2,
+                                            right: SizeConfig.blockSizeHorizontal * 2,
                                           ),
                                           alignment: Alignment.centerLeft,
                                           child: TextFormField(
@@ -2155,8 +2151,7 @@ class OngoingProjectDetailsscreenState
                                             readOnly: true,
                                             focusNode: CommentFocus,
                                             controller: CommentController,
-                                            textInputAction:
-                                                TextInputAction.done,
+                                            textInputAction: TextInputAction.done,
                                             keyboardType: TextInputType.text,
                                             maxLines: 10,
                                             validator: (val) {
@@ -2203,8 +2198,8 @@ class OngoingProjectDetailsscreenState
                                            textColor: Colors.black,
                                            textController: CommentController,
                                            defaultLayouts: [
-                                             VirtualKeyboardDefaultLayouts.Arabic,
-                                             VirtualKeyboardDefaultLayouts.English
+                                             VirtualKeyboardDefaultLayouts.English,
+                                             VirtualKeyboardDefaultLayouts.Arabic
                                            ],
                                            //reverseLayout :true,
                                            type: isNumericMode
@@ -2219,20 +2214,12 @@ class OngoingProjectDetailsscreenState
                                             showkeyboard = false;
                                           },
                                           child: Container(
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    100,
+                                            width: SizeConfig.blockSizeHorizontal * 100,
                                             alignment: Alignment.topRight,
                                             margin: EdgeInsets.only(
-                                                left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3,
-                                                right: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    5,
-                                                top: SizeConfig
-                                                        .blockSizeVertical *
-                                                    1),
+                                                left: SizeConfig.blockSizeHorizontal * 3,
+                                                right: SizeConfig.blockSizeHorizontal *5,
+                                                top: SizeConfig.blockSizeVertical *1),
                                             child: Text(
                                               'post'.tr,
                                               style: TextStyle(
