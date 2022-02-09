@@ -115,7 +115,6 @@ class OngoingProjectState extends State<OngoingProject> {
     });
   }*/
 
-
   void getCommision() async {
     var jsonResponse = null;
     var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
