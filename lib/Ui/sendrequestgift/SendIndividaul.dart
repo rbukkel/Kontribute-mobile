@@ -15,6 +15,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class SendIndividaul extends StatefulWidget{
   @override
@@ -51,6 +52,10 @@ class SendIndividaulState extends State<SendIndividaul>{
   get_send_gift sendgift;
   var productlist_length;
   String image;
+  bool isNumericMode = false;
+  String text = '';
+  bool showkeyboardDescription = false;
+  bool shiftEnabledProjectname = false;
 
   @override
   void initState() {
@@ -609,9 +614,23 @@ class SendIndividaulState extends State<SendIndividaul>{
                       color: Colors.transparent,
                     ),
                     child: TextFormField(
+                      onTap: ()
+                      {
+                        setState(() {
+                          showkeyboardDescription = true;
+                        });
+                      },
+                      enableInteractiveSelection: true,
+                      toolbarOptions: ToolbarOptions(
+                        copy: true,
+                        cut: true,
+                        paste: true,
+                        selectAll: true,
+                      ),
                       autofocus: false,
-                      focusNode: DescriptionFocus,
+                      readOnly: true,
                       maxLines: 4,
+                      focusNode: DescriptionFocus,
                       controller: DescriptionController,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
@@ -646,6 +665,27 @@ class SendIndividaulState extends State<SendIndividaul>{
                       ),
                     ),
                   ),
+                  Visibility(
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      child: Container()),
+                  showkeyboardDescription == true? Container(
+                    color: Colors.white54,
+                    child: VirtualKeyboard(
+                        height: 250,
+                        textColor: Colors.black,
+                        textController: DescriptionController,
+                        defaultLayouts: [
+                          VirtualKeyboardDefaultLayouts.English,
+                          VirtualKeyboardDefaultLayouts.Arabic
+                        ],
+                        //reverseLayout :true,
+                        type: isNumericMode
+                            ? VirtualKeyboardType.Numeric
+                            : VirtualKeyboardType.Alphanumeric,
+                        onKeyPress: _onKeyPress),
+                  ):Container(),
                   Container(
                     padding: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal * 2,
@@ -665,6 +705,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                             value: showvalue,
                             onChanged: (bool value) {
                               setState(() {
+                                showkeyboardDescription = false;
                                 showvalue = value;
                                 if(showvalue == true)
                                 {
@@ -673,6 +714,7 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 else{
                                   notificationvalue = "off";
                                 }
+
                               });
                             },
                           ),
@@ -692,6 +734,9 @@ class SendIndividaulState extends State<SendIndividaul>{
                   ),
                   GestureDetector(
                     onTap: () {
+                      setState(() {
+                        showkeyboardDescription = false;
+                      });
                       if (_formKey.currentState.validate()) {
                         if (userid != null) {
                           setState(() {
@@ -709,12 +754,14 @@ class SendIndividaulState extends State<SendIndividaul>{
                                     userid.toString()
                                 );
                               }
-                              else {
+                              else
+                                {
                                 errorDialog('pleaseselectgiftimage'.tr);
-                              }
-                            } else {
+                                }
+                            } else
+                              {
                               errorDialog('nointernetconnection'.tr);
-                            }
+                              }
                           });
                         } else {
                           errorDialog('pleaseselectcontacts'.tr);
@@ -750,6 +797,30 @@ class SendIndividaulState extends State<SendIndividaul>{
             ),
           )),
     );
+  }
+
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
   }
 
   void errorDialog(String text) {

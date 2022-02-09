@@ -22,6 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class RequestIndividaul extends StatefulWidget {
   @override
@@ -40,6 +41,10 @@ class RequestIndividaulState extends State<RequestIndividaul> {
   String _searchcontact;
   String _requiredamount;
   String _Description;
+  bool isNumericMode = false;
+  String text = '';
+  bool showkeyboardDescription = false;
+  bool shiftEnabledProjectname = false;
   bool showvalue = false;
   List<AppContacts> _contacts;
   String notificationvalue="off";
@@ -918,9 +923,23 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                     color: Colors.transparent,
                                   ),
                                   child: TextFormField(
+                                    onTap: ()
+                                    {
+                                      setState(() {
+                                        showkeyboardDescription = true;
+                                      });
+                                    },
+                                    enableInteractiveSelection: true,
+                                    toolbarOptions: ToolbarOptions(
+                                      copy: true,
+                                      cut: true,
+                                      paste: true,
+                                      selectAll: true,
+                                    ),
                                     autofocus: false,
-                                    focusNode: DescriptionFocus,
+                                    readOnly: true,
                                     maxLines: 4,
+                                    focusNode: DescriptionFocus,
                                     controller: DescriptionController,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
@@ -955,6 +974,27 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                     ),
                                   ),
                                 ),
+                                Visibility(
+                                    maintainSize: true,
+                                    maintainAnimation: true,
+                                    maintainState: true,
+                                    child: Container()),
+                                showkeyboardDescription == true? Container(
+                                  color: Colors.white54,
+                                  child: VirtualKeyboard(
+                                      height: 250,
+                                      textColor: Colors.black,
+                                      textController: DescriptionController,
+                                      defaultLayouts: [
+                                        VirtualKeyboardDefaultLayouts.English,
+                                        VirtualKeyboardDefaultLayouts.Arabic
+                                      ],
+                                      //reverseLayout :true,
+                                      type: isNumericMode
+                                          ? VirtualKeyboardType.Numeric
+                                          : VirtualKeyboardType.Alphanumeric,
+                                      onKeyPress: _onKeyPress),
+                                ):Container(),
                                 Container(
                                   padding: EdgeInsets.only(
                                       left: SizeConfig.blockSizeHorizontal * 2,
@@ -974,6 +1014,7 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                           value: showvalue,
                                           onChanged: (bool value) {
                                             setState(() {
+                                              showkeyboardDescription = false;
                                               showvalue = value;
                                               if(showvalue == true)
                                               {
@@ -1002,6 +1043,9 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    setState(() {
+                                      showkeyboardDescription = false;
+                                    });
                                     if (_formKey.currentState.validate()) {
                                       setState(() {
                                         isLoading = true;
@@ -1025,11 +1069,8 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                                                   _imageFile,
                                                   contactname.toString(),
                                                   contactvalues.toString(),
-
                                                 );
                                               }
-
-
                                             }
                                             else if(radioVal=="1")
                                             {
@@ -1204,10 +1245,6 @@ class RequestIndividaulState extends State<RequestIndividaul> {
                       activeColor: AppColors.theme1color,
                       value: _selecteContact.contains(contact.info.phones.length==null || contact.info.phones.length==0 ||contact.info.phones.isEmpty?"":contact.info.phones.first.value),
                       onChanged: (bool selected) {
-
-
-
-
                         if(contact.info.phones.isEmpty)
                           {
                             print("no value here");
@@ -1293,6 +1330,29 @@ class RequestIndividaulState extends State<RequestIndividaul> {
 
 
     );
+  }
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+    // Update the screen
   }
 
   void _onCateSelected(bool selected, category_id, category_name) {
