@@ -1498,55 +1498,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           color: AppColors.shadow,
           child: Column(
             children: [
-              /*   Container(
-                height: SizeConfig.blockSizeVertical * 12,
-                decoration: BoxDecoration(
-                  image: new DecorationImage(
-                    image: new AssetImage("assets/images/appbar.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 20,
-                      height: 20,
-                      margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 6,
-                          top: SizeConfig.blockSizeVertical * 2),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(),
-                      ),
-                    ),
-                    Container(
-                      width: SizeConfig.blockSizeHorizontal * 60,
-                      alignment: Alignment.center,
-                      margin:
-                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                      // margin: EdgeInsets.only(top: 10, left: 40),
-                      child: Text(
-                        "My Activity",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            decoration: TextDecoration.none,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins-Regular',
-                            color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                      width: 25,
-                      height: 25,
-                      margin: EdgeInsets.only(
-                          right: SizeConfig.blockSizeHorizontal * 3,
-                          top: SizeConfig.blockSizeVertical * 2),
-                    ),
-                  ],
-                ),
-              ),*/
+
               receivefrom == "project"
                   ? storelist_length != null
                       ? Expanded(

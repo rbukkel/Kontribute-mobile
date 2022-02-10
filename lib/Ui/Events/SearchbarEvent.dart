@@ -75,6 +75,8 @@ class SearchbarEventState extends State<SearchbarEvent> {
   String image;
   projectlike prolike;
   int amoun;
+  String radioVal="1";
+  String radioLang="1";
   String updateval;
   int currentPageValue = 0;
   var commisionlist_length;
@@ -1441,32 +1443,267 @@ class SearchbarEventState extends State<SearchbarEvent> {
           new IconButton(
             icon: actionIcon,
             onPressed: () {
-              setState(() {
-                if (this.actionIcon.icon == Icons.search) {
-                  this.actionIcon = new Icon(
-                    Icons.close,
-                    color: Colors.white,
-                  );
-                  this.appBarTitle = new TextField(
-                    controller: _searchQuery,
-                    style: new TextStyle(
-                      color: Colors.white,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        getdata(userid,value);
-                      });
-                    },
-                    decoration: new InputDecoration(
-                        //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: 'searchhere'.tr,
-                        hintStyle: new TextStyle(color: Colors.white)),
-                  );
-                  _handleSearchStart();
-                } else {
-                  _handleSearchEnd();
-                }
-              });
+              showDialog(
+                context: context,
+                child: Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  backgroundColor: AppColors.whiteColor,
+                  child: StatefulBuilder(builder: (BuildContext context, StateSetter setState)
+                  {
+                    return new Container(
+                      margin: EdgeInsets.all(5),
+                      width: SizeConfig.blockSizeHorizontal * 80,
+                      height: SizeConfig.blockSizeVertical *40,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 20,bottom: 20, left: 10, right: 10),
+                            color: AppColors.whiteColor,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'searchby'.tr,
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Flexible(
+                            child: RadioListTile(
+                              //  contentPadding:EdgeInsets.only(left: 5),
+                              activeColor: AppColors.themecolor,
+                              groupValue: radioVal == ""
+                                  ? 0
+                                  : radioVal == "0"
+                                  ? false
+                                  : true,
+                              title: Text(
+                                'username'.tr,
+                                textAlign: TextAlign.left,
+                                style:
+                                TextStyle(fontSize: 14),
+                              ),
+                              value: true,
+                              onChanged: (val) {
+                                setState(() {
+                                  radioVal = "1";
+                                  print("Radio: "+radioVal);
+                                });
+                              },
+                            ),
+                          ),
+                          Flexible(
+                            child: RadioListTile(
+                              // contentPadding:EdgeInsets.only(left: 5),
+                              activeColor: AppColors.themecolor,
+                              groupValue: radioVal == ""
+                                  ? 0
+                                  : radioVal == "0"
+                                  ? false
+                                  : true,
+                              title: Text(
+                                'project'.tr,
+                                textAlign: TextAlign.left,
+                                style:
+                                TextStyle(fontSize: 14),
+                              ),
+                              value: false,
+                              onChanged: (val) {
+                                setState(() {
+                                  radioVal = "0";
+                                  print("Radio: "+radioVal);
+                                });
+                              },
+                            ),
+                          ),
+
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+
+                                showDialog(
+                                  context: context,
+                                  child: Dialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    backgroundColor: AppColors.whiteColor,
+                                    child: StatefulBuilder(builder: (BuildContext context, StateSetter setState)
+                                    {
+                                      return new Container(
+                                        margin: EdgeInsets.all(5),
+                                        width: SizeConfig.blockSizeHorizontal * 80,
+                                        height: SizeConfig.blockSizeVertical *30,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(top: 20,bottom: 20, left: 10, right: 10),
+                                              color: AppColors.whiteColor,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'selectlanguage'.tr,
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Flexible(
+                                                  child: RadioListTile(
+                                                    //  contentPadding:EdgeInsets.only(left: 5),
+                                                    activeColor: AppColors.themecolor,
+                                                    groupValue: radioLang == ""
+                                                        ? 0
+                                                        : radioLang == "0"
+                                                        ? false
+                                                        : true,
+                                                    title: Text(
+                                                      'english'.tr,
+                                                      textAlign: TextAlign.left,
+                                                      style:
+                                                      TextStyle(fontSize: 12),
+                                                    ),
+                                                    value: true,
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        radioLang = "1";
+                                                        print("Radio: "+radioLang);
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                                Flexible(
+                                                  child: RadioListTile(
+                                                    // contentPadding:EdgeInsets.only(left: 5),
+                                                    activeColor: AppColors.themecolor,
+                                                    groupValue: radioLang == ""
+                                                        ? 0
+                                                        : radioLang == "0"
+                                                        ? false
+                                                        : true,
+                                                    title: Text(
+                                                      'arabic'.tr,
+                                                      textAlign: TextAlign.left,
+                                                      style:
+                                                      TextStyle(fontSize: 12),
+                                                    ),
+                                                    value: false,
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        radioLang = "0";
+                                                        print("Radio: "+radioLang);
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                setState(() {
+                                                  if (this.actionIcon.icon == Icons.search) {
+                                                    this.actionIcon = new Icon(
+                                                      Icons.close,
+                                                      color: Colors.white,
+                                                    );
+                                                    this.appBarTitle = new TextField(
+                                                      controller: _searchQuery,
+                                                      style: new TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          getdata(userid,value);
+                                                        });
+                                                      },
+                                                      decoration: new InputDecoration(
+                                                        //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                                                          hintText: 'searchhere'.tr,
+                                                          hintStyle: new TextStyle(color: Colors.white)),
+                                                    );
+                                                    _handleSearchStart();
+                                                  } else {
+                                                    _handleSearchEnd();
+                                                  }
+                                                });
+                                              },
+                                              child:
+                                              Container(
+                                                alignment: Alignment.center,
+                                                height: SizeConfig.blockSizeVertical * 5,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig.blockSizeVertical * 3,
+                                                    bottom: SizeConfig.blockSizeVertical * 2,
+                                                    left: SizeConfig.blockSizeHorizontal * 25,
+                                                    right: SizeConfig.blockSizeHorizontal * 25),
+                                                decoration: BoxDecoration(
+                                                  image: new DecorationImage(
+                                                    image: new AssetImage(
+                                                        "assets/images/sendbutton.png"),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                                child: Text('continue'.tr,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: 'Poppins-Regular',
+                                                      fontSize: 14,
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                );
+                              });
+                            },
+                            child:
+                            Container(
+                              alignment: Alignment.center,
+                              height: SizeConfig.blockSizeVertical * 5,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 3,
+                                  bottom: SizeConfig.blockSizeVertical * 2,
+                                  left: SizeConfig.blockSizeHorizontal * 25,
+                                  right: SizeConfig.blockSizeHorizontal * 25),
+                              decoration: BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new AssetImage(
+                                      "assets/images/sendbutton.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Text('continue'.tr,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 14,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              );
             },
           ),
         ]);

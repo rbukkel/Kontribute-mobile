@@ -2002,14 +2002,6 @@ class SearchbarDonationState extends State<SearchbarDonation> {
                   }),
                 ),
               );
-
-
-
-
-
-
-
-
             },
           ),
         ]);
