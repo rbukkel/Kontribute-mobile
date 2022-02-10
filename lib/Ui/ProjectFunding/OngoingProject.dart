@@ -320,7 +320,6 @@ class OngoingProjectState extends State<OngoingProject> {
           });
         } else {
           errorDialog(listing.message);
-
         }
       }
     } else {
@@ -364,7 +363,6 @@ class OngoingProjectState extends State<OngoingProject> {
           });
         } else {
           errorDialog(listing.message);
-
         }
       }
     } else {
@@ -389,8 +387,7 @@ class OngoingProjectState extends State<OngoingProject> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  print("Copy: " +
-                      listing.projectData.elementAt(index).id.toString());
+                  print("Copy: " +listing.projectData.elementAt(index).id.toString());
                   _createDynamicLink(
                       listing.projectData.elementAt(index).id.toString());
                 });
@@ -499,7 +496,6 @@ class OngoingProjectState extends State<OngoingProject> {
       errorDialog(jsonDecode(deleteproject)["message"]);
     }
   }
-
 
   void deleteDialog(String id) {
     Widget cancelButton = FlatButton
