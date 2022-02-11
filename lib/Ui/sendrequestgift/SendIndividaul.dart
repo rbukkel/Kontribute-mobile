@@ -54,6 +54,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   String image;
   bool isNumericMode = false;
   String text = '';
+  String activeLanguage;
   bool showkeyboardDescription = false;
   bool shiftEnabledProjectname = false;
 
@@ -65,6 +66,17 @@ class SendIndividaulState extends State<SendIndividaul>{
       user = val;
       getCategory(user);
       print("Login userid: " + user.toString());
+    });
+    SharedUtils.readLangaunage("Langauge").then((val) {
+      if(val == null || val =="")
+      {
+        activeLanguage ="English";
+        print("Login : " + activeLanguage.toString());
+      }
+      else{
+        activeLanguage = val;
+        print("Login Langauge: " + activeLanguage.toString());
+      }
     });
   }
 
@@ -593,99 +605,229 @@ class SendIndividaulState extends State<SendIndividaul>{
                       ],
                     )
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 2,
-                      left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeHorizontal * 3,
-                    ),
-                    padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeVertical * 1,
-                      right: SizeConfig.blockSizeVertical * 1,
-                    ),
-                    alignment: Alignment.topLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black26,
-                        style: BorderStyle.solid,
-                        width: 1.0,
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: TextFormField(
-                      onTap: ()
-                      {
-                        setState(() {
-                          showkeyboardDescription = true;
-                        });
-                      },
-                      enableInteractiveSelection: true,
-                      toolbarOptions: ToolbarOptions(
-                        copy: true,
-                        cut: true,
-                        paste: true,
-                        selectAll: true,
-                      ),
-                      autofocus: false,
-                      readOnly: true,
-                      maxLines: 4,
-                      focusNode: DescriptionFocus,
-                      controller: DescriptionController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      validator: (val) {
-                        if (val.length == 0)
-                          return 'pleaseentermessage'.tr;
-                        else
-                          return null;
-                      },
-                      onFieldSubmitted: (v) {
-                        DescriptionFocus.unfocus();
-                      },
-                      onSaved: (val) => _Description = val,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 15,
-                          color: Colors.black),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 12,
-                          decoration: TextDecoration.none,
-                        ),
-                        hintText: 'typeheremessage'.tr,
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      child: Container()),
-                  showkeyboardDescription == true? Container(
-                    color: Colors.white54,
-                    child: VirtualKeyboard(
-                        height: 250,
-                        textColor: Colors.black,
-                        textController: DescriptionController,
-                        defaultLayouts: [
-                          VirtualKeyboardDefaultLayouts.English,
-                          VirtualKeyboardDefaultLayouts.Arabic
+                  activeLanguage =="Arabic"?
+                      Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 2,
+                              left: SizeConfig.blockSizeHorizontal * 3,
+                              right: SizeConfig.blockSizeHorizontal * 3,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeVertical * 1,
+                            ),
+                            alignment: Alignment.topLeft,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black26,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: TextFormField(
+                              onTap: ()
+                              {
+                                setState(() {
+                                  showkeyboardDescription = true;
+                                });
+                              },
+                              enableInteractiveSelection: true,
+                              toolbarOptions: ToolbarOptions(
+                                copy: true,
+                                cut: true,
+                                paste: true,
+                                selectAll: true,
+                              ),
+                              autofocus: false,
+                              readOnly: true,
+                              maxLines: 4,
+                              focusNode: DescriptionFocus,
+                              controller: DescriptionController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.text,
+                              validator: (val) {
+                                if (val.length == 0)
+                                  return 'pleaseentermessage'.tr;
+                                else
+                                  return null;
+                              },
+                              onFieldSubmitted: (v) {
+                                DescriptionFocus.unfocus();
+                              },
+                              onSaved: (val) => _Description = val,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 15,
+                                  color: Colors.black),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular',
+                                  fontSize: 12,
+                                  decoration: TextDecoration.none,
+                                ),
+                                hintText: 'typeheremessage'.tr,
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: Container()),
+                          showkeyboardDescription == true? Container(
+                            color: Colors.white54,
+                            child: VirtualKeyboard(
+                                height: 250,
+                                textColor: Colors.black,
+                                textController: DescriptionController,
+                                defaultLayouts: [
+                                  VirtualKeyboardDefaultLayouts.Arabic
+                                ],
+                                //reverseLayout :true,
+                                type: isNumericMode
+                                    ? VirtualKeyboardType.Numeric
+                                    : VirtualKeyboardType.Alphanumeric,
+                                onKeyPress: _onKeyPress),
+                          ):Container()
                         ],
-                        //reverseLayout :true,
-                        type: isNumericMode
-                            ? VirtualKeyboardType.Numeric
-                            : VirtualKeyboardType.Alphanumeric,
-                        onKeyPress: _onKeyPress),
-                  ):Container(),
+                      ):
+                  activeLanguage =="English"?
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeVertical * 1,
+                          right: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        alignment: Alignment.topLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black26,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        child: TextFormField(
+                          autofocus: false,
+                          maxLines: 4,
+                          focusNode: DescriptionFocus,
+                          controller: DescriptionController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return 'pleaseentermessage'.tr;
+                            else
+                              return null;
+                          },
+                          onFieldSubmitted: (v) {
+                            DescriptionFocus.unfocus();
+                          },
+                          onSaved: (val) => _Description = val,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 15,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 12,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: 'typeheremessage'.tr,
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  ):
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2,
+                          left: SizeConfig.blockSizeHorizontal * 3,
+                          right: SizeConfig.blockSizeHorizontal * 3,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeVertical * 1,
+                          right: SizeConfig.blockSizeVertical * 1,
+                        ),
+                        alignment: Alignment.topLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black26,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        child: TextFormField(
+                          autofocus: false,
+                          maxLines: 4,
+                          focusNode: DescriptionFocus,
+                          controller: DescriptionController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          validator: (val) {
+                            if (val.length == 0)
+                              return 'pleaseentermessage'.tr;
+                            else
+                              return null;
+                          },
+                          onFieldSubmitted: (v) {
+                            DescriptionFocus.unfocus();
+                          },
+                          onSaved: (val) => _Description = val,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 15,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 12,
+                              decoration: TextDecoration.none,
+                            ),
+                            hintText: 'typeheremessage'.tr,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Container(
                     padding: EdgeInsets.only(
                         left: SizeConfig.blockSizeHorizontal * 2,
@@ -714,7 +856,6 @@ class SendIndividaulState extends State<SendIndividaul>{
                                 else{
                                   notificationvalue = "off";
                                 }
-
                               });
                             },
                           ),

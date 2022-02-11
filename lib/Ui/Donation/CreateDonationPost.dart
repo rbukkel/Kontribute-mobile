@@ -941,7 +941,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               textColor: Colors.black,
                               textController: ProjectNameController,
                               defaultLayouts: [
-                                VirtualKeyboardDefaultLayouts.English,
                                 VirtualKeyboardDefaultLayouts.Arabic
                               ],
                               //reverseLayout :true,
@@ -1106,7 +1105,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               textColor: Colors.black,
                               textController: DescriptionController,
                               defaultLayouts: [
-                                VirtualKeyboardDefaultLayouts.English,
                                 VirtualKeyboardDefaultLayouts.Arabic
                               ],
                               //reverseLayout :true,
@@ -2225,7 +2223,6 @@ class CreateDonationPostState extends State<CreateDonationPost> {
                               textColor: Colors.black,
                               textController: TermsController,
                               defaultLayouts: [
-                                VirtualKeyboardDefaultLayouts.English,
                                 VirtualKeyboardDefaultLayouts.Arabic
                               ],
                               //reverseLayout :true,
